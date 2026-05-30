@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import {
@@ -20,6 +20,11 @@ import { ResetPasswordRequest } from '../domain/value-objects/reset-password-req
 
 @Injectable({ providedIn: 'root' })
 export class PasswordResetFacade {
+    private readonly forgotPasswordUseCase = inject(ForgotPasswordUseCase);
+    private readonly resetPasswordUseCase = inject(ResetPasswordUseCase);
+    private readonly toastService = inject(ToastrService);
+    private readonly translateService = inject(TranslateService);
+
     private readonly forgotPasswordLoadingSubject =
         new BehaviorSubject<boolean>(false);
     private readonly resetPasswordLoadingSubject = new BehaviorSubject<boolean>(
@@ -30,13 +35,6 @@ export class PasswordResetFacade {
         this.forgotPasswordLoadingSubject.asObservable();
     readonly isResetPasswordLoading$: Observable<boolean> =
         this.resetPasswordLoadingSubject.asObservable();
-
-    constructor(
-        private readonly forgotPasswordUseCase: ForgotPasswordUseCase,
-        private readonly resetPasswordUseCase: ResetPasswordUseCase,
-        private readonly toastService: ToastrService,
-        private readonly translateService: TranslateService
-    ) {}
 
     forgotPassword(payload: {
         email: string;

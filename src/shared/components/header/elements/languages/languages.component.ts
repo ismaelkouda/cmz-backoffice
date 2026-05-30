@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -17,7 +16,7 @@ interface LanguageOption {
 @Component({
     selector: 'app-languages',
     standalone: true,
-    imports: [CommonModule, TranslateModule],
+    imports: [TranslateModule],
     templateUrl: './languages.component.html',
     styleUrls: ['./languages.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

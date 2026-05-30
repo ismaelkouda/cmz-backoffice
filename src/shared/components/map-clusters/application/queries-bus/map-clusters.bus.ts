@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MapClustersQuery } from '@shared/components/map-clusters/application/queries/map-clusters.query';
 import { MapClustersHandler } from '@shared/components/map-clusters/application/queries-handlers/map-clusters.handler';
 import { MapClustersEntity } from '@shared/components/map-clusters/domain/entities/map-clusters.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MapClustersBus {
-    constructor(private readonly filterHandler: MapClustersHandler) {}
+    private readonly filterHandler = inject(MapClustersHandler);
 
     dispatch<T>(
         query: T,

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
     ActivatedRouteSnapshot,
     Router,
@@ -11,10 +11,8 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class PagesGuard {
-    constructor(
-        private storePathsService: StorePathsService,
-        private router: Router
-    ) {}
+    private storePathsService = inject(StorePathsService);
+    private router = inject(Router);
 
     canActivate(
         route: ActivatedRouteSnapshot,

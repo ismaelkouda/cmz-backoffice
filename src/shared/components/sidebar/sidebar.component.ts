@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -29,10 +28,15 @@ import { Subscription } from 'rxjs';
     standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
-    imports: [CommonModule, RouterLink, RouterLinkActive, TranslateModule],
+    imports: [RouterLink, RouterLinkActive, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+    private readonly router = inject(Router);
+    navServices = inject(NavService);
+    private readonly encodingService = inject(EncodingDataService);
+    private readonly tabService = inject(TabService);
+
     public readonly appConfig = inject(AppCustomizationService).customization;
     public sidebarLogo = this.appConfig.assets.sidebarLogo;
     public menuItems: any[] = [];
@@ -43,13 +47,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
     public rightArrowNone = false;
 
     private sub!: Subscription;
-
-    constructor(
-        private readonly router: Router,
-        public navServices: NavService,
-        private readonly encodingService: EncodingDataService,
-        private readonly tabService: TabService
-    ) {}
 
     ngOnInit(): void {
         this.menuItems = (this.encodingService.getData('menu') as any[]) || [];

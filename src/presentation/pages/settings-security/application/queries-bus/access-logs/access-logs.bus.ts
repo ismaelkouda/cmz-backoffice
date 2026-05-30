@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AccessLogsQuery } from '@pages/settings-security/application/queries/access-logs/access-logs.query';
 import { AccessLogsHandler } from '@pages/settings-security/application/queries-handlers/access-logs/access-logs.handler';
 import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AccessLogsBus {
-    constructor(private readonly filterHandler: AccessLogsHandler) {}
+    private readonly filterHandler = inject(AccessLogsHandler);
 
     dispatch<T>(
         query: T,

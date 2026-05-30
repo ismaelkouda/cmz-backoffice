@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
-import { PrivacyPolicyFormComponent } from '@pages/content-management/presentation/features/privacy-policy/privacy-policy-form/privacy-policy-form.component';
-import { PrivacyPolicyPageComponent } from '@pages/content-management/presentation/features/privacy-policy/privacy-policy-page/privacy-policy-page.component';
+
 import {
     PRIVACY_POLICY_LIST_ROUTE,
     PRIVACY_POLICY_HISTORY_ROUTE,
     PRIVACY_POLICY_FORM_ROUTE,
 } from '@pages/content-management/presentation/features/privacy-policy/privacy-policy-paths.constants';
-import { PrivacyPolicyListComponent } from '@presentation/pages/content-management/presentation/features/privacy-policy/privacy-policy-list/privacy-policy-list.component';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const PRIVACY_POLICY_ROUTES: Routes = [
     {
         path: '',
-        component: PrivacyPolicyPageComponent,
+        loadComponent: () =>
+            import('@pages/content-management/presentation/features/privacy-policy/privacy-policy-page/privacy-policy-page.component').then(
+                (m) => m.PrivacyPolicyPageComponent
+            ),
         data: {
             title: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.PRIVACY_POLICY.TITLE',
@@ -25,12 +25,18 @@ export const PRIVACY_POLICY_ROUTES: Routes = [
             },
             {
                 path: PRIVACY_POLICY_LIST_ROUTE,
-                component: PrivacyPolicyListComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/content-management/presentation/features/privacy-policy/privacy-policy-list/privacy-policy-list.component').then(
+                        (m) => m.PrivacyPolicyListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: PRIVACY_POLICY_HISTORY_ROUTE,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -44,7 +50,10 @@ export const PRIVACY_POLICY_ROUTES: Routes = [
         children: [
             {
                 path: '',
-                component: PrivacyPolicyFormComponent,
+                loadComponent: () =>
+                    import('@pages/content-management/presentation/features/privacy-policy/privacy-policy-form/privacy-policy-form.component').then(
+                        (m) => m.PrivacyPolicyFormComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],

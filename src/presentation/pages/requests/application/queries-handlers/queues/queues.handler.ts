@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QueuesQuery } from '@pages/requests/application/queries/queues/queues.query';
 import { QueuesUseCase } from '@pages/requests/application/use-cases/queues/queues.use-case';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesHandler {
-    constructor(private readonly useCase: QueuesUseCase) {}
+    private readonly useCase = inject(QueuesUseCase);
 
     execute(
         query: QueuesQuery,

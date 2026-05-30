@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
-import { TermsUseFormComponent } from '@pages/content-management/presentation/features/terms-use/terms-use-form/terms-use-form.component';
+
 import {
     TERMS_USE_LIST_ROUTE,
     TERMS_USE_HISTORY_ROUTE,
     TERMS_USE_FORM_ROUTE,
 } from '@pages/content-management/presentation/features/terms-use/terms-use-paths.constants';
-import { TermsUseListComponent } from '@presentation/pages/content-management/presentation/features/terms-use/terms-use-list/terms-use-list.component';
-import { TermsUsePageComponent } from '@presentation/pages/content-management/presentation/features/terms-use/terms-use-page/terms-use-page.component';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const TERMS_USE_ROUTES: Routes = [
     {
         path: '',
-        component: TermsUsePageComponent,
+        loadComponent: () =>
+            import('@presentation/pages/content-management/presentation/features/terms-use/terms-use-page/terms-use-page.component').then(
+                (m) => m.TermsUsePageComponent
+            ),
         data: {
             title: 'CONT ENT_MANAGEMENT.TERMS_USE.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.TERMS_USE.TITLE',
@@ -25,12 +25,18 @@ export const TERMS_USE_ROUTES: Routes = [
             },
             {
                 path: TERMS_USE_LIST_ROUTE,
-                component: TermsUseListComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/content-management/presentation/features/terms-use/terms-use-list/terms-use-list.component').then(
+                        (m) => m.TermsUseListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: TERMS_USE_HISTORY_ROUTE,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -44,7 +50,10 @@ export const TERMS_USE_ROUTES: Routes = [
         children: [
             {
                 path: '',
-                component: TermsUseFormComponent,
+                loadComponent: () =>
+                    import('@pages/content-management/presentation/features/terms-use/terms-use-form/terms-use-form.component').then(
+                        (m) => m.TermsUseFormComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],

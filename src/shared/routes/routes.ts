@@ -34,21 +34,6 @@ export const content: Routes = [
         },
     },
     {
-        path: 'test',
-        loadChildren: () =>
-            import('@pages/interactive-map/interactive-map.routes').then(
-                (m) => m.routes
-            ),
-        data: {
-            module: 'TEAM_ORGANIZATION',
-            subModule: [
-                'TEAM_ORGANIZATION.PARTICIPANT.LABEL',
-                'TEAM_ORGANIZATION.TEAM.LABEL',
-                'TEAM_ORGANIZATION.AGENT_IA.LABEL',
-            ],
-        },
-    },
-    {
         path: TEAM_ORGANIZATION_ROUTE,
         data: {
             breadcrumb: {
@@ -142,7 +127,7 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('@pages/geographical-map/geographical-map.routes').then(
+            import('@pages/interactive-map/interactive-map.routes').then(
                 (m) => m.routes
             ),
     },

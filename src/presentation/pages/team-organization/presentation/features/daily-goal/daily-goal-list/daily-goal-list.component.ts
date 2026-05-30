@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -35,7 +34,6 @@ import {
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
@@ -46,7 +44,6 @@ import { Subject, takeUntil } from 'rxjs';
     templateUrl: './daily-goal-list.component.html',
     styleUrls: ['./daily-goal-list.component.scss'],
     imports: [
-        CommonModule,
         TranslateModule,
         ReactiveFormsModule,
         FilterComponent,
@@ -63,7 +60,7 @@ export class DailyGoalListComponent implements OnInit, OnDestroy {
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
@@ -183,11 +180,11 @@ export class DailyGoalListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.exportFilePrefix}-daily-goal`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.exportFilePrefix}-daily-goal`
+        // );
     }
 
     private t(key: string): string {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AuthSession } from '@pages/authentication/domain/entities/auth-session.entity';
 import { AuthVariables } from '@pages/authentication/domain/entities/auth-variables.entity';
 import { AuthenticationRepository } from '@pages/authentication/domain/repositories/authentication.repository';
@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LoginUseCase {
-    constructor(
-        private readonly authenticationRepository: AuthenticationRepository
-    ) {}
+    private readonly authenticationRepository = inject(
+        AuthenticationRepository
+    );
 
     execute(credentials: LoginCredentials): Observable<AuthSession> {
         return this.authenticationRepository.login(credentials);
@@ -18,9 +18,9 @@ export class LoginUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class LoadAuthenticationVariablesUseCase {
-    constructor(
-        private readonly authenticationRepository: AuthenticationRepository
-    ) {}
+    private readonly authenticationRepository = inject(
+        AuthenticationRepository
+    );
 
     execute(): Observable<AuthVariables> {
         return this.authenticationRepository.loadVariables();

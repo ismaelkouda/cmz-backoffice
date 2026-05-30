@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -36,7 +35,6 @@ import { TableHeaderButton } from '@shared/components/table-button-header/table-
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 
 import { PrivacyPolicyVmProps } from '../../../adapters/privacy-policy/privacy-policy-vm-props.interface';
@@ -49,7 +47,6 @@ type TTableActions = 'edit' | 'delete' | 'publish' | 'unpublish';
     templateUrl: './privacy-policy-list.component.html',
     styleUrls: ['./privacy-policy-list.component.scss'],
     imports: [
-        CommonModule,
         FilterComponent,
         TableComponent,
         PaginationComponent,
@@ -70,7 +67,7 @@ export class PrivacyPolicyListComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(PrivacyPolicyFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly canExport = this.permissionActions.can(
         '/content-management/privacy-policy',
@@ -339,11 +336,11 @@ export class PrivacyPolicyListComponent {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.normalizeExportPrefix}-privacy-policy`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.normalizeExportPrefix}-privacy-policy`
+        // );
     }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {

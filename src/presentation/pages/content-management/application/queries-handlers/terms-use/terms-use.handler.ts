@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TermsUseQuery } from '@pages/content-management/application/queries/terms-use/terms-use.query';
 import { TermsUseUseCase } from '@pages/content-management/application/use-cases/terms-use/terms-use.use-case';
 import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseHandler {
-    constructor(private readonly useCase: TermsUseUseCase) {}
+    private readonly useCase = inject(TermsUseUseCase);
 
     execute(
         command: TermsUseQuery,

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { JobsResponseDto } from '../../api/dto/jobs/jobs-response.dto';
@@ -10,10 +10,8 @@ import { REPORTING_ENDPOINTS } from '../../api/reporting.endpoints';
     providedIn: 'root',
 })
 export class JobsApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(REPORTING_API_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(REPORTING_API_BASE_URL);
 
     getJobs(): Observable<JobsResponseDto> {
         const url = `${this.baseUrl}${REPORTING_ENDPOINTS.REQUESTS}`;

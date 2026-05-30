@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AllQuery } from '@pages/finalization/application/queries/all/all.query';
 import { AllUseCase } from '@pages/finalization/application/use-cases/all/all.use-case';
 import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AllHandler {
-    constructor(private readonly useCase: AllUseCase) {}
+    private readonly useCase = inject(AllUseCase);
 
     execute(query: AllQuery, page: string): Observable<Paginate<AllEntity>> {
         return this.useCase.execute(

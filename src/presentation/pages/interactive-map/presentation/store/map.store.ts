@@ -15,8 +15,8 @@ export const EMPTY_REPORT_FILTERS: ReportFilters = {
     operators: [],
     statuses: [],
     municipality: '',
-    dateFrom: '',
-    dateTo: '',
+    startDate: '',
+    endDate: '',
     compareOperator: '',
 };
 
@@ -37,8 +37,8 @@ const initialState: MapState = {
     userPosition: null,
     bounds: null,
     view: {
-        center: { lat: 10.539989, lng: -7.54708 },
-        zoom: -5,
+        center: { lat: 7.54, lng: -5.35 },
+        zoom: 7,
     },
     reports: [],
     filters: { ...EMPTY_REPORT_FILTERS },
@@ -84,6 +84,7 @@ export class MapStore {
 
     public readonly visibleReports = computed(() => {
         const compareOperator = this.filters().compareOperator;
+        console.log('compareOperator: ', compareOperator);
 
         if (!compareOperator) {
             return this.reports();
@@ -104,22 +105,13 @@ export class MapStore {
         () => this.permission() === 'prompt'
     );
 
-    public denyPermission(): void {
-        this.patchState({
-            permission: 'denied',
-            userPosition: null,
-            bounds: null,
-            reports: [],
-            loading: false,
-            error: null,
-        });
-    }
-
     public setPermission(permission: PermissionState): void {
+        console.log('permission: ', permission);
         this.patchState({ permission });
     }
 
     public setUserPosition(position: LatLng): void {
+        console.log('position: ', position);
         this.patchState({
             userPosition: position,
             error: null,
@@ -127,20 +119,16 @@ export class MapStore {
     }
 
     public setBounds(bounds: Bounds): void {
-        const current = this.state().bounds;
-
-        if (this.areBoundsEqual(current, bounds)) {
-            return;
-        }
-
         this.patchState({ bounds });
     }
 
     public setView(view: MapViewState): void {
+        console.log('view: ', view);
         this.patchState({ view });
     }
 
     public setReports(reports: InteractiveMapReport[]): void {
+        console.log('reports: ', reports);
         this.patchState({
             reports: [...reports],
             loading: false,
@@ -149,6 +137,7 @@ export class MapStore {
     }
 
     public updateFilters(filters: Partial<ReportFilters>): void {
+        console.log('filters: ', filters);
         this.patchState({
             filters: {
                 ...this.state().filters,
@@ -166,6 +155,7 @@ export class MapStore {
     }
 
     public setSelectedReport(report: InteractiveMapReport | null): void {
+        console.log('report: ', report);
         this.patchState({ selectedReport: report });
     }
 
@@ -197,19 +187,6 @@ export class MapStore {
             ...current,
             ...partial,
         }));
-    }
-
-    private areBoundsEqual(b1: Bounds | null, b2: Bounds | null): boolean {
-        if (!b1 || !b2) {
-            return false;
-        }
-        const epsilon = 0.0001;
-        return (
-            Math.abs(b1.minLat - b2.minLat) < epsilon &&
-            Math.abs(b1.maxLat - b2.maxLat) < epsilon &&
-            Math.abs(b1.minLng - b2.minLng) < epsilon &&
-            Math.abs(b1.maxLng - b2.maxLng) < epsilon
-        );
     }
 
     private normalizeOperators(

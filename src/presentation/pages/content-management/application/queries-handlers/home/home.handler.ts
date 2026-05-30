@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HomeQuery } from '@pages/content-management/application/queries/home/home.query';
 import { HomeUseCase } from '@pages/content-management/application/use-cases/home/home.use-case';
 import { HomeEntity } from '@pages/content-management/domain/entities/home/home.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HomeHandler {
-    constructor(private readonly useCase: HomeUseCase) {}
+    private readonly useCase = inject(HomeUseCase);
 
     execute(
         command: HomeQuery,

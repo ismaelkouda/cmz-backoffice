@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, input, Input } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
@@ -8,29 +7,37 @@ import { AppCustomizationService } from '../../domain/services/app-customization
 @Component({
     selector: 'app-table-title',
     standalone: true,
-    imports: [CommonModule, SeparatorThousandsPipe, TranslateModule],
+    imports: [SeparatorThousandsPipe, TranslateModule],
     template: `
         @if (!hiddenTableTitle()) {
             <div>
                 <span class="table-header-wrapper">
-                    <b *ngIf="page">
-                        <span *ngIf="label">{{
-                            'COMMON.FILTER_RESULT' | translate
-                        }}</span>
-                        <span *ngIf="!label">Total :</span>
-                        <span class="text-success">
-                            {{ count || 0 | separatorThousandsPipe }}</span
-                        >
-                        <span *ngIf="count > 0 && page && totalPage">
-                            [Page
-                            <span [style.color]="config.colors.primary">{{
-                                page
-                            }}</span>
-                            / {{ totalPage | separatorThousandsPipe }}] [{{
-                                perPage
-                            }}]
-                        </span>
-                    </b>
+                    @if (page) {
+                        <b>
+                            @if (label) {
+                                <span>{{
+                                    'COMMON.FILTER_RESULT' | translate
+                                }}</span>
+                            }
+                            @if (!label) {
+                                <span>Total :</span>
+                            }
+                            <span class="text-success">
+                                {{ count || 0 | separatorThousandsPipe }}</span
+                            >
+                            @if (count > 0 && page && totalPage) {
+                                <span>
+                                    [Page
+                                    <span
+                                        [style.color]="config.colors.primary"
+                                        >{{ page }}</span
+                                    >
+                                    / {{ totalPage | separatorThousandsPipe }}]
+                                    [{{ perPage }}]
+                                </span>
+                            }
+                        </b>
+                    }
                 </span>
             </div>
         }

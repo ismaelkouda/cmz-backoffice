@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HistoryFilterCommand } from '@shared/components/history/application/commands/history-filter.command';
 import { HistoryUseCase } from '@shared/components/history/application/use-cases/history.use-case';
 import { HistoryEntity } from '@shared/components/history/domain/entities/history.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HistoryFilterHandler {
-    constructor(private readonly useCase: HistoryUseCase) {}
+    private readonly useCase = inject(HistoryUseCase);
 
     execute(
         command: HistoryFilterCommand,

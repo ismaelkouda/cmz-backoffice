@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TeamsQuery } from '@pages/team-organization/application/queries/teams/teams.query';
 import { TeamsUseCase } from '@pages/team-organization/application/use-cases/teams/teams.use-case';
 import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsHandler {
-    constructor(private readonly useCase: TeamsUseCase) {}
+    private readonly useCase = inject(TeamsUseCase);
 
     execute(
         command: TeamsQuery,

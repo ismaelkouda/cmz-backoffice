@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EvaluateQuery } from '@pages/report-states/application/queries/evaluate/evaluate.query';
 import { EvaluateHandler } from '@pages/report-states/application/queries-handlers/evaluate/evaluate.handler';
 import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/evaluate.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class EvaluateBus {
-    constructor(private readonly filterHandler: EvaluateHandler) {}
+    private readonly filterHandler = inject(EvaluateHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<EvaluateEntity>> {
         if (query instanceof EvaluateQuery) {

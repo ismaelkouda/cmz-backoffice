@@ -3,7 +3,7 @@ import angularESLintTemplate from '@angular-eslint/eslint-plugin-template';
 import angularTemplateParser from '@angular-eslint/template-parser';
 import js from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
-import importPlugin from 'eslint-plugin-import';
+// import importPlugin from 'eslint-plugin-import';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierPlugin from 'eslint-plugin-prettier';
 import unicornPlugin from 'eslint-plugin-unicorn';
@@ -38,7 +38,7 @@ export default tseslint.config(
         plugins: {
             '@angular-eslint': angularESLint,
             '@typescript-eslint': tseslint.plugin,
-            import: importPlugin,
+            // import: importPlugin,
             jsdoc: jsdocPlugin,
             unicorn: unicornPlugin,
             prettier: prettierPlugin,
@@ -47,7 +47,7 @@ export default tseslint.config(
             parser: tseslint.parser,
             parserOptions: {
                 project: ['./tsconfig.app.json'],
-                tsconfigRootDir: import.meta.dirname,
+                tsconfigRootDir: new URL('.', import.meta.url).pathname,
             },
             globals: {
                 ...globals.browser,
@@ -58,7 +58,7 @@ export default tseslint.config(
 
             // '@angular-eslint/no-forward-ref': 'error',
             // '@angular-eslint/use-injectable-provided-in': 'error',
-            '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
+            // '@angular-eslint/prefer-on-push-component-change-detection': 'warn',
             '@angular-eslint/component-class-suffix': ['error', { suffixes: ['Component','Page','Dialog'] }],
             '@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix: 'app', style: 'camelCase' }],
             '@angular-eslint/component-selector': ['error', { type: 'element', prefix: 'app', style: 'kebab-case' }],
@@ -81,20 +81,19 @@ export default tseslint.config(
             curly: 'error',
             'no-var': 'error',
             'prefer-const': 'error',
-
-            'import/order': ['warn', {
-                groups: ['builtin','external','internal','parent','sibling','index'],
-                pathGroups: [
-                { pattern: '@app/**', group: 'internal', position: 'before' },
-                { pattern: '@core/**', group: 'internal', position: 'before' },
-                { pattern: '@environments/**', group: 'internal', position: 'before' },
-                { pattern: '@shared/**', group: 'internal', position: 'before' },
-                { pattern: '@presentation/**', group: 'internal', position: 'before' },
-                { pattern: '@pages/**', group: 'internal', position: 'before' },
-                ],
-                'newlines-between': 'always',
-                alphabetize: { order: 'asc', caseInsensitive: true }
-            }],
+            // 'import/order': ['warn', {
+            //     groups: ['builtin','external','internal','parent','sibling','index'],
+            //     pathGroups: [
+            //     { pattern: '@app/**', group: 'internal', position: 'before' },
+            //     { pattern: '@core/**', group: 'internal', position: 'before' },
+            //     { pattern: '@environments/**', group: 'internal', position: 'before' },
+            //     { pattern: '@shared/**', group: 'internal', position: 'before' },
+            //     { pattern: '@presentation/**', group: 'internal', position: 'before' },
+            //     { pattern: '@pages/**', group: 'internal', position: 'before' },
+            //     ],
+            //     'newlines-between': 'always',
+            //     alphabetize: { order: 'asc', caseInsensitive: true }
+            // }],
 
             'jsdoc/require-param': 'warn',
             'jsdoc/require-returns': 'warn',
@@ -111,11 +110,11 @@ export default tseslint.config(
 
             complexity: ['warn', 15],
             'max-lines': ['warn', 400],
-            'import/no-relative-packages': 'warn',
-            'import/no-useless-path-segments': [
-                'warn',
-                { noUselessIndex: true },
-            ],
+            // 'import/no-relative-packages': 'warn',
+            // 'import/no-useless-path-segments': [
+            //     'warn',
+            //     { noUselessIndex: true },
+            // ],
         },
     },
     {

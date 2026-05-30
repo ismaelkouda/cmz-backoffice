@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -39,13 +38,7 @@ import {
             multi: true,
         },
     ],
-    imports: [
-        CommonModule,
-        TranslateModule,
-        TooltipModule,
-        ButtonModule,
-        BadgeModule,
-    ],
+    imports: [TranslateModule, TooltipModule, ButtonModule, BadgeModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageUploadComponent implements ControlValueAccessor {

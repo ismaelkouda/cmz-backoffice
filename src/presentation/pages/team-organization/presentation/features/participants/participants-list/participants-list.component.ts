@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -35,14 +34,12 @@ import { Roles } from '@shared/domain/enums/roles.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
 @Component({
     selector: 'app-participants-list',
     standalone: true,
     imports: [
-        CommonModule,
         FilterComponent,
         TableComponent,
         PaginationComponent,
@@ -65,7 +62,7 @@ export class ParticipantsListComponent {
     private readonly toast = inject(ToastrService);
 
     private readonly formStore = inject(ParticipantsFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly canExport = this.permissionActions.can(
         '/organization/participant',
@@ -332,11 +329,11 @@ export class ParticipantsListComponent {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.normalizeExportPrefix}-participants`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.normalizeExportPrefix}-participants`
+        // );
     }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {

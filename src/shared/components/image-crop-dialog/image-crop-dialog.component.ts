@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -30,7 +29,6 @@ import { PLATFORM_RATIO_LABELS } from '../image-upload/domain/types/image-upload
     styleUrls: ['./image-crop-dialog.component.scss'],
     standalone: true,
     imports: [
-        CommonModule,
         TranslateModule,
         ImageCropperComponent,
         DialogModule,

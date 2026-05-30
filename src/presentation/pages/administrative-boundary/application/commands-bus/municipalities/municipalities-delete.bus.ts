@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MunicipalitiesDeleteCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-delete.command';
 import { MunicipalitiesDeleteHandler } from '@pages/administrative-boundary/application/commands-handlers/municipalities/municipalities-delete.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesDeleteBus {
-    constructor(private readonly deleteHandler: MunicipalitiesDeleteHandler) {}
+    private readonly deleteHandler = inject(MunicipalitiesDeleteHandler);
 
     dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
         if (command instanceof MunicipalitiesDeleteCommand) {

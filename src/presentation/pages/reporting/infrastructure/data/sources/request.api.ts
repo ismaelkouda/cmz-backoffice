@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RequestFilter } from '@pages/reporting/domain/value-objects/requests/request-filter.vo';
 import { Observable } from 'rxjs';
 
@@ -11,10 +11,8 @@ import { REPORTING_ENDPOINTS } from '../../api/reporting.endpoints';
     providedIn: 'root',
 })
 export class RequestApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(REPORTING_API_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(REPORTING_API_BASE_URL);
 
     getRequests(): Observable<RequestResponseDto> {
         const url = `${this.baseUrl}${REPORTING_ENDPOINTS.REQUESTS}`;

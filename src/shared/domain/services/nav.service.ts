@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, fromEvent, Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
@@ -24,6 +24,8 @@ export interface Menu {
     providedIn: 'root',
 })
 export class NavService implements OnDestroy {
+    private router = inject(Router);
+
     public listMenuItems!: any[];
     public user: any;
 
@@ -54,7 +56,7 @@ export class NavService implements OnDestroy {
     // Full screen
     public fullScreen = false;
 
-    constructor(private router: Router) {
+    constructor() {
         this.setScreenWidth(window.innerWidth);
         fromEvent(window, 'resize')
             .pipe(debounceTime(1000), takeUntil(this.unsubscriber))

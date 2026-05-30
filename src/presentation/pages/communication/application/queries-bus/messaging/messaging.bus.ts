@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MessagingQuery } from '@pages/communication/application/queries/messaging/messaging.query';
 import { MessagingHandler } from '@pages/communication/application/queries-handlers/messaging/messaging.handler';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingBus {
-    constructor(private readonly filterHandler: MessagingHandler) {}
+    private readonly filterHandler = inject(MessagingHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<MessagingEntity>> {
         if (query instanceof MessagingQuery) {

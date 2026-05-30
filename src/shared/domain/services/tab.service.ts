@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Router, RouteReuseStrategy } from '@angular/router';
 import { CustomRouteReuseStrategy } from '@shared/domain/utils/custom-route-reuse-strategy';
 import { BehaviorSubject } from 'rxjs';
@@ -18,15 +18,15 @@ export interface Tab {
     providedIn: 'root',
 })
 export class TabService {
+    private readonly router = inject(Router);
+    private readonly routeReuseStrategy = inject(RouteReuseStrategy);
+    private readonly encodingService = inject(EncodingDataService);
+
     private readonly STORAGE_KEY = 'tabs';
     private readonly _tabs = new BehaviorSubject<Tab[]>([]);
     public tabs$ = this._tabs.asObservable();
 
-    constructor(
-        private readonly router: Router,
-        private readonly routeReuseStrategy: RouteReuseStrategy,
-        private readonly encodingService: EncodingDataService
-    ) {
+    constructor() {
         const savedTabs = this.encodingService.getData(this.STORAGE_KEY) as
             | Tab[]
             | null;

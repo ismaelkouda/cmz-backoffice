@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TasksQuery } from '@pages/finalization/application/queries/tasks/tasks.query';
 import { TasksHandler } from '@pages/finalization/application/queries-handlers/tasks/tasks.handler';
 import { TasksEntity } from '@pages/finalization/domain/entities/tasks/tasks.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksBus {
-    constructor(private readonly filterHandler: TasksHandler) {}
+    private readonly filterHandler = inject(TasksHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<TasksEntity>> {
         if (query instanceof TasksQuery) {

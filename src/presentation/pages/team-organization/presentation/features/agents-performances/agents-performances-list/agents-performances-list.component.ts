@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -34,7 +33,6 @@ import {
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
@@ -47,7 +45,6 @@ import { AgentsPerformancesPresenter } from '../../../adapters/agents-performanc
     templateUrl: './agents-performances-list.component.html',
     styleUrls: ['./agents-performances-list.component.scss'],
     imports: [
-        CommonModule,
         TranslateModule,
         ReactiveFormsModule,
         FilterComponent,
@@ -64,7 +61,7 @@ export class AgentsPerformancesListComponent implements OnInit, OnDestroy {
     private readonly fb = inject(FormBuilder);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
@@ -244,11 +241,11 @@ export class AgentsPerformancesListComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.exportFilePrefix}-agents-performances`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.exportFilePrefix}-agents-performances`
+        // );
     }
 
     private t(key: string): string {

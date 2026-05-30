@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PrivacyPolicyCreateCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-create.command';
 import { PrivacyPolicyCreateHandler } from '@pages/content-management/application/commands-handlers/privacy-policy/privacy-policy-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyCreateBus {
-    constructor(private readonly createHandler: PrivacyPolicyCreateHandler) {}
+    private readonly createHandler = inject(PrivacyPolicyCreateHandler);
 
     dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
         if (command instanceof PrivacyPolicyCreateCommand) {

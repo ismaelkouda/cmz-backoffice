@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -12,7 +11,7 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
 @Component({
     selector: 'app-requests-page',
     standalone: true,
-    imports: [CommonModule, TranslateModule, DashboardViewerComponent],
+    imports: [TranslateModule, DashboardViewerComponent],
     template: `
         <app-dashboard-viewer
             [grafanaLink]="requests()?.grafanaLink"

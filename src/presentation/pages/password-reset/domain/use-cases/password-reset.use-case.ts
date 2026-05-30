@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PasswordResetResponse } from '../entities/password-reset-response.entity';
@@ -8,9 +8,7 @@ import { ResetPasswordRequest } from '../value-objects/reset-password-request.vo
 
 @Injectable({ providedIn: 'root' })
 export class ForgotPasswordUseCase {
-    constructor(
-        private readonly passwordResetRepository: PasswordResetRepository
-    ) {}
+    private readonly passwordResetRepository = inject(PasswordResetRepository);
 
     execute(request: ForgotPasswordRequest): Observable<PasswordResetResponse> {
         return this.passwordResetRepository.forgotPassword(request);
@@ -19,9 +17,7 @@ export class ForgotPasswordUseCase {
 
 @Injectable({ providedIn: 'root' })
 export class ResetPasswordUseCase {
-    constructor(
-        private readonly passwordResetRepository: PasswordResetRepository
-    ) {}
+    private readonly passwordResetRepository = inject(PasswordResetRepository);
 
     execute(request: ResetPasswordRequest): Observable<PasswordResetResponse> {
         return this.passwordResetRepository.resetPassword(request);

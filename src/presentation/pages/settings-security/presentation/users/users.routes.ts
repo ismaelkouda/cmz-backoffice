@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
-import { UsersFormComponent } from '@pages/settings-security/presentation/users/users-form/users-form.component';
-import { UsersListComponent } from '@pages/settings-security/presentation/users/users-list/users-list.component';
-import { UsersPageComponent } from '@pages/settings-security/presentation/users/users-page/users-page.component';
+
 import {
     USERS_FORM,
     USERS_LIST,
     USERS_HISTORY,
 } from '@pages/settings-security/presentation/users/users-paths.constants';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const USERS_ROUTES: Routes = [
     {
         path: '',
-        component: UsersPageComponent,
+        loadComponent: () =>
+            import('@pages/settings-security/presentation/users/users-page/users-page.component').then(
+                (m) => m.UsersPageComponent
+            ),
         data: {
             title: 'CONTENT_MANAGEMENT.USERS.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.USERS.TITLE',
@@ -25,19 +25,28 @@ export const USERS_ROUTES: Routes = [
             },
             {
                 path: USERS_LIST,
-                component: UsersListComponent,
+                loadComponent: () =>
+                    import('@pages/settings-security/presentation/users/users-list/users-list.component').then(
+                        (m) => m.UsersListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: USERS_HISTORY,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
     },
     {
         path: USERS_FORM,
-        component: UsersFormComponent,
+        loadComponent: () =>
+            import('@pages/settings-security/presentation/users/users-form/users-form.component').then(
+                (m) => m.UsersFormComponent
+            ),
         data: {
             title: 'CONTENT_MANAGEMENT.USERS.FORM.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.USERS.FORM.TITLE',

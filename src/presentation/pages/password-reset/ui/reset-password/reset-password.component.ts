@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -31,12 +30,7 @@ import { EnvService } from '../../../../../core/config/env.service';
     standalone: true,
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.scss'],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        PasswordModule,
-        TranslateModule,
-    ],
+    imports: [ReactiveFormsModule, PasswordModule, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ResetPasswordComponent implements OnInit {

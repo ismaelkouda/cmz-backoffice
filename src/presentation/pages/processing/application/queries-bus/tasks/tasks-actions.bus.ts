@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TasksActionsQuery } from '@pages/processing/application/queries/tasks/tasks-actions.query';
 import { TasksActionsHandler } from '@pages/processing/application/queries-handlers/tasks/tasks-actions.handler';
 import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsBus {
-    constructor(private readonly filterHandler: TasksActionsHandler) {}
+    private readonly filterHandler = inject(TasksActionsHandler);
 
     dispatch<T>(
         query: T,

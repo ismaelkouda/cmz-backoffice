@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { RegionsQuery } from '@pages/administrative-boundary/application/queries/regions/regions.query';
 import { RegionsHandler } from '@pages/administrative-boundary/application/queries-handlers/regions/regions.handler';
 import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsBus {
-    constructor(private readonly filterHandler: RegionsHandler) {}
+    private readonly filterHandler = inject(RegionsHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<RegionsEntity>> {
         if (query instanceof RegionsQuery) {

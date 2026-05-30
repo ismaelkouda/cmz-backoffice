@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { ResourcesEntity } from '../../../domain/entities/resources/resources.entity';
@@ -8,10 +8,8 @@ import { ResourcesApi } from '../sources/resources.api';
 
 @Injectable({ providedIn: 'root' })
 export class ResourcesRepositoryImpl implements ResourcesRepository {
-    constructor(
-        private readonly api: ResourcesApi,
-        private readonly requestMapper: ResourcesMapper
-    ) {}
+    private readonly api = inject(ResourcesApi);
+    private readonly requestMapper = inject(ResourcesMapper);
 
     fetchResources(): Observable<ResourcesEntity> {
         return this.api

@@ -1,7 +1,4 @@
 import { Routes } from '@angular/router';
-import { CloseComponent } from '@presentation/pages/report-states/presentation/features/close/close.component';
-import { EvaluateComponent } from '@presentation/pages/report-states/presentation/features/evaluate/evaluate.component';
-import { RejectComponent } from '@presentation/pages/report-states/presentation/features/reject/reject.component';
 
 export const EVALUATE_ROUTE = 'evaluated';
 export const CLOSE_ROUTE = 'closed';
@@ -19,7 +16,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: EvaluateComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/report-states/presentation/features/evaluate/evaluate.component').then(
+                        (m) => m.EvaluateComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
@@ -39,7 +39,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: CloseComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/report-states/presentation/features/close/close.component').then(
+                        (m) => m.CloseComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
@@ -59,7 +62,10 @@ export const routes: Routes = [
         children: [
             {
                 path: '',
-                component: RejectComponent,
+                loadComponent: () =>
+                    import('@presentation/pages/report-states/presentation/features/reject/reject.component').then(
+                        (m) => m.RejectComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {

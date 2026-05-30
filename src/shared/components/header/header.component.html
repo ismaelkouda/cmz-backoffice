@@ -1,23 +1,25 @@
 <div class="page-header" [class.close_icon]="collapseSidebar()">
-    <div class="header-wrapper row m-0" *ngIf="statusLayout()">
-        <div class="col col-12 horizontal-wrapper pl-0">
-            <div class="nav-right">
-                <ul class="nav-menus mb-0">
-                    <li>
-                        <app-languages></app-languages>
-                    </li>
-                    <li>
-                        <app-notifications-bell
-                            [notificationsCount]="count()"
-                        ></app-notifications-bell>
-                    </li>
-                    <li>
-                        <app-my-account></app-my-account>
-                    </li>
-                </ul>
+    @if (statusLayout()) {
+        <div class="header-wrapper row m-0">
+            <div class="col col-12 horizontal-wrapper pl-0">
+                <div class="nav-right">
+                    <ul class="nav-menus mb-0">
+                        <li>
+                            <app-languages></app-languages>
+                        </li>
+                        <li>
+                            <app-notifications-bell
+                                [notificationsCount]="count()"
+                            ></app-notifications-bell>
+                        </li>
+                        <li>
+                            <app-my-account></app-my-account>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
+    }
     <nav
         class="navbar container-fluid d-flex justify-content-between align-items-center flex-wrap my-1 px-3"
         [hidden]="statusLayout()"

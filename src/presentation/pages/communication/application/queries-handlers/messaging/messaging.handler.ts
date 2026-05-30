@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MessagingQuery } from '@pages/communication/application/queries/messaging/messaging.query';
 import { MessagingUseCase } from '@pages/communication/application/use-cases/messaging/messaging.use-case';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingHandler {
-    constructor(private readonly useCase: MessagingUseCase) {}
+    private readonly useCase = inject(MessagingUseCase);
 
     execute(
         command: MessagingQuery,

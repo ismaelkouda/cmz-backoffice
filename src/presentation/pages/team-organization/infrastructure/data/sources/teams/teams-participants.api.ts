@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TeamsParticipantsAssignApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-assign-api.dto';
 import { TeamsParticipantsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-filter-api.dto';
 import { TeamsParticipantsReassignApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-reassign-api.dto';
@@ -13,10 +13,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(TEAM_ORGANIZATION_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
 
     readAll(
         dto: TeamsParticipantsFilterApiDto,

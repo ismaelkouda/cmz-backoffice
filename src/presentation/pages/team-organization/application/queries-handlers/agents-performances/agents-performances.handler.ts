@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AgentsPerformancesQuery } from '@pages/team-organization/application/queries/agents-performances/agents-performances.query';
 import { AgentsPerformancesUseCase } from '@pages/team-organization/application/use-cases/agents-performances/agents-performances.use-case';
 import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesHandler {
-    constructor(private readonly useCase: AgentsPerformancesUseCase) {}
+    private readonly useCase = inject(AgentsPerformancesUseCase);
 
     execute(
         query: AgentsPerformancesQuery,

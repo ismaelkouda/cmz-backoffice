@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -15,7 +14,7 @@ import { BreadcrumbService } from './breadcrumb.service';
     selector: 'app-breadcrumb',
     standalone: true,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, BreadcrumbModule, RouterModule, TranslateModule],
+    imports: [BreadcrumbModule, RouterModule, TranslateModule],
     templateUrl: './breadcrumb.component.html',
     styleUrls: ['./breadcrumb.component.scss'],
 })

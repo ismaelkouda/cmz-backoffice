@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { CloseFilterApiDto } from '@pages/report-states/infrastructure/api/dto/close/close-filter-api.dto';
 import { CloseResponseApiDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
 import { REPORT_STATES_BASE_URL } from '@presentation/pages/report-states/infrastructure/api/report-states.base-url';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CloseApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(REPORT_STATES_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(REPORT_STATES_BASE_URL);
 
     execute(
         filter: CloseFilterApiDto,

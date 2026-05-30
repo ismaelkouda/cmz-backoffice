@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ParticipantsCreateCommand } from '@pages/team-organization/application/commands/participants/participants-create.command';
 import { ParticipantsCreateHandler } from '@pages/team-organization/application/commands-handlers/participants/participants-create.handler';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsCreateBus {
-    constructor(private readonly createHandler: ParticipantsCreateHandler) {}
+    private readonly createHandler = inject(ParticipantsCreateHandler);
 
     dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
         if (command instanceof ParticipantsCreateCommand) {

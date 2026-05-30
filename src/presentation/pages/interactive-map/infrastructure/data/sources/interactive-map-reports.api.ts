@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
 import {
     Bounds,
     InteractiveMapReport,
@@ -15,14 +15,12 @@ import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class InteractiveMapReportsApi {
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(REQUESTS_BASE_URL);
+
     private readonly reportsSignal = signal<InteractiveMapReport[]>([]);
 
     readonly reports = this.reportsSignal.asReadonly();
-
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(REQUESTS_BASE_URL) private readonly baseUrl: string
-    ) {}
 
     getReports(
         bounds: Bounds,
@@ -79,11 +77,11 @@ export class InteractiveMapReportsApi {
         if (filters.municipality) {
             params['municipality'] = filters.municipality;
         }
-        if (filters.dateFrom) {
-            params['reported_at_from'] = filters.dateFrom;
+        if (filters.startDate) {
+            params['start_date'] = filters.startDate;
         }
-        if (filters.dateTo) {
-            params['reported_at_to'] = filters.dateTo;
+        if (filters.endDate) {
+            params['end_date'] = filters.endDate;
         }
 
         return params;
@@ -107,16 +105,16 @@ export class InteractiveMapReportsApi {
             return (
                 this.matchesArray(filters.reportTypes, report.report_type) &&
                 this.matchesOperatorFilter(filters.operators, operators) &&
-                this.matchesArray(filters.statuses, report.status) &&
+                this.matchesArray(filters.statuses, report.state) &&
                 (!filters.municipality ||
                     municipality === filters.municipality) &&
-                (!filters.dateFrom ||
+                (!filters.startDate ||
                     (!!reportedAt &&
-                        reportedAt >= new Date(filters.dateFrom))) &&
-                (!filters.dateTo ||
+                        reportedAt >= new Date(filters.startDate))) &&
+                (!filters.endDate ||
                     (!!reportedAt &&
                         reportedAt <=
-                            new Date(`${filters.dateTo}T23:59:59`))) &&
+                            new Date(`${filters.endDate}T23:59:59`))) &&
                 (!filters.compareOperator ||
                     operators.includes(filters.compareOperator))
             );

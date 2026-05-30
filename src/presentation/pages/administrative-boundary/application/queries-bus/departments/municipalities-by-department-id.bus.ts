@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MunicipalitiesByDepartmentIdQuery } from '@pages/administrative-boundary/application/queries/departments/municipalities-by-department-id.query';
 import { MunicipalitiesByDepartmentIdHandler } from '@pages/administrative-boundary/application/queries-handlers/departments/municipalities-by-department-id.handler';
 import { MunicipalitiesByDepartmentIdEntity } from '@pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
@@ -7,9 +7,9 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesByDepartmentIdBus {
-    constructor(
-        private readonly filterHandler: MunicipalitiesByDepartmentIdHandler
-    ) {}
+    private readonly filterHandler = inject(
+        MunicipalitiesByDepartmentIdHandler
+    );
 
     dispatch<T>(
         query: T,

@@ -9,15 +9,12 @@
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
-                            [title]="
-                                'REQUESTS.QUEUES.TITLE' | translate | lowercase
-                            "
-                        >
-                        </app-page-title>
+                            [displayList]="false"
+                            [title]="'GEOGRAPHICAL_MAP.MAP.TITLE' | translate" />
                     </header>
 
                     <div
-                        class="interactive-map-shell"
+                        class="interactive-map-shell mt-3"
                         [class.filters-collapsed]="!filtersPanelOpen()"
                     >
                         @if (!filtersPanelOpen()) {
@@ -39,9 +36,21 @@
                                     <h2>Carte des signalements</h2>
                                     <p>
                                         {{ store.visibleReports().length }}
-                                        signalement(s) visibles
+                                        signalement(s)
                                     </p>
                                 </div>
+
+                            <button
+                                type="button"
+                                class="icon-button"
+                                (click)="toggleHeatmap()"
+                                >
+                                {{
+                                store.heatmapEnabled()
+                                ? 'Marqueurs'
+                                : 'Zone'
+                                }}
+                            </button>
                                 @if (filtersPanelOpen()) {
                                     <p-button
                                         class="close-toggle-button"
@@ -54,87 +63,96 @@
                                 }
                             </div>
 
-                            <!-- <button
-                                type="button"
-                                class="icon-button"
-                                (click)="toggleHeatmap()"
-                            >
-                                {{
-                                    store.heatmapEnabled()
-                                        ? 'Marqueurs'
-                                        : 'Heatmap'
-                                }}
-                            </button> -->
-
                             <section class="filter-group">
-                                <h3>Type</h3>
-                                <label *ngFor="let option of reportTypeOptions">
-                                    <input
-                                        type="checkbox"
-                                        [checked]="
-                                            isSelected(
-                                                store.filters().reportTypes,
-                                                option.value
-                                            )
-                                        "
-                                        (change)="
-                                            toggleFilter(
-                                                'reportTypes',
-                                                option.value,
-                                                $any($event.target).checked
-                                            )
-                                        "
-                                    />
-                                    <span>{{ option.label }}</span>
-                                </label>
+                                <h3>Type de signalements</h3>
+                                @for (
+                                    option of reportTypeOptions;
+                                    track option
+                                ) {
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            [checked]="
+                                                isSelected(
+                                                    store.filters().reportTypes,
+                                                    option.value
+                                                )
+                                            "
+                                            (change)="
+                                                toggleFilter(
+                                                    'reportTypes',
+                                                    option.value,
+                                                    $any($event.target).checked
+                                                )
+                                            "
+                                        />
+                                        <span>{{ option.label }}</span>
+                                    </label>
+                                }
                             </section>
 
                             <section class="filter-group">
-                                <h3>Operateur</h3>
-                                <label *ngFor="let option of operatorOptions">
-                                    <input
-                                        type="checkbox"
-                                        [checked]="
-                                            isSelected(
-                                                store.filters().operators,
-                                                option.value
-                                            )
-                                        "
-                                        (change)="
-                                            toggleFilter(
-                                                'operators',
-                                                option.value,
-                                                $any($event.target).checked
-                                            )
-                                        "
-                                    />
-                                    <span>{{ option.label }}</span>
-                                </label>
+                                <h3>Operateurs</h3>
+                                @for (option of operatorOptions; track option) {
+                                    <label>
+                                        <input
+                                            type="checkbox"
+                                            [checked]="
+                                                isSelected(
+                                                    store.filters().operators,
+                                                    option.value
+                                                )
+                                            "
+                                            (change)="
+                                                toggleFilter(
+                                                    'operators',
+                                                    option.value,
+                                                    $any($event.target).checked
+                                                )
+                                            "
+                                        />
+                                        <span>{{ option.label }}</span>
+                                    </label>
+                                }
                             </section>
 
                             <!-- <section class="filter-group">
-                                <h3>Statut</h3>
-                                <select
+                                    <h3>Statut</h3>
+                                    <select
                                     multiple
                                     [value]="store.filters().statuses"
                                     (change)="setStatuses($any($event.target))"
-                                >
-                                    <option
-                                        *ngFor="let option of statusOptions"
-                                        [value]="option.value"
-                                        [selected]="
-                                            isSelected(
-                                                store.filters().statuses,
-                                                option.value
-                                            )
-                                        "
                                     >
+                                @for (option of statusOptions; track option.value) {
+                                    <option
+                                        [value]="option.value"
+                                                                [selected]="
+                                                                    isSelected(
+                                                                        store.filters().statuses,
+                                                                        option.value
+                                                                    )
+                                                                "
+                                        >
                                         {{ option.label }}
                                     </option>
-                                </select>
+                                }
+                                    </select>
                             </section> -->
 
                             <section class="filter-group">
+                                <h3>Statut</h3>
+                                <select
+                                    [value]="store.filters().statuses"
+                                    (change)="setStatuses($any($event.target))">
+                                    @for (option of statusOptions; track option.value) {
+                                        <option [value]="option.value">
+                                            {{ option.label }}
+                                        </option>
+                                    }
+                                </select>
+                            </section>
+
+                            <!-- <section class="filter-group">
                                 <h3>Commune</h3>
                                 <select
                                     [value]="store.filters().municipality"
@@ -147,65 +165,60 @@
                                     <option value="">
                                         Toutes les communes
                                     </option>
-                                    <option
-                                        *ngFor="
-                                            let municipality of store.municipalities()
-                                        "
-                                    >
-                                        {{ municipality }}
-                                    </option>
+                                    @for (
+                                        municipality of store.municipalities();
+                                        track municipality
+                                    ) {
+                                        <option>
+                                            {{ municipality }}
+                                        </option>
+                                    }
                                 </select>
-                            </section>
+                            </section> -->
 
                             <section class="filter-group dates">
                                 <h3>Dates</h3>
                                 <label>
                                     <span>Depuis</span>
-                                    <input
-                                        type="date"
-                                        [value]="store.filters().dateFrom"
-                                        (change)="
+                                    <p-datepicker
+                                        [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                                        [showIcon]="true"
+                                        [dateFormat]="'yy-mm-dd'"
+                                        appendTo="body"
+                                        (onSelect)="
                                             setDateFilter(
-                                                'dateFrom',
-                                                $any($event.target).value
+                                                'startDate',
+                                                $event.toISOString().split('T')[0]
                                             )
                                         "
                                     />
+                                    <!-- <input
+                                        type="date"
+                                        [value]="store.filters().startDate"
+                                        (change)="
+                                            setDateFilter(
+                                                'startDate',
+                                                $any($event.target).value
+                                            )
+                                        "
+                                    /> -->
                                 </label>
                                 <label>
                                     <span>Jusqu'a</span>
-                                    <input
-                                        type="date"
-                                        [value]="store.filters().dateTo"
-                                        (change)="
+                                    <p-datepicker
+                                        [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                                        [showIcon]="true"
+                                        [dateFormat]="'yy-mm-dd'"
+                                        appendTo="body"
+                                        (onSelect)="
                                             setDateFilter(
-                                                'dateTo',
-                                                $any($event.target).value
+                                                'endDate',
+                                                $event.toISOString().split('T')[0]
                                             )
                                         "
                                     />
                                 </label>
-                            </section>
-
-                            <!-- <section class="filter-group">
-                                <h3>Comparer un operateur</h3>
-                                <select
-                                    [value]="store.filters().compareOperator"
-                                    (change)="
-                                        setCompareOperator(
-                                            $any($event.target).value
-                                        )
-                                    "
-                                >
-                                    <option value="">Tous</option>
-                                    <option
-                                        *ngFor="let option of operatorOptions"
-                                        [value]="option.value"
-                                    >
-                                        {{ option.label }}
-                                    </option>
-                                </select>
-                            </section> -->
+                            </section>        
 
                             <button
                                 type="button"
@@ -276,13 +289,12 @@
                                 }
                             </section>
 
-                            <div
-                                *ngIf="store.loading()"
-                                class="loading-overlay"
-                            >
-                                <div class="loading-spinner"></div>
-                                <span>Chargement des signalements...</span>
-                            </div>
+                            <!-- @if (store.loading()) {
+                                <div class="loading-overlay">
+                                    <div class="loading-spinner"></div>
+                                    <span>Chargement des signalements...</span>
+                                </div>
+                            } -->
 
                             <div
                                 #hoverOverlay
@@ -422,9 +434,6 @@
                                                         report.report_type
                                                     )
                                                 }}</strong>
-                                                <!-- <span>{{
-                                                    getStatusLabel(report.status)
-                                                }}</span> -->
                                             </div>
                                             <button
                                                 type="button"
@@ -435,6 +444,13 @@
                                         </header>
 
                                         <dl>
+                                            <dt>Statut</dt>
+                                            <dd><span class="tag-group d-flex justify-content-start" tabindex="0" role="button">
+                                                    <p-tag
+                                                        [value]="getStatusLabel(report.state)"
+                                                        severity="info"
+                                                    />
+                                                </span></dd>
                                             <dt>Operateur(s)</dt>
                                             <dd>{{ getOperators(report) }}</dd>
                                             <dt>Commune / Region</dt>
@@ -460,33 +476,14 @@
                                                         '-'
                                                 }}
                                             </dd>
-                                            <dt>Description</dt>
-                                            <dd>
-                                                {{ report.description || '-' }}
-                                            </dd>
                                             <dt>Confirmations</dt>
                                             <dd>
                                                 {{ report.confirm_count || 0 }}
                                             </dd>
-                                            <dt>Commentaire validation</dt>
-                                            <dd>
-                                                {{
-                                                    getValidationComment(report)
-                                                }}
-                                            </dd>
                                         </dl>
 
-                                        <a
-                                            class="photo-link"
-                                            [href]="report.place_photo"
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
-                                            Voir la photo
-                                        </a>
-
                                         <div class="popup-actions">
-                                            <button type="button">
+                                            <button type="button" (click)="onSeeMoreInfosClicked(report)">
                                                 Voir les plus d'infos
                                             </button>
                                         </div>
@@ -574,4 +571,13 @@
             </section>
         </article>
     </section>
+
+    @if (isVisibleDialog()) {
+        <app-management-dialog
+            [visible]="isVisibleDialog()"
+            [uniqId]="selectedReportId"
+            [type]="selectedManagementType()"
+            (visibleChange)="onVisibleDialogClicked($event)"
+        ></app-management-dialog>
+    }
 </main>

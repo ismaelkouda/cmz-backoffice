@@ -1,4 +1,3 @@
-import { CommonModule, JsonPipe } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -37,7 +36,6 @@ import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { PROCESSING_ROUTE } from '@shared/routes/routes';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
@@ -60,7 +58,6 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
     templateUrl: './actions-treatment.component.html',
     styleUrls: ['./actions-treatment.component.scss'],
     imports: [
-        CommonModule,
         TranslateModule,
         PageTitleComponent,
         PaginationComponent,
@@ -80,7 +77,6 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
         ToggleSwitchModule,
         SelectButtonModule,
         Tooltip,
-        JsonPipe,
     ],
     providers: [ActionsTreatmentFormStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -97,7 +93,7 @@ export class ActionsTreatmentComponent {
     private readonly closureFacade = inject(DetailsFacade);
     private readonly permissionActions = inject(PermissionActionsService);
     private readonly sweetAlert = inject(SweetAlertService);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appCustomization = inject(AppCustomizationService);
     protected readonly formStore = inject(ActionsTreatmentFormStore);
     protected readonly tableConfig = TASKS_ACTIONS_TABLE;
@@ -522,13 +518,13 @@ export class ActionsTreatmentComponent {
             this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
-        const appName = this.appCustomization.customization.app.name;
-        const filePrefix = this.normalizePrefix(appName);
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${filePrefix}-actions-treatment`
-        );
+        // const appName = this.appCustomization.customization.app.name;
+        // const filePrefix = this.normalizePrefix(appName);
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${filePrefix}-actions-treatment`
+        // );
     }
     protected onChangePageClicked(event: number): void {
         if (this.uniqId()) {

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -35,13 +34,7 @@ import { takeUntil } from 'rxjs/operators';
     standalone: true,
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    imports: [
-        CommonModule,
-        ReactiveFormsModule,
-        PasswordModule,
-        TranslateModule,
-        RouterLink,
-    ],
+    imports: [ReactiveFormsModule, PasswordModule, TranslateModule, RouterLink],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnDestroy {

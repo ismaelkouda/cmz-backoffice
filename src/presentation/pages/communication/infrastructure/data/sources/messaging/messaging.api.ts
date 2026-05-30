@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MessagingDeleteApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-delete-api.dto';
 import { MessagingDisableApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-disable-api.dto';
 import { MessagingEnableApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-enable-api.dto';
@@ -16,10 +16,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(COMMUNICATION_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(COMMUNICATION_BASE_URL);
 
     readAll(
         filter: MessagingFilterApiDto,

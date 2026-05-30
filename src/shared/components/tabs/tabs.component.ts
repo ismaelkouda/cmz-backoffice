@@ -6,6 +6,7 @@ import {
     HostListener,
     OnInit,
     ViewChild,
+    inject,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -25,43 +26,47 @@ import { ConfirmationModalComponent } from './confirmation-modal.component';
                 class="tabs-wrapper d-flex justify-content-between align-items-center"
             >
                 <ul class="nav nav-tabs premium-tabs" #tabsContainer>
-                    <li
-                        class="nav-item cursor-pointer"
-                        *ngFor="let tab of tabs"
-                        [class.single-tab]="tabs.length === 1"
-                    >
-                        <a
-                            class="nav-link"
-                            [class.active]="tab.active"
-                            (click)="activateTab(tab.id)"
+                    @for (tab of tabs; track tab) {
+                        <li
+                            class="nav-item cursor-pointer"
+                            [class.single-tab]="tabs.length === 1"
                         >
-                            <div class="tab-content">
-                                <i
-                                    *ngIf="tab.icon"
-                                    class="me-2"
-                                    [class]="tab.icon"
-                                ></i>
-                                <span class="tab-title">{{ tab.title }}</span>
-                            </div>
-                            <span
-                                class="close-tab"
-                                *ngIf="tab.closable"
-                                (click)="closeTab(tab.id, $event)"
+                            <a
+                                class="nav-link"
+                                [class.active]="tab.active"
+                                (click)="activateTab(tab.id)"
                             >
-                                &times;
-                            </span>
-                        </a>
-                    </li>
+                                <div class="tab-content">
+                                    @if (tab.icon) {
+                                        <i class="me-2" [class]="tab.icon"></i>
+                                    }
+                                    <span class="tab-title">{{
+                                        tab.title
+                                    }}</span>
+                                </div>
+                                @if (tab.closable) {
+                                    <span
+                                        class="close-tab"
+                                        (click)="closeTab(tab.id, $event)"
+                                    >
+                                        &times;
+                                    </span>
+                                }
+                            </a>
+                        </li>
+                    }
                 </ul>
-                <div class="tabs-actions" *ngIf="tabs.length > 1">
-                    <button
-                        class="btn close-all-tabs"
-                        title="Fermer tous les onglets (sauf Tableau de bord)"
-                        (click)="showCloseAllModal()"
-                    >
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
+                @if (tabs.length > 1) {
+                    <div class="tabs-actions">
+                        <button
+                            class="btn close-all-tabs"
+                            title="Fermer tous les onglets (sauf Tableau de bord)"
+                            (click)="showCloseAllModal()"
+                        >
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                }
             </div>
         </div>
 
@@ -168,16 +173,14 @@ import { ConfirmationModalComponent } from './confirmation-modal.component';
     ],
 })
 export class TabsComponent implements OnInit, AfterViewInit {
+    private tabService = inject(TabService);
+    private el = inject(ElementRef);
+    private encodingService = inject(EncodingDataService);
+
     tabs: any[] = [];
     isModalOpen = false;
 
     @ViewChild('tabsContainer') tabsContainer!: ElementRef;
-
-    constructor(
-        private tabService: TabService,
-        private el: ElementRef,
-        private encodingService: EncodingDataService
-    ) {}
 
     ngOnInit(): void {
         this.tabService.tabs$.subscribe((tabs) => {

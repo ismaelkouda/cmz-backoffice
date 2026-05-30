@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AllQuery } from '@pages/finalization/application/queries/all/all.query';
 import { AllHandler } from '@pages/finalization/application/queries-handlers/all/all.handler';
 import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AllBus {
-    constructor(private readonly filterHandler: AllHandler) {}
+    private readonly filterHandler = inject(AllHandler);
 
     dispatch<T>(query: T, page: string): Observable<Paginate<AllEntity>> {
         if (query instanceof AllQuery) {

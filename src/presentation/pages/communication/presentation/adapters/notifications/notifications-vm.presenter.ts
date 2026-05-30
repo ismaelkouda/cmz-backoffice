@@ -6,7 +6,6 @@ export class NotificationsPresenter {
     constructor(private readonly t: (key: string) => string) {}
 
     map(item: NotificationsEntity): NotificationsVmProps {
-        console.log('item: ', item);
         return {
             uniqId: item.uniqId,
             type: item.type,

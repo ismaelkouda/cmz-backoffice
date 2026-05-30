@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { INTERACTIVE_MAP_BASE_URL } from '@pages/interactive-map/infrastructure/api/interactive-map.base-url';
 import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
 import { MapClustersFilterApiDto } from '@shared/components/map-clusters/infrastructure/api/dto/map-clusters-filter-api.dto';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MapClustersApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(INTERACTIVE_MAP_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(INTERACTIVE_MAP_BASE_URL);
 
     execute(
         filter: MapClustersFilterApiDto,

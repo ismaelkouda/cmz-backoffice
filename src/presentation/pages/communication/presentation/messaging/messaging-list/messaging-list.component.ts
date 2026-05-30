@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -35,7 +34,6 @@ import { TableHeaderButton } from '@shared/components/table-button-header/table-
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
 
@@ -43,7 +41,6 @@ import SweetAlert from 'sweetalert2';
     selector: 'app-messaging-list',
     standalone: true,
     imports: [
-        CommonModule,
         FilterComponent,
         TableComponent,
         PaginationComponent,
@@ -64,7 +61,7 @@ export class MessagingListComponent {
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -352,13 +349,13 @@ export class MessagingListComponent {
             this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
-        const appName = this.appConfig.customization.app.name;
-        const filePrefix = this.normalizePrefix(appName);
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${filePrefix}-messaging`
-        );
+        // const appName = this.appConfig.customization.app.name;
+        // const filePrefix = this.normalizePrefix(appName);
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${filePrefix}-messaging`
+        // );
     }
 
     private t(key: string): string {

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { DepartmentsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-create-api.dto';
@@ -15,11 +15,8 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class DepartmentsApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL)
-        private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL);
 
     readAll(
         dto: DepartmentsFilterApiDto,

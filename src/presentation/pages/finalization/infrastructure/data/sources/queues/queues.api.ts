@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QueuesFilterApiDto } from '@pages/finalization/infrastructure/api/dto/queues/queues-filter-api.dto';
 import { QueuesResponseApiDto } from '@pages/finalization/infrastructure/api/dto/queues/queues-response-api.dto';
 import { FINALIZATION_BASE_URL } from '@pages/finalization/infrastructure/api/finalization.base-url';
@@ -9,10 +9,8 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(FINALIZATION_BASE_URL) private readonly baseUrl: string
-    ) {}
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(FINALIZATION_BASE_URL);
 
     execute(
         filter: QueuesFilterApiDto,

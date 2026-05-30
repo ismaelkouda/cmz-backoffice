@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -10,7 +9,7 @@ import { ButtonModule } from 'primeng/button';
 @Component({
     selector: 'app-chat-input',
     standalone: true,
-    imports: [CommonModule, ButtonModule],
+    imports: [ButtonModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './chat-input.component.html',
     styleUrls: ['./chat-input.component.scss'],

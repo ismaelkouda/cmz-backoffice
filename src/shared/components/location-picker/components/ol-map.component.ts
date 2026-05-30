@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -31,7 +30,6 @@ import { fromOlCoordinate, toOlCoordinate } from '../utils/projection.utils';
 @Component({
     selector: 'app-ol-map',
     standalone: true,
-    imports: [CommonModule],
     templateUrl: `./ol-map.component.html`,
     styleUrls: ['./ol-map.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

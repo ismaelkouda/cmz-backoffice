@@ -1,4 +1,4 @@
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -28,7 +28,7 @@ import { EnvService } from '../../../../../core/config/env.service';
     standalone: true,
     templateUrl: './forgot-password.component.html',
     styleUrls: ['./forgot-password.component.scss'],
-    imports: [CommonModule, ReactiveFormsModule, TranslateModule, RouterLink],
+    imports: [ReactiveFormsModule, TranslateModule, RouterLink],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForgotPasswordComponent implements OnDestroy {

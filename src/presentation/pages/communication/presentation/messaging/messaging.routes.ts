@@ -1,18 +1,18 @@
 import { Routes } from '@angular/router';
-import { MessagingFormComponent } from '@pages/communication/presentation/messaging/messaging-form/messaging-form.component';
-import { MessagingListComponent } from '@pages/communication/presentation/messaging/messaging-list/messaging-list.component';
-import { MessagingPageComponent } from '@pages/communication/presentation/messaging/messaging-page/messaging-page.component';
+
 import {
     MESSAGING_FORM,
     MESSAGING_HISTORY,
     MESSAGING_LIST,
 } from '@pages/communication/presentation/messaging/messaging-paths.constants';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const MESSAGING_ROUTES: Routes = [
     {
         path: '',
-        component: MessagingPageComponent,
+        loadComponent: () =>
+            import('@pages/communication/presentation/messaging/messaging-page/messaging-page.component').then(
+                (m) => m.MessagingPageComponent
+            ),
         data: {
             title: 'COMMUNICATION.MESSAGING.TITLE',
             breadcrumb: 'COMMUNICATION.MESSAGING.TITLE',
@@ -25,12 +25,18 @@ export const MESSAGING_ROUTES: Routes = [
             },
             {
                 path: MESSAGING_LIST,
-                component: MessagingListComponent,
+                loadComponent: () =>
+                    import('@pages/communication/presentation/messaging/messaging-list/messaging-list.component').then(
+                        (m) => m.MessagingListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: MESSAGING_HISTORY,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],
@@ -44,7 +50,10 @@ export const MESSAGING_ROUTES: Routes = [
         children: [
             {
                 path: '',
-                component: MessagingFormComponent,
+                loadComponent: () =>
+                    import('@pages/communication/presentation/messaging/messaging-form/messaging-form.component').then(
+                        (m) => m.MessagingFormComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],

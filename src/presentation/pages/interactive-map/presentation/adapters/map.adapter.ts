@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import {
     Bounds,
     ClusterSummary,
@@ -27,8 +27,8 @@ import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 export interface MapOptions {
-    zoom?: number;
-    center?: { lat: number; lng: number };
+    zoom: number;
+    center: { lat: number; lng: number };
     minZoom?: number;
     maxZoom?: number;
 }
@@ -60,12 +60,14 @@ const IVORY_COAST_BOUNDS: Bounds = {
     providedIn: 'root',
 })
 export class MapAdapter {
+    private readonly ngZone = inject(NgZone);
+
+    private suppressMoveEndUntil = 0;
     private map: Map | null = null;
     private hoverOverlay: Overlay | null = null;
     private clickOverlay: Overlay | null = null;
     private lastBounds: Bounds | null = null;
     private selectedReportId: string | number | null = null;
-    private suppressMoveEndUntil = 0;
     private readonly featureSource = new VectorSource();
     private readonly clusterSource = new Cluster({
         distance: 42,
@@ -79,7 +81,7 @@ export class MapAdapter {
     private readonly heatmapSource = new VectorSource();
     private readonly heatmapLayer = new HeatmapLayer({
         source: this.heatmapSource,
-        blur: 18,
+        blur: 10,
         radius: 14,
         weight: (feature): number => feature.get('weight') || 0.5,
         visible: false,
@@ -90,21 +92,12 @@ export class MapAdapter {
     private readonly clusterTooltipSubject =
         new Subject<ClusterTooltip | null>();
 
-    private readonly defaultOptions: Required<MapOptions> = {
-        zoom: 7,
-        center: { lat: 7.54, lng: -5.35 },
-        minZoom: 5,
-        maxZoom: 18,
-    };
-
-    constructor(private readonly ngZone: NgZone) {}
-
-    init(container: HTMLElement, options?: MapOptions): void {
+    init(container: HTMLElement, options: MapOptions): void {
         if (this.map) {
             return;
         }
 
-        const mergedOptions = { ...this.defaultOptions, ...options };
+        const mergedOptions = { ...options };
 
         this.map = new Map({
             target: container,
@@ -128,16 +121,16 @@ export class MapAdapter {
                 zoom: mergedOptions.zoom,
                 minZoom: mergedOptions.minZoom,
                 maxZoom: mergedOptions.maxZoom,
-                extent: transformExtent(
-                    [
-                        IVORY_COAST_BOUNDS.minLng,
-                        IVORY_COAST_BOUNDS.minLat,
-                        IVORY_COAST_BOUNDS.maxLng,
-                        IVORY_COAST_BOUNDS.maxLat,
-                    ],
-                    'EPSG:4326',
-                    'EPSG:3857'
-                ),
+                // extent: transformExtent(
+                //     [
+                //         IVORY_COAST_BOUNDS.minLng,
+                //         IVORY_COAST_BOUNDS.minLat,
+                //         IVORY_COAST_BOUNDS.maxLng,
+                //         IVORY_COAST_BOUNDS.maxLat,
+                //     ],
+                //     'EPSG:4326',
+                //     'EPSG:3857'
+                // ),
             }),
         });
 
@@ -178,10 +171,6 @@ export class MapAdapter {
             const lat = Number(report.lat);
             const lng = Number(report.long);
 
-            if (!Number.isFinite(lat) || !Number.isFinite(lng)) {
-                continue;
-            }
-
             const geometry = new Point(fromLonLat([lng, lat]));
             const markerFeature = new Feature({ geometry });
             markerFeature.set('report', report);
@@ -210,17 +199,13 @@ export class MapAdapter {
         this.heatmapLayer.setVisible(visible);
     }
 
-    setCenter(lat: number, lng: number, preserveZoom = true): void {
+    setCenter(lat: number, lng: number): void {
         if (!this.map) {
             return;
         }
 
         const view = this.map.getView();
         view.setCenter(fromLonLat([lng, lat]));
-
-        if (!preserveZoom) {
-            view.setZoom(this.defaultOptions.zoom);
-        }
     }
 
     setViewState(viewState: MapViewState): void {
@@ -242,9 +227,13 @@ export class MapAdapter {
 
         const view = this.map.getView();
         const center = view.getCenter();
-        const zoom = view.getZoom() || this.defaultOptions.zoom;
+        const zoom = view.getZoom();
 
         if (!center) {
+            return null;
+        }
+
+        if (!zoom) {
             return null;
         }
 
@@ -439,7 +428,6 @@ export class MapAdapter {
                 if (Date.now() < this.suppressMoveEndUntil) {
                     return;
                 }
-
                 const bounds = this.getConstrainedBounds();
                 if (bounds && !this.areBoundsEqual(this.lastBounds, bounds)) {
                     this.lastBounds = bounds;
@@ -610,7 +598,6 @@ export class MapAdapter {
                     stroke: new Stroke({ color: '#ffffff', width: 3 }),
                 }),
                 text: new Text({
-                    text: icon,
                     fill: new Fill({ color: '#ffffff' }),
                     font: '700 13px Arial, sans-serif',
                     offsetY: 1,
@@ -671,25 +658,31 @@ export class MapAdapter {
     }
 
     private getMarkerColor(report: InteractiveMapReport): string {
-        if (report.report_type === 'zob') {
-            return '#dc2626';
-        }
-
-        const [operator] = this.normalizeOperators(report.operators);
-        const operatorColors: Record<ReportOperator, string> = {
-            orange: '#2563eb',
-            moov: '#f97316',
-            mtn: '#eab308',
+        const colors: Record<ReportType, string> = {
+            zob: '#dc2626',
+            cpo: '#2563eb',
+            cps: '#f97316',
+            abi: '#eab308',
         };
 
-        if (report.status === 'rejected' || report.status === 'abandoned') {
-            return '#64748b';
-        }
+        return colors[report.report_type];
 
-        return operator ? operatorColors[operator] : '#0f766e';
+        // const [operator] = this.normalizeOperators(report.operators);
+        // const operatorColors: Record<ReportOperator, string> = {
+        //     orange: '#2563eb',
+        //     moov: '#f97316',
+        //     mtn: '#eab308',
+        // };
+
+        // if (report.state === 'rejected' || report.state === 'abandoned') {
+        //     return '#64748b';
+        // }
+
+        // return operator ? operatorColors[operator] : '#0f766e';
     }
 
     private getReportIcon(type: ReportType): string {
+        console.log('type: ', type);
         const icons: Record<ReportType, string> = {
             zob: 'X',
             cpo: '!',
@@ -701,6 +694,7 @@ export class MapAdapter {
     }
 
     private getHeatmapWeight(type: ReportType): number {
+        console.log('type: ', type);
         const weights: Record<ReportType, number> = {
             zob: 1,
             abi: 0.8,
@@ -732,6 +726,8 @@ export class MapAdapter {
         bounds1: Bounds | null,
         bounds2: Bounds | null
     ): boolean {
+        console.log('bounds1: ', bounds1);
+        console.log('bounds2: ', bounds2);
         if (!bounds1 || !bounds2) {
             return false;
         }

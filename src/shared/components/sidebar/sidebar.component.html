@@ -76,400 +76,480 @@
                                     </button>
                                 </li>
 
-                                <li
-                                    [class]="
-                                        menuItem.headTitle1
-                                            ? 'sidebar-main-title'
-                                            : 'sidebar-list'
-                                    "
-                                    *ngFor="let menuItem of menuItems"
-                                    [ngClass]="{ active: menuItem.active }"
-                                >
-                                    <div *ngIf="menuItem.headTitle1">
-                                        <h6 class="lan-1">
-                                            {{
-                                                menuItem.headTitle1 | translate
-                                            }}
-                                        </h6>
-                                    </div>
-
-                                    <output
-                                        class="badge badge-{{
-                                            menuItem.badgeType
-                                        }}"
-                                        *ngIf="
+                                @for (menuItem of menuItems; track menuItem) {
+                                    <li
+                                        [class]="
+                                            menuItem.headTitle1
+                                                ? 'sidebar-main-title'
+                                                : 'sidebar-list'
+                                        "
+                                        [ngClass]="{ active: menuItem.active }"
+                                    >
+                                        @if (menuItem.headTitle1) {
+                                            <div>
+                                                <h6 class="lan-1">
+                                                    {{
+                                                        menuItem.headTitle1
+                                                            | translate
+                                                    }}
+                                                </h6>
+                                            </div>
+                                        }
+                                        @if (
                                             menuItem.badgeType &&
                                             menuItem.badgeValue
-                                        "
-                                        >{{ menuItem.badgeValue }}</output
-                                    >
-                                    <!-- Sub -->
-                                    <a
-                                        href="javascript:void(0)"
-                                        class="sidebar-link sidebar-title"
-                                        [class.link-nav]="!menuItem.children"
-                                        [ngClass]="{
-                                            active:
-                                                menuItem.active && !menuActive,
-                                        }"
-                                        [title]="menuItem.title | translate"
-                                        *ngIf="menuItem.type === 'sub'"
-                                        (click)="toggletNavActive(menuItem)"
-                                    >
-                                        <i
-                                            class="pi pi-{{ menuItem.icon }}"
-                                        ></i>
-                                        <span>{{
-                                            menuItem.title | translate
-                                        }}</span>
-                                        <div class="according-menu">
-                                            <i
-                                                class="pi pi-angle-{{
-                                                    menuItem.active
-                                                        ? 'down'
-                                                        : 'right'
-                                                }} pull-right"
-                                                *ngIf="menuItem.children"
-                                            ></i>
-                                        </div>
-                                    </a>
-                                    <!-- Link -->
-                                    <a
-                                        [routerLink]="
-                                            !menuItem.type
-                                                ? null
-                                                : [menuItem.path]
-                                        "
-                                        routerLinkActive="active"
-                                        class="sidebar-link sidebar-title"
-                                        [class.link-nav]="!menuItem.children"
-                                        [ngClass]="{ active: menuItem.active }"
-                                        [title]="menuItem.title | translate"
-                                        *ngIf="menuItem.type === 'link'"
-                                    >
-                                        <i
-                                            [attr.data-feather]="menuItem.icon"
-                                        ></i>
-                                        <span>{{
-                                            menuItem.title | translate
-                                        }}</span>
-                                        <div class="according-menu">
-                                            <i
-                                                class="pi pi-angle-{{
-                                                    menuItem.active
-                                                        ? 'down'
-                                                        : 'right'
-                                                }} pull-right"
-                                                *ngIf="!menuItem.children"
-                                            ></i>
-                                        </div>
-                                    </a>
-                                    <!-- External Link -->
-                                    <a
-                                        href="{{
-                                            !menuItem.type
-                                                ? null
-                                                : menuItem.path
-                                        }}"
-                                        class="sidebar-link sidebar-title"
-                                        [class.link-nav]="!menuItem.children"
-                                        [ngClass]="{ active: menuItem.active }"
-                                        [title]="menuItem.title | translate"
-                                        *ngIf="menuItem.type === 'extLink'"
-                                    >
-                                        <i
-                                            [attr.data-feather]="menuItem.icon"
-                                        ></i>
-                                        <span>{{
-                                            menuItem.title | translate
-                                        }}</span>
-                                        <div class="according-menu">
-                                            <i
-                                                class="pi pi-angle-{{
-                                                    menuItem.active
-                                                        ? 'down'
-                                                        : 'right'
-                                                }} pull-right"
-                                                *ngIf="menuItem.children"
-                                            ></i>
-                                        </div>
-                                    </a>
-                                    <!-- External Tab Link -->
-                                    <a
-                                        href="{{
-                                            !menuItem.type
-                                                ? null
-                                                : menuItem.path
-                                        }}"
-                                        target="_blank"
-                                        class="sidebar-link sidebar-title"
-                                        [class.link-nav]="!menuItem.children"
-                                        [ngClass]="{ active: menuItem.active }"
-                                        [title]="menuItem.title | translate"
-                                        *ngIf="menuItem.type === 'extTabLink'"
-                                    >
-                                        <i
-                                            [attr.data-feather]="menuItem.icon"
-                                        ></i>
-                                        <span>{{ menuItem.title }}</span>
-                                        <div class="according-menu">
-                                            <i
-                                                class="pi pi-angle-{{
-                                                    menuItem.active
-                                                        ? 'down'
-                                                        : 'right'
-                                                }} pull-right"
-                                                *ngIf="menuItem.children"
-                                            ></i>
-                                        </div>
-                                    </a>
-                                    <!-- 2nd Level Menu -->
-                                    <ul
-                                        class="sidebar-submenu"
-                                        [ngClass]="{ active: menuItem.active }"
-                                        [ngClass]="{
-                                            'menu-open': menuItem.active,
-                                            'menu-close': !menuItem.active,
-                                        }"
-                                        *ngIf="menuItem.children"
-                                        [style.display]="
-                                            menuItem.active ? 'block' : 'none'
-                                        "
-                                    >
-                                        <li
-                                            *ngFor="
-                                                let childrenItem of menuItem.children
-                                            "
-                                            [ngClass]="{
-                                                active: childrenItem.active,
-                                            }"
-                                        >
-                                            <!-- Sub -->
+                                        ) {
+                                            <output
+                                                class="badge badge-{{
+                                                    menuItem.badgeType
+                                                }}"
+                                                >{{
+                                                    menuItem.badgeValue
+                                                }}</output
+                                            >
+                                        }
+                                        <!-- Sub -->
+                                        @if (menuItem.type === 'sub') {
                                             <a
-                                                class="submenu-title"
                                                 href="javascript:void(0)"
-                                                [title]="
-                                                    childrenItem.title
-                                                        | translate
+                                                class="sidebar-link sidebar-title"
+                                                [class.link-nav]="
+                                                    !menuItem.children
                                                 "
-                                                *ngIf="
-                                                    childrenItem.type === 'sub'
+                                                [ngClass]="{
+                                                    active:
+                                                        menuItem.active &&
+                                                        !menuActive,
+                                                }"
+                                                [title]="
+                                                    menuItem.title | translate
                                                 "
                                                 (click)="
-                                                    toggletNavActive(
-                                                        childrenItem
-                                                    )
+                                                    toggletNavActive(menuItem)
                                                 "
                                             >
-                                                <span>
-                                                    {{
-                                                        childrenItem.title
-                                                            | translate
-                                                    }}</span
-                                                >
+                                                <i
+                                                    class="pi pi-{{
+                                                        menuItem.icon
+                                                    }}"
+                                                ></i>
+                                                <span>{{
+                                                    menuItem.title | translate
+                                                }}</span>
                                                 <div class="according-menu">
-                                                    <i
-                                                        class="pi pi-angle-{{
-                                                            childrenItem.active
-                                                                ? 'down'
-                                                                : 'right'
-                                                        }} pull-right"
-                                                        *ngIf="
-                                                            childrenItem.children
-                                                        "
-                                                    ></i>
+                                                    @if (menuItem.children) {
+                                                        <i
+                                                            class="pi pi-angle-{{
+                                                                menuItem.active
+                                                                    ? 'down'
+                                                                    : 'right'
+                                                            }} pull-right"
+                                                        ></i>
+                                                    }
                                                 </div>
                                             </a>
-                                            <!-- Link -->
+                                        }
+                                        <!-- Link -->
+                                        @if (menuItem.type === 'link') {
                                             <a
-                                                class="submenu-title"
                                                 [routerLink]="
-                                                    !childrenItem.type
+                                                    !menuItem.type
                                                         ? null
-                                                        : [childrenItem.path]
-                                                "
-                                                [title]="
-                                                    childrenItem.title
-                                                        | translate
-                                                "
-                                                *ngIf="
-                                                    childrenItem.type === 'link'
+                                                        : [menuItem.path]
                                                 "
                                                 routerLinkActive="active"
-                                                [routerLinkActiveOptions]="{
-                                                    exact: false,
+                                                class="sidebar-link sidebar-title"
+                                                [class.link-nav]="
+                                                    !menuItem.children
+                                                "
+                                                [ngClass]="{
+                                                    active: menuItem.active,
                                                 }"
+                                                [title]="
+                                                    menuItem.title | translate
+                                                "
                                             >
-                                                {{
-                                                    childrenItem.title
-                                                        | translate
-                                                }}
                                                 <i
-                                                    class="pi pi-angle-down pull-right"
-                                                    *ngIf="
-                                                        childrenItem.children
+                                                    [attr.data-feather]="
+                                                        menuItem.icon
                                                     "
                                                 ></i>
+                                                <span>{{
+                                                    menuItem.title | translate
+                                                }}</span>
+                                                <div class="according-menu">
+                                                    @if (!menuItem.children) {
+                                                        <i
+                                                            class="pi pi-angle-{{
+                                                                menuItem.active
+                                                                    ? 'down'
+                                                                    : 'right'
+                                                            }} pull-right"
+                                                        ></i>
+                                                    }
+                                                </div>
                                             </a>
-                                            <!-- External Link -->
+                                        }
+                                        <!-- External Link -->
+                                        @if (menuItem.type === 'extLink') {
                                             <a
-                                                class="submenu-title"
                                                 href="{{
-                                                    !childrenItem.type
+                                                    !menuItem.type
                                                         ? null
-                                                        : childrenItem.path
+                                                        : menuItem.path
                                                 }}"
-                                                [title]="
-                                                    childrenItem.title
-                                                        | translate
+                                                class="sidebar-link sidebar-title"
+                                                [class.link-nav]="
+                                                    !menuItem.children
                                                 "
-                                                *ngIf="
-                                                    childrenItem.type ===
-                                                    'extLink'
-                                                "
-                                                routerLinkActive="active"
-                                                [routerLinkActiveOptions]="{
-                                                    exact: true,
+                                                [ngClass]="{
+                                                    active: menuItem.active,
                                                 }"
+                                                [title]="
+                                                    menuItem.title | translate
+                                                "
                                             >
-                                                {{
-                                                    childrenItem.title
-                                                        | translate
-                                                }}
                                                 <i
-                                                    class="pi pi-angle-down pull-right"
-                                                    *ngIf="
-                                                        childrenItem.children
+                                                    [attr.data-feather]="
+                                                        menuItem.icon
                                                     "
                                                 ></i>
+                                                <span>{{
+                                                    menuItem.title | translate
+                                                }}</span>
+                                                <div class="according-menu">
+                                                    @if (menuItem.children) {
+                                                        <i
+                                                            class="pi pi-angle-{{
+                                                                menuItem.active
+                                                                    ? 'down'
+                                                                    : 'right'
+                                                            }} pull-right"
+                                                        ></i>
+                                                    }
+                                                </div>
                                             </a>
-                                            <!-- External Tab Link -->
+                                        }
+                                        <!-- External Tab Link -->
+                                        @if (menuItem.type === 'extTabLink') {
                                             <a
-                                                class="submenu-title"
                                                 href="{{
-                                                    !childrenItem.type
+                                                    !menuItem.type
                                                         ? null
-                                                        : childrenItem.path
+                                                        : menuItem.path
                                                 }}"
                                                 target="_blank"
-                                                [title]="
-                                                    childrenItem.title
-                                                        | translate
+                                                class="sidebar-link sidebar-title"
+                                                [class.link-nav]="
+                                                    !menuItem.children
                                                 "
-                                                *ngIf="
-                                                    childrenItem.type ===
-                                                    'extTabLink'
+                                                [ngClass]="{
+                                                    active: menuItem.active,
+                                                }"
+                                                [title]="
+                                                    menuItem.title | translate
                                                 "
                                             >
-                                                <span>{{
-                                                    childrenItem.title
-                                                        | translate
-                                                }}</span>
                                                 <i
-                                                    class="pi pi-angle-down pull-right"
-                                                    *ngIf="
-                                                        childrenItem.children
+                                                    [attr.data-feather]="
+                                                        menuItem.icon
                                                     "
                                                 ></i>
+                                                <span>{{
+                                                    menuItem.title
+                                                }}</span>
+                                                <div class="according-menu">
+                                                    @if (menuItem.children) {
+                                                        <i
+                                                            class="pi pi-angle-{{
+                                                                menuItem.active
+                                                                    ? 'down'
+                                                                    : 'right'
+                                                            }} pull-right"
+                                                        ></i>
+                                                    }
+                                                </div>
                                             </a>
-                                            <!-- 3rd Level Menu -->
+                                        }
+                                        <!-- 2nd Level Menu -->
+                                        @if (menuItem.children) {
                                             <ul
-                                                class="nav-sub-childmenu submenu-content"
-                                                *ngIf="childrenItem.children"
+                                                class="sidebar-submenu"
                                                 [ngClass]="{
-                                                    active: childrenItem.active,
+                                                    active: menuItem.active,
                                                 }"
                                                 [ngClass]="{
                                                     'menu-open':
-                                                        childrenItem.active,
+                                                        menuItem.active,
                                                     'menu-close':
-                                                        !childrenItem.active,
+                                                        !menuItem.active,
                                                 }"
                                                 [style.display]="
-                                                    childrenItem.active
+                                                    menuItem.active
                                                         ? 'block'
                                                         : 'none'
                                                 "
                                             >
-                                                <li
-                                                    *ngFor="
-                                                        let childrenSubItem of childrenItem.children
-                                                    "
-                                                    [ngClass]="{
-                                                        active: childrenSubItem.active,
-                                                    }"
-                                                >
-                                                    <!-- Link -->
-                                                    <a
-                                                        [routerLink]="
-                                                            !childrenSubItem.type
-                                                                ? null
-                                                                : [
-                                                                      childrenSubItem.path,
-                                                                  ]
-                                                        "
-                                                        [title]="
-                                                            childrenSubItem.title
-                                                                | translate
-                                                        "
-                                                        *ngIf="
-                                                            childrenSubItem.type ===
+                                                @for (
+                                                    childrenItem of menuItem.children;
+                                                    track childrenItem
+                                                ) {
+                                                    <li
+                                                        [ngClass]="{
+                                                            active: childrenItem.active,
+                                                        }"
+                                                    >
+                                                        <!-- Sub -->
+                                                        @if (
+                                                            childrenItem.type ===
+                                                            'sub'
+                                                        ) {
+                                                            <a
+                                                                class="submenu-title"
+                                                                href="javascript:void(0)"
+                                                                [title]="
+                                                                    childrenItem.title
+                                                                        | translate
+                                                                "
+                                                                (click)="
+                                                                    toggletNavActive(
+                                                                        childrenItem
+                                                                    )
+                                                                "
+                                                            >
+                                                                <span>
+                                                                    {{
+                                                                        childrenItem.title
+                                                                            | translate
+                                                                    }}</span
+                                                                >
+                                                                <div
+                                                                    class="according-menu"
+                                                                >
+                                                                    @if (
+                                                                        childrenItem.children
+                                                                    ) {
+                                                                        <i
+                                                                            class="pi pi-angle-{{
+                                                                                childrenItem.active
+                                                                                    ? 'down'
+                                                                                    : 'right'
+                                                                            }} pull-right"
+                                                                        ></i>
+                                                                    }
+                                                                </div>
+                                                            </a>
+                                                        }
+                                                        <!-- Link -->
+                                                        @if (
+                                                            childrenItem.type ===
                                                             'link'
-                                                        "
-                                                        routerLinkActive="active"
-                                                        [routerLinkActiveOptions]="{
-                                                            exact: true,
-                                                        }"
-                                                    >
-                                                        {{
-                                                            childrenSubItem.title
-                                                                | translate
-                                                        }}
-                                                    </a>
-                                                    <!-- External Link -->
-                                                    <a
-                                                        href="{{
-                                                            !childrenSubItem.type
-                                                                ? null
-                                                                : childrenSubItem.path
-                                                        }}"
-                                                        *ngIf="
-                                                            childrenSubItem.type ===
+                                                        ) {
+                                                            <a
+                                                                class="submenu-title"
+                                                                [routerLink]="
+                                                                    !childrenItem.type
+                                                                        ? null
+                                                                        : [
+                                                                              childrenItem.path,
+                                                                          ]
+                                                                "
+                                                                [title]="
+                                                                    childrenItem.title
+                                                                        | translate
+                                                                "
+                                                                routerLinkActive="active"
+                                                                [routerLinkActiveOptions]="{
+                                                                    exact: false,
+                                                                }"
+                                                            >
+                                                                {{
+                                                                    childrenItem.title
+                                                                        | translate
+                                                                }}
+                                                                @if (
+                                                                    childrenItem.children
+                                                                ) {
+                                                                    <i
+                                                                        class="pi pi-angle-down pull-right"
+                                                                    ></i>
+                                                                }
+                                                            </a>
+                                                        }
+                                                        <!-- External Link -->
+                                                        @if (
+                                                            childrenItem.type ===
                                                             'extLink'
-                                                        "
-                                                        routerLinkActive="active"
-                                                        [routerLinkActiveOptions]="{
-                                                            exact: true,
-                                                        }"
-                                                    >
-                                                        {{
-                                                            childrenSubItem.title
-                                                                | translate
-                                                        }}
-                                                    </a>
-                                                    <!-- External Tab Link -->
-                                                    <a
-                                                        href="{{
-                                                            !childrenSubItem.type
-                                                                ? null
-                                                                : childrenSubItem.path
-                                                        }}"
-                                                        target="_blank"
-                                                        *ngIf="
-                                                            childrenSubItem.type ===
+                                                        ) {
+                                                            <a
+                                                                class="submenu-title"
+                                                                href="{{
+                                                                    !childrenItem.type
+                                                                        ? null
+                                                                        : childrenItem.path
+                                                                }}"
+                                                                [title]="
+                                                                    childrenItem.title
+                                                                        | translate
+                                                                "
+                                                                routerLinkActive="active"
+                                                                [routerLinkActiveOptions]="{
+                                                                    exact: true,
+                                                                }"
+                                                            >
+                                                                {{
+                                                                    childrenItem.title
+                                                                        | translate
+                                                                }}
+                                                                @if (
+                                                                    childrenItem.children
+                                                                ) {
+                                                                    <i
+                                                                        class="pi pi-angle-down pull-right"
+                                                                    ></i>
+                                                                }
+                                                            </a>
+                                                        }
+                                                        <!-- External Tab Link -->
+                                                        @if (
+                                                            childrenItem.type ===
                                                             'extTabLink'
-                                                        "
-                                                    >
-                                                        {{
-                                                            childrenSubItem.title
-                                                                | translate
-                                                        }}
-                                                    </a>
-                                                </li>
+                                                        ) {
+                                                            <a
+                                                                class="submenu-title"
+                                                                href="{{
+                                                                    !childrenItem.type
+                                                                        ? null
+                                                                        : childrenItem.path
+                                                                }}"
+                                                                target="_blank"
+                                                                [title]="
+                                                                    childrenItem.title
+                                                                        | translate
+                                                                "
+                                                            >
+                                                                <span>{{
+                                                                    childrenItem.title
+                                                                        | translate
+                                                                }}</span>
+                                                                @if (
+                                                                    childrenItem.children
+                                                                ) {
+                                                                    <i
+                                                                        class="pi pi-angle-down pull-right"
+                                                                    ></i>
+                                                                }
+                                                            </a>
+                                                        }
+                                                        <!-- 3rd Level Menu -->
+                                                        @if (
+                                                            childrenItem.children
+                                                        ) {
+                                                            <ul
+                                                                class="nav-sub-childmenu submenu-content"
+                                                                [ngClass]="{
+                                                                    active: childrenItem.active,
+                                                                }"
+                                                                [ngClass]="{
+                                                                    'menu-open':
+                                                                        childrenItem.active,
+                                                                    'menu-close':
+                                                                        !childrenItem.active,
+                                                                }"
+                                                                [style.display]="
+                                                                    childrenItem.active
+                                                                        ? 'block'
+                                                                        : 'none'
+                                                                "
+                                                            >
+                                                                @for (
+                                                                    childrenSubItem of childrenItem.children;
+                                                                    track childrenSubItem
+                                                                ) {
+                                                                    <li
+                                                                        [ngClass]="{
+                                                                            active: childrenSubItem.active,
+                                                                        }"
+                                                                    >
+                                                                        <!-- Link -->
+                                                                        @if (
+                                                                            childrenSubItem.type ===
+                                                                            'link'
+                                                                        ) {
+                                                                            <a
+                                                                                [routerLink]="
+                                                                                    !childrenSubItem.type
+                                                                                        ? null
+                                                                                        : [
+                                                                                              childrenSubItem.path,
+                                                                                          ]
+                                                                                "
+                                                                                [title]="
+                                                                                    childrenSubItem.title
+                                                                                        | translate
+                                                                                "
+                                                                                routerLinkActive="active"
+                                                                                [routerLinkActiveOptions]="{
+                                                                                    exact: true,
+                                                                                }"
+                                                                            >
+                                                                                {{
+                                                                                    childrenSubItem.title
+                                                                                        | translate
+                                                                                }}
+                                                                            </a>
+                                                                        }
+                                                                        <!-- External Link -->
+                                                                        @if (
+                                                                            childrenSubItem.type ===
+                                                                            'extLink'
+                                                                        ) {
+                                                                            <a
+                                                                                href="{{
+                                                                                    !childrenSubItem.type
+                                                                                        ? null
+                                                                                        : childrenSubItem.path
+                                                                                }}"
+                                                                                routerLinkActive="active"
+                                                                                [routerLinkActiveOptions]="{
+                                                                                    exact: true,
+                                                                                }"
+                                                                            >
+                                                                                {{
+                                                                                    childrenSubItem.title
+                                                                                        | translate
+                                                                                }}
+                                                                            </a>
+                                                                        }
+                                                                        <!-- External Tab Link -->
+                                                                        @if (
+                                                                            childrenSubItem.type ===
+                                                                            'extTabLink'
+                                                                        ) {
+                                                                            <a
+                                                                                href="{{
+                                                                                    !childrenSubItem.type
+                                                                                        ? null
+                                                                                        : childrenSubItem.path
+                                                                                }}"
+                                                                                target="_blank"
+                                                                            >
+                                                                                {{
+                                                                                    childrenSubItem.title
+                                                                                        | translate
+                                                                                }}
+                                                                            </a>
+                                                                        }
+                                                                    </li>
+                                                                }
+                                                            </ul>
+                                                        }
+                                                    </li>
+                                                }
                                             </ul>
-                                        </li>
-                                    </ul>
-                                </li>
+                                        }
+                                    </li>
+                                }
                             </div>
                         </div>
                     </div>

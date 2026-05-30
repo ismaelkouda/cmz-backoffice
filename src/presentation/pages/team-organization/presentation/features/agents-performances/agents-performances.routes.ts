@@ -1,16 +1,17 @@
 import { Routes } from '@angular/router';
-import { AgentsPerformancesListComponent } from '@pages/team-organization/presentation/features/agents-performances/agents-performances-list/agents-performances-list.component';
-import { AgentsPerformancesPageComponent } from '@pages/team-organization/presentation/features/agents-performances/agents-performances-page/agents-performances-page.component';
+
 import {
     AGENTS_PERFORMANCES_HISTORY,
     AGENTS_PERFORMANCES_LIST,
 } from '@pages/team-organization/presentation/features/agents-performances/agents-performances-paths.constants';
-import { HistoryPageComponent } from '@shared/components/history/presentation/features/history-page/history-page.component';
 
 export const AGENTS_PERFORMANCES_ROUTES: Routes = [
     {
         path: '',
-        component: AgentsPerformancesPageComponent,
+        loadComponent: () =>
+            import('@pages/team-organization/presentation/features/agents-performances/agents-performances-page/agents-performances-page.component').then(
+                (m) => m.AgentsPerformancesPageComponent
+            ),
         data: {
             icon: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TITLE',
             breadcrumb: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TITLE',
@@ -23,12 +24,18 @@ export const AGENTS_PERFORMANCES_ROUTES: Routes = [
             },
             {
                 path: AGENTS_PERFORMANCES_LIST,
-                component: AgentsPerformancesListComponent,
+                loadComponent: () =>
+                    import('@pages/team-organization/presentation/features/agents-performances/agents-performances-list/agents-performances-list.component').then(
+                        (m) => m.AgentsPerformancesListComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
             {
                 path: AGENTS_PERFORMANCES_HISTORY,
-                component: HistoryPageComponent,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
                 data: { breadcrumb: { hide: true } },
             },
         ],

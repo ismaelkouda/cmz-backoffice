@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { catchError, shareReplay, take } from 'rxjs/operators';
 
@@ -29,9 +29,9 @@ export interface OpenLayersModules {
     providedIn: 'root',
 })
 export class OpenLayersLoaderService {
-    private modules$: Observable<OpenLayersModules> | null = null;
+    private ngZone = inject(NgZone);
 
-    constructor(private ngZone: NgZone) {}
+    private modules$: Observable<OpenLayersModules> | null = null;
 
     loadModules(): Observable<OpenLayersModules> {
         if (!this.modules$) {

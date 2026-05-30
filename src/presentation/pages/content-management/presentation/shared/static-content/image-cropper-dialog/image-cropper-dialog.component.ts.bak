@@ -22,7 +22,6 @@ interface AspectRatioOption {
     styleUrls: ['./image-cropper-dialog.component.scss'],
     standalone: true,
     imports: [
-        CommonModule,
         FormsModule,
         ImageCropperModule,
         ButtonModule,

@@ -6,6 +6,7 @@ export type ReportStatus =
     | 'approved'
     | 'in-progress'
     | 'rejected'
+    | 'completed'
     | 'abandoned';
 
 export interface NamedPlace {
@@ -19,7 +20,7 @@ export interface InteractiveMapReport {
     long: number | string;
     report_type: ReportType;
     operators: ReportOperator[] | string;
-    status: ReportStatus;
+    state: ReportStatus;
     is_duplicated: boolean;
     municipality?: NamedPlace | string | null;
     region?: NamedPlace | string | null;
@@ -55,8 +56,8 @@ export interface ReportFilters {
     operators: ReportOperator[];
     statuses: ReportStatus[];
     municipality: string;
-    dateFrom: string;
-    dateTo: string;
+    startDate: string;
+    endDate: string;
     compareOperator: ReportOperator | '';
 }
 

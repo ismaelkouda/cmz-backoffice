@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { EvaluateQuery } from '@pages/report-states/application/queries/evaluate/evaluate.query';
 import { EvaluateUseCase } from '@pages/report-states/application/use-cases/evaluate/evaluate.use-case';
 import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/evaluate.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class EvaluateHandler {
-    constructor(private readonly useCase: EvaluateUseCase) {}
+    private readonly useCase = inject(EvaluateUseCase);
 
     execute(
         query: EvaluateQuery,

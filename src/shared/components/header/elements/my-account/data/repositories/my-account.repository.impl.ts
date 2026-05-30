@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
 import { LogoutEntity } from '../../domain/entities/logout.entity';
@@ -10,12 +10,8 @@ import { MyAccountApi } from '../sources/my-account.api';
 
 @Injectable({ providedIn: 'root' })
 export class MyAccountRepositoryImpl extends MyAccountRepository {
-    constructor(
-        private readonly myAccountApi: MyAccountApi,
-        private readonly myAccountMapper: MyAccountMapper
-    ) {
-        super();
-    }
+    private readonly myAccountApi = inject(MyAccountApi);
+    private readonly myAccountMapper = inject(MyAccountMapper);
 
     fetchLogout(): Observable<LogoutEntity> {
         return this.myAccountApi

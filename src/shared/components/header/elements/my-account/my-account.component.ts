@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -39,7 +38,6 @@ import { UpdateProfileRequestDto } from './data/dto/update-profile-request.dto';
     templateUrl: './my-account.component.html',
     styleUrls: ['./my-account.component.scss'],
     imports: [
-        CommonModule,
         ReactiveFormsModule,
         PasswordModule,
         InputMaskModule,

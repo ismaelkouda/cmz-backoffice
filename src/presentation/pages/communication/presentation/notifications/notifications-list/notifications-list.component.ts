@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -35,7 +34,6 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
 
@@ -45,7 +43,6 @@ import SweetAlert from 'sweetalert2';
     templateUrl: './notifications-list.component.html',
     styleUrls: ['./notifications-list.component.scss'],
     imports: [
-        CommonModule,
         TranslateModule,
         ReactiveFormsModule,
         BreadcrumbComponent,
@@ -66,7 +63,7 @@ export class NotificationsListComponent {
     private readonly formStore = inject(NotificationsFilterStore);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -303,13 +300,13 @@ export class NotificationsListComponent {
             this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
-        const appName = this.appConfig.customization.app.name;
-        const filePrefix = this.normalizePrefix(appName);
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${filePrefix}-actions-treatment`
-        );
+        // const appName = this.appConfig.customization.app.name;
+        // const filePrefix = this.normalizePrefix(appName);
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${filePrefix}-actions-treatment`
+        // );
     }
 
     private t(key: string): string {

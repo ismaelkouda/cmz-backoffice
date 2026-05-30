@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UsersQuery } from '@pages/settings-security/application/queries/users/users.query';
 import { UsersUseCase } from '@pages/settings-security/application/use-cases/users/users.use-case';
 import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class UsersFilterHandler {
-    constructor(private readonly useCase: UsersUseCase) {}
+    private readonly useCase = inject(UsersUseCase);
 
     execute(
         command: UsersQuery,

@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -41,7 +40,6 @@ import { isMobile } from '../utils/lat-lng.utils';
     selector: 'app-location-picker-dialog',
     standalone: true,
     imports: [
-        CommonModule,
         ButtonModule,
         InputTextModule,
         InputGroupModule,

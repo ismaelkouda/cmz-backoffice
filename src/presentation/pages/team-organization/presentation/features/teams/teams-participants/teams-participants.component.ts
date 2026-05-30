@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -39,7 +38,6 @@ import { TableHeaderButton } from '@shared/components/table-button-header/table-
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { Roles } from '@shared/domain/enums/roles.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { TEAM_ORGANIZATION_ROUTE } from '@shared/routes/routes';
 import { ToastrService } from 'ngx-toastr';
 import { MenuItem } from 'primeng/api';
@@ -57,7 +55,6 @@ import SweetAlert from 'sweetalert2';
     templateUrl: './teams-participants.component.html',
     styleUrls: ['./teams-participants.component.scss'],
     imports: [
-        CommonModule,
         PageTitleComponent,
         BreadcrumbComponent,
         FilterComponent,
@@ -84,7 +81,7 @@ export class TeamsParticipantsComponent implements OnInit {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly destroyRef = inject(DestroyRef);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -345,11 +342,11 @@ export class TeamsParticipantsComponent implements OnInit {
             return;
         }
 
-        this.exportService.exportAsExcelFile(
-            items,
-            this.tableConfig,
-            `${this.exportFilePrefix}-teams-participants`
-        );
+        // this.exportService.exportAsExcelFile(
+        //     items,
+        //     this.tableConfig,
+        //     `${this.exportFilePrefix}-teams-participants`
+        // );
     }
 
     public onHeaderButtonClicked(actionId: string): void {

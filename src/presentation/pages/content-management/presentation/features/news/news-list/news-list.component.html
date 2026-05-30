@@ -1,35 +1,33 @@
+<div class="news-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="loading()"
+        [formGroup]="form"
+        [fields]="filterFields()"
+        (filter)="onFilterClicked($event)"
+        [filterState]="facade.currentFilter$"
+        [limit]="5"
+    ></app-filter>
 
+    <hr class="news-divider" />
 
-                    <div class="news-content">
-                        <app-filter
-                            class="filter-component"
-                            [isLoading]="loading()"
-                            [formGroup]="form"
-                            [fields]="filterFields()"
-                            (filter)="onFilterClicked($event)"
-                            [filterState]="facade.currentFilter$"
-                            [limit]="5"
-                        ></app-filter>
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            [loading]="loading()"
+            [items]="itemsVM()"
+            [pagination]="pagination()"
+            [config]="tableConfig"
+            [headerButtons]="headerButtons()"
+            (headerButtonClicked)="onHeaderButtonClicked($event)"
+            (actionClicked)="onActionClicked($event)"
+            dataKey="uniqId"
+        ></app-table>
 
-                        <hr class="news-divider" />
-
-                        <section class="table-section">
-                            <app-table
-                                class="table-component"
-                                [loading]="loading()"
-                                [items]="itemsVM()"
-                                [pagination]="pagination()"
-                                [config]="tableConfig"
-                                [headerButtons]="headerButtons()"
-                                (headerButtonClicked)="onHeaderButtonClicked($event)"
-                                (actionClicked)="onActionClicked($event)"
-                                dataKey="uniqId"
-                            ></app-table>
-
-                            <app-pagination
-                                class="pagination-component"
-                                [pagination]="pagination()"
-                                (pageChange)="onChangePageClicked($event)"
-                            ></app-pagination>
-                        </section>
-                    
+        <app-pagination
+            class="pagination-component"
+            [pagination]="pagination()"
+            (pageChange)="onChangePageClicked($event)"
+        ></app-pagination>
+    </section>
+</div>

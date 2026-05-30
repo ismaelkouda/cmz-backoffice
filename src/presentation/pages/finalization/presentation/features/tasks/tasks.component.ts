@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -42,7 +41,6 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
-import { TableExportExcelFileService } from '@shared/domain/services/table-export-excel-file.service';
 import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
 
@@ -52,7 +50,6 @@ import SweetAlert from 'sweetalert2';
     templateUrl: './tasks.component.html',
     styleUrls: ['./tasks.component.scss'],
     imports: [
-        CommonModule,
         BreadcrumbComponent,
         TableComponent,
         ManagementDialogComponent,
@@ -73,7 +70,7 @@ export class TasksComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(TasksFilterStore);
-    private readonly exportService = inject(TableExportExcelFileService);
+    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
@@ -343,12 +340,12 @@ export class TasksComponent {
     private exportData(): void {
         const tasks = this.items();
         if (tasks && tasks.length > 0) {
-            const fileName = `${this.exportFilePrefix}-tasks`;
-            this.exportService.exportAsExcelFile(
-                tasks,
-                this.tableConfig,
-                fileName
-            );
+            // const fileName = `${this.exportFilePrefix}-tasks`;
+            // this.exportService.exportAsExcelFile(
+            //     tasks,
+            //     this.tableConfig,
+            //     fileName
+            // );
         } else {
             this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
         }

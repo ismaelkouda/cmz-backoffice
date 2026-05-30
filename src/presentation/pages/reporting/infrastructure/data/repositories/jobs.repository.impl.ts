@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { JobsEntity } from '@pages/reporting/domain/entities/jobs/jobs.entity';
 import { JobsRepository } from '@pages/reporting/domain/repositories/jobs-repository.interface';
 import { JobsMapper } from '@pages/reporting/infrastructure/data/mappers/jobs.mapper';
@@ -7,10 +7,8 @@ import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class JobsRepositoryImpl implements JobsRepository {
-    constructor(
-        private readonly api: JobsApi,
-        private readonly jobsMapper: JobsMapper
-    ) {}
+    private readonly api = inject(JobsApi);
+    private readonly jobsMapper = inject(JobsMapper);
 
     fetchJobs(): Observable<JobsEntity> {
         return this.api
