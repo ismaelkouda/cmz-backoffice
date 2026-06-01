@@ -27,7 +27,6 @@ export function generateTypes(config) {
         .join(' | ');
 
     return `// ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: ${new Date().toISOString()}
 
 export interface AppConfig {
     authenticationUrl: string;
@@ -129,8 +128,6 @@ declare global {
     }
 }
 
-export const ENVIRONMENTS = ${JSON.stringify(config, null, 2)} as const;
-export type EnvironmentName = keyof typeof ENVIRONMENTS;
 `;
 }
 
