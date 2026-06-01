@@ -1,5 +1,5 @@
 // ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: 2026-05-26T17:38:30.329Z
+// Generated at: 2026-06-01T13:23:47.940Z
 
 export interface AppConfig {
     authenticationUrl: string;
@@ -90,7 +90,6 @@ export interface AppConfig {
 }
 
 export interface BuildInfo {
-    timestamp: string;
     environment: string;
     version: string;
     commitHash: string;

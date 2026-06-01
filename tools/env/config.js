@@ -1,5 +1,5 @@
 const config = {
-    dev: {        
+    dev: {
         authenticationUrl: 'http://10.10.0.65:9010/auth/v1.0/backoffice/',
         reportUrl: 'http://10.10.0.65:9010/reports/v1.0/backoffice/',
         settingUrl: 'http://10.10.0.65:9010/base-settings/v1.0/backoffice/',

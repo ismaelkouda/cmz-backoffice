@@ -1,17 +1,11 @@
 <div class="filter-container">
-    <form
-        [formGroup]="formGroup()"
-        (ngSubmit)="onSubmitFilterForm()"
-    >
+    <form [formGroup]="formGroup()" (ngSubmit)="onSubmitFilterForm()">
         <div class="filter-grid">
             @for (
                 field of primaryFields();
                 track trackByFieldName($index, field)
             ) {
-                <div
-                    class="filter-grid__item"
-                    [class]="field.class ?? ''"
-                >
+                <div class="filter-grid__item" [class]="field.class ?? ''">
                     <ng-container
                         [ngTemplateOutlet]="fieldRenderer"
                         [ngTemplateOutletContext]="{
@@ -25,10 +19,7 @@
                 class="filter-grid__item d-flex align-items-end gap-2"
                 style="flex-direction: row; min-width: auto"
             >
-                @if (
-                    !isExpanded() ||
-                    !hasSecondaryFields()
-                ) {
+                @if (!isExpanded() || !hasSecondaryFields()) {
                     <button
                         type="submit"
                         class="btn btn-primary px-3"
@@ -54,19 +45,13 @@
             </div>
         </div>
 
-        @if (
-            isExpanded() &&
-            hasSecondaryFields()
-        ) {
+        @if (isExpanded() && hasSecondaryFields()) {
             <div class="filter-grid mt-3">
                 @for (
                     field of secondaryFields();
                     track trackByFieldName($index, field)
                 ) {
-                    <div
-                        class="filter-grid__item"
-                        [class]="field.class ?? ''"
-                    >
+                    <div class="filter-grid__item" [class]="field.class ?? ''">
                         <ng-container
                             [ngTemplateOutlet]="fieldRenderer"
                             [ngTemplateOutletContext]="{
@@ -144,11 +129,7 @@
         }
 
         @case ('template') {
-            <ng-container
-                [ngTemplateOutlet]="
-                    field.template ?? null
-                "
-            />
+            <ng-container [ngTemplateOutlet]="field.template ?? null" />
         }
     }
 </ng-template>

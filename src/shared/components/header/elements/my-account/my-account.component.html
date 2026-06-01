@@ -1,4 +1,4 @@
-<!-- <div class="account-menu">
+<div id="account-menu">
     <button
         type="button"
         class="profile-media"
@@ -8,14 +8,25 @@
         aria-haspopup="menu"
         [attr.aria-expanded]="isDropdownOpen()"
     >
-        <img class="profile-avatar" [src]="currentUser()?.photo || 'assets/images/dashboard/profile.png'" width="40" height="40" alt="Photo de profil" />
+        <img
+            class="profile-avatar"
+            [src]="
+                currentUser()?.photo || 'assets/images/dashboard/profile.png'
+            "
+            width="40"
+            height="40"
+            alt="Photo de profil"
+        />
         <span class="profile-info">
             <span class="user-name">
                 {{ currentUser()?.last_name }} {{ currentUser()?.first_name }}
             </span>
             <span class="user-email">{{ currentUser()?.email }}</span>
         </span>
-        <i class="dropdown-icon pi pi-chevron-down" [class.rotated]="isDropdownOpen()"></i>
+        <i
+            class="dropdown-icon pi pi-chevron-down"
+            [class.rotated]="isDropdownOpen()"
+        ></i>
     </button>
 
     @if (isDropdownOpen()) {
@@ -28,7 +39,7 @@
                 <i class="pi pi-lock"></i>
                 <span>Mot de passe</span>
             </button>
-            <button type="button" role="menuitem" (click)="openDoubleFactorModal()">
+            <button type="button" role="menuitem">
                 <i class="pi pi-shield"></i>
                 <span>2FA</span>
                 <p-tag
@@ -37,7 +48,12 @@
                 />
             </button>
             <span class="dropdown-divider" role="separator"></span>
-            <button type="button" class="logout-action" role="menuitem" (click)="logout()">
+            <button
+                type="button"
+                class="logout-action"
+                role="menuitem"
+                (click)="logout()"
+            >
                 <i class="pi pi-sign-out"></i>
                 <span>Déconnexion</span>
             </button>
@@ -48,13 +64,22 @@
 <ng-template #accountV>
     <form [formGroup]="accountForm" (ngSubmit)="saveAccount()">
         <div class="modal-header">
-            <h4 class="modal-title">{{ 'MY_ACCOUNT.ACCOUNT.FORM.TITLE' | translate }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+            <h4 class="modal-title">
+                {{ 'MY_ACCOUNT.ACCOUNT.FORM.TITLE' | translate }}
+            </h4>
+            <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                (click)="closeModal()"
+            ></button>
         </div>
         <div class="modal-body">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="lastName">Nom<span class="text-danger">*</span></label>
+                    <label for="lastName"
+                        >Nom<span class="text-danger">*</span></label
+                    >
                     <input
                         id="lastName"
                         class="form-input"
@@ -69,7 +94,9 @@
                     />
                 </div>
                 <div class="form-group">
-                    <label for="firstName">Prénom<span class="text-danger">*</span></label>
+                    <label for="firstName"
+                        >Prénom<span class="text-danger">*</span></label
+                    >
                     <input
                         id="firstName"
                         class="form-input"
@@ -84,7 +111,9 @@
                     />
                 </div>
                 <div class="form-group">
-                    <label for="email">Email<span class="text-danger">*</span></label>
+                    <label for="email"
+                        >Email<span class="text-danger">*</span></label
+                    >
                     <input
                         id="email"
                         class="form-input"
@@ -102,7 +131,9 @@
                     }
                 </div>
                 <div class="form-group">
-                    <label for="phone">Téléphone<span class="text-danger">*</span></label>
+                    <label for="phone"
+                        >Téléphone<span class="text-danger">*</span></label
+                    >
                     <p-inputMask
                         id="phone"
                         formControlName="phone"
@@ -130,7 +161,11 @@
             <button type="button" class="btn btn-hide" (click)="closeModal()">
                 {{ 'COMMON.CANCEL' | translate }}
             </button>
-            <button type="submit" class="btn btn-save" [disabled]="accountForm.invalid || loading()">
+            <button
+                type="submit"
+                class="btn btn-save"
+                [disabled]="accountForm.invalid || loading()"
+            >
                 {{ 'COMMON.SAVE' | translate }}
             </button>
         </div>
@@ -140,12 +175,23 @@
 <ng-template #passwordV>
     <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
         <div class="modal-header">
-            <h4 class="modal-title">{{ 'MY_ACCOUNT.PASSWORD.FORM.TITLE' | translate }}</h4>
-            <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+            <h4 class="modal-title">
+                {{ 'MY_ACCOUNT.PASSWORD.FORM.TITLE' | translate }}
+            </h4>
+            <button
+                type="button"
+                class="btn-close"
+                aria-label="Close"
+                (click)="closeModal()"
+            ></button>
         </div>
         <div class="modal-body">
             <div class="form-group">
-                <label for="oldPassword">Ancien mot de passe<span class="text-danger">*</span></label>
+                <label for="oldPassword"
+                    >Ancien mot de passe<span class="text-danger"
+                        >*</span
+                    ></label
+                >
                 <p-password
                     id="oldPassword"
                     formControlName="oldPassword"
@@ -163,7 +209,11 @@
                 />
             </div>
             <div class="form-group">
-                <label for="newPassword">Nouveau mot de passe<span class="text-danger">*</span></label>
+                <label for="newPassword"
+                    >Nouveau mot de passe<span class="text-danger"
+                        >*</span
+                    ></label
+                >
                 <p-password
                     id="newPassword"
                     formControlName="newPassword"
@@ -186,7 +236,9 @@
                 }
             </div>
             <div class="form-group">
-                <label for="confirmNewPassword">Confirmation<span class="text-danger">*</span></label>
+                <label for="confirmNewPassword"
+                    >Confirmation<span class="text-danger">*</span></label
+                >
                 <p-password
                     id="confirmNewPassword"
                     formControlName="confirmNewPassword"
@@ -213,14 +265,18 @@
             <button type="button" class="btn btn-hide" (click)="closeModal()">
                 {{ 'COMMON.CANCEL' | translate }}
             </button>
-            <button type="submit" class="btn btn-save" [disabled]="passwordForm.invalid || loading()">
+            <button
+                type="submit"
+                class="btn btn-save"
+                [disabled]="passwordForm.invalid || loading()"
+            >
                 Valider
             </button>
         </div>
     </form>
 </ng-template>
 
-<ng-template #doubleFactorV>
+<!-- <ng-template #doubleFactorV>
     <div class="modal-header">
         @if (twoFaStep() === 'verification') {
             <button type="button" class="btn-back" aria-label="Retour" (click)="backToStatus()">

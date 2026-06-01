@@ -4,7 +4,7 @@ import { SkeletonModule } from 'primeng/skeleton';
 @Component({
     selector: 'app-messaging-form-skeleton',
     standalone: true,
-    imports: [ SkeletonModule],
+    imports: [SkeletonModule],
     templateUrl: './messaging-form-skeleton.component.html',
     styleUrls: ['./messaging-form-skeleton.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

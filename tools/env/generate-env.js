@@ -54,7 +54,6 @@ export class EnvironmentGenerator {
             window.__env = ${JSON.stringify(config, null, 4)};
 
             window.__env.buildInfo = {
-                timestamp: '${new Date().toISOString()}',
                 environment: '${env}',
                 version: '${process.env.npm_package_version || '1.0.0'}',
                 commitHash: '${process.env.GIT_COMMIT_HASH || 'local'}'

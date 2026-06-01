@@ -118,7 +118,6 @@ export interface AppConfig {
 }
 
 export interface BuildInfo {
-    timestamp: string;
     environment: string;
     version: string;
     commitHash: string;
