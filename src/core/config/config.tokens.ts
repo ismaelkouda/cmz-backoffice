@@ -1,12 +1,10 @@
 import { inject, InjectionToken } from '@angular/core';
 
-import type { AppConfig, BuildInfo } from './config.types';
+import type { AppConfig } from './config.types';
 
 export const APP_CONFIG = new InjectionToken<AppConfig>('APP_CONFIG', {
     providedIn: 'root',
-    factory: (): AppConfig & {
-        buildInfo: BuildInfo;
-    } => {
+    factory: (): AppConfig => {
         const config = window.__env;
 
         if (!config) {

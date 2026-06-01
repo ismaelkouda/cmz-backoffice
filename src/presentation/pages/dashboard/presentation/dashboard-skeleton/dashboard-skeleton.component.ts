@@ -6,7 +6,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     standalone: true,
     templateUrl: './dashboard-skeleton.component.html',
     styleUrls: ['./dashboard-skeleton.component.scss'],
-    imports: [ SkeletonModule],
+    imports: [SkeletonModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class

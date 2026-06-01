@@ -9,6 +9,12 @@
 /node_modules
 .angular
 
+# configuration files
+/src/assets/config/env.js
+/src/environments
+/src/assets/config
+/tools/env
+
 # IDEs and editors
 /.idea
 .project

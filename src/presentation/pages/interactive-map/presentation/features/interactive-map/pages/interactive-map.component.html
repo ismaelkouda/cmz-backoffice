@@ -10,7 +10,8 @@
                             class="page-title-component"
                             [displayDate]="false"
                             [displayList]="false"
-                            [title]="'GEOGRAPHICAL_MAP.MAP.TITLE' | translate" />
+                            [title]="'GEOGRAPHICAL_MAP.MAP.TITLE' | translate"
+                        />
                     </header>
 
                     <div
@@ -40,17 +41,17 @@
                                     </p>
                                 </div>
 
-                            <button
-                                type="button"
-                                class="icon-button"
-                                (click)="toggleHeatmap()"
+                                <button
+                                    type="button"
+                                    class="icon-button"
+                                    (click)="toggleHeatmap()"
                                 >
-                                {{
-                                store.heatmapEnabled()
-                                ? 'Marqueurs'
-                                : 'Zone'
-                                }}
-                            </button>
+                                    {{
+                                        store.heatmapEnabled()
+                                            ? 'Marqueurs'
+                                            : 'Zone'
+                                    }}
+                                </button>
                                 @if (filtersPanelOpen()) {
                                     <p-button
                                         class="close-toggle-button"
@@ -143,8 +144,12 @@
                                 <h3>Statut</h3>
                                 <select
                                     [value]="store.filters().statuses"
-                                    (change)="setStatuses($any($event.target))">
-                                    @for (option of statusOptions; track option.value) {
+                                    (change)="setStatuses($any($event.target))"
+                                >
+                                    @for (
+                                        option of statusOptions;
+                                        track option.value
+                                    ) {
                                         <option [value]="option.value">
                                             {{ option.label }}
                                         </option>
@@ -181,14 +186,19 @@
                                 <label>
                                     <span>Depuis</span>
                                     <p-datepicker
-                                        [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                                        [placeholder]="
+                                            'COMMON.DATE_PLACEHOLDER'
+                                                | translate
+                                        "
                                         [showIcon]="true"
                                         [dateFormat]="'yy-mm-dd'"
                                         appendTo="body"
                                         (onSelect)="
                                             setDateFilter(
                                                 'startDate',
-                                                $event.toISOString().split('T')[0]
+                                                $event
+                                                    .toISOString()
+                                                    .split('T')[0]
                                             )
                                         "
                                     />
@@ -206,19 +216,24 @@
                                 <label>
                                     <span>Jusqu'a</span>
                                     <p-datepicker
-                                        [placeholder]="'COMMON.DATE_PLACEHOLDER' | translate"
+                                        [placeholder]="
+                                            'COMMON.DATE_PLACEHOLDER'
+                                                | translate
+                                        "
                                         [showIcon]="true"
                                         [dateFormat]="'yy-mm-dd'"
                                         appendTo="body"
                                         (onSelect)="
                                             setDateFilter(
                                                 'endDate',
-                                                $event.toISOString().split('T')[0]
+                                                $event
+                                                    .toISOString()
+                                                    .split('T')[0]
                                             )
                                         "
                                     />
                                 </label>
-                            </section>        
+                            </section>
 
                             <button
                                 type="button"
@@ -289,67 +304,115 @@
                                 }
                             </section>
 
-                            <button type="button" class="legend-toggle-btn" (click)="toggleLegend()" title="Légende">
-    <i class="pi pi-info-circle"></i>
-</button>
+                            <button
+                                type="button"
+                                class="legend-toggle-btn"
+                                (click)="toggleLegend()"
+                                title="Légende"
+                            >
+                                <i class="pi pi-info-circle"></i>
+                            </button>
 
-<!-- Panneau de légende -->
-@if (legendVisible()) {
-    <aside class="map-legend">
-        <header class="legend-header">
-            <h3>Légende</h3>
-            <button type="button" (click)="toggleLegend()" class="close-legend">
-                <i class="pi pi-times"></i>
-            </button>
-        </header>
+                            <!-- Panneau de légende -->
+                            @if (legendVisible()) {
+                                <aside class="map-legend">
+                                    <header class="legend-header">
+                                        <h3>Légende</h3>
+                                        <button
+                                            type="button"
+                                            (click)="toggleLegend()"
+                                            class="close-legend"
+                                        >
+                                            <i class="pi pi-times"></i>
+                                        </button>
+                                    </header>
 
-        <div class="legend-content">
-            <!-- Légende pour les types de signalement -->
-            <div class="legend-section">
-                <h4>Types de signalement</h4>
-                <div class="legend-items">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: #dc2626;"></span>
-                        <span>Zone blanche (aucun réseau)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: #2563eb;"></span>
-                        <span>Absence d’opérateur(s)</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: #f97316;"></span>
-                        <span>Mauvais signal</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color: #eab308;"></span>
-                        <span>Absence d’internet</span>
-                    </div>
-                </div>
-            </div>
+                                    <div class="legend-content">
+                                        <div class="legend-section">
+                                            <h4>Types de signalement</h4>
+                                            <div class="legend-items">
+                                                <div class="legend-item">
+                                                    <span
+                                                        class="legend-color"
+                                                        style="
+                                                            background-color: #dc2626;
+                                                        "
+                                                    ></span>
+                                                    <span
+                                                        >Zone blanche (aucun
+                                                        réseau)</span
+                                                    >
+                                                </div>
+                                                <div class="legend-item">
+                                                    <span
+                                                        class="legend-color"
+                                                        style="
+                                                            background-color: #2563eb;
+                                                        "
+                                                    ></span>
+                                                    <span
+                                                        >Absence
+                                                        d'opérateur(s)</span
+                                                    >
+                                                </div>
+                                                <div class="legend-item">
+                                                    <span
+                                                        class="legend-color"
+                                                        style="
+                                                            background-color: #f97316;
+                                                        "
+                                                    ></span>
+                                                    <span>Mauvais signal</span>
+                                                </div>
+                                                <div class="legend-item">
+                                                    <span
+                                                        class="legend-color"
+                                                        style="
+                                                            background-color: #eab308;
+                                                        "
+                                                    ></span>
+                                                    <span
+                                                        >Absence
+                                                        d'internet</span
+                                                    >
+                                                </div>
+                                            </div>
+                                        </div>
 
-            <!-- Légende pour les clusters -->
-            <div class="legend-section">
-                <h4>Groupes (clusters)</h4>
-                 <div class="legend-item">
-                    <span class="legend-color" style="background-color: #000;"></span>
-                    <span>Plusieurs signalements proches (nombre affiché)</span>
-                    </div>
-            </div>
+                                        <div class="legend-section">
+                                            <h4>Groupes (clusters)</h4>
+                                            <div class="legend-item">
+                                                <span
+                                                    class="legend-color"
+                                                    style="
+                                                        background-color: #000;
+                                                    "
+                                                ></span>
+                                                <span
+                                                    >Plusieurs signalements
+                                                    proches (nombre
+                                                    affiché)</span
+                                                >
+                                            </div>
+                                        </div>
 
-            <!-- Légende pour la heatmap (optionnelle) -->
-            @if (store.heatmapEnabled()) {
-                <div class="legend-section">
-                    <h4>Carte de chaleur (Heatmap)</h4>
-                    <div class="legend-gradient"></div>
-                    <div class="gradient-labels">
-                        <span>Faible densité</span>
-                        <span>Fort densité</span>
-                    </div>
-                </div>
-            }
-        </div>
-    </aside>
-}
+                                        @if (store.heatmapEnabled()) {
+                                            <div class="legend-section">
+                                                <h4>
+                                                    Carte de chaleur (Heatmap)
+                                                </h4>
+                                                <div
+                                                    class="legend-gradient"
+                                                ></div>
+                                                <div class="gradient-labels">
+                                                    <span>Faible densité</span>
+                                                    <span>Fort densité</span>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </aside>
+                            }
 
                             <!-- @if (store.loading()) {
                                 <div class="loading-overlay">
@@ -507,12 +570,22 @@
 
                                         <dl>
                                             <dt>Statut</dt>
-                                            <dd><span class="tag-group d-flex justify-content-start" tabindex="0" role="button">
+                                            <dd>
+                                                <span
+                                                    class="tag-group d-flex justify-content-start"
+                                                    tabindex="0"
+                                                    role="button"
+                                                >
                                                     <p-tag
-                                                        [value]="getStatusLabel(report.state)"
+                                                        [value]="
+                                                            getStatusLabel(
+                                                                report.state
+                                                            )
+                                                        "
                                                         severity="info"
                                                     />
-                                                </span></dd>
+                                                </span>
+                                            </dd>
                                             <dt>Operateur(s)</dt>
                                             <dd>{{ getOperators(report) }}</dd>
                                             <dt>Commune / Region</dt>
@@ -545,7 +618,14 @@
                                         </dl>
 
                                         <div class="popup-actions">
-                                            <button type="button" (click)="onSeeMoreInfosClicked(report)">
+                                            <button
+                                                type="button"
+                                                (click)="
+                                                    onSeeMoreInfosClicked(
+                                                        report
+                                                    )
+                                                "
+                                            >
                                                 Voir les plus d'infos
                                             </button>
                                         </div>

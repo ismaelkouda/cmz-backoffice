@@ -59,7 +59,7 @@ import { provideSettingsSecurity } from '@pages/settings-security/di/settings-se
 import { provideTeamOrganization } from '@pages/team-organization/di/team-organisation.providers';
 import { routes } from '@presentation/app.routes';
 import Aura from '@primeng/themes/aura';
-// import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
+import { provideMyAccount } from '@shared/components/header/elements/my-account/di/my-account.providers';
 import { historyProviders } from '@shared/components/history/di/history.providers';
 import { provideManagement } from '@shared/components/management/di/management.providers';
 import { provideToastr } from 'ngx-toastr';
@@ -264,7 +264,7 @@ export const appConfig: ApplicationConfig = {
 
         ...provideAuthentication(),
         ...provideDashboard(),
-        // ...provideMyAccount(),
+        ...provideMyAccount(),
         ...providePasswordReset(),
 
         ...provideRequests(),

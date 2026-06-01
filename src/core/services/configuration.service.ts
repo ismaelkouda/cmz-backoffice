@@ -68,7 +68,6 @@ export class ConfigurationService {
 
     private createDefaultBuildInfo(environment?: string): BuildInfo {
         return {
-            timestamp: new Date().toISOString(),
             environment: environment || 'unknown',
             version: process.env['npm_package_version'] || '1.0.0',
             commitHash: process.env['GIT_COMMIT_HASH'] || 'local',

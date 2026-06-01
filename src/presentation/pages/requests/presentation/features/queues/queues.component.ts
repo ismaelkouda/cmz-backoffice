@@ -415,7 +415,7 @@ export class QueuesComponent {
     //             fileName: 'queues_export',
     //             columns: exportColumns,
     //             data: this.rawQueuesData, // les données brutes (non présentées)
-    //             sheetName: 'Files d’attente',
+    //             sheetName: 'Files d'attente',
     //             autoFilter: true,
     //             headerStyle: {
     //                 font: { bold: true },
