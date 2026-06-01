@@ -134,7 +134,7 @@ export class DashboardPageComponent implements OnInit {
                 subtitle:
                     'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_PROCESSING.SUBTITLE',
                 color: 'error',
-                icon: 'pi-map-marker',
+                icon: 'pi-times',
             },
             {
                 key: 'partialOperatorReports',

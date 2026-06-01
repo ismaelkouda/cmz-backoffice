@@ -1,9 +1,9 @@
 (function (window) {
             window.__env = {
-    "authenticationUrl": "http://10.10.0.65:9010/auth/v1.0/backoffice/",
-    "reportUrl": "http://10.10.0.65:9010/reports/v1.0/backoffice/",
-    "settingUrl": "http://10.10.0.65:9010/base-settings/v1.0/backoffice/",
-    "fileUrl": "http://10.10.0.65:9010/auth/backoffice/",
+    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
+    "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
+    "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
+    "fileUrl": "https://cmz-service-api.paas.imako.digital/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "appSettings": {
