@@ -543,7 +543,7 @@ export class MapAdapter {
     private createReportStyle(report?: InteractiveMapReport): Style | Style[] {
         console.log('report bgrbgrbgrbr createReportStyle: ', report);
         const color = report ? this.getMarkerColor(report) : '#64748b';
-        const icon = report ? this.getReportIcon(report.report_type) : '!';
+        // const icon = report ? this.getReportIcon(report.report_type) : '!';
         const isSelected = this.isSelectedReport(report);
 
         return [
@@ -578,7 +578,6 @@ export class MapAdapter {
                     stroke: new Stroke({ color: '#ffffff', width: 3 }),
                 }),
                 text: new Text({
-                    text: icon,
                     fill: new Fill({ color: '#ffffff' }),
                     font: '700 13px Arial, sans-serif',
                     offsetY: 1,
@@ -662,17 +661,17 @@ export class MapAdapter {
         // return operator ? operatorColors[operator] : '#0f766e';
     }
 
-    private getReportIcon(type: ReportType): string {
-        console.log('type: ', type);
-        const icons: Record<ReportType, string> = {
-            zob: 'X',
-            cpo: '!',
-            cps: '~',
-            abi: '@',
-        };
+    // private getReportIcon(type: ReportType): string {
+    //     console.log('type: ', type);
+    //     const icons: Record<ReportType, string> = {
+    //         zob: 'X',
+    //         cpo: '!',
+    //         cps: '~',
+    //         abi: '@',
+    //     };
 
-        return icons[type];
-    }
+    //     return icons[type];
+    // }
 
     private getHeatmapWeight(type: ReportType): number {
         console.log('type: ', type);
