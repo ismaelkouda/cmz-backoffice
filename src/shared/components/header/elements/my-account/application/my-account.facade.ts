@@ -1,106 +1,118 @@
-import { Injectable, inject } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
-import { ApiError } from '@shared/domain/errors/api.error';
-import { ToastrService } from 'ngx-toastr';
-import {
-    BehaviorSubject,
-    Observable,
-    catchError,
-    debounceTime,
-    finalize,
-    throwError,
-} from 'rxjs';
+// import { Injectable, inject, signal } from '@angular/core';
+// import { ApiError } from '@shared/domain/errors/api.error';
+// import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+// import { Observable, catchError, finalize, throwError } from 'rxjs';
 
-import { ChangePasswordRequestDto } from '../data/dto/change-password-request.dto';
-import { UpdateProfileRequestDto } from '../data/dto/update-profile-request.dto';
-import { LogoutEntity } from '../domain/entities/logout.entity';
-import { MyAccountUseCase } from '../domain/use-cases/my-account.use-case';
+// import { MyAccountResultEntity } from '../domain/entities/my-account-result.entity';
+// import { TwoFactorChallengeEntity } from '../domain/entities/two-factor.entity';
+// import { ChangePasswordCommand } from './commands/change-password.command';
+// import { DisableTwoFactorCommand } from './commands/disable-two-factor.command';
+// import { LogoutCommand } from './commands/logout.command';
+// import { RequestTwoFactorCommand } from './commands/request-two-factor.command';
+// import { UpdateProfileCommand } from './commands/update-profile.command';
+// import { VerifyTwoFactorCommand } from './commands/verify-two-factor.command';
+// import { MyAccountCommandBus } from './commands-bus/my-account-command.bus';
+// import { ChangePasswordDto } from './dto/password-change.dto';
+// import { TwoFactorVerifyDto } from './dto/two-factor.dto';
+// import { UpdateProfileDto } from './dto/profile-update.dto';
+// import { RequestTwoFactorDto } from './dto/two-factor-request.dto';
+// import { RequestTwoFactorEntity } from '../domain/entities/two-factor-request.entity';
 
-@Injectable({
-    providedIn: 'root',
-})
-export class MyAccountFacade {
-    private readonly myAccountUseCase = inject(MyAccountUseCase);
-    private readonly toastService = inject(ToastrService);
-    protected readonly translateService = inject(TranslateService);
+// @Injectable({ providedIn: 'root' })
+// export class MyAccountFacade {
+//     private readonly commandBus = inject(MyAccountCommandBus);
+//     private readonly feedback = inject(UiFeedbackService);
 
-    private readonly loadingSubject = new BehaviorSubject<boolean>(false);
-    public readonly loading$ = this.loadingSubject.asObservable();
+//     private readonly _loading = signal(false);
+//     readonly loading = this._loading.asReadonly();
 
-    logout(): Observable<LogoutEntity> {
-        if (this.loadingSubject.getValue()) {
-            return throwError(() => new Error('Operation logout in progress'));
-        }
-        this.loadingSubject.next(true);
-        return this.myAccountUseCase.executeFetchTake().pipe(
-            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-            finalize(() => this.loadingSubject.next(false)),
-            catchError((error: unknown) => {
-                const errorMessage = this.getErrorMessage(error);
-                this.toastService.error(errorMessage);
-                return throwError(() => error);
-            })
-        );
-    }
+//     private readonly _twoFactorChallenge =
+//         signal<TwoFactorChallengeEntity | null>(null);
+//     readonly twoFactorChallenge = this._twoFactorChallenge.asReadonly();
 
-    updatePassword(payload: ChangePasswordRequestDto): Observable<void> {
-        if (this.loadingSubject.getValue()) {
-            return throwError(
-                () => new Error('Operation updatePassword in progress')
-            );
-        }
-        this.loadingSubject.next(true);
-        return this.myAccountUseCase.executeUpdatePassword(payload).pipe(
-            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-            finalize(() => this.loadingSubject.next(false)),
-            catchError((error: unknown) => {
-                const errorMessage = this.getErrorMessage(error);
-                this.toastService.error(errorMessage);
-                return throwError(() => error);
-            })
-        );
-    }
+//     updateProfile(
+//         payload: UpdateProfileDto
+//     ): Observable<MyAccountResultEntity> {
+//         const command = new UpdateProfileCommand(
+//             payload.id,
+//             payload.lastName,
+//             payload.firstName,
+//             payload.email,
+//             payload.phone
+//         );
+//         return this.run(this.commandBus.dispatch(command));
+//     }
 
-    updateProfile(payload: UpdateProfileRequestDto): Observable<void> {
-        if (this.loadingSubject.getValue()) {
-            return throwError(
-                () => new Error('Operation updateProfile in progress')
-            );
-        }
-        this.loadingSubject.next(true);
-        return this.myAccountUseCase.executeUpdateProfile(payload).pipe(
-            debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
-            finalize(() => this.loadingSubject.next(false)),
-            catchError((error: unknown) => {
-                const errorMessage = this.getErrorMessage(error);
-                this.toastService.error(errorMessage);
-                return throwError(() => error);
-            })
-        );
-    }
+//     updatePassword(
+//         payload: ChangePasswordDto
+//     ): Observable<MyAccountResultEntity> {
+//         const command = new ChangePasswordCommand(
+//             payload.oldPassword,
+//             payload.newPassword,
+//             payload.newPasswordConfirmation
+//         );
+//         return this.run(this.commandBus.dispatch(command));
+//     }
 
-    protected getErrorMessage(error: unknown): string {
-        if (error instanceof ApiError) {
-            const translatedMessage = this.translateService.instant(error.code);
-            if (translatedMessage === error.code) {
-                return error.message;
-            }
-            return translatedMessage;
-        }
+//     requestTwoFactor(
+//         payload: RequestTwoFactorDto
+//     ): Observable<RequestTwoFactorEntity> {
+//         const command = new RequestTwoFactorCommand(
+//             payload.userId,
+//             payload.email
+//         );
+//         return this.run(this.commandBus.dispatch(command));
+//     }
 
-        if (error instanceof Error) {
-            const translatedMessage = this.translateService.instant(
-                error.message
-            );
-            if (translatedMessage === error.message) {
-                return error.message;
-            }
-            return translatedMessage;
-        }
+//     verifyTwoFactor(
+//         payload: TwoFactorVerifyDto
+//     ): Observable<MyAccountResultEntity> {
+//         const command = new VerifyTwoFactorCommand(
+//             payload.userId,
+//             payload.email,
+//             payload.code
+//         );
+//         return this.run(this.commandBus.dispatch(command));
+//     }
 
-        return this.translateService.instant(
-            'OVERSEEING_OPERATIONS.MESSAGES.ERROR.UNKNOWN_ERROR'
-        );
-    }
-}
+//     disableTwoFactor(
+//         payload: TwoFactorRequestDto
+//     ): Observable<MyAccountResultEntity> {
+//         const command = new DisableTwoFactorCommand(
+//             payload.userId,
+//             payload.email
+//         );
+//         return this.run(this.commandBus.dispatch(command));
+//     }
+
+//     logout(): Observable<MyAccountResultEntity> {
+//         return this.run(this.commandBus.dispatch(new LogoutCommand()));
+//     }
+
+//     setTwoFactorChallenge(value: TwoFactorChallengeEntity | null): void {
+//         this._twoFactorChallenge.set(value);
+//     }
+
+//     private run<T>(source$: Observable<T>): Observable<T> {
+//         if (this._loading()) {
+//             return throwError(() => new Error('MY_ACCOUNT.ERROR.IN_PROGRESS'));
+//         }
+
+//         this._loading.set(true);
+//         return source$.pipe(
+//             catchError((error: unknown) => {
+//                 this.feedback.error(this.toMessageKey(error));
+//                 return throwError(() => error);
+//             }),
+//             finalize(() => this._loading.set(false))
+//         );
+//     }
+
+//     private toMessageKey(error: unknown): string {
+//         if (error instanceof ApiError || error instanceof Error) {
+//             return error.message;
+//         }
+
+//         return 'COMMON.ERROR.UNKNOWN';
+//     }
+// }

@@ -1,377 +1,383 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    inject,
-    OnDestroy,
-    OnInit,
-    signal,
-    TemplateRef,
-    viewChild,
-} from '@angular/core';
-import {
-    AbstractControl,
-    FormBuilder,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { ToastrService } from 'ngx-toastr';
-import { InputMaskModule } from 'primeng/inputmask';
-import { PasswordModule } from 'primeng/password';
-import { Subject, takeUntil } from 'rxjs';
-import SweetAlert from 'sweetalert2';
+// import {
+//     ChangeDetectionStrategy,
+//     Component,
+//     DestroyRef,
+//     TemplateRef,
+//     inject,
+//     signal,
+//     viewChild,
+// } from '@angular/core';
+// import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+// import { ReactiveFormsModule } from '@angular/forms';
+// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+// import { TranslateModule, TranslateService } from '@ngx-translate/core';
+// import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+// import { CurrentUser } from '@shared/domain/interfaces/current-user.interface';
+// import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
+// import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+// import { ButtonModule } from 'primeng/button';
+// import { InputMaskModule } from 'primeng/inputmask';
+// import { InputTextModule } from 'primeng/inputtext';
+// import { PasswordModule } from 'primeng/password';
+// import { TagModule } from 'primeng/tag';
+// import { interval, Subscription, takeWhile } from 'rxjs';
+// import SweetAlert from 'sweetalert2';
+// import { ToggleButtonModule } from 'primeng/togglebutton';
 
-import { CurrentUser } from '../../../../domain/interfaces/current-user.interface';
-import { EncodingDataService } from '../../../../domain/services/encoding-data.service';
+// import { MyAccountFacade } from './application/my-account.facade';
+// import {
+//     PasswordForm,
+//     ProfileForm,
+//     TwoFactorForm,
+//     createPasswordForm,
+//     createProfileForm,
+//     createTwoFactorForm,
+// } from './domain/controls/my-account-form.control';
 
-import { MyAccountFacade } from './application/my-account.facade';
-import { ChangePasswordRequestDto } from './data/dto/change-password-request.dto';
-import { UpdateProfileRequestDto } from './data/dto/update-profile-request.dto';
+// type AccountField = 'email' | 'firstName' | 'lastName' | 'phone';
+// type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
 
-@Component({
-    selector: 'app-my-account',
-    standalone: true,
-    templateUrl: './my-account.component.html',
-    styleUrls: ['./my-account.component.scss'],
-    imports: [
-        ReactiveFormsModule,
-        PasswordModule,
-        InputMaskModule,
-        TranslateModule,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class MyAccountComponent implements OnInit, OnDestroy {
-    private readonly toastService = inject(ToastrService);
-    private readonly translate = inject(TranslateService);
-    private readonly myAccountFacade = inject(MyAccountFacade);
-    private readonly encodingDataService = inject(EncodingDataService);
-    private readonly ngbModal = inject(NgbModal);
-    private readonly elementRef = inject(ElementRef);
-    private readonly fb = inject(FormBuilder);
-    public readonly currentUser = signal<CurrentUser | null>(null);
-    public accountForm!: FormGroup;
-    public passwordForm!: FormGroup;
-    private readonly destroy$ = new Subject<void>();
+// @Component({
+//     selector: 'app-my-account',
+//     standalone: true,
+//     templateUrl: './my-account.component.html',
+//     styleUrls: ['./my-account.component.scss'],
+//     imports: [
+//         ReactiveFormsModule,
+//         PasswordModule,
+//         InputMaskModule,
+//         TranslateModule,
+//         TagModule,
+//         ButtonModule,
+//         InputTextModule,
+//         ToggleButtonModule,
+//     ],
+//     changeDetection: ChangeDetectionStrategy.OnPush,
+// })
+// export class MyAccountComponent {
+//     private readonly destroyRef = inject(DestroyRef);
+//     private readonly feedback = inject(UiFeedbackService);
+//     private readonly translate = inject(TranslateService);
+//     private readonly facade = inject(MyAccountFacade);
+//     private readonly encodingDataService = inject(EncodingDataService);
+//     private readonly modal = inject(NgbModal);
 
-    private readonly passwordModalTemplate =
-        viewChild<TemplateRef<unknown>>('passwordV');
-    private readonly accountModalTemplate =
-        viewChild<TemplateRef<unknown>>('accountV');
+//     private readonly passwordModalTemplate =
+//         viewChild<TemplateRef<unknown>>('passwordV');
+//     private readonly accountModalTemplate =
+//         viewChild<TemplateRef<unknown>>('accountV');
+//     private readonly doubleFactorModalTemplate =
+//         viewChild<TemplateRef<unknown>>('doubleFactorV');
+//     private cooldownSubscription: Subscription | null = null;
 
-    public readonly isDropdownOpen = signal<boolean>(false);
+//     readonly currentUser = signal<CurrentUser | null>(this.getStoredUser());
+//     readonly enable2fa = signal(this.currentUser()?.enable2fa ?? false);
+//     readonly isDropdownOpen = signal(false);
+//     readonly twoFaStep = signal<'status' | 'verification'>('status');
+//     readonly resendCooldown = signal(0);
+//     readonly loading = this.facade.loading;
+//     readonly twoFactorChallenge = this.facade.twoFactorChallenge;
 
-    public toggleDropdown(): void {
-        this.isDropdownOpen.set(!this.isDropdownOpen());
-    }
+//     readonly accountForm: ProfileForm = createProfileForm();
+//     readonly passwordForm: PasswordForm = createPasswordForm();
+//     readonly twoFactorForm: TwoFactorForm = createTwoFactorForm();
 
-    public closeDropdown(): void {
-        this.isDropdownOpen.set(false);
-    }
+//     toggleDropdown(): void {
+//         this.isDropdownOpen.update((isOpen) => !isOpen);
+//     }
 
-    public openAccountModal(): void {
-        this.closeDropdown();
-        const template = this.accountModalTemplate();
-        if (template) {
-            this.openFormAccount(template);
-        }
-    }
+//     closeDropdown(): void {
+//         this.isDropdownOpen.set(false);
+//     }
 
-    private openFormAccount(modalRef: TemplateRef<unknown>): void {
-        this.ngbModal.dismissAll();
-        const user = this.currentUser();
-        this.accountForm.reset();
-        this.accountForm.patchValue({
-            last_name: user?.last_name,
-            first_name: user?.first_name,
-            email: user?.email,
-            phone: user?.phone,
-            id: user?.id,
-        });
-        this.ngbModal.open(modalRef, {
-            centered: true,
-            backdrop: 'static',
-            keyboard: false,
-        });
-    }
+//     openAccountModal(): void {
+//         this.closeDropdown();
+//         const user = this.currentUser();
+//         const template = this.accountModalTemplate();
+//         if (!user || !template) {
+//             return;
+//         }
 
-    public openPasswordModal(): void {
-        this.closeDropdown();
-        const template = this.passwordModalTemplate();
-        if (template) {
-            this.openFormPassword(template);
-        }
-    }
+//         this.accountForm.reset({
+//             id: user.id,
+//             lastName: user.last_name,
+//             firstName: user.first_name,
+//             email: user.email,
+//             phone: user.phone,
+//         });
+//         this.openModal(template);
+//     }
 
-    private openFormPassword(modalRef: TemplateRef<any>): void {
-        this.ngbModal.dismissAll();
-        this.passwordForm.reset();
-        this.ngbModal.open(modalRef, {
-            centered: true,
-            backdrop: 'static',
-            keyboard: false,
-        });
-    }
+//     saveAccount(): void {
+//         if (this.accountForm.invalid) {
+//             this.accountForm.markAllAsTouched();
+//             return;
+//         }
 
-    public logout(): void {
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            customClass: {
-                container: 'modern-swal-container',
-                popup: 'modern-swal-popup',
-                title: 'modern-swal-title',
-                htmlContainer: 'modern-swal-content',
-                actions: 'modern-swal-actions',
-                confirmButton: 'modern-swal-logout-btn',
-                cancelButton: 'modern-swal-cancel-btn',
-                icon: 'modern-swal-icon-container',
-            },
-            title: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.CONFIRM'),
-            text: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.MESSAGES'),
-            confirmButtonText: this.translate.instant(
-                'LOGOUT.SWEET_ALERT_PARAMS.BUTTONS'
-            ),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
-        }).then((result) => {
-            if (result.isConfirmed) {
-                this.myAccountFacade.logout();
-                this.encodingDataService.clearEncryptedData();
-                this.closeDropdown();
-                globalThis.window.location.reload();
-            }
-        });
-    }
+//         const payload = this.accountForm.getRawValue();
+//         this.facade
+//             .updateProfile(payload)
+//             .pipe(takeUntilDestroyed(this.destroyRef))
+//             .subscribe(() => {
+//                 const updatedUser = this.mergeCurrentUser({
+//                     last_name: payload.lastName,
+//                     first_name: payload.firstName,
+//                     email: payload.email,
+//                     phone: payload.phone,
+//                 });
+//                 this.persistUser(updatedUser);
+//                 this.feedback.success(
+//                     'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
+//                 );
+//                 this.closeModal();
+//             });
+//     }
 
-    ngOnInit() {
-        const user = this.encodingDataService.getData(
-            'user_data'
-        ) as CurrentUser | null;
-        this.currentUser.set(user);
-        this.initFormPassword();
-        this.initFormAccount();
-    }
+//     openPasswordModal(): void {
+//         this.closeDropdown();
+//         const template = this.passwordModalTemplate();
+//         if (!template) {
+//             return;
+//         }
 
-    ngOnDestroy() {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
+//         this.passwordForm.reset();
+//         this.openModal(template);
+//     }
 
-    public initFormPassword(): void {
-        this.passwordForm = this.fb.group(
-            {
-                old_password: [null, [Validators.required]],
-                new_password: [
-                    null,
-                    [Validators.required, Validators.minLength(6)],
-                ],
-                confirm_new_password: [
-                    null,
-                    [Validators.required, Validators.minLength(6)],
-                ],
-            },
-            { validators: this.passwordsMatchValidator }
-        );
-    }
+//     savePassword(): void {
+//         if (this.passwordForm.invalid) {
+//             this.passwordForm.markAllAsTouched();
+//             return;
+//         }
 
-    private passwordsMatchValidator(
-        group: FormGroup
-    ): Record<string, boolean> | null {
-        const password = group.get('new_password')?.value;
-        const confirmPassword = group.get('confirm_new_password')?.value;
-        return password === confirmPassword ? null : { notMatching: true };
-    }
+//         const form = this.passwordForm.getRawValue();
+//         this.facade
+//             .updatePassword({
+//                 oldPassword: form.oldPassword,
+//                 newPassword: form.newPassword,
+//                 newPasswordConfirmation: form.confirmNewPassword,
+//             })
+//             .pipe(takeUntilDestroyed(this.destroyRef))
+//             .subscribe(() => {
+//                 this.feedback.success(
+//                     'MY_ACCOUNT.MESSAGES.SUCCESS.PASSWORD_UPDATED'
+//                 );
+//                 this.closeModal();
+//             });
+//     }
 
-    get oldPassword(): AbstractControl<string> | null {
-        return this.passwordForm.get('old_password');
-    }
+//     protected openDoubleFactorModal(): void {
+//         this.closeDropdown();
+//         this.backToStatus();
+//         const template = this.doubleFactorModalTemplate();
+//         if (template) {
+//             this.openModal(template);
+//         }
+//     }
 
-    get newPassword(): AbstractControl<string> | null {
-        return this.passwordForm.get('new_password');
-    }
+//     requestTwoFactor(): void {
+//         const user = this.currentUser();
+//         if (!user) {
+//             return;
+//         }
+//         this.facade
+//             .requestTwoFactor({ userId: user.id, email: user.email })
+//             .pipe(takeUntilDestroyed(this.destroyRef))
+//             .subscribe((challenge) => {
+//                 this.facade.setTwoFactorChallenge(challenge);
+//                 this.twoFaStep.set('verification');
+//                 this.twoFactorForm.reset();
+//                 this.startResendCooldown();
+//                 this.feedback.success('MY_ACCOUNT.2FA.CODE_SENT');
+//             });
+//     }
 
-    get confirmNewPassword(): AbstractControl<string> | null {
-        return this.passwordForm.get('confirm_new_password');
-    }
+//     resendCode(): void {
+//         if (this.resendCooldown() > 0 || this.loading()) {
+//             return;
+//         }
+//         this.requestTwoFactor();
+//     }
 
-    public isFieldInvalidPassword(
-        fieldName: 'old_password' | 'new_password' | 'confirm_new_password'
-    ): boolean {
-        const control = this.passwordForm.get(fieldName);
-        return !!(control && control.invalid && control.touched);
-    }
+//     verifyTwoFactor(): void {
+//         const user = this.currentUser();
+//         if (!user || this.twoFactorForm.invalid) {
+//             this.twoFactorForm.markAllAsTouched();
+//             return;
+//         }
 
-    public isFieldValidPassword(
-        fieldName: 'old_password' | 'new_password' | 'confirm_new_password'
-    ): boolean {
-        const control = this.accountForm.get(fieldName);
-        return !!(control && control.valid && control.touched);
-    }
+//         this.facade
+//             .verifyTwoFactor({
+//                 userId: user.id,
+//                 email: user.email,
+//                 code: this.twoFactorForm.controls.code.value,
+//             })
+//             .pipe(takeUntilDestroyed(this.destroyRef))
+//             .subscribe(() => {
+//                 this.persistUser(this.mergeCurrentUser({ enable2fa: true }));
+//                 this.enable2fa.set(true);
+//                 this.feedback.success('MY_ACCOUNT.2FA.ENABLED_SUCCESS');
+//                 this.closeModal();
+//             });
+//     }
 
-    public getFieldErrorPassword(
-        fieldName: 'new_password' | 'confirm_new_password'
-    ): string | null {
-        const control = this.passwordForm.get(fieldName);
-        if (!control || !control.errors || !control.touched) {
-            return null;
-        }
+//     disableTwoFactor(): void {
+//         SweetAlert.fire({
+//             title: this.translate.instant(
+//                 'MY_ACCOUNT.2FA.DISABLE_CONFIRM_TITLE'
+//             ),
+//             text: this.translate.instant('MY_ACCOUNT.2FA.DISABLE_CONFIRM_TEXT'),
+//             icon: 'warning',
+//             showCancelButton: true,
+//             confirmButtonText: this.translate.instant('COMMON.YES'),
+//             cancelButtonText: this.translate.instant('COMMON.CANCEL'),
+//         }).then((result) => {
+//             const user = this.currentUser();
+//             if (!result.isConfirmed || !user) {
+//                 return;
+//             }
 
-        if (control.errors['minlength']) {
-            return 'MY_ACCOUNT.PASSWORD.FORM.INVALID_FORMAT';
-        }
+//             this.facade
+//                 .disableTwoFactor({ userId: user.id, email: user.email })
+//                 .pipe(takeUntilDestroyed(this.destroyRef))
+//                 .subscribe(() => {
+//                     this.persistUser(
+//                         this.mergeCurrentUser({ enable2fa: false })
+//                     );
+//                     this.enable2fa.set(false);
+//                     this.feedback.success('MY_ACCOUNT.2FA.DISABLED_SUCCESS');
+//                     this.closeModal();
+//                 });
+//         });
+//     }
 
-        if (
-            this.passwordForm.hasError('notMatching') &&
-            fieldName === 'confirm_new_password'
-        ) {
-            return 'MY_ACCOUNT.PASSWORD.FORM.NOT_MATCH';
-        }
+//     backToStatus(): void {
+//         this.twoFaStep.set('status');
+//         this.resendCooldown.set(0);
+//         this.twoFactorForm.reset();
+//         this.facade.setTwoFactorChallenge(null);
+//         this.cooldownSubscription?.unsubscribe();
+//         this.cooldownSubscription = null;
+//     }
 
-        return null;
-    }
+//     closeModal(): void {
+//         this.modal.dismissAll();
+//         this.backToStatus();
+//         this.accountForm.reset();
+//         this.passwordForm.reset();
+//     }
 
-    public initFormAccount(): void {
-        this.accountForm = this.fb.group({
-            last_name: ['', [Validators.required]],
-            first_name: ['', [Validators.required]],
-            email: [
-                '',
-                [
-                    Validators.required,
-                    Validators.email,
-                    Validators.minLength(6),
-                ],
-            ],
-            phone: [
-                '',
-                [Validators.required, Validators.pattern(/^(07|05|03)\d{8}$/)],
-            ],
-            id: [this.currentUser()?.id],
-        });
-    }
+//     isAccountFieldInvalid(field: AccountField): boolean {
+//         const control = this.accountForm.controls[field];
+//         return control.invalid && control.touched;
+//     }
 
-    get lastName(): AbstractControl<string> | null {
-        return this.accountForm.get('last_name');
-    }
+//     isAccountFieldValid(field: AccountField): boolean {
+//         const control = this.accountForm.controls[field];
+//         return control.valid && control.touched;
+//     }
 
-    get firstName(): AbstractControl<string> | null {
-        return this.accountForm.get('first_name');
-    }
+//     isPasswordFieldInvalid(field: PasswordField): boolean {
+//         const control = this.passwordForm.controls[field];
+//         return control.invalid && control.touched;
+//     }
 
-    get email(): AbstractControl<string> | null {
-        return this.accountForm.get('email');
-    }
+//     isPasswordFieldValid(field: PasswordField): boolean {
+//         const control = this.passwordForm.controls[field];
+//         return control.valid && control.touched;
+//     }
 
-    get phone(): AbstractControl<string> | null {
-        return this.accountForm.get('phone');
-    }
+//     accountError(field: AccountField): string | null {
+//         const control = this.accountForm.controls[field];
+//         if (!control.errors || !control.touched) {
+//             return null;
+//         }
+//         if (control.errors['email']) {
+//             return 'MY_ACCOUNT.ACCOUNT.FORM.INVALID_FORMAT';
+//         }
+//         if (control.errors['pattern']) {
+//             return 'MY_ACCOUNT.ACCOUNT.FORM.INVALID_START';
+//         }
+//         return null;
+//     }
 
-    public isFieldInvalidAccount(
-        fieldName: 'email' | 'phone' | 'first_name' | 'last_name'
-    ): boolean {
-        const control = this.accountForm.get(fieldName);
-        return !!(control && control.invalid && control.touched);
-    }
+//     passwordError(field: PasswordField): string | null {
+//         const control = this.passwordForm.controls[field];
+//         if (!control.errors || !control.touched) {
+//             return null;
+//         }
+//         if (control.errors['minlength']) {
+//             return 'MY_ACCOUNT.PASSWORD.FORM.INVALID_FORMAT';
+//         }
+//         if (
+//             field === 'confirmNewPassword' &&
+//             this.passwordForm.hasError('notMatching')
+//         ) {
+//             return 'MY_ACCOUNT.PASSWORD.FORM.NOT_MATCH';
+//         }
+//         return null;
+//     }
 
-    public isFieldValidAccount(
-        fieldName: 'email' | 'phone' | 'first_name' | 'last_name'
-    ): boolean {
-        const control = this.accountForm.get(fieldName);
-        return !!(control && control.valid && control.touched);
-    }
+//     logout(): void {
+//         SweetAlert.fire({
+//             ...SWEET_ALERT_PARAMS,
+//             title: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.CONFIRM'),
+//             text: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.MESSAGES'),
+//             confirmButtonText: this.translate.instant(
+//                 'LOGOUT.SWEET_ALERT_PARAMS.BUTTONS'
+//             ),
+//             cancelButtonText: this.translate.instant('COMMON.CANCEL'),
+//         }).then((result) => {
+//             if (!result.isConfirmed) {
+//                 return;
+//             }
+//             this.facade
+//                 .logout()
+//                 .pipe(takeUntilDestroyed(this.destroyRef))
+//                 .subscribe(() => {
+//                     this.encodingDataService.clearEncryptedData();
+//                     this.closeDropdown();
+//                     globalThis.window.location.reload();
+//                 });
+//         });
+//     }
 
-    public get fieldErrorEmail(): string | null {
-        const control = this.accountForm.get('email');
-        if (!control || !control.errors || !control.touched) {
-            return null;
-        }
+//     private openModal(template: TemplateRef<unknown>): void {
+//         this.modal.open(template, {
+//             centered: true,
+//             backdrop: 'static',
+//             keyboard: false,
+//         });
+//     }
 
-        if (control.errors['email']) {
-            return 'MY_ACCOUNT.ACCOUNT.FORM.INVALID_FORMAT';
-        }
+//     private getStoredUser(): CurrentUser | null {
+//         return this.encodingDataService.getData(
+//             'user_data'
+//         ) as CurrentUser | null;
+//     }
 
-        if (control.errors['minlength']) {
-            return 'MY_ACCOUNT.ACCOUNT.FORM.INVALID_FORMAT';
-        }
+//     private mergeCurrentUser(patch: Partial<CurrentUser>): CurrentUser {
+//         return {
+//             ...(this.currentUser() as CurrentUser),
+//             ...patch,
+//         };
+//     }
 
-        return null;
-    }
+//     private persistUser(user: CurrentUser): void {
+//         this.encodingDataService.saveData('user_data', user);
+//         this.currentUser.set(user);
+//     }
 
-    public get fieldErrorPhone(): string | null {
-        const control = this.accountForm.get('phone');
-        if (!control || !control.errors || !control.touched) {
-            return null;
-        }
-
-        if (control.errors['pattern']) {
-            return 'MY_ACCOUNT.ACCOUNT.FORM.INVALID_START';
-        }
-
-        return null;
-    }
-
-    handleUpdatePassword(): void {
-        if (this.passwordForm.invalid) {
-            return;
-        }
-
-        const payload: ChangePasswordRequestDto = {
-            ...this.passwordForm.value,
-            new_password_confirmation:
-                this.passwordForm.value.confirm_new_password,
-        };
-
-        this.myAccountFacade
-            .updatePassword(payload)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.toastService.success(
-                    this.translate.instant(
-                        'MY_ACCOUNT.MESSAGES.SUCCESS.PASSWORD_UPDATED'
-                    )
-                );
-                this.hideFormPassword();
-            });
-    }
-
-    public handleUpdateAccount(): void {
-        if (this.accountForm.invalid) {
-            return;
-        }
-
-        const payload: UpdateProfileRequestDto = {
-            ...this.accountForm.value,
-        };
-
-        this.myAccountFacade
-            .updateProfile(payload)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(() => {
-                this.toastService.success(
-                    this.translate.instant(
-                        'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
-                    )
-                );
-                const updatedUser = {
-                    ...this.currentUser(),
-                    ...payload,
-                } as CurrentUser;
-                this.encodingDataService.saveData('user_data', updatedUser);
-                this.currentUser.set(updatedUser);
-                this.hideFormAccount();
-            });
-    }
-
-    public hideFormPassword() {
-        this.passwordForm.reset();
-        this.ngbModal.dismissAll();
-    }
-
-    public hideFormAccount() {
-        this.accountForm.reset();
-        this.ngbModal.dismissAll();
-    }
-}
+//     private startResendCooldown(): void {
+//         this.cooldownSubscription?.unsubscribe();
+//         this.resendCooldown.set(30);
+//         this.cooldownSubscription = interval(1000)
+//             .pipe(
+//                 takeWhile(() => this.resendCooldown() > 0),
+//                 takeUntilDestroyed(this.destroyRef)
+//             )
+//             .subscribe(() => {
+//                 this.resendCooldown.update((value) => value - 1);
+//             });
+//     }
+// }

@@ -22,6 +22,7 @@ export interface CurrentUser {
     profile: string;
     phone: string;
     is_admin: boolean;
+    enable2fa: boolean;
     status: string;
     photo: string;
     permissions: UserPermissions[];

@@ -1,16 +1,13 @@
-import { Provider } from '@angular/core';
+// import { Provider } from '@angular/core';
 
-import { MyAccountRepositoryImpl } from '../data/repositories/my-account.repository.impl';
-import { MyAccountApi } from '../data/sources/my-account.api';
-import { MyAccountRepository } from '../domain/repositories/my-account.repository';
+// import { MyAccountRepository } from '../domain/repositories/my-account.repository';
+// import { MyAccountRepositoryImpl } from '../infrastructure/data/repositories/my-account.repository.impl';
 
-export function provideMyAccount(): Provider[] {
-    return [
-        MyAccountApi,
-        MyAccountRepositoryImpl,
-        {
-            provide: MyAccountRepository,
-            useExisting: MyAccountRepositoryImpl,
-        },
-    ];
-}
+// export function provideMyAccount(): Provider[] {
+//     return [
+//         {
+//             provide: MyAccountRepository,
+//             useClass: MyAccountRepositoryImpl,
+//         },
+//     ];
+// }

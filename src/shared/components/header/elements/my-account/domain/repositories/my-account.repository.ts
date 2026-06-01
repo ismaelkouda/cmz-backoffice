@@ -1,15 +1,28 @@
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 
-import { ChangePasswordRequestDto } from '../../data/dto/change-password-request.dto';
-import { UpdateProfileRequestDto } from '../../data/dto/update-profile-request.dto';
-import { LogoutEntity } from '../entities/logout.entity';
+// import { PasswordEntity } from '../entities/password-change.entity';
+// import { ProfileEntity } from '../entities/profile-update.entity';
+// import { RequestTwoFactorEntity } from '../entities/two-factor-request.entity';
+// import {
+//     TwoFactorChallengeEntity,
+//     TwoFactorEntity,
+// } from '../entities/two-factor.entity';
+// import { MessageEntity } from '@shared/domain/entities/message.entity';
 
-export abstract class MyAccountRepository {
-    abstract fetchLogout(): Observable<LogoutEntity>;
+// export abstract class MyAccountRepository {
+//     abstract logout(): Observable<MessageEntity>;
 
-    abstract updatePassword(
-        payload: ChangePasswordRequestDto
-    ): Observable<void>;
+//     abstract updatePassword(payload: PasswordEntity): Observable<MessageEntity>;
 
-    abstract updateProfile(payload: UpdateProfileRequestDto): Observable<void>;
-}
+//     abstract updateProfile(payload: ProfileEntity): Observable<MessageEntity>;
+
+//     abstract requestTwoFactor(
+//         payload: RequestTwoFactorEntity
+//     ): Observable<TwoFactorChallengeEntity>;
+
+//     abstract verifyTwoFactorEnable(
+//         payload: TwoFactorEntity
+//     ): Observable<MessageEntity>;
+
+//     abstract disableTwoFactor(payload: TwoFactorEntity): Observable<MessageEntity>;
+// }

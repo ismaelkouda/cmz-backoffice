@@ -34,7 +34,7 @@ export class InteractiveMapReportsApi {
         return this.http.get<ReportsResponse>(url, { params }).pipe(
             map((response) => response.data.data || []),
             map((reports) => reports.filter((item) => !item.is_duplicated)),
-            map((reports) => this.applyClientFilters(reports, filters)),
+            // map((reports) => this.applyClientFilters(reports, filters)),
             map((reports) => {
                 this.reportsSignal.set(reports);
                 return reports;
@@ -91,35 +91,35 @@ export class InteractiveMapReportsApi {
         return value.toFixed(7);
     }
 
-    private applyClientFilters(
-        reports: InteractiveMapReport[],
-        filters: ReportFilters
-    ): InteractiveMapReport[] {
-        return reports.filter((report) => {
-            const operators = this.normalizeOperators(report.operators);
-            const municipality = this.getPlaceName(report.municipality);
-            const reportedAt = report.reported_at
-                ? new Date(report.reported_at)
-                : null;
+    // private applyClientFilters(
+    //     reports: InteractiveMapReport[],
+    //     filters: ReportFilters
+    // ): InteractiveMapReport[] {
+    //     return reports.filter((report) => {
+    //         const operators = this.normalizeOperators(report.operators);
+    //         const municipality = this.getPlaceName(report.municipality);
+    //         const reportedAt = report.reported_at
+    //             ? new Date(report.reported_at)
+    //             : null;
 
-            return (
-                this.matchesArray(filters.reportTypes, report.report_type) &&
-                this.matchesOperatorFilter(filters.operators, operators) &&
-                this.matchesArray(filters.statuses, report.state) &&
-                (!filters.municipality ||
-                    municipality === filters.municipality) &&
-                (!filters.startDate ||
-                    (!!reportedAt &&
-                        reportedAt >= new Date(filters.startDate))) &&
-                (!filters.endDate ||
-                    (!!reportedAt &&
-                        reportedAt <=
-                            new Date(`${filters.endDate}T23:59:59`))) &&
-                (!filters.compareOperator ||
-                    operators.includes(filters.compareOperator))
-            );
-        });
-    }
+    //         return (
+    //             this.matchesArray(filters.reportTypes, report.report_type) &&
+    //             this.matchesOperatorFilter(filters.operators, operators) &&
+    //             this.matchesArray(filters.statuses, report.state) &&
+    //             (!filters.municipality ||
+    //                 municipality === filters.municipality) &&
+    //             (!filters.startDate ||
+    //                 (!!reportedAt &&
+    //                     reportedAt >= new Date(filters.startDate))) &&
+    //             (!filters.endDate ||
+    //                 (!!reportedAt &&
+    //                     reportedAt <=
+    //                         new Date(`${filters.endDate}T23:59:59`))) &&
+    //             (!filters.compareOperator ||
+    //                 operators.includes(filters.compareOperator))
+    //         );
+    //     });
+    // }
 
     private matchesArray<T extends ReportStatus | ReportType>(
         selected: T[],

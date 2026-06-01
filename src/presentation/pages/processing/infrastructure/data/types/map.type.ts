@@ -28,8 +28,8 @@ export interface MapConfig {
 }
 
 export const DEFAULT_MAP_CONFIG: MapConfig = {
-    center: { latitude: 0, longitude: 0 },
-    zoom: 2,
+    center: { latitude: 7.545, longitude: -5.545 },
+    zoom: 0,
     minZoom: 1,
     maxZoom: 18,
     projection: 'EPSG:3857',

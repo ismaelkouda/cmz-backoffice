@@ -289,6 +289,68 @@
                                 }
                             </section>
 
+                            <button type="button" class="legend-toggle-btn" (click)="toggleLegend()" title="Légende">
+    <i class="pi pi-info-circle"></i>
+</button>
+
+<!-- Panneau de légende -->
+@if (legendVisible()) {
+    <aside class="map-legend">
+        <header class="legend-header">
+            <h3>Légende</h3>
+            <button type="button" (click)="toggleLegend()" class="close-legend">
+                <i class="pi pi-times"></i>
+            </button>
+        </header>
+
+        <div class="legend-content">
+            <!-- Légende pour les types de signalement -->
+            <div class="legend-section">
+                <h4>Types de signalement</h4>
+                <div class="legend-items">
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #dc2626;"></span>
+                        <span>Zone blanche (aucun réseau)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #2563eb;"></span>
+                        <span>Absence d’opérateur(s)</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #f97316;"></span>
+                        <span>Mauvais signal</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-color" style="background-color: #eab308;"></span>
+                        <span>Absence d’internet</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Légende pour les clusters -->
+            <div class="legend-section">
+                <h4>Groupes (clusters)</h4>
+                 <div class="legend-item">
+                    <span class="legend-color" style="background-color: #000;"></span>
+                    <span>Plusieurs signalements proches (nombre affiché)</span>
+                    </div>
+            </div>
+
+            <!-- Légende pour la heatmap (optionnelle) -->
+            @if (store.heatmapEnabled()) {
+                <div class="legend-section">
+                    <h4>Carte de chaleur (Heatmap)</h4>
+                    <div class="legend-gradient"></div>
+                    <div class="gradient-labels">
+                        <span>Faible densité</span>
+                        <span>Fort densité</span>
+                    </div>
+                </div>
+            }
+        </div>
+    </aside>
+}
+
                             <!-- @if (store.loading()) {
                                 <div class="loading-overlay">
                                     <div class="loading-spinner"></div>
