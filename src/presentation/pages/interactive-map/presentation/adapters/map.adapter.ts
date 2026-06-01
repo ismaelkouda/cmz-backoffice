@@ -24,7 +24,6 @@ import VectorSource from 'ol/source/Vector';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style';
 import View from 'ol/View';
 import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 export interface MapOptions {
     zoom: number;
@@ -50,10 +49,10 @@ export interface MapClickInfo {
 }
 
 const IVORY_COAST_BOUNDS: Bounds = {
-    minLat: 4.25,
-    maxLat: 10.75,
-    minLng: -8.65,
-    maxLng: -2.45,
+    minLat: 4.223876, // Point le plus au sud (Latitude minimale)
+    maxLat: 10.873696, // Point le plus au nord (Latitude maximale)
+    minLng: -9.698757, // Point le plus à l'ouest (Longitude minimale)
+    maxLng: -1.656668, // Point le plus à l'est (Longitude maximale)
 };
 
 @Injectable({
@@ -62,12 +61,12 @@ const IVORY_COAST_BOUNDS: Bounds = {
 export class MapAdapter {
     private readonly ngZone = inject(NgZone);
 
-    private suppressMoveEndUntil = 0;
     private map: Map | null = null;
     private hoverOverlay: Overlay | null = null;
     private clickOverlay: Overlay | null = null;
-    private lastBounds: Bounds | null = null;
     private selectedReportId: string | number | null = null;
+    private suppressMoveEndUntil = 0;
+    private lastBounds: Bounds | null = null;
     private readonly featureSource = new VectorSource();
     private readonly clusterSource = new Cluster({
         distance: 42,
@@ -76,7 +75,10 @@ export class MapAdapter {
     });
     private readonly clusterLayer = new VectorLayer({
         source: this.clusterSource,
-        style: (feature): Style | Style[] => this.clusterStyleFunction(feature),
+        style: (feature): Style | Style[] => {
+            console.log('feature: ', feature);
+            return this.clusterStyleFunction(feature);
+        },
     });
     private readonly heatmapSource = new VectorSource();
     private readonly heatmapLayer = new HeatmapLayer({
@@ -93,9 +95,11 @@ export class MapAdapter {
         new Subject<ClusterTooltip | null>();
 
     init(container: HTMLElement, options: MapOptions): void {
+        console.log('container: ', container);
         if (this.map) {
             return;
         }
+        console.log('container22222222: ', container);
 
         const mergedOptions = { ...options };
 
@@ -121,32 +125,24 @@ export class MapAdapter {
                 zoom: mergedOptions.zoom,
                 minZoom: mergedOptions.minZoom,
                 maxZoom: mergedOptions.maxZoom,
-                // extent: transformExtent(
-                //     [
-                //         IVORY_COAST_BOUNDS.minLng,
-                //         IVORY_COAST_BOUNDS.minLat,
-                //         IVORY_COAST_BOUNDS.maxLng,
-                //         IVORY_COAST_BOUNDS.maxLat,
-                //     ],
-                //     'EPSG:4326',
-                //     'EPSG:3857'
-                // ),
+                extent: transformExtent(
+                    [
+                        IVORY_COAST_BOUNDS.minLng,
+                        IVORY_COAST_BOUNDS.minLat,
+                        IVORY_COAST_BOUNDS.maxLng,
+                        IVORY_COAST_BOUNDS.maxLat,
+                    ],
+                    'EPSG:4326',
+                    'EPSG:3857'
+                ),
             }),
         });
 
-        this.setupMoveEndListener();
         this.setupClickListener();
         this.setupPointerMoveListener();
     }
-
     onMoveEnd(): Observable<Bounds> {
-        return this.moveEndSubject
-            .asObservable()
-            .pipe(
-                distinctUntilChanged((prev, curr) =>
-                    this.areBoundsEqual(prev, curr)
-                )
-            );
+        return this.moveEndSubject.asObservable();
     }
 
     onMapClick(): Observable<MapClickInfo> {
@@ -157,10 +153,26 @@ export class MapAdapter {
         return this.clusterTooltipSubject.asObservable();
     }
 
+    updateSize(silent = false): void {
+        if (silent) {
+            this.suppressMoveEndUntil = Date.now() + 900;
+        }
+        this.map?.updateSize();
+        if (silent) {
+            setTimeout(() => {
+                const bounds = this.getConstrainedBounds();
+                if (bounds) {
+                    this.lastBounds = bounds;
+                }
+            });
+        }
+    }
+
     renderReports(
         reports: InteractiveMapReport[],
         heatmapEnabled: boolean
     ): void {
+        console.log('renderReports', reports.length, heatmapEnabled);
         this.featureSource.clear();
         this.heatmapSource.clear();
 
@@ -192,6 +204,7 @@ export class MapAdapter {
         this.featureSource.addFeatures(markerFeatures);
         this.heatmapSource.addFeatures(heatmapFeatures);
         this.setHeatmapVisible(heatmapEnabled);
+        console.log('renderReports22222', reports.length, heatmapEnabled);
     }
 
     setHeatmapVisible(visible: boolean): void {
@@ -323,7 +336,7 @@ export class MapAdapter {
     }
 
     setSelectedReport(report: InteractiveMapReport | null): void {
-        this.selectedReportId = report?.id ?? null;
+        this.selectedReportId = report?.uniq_id ?? null;
         this.clusterLayer.changed();
     }
 
@@ -391,22 +404,6 @@ export class MapAdapter {
         return this.map !== null;
     }
 
-    updateSize(silent = false): void {
-        if (silent) {
-            this.suppressMoveEndUntil = Date.now() + 900;
-        }
-        this.map?.updateSize();
-
-        if (silent) {
-            setTimeout(() => {
-                const bounds = this.getConstrainedBounds();
-                if (bounds) {
-                    this.lastBounds = bounds;
-                }
-            });
-        }
-    }
-
     destroy(): void {
         if (this.map) {
             this.map.setTarget(undefined);
@@ -416,25 +413,6 @@ export class MapAdapter {
         this.moveEndSubject.complete();
         this.mapClickSubject.complete();
         this.clusterTooltipSubject.complete();
-    }
-
-    private setupMoveEndListener(): void {
-        if (!this.map) {
-            return;
-        }
-
-        this.map.on('moveend', () => {
-            this.ngZone.run(() => {
-                if (Date.now() < this.suppressMoveEndUntil) {
-                    return;
-                }
-                const bounds = this.getConstrainedBounds();
-                if (bounds && !this.areBoundsEqual(this.lastBounds, bounds)) {
-                    this.lastBounds = bounds;
-                    this.moveEndSubject.next(bounds);
-                }
-            });
-        });
     }
 
     private setupClickListener(): void {
@@ -531,6 +509,7 @@ export class MapAdapter {
     }
 
     private clusterStyleFunction(feature: FeatureLike): Style | Style[] {
+        console.log('clusterStyleFunction feature: ', feature);
         const features = (feature.get('features') || []) as Feature<Point>[];
         const count = features.length;
 
@@ -550,7 +529,7 @@ export class MapAdapter {
         return new Style({
             image: new CircleStyle({
                 radius,
-                fill: new Fill({ color: '#2563eb' }),
+                fill: new Fill({ color: '#000000' }),
                 stroke: new Stroke({ color: '#ffffff', width: 3 }),
             }),
             text: new Text({
@@ -562,6 +541,7 @@ export class MapAdapter {
     }
 
     private createReportStyle(report?: InteractiveMapReport): Style | Style[] {
+        console.log('report bgrbgrbgrbr createReportStyle: ', report);
         const color = report ? this.getMarkerColor(report) : '#64748b';
         const icon = report ? this.getReportIcon(report.report_type) : '!';
         const isSelected = this.isSelectedReport(report);
@@ -598,6 +578,7 @@ export class MapAdapter {
                     stroke: new Stroke({ color: '#ffffff', width: 3 }),
                 }),
                 text: new Text({
+                    text: icon,
                     fill: new Fill({ color: '#ffffff' }),
                     font: '700 13px Arial, sans-serif',
                     offsetY: 1,
@@ -610,7 +591,7 @@ export class MapAdapter {
         return (
             !!report &&
             this.selectedReportId !== null &&
-            String(report.id) === String(this.selectedReportId)
+            String(report.uniq_id) === String(this.selectedReportId)
         );
     }
 
@@ -720,39 +701,6 @@ export class MapAdapter {
                 .map((item) => item.trim())
                 .filter(Boolean) as ReportOperator[];
         }
-    }
-
-    private areBoundsEqual(
-        bounds1: Bounds | null,
-        bounds2: Bounds | null
-    ): boolean {
-        console.log('bounds1: ', bounds1);
-        console.log('bounds2: ', bounds2);
-        if (!bounds1 || !bounds2) {
-            return false;
-        }
-
-        const latSpan1 = Math.abs(bounds1.maxLat - bounds1.minLat);
-        const latSpan2 = Math.abs(bounds2.maxLat - bounds2.minLat);
-        const lngSpan1 = Math.abs(bounds1.maxLng - bounds1.minLng);
-        const lngSpan2 = Math.abs(bounds2.maxLng - bounds2.minLng);
-        const latSpan = Math.max(latSpan1, latSpan2);
-        const lngSpan = Math.max(lngSpan1, lngSpan2);
-        const latCenter1 = (bounds1.minLat + bounds1.maxLat) / 2;
-        const latCenter2 = (bounds2.minLat + bounds2.maxLat) / 2;
-        const lngCenter1 = (bounds1.minLng + bounds1.maxLng) / 2;
-        const lngCenter2 = (bounds2.minLng + bounds2.maxLng) / 2;
-        const panTolerance = 0.12;
-        const zoomTolerance = 0.08;
-
-        return (
-            Math.abs(latCenter1 - latCenter2) <
-                Math.max(latSpan * panTolerance, 0.0005) &&
-            Math.abs(lngCenter1 - lngCenter2) <
-                Math.max(lngSpan * panTolerance, 0.0005) &&
-            Math.abs(latSpan1 - latSpan2) < latSpan * zoomTolerance &&
-            Math.abs(lngSpan1 - lngSpan2) < lngSpan * zoomTolerance
-        );
     }
 
     private intersectsBounds(bounds1: Bounds, bounds2: Bounds): boolean {

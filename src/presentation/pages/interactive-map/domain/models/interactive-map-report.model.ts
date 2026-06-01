@@ -15,7 +15,7 @@ export interface NamedPlace {
 }
 
 export interface InteractiveMapReport {
-    id: string | number;
+    uniq_id: string | number;
     lat: number | string;
     long: number | string;
     report_type: ReportType;

@@ -58,6 +58,7 @@ import {
 } from 'rxjs';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
+import { toLonLat } from 'ol/proj';
 
 interface LocationSearchResult {
     displayName: string;
@@ -117,18 +118,16 @@ export class InteractiveMapComponent
     protected readonly selectedManagementType = signal<TypeReport | null>(
         TypeReport.PROCESSING
     );
-
     protected selectedReportId: string | null = null;
 
-    public readonly reportTypeOptions: {
-        value: ReportType;
-        label: string;
-    }[] = [
-        { value: 'zob', label: 'Zone blanche' },
-        { value: 'cpo', label: "Absence d'operateur" },
-        { value: 'cps', label: 'Mauvais signal' },
-        { value: 'abi', label: "Absence d'internet" },
-    ];
+    // Options pour les filtres (inchangées)
+    public readonly reportTypeOptions: { value: ReportType; label: string }[] =
+        [
+            { value: 'zob', label: 'Zone blanche' },
+            { value: 'cpo', label: "Absence d'operateur" },
+            { value: 'cps', label: 'Mauvais signal' },
+            { value: 'abi', label: "Absence d'internet" },
+        ];
     public readonly operatorOptions: {
         value: ReportOperator;
         label: string;
@@ -137,10 +136,7 @@ export class InteractiveMapComponent
         { value: 'moov', label: 'Moov' },
         { value: 'mtn', label: 'MTN' },
     ];
-    public readonly statusOptions: {
-        value: ReportStatus;
-        label: string;
-    }[] = [
+    public readonly statusOptions: { value: ReportStatus; label: string }[] = [
         { value: 'pending', label: 'En attente' },
         { value: 'approved', label: 'Approuve' },
         { value: 'in-progress', label: 'En cours' },
@@ -196,7 +192,6 @@ export class InteractiveMapComponent
     public requestLocationPermission(): void {
         this.store.startLoading();
         this.store.setError(null);
-
         this.geolocationService
             .getCurrentPosition()
             .pipe(
@@ -216,7 +211,10 @@ export class InteractiveMapComponent
     }
 
     public retryLoad(): void {
-        this.loadReports();
+        const bounds = this.store.viewportBounds();
+        if (bounds) {
+            this.loadReportsWithBuffer(bounds);
+        }
     }
 
     public toggleFiltersPanel(): void {
@@ -230,11 +228,9 @@ export class InteractiveMapComponent
         checked: boolean
     ): void {
         const current = this.store.filters()[key];
-
         if (!Array.isArray(current)) {
             return;
         }
-
         const next = checked
             ? [...current, value]
             : current.filter((item) => item !== value);
@@ -273,6 +269,11 @@ export class InteractiveMapComponent
         this.mapAdapter.focusReport(report);
     }
 
+    public readonly legendVisible = signal(false);
+    public toggleLegend(): void {
+        this.legendVisible.update((v) => !v);
+    }
+
     public closePopup(): void {
         this.store.setSelectedReport(null);
         this.selectedClusterReports.set([]);
@@ -284,10 +285,8 @@ export class InteractiveMapComponent
     public onLocationSearchChange(value: string): void {
         this.locationSearchQuery.set(value);
         this.locationSearchError.set(null);
-
         const query = value.trim();
         const coordinates = parseCoordinates(query);
-
         if (coordinates) {
             this.locationSearchResults.set([]);
             this.locationSearchLoading.set(false);
@@ -299,7 +298,6 @@ export class InteractiveMapComponent
             );
             return;
         }
-
         this.locationSearchSubject.next(query);
     }
 
@@ -315,12 +313,15 @@ export class InteractiveMapComponent
         status: ReportStatus
     ): void {
         this.reportsApi
-            .updateStatus(report.id, status)
+            .updateStatus(report.uniq_id, status)
             .pipe(
                 tap(() => {
                     this.toastr.success('Statut mis a jour');
                     this.store.setSelectedReport(null);
-                    this.loadReports();
+                    const bounds = this.store.viewportBounds();
+                    if (bounds) {
+                        this.loadReportsWithBuffer(bounds);
+                    }
                 }),
                 catchError(() => {
                     this.toastr.error('Impossible de modifier le statut');
@@ -359,7 +360,6 @@ export class InteractiveMapComponent
         if (!place) {
             return '-';
         }
-
         return typeof place === 'string' ? place : place.name || '-';
     }
 
@@ -394,17 +394,9 @@ export class InteractiveMapComponent
     }
 
     private setupStoreEffects(): void {
-        // effect(() => {
-        //     const position = this.store.userPosition();
-        //     console.log('position: ', position);
-        //     if (position && this.mapAdapter.isReady()) {
-        //         this.mapAdapter.setCenter(position.lat, position.lng);
-        //         setTimeout(() => this.initializeBoundsFromMap(), 1000);
-        //     }
-        // });
-
         effect(() => {
             const reports = this.store.visibleReports();
+            console.log('reports: ', reports);
             const heatmapEnabled = this.store.heatmapEnabled();
             if (this.mapAdapter.isReady()) {
                 this.mapAdapter.renderReports(reports, heatmapEnabled);
@@ -412,24 +404,47 @@ export class InteractiveMapComponent
         });
 
         effect(() => {
-            const bounds = this.store.bounds();
-            const filters = this.store.filters();
-
-            if (bounds) {
-                this.loadReports(bounds, filters);
+            const bounds = this.store.viewportBounds();
+            if (bounds && this.store.needsLoading()) {
+                this.loadReportsWithBuffer(bounds);
             }
         });
 
         effect(() => {
-            const bounds = this.store.bounds();
+            const bounds = this.store.viewportBounds();
             const filters = this.store.filters();
             const view = this.store.view();
             const heatmap = this.store.heatmapEnabled();
-
             if (this.urlSyncReady && bounds) {
                 this.syncUrl(bounds, filters, view, heatmap);
             }
         });
+    }
+
+    private loadReportsWithBuffer(
+        viewportBounds: NonNullable<ReturnType<MapStore['viewportBounds']>>
+    ): void {
+        const bufferBounds = this.store.expandBounds(viewportBounds, 2);
+        const currentFilters = this.store.filters();
+
+        this.store.startLoading();
+        this.reportsApi
+            .getReports(bufferBounds, currentFilters)
+            .pipe(
+                tap((reports) => {
+                    this.store.mergeLoadedReports(reports, bufferBounds);
+                }),
+                catchError((error) => {
+                    console.error('Erreur chargement signalements', error);
+                    this.store.setError(
+                        'Impossible de charger les signalements de cette zone.'
+                    );
+                    this.toastr.error('Chargement des signalements impossible');
+                    return EMPTY;
+                }),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe();
     }
 
     private checkInitialPermission(): void {
@@ -448,7 +463,6 @@ export class InteractiveMapComponent
     private initMap(): void {
         const view = this.store.view();
         const map = this.mapContainer()?.nativeElement;
-
         if (!map) {
             this.toastr.error("Impossible d'initialiser la carte");
             return;
@@ -462,11 +476,9 @@ export class InteractiveMapComponent
     private initializeBoundsFromMap(): void {
         const bounds = this.mapAdapter.getConstrainedBounds();
         const view = this.mapAdapter.getViewState();
-
         if (bounds) {
-            this.store.setBounds(bounds);
+            this.store.setViewportBounds(bounds);
         }
-
         if (view) {
             this.store.setView(view);
         }
@@ -477,8 +489,8 @@ export class InteractiveMapComponent
             .onMoveEnd()
             .pipe(debounceTime(1000), takeUntilDestroyed(this.destroyRef))
             .subscribe((bounds) => {
-                console.log('bounds: ', bounds);
-                this.store.setBounds(bounds);
+                console.log('Nouveaux bounds après mouvement:', bounds);
+                this.store.setViewportBounds(bounds);
                 const view = this.mapAdapter.getViewState();
                 if (view) {
                     this.store.setView(view);
@@ -499,12 +511,10 @@ export class InteractiveMapComponent
                 if (!tooltip && this.hoverTooltipLocked) {
                     return;
                 }
-
                 if (!tooltip) {
                     this.scheduleHoverHide();
                     return;
                 }
-
                 this.clearHoverHideTimer();
                 this.clusterTooltip.set(tooltip);
             });
@@ -517,14 +527,30 @@ export class InteractiveMapComponent
             this.selectedClusterSummary.set(null);
             return;
         }
-
         if (info.kind === 'cluster') {
-            this.store.setSelectedReport(null);
-            this.selectedClusterReports.set(info.reports);
-            this.selectedClusterSummary.set(info.summary ?? null);
+            // Récupérer les coordonnées du cluster (projection 3857)
+            const [lng, lat] = toLonLat(info.coordinate);
+
+            // Nouveau zoom : augmenter de 2 niveaux ou au moins 14
+            const currentZoom = this.mapAdapter.getViewState()?.zoom ?? 7;
+            let newZoom = Math.min(currentZoom + 2, 18);
+            if (newZoom < 14) {
+                newZoom = currentZoom + 3;
+            }
+
+            // Centrer et zoomer sur le cluster
+            this.mapAdapter.focusLocation(lat, lng, newZoom);
+
+            // Nettoyer les états liés à l'ancienne popup
+            this.selectedClusterReports.set([]);
+            this.selectedClusterSummary.set(null);
+            this.mapAdapter.hideClickOverlay();
+
+            // this.store.setSelectedReport(null);
+            // this.selectedClusterReports.set(info.reports);
+            // this.selectedClusterSummary.set(info.summary ?? null);
             return;
         }
-
         if (info.report) {
             this.store.setSelectedReport(info.report);
             this.selectedClusterReports.set([]);
@@ -538,7 +564,6 @@ export class InteractiveMapComponent
             if (this.hoverTooltipLocked) {
                 return;
             }
-
             this.clusterTooltip.set(null);
             this.mapAdapter.hideHoverOverlay();
         }, 180);
@@ -549,31 +574,6 @@ export class InteractiveMapComponent
             clearTimeout(this.hoverHideTimer);
             this.hoverHideTimer = null;
         }
-    }
-
-    private loadReports(
-        bounds = this.store.bounds(),
-        filters = this.store.filters()
-    ): void {
-        if (!bounds) {
-            return;
-        }
-
-        this.store.startLoading();
-        this.reportsApi
-            .getReports(bounds, filters)
-            .pipe(
-                tap((reports) => this.store.setReports(reports)),
-                catchError(() => {
-                    this.store.setError(
-                        'Impossible de charger les signalements de cette zone.'
-                    );
-                    this.toastr.error('Chargement des signalements impossible');
-                    return EMPTY;
-                }),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe();
     }
 
     private setupLocationSearch(): void {
@@ -587,10 +587,8 @@ export class InteractiveMapComponent
                         this.locationSearchResults.set([]);
                         return of([]);
                     }
-
                     this.locationSearchLoading.set(true);
                     this.locationSearchError.set(null);
-
                     return this.searchFreeLocations(query).pipe(
                         catchError(() => {
                             this.locationSearchError.set(
@@ -641,14 +639,12 @@ export class InteractiveMapComponent
         const lat = Number(query.get('lat'));
         const lng = Number(query.get('lng'));
         const zoom = Number(query.get('zoom'));
-
         if (Number.isFinite(lat) && Number.isFinite(lng)) {
             this.store.setView({
                 center: { lat, lng },
                 zoom: Number.isFinite(zoom) ? zoom : this.store.view().zoom,
             });
         }
-
         this.store.updateFilters({
             reportTypes: this.readArrayParam<ReportType>('types'),
             operators: this.readArrayParam<ReportOperator>('operators'),
@@ -659,18 +655,15 @@ export class InteractiveMapComponent
             compareOperator:
                 (query.get('compare') as ReportOperator | null) || '',
         });
-
         this.store.setHeatmapEnabled(query.get('heatmap') === '1');
     }
 
     private syncUrl(
-        bounds: NonNullable<ReturnType<MapStore['bounds']>>,
+        bounds: NonNullable<ReturnType<MapStore['viewportBounds']>>,
         filters: ReportFilters,
         view: NonNullable<ReturnType<MapStore['view']>>,
         heatmap: boolean
     ): void {
-        console.log('bounds: ', bounds);
-        console.log('heatmap: ', heatmap);
         this.router.navigate([], {
             relativeTo: this.route,
             queryParams: {
@@ -705,7 +698,6 @@ export class InteractiveMapComponent
         if (Array.isArray(value)) {
             return value;
         }
-
         try {
             return JSON.parse(value) as ReportOperator[];
         } catch {
@@ -715,11 +707,13 @@ export class InteractiveMapComponent
                 .filter(Boolean) as ReportOperator[];
         }
     }
+
     protected onSeeMoreInfosClicked(item: any): void {
         console.log('item: ', item);
         this.selectedReportId = item.uniq_id;
         this.isVisibleDialog.set(true);
     }
+
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
     }

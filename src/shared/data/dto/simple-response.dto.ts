@@ -31,3 +31,8 @@ export interface SimpleResponseDto<T> {
     message: string;
     data: T;
 }
+
+export interface MessageResponseDto {
+    error: boolean;
+    message: string;
+}
