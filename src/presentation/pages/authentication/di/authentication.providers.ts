@@ -1,12 +1,12 @@
 import { Provider } from '@angular/core';
-import { AuthenticationRepositoryImpl } from '@pages/authentication/data/repositories/authentication.repository.impl';
-import { AuthenticationRepository } from '@pages/authentication/domain/repositories/authentication.repository';
+import { LoginRepositoryImpl } from '@pages/authentication/infrastructure/repositories/login.repository.impl';
+import { LoginRepository } from '@presentation/pages/authentication/domain/repositories/login.repository';
 
 export function provideAuthentication(): Provider[] {
     return [
         {
-            provide: AuthenticationRepository,
-            useExisting: AuthenticationRepositoryImpl,
+            provide: LoginRepository,
+            useExisting: LoginRepositoryImpl,
         },
     ];
 }

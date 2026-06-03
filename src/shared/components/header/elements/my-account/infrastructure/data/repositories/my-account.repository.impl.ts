@@ -35,16 +35,16 @@ export class MyAccountRepositoryImpl extends MyAccountRepository {
                 map((response) => this.messageMapper.mapFromMessage(response))
             );
     }
-    updatePassword(payload: PasswordChangeEntity): Observable<MessageEntity> {
-        const dto = passwordChangeMapper(payload);
+    updatePassword(entity: PasswordChangeEntity): Observable<MessageEntity> {
+        const dto = passwordChangeMapper(entity);
         return this.api
             .passwordChange(dto)
             .pipe(
                 map((response) => this.messageMapper.mapFromMessage(response))
             );
     }
-    updateProfile(payload: ProfileUpdateEntity): Observable<MessageEntity> {
-        const dto = profileUpdateMapper(payload);
+    updateProfile(entity: ProfileUpdateEntity): Observable<MessageEntity> {
+        const dto = profileUpdateMapper(entity);
         return this.api
             .profileUpdate(dto)
             .pipe(
@@ -53,16 +53,16 @@ export class MyAccountRepositoryImpl extends MyAccountRepository {
     }
 
     // twoFactorRequest(
-    //     payload: RequestTwoFactorEntity
+    //     entity: RequestTwoFactorEntity
     // ): Observable<RequestTwoFactorEntity> {
-    //     const dto = requestTwoFactorRequestMapper(payload);
+    //     const dto = requestTwoFactorRequestMapper(entity);
     //     return this.api
     //         .twoFactorRequest(dto)
     //         .pipe(map((response) => twoFactorRequest(response)));
     // }
 
-    // twoFactorEnable(payload: TwoFactorEntity): Observable<MessageEntity> {
-    //     const dto = twoFactorEnableMapper(payload);
+    // twoFactorEnable(entity: TwoFactorEntity): Observable<MessageEntity> {
+    //     const dto = twoFactorEnableMapper(entity);
     //     return this.api
     //         .twoFactorEnable(dto)
     //         .pipe(
@@ -70,8 +70,8 @@ export class MyAccountRepositoryImpl extends MyAccountRepository {
     //         );
     // }
 
-    // twoFactorDisable(payload: TwoFactorEntity): Observable<MessageEntity> {
-    //     const dto = twoFactorDisableMapper(payload);
+    // twoFactorDisable(entity: TwoFactorEntity): Observable<MessageEntity> {
+    //     const dto = twoFactorDisableMapper(entity);
     //     return this.api
     //         .twoFactorDisable(dto)
     //         .pipe(

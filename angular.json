@@ -113,10 +113,10 @@
             "scripts": [
               "./node_modules/pusher-js/dist/web/pusher.min.js"
             ],
-            "extractLicenses": false,
-            "sourceMap": true,
-            "optimization": false,
-            "namedChunks": true
+            "extractLicenses": true,
+            "sourceMap": false,
+            "optimization": true,
+            "namedChunks": false
           },
           "configurations": {
             "dev": {
@@ -126,10 +126,10 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "optimization": true,
+              "extractLicenses": true,
+              "sourceMap": false,
+              "namedChunks": false
             },
             "test": {
               "fileReplacements": [
@@ -139,7 +139,7 @@
                 }
               ],
               "optimization": true,
-              "sourceMap": true,
+              "sourceMap": false,
               "namedChunks": false
             },
             "production": {

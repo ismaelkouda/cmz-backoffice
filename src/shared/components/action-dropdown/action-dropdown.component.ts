@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    input,
-    output,
-} from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { NgbDropdownModule, NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
@@ -319,7 +314,6 @@ import { ActionDropdownItem } from './interfaces/action-dropdown.interface';
         `,
     ],
     imports: [TranslateModule, NgbDropdownModule, NgbTooltip],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ActionDropdownComponent {
     readonly disabled = input(false);

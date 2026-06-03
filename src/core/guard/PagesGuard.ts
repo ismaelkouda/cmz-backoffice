@@ -11,8 +11,8 @@ import { Observable } from 'rxjs';
     providedIn: 'root',
 })
 export class PagesGuard {
-    private storePathsService = inject(StorePathsService);
-    private router = inject(Router);
+    private readonly storePathsService = inject(StorePathsService);
+    private readonly router = inject(Router);
 
     canActivate(
         route: ActivatedRouteSnapshot,

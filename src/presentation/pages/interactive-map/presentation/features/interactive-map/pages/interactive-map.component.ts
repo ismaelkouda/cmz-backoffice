@@ -91,7 +91,6 @@ interface NominatimSearchResult {
     ],
     templateUrl: './interactive-map.component.html',
     styleUrls: ['./interactive-map.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy

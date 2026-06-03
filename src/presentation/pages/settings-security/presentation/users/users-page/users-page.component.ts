@@ -1,11 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    DestroyRef,
-    inject,
-    OnInit,
-    signal,
-} from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
     NavigationEnd,
@@ -33,7 +26,6 @@ import { filter } from 'rxjs';
     ],
     templateUrl: './users-page.component.html',
     styleUrls: ['./users-page.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UsersPageComponent implements OnInit {
     private readonly router = inject(Router);

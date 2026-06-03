@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     DestroyRef,
     TemplateRef,
@@ -52,7 +51,6 @@ type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
         InputTextModule,
         ToggleButtonModule,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MyAccountComponent {
     private readonly destroyRef = inject(DestroyRef);

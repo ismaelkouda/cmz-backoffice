@@ -14,6 +14,7 @@ export const unauthGuard: CanActivateFn = () => {
     if (!token || !token?.value) {
         return true;
     } else {
+        console.log('Token found, redirecting to dashboard');
         router.navigate([DASHBOARD]);
         return false;
     }
