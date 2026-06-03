@@ -5,7 +5,7 @@ import {
     OnInit,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { MapFacade } from '@pages/geographical-map/application/services/map.facade';
+import { MapFacade } from '@pages/interactive-map/application/services/map.facade';
 import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
 
 @Component({
@@ -15,11 +15,11 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
     template: `
         <app-dashboard-viewer
             [grafanaLink]="data()?.grafanaLink"
-            [titleKey]="'GEOGRAPHICAL_MAP.MAP.TITLE'"
-            [moduleKey]="'GEOGRAPHICAL_MAP.LABEL'"
-            [subModuleKey]="'GEOGRAPHICAL_MAP.MAP.LABEL'"
-            [loadingDescription]="'GEOGRAPHICAL_MAP.MAP.LOADING_DESCRIPTION'"
-            [errorDescription]="'GEOGRAPHICAL_MAP.MAP.ERROR_DESCRIPTION'"
+            [titleKey]="'INTERACTIVE_MAP.DASHBOARD.TITLE'"
+            [moduleKey]="'INTERACTIVE_MAP.LABEL'"
+            [subModuleKey]="'INTERACTIVE_MAP.DASHBOARD.LABEL'"
+            [loadingDescription]="'INTERACTIVE_MAP.DASHBOARD.LOADING_DESCRIPTION'"
+            [errorDescription]="'INTERACTIVE_MAP.DASHBOARD.ERROR_DESCRIPTION'"
             (refresh)="refreshDashboard()"
             [loading]="loading()"
             [error]="error()"

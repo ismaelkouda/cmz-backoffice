@@ -1,10 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, map } from 'rxjs';
 
-import { MapEntity } from '../../../domain/entities/map/map.entity';
-import { MapRepository } from '../../../domain/repositories/map-repository.interface';
-import { MapMapper } from '../mappers/map.mapper';
-import { MapApi } from '../sources/map.api';
+import { MapEntity } from '../../domain/entities/map/map.entity';
+import { MapMapper } from '../data/mappers/map.mapper';
+import { MapApi } from '../data/sources/map.api';
+import { MapRepository } from '../../domain/repositories/map-repository.interface';
 
 @Injectable({ providedIn: 'root' })
 export class MapRepositoryImpl implements MapRepository {

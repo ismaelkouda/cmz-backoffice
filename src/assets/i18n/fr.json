@@ -4358,7 +4358,7 @@
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Performances des noeuds. Veuillez recharger la page ou contacter le support."
         }
     },
-    "GEOGRAPHICAL_MAP": {
+    "INTERACTIVE_MAP": {
         "BREADCRUMB": {
             "LABEL": "Vue géographique",
             "ROUTE": "map",
@@ -4372,6 +4372,16 @@
             },
             "TITLE": "Carte interactive",
             "LABEL": "Carte interactive",
+            "LOADING_DESCRIPTION": "Suivi des performances en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Carte interactive. Veuillez recharger la page ou contacter le support."
+        },
+        "DASHBOARD": {
+            "BREADCRUMB": {
+                "LABEL": "Tableau de bord interactif",
+                "ROUTE": "visualization"
+            },
+            "TITLE": "Tableau de bord interactif",
+            "LABEL": "Tableau de bord interactif",
             "LOADING_DESCRIPTION": "Suivi des performances en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Carte interactive. Veuillez recharger la page ou contacter le support."
         }

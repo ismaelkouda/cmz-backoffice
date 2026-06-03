@@ -4,9 +4,9 @@ import { LoginResponseMapper } from '@presentation/pages/authentication/infrastr
 import { AuthenticationApi } from '@presentation/pages/authentication/infrastructure/sources/authentication.api';
 import { LoginRequestEntity } from '@presentation/pages/authentication/domain/entities/login-request.entity';
 import { LoginRepository } from '@presentation/pages/authentication/domain/repositories/login.repository';
-import { Observable, map } from 'rxjs';
 import { LoginResponseEntity } from '@presentation/pages/authentication/domain/entities/login-response.entity';
 import { loginRequestMapper } from '@presentation/pages/authentication/infrastructure/mappers/login-request.mapper';
+import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LoginRepositoryImpl extends LoginRepository {

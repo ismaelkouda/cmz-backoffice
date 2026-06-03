@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { MapBus } from '@pages/geographical-map/application/queries-bus/map/map.bus';
-import { MapEntity } from '@pages/geographical-map/domain/entities/map/map.entity';
+import { MapBus } from '@pages/interactive-map/application/queries-bus/map/map.bus';
+import { MapEntity } from '@presentation/pages/interactive-map/domain/entities/map/map.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 

@@ -1,14 +1,12 @@
 import { Routes } from '@angular/router';
-
-export const LOGIN = 'login';
-export const PORTAIL = 'portail';
+import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/constants/login-routes.constant';
 
 export const routes: Routes = [
     {
         path: '',
         children: [
             {
-                path: LOGIN,
+                path: LOGIN_ROUTE,
                 loadComponent: () =>
                     import('./presentation/ui/login/login.component').then(
                         (m) => m.LoginComponent
@@ -16,7 +14,7 @@ export const routes: Routes = [
             },
             {
                 path: '',
-                redirectTo: LOGIN,
+                redirectTo: LOGIN_ROUTE,
                 pathMatch: 'full',
             },
         ],

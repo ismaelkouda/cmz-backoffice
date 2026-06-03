@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoginResponseApiDto } from '@pages/authentication/infrastructure/dto/login-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { LoginResponseEntity } from '../../domain/entities/login-response.entity';
+import { LoginResponseEntity } from '@presentation/pages/authentication/domain/entities/login-response.entity';
 
 @Injectable({ providedIn: 'root' })
 export class LoginResponseMapper extends SimpleResponseMapper<

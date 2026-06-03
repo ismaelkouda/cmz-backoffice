@@ -323,7 +323,7 @@ export class QueuesComponent {
             this.toast.error(this.exportTooltip());
             return;
         }
-        const items = this.itemsVM(); // données présentées (avec libellés traduits)
+        const items = this.itemsVM();
         if (!items.length) {
             this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
             return;

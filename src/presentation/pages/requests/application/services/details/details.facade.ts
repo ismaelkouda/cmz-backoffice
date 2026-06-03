@@ -61,6 +61,7 @@ export class DetailsFacade extends ObjectBaseFacade<
     }
 
     read(filter: DetailsFilterDto): void {
+        console.log('filter: ', filter);
         const command = new DetailsQuery(filter.uniqId);
         const fetch$ = this.bus.dispatch(command);
         this.fetch(filter, fetch$, this.ui, this.STALE_TIME, true, true);

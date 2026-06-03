@@ -38,7 +38,6 @@ import {
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { parseCoordinates } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { ToastrService } from 'ngx-toastr';
 import { Coordinate } from 'ol/coordinate';
@@ -81,7 +80,6 @@ interface NominatimSearchResult {
     standalone: true,
     imports: [
         BreadcrumbComponent,
-        PageTitleComponent,
         ManagementDialogComponent,
         FormsModule,
         TranslateModule,

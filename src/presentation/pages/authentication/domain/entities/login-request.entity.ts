@@ -1,5 +1,5 @@
 import { LoginRequestVo } from '@presentation/pages/authentication/domain/value-objects/login-request.vo';
-import { LoginRequestProps } from '../props/login-request.props';
+import { LoginRequestProps } from '@presentation/pages/authentication/domain/props/login-request.props';
 
 export class LoginRequestEntity {
     constructor(public readonly props: LoginRequestProps) {}
