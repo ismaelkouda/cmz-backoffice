@@ -13,7 +13,6 @@ import { EncodingDataService } from '@shared/domain/services/encoding-data.servi
 import { DASHBOARD } from '@shared/routes/routes';
 import { PasswordModule } from 'primeng/password';
 import { LoginStore } from '@presentation/pages/authentication/presentation/store/login.store';
-import { set } from 'ol/transform';
 
 @Component({
     selector: 'app-login',
@@ -36,17 +35,11 @@ export class LoginComponent {
     constructor() {
         effect(() => {
             const session = this.store.session();
-            console.log('session: ', session);
-
             if (!session) {
                 return;
             }
-            console.log('NAVIGATE DASHBOARD');
             this.storeUserAndToken(session.user, session.token);
-
-            setTimeout(() => {
-                this.router.navigate(['']);
-            }, 5000);
+            this.router.navigate([DASHBOARD]);
         });
     }
 

@@ -24,6 +24,7 @@ export interface InteractiveMapReport {
     is_duplicated: boolean;
     municipality?: NamedPlace | string | null;
     region?: NamedPlace | string | null;
+    department?: NamedPlace | string | null;
     description?: string | null;
     initiator_phone_number?: string | null;
     reported_at?: string | null;
@@ -55,6 +56,8 @@ export interface ReportFilters {
     reportTypes: ReportType[];
     operators: ReportOperator[];
     statuses: ReportStatus[];
+    region: string;
+    department: string;
     municipality: string;
     startDate: string;
     endDate: string;

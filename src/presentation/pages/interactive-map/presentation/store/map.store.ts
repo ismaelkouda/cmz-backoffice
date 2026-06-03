@@ -14,6 +14,8 @@ export const EMPTY_REPORT_FILTERS: ReportFilters = {
     reportTypes: [],
     operators: [],
     statuses: [],
+    region: '',
+    department: '',
     municipality: '',
     startDate: '',
     endDate: '',
@@ -223,6 +225,17 @@ export class MapStore {
             },
         });
     }
+
+    public clearLoadedReports(): void {
+        this.reportsCache.clear();
+        this.patchState({
+            loadedBounds: null,
+            reports: [],
+            loading: false,
+            error: null,
+        });
+    }
+
     public resetFilters(): void {
         this.patchState({ filters: { ...EMPTY_REPORT_FILTERS } });
     }
@@ -264,7 +277,6 @@ export class MapStore {
         filters: ReportFilters
     ): boolean | null {
         const operators = this.normalizeOperators(report.operators);
-        const municipality = this.getPlaceName(report.municipality);
         const reportedAt = report.reported_at
             ? new Date(report.reported_at)
             : null;
@@ -273,7 +285,6 @@ export class MapStore {
             this.matchesArray(filters.reportTypes, report.report_type) &&
             this.matchesOperatorFilter(filters.operators, operators) &&
             this.matchesArray(filters.statuses, report.state) &&
-            (!filters.municipality || municipality === filters.municipality) &&
             (!filters.startDate ||
                 (reportedAt && reportedAt >= new Date(filters.startDate))) &&
             (!filters.endDate ||

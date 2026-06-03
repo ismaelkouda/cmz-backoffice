@@ -20,12 +20,4 @@ export class LoginFacade extends ObjectBaseFacade<
         const fetch$ = this.bus.dispatch(command);
         this.fetch(dto, fetch$, this.ui, this.STALE_TIME, force, true);
     }
-
-    // const welcomeMessage = this.translateService.instant(
-    //                 'AUTHENTICATION.MESSAGES.SUCCESS.WELCOME',
-    //                 {
-    //                     lastName: session.user.last_name,
-    //                     firstName: session.user.first_name,
-    //                 }
-    //             );
 }
