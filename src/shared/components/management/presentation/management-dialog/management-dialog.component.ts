@@ -1,6 +1,5 @@
 import { DatePipe } from '@angular/common';
 import {
-    ChangeDetectionStrategy,
     Component,
     computed,
     effect,
@@ -83,7 +82,6 @@ import SweetAlert from 'sweetalert2';
         ManagementStateService,
         ManagementFormStore,
     ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementDialogComponent implements OnInit, OnDestroy {
     private readonly store = inject(ManagementFormStore);

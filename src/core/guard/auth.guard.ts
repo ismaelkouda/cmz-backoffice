@@ -13,6 +13,7 @@ export const authGuard: CanActivateFn = () => {
     if (token?.value) {
         return true;
     } else {
+        console.log('No token found, redirecting to login');
         router.navigateByUrl('auth/login');
         return false;
     }

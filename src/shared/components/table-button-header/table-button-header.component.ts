@@ -1,12 +1,4 @@
-import { CommonModule } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    HostListener,
-    input,
-    OnInit,
-    output,
-} from '@angular/core';
+import { Component, HostListener, input, OnInit, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -28,14 +20,7 @@ export interface TableHeaderButton {
 @Component({
     selector: 'app-table-button-header',
     standalone: true,
-    imports: [
-        CommonModule,
-        ButtonModule,
-        TranslateModule,
-        MenuModule,
-        TooltipModule,
-    ],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ButtonModule, TranslateModule, MenuModule, TooltipModule],
     styles: [
         `
             .table-button-header {

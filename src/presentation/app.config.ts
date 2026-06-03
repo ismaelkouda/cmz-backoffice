@@ -12,10 +12,9 @@ import {
     inject,
     isDevMode,
     provideAppInitializer,
-    provideZoneChangeDetection,
+    provideZonelessChangeDetection,
     runInInjectionContext,
 } from '@angular/core';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import {
     PreloadAllModules,
     provideRouter,
@@ -166,12 +165,12 @@ export const appConfig: ApplicationConfig = {
     providers: [
         /* { provide: APP_BASE_HREF, useValue: '/imako/' }, */
 
-        provideAnimations(),
+        provideZonelessChangeDetection(),
 
-        provideZoneChangeDetection({
-            eventCoalescing: true,
-            runCoalescing: true,
-        }),
+        // provideZoneChangeDetection({
+        //     eventCoalescing: true,
+        //     runCoalescing: true,
+        // }),
 
         provideRouter(
             routes,

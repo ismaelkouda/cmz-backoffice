@@ -1,10 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    Input,
-    Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { InputTextModule } from 'primeng/inputtext';
 import { Table } from 'primeng/table';
@@ -13,7 +7,6 @@ import { Table } from 'primeng/table';
     selector: `app-search-table`,
     standalone: true,
     imports: [TranslateModule, InputTextModule],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="p-input-icon-left">
             <input

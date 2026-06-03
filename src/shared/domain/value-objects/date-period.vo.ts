@@ -2,7 +2,7 @@ import {
     InvalidDateRangeError,
     InvalidEndDateError,
     InvalidStartDateError,
-} from '@shared/domain/errors/date-period.error';
+} from '@shared/domain/errors/date-period/date-period.error';
 export class DatePeriod {
     public readonly start?: Date;
     public readonly end?: Date;

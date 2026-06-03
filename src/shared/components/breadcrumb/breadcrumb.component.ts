@@ -1,9 +1,4 @@
-import {
-    ChangeDetectionStrategy,
-    Component,
-    computed,
-    inject,
-} from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
@@ -13,7 +8,6 @@ import { BreadcrumbService } from './breadcrumb.service';
 @Component({
     selector: 'app-breadcrumb',
     standalone: true,
-    changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [BreadcrumbModule, RouterModule, TranslateModule],
     templateUrl: './breadcrumb.component.html',
     styleUrls: ['./breadcrumb.component.scss'],

@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     DestroyRef,
     computed,
@@ -31,7 +30,6 @@ type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
     selector: 'app-users-list',
     standalone: true,
     imports: [TableComponent, PaginationComponent, ReactiveFormsModule],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './users-list.component.html',
     styleUrls: ['./users-list.component.scss'],
 })

@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     EventEmitter,
     effect,
@@ -53,7 +52,6 @@ import { TooltipModule } from 'primeng/tooltip';
     ],
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TableComponent {
     public selectedItems: any[] = [];

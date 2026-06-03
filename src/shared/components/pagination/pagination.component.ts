@@ -1,5 +1,4 @@
 import {
-    ChangeDetectionStrategy,
     Component,
     computed,
     effect,
@@ -45,7 +44,6 @@ import { PaginatorModule } from 'primeng/paginator';
 
     styleUrls: ['./pagination.component.scss'],
     imports: [PaginatorModule, TranslateModule, SeparatorThousandsPipe],
-    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PaginationComponent {
     private readonly translateService = inject(TranslateService);
