@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import {
     AfterViewInit,
-    ChangeDetectionStrategy,
     Component,
+    computed,
     DestroyRef,
     ElementRef,
     OnDestroy,
@@ -12,10 +12,11 @@ import {
     signal,
     viewChild,
 } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
+import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
 import {
     InteractiveMapReport,
     ReportFilters,
@@ -30,7 +31,10 @@ import {
     MapAdapter,
 } from '@pages/interactive-map/presentation/adapters/map.adapter';
 import { GeolocationService } from '@pages/interactive-map/presentation/services/geolocation.service';
-import { MapStore } from '@pages/interactive-map/presentation/store/map.store';
+import {
+    EMPTY_REPORT_FILTERS,
+    MapStore,
+} from '@pages/interactive-map/presentation/store/map.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { parseCoordinates } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
@@ -95,6 +99,7 @@ interface NominatimSearchResult {
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy
 {
+    private readonly mapShell = viewChild<ElementRef<HTMLElement>>('mapShell');
     private readonly mapContainer =
         viewChild<ElementRef<HTMLElement>>('mapContainer');
     private readonly hoverOverlay =
@@ -113,13 +118,16 @@ export class InteractiveMapComponent
     public readonly locationSearchResults = signal<LocationSearchResult[]>([]);
     public readonly locationSearchLoading = signal(false);
     public readonly locationSearchError = signal<string | null>(null);
+    public readonly draftFilters = signal<ReportFilters>(
+        this.cloneFilters(EMPTY_REPORT_FILTERS)
+    );
+    public readonly isFullscreen = signal(false);
     protected readonly isVisibleDialog = signal<boolean>(false);
     protected readonly selectedManagementType = signal<TypeReport | null>(
         TypeReport.PROCESSING
     );
     protected selectedReportId: string | null = null;
 
-    // Options pour les filtres (inchangées)
     public readonly reportTypeOptions: { value: ReportType; label: string }[] =
         [
             { value: 'zob', label: 'Zone blanche' },
@@ -152,10 +160,35 @@ export class InteractiveMapComponent
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
     private readonly toastr = inject(ToastrService);
+    private readonly regionsFacade = inject(RegionsSelectFacade);
+    private readonly regions = toSignal(this.regionsFacade.items$, {
+        initialValue: [],
+    });
+    public readonly regionOptions = computed(() => this.regions());
+    public readonly departmentOptions = computed(() => {
+        const region = this.regions().find(
+            (item) => item.value === this.draftFilters().region
+        );
+        return region?.departments ?? [];
+    });
+    public readonly municipalityOptions = computed(() => {
+        const department = this.departmentOptions().find(
+            (item) => item.value === this.draftFilters().department
+        );
+        return department?.municipalities ?? [];
+    });
     private readonly locationSearchSubject = new Subject<string>();
     private hoverTooltipLocked = false;
     private hoverHideTimer: ReturnType<typeof setTimeout> | null = null;
     private urlSyncReady = false;
+    private ignoreNextMapMove = false;
+    private readonly handleFullscreenChange = (): void => {
+        this.isFullscreen.set(
+            document.fullscreenElement === this.mapShell()?.nativeElement
+        );
+        this.ignoreNextMapMove = true;
+        setTimeout(() => this.mapAdapter.updateSize(true), 80);
+    };
 
     constructor() {
         this.setupStoreEffects();
@@ -163,6 +196,8 @@ export class InteractiveMapComponent
 
     ngOnInit(): void {
         this.restoreStateFromUrl();
+        this.draftFilters.set(this.cloneFilters(this.store.filters()));
+        this.regionsFacade.readAll();
         this.setupLocationSearch();
         this.checkInitialPermission();
     }
@@ -181,10 +216,18 @@ export class InteractiveMapComponent
         this.listenToMapSelections();
         this.initializeBoundsFromMap();
         this.urlSyncReady = true;
+        document.addEventListener(
+            'fullscreenchange',
+            this.handleFullscreenChange
+        );
     }
 
     ngOnDestroy(): void {
         this.clearHoverHideTimer();
+        document.removeEventListener(
+            'fullscreenchange',
+            this.handleFullscreenChange
+        );
         this.mapAdapter.destroy();
     }
 
@@ -218,7 +261,25 @@ export class InteractiveMapComponent
 
     public toggleFiltersPanel(): void {
         this.filtersPanelOpen.update((isOpen) => !isOpen);
+        this.ignoreNextMapMove = true;
         setTimeout(() => this.mapAdapter.updateSize(true), 260);
+    }
+
+    public async toggleFullscreen(): Promise<void> {
+        const shell = this.mapShell()?.nativeElement;
+        if (!shell) {
+            return;
+        }
+
+        try {
+            if (document.fullscreenElement) {
+                await document.exitFullscreen();
+                return;
+            }
+            await shell.requestFullscreen();
+        } catch {
+            this.toastr.error('Impossible de changer le mode plein écran');
+        }
     }
 
     public toggleFilter<T extends keyof ReportFilters>(
@@ -226,37 +287,59 @@ export class InteractiveMapComponent
         value: ReportFilters[T] extends (infer U)[] ? U : never,
         checked: boolean
     ): void {
-        const current = this.store.filters()[key];
+        const current = this.draftFilters()[key];
         if (!Array.isArray(current)) {
             return;
         }
         const next = checked
             ? [...current, value]
             : current.filter((item) => item !== value);
-        this.store.updateFilters({ [key]: next } as Partial<ReportFilters>);
+        this.updateDraftFilters({ [key]: next } as Partial<ReportFilters>);
     }
 
     public setStatuses(statuses: HTMLSelectElement): void {
-        const values = Array.from(statuses.selectedOptions).map(
-            (option) => option.value as ReportStatus
-        );
-        this.store.updateFilters({ statuses: values });
+        const values = Array.from(statuses.selectedOptions)
+            .map((option) => option.value)
+            .filter(Boolean) as ReportStatus[];
+        this.updateDraftFilters({ statuses: values });
+    }
+
+    public setRegion(value: string): void {
+        this.updateDraftFilters({
+            region: value,
+            department: '',
+            municipality: '',
+        });
+    }
+
+    public setDepartment(value: string): void {
+        this.updateDraftFilters({
+            department: value,
+            municipality: '',
+        });
     }
 
     public setMunicipality(value: string): void {
-        this.store.updateFilters({ municipality: value });
+        this.updateDraftFilters({ municipality: value });
     }
 
     public setDateFilter(key: 'startDate' | 'endDate', value: string): void {
-        this.store.updateFilters({ [key]: value });
+        this.updateDraftFilters({ [key]: value });
     }
 
     public setCompareOperator(value: ReportOperator | ''): void {
-        this.store.updateFilters({ compareOperator: value });
+        this.updateDraftFilters({ compareOperator: value });
+    }
+
+    public submitFilters(): void {
+        this.store.updateFilters(this.cloneFilters(this.draftFilters()));
+        this.store.clearLoadedReports();
     }
 
     public resetFilters(): void {
+        this.draftFilters.set(this.cloneFilters(EMPTY_REPORT_FILTERS));
         this.store.resetFilters();
+        this.store.clearLoadedReports();
     }
 
     public toggleHeatmap(): void {
@@ -488,6 +571,10 @@ export class InteractiveMapComponent
             .onMoveEnd()
             .pipe(debounceTime(1000), takeUntilDestroyed(this.destroyRef))
             .subscribe((bounds) => {
+                if (this.ignoreNextMapMove) {
+                    this.ignoreNextMapMove = false;
+                    return;
+                }
                 console.log('Nouveaux bounds après mouvement:', bounds);
                 this.store.setViewportBounds(bounds);
                 const view = this.mapAdapter.getViewState();
@@ -648,6 +735,8 @@ export class InteractiveMapComponent
             reportTypes: this.readArrayParam<ReportType>('types'),
             operators: this.readArrayParam<ReportOperator>('operators'),
             statuses: this.readArrayParam<ReportStatus>('statuses'),
+            region: query.get('region') || '',
+            department: query.get('department') || '',
             municipality: query.get('municipality') || '',
             startDate: query.get('from') || '',
             endDate: query.get('to') || '',
@@ -676,6 +765,8 @@ export class InteractiveMapComponent
                 types: filters.reportTypes.join(',') || null,
                 operators: filters.operators.join(',') || null,
                 statuses: filters.statuses.join(',') || null,
+                region: filters.region || null,
+                department: filters.department || null,
                 municipality: filters.municipality || null,
                 from: filters.startDate || null,
                 to: filters.endDate || null,
@@ -689,6 +780,22 @@ export class InteractiveMapComponent
     private readArrayParam<T extends string>(key: string): T[] {
         const value = this.route.snapshot.queryParamMap.get(key);
         return value ? (value.split(',').filter(Boolean) as T[]) : [];
+    }
+
+    private updateDraftFilters(filters: Partial<ReportFilters>): void {
+        this.draftFilters.update((current) => ({
+            ...current,
+            ...filters,
+        }));
+    }
+
+    private cloneFilters(filters: ReportFilters): ReportFilters {
+        return {
+            ...filters,
+            reportTypes: [...filters.reportTypes],
+            operators: [...filters.operators],
+            statuses: [...filters.statuses],
+        };
     }
 
     private normalizeOperators(

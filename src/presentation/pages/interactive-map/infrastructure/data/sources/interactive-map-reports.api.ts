@@ -74,6 +74,12 @@ export class InteractiveMapReportsApi {
         if (filters.statuses.length) {
             params['status'] = filters.statuses.join(',');
         }
+        if (filters.region) {
+            params['region'] = filters.region;
+        }
+        if (filters.department) {
+            params['department'] = filters.department;
+        }
         if (filters.municipality) {
             params['municipality'] = filters.municipality;
         }

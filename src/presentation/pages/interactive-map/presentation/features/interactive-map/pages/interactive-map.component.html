@@ -5,16 +5,105 @@
 
             <section class="card queues-card">
                 <div class="card-body queues-card-body">
-                    <header class="queues-header">
+                    <!-- <header class="queues-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
                             [displayList]="false"
                             [title]="'GEOGRAPHICAL_MAP.MAP.TITLE' | translate"
                         />
-                    </header>
+                    </header> -->
+
+                    <div class="map-topbar">
+                        <div class="legend-content">
+                                <div class="legend-section">
+                                    <h4>Legend</h4>
+                                    <div class="legend-items">
+                                        <div class="legend-item">
+                                            <span
+                                                class="legend-color"
+                                                style="
+                                                    background-color: #dc2626;
+                                                "
+                                            ></span>
+                                            <span
+                                                >Zone blanche (aucun
+                                                réseau)</span
+                                            >
+                                        </div>
+                                        <div class="legend-item">
+                                            <span
+                                                class="legend-color"
+                                                style="
+                                                    background-color: #2563eb;
+                                                "
+                                            ></span>
+                                            <span>Absence d'opérateur(s)</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <span
+                                                class="legend-color"
+                                                style="
+                                                    background-color: #f97316;
+                                                "
+                                            ></span>
+                                            <span>Mauvais signal</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <span
+                                                class="legend-color"
+                                                style="
+                                                    background-color: #eab308;
+                                                "
+                                            ></span>
+                                            <span>Absence d'internet</span>
+                                        </div>
+                                        <div class="legend-item">
+                                            <span
+                                                class="legend-color"
+                                                style="background-color: #000"
+                                            ></span>
+                                            <span
+                                                >Plusieurs signalements proches
+                                                (nombre affiché)</span
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <button
+                            type="button"
+                            class="toolbar-button"
+                            (click)="toggleFullscreen()"
+                        >
+                            <i
+                                [class]="
+                                    isFullscreen()
+                                        ? 'pi pi-window-minimize'
+                                        : 'pi pi-window-maximize'
+                                "
+                            ></i>
+                        </button>
+                    </div>
+
+                    @if (legendVisible()) {
+                        <aside class="map-legend">
+                            <header class="legend-header">
+                                <h3>Légende</h3>
+                                <button
+                                    type="button"
+                                    (click)="toggleLegend()"
+                                    class="close-legend"
+                                >
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </header>
+                        </aside>
+                    }
 
                     <div
+                        #mapShell
                         class="interactive-map-shell mt-3"
                         [class.filters-collapsed]="!filtersPanelOpen()"
                     >
@@ -75,7 +164,7 @@
                                             type="checkbox"
                                             [checked]="
                                                 isSelected(
-                                                    store.filters().reportTypes,
+                                                    draftFilters().reportTypes,
                                                     option.value
                                                 )
                                             "
@@ -94,13 +183,15 @@
 
                             <section class="filter-group">
                                 <h3>Operateurs</h3>
+                                <div class="d-flex gap-10">
+                                    
                                 @for (option of operatorOptions; track option) {
                                     <label>
                                         <input
                                             type="checkbox"
                                             [checked]="
                                                 isSelected(
-                                                    store.filters().operators,
+                                                    draftFilters().operators,
                                                     option.value
                                                 )
                                             "
@@ -115,6 +206,7 @@
                                         <span>{{ option.label }}</span>
                                     </label>
                                 }
+                                </div>
                             </section>
 
                             <!-- <section class="filter-group">
@@ -143,9 +235,10 @@
                             <section class="filter-group">
                                 <h3>Statut</h3>
                                 <select
-                                    [value]="store.filters().statuses"
+                                    [value]="draftFilters().statuses[0] || ''"
                                     (change)="setStatuses($any($event.target))"
                                 >
+                                    <option value="">Tous les statuts</option>
                                     @for (
                                         option of statusOptions;
                                         track option.value
@@ -157,10 +250,54 @@
                                 </select>
                             </section>
 
-                            <!-- <section class="filter-group">
-                                <h3>Commune</h3>
+                            <section class="filter-group">
+                                <h3>Région</h3>
                                 <select
-                                    [value]="store.filters().municipality"
+                                    [value]="draftFilters().region"
+                                    (change)="
+                                        setRegion($any($event.target).value)
+                                    "
+                                >
+                                    <option value="">Toutes les régions</option>
+                                    @for (
+                                        region of regionOptions();
+                                        track region.value
+                                    ) {
+                                        <option [value]="region.value">
+                                            {{ region.name }}
+                                        </option>
+                                    }
+                                </select>
+                            </section>
+
+                            <section class="filter-group">
+                                <h3>Département</h3>
+                                <select
+                                    [value]="draftFilters().department"
+                                    [disabled]="!draftFilters().region"
+                                    (change)="
+                                        setDepartment($any($event.target).value)
+                                    "
+                                >
+                                    <option value="">
+                                        Tous les départements
+                                    </option>
+                                    @for (
+                                        department of departmentOptions();
+                                        track department.value
+                                    ) {
+                                        <option [value]="department.value">
+                                            {{ department.name }}
+                                        </option>
+                                    }
+                                </select>
+                            </section>
+
+                            <section class="filter-group">
+                                <h3>Commune / Sous-préfecture</h3>
+                                <select
+                                    [value]="draftFilters().municipality"
+                                    [disabled]="!draftFilters().department"
                                     (change)="
                                         setMunicipality(
                                             $any($event.target).value
@@ -168,18 +305,18 @@
                                     "
                                 >
                                     <option value="">
-                                        Toutes les communes
+                                        Toutes les communes / sous-préfectures
                                     </option>
                                     @for (
-                                        municipality of store.municipalities();
-                                        track municipality
+                                        municipality of municipalityOptions();
+                                        track municipality.value
                                     ) {
-                                        <option>
-                                            {{ municipality }}
+                                        <option [value]="municipality.value">
+                                            {{ municipality.name }}
                                         </option>
                                     }
                                 </select>
-                            </section> -->
+                            </section>
 
                             <section class="filter-group dates">
                                 <h3>Dates</h3>
@@ -237,6 +374,14 @@
 
                             <button
                                 type="button"
+                                class="primary-button"
+                                (click)="submitFilters()"
+                            >
+                                Soumettre
+                            </button>
+
+                            <button
+                                type="button"
                                 class="secondary-button"
                                 (click)="resetFilters()"
                             >
@@ -247,7 +392,7 @@
                         <main class="map-workspace">
                             <div #mapContainer class="map"></div>
 
-                            <section
+                            <!-- <section
                                 class="map-search-bar"
                                 aria-label="Recherche de lieu sur la carte"
                             >
@@ -302,117 +447,7 @@
                                         {{ locationSearchError() }}
                                     </div>
                                 }
-                            </section>
-
-                            <button
-                                type="button"
-                                class="legend-toggle-btn"
-                                (click)="toggleLegend()"
-                                title="Légende"
-                            >
-                                <i class="pi pi-info-circle"></i>
-                            </button>
-
-                            <!-- Panneau de légende -->
-                            @if (legendVisible()) {
-                                <aside class="map-legend">
-                                    <header class="legend-header">
-                                        <h3>Légende</h3>
-                                        <button
-                                            type="button"
-                                            (click)="toggleLegend()"
-                                            class="close-legend"
-                                        >
-                                            <i class="pi pi-times"></i>
-                                        </button>
-                                    </header>
-
-                                    <div class="legend-content">
-                                        <div class="legend-section">
-                                            <h4>Types de signalement</h4>
-                                            <div class="legend-items">
-                                                <div class="legend-item">
-                                                    <span
-                                                        class="legend-color"
-                                                        style="
-                                                            background-color: #dc2626;
-                                                        "
-                                                    ></span>
-                                                    <span
-                                                        >Zone blanche (aucun
-                                                        réseau)</span
-                                                    >
-                                                </div>
-                                                <div class="legend-item">
-                                                    <span
-                                                        class="legend-color"
-                                                        style="
-                                                            background-color: #2563eb;
-                                                        "
-                                                    ></span>
-                                                    <span
-                                                        >Absence
-                                                        d'opérateur(s)</span
-                                                    >
-                                                </div>
-                                                <div class="legend-item">
-                                                    <span
-                                                        class="legend-color"
-                                                        style="
-                                                            background-color: #f97316;
-                                                        "
-                                                    ></span>
-                                                    <span>Mauvais signal</span>
-                                                </div>
-                                                <div class="legend-item">
-                                                    <span
-                                                        class="legend-color"
-                                                        style="
-                                                            background-color: #eab308;
-                                                        "
-                                                    ></span>
-                                                    <span
-                                                        >Absence
-                                                        d'internet</span
-                                                    >
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="legend-section">
-                                            <h4>Groupes (clusters)</h4>
-                                            <div class="legend-item">
-                                                <span
-                                                    class="legend-color"
-                                                    style="
-                                                        background-color: #000;
-                                                    "
-                                                ></span>
-                                                <span
-                                                    >Plusieurs signalements
-                                                    proches (nombre
-                                                    affiché)</span
-                                                >
-                                            </div>
-                                        </div>
-
-                                        @if (store.heatmapEnabled()) {
-                                            <div class="legend-section">
-                                                <h4>
-                                                    Carte de chaleur (Heatmap)
-                                                </h4>
-                                                <div
-                                                    class="legend-gradient"
-                                                ></div>
-                                                <div class="gradient-labels">
-                                                    <span>Faible densité</span>
-                                                    <span>Fort densité</span>
-                                                </div>
-                                            </div>
-                                        }
-                                    </div>
-                                </aside>
-                            }
+                            </section> -->
 
                             <!-- @if (store.loading()) {
                                 <div class="loading-overlay">
