@@ -1,11 +1,4 @@
-import {
-    Component,
-    input,
-    computed,
-    ChangeDetectionStrategy,
-    output,
-    inject,
-} from '@angular/core';
+import { Component, input, computed, output, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
@@ -29,11 +22,13 @@ import { TooltipModule } from 'primeng/tooltip';
 
 import { ManagementEntityType } from '../../domain/types/management-entity.type';
 import { ManagementFormStore } from '../store/management-form.store';
+import { CommonModule } from '@angular/common';
 
 @Component({
     selector: 'app-management-info-panel',
     standalone: true,
     imports: [
+        CommonModule,
         ReactiveFormsModule,
         SkeletonModule,
         TranslateModule,
@@ -48,7 +43,6 @@ import { ManagementFormStore } from '../store/management-form.store';
         DynamicDialogModule,
     ],
     providers: [DialogService],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     templateUrl: './management-info-panel.component.html',
     styleUrls: ['./management-info-panel.component.scss'],
 })

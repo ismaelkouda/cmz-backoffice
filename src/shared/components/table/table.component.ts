@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
     Component,
     EventEmitter,
@@ -36,6 +37,7 @@ import { TooltipModule } from 'primeng/tooltip';
     selector: 'app-table',
     standalone: true,
     imports: [
+        CommonModule,
         TableModule,
         BadgeModule,
         ButtonModule,
@@ -241,6 +243,7 @@ export class TableComponent {
     }
 
     public getOperatorTagStyle(operator: string): Record<string, string> {
+        console.log('operator: ', operator);
         return operatorsTagStyle(operator);
     }
 }

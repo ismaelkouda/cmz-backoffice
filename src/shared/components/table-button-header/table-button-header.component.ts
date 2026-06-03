@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, HostListener, input, OnInit, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { MenuItem } from 'primeng/api';
@@ -20,7 +21,13 @@ export interface TableHeaderButton {
 @Component({
     selector: 'app-table-button-header',
     standalone: true,
-    imports: [ButtonModule, TranslateModule, MenuModule, TooltipModule],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        TranslateModule,
+        MenuModule,
+        TooltipModule,
+    ],
     styles: [
         `
             .table-button-header {

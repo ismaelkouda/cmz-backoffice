@@ -47,7 +47,6 @@ import { provideAuthentication } from '@pages/authentication/di/authentication.p
 import { provideCommunication } from '@pages/communication/di/communication.providers';
 import { provideContentManagement } from '@pages/content-management/di/content-management.providers';
 import { provideDashboard } from '@pages/dashboard/di/dashboard.providers';
-import { provideGeographicalMap } from '@pages/geographical-map/di/geographical-map.providers';
 import { provideMonitoring } from '@pages/monitoring/di/monitoring.providers';
 import { providePasswordReset } from '@pages/password-reset/di/password-reset.providers';
 import { provideProcessing } from '@pages/processing/di/processing.providers';
@@ -63,6 +62,7 @@ import { historyProviders } from '@shared/components/history/di/history.provider
 import { provideManagement } from '@shared/components/management/di/management.providers';
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
+import { provideInteractiveMap } from './pages/interactive-map/di/interactive-map.providers';
 
 /* import { provideProfileHabilitation } from '@pages/settings-security/di/profile-habilitation.providers'; */
 /* import { provideUser } from '@pages/settings-security/di/user.providers';
@@ -271,11 +271,12 @@ export const appConfig: ApplicationConfig = {
         ...provideReportStates(),
 
         ...provideReporting(),
-        ...provideGeographicalMap(),
 
         ...provideMonitoring(),
 
         ...provideCommunication(),
+
+        ...provideInteractiveMap(),
 
         ...provideManagement(),
 

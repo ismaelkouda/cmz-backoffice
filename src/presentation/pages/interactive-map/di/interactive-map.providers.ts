@@ -1,10 +1,12 @@
 import { inject, Provider } from '@angular/core';
-import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/requests.base-url';
 import { provideMapClusters } from '@shared/components/map-clusters/di/map-clusters.providers';
 
 import { EnvService } from '../../../../core/config/env.service';
+import { provideMap } from './map.providers';
+import { DASHBOARD_MAP_BASE_URL } from '../infrastructure/api/interactive-map.base-url';
+import { INTERACTIVE_MAP_BASE_URL } from '../infrastructure/api/interactive-map.base-url';
 
-const getApiBaseUrl = () => {
+const getApiBaseInteractionMap = () => {
     const baseUrl = inject(EnvService).reportUrl;
 
     if (!baseUrl) {
@@ -16,10 +18,27 @@ const getApiBaseUrl = () => {
     return baseUrl;
 };
 
-export const provideRequests = (): Provider[] => [
+const getApiBaseDashboardMap = () => {
+    const baseUrl = inject(EnvService).settingUrl;
+
+    if (!baseUrl) {
+        console.warn(
+            'interactive-map Module: API Base URL is missing in environment configuration.'
+        );
+    }
+
+    return baseUrl;
+};
+
+export const provideInteractiveMap = (): Provider[] => [
     {
-        provide: REQUESTS_BASE_URL,
-        useFactory: getApiBaseUrl,
+        provide: INTERACTIVE_MAP_BASE_URL,
+        useFactory: getApiBaseInteractionMap,
+    },
+    {
+        provide: DASHBOARD_MAP_BASE_URL,
+        useFactory: getApiBaseDashboardMap,
     },
     ...provideMapClusters,
+    ...provideMap,
 ];

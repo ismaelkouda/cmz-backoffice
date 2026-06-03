@@ -15,7 +15,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LOGIN } from '@pages/authentication/authentication.routes';
+import { LOGIN_ROUTE } from '@pages/authentication/presentation/constants/login-routes.constant';
 import { PasswordResetFacade } from '@pages/password-reset/application/password-reset.facade';
 import { ResetPasswordFormInterface } from '@pages/password-reset/data/interfaces/reset-password-form.interface';
 import { AUTH } from '@presentation/app.routes';
@@ -193,6 +193,6 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     private redirectToLogin(): void {
-        this.router.navigate([`/${AUTH}/${LOGIN}`]);
+        this.router.navigate([`/${AUTH}/${LOGIN_ROUTE}`]);
     }
 }

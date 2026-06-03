@@ -94,18 +94,13 @@
     border: 0;
 }
 
-// --- Styles globaux du composant ---
 :host {
     display: block;
     height: calc(100vh - 110px);
     min-height: 680px;
 }
 
-// --- Mise en page principale ---
 .map-topbar {
-    position: sticky;
-    top: 0;
-    z-index: 12;
     display: flex;
     align-items: center;
     justify-content: space-between;

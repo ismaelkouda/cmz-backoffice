@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { MapEntity } from '@pages/geographical-map/domain/entities/map/map.entity';
-import { MapRepository } from '@pages/geographical-map/domain/repositories/map-repository.interface';
+import { MapEntity } from '@presentation/pages/interactive-map/domain/entities/map/map.entity';
+import { MapRepository } from '@pages/interactive-map/domain/repositories/map-repository.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({

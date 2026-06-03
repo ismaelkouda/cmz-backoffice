@@ -122,8 +122,8 @@ export const content: Routes = [
         path: MAP_ROUTE,
         data: {
             breadcrumb: {
-                label: 'GEOGRAPHICAL_MAP.BREADCRUMB.LABEL',
-                icon: 'GEOGRAPHICAL_MAP.BREADCRUMB.ICON',
+                label: 'INTERACTIVE_MAP.BREADCRUMB.LABEL',
+                icon: 'INTERACTIVE_MAP.BREADCRUMB.ICON',
             },
         },
         loadChildren: () =>

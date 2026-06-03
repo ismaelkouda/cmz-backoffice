@@ -10,13 +10,13 @@ import {
     ReportsResponse,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
 import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
-import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/requests.base-url';
+import { INTERACTIVE_MAP_BASE_URL } from '../../api/interactive-map.base-url';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class InteractiveMapReportsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(REQUESTS_BASE_URL);
+    private readonly baseUrl = inject(INTERACTIVE_MAP_BASE_URL);
 
     private readonly reportsSignal = signal<InteractiveMapReport[]>([]);
 
