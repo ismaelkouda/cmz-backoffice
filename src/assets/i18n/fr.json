@@ -289,7 +289,7 @@
             }
         }
     },
-    "PASSWORD_RESET": {
+    "FORGOT_PASSWORD": {
         "UI": {
             "FORGOT_PASSWORD_TITLE": "Mot de passe oublié",
             "FORGOT_PASSWORD_SUBTITLE": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe",
@@ -326,7 +326,7 @@
             "SUCCESS": {
                 "EMAIL_SENT": "E-mail envoyé avec succès",
                 "EMAIL_SENT_MESSAGE": "Si l'adresse e-mail que vous avez fournie correspond à un compte enregistré dans notre système, vous allez bientôt recevoir un e-mail contenant des instructions pour réinitialiser votre mot de passe. Veuillez consulter votre boîte de réception.",
-                "PASSWORD_RESET": "Mot de passe réinitialisé avec succès"
+                "FORGOT_PASSWORD": "Mot de passe réinitialisé avec succès"
             },
             "NOT_RECEIVED": "Vous n'avez pas reçu le courrier ?",
             "ERROR": {

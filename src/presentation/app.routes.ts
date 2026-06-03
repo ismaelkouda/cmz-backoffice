@@ -19,7 +19,7 @@ export const routes = [
     {
         path: REINITIALIZATION,
         loadChildren: (): Promise<Routes> =>
-            import('@pages/password-reset/password-reset.routes').then(
+            import('@pages/authentication/authentication.routes').then(
                 (m) => m.routes
             ),
         canActivate: [unauthGuard],

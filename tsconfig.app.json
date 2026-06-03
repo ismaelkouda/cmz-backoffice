@@ -9,7 +9,8 @@
     "@environments/*": ["./src/environments/*"],
     "@shared/*": ["./src/shared/*"],
     "@presentation/*": ["./src/presentation/*"],
-    "@pages/*": ["./src/presentation/pages/*"]
+    "@pages/*": ["./src/presentation/pages/*"],
+    "@assets/*": ["./src/assets/*"],
     },
     "allowJs": true,
     "target": "ES2022",

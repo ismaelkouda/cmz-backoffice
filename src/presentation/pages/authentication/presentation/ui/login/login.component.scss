@@ -344,16 +344,11 @@ $dark-gray: var(--color-gray);
     }
 }
 
-.form-error-message {
+.error-message {
     color: var(--color-error, #dc3545);
-    background: color-mix(in srgb, var(--color-error, #dc3545) 10%, $white);
-    border: 1px solid
-        color-mix(in srgb, var(--color-error, #dc3545) 30%, transparent);
-    padding: 8px 12px;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 500;
-    margin-top: 8px;
     animation: slideDown 0.3s ease-out;
 }
 
