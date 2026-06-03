@@ -54,7 +54,7 @@
 
                         <div class="form-group">
                             <label class="form-label" for="email-input">
-                                {{ 'AUTHENTICATION.FORM.EMAIL.LABEL' | translate }}
+                                <b>{{ 'AUTHENTICATION.FORM.EMAIL.LABEL' | translate }}</b>
                                 <span class="required-indicator">*</span>
                             </label>
                             <input
@@ -79,7 +79,7 @@
 
                         <div class="form-group">
                             <label class="form-label" for="password-input">
-                                {{ 'AUTHENTICATION.FORM.PASSWORD.LABEL' | translate }}
+                                <b>{{ 'AUTHENTICATION.FORM.PASSWORD.LABEL' | translate }}</b>
                                 <span class="required-indicator">*</span>
                             </label>
                             <p-password
@@ -123,7 +123,7 @@
 
                     <div class="forgot-password">
                         <a
-                            [routerLink]="['/' + REINITIALIZATION + '/' + FORGOT_PASSWORD]"
+                            [routerLink]="['/' + REINITIALIZATION + '/' + FORGOT_PASSWORD_ROUTE]"
                             class="forgot-link"
                             [attr.aria-label]="('AUTHENTICATION.UI.FORGOT_PASSWORD' | translate) + ' ?'"
                         >

@@ -3,12 +3,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { PasswordModule } from 'primeng/password';
-import { LoginStore } from '@presentation/pages/authentication/presentation/store/login.store';
+import { LoginStore } from '@presentation/pages/authentication/presentation/store/login/login.store';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { DASHBOARD } from '@shared/routes/routes';
 import { REINITIALIZATION } from '@presentation/app.routes';
-import { FORGOT_PASSWORD } from '@pages/password-reset/password-reset.routes';
+import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-routes.constant';
 import {
     AuthToken,
     CurrentUser,
@@ -29,7 +29,7 @@ export class LoginComponent {
     private readonly router = inject(Router);
 
     protected readonly REINITIALIZATION = REINITIALIZATION;
-    protected readonly FORGOT_PASSWORD = FORGOT_PASSWORD;
+    protected readonly FORGOT_PASSWORD_ROUTE = FORGOT_PASSWORD_ROUTE;
     protected readonly AUTH_LOGO = this.appConfig.customization.assets.authLogo;
     protected readonly APP_NAME = this.appConfig.customization.app.name;
 
@@ -40,11 +40,16 @@ export class LoginComponent {
 
     constructor() {
         effect(() => {
+            const error = this.store.error();
+            if (error) {
+                this.store.resetPassword();
+            }
+        });
+        effect(() => {
             const session = this.store.session();
             if (!session || this.hasRedirected) {
                 return;
             }
-
             this.hasRedirected = true;
             this.storeUserAndToken(session.user, session.token);
             void this.router.navigate([DASHBOARD]);

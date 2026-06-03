@@ -40,15 +40,12 @@ import {
     TranslateHttpLoader,
 } from '@ngx-translate/http-loader';
 
-/* import { CoreModule } from '../core/core.module'; */
-
 import { provideAdministrativeBoundary } from '@pages/administrative-boundary/di/administrative-boundary.providers';
 import { provideAuthentication } from '@pages/authentication/di/authentication.providers';
 import { provideCommunication } from '@pages/communication/di/communication.providers';
 import { provideContentManagement } from '@pages/content-management/di/content-management.providers';
 import { provideDashboard } from '@pages/dashboard/di/dashboard.providers';
 import { provideMonitoring } from '@pages/monitoring/di/monitoring.providers';
-import { providePasswordReset } from '@pages/password-reset/di/password-reset.providers';
 import { provideProcessing } from '@pages/processing/di/processing.providers';
 import { provideReportStates } from '@pages/report-states/di/report-states.providers';
 import { provideReporting } from '@pages/reporting/di/reporting.providers';
@@ -63,11 +60,6 @@ import { provideManagement } from '@shared/components/management/di/management.p
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 import { provideInteractiveMap } from './pages/interactive-map/di/interactive-map.providers';
-
-/* import { provideProfileHabilitation } from '@pages/settings-security/di/profile-habilitation.providers'; */
-/* import { provideUser } from '@pages/settings-security/di/user.providers';
-import { provideParticipant } from '@pages/team-organization/di/participant.providers';
-import { provideTeam } from '@pages/team-organization/di/team.providers'; */
 
 const frenchLocale = {
     firstDayOfWeek: 1,
@@ -264,7 +256,6 @@ export const appConfig: ApplicationConfig = {
         ...provideAuthentication(),
         ...provideDashboard(),
         ...provideMyAccount(),
-        ...providePasswordReset(),
 
         ...provideRequests(),
         ...provideProcessing(),
@@ -289,10 +280,5 @@ export const appConfig: ApplicationConfig = {
         ...provideSettingsSecurity(),
 
         ...historyProviders(),
-
-        /* ...provideUser(), */
-        /*  ...provideProfileHabilitation(), */
-        /*         ...provideParticipant(),
-                ...provideTeam(), */
     ],
 };

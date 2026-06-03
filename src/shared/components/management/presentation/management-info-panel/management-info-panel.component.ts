@@ -20,8 +20,8 @@ import { SkeletonModule } from 'primeng/skeleton';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 
-import { ManagementEntityType } from '../../domain/types/management-entity.type';
-import { ManagementFormStore } from '../store/management-form.store';
+import { ManagementEntityType } from '@shared/components/management/domain/types/management-entity.type';
+import { ManagementFormStore } from '@shared/components/management/presentation/store/management-form.store';
 import { CommonModule } from '@angular/common';
 
 @Component({
