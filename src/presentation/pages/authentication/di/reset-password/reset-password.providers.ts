@@ -5,6 +5,6 @@ import { ResetPasswordRepository } from '@presentation/pages/authentication/doma
 export const provideResetPassword: Provider[] = [
     {
         provide: ResetPasswordRepository,
-        useExisting: ResetPasswordRepositoryImpl,
+        useClass: ResetPasswordRepositoryImpl,
     },
 ];

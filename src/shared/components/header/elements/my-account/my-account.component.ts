@@ -23,7 +23,6 @@ import { interval, Subscription, takeWhile } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 
-import { MyAccountFacade } from './application/my-account.facade';
 import {
     PasswordForm,
     ProfileForm,
@@ -32,6 +31,7 @@ import {
     createProfileForm,
     createTwoFactorForm,
 } from './domain/controls/my-account-form.control';
+import { LogoutFacade } from './application/facade/logout.facade';
 
 type AccountField = 'email' | 'firstName' | 'lastName' | 'phone';
 type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
@@ -56,7 +56,7 @@ export class MyAccountComponent {
     private readonly destroyRef = inject(DestroyRef);
     private readonly feedback = inject(UiFeedbackService);
     private readonly translate = inject(TranslateService);
-    private readonly facade = inject(MyAccountFacade);
+    private readonly logoutFacade = inject(LogoutFacade);
     private readonly encodingDataService = inject(EncodingDataService);
     private readonly modal = inject(NgbModal);
 
@@ -73,8 +73,6 @@ export class MyAccountComponent {
     readonly isDropdownOpen = signal(false);
     readonly twoFaStep = signal<'status' | 'verification'>('status');
     readonly resendCooldown = signal(0);
-    readonly loading = this.facade.loading;
-    // readonly twoFactorChallenge = this.facade.twoFactorChallenge;
 
     readonly accountForm: ProfileForm = createProfileForm();
     readonly passwordForm: PasswordForm = createPasswordForm();
@@ -106,30 +104,30 @@ export class MyAccountComponent {
         this.openModal(template);
     }
 
-    saveAccount(): void {
-        if (this.accountForm.invalid) {
-            this.accountForm.markAllAsTouched();
-            return;
-        }
+    // saveAccount(): void {
+    //     if (this.accountForm.invalid) {
+    //         this.accountForm.markAllAsTouched();
+    //         return;
+    //     }
 
-        const payload = this.accountForm.getRawValue();
-        this.facade
-            .updateProfile(payload)
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                const updatedUser = this.mergeCurrentUser({
-                    last_name: payload.lastName,
-                    first_name: payload.firstName,
-                    email: payload.email,
-                    phone: payload.phone,
-                });
-                this.persistUser(updatedUser);
-                this.feedback.success(
-                    'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
-                );
-                this.closeModal();
-            });
-    }
+    //     const payload = this.accountForm.getRawValue();
+    //     this.profileUpdateFacade
+    //         .execute(payload)
+    //         .pipe(takeUntilDestroyed(this.destroyRef))
+    //         .subscribe(() => {
+    //             const updatedUser = this.mergeCurrentUser({
+    //                 last_name: payload.lastName,
+    //                 first_name: payload.firstName,
+    //                 email: payload.email,
+    //                 phone: payload.phone,
+    //             });
+    //             this.persistUser(updatedUser);
+    //             this.feedback.success(
+    //                 'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
+    //             );
+    //             this.closeModal();
+    //         });
+    // }
 
     openPasswordModal(): void {
         this.closeDropdown();
@@ -142,27 +140,27 @@ export class MyAccountComponent {
         this.openModal(template);
     }
 
-    savePassword(): void {
-        if (this.passwordForm.invalid) {
-            this.passwordForm.markAllAsTouched();
-            return;
-        }
+    // savePassword(): void {
+    //     if (this.passwordForm.invalid) {
+    //         this.passwordForm.markAllAsTouched();
+    //         return;
+    //     }
 
-        const form = this.passwordForm.getRawValue();
-        this.facade
-            .updatePassword({
-                oldPassword: form.oldPassword,
-                newPassword: form.newPassword,
-                newPasswordConfirmation: form.confirmNewPassword,
-            })
-            .pipe(takeUntilDestroyed(this.destroyRef))
-            .subscribe(() => {
-                this.feedback.success(
-                    'MY_ACCOUNT.MESSAGES.SUCCESS.PASSWORD_UPDATED'
-                );
-                this.closeModal();
-            });
-    }
+    //     const form = this.passwordForm.getRawValue();
+    //     this.facade
+    //         .updatePassword({
+    //             oldPassword: form.oldPassword,
+    //             newPassword: form.newPassword,
+    //             newPasswordConfirmation: form.confirmNewPassword,
+    //         })
+    //         .pipe(takeUntilDestroyed(this.destroyRef))
+    //         .subscribe(() => {
+    //             this.feedback.success(
+    //                 'MY_ACCOUNT.MESSAGES.SUCCESS.PASSWORD_UPDATED'
+    //             );
+    //             this.closeModal();
+    //         });
+    // }
 
     protected openDoubleFactorModal(): void {
         this.closeDropdown();
@@ -329,14 +327,7 @@ export class MyAccountComponent {
             if (!result.isConfirmed) {
                 return;
             }
-            this.facade
-                .logout()
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe(() => {
-                    this.encodingDataService.clearEncryptedData();
-                    this.closeDropdown();
-                    globalThis.window.location.reload();
-                });
+            this.logoutFacade.execute();
         });
     }
 

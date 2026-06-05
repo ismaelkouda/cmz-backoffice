@@ -243,7 +243,6 @@ export class TableComponent {
     }
 
     public getOperatorTagStyle(operator: string): Record<string, string> {
-        console.log('operator: ', operator);
         return operatorsTagStyle(operator);
     }
 }

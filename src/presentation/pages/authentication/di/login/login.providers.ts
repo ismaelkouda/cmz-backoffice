@@ -5,6 +5,6 @@ import { LoginRepository } from '@presentation/pages/authentication/domain/repos
 export const provideLogin: Provider[] = [
     {
         provide: LoginRepository,
-        useExisting: LoginRepositoryImpl,
+        useClass: LoginRepositoryImpl,
     },
 ];

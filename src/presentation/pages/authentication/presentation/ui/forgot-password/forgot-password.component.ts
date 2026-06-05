@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { ForgotPasswordStore } from '@presentation/pages/authentication/presentation/store/forgot-password/forgot-password.store';
 import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/constants/login/login-routes.constant';
+import { FORGOT_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form-keys.constant';
 
 @Component({
     selector: 'app-forgot-password',
@@ -19,11 +20,10 @@ export class ForgotPasswordComponent {
     protected readonly appConfig = inject(AppCustomizationService);
     private readonly router = inject(Router);
 
+    protected readonly KEYS = FORGOT_PASSWORD_FORM_KEYS;
     protected readonly AUTH_LOGO = this.appConfig.customization.assets.authLogo;
     protected readonly APP_NAME = this.appConfig.customization.app.name;
     public isEmailSent = false;
-
-    protected readonly emailControl = this.store.emailControl;
 
     private hasRedirected = false;
 

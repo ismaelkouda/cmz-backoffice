@@ -1,7 +1,7 @@
-import { AbstractControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 
 export function getControlError(
-    control: AbstractControl,
+    control: FormControl,
     messages: Record<string, string>
 ): string | null {
     if (!control.touched || !control.errors) {

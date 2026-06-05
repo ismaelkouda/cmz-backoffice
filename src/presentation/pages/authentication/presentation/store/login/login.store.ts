@@ -1,13 +1,15 @@
-import { computed, inject } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginFacade } from '@presentation/pages/authentication/application/facade/login/login.facade';
 import { LoginFormControl } from '@presentation/pages/authentication/presentation/store/login/login-form.control';
 import { LoginFormValue } from '@presentation/pages/authentication/presentation/store/login/login-form.value';
-import { LOGIN_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/login/login-form.constant';
+import { LOGIN_FORM_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/login/login-form-error-messages.constant';
+import { LOGIN_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/login/login-form-keys.constant';
 import { getControlError } from '@presentation/pages/authentication/presentation/helpers/authentication-form-errors.helper';
 import { startWith } from 'rxjs';
 
+@Injectable()
 export class LoginStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(LoginFacade);
@@ -18,12 +20,12 @@ export class LoginStore {
 
     public readonly form: FormGroup<LoginFormControl> =
         this.fb.nonNullable.group({
-            email: ['', [Validators.required, Validators.email]],
-            password: ['', [Validators.required]],
+            [LOGIN_FORM_KEYS.EMAIL]: [
+                '',
+                [Validators.required, Validators.email],
+            ],
+            [LOGIN_FORM_KEYS.PASSWORD]: ['', [Validators.required]],
         });
-
-    public readonly emailControl = this.form.controls.email;
-    public readonly passwordControl = this.form.controls.password;
 
     private readonly status = toSignal(
         this.form.statusChanges.pipe(startWith(this.form.status)),
@@ -44,7 +46,7 @@ export class LoginStore {
     }
 
     public resetPassword(): void {
-        this.passwordControl.setValue('');
+        this.form.controls.password.setValue('');
     }
 
     public isFieldInvalid(field: keyof LoginFormControl): boolean {
@@ -66,7 +68,7 @@ export class LoginStore {
     public getFieldError(field: keyof LoginFormControl): string | null {
         return getControlError(
             this.form.controls[field],
-            LOGIN_ERROR_MESSAGES[field]
+            LOGIN_FORM_ERROR_MESSAGES[field]
         );
     }
 }

@@ -1,0 +1,129 @@
+<div class="modal-header">
+    @if (twoFaStep() === 'verification') {
+        <button
+            type="button"
+            class="btn-back"
+            aria-label="Retour"
+            (click)="backToStatus()"
+        >
+            <i class="pi pi-arrow-left"></i>
+        </button>
+    }
+    <h4 class="modal-title">Authentification à deux facteurs</h4>
+    <button
+        type="button"
+        class="btn-close"
+        aria-label="Close"
+        (click)="closeModal()"
+    ></button>
+</div>
+
+<div class="modal-body">
+    @if (twoFaStep() === 'status') {
+        <section class="security-panel">
+            <i class="pi pi-shield"></i>
+            <div>
+                <h5>Protégez votre compte avec un code supplémentaire</h5>
+                <p>
+                    Activer la double authentification de sécurité à votre
+                    compte en demandant un code de validation envoyé par email
+                    lors de la connexion.
+                </p>
+            </div>
+        </section>
+        <div class="status-row">
+            <span>Statut actuel</span>
+            <p-togglebutton
+                [ngModel]="enable2fa()"
+                onLabel="Activée"
+                offLabel="Désactivée"
+                size="large"
+                class="min-w-24"
+            />
+            <p-tag
+                [severity]="enable2fa() ? 'success' : 'danger'"
+                [value]="enable2fa() ? 'Activée' : 'Désactivée'"
+            />
+        </div>
+    } @else {
+        <form
+            [formGroup]="twoFactorForm"
+            class="verification-form"
+            (ngSubmit)="verifyTwoFactor()"
+        >
+            <p>
+                Code envoyé à
+                <strong>{{
+                    twoFactorChallenge()?.maskedRecipient ||
+                        currentUser()?.email
+                }}</strong>
+            </p>
+            <input
+                id="twoFactorCode"
+                pInputText
+                class="form-input verification-code"
+                type="text"
+                formControlName="code"
+                maxlength="6"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+            />
+            @if (
+                twoFactorForm.controls.code.invalid &&
+                twoFactorForm.controls.code.touched
+            ) {
+                <small class="text-danger"
+                    >Le code doit contenir 6 chiffres.</small
+                >
+            }
+            <button
+                type="button"
+                class="btn-link"
+                (click)="resendCode()"
+                [disabled]="resendCooldown() > 0 || loading()"
+            >
+                @if (resendCooldown() > 0) {
+                    Renvoyer dans {{ resendCooldown() }}s
+                } @else {
+                    Renvoyer le code
+                }
+            </button>
+        </form>
+    }
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-hide" (click)="closeModal()">
+        {{ twoFaStep() === 'status' ? 'Fermer' : 'Annuler' }}
+    </button>
+    @if (twoFaStep() === 'status' && !enable2fa()) {
+        <button
+            type="button"
+            class="btn btn-save"
+            (click)="requestTwoFactor()"
+            [disabled]="loading()"
+        >
+            Activer
+        </button>
+    }
+    @if (twoFaStep() === 'status' && enable2fa()) {
+        <button
+            type="button"
+            class="btn btn-danger"
+            (click)="disableTwoFactor()"
+            [disabled]="loading()"
+        >
+            Désactiver
+        </button>
+    }
+    @if (twoFaStep() === 'verification') {
+        <button
+            type="button"
+            class="btn btn-save"
+            (click)="verifyTwoFactor()"
+            [disabled]="twoFactorForm.invalid || loading()"
+        >
+            Valider
+        </button>
+    }
+</div>

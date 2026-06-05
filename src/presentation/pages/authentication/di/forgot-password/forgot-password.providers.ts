@@ -5,6 +5,6 @@ import { ForgotPasswordRepository } from '@presentation/pages/authentication/dom
 export const provideForgotPassword: Provider[] = [
     {
         provide: ForgotPasswordRepository,
-        useExisting: ForgotPasswordRepositoryImpl,
+        useClass: ForgotPasswordRepositoryImpl,
     },
 ];

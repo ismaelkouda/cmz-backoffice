@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { AccessLogsFilterDto } from '@pages/settings-security/application/dto/access-logs/access-logs-filter.dto';
 import { AccessLogsQuery } from '@pages/settings-security/application/queries/access-logs/access-logs.query';
 import { AccessLogsBus } from '@pages/settings-security/application/queries-bus/access-logs/access-logs.bus';
-import { AccessLogsUseCase } from '@pages/settings-security/application/use-cases/access-logs/access-logs.use-case';
 import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
@@ -17,7 +16,6 @@ export class AccessLogsFacade extends BaseFacade<
     AccessLogsFilterDto
 > {
     private readonly uiFeedbackService = inject(UiFeedbackService);
-    private readonly useCase = inject(AccessLogsUseCase);
     private readonly filterBus = inject(AccessLogsBus);
 
     readonly accessLogs$ = this.items$;

@@ -9,6 +9,8 @@ import { EncodingDataService } from '@shared/domain/services/encoding-data.servi
 import { DASHBOARD } from '@shared/routes/routes';
 import { REINITIALIZATION } from '@presentation/app.routes';
 import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-routes.constant';
+import { LOGIN_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/login/login-form-keys.constant';
+
 import {
     AuthToken,
     CurrentUser,
@@ -23,22 +25,36 @@ import {
     providers: [LoginStore],
 })
 export class LoginComponent {
-    protected readonly store = inject(LoginStore);
-    protected readonly appConfig = inject(AppCustomizationService);
-    private readonly encodingDataService = inject(EncodingDataService);
-    private readonly router = inject(Router);
+    protected readonly store = (() => {
+        console.log('inject LoginStore');
+        return inject(LoginStore);
+    })();
 
+    protected readonly appConfig = (() => {
+        console.log('inject AppCustomizationService');
+        return inject(AppCustomizationService);
+    })();
+
+    private readonly encodingDataService = (() => {
+        console.log('inject EncodingDataService');
+        return inject(EncodingDataService);
+    })();
+
+    private readonly router = (() => {
+        console.log('inject Router');
+        return inject(Router);
+    })();
+
+    protected readonly KEYS = LOGIN_FORM_KEYS;
     protected readonly REINITIALIZATION = REINITIALIZATION;
     protected readonly FORGOT_PASSWORD_ROUTE = FORGOT_PASSWORD_ROUTE;
     protected readonly AUTH_LOGO = this.appConfig.customization.assets.authLogo;
     protected readonly APP_NAME = this.appConfig.customization.app.name;
 
-    protected readonly emailControl = this.store.emailControl;
-    protected readonly passwordControl = this.store.passwordControl;
-
     private hasRedirected = false;
 
     constructor() {
+        console.log('LOGIN COMPONENT CREATED');
         effect(() => {
             const error = this.store.error();
             if (error) {

@@ -6,13 +6,11 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ForgotPasswordRequestBus {
-    private readonly forgotPasswordHandler = inject(
-        ForgotPasswordRequestHandler
-    );
+    private readonly handler = inject(ForgotPasswordRequestHandler);
 
     dispatch<T>(command: T): Observable<ForgotPasswordResponseEntity> {
         if (command instanceof ForgotPasswordRequestCommand) {
-            return this.forgotPasswordHandler.execute(command);
+            return this.handler.execute(command);
         }
 
         throw new Error('No handler found for command');
