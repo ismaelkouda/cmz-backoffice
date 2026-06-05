@@ -12,6 +12,7 @@
     "env:test": "node tools/env/generate-env.js test",
     "pre-start:dev": "bun run env:dev && bun run quality:quick",
     "pre-start:cloud": "bun run env:cloud && bun run quality:quick",
+    "pre-start:cmz_prod": "bun run env:cmz_prod && bun run quality:quick",
     "pre-start:prod": "bun run env:prod && bun run quality:quick",
     "pre-start:test": "bun run env:test && bun run quality:quick",
     "start:dev": "bun run pre-start:dev && ng serve --host 0.0.0.0 --port 4411",

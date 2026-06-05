@@ -5,6 +5,7 @@ import {
     isStaticAssetRequest,
 } from '@core/interceptors/utils/interceptor-request-filter.util';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { CacheBypassService } from '@core/services/cache-bypass.service';
 import { of, shareReplay, tap } from 'rxjs';
 
 interface CacheEntry {
@@ -17,6 +18,7 @@ const inFlight = new Map<string, any>();
 
 export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     const config = inject(ConfigurationService);
+    const bypassService = inject(CacheBypassService);
 
     if (req.method !== 'GET') {
         return next(req);
@@ -38,16 +40,19 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
 
     const key = req.urlWithParams;
 
-    const cached = responseCache.get(key);
-    console.log('cached: ', cached);
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-        return of(cached.response.clone());
-    } else {
+    if (bypassService.shouldBypass()) {
         responseCache.delete(key);
+    } else {
+        const cached = responseCache.get(key);
+        if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+            return of(cached.response.clone());
+        } else {
+            responseCache.delete(key);
+        }
     }
 
     const existing$ = inFlight.get(key);
-    if (existing$) {
+    if (existing$ && !bypassService.shouldBypass()) {
         return existing$;
     }
 
