@@ -5,8 +5,6 @@ export function historyFindOneFilterMapper(
     entity: HistoryFindOneFilterEntity
 ): HistoryFindOneFilterApiDto {
     const params: HistoryFindOneFilterApiDto = {} as HistoryFindOneFilterApiDto;
-
-    console.log('entity: ', entity);
     if (entity.uniqId) {
         params.id = entity.uniqId;
     }

@@ -10,7 +10,6 @@ export class TranslationManagerService {
     private readonly SUPPORTED_LANGS = ['fr', 'en', 'es'];
     private readonly STORAGE_KEY = 'language';
 
-    // Signals for modern reactivity
     private readonly currentLangSignal = signal<string>('fr');
     public currentLang = this.currentLangSignal.asReadonly();
     public readonly supportedLangs = signal<string[]>(

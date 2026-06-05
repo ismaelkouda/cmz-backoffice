@@ -19,10 +19,6 @@ export class RegionsPresenter {
             };
         }
     ): RegionsVmProps {
-        console.log(
-            'permission.authorization.canDelete && item.departmentsCount < 0: ',
-            item.departmentsCount <= 0
-        );
         return {
             uniqId: item.uniqId,
             code: item.code,

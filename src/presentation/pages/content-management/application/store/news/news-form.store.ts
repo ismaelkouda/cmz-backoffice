@@ -303,7 +303,6 @@ export class NewsFormStore {
     }
 
     public setEditMode(uniqId: string | null): void {
-        console.log('uniqId: ', uniqId);
         this.categoriesFacade.readAll();
         this.isEditMode.set(!!uniqId);
 

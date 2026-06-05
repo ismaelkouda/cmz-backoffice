@@ -39,6 +39,7 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     const key = req.urlWithParams;
 
     const cached = responseCache.get(key);
+    console.log('cached: ', cached);
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
         return of(cached.response.clone());
     } else {

@@ -17,9 +17,11 @@ export class QueuesApi {
         page: string
     ): Observable<QueuesResponseApiDto> {
         const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.QUEUES}?page=${page}`;
+        console.log('url QueuesFilterApiDto: ', url);
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
+        console.log('params QueuesFilterApiDto: ', params);
         return this.http.get<QueuesResponseApiDto>(url, {
             params,
         });

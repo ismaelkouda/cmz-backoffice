@@ -108,7 +108,6 @@ export class MunicipalitiesFormStore {
             return [];
         }
         const region = this.regions().find((r) => r.value === regionId);
-        console.log('region: ', region);
         return region?.departments ?? [];
     });
 
@@ -164,7 +163,6 @@ export class MunicipalitiesFormStore {
     }
 
     private patchForm(item: MunicipalitiesFindOneEntity): void {
-        console.log('item: ', item);
         this.isInternalUpdate = true;
 
         this.form.patchValue(
