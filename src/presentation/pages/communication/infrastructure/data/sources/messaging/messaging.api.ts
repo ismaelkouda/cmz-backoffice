@@ -27,6 +27,7 @@ export class MessagingApi {
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
+        console.log('params: ', params);
         return this.http.get<MessagingResponseApiDto>(url, {
             params,
         });
