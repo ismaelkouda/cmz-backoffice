@@ -38,12 +38,12 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
 
     const key = req.urlWithParams;
 
-    const cached = responseCache.get(key);
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-        return of(cached.response.clone());
-    } else {
-        responseCache.delete(key);
-    }
+    // const cached = responseCache.get(key);
+    // if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    //     return of(cached.response.clone());
+    // } else {
+    //     responseCache.delete(key);
+    // }
 
     const existing$ = inFlight.get(key);
     if (existing$) {
