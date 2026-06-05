@@ -142,9 +142,6 @@ export class ImageUploadStateService {
 
     public async hydrate(id: string, url: string): Promise<void> {
         const store = this.getStore(id);
-
-        console.log('hydrate called');
-
         store.update((s) => ({
             ...s,
             status: 'loading',

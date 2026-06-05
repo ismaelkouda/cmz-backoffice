@@ -70,7 +70,6 @@ export class HistoryDataParserService {
 
     private parseUpdate(data: HistoryDataItemApiDto[]): HistoryFieldChange[] {
         return data.map((item) => {
-            console.log('item: ', item);
             const previousValue =
                 'previousValue' in item ? item.previousValue : null;
 

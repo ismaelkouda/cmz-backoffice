@@ -7,7 +7,6 @@ export class HistoryFindOneFilterEntity {
     ) {}
 
     static fromVo(vo: HistoryFindOneFilterVo): HistoryFindOneFilterEntity {
-        console.log('vo: ', vo);
         return new HistoryFindOneFilterEntity(vo.uniqId, vo.typeModel);
     }
 }

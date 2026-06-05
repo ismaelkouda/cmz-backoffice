@@ -12,20 +12,20 @@ export class QueuesFilterMapper {
     map(entity: QueuesFilterEntity): QueuesFilterApiDto {
         console.log('entity: ', entity);
         return {
-            ...(entity.initiatorPhoneNumber && {
-                initiator_phone_number: entity.initiatorPhoneNumber,
+            ...(entity?.initiatorPhoneNumber && {
+                initiator_phone_number: entity?.initiatorPhoneNumber,
             }),
-            ...(entity.uniqId && { uniq_id: entity.uniqId }),
-            // ...(entity.reportType && {
-            //     report_type: this.reportTypeMapper.mapToDto(entity.reportType),
+            ...(entity?.uniqId && { uniq_id: entity?.uniqId }),
+            // ...(entity?.reportType && {
+            //     report_type: this.reportTypeMapper.mapToDto(entity?.reportType),
             // }),
-            ...(entity.reportType && {
-                report_type: entity.reportType,
+            ...(entity?.reportType && {
+                report_type: entity?.reportType,
             }),
-            ...(entity.operators && { operators: entity.operators }),
-            ...(entity.source && { source: entity.source }),
-            ...(entity.period?.start && { start_date: entity.period.start }),
-            ...(entity.period?.end && { end_date: entity.period.end }),
+            ...(entity?.operators && { operators: entity?.operators }),
+            ...(entity?.source && { source: entity?.source }),
+            ...(entity?.period?.start && { start_date: entity?.period.start }),
+            ...(entity?.period?.end && { end_date: entity?.period.end }),
         };
     }
 }

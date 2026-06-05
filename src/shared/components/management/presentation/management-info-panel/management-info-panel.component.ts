@@ -124,7 +124,6 @@ export class ManagementInfoPanelComponent {
             styleClass: 'location-picker-dialog',
         });
         ref?.onClose.subscribe((result: LocationCoordinates | null) => {
-            console.log('result: ', result);
             if (result) {
                 this.store.setCoordinates(result);
             }
