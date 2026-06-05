@@ -21,21 +21,15 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
     return next(req).pipe(
         tap({
             next: (event) => {
-                console.log(event);
                 if (!config.isDevelopment) {
                     return;
                 }
             },
             error: (err) => {
-                console.log(err);
                 if (!config.isDevelopment) {
                     return;
                 }
                 const duration = Date.now() - start;
-                console.groupCollapsed(
-                    `ERROR ${req.method} ${req.urlWithParams} (${duration}ms)`
-                );
-                console.groupEnd();
             },
         })
     );

@@ -76,7 +76,6 @@ export class MapAdapter {
     private readonly clusterLayer = new VectorLayer({
         source: this.clusterSource,
         style: (feature): Style | Style[] => {
-            console.log('feature: ', feature);
             return this.clusterStyleFunction(feature);
         },
     });
@@ -95,11 +94,9 @@ export class MapAdapter {
         new Subject<ClusterTooltip | null>();
 
     init(container: HTMLElement, options: MapOptions): void {
-        console.log('container: ', container);
         if (this.map) {
             return;
         }
-        console.log('container22222222: ', container);
 
         const mergedOptions = { ...options };
 
@@ -172,7 +169,6 @@ export class MapAdapter {
         reports: InteractiveMapReport[],
         heatmapEnabled: boolean
     ): void {
-        console.log('renderReports', reports.length, heatmapEnabled);
         this.featureSource.clear();
         this.heatmapSource.clear();
 
@@ -204,7 +200,6 @@ export class MapAdapter {
         this.featureSource.addFeatures(markerFeatures);
         this.heatmapSource.addFeatures(heatmapFeatures);
         this.setHeatmapVisible(heatmapEnabled);
-        console.log('renderReports22222', reports.length, heatmapEnabled);
     }
 
     setHeatmapVisible(visible: boolean): void {
@@ -509,7 +504,6 @@ export class MapAdapter {
     }
 
     private clusterStyleFunction(feature: FeatureLike): Style | Style[] {
-        console.log('clusterStyleFunction feature: ', feature);
         const features = (feature.get('features') || []) as Feature<Point>[];
         const count = features.length;
 

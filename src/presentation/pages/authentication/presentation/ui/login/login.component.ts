@@ -25,25 +25,10 @@ import {
     providers: [LoginStore],
 })
 export class LoginComponent {
-    protected readonly store = (() => {
-        console.log('inject LoginStore');
-        return inject(LoginStore);
-    })();
-
-    protected readonly appConfig = (() => {
-        console.log('inject AppCustomizationService');
-        return inject(AppCustomizationService);
-    })();
-
-    private readonly encodingDataService = (() => {
-        console.log('inject EncodingDataService');
-        return inject(EncodingDataService);
-    })();
-
-    private readonly router = (() => {
-        console.log('inject Router');
-        return inject(Router);
-    })();
+    protected readonly store = inject(LoginStore);
+    protected readonly appConfig = inject(AppCustomizationService);
+    private readonly encodingDataService = inject(EncodingDataService);
+    private readonly router = inject(Router);
 
     protected readonly KEYS = LOGIN_FORM_KEYS;
     protected readonly REINITIALIZATION = REINITIALIZATION;
@@ -54,7 +39,6 @@ export class LoginComponent {
     private hasRedirected = false;
 
     constructor() {
-        console.log('LOGIN COMPONENT CREATED');
         effect(() => {
             const error = this.store.error();
             if (error) {
