@@ -1,13 +1,15 @@
-import { computed, inject } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ResetPasswordFacade } from '@presentation/pages/authentication/application/facade/reset-password/reset-password.facade';
 import { ResetPasswordFormControl } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password-form.control';
 import { ResetPasswordFormValue } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password-form.value';
-import { RESET_PASSWORD_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form.constant';
+import { RESET_PASSWORD_FORM_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form.constant';
+import { RESET_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form-keys.constant';
 import { getControlError } from '@presentation/pages/authentication/presentation/helpers/authentication-form-errors.helper';
 import { startWith } from 'rxjs';
 
+@Injectable()
 export class ResetPasswordStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(ResetPasswordFacade);
@@ -18,12 +20,15 @@ export class ResetPasswordStore {
 
     public readonly form: FormGroup<ResetPasswordFormControl> =
         this.fb.nonNullable.group({
-            password: ['', [Validators.required, Validators.minLength(8)]],
-            confirmPassword: ['', [Validators.required]],
+            [RESET_PASSWORD_FORM_KEYS.PASSWORD]: [
+                '',
+                [Validators.required, Validators.minLength(8)],
+            ],
+            [RESET_PASSWORD_FORM_KEYS.CONFIRM_PASSWORD]: [
+                '',
+                [Validators.required],
+            ],
         });
-
-    public readonly passwordControl = this.form.controls.password;
-    public readonly confirmPasswordControl = this.form.controls.confirmPassword;
 
     private readonly status = toSignal(
         this.form.statusChanges.pipe(startWith(this.form.status)),
@@ -62,7 +67,7 @@ export class ResetPasswordStore {
     public getFieldError(field: keyof ResetPasswordFormControl): string | null {
         return getControlError(
             this.form.controls[field],
-            RESET_PASSWORD_ERROR_MESSAGES[field]
+            RESET_PASSWORD_FORM_ERROR_MESSAGES[field]
         );
     }
 }

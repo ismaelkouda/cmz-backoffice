@@ -1,13 +1,15 @@
-import { computed, inject } from '@angular/core';
+import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ForgotPasswordFacade } from '@presentation/pages/authentication/application/facade/forgot-password/forgot-password.facade';
 import { ForgotPasswordFormControl } from '@presentation/pages/authentication/presentation/store/forgot-password/forgot-password-form.control';
 import { ForgotPasswordFormValue } from '@presentation/pages/authentication/presentation/store/forgot-password/forgot-password-form.value';
-import { FORGOT_PASSWORD_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form.constant';
+import { FORGOT_PASSWORD_FORM_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form-error-messages.constant';
+import { FORGOT_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form-keys.constant';
 import { getControlError } from '@presentation/pages/authentication/presentation/helpers/authentication-form-errors.helper';
 import { startWith } from 'rxjs';
 
+@Injectable()
 export class ForgotPasswordStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(ForgotPasswordFacade);
@@ -18,10 +20,11 @@ export class ForgotPasswordStore {
 
     public readonly form: FormGroup<ForgotPasswordFormControl> =
         this.fb.nonNullable.group({
-            email: ['', [Validators.required, Validators.email]],
+            [FORGOT_PASSWORD_FORM_KEYS.EMAIL]: [
+                '',
+                [Validators.required, Validators.email],
+            ],
         });
-
-    public readonly emailControl = this.form.controls.email;
 
     private readonly status = toSignal(
         this.form.statusChanges.pipe(startWith(this.form.status)),
@@ -43,7 +46,6 @@ export class ForgotPasswordStore {
 
     public isFieldInvalid(field: keyof ForgotPasswordFormControl): boolean {
         const control = this.form.controls[field];
-
         return control.invalid && control.touched;
     }
 
@@ -62,7 +64,7 @@ export class ForgotPasswordStore {
     ): string | null {
         return getControlError(
             this.form.controls[field],
-            FORGOT_PASSWORD_ERROR_MESSAGES[field]
+            FORGOT_PASSWORD_FORM_ERROR_MESSAGES[field]
         );
     }
 }

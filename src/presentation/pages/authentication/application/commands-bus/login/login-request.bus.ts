@@ -12,7 +12,6 @@ export class LoginRequestBus {
         if (command instanceof LoginRequestCommand) {
             return this.loginHandler.execute(command);
         }
-
         throw new Error('No handler found for command');
     }
 }

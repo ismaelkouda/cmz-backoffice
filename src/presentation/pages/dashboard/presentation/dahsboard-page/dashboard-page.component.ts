@@ -71,6 +71,7 @@ export class DashboardPageComponent implements OnInit {
     public performanceStatistics: StatisticCard[] = [];
 
     constructor() {
+        console.log('DASHBOARD COMPONENT CREATED');
         effect(() => {
             const data = this.items();
             if (data) {

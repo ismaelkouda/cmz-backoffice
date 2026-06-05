@@ -8,6 +8,7 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { PasswordModule } from 'primeng/password';
 import { map } from 'rxjs/operators';
 import { ResetPasswordStore } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password.store';
+import { RESET_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form-keys.constant';
 
 @Component({
     selector: 'app-reset-password',
@@ -23,10 +24,9 @@ export class ResetPasswordComponent {
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
+    protected readonly KEYS = RESET_PASSWORD_FORM_KEYS;
     protected readonly AUTH_LOGO = this.appConfig.customization.assets.authLogo;
     protected readonly APP_NAME = this.appConfig.customization.app.name;
-
-    protected readonly passwordControl = this.store.passwordControl;
 
     protected readonly token = computed(() => this.getQueryParam('token'));
     protected readonly email = computed(() => this.getQueryParam('email'));

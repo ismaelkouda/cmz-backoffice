@@ -16,61 +16,50 @@
 
                     <div class="map-topbar">
                         <div class="legend-content">
-                                <div class="legend-section">
-                                    <h4>Legend</h4>
-                                    <div class="legend-items">
-                                        <div class="legend-item">
-                                            <span
-                                                class="legend-color"
-                                                style="
-                                                    background-color: #dc2626;
-                                                "
-                                            ></span>
-                                            <span
-                                                >Zone blanche (aucun
-                                                réseau)</span
-                                            >
-                                        </div>
-                                        <div class="legend-item">
-                                            <span
-                                                class="legend-color"
-                                                style="
-                                                    background-color: #2563eb;
-                                                "
-                                            ></span>
-                                            <span>Absence d'opérateur(s)</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <span
-                                                class="legend-color"
-                                                style="
-                                                    background-color: #f97316;
-                                                "
-                                            ></span>
-                                            <span>Mauvais signal</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <span
-                                                class="legend-color"
-                                                style="
-                                                    background-color: #eab308;
-                                                "
-                                            ></span>
-                                            <span>Absence d'internet</span>
-                                        </div>
-                                        <div class="legend-item">
-                                            <span
-                                                class="legend-color"
-                                                style="background-color: #000"
-                                            ></span>
-                                            <span
-                                                >Plusieurs signalements proches
-                                                (nombre affiché)</span
-                                            >
-                                        </div>
+                            <div class="legend-section">
+                                <h4>Legend</h4>
+                                <div class="legend-items">
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color"
+                                            style="background-color: #dc2626"
+                                        ></span>
+                                        <span>Zone blanche (aucun réseau)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color"
+                                            style="background-color: #2563eb"
+                                        ></span>
+                                        <span>Absence d'opérateur(s)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color"
+                                            style="background-color: #f97316"
+                                        ></span>
+                                        <span>Mauvais signal</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color"
+                                            style="background-color: #eab308"
+                                        ></span>
+                                        <span>Absence d'internet</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color"
+                                            style="background-color: #000"
+                                        ></span>
+                                        <span
+                                            >Plusieurs signalements proches
+                                            (nombre affiché)</span
+                                        >
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
                         <button
                             type="button"
@@ -184,28 +173,32 @@
                             <section class="filter-group">
                                 <h3>Operateurs</h3>
                                 <div class="d-flex gap-10">
-                                    
-                                @for (option of operatorOptions; track option) {
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            [checked]="
-                                                isSelected(
-                                                    draftFilters().operators,
-                                                    option.value
-                                                )
-                                            "
-                                            (change)="
-                                                toggleFilter(
-                                                    'operators',
-                                                    option.value,
-                                                    $any($event.target).checked
-                                                )
-                                            "
-                                        />
-                                        <span>{{ option.label }}</span>
-                                    </label>
-                                }
+                                    @for (
+                                        option of operatorOptions;
+                                        track option
+                                    ) {
+                                        <label>
+                                            <input
+                                                type="checkbox"
+                                                [checked]="
+                                                    isSelected(
+                                                        draftFilters()
+                                                            .operators,
+                                                        option.value
+                                                    )
+                                                "
+                                                (change)="
+                                                    toggleFilter(
+                                                        'operators',
+                                                        option.value,
+                                                        $any($event.target)
+                                                            .checked
+                                                    )
+                                                "
+                                            />
+                                            <span>{{ option.label }}</span>
+                                        </label>
+                                    }
                                 </div>
                             </section>
 
@@ -377,7 +370,7 @@
                                 class="primary-button"
                                 (click)="submitFilters()"
                             >
-                            <i class="pi pi-check" pButtonIcon></i>
+                                <i class="pi pi-check" pButtonIcon></i>
                                 Soumettre
                             </button>
 

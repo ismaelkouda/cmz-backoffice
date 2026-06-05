@@ -55,13 +55,6 @@
                 </div>
             </div>
 
-            @if (error(); as error) {
-                <div class="error-message">
-                    <i class="pi pi-exclamation-triangle"></i>
-                    <span>{{ error }}</span>
-                </div>
-            }
-
             @if (loading()) {
                 <app-dashboard-skeleton></app-dashboard-skeleton>
             } @else {

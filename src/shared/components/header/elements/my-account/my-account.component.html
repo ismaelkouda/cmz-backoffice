@@ -10,12 +10,12 @@
     >
         <img
             class="profile-avatar"
+            alt="Description de profil"
             [src]="
                 currentUser()?.photo || 'assets/images/dashboard/profile.png'
             "
             width="40"
             height="40"
-            alt="Photo de profil"
         />
         <span class="profile-info">
             <span class="user-name">
@@ -26,7 +26,8 @@
         <i
             class="dropdown-icon pi pi-chevron-down"
             [class.rotated]="isDropdownOpen()"
-        ></i>
+        >
+        </i>
     </button>
 
     @if (isDropdownOpen()) {
@@ -39,7 +40,11 @@
                 <i class="pi pi-lock"></i>
                 <span>Mot de passe</span>
             </button>
-            <button type="button" role="menuitem">
+            <button
+                type="button"
+                role="menuitem"
+                (click)="openDoubleFactorModal()"
+            >
                 <i class="pi pi-shield"></i>
                 <span>2FA</span>
                 <p-tag
@@ -276,15 +281,25 @@
     </form>
 </ng-template>
 
-<!-- <ng-template #doubleFactorV>
+<ng-template #doubleFactorV>
     <div class="modal-header">
         @if (twoFaStep() === 'verification') {
-            <button type="button" class="btn-back" aria-label="Retour" (click)="backToStatus()">
+            <button
+                type="button"
+                class="btn-back"
+                aria-label="Retour"
+                (click)="backToStatus()"
+            >
                 <i class="pi pi-arrow-left"></i>
             </button>
         }
         <h4 class="modal-title">Authentification à deux facteurs</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="closeModal()"></button>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="closeModal()"
+        ></button>
     </div>
 
     <div class="modal-body">
@@ -293,24 +308,39 @@
                 <i class="pi pi-shield"></i>
                 <div>
                     <h5>Protégez votre compte avec un code supplémentaire</h5>
-                    <p>Activer la double authentification de sécurité à votre compte en demandant un code de validation envoyé par email lors de la connexion.</p>
+                    <p>
+                        Activer la double authentification de sécurité à votre
+                        compte en demandant un code de validation envoyé par
+                        email lors de la connexion.
+                    </p>
                 </div>
             </section>
             <div class="status-row">
                 <span>Statut actuel</span>
-                <p-togglebutton [ngModel]="enable2fa()" 
-                    onLabel="Activée" offLabel="Désactivée" 
-                    size="large" class="min-w-24" />
+                <p-togglebutton
+                    [ngModel]="enable2fa()"
+                    onLabel="Activée"
+                    offLabel="Désactivée"
+                    size="large"
+                    class="min-w-24"
+                />
                 <p-tag
                     [severity]="enable2fa() ? 'success' : 'danger'"
                     [value]="enable2fa() ? 'Activée' : 'Désactivée'"
                 />
             </div>
         } @else {
-            <form [formGroup]="twoFactorForm" class="verification-form" (ngSubmit)="verifyTwoFactor()">
+            <form
+                [formGroup]="twoFactorForm"
+                class="verification-form"
+                (ngSubmit)="verifyTwoFactor()"
+            >
                 <p>
                     Code envoyé à
-                    <strong>{{ twoFactorChallenge()?.maskedRecipient || currentUser()?.email }}</strong>
+                    <strong>{{
+                        twoFactorChallenge()?.maskedRecipient ||
+                            currentUser()?.email
+                    }}</strong>
                 </p>
                 <input
                     id="twoFactorCode"
@@ -326,7 +356,9 @@
                     twoFactorForm.controls.code.invalid &&
                     twoFactorForm.controls.code.touched
                 ) {
-                    <small class="text-danger">Le code doit contenir 6 chiffres.</small>
+                    <small class="text-danger"
+                        >Le code doit contenir 6 chiffres.</small
+                    >
                 }
                 <button
                     type="button"
@@ -349,19 +381,34 @@
             {{ twoFaStep() === 'status' ? 'Fermer' : 'Annuler' }}
         </button>
         @if (twoFaStep() === 'status' && !enable2fa()) {
-            <button type="button" class="btn btn-save" (click)="requestTwoFactor()" [disabled]="loading()">
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="requestTwoFactor()"
+                [disabled]="loading()"
+            >
                 Activer
             </button>
         }
         @if (twoFaStep() === 'status' && enable2fa()) {
-            <button type="button" class="btn btn-danger" (click)="disableTwoFactor()" [disabled]="loading()">
+            <button
+                type="button"
+                class="btn btn-danger"
+                (click)="disableTwoFactor()"
+                [disabled]="loading()"
+            >
                 Désactiver
             </button>
         }
         @if (twoFaStep() === 'verification') {
-            <button type="button" class="btn btn-save" (click)="verifyTwoFactor()" [disabled]="twoFactorForm.invalid || loading()">
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="verifyTwoFactor()"
+                [disabled]="twoFactorForm.invalid || loading()"
+            >
                 Valider
             </button>
         }
     </div>
-</ng-template> -->
+</ng-template>
