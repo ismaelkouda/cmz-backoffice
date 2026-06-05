@@ -48,7 +48,8 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
             filter,
             page,
             fetch$,
-            this.uiFeedbackService
+            this.uiFeedbackService,
+            forceRefresh
         );
 
         this.hasInitialized = true;
@@ -70,7 +71,13 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(
+            null,
+            page,
+            fetch$,
+            this.uiFeedbackService,
+            true
+        );
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -115,7 +122,8 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
             filter,
             page,
             fetch$,
-            this.uiFeedbackService
+            this.uiFeedbackService,
+            true
         );
         this.lastFetchTimestamp = Date.now();
     }

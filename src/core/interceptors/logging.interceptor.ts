@@ -22,9 +22,9 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
         tap({
             next: (event) => {
                 console.log(event);
-                // if (!config.isDevelopment) {
-                //     return;
-                // }
+                if (!config.isDevelopment) {
+                    return;
+                }
             },
             error: (err) => {
                 console.log(err);

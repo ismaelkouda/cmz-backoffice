@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { CacheBypassService } from '@core/services/cache-bypass.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
@@ -19,6 +20,7 @@ export interface PaginationFilter {
 
 @Injectable({ providedIn: 'root' })
 export abstract class BaseFacade<TEntity, TFilter> {
+    private readonly cacheBypass = inject(CacheBypassService);
     protected readonly itemsSubject = new BehaviorSubject<TEntity[]>([]);
     protected readonly paginationSubject = new BehaviorSubject<
         Paginate<TEntity>
@@ -69,7 +71,8 @@ export abstract class BaseFacade<TEntity, TFilter> {
         filter: TFilter | null,
         page: string,
         fetch$: Observable<Paginate<TEntity>>,
-        uiFeedback?: UiFeedbackService
+        uiFeedback?: UiFeedbackService,
+        forceRefresh = false
     ): void {
         if (this.isLoadingSubject.getValue()) {
             return;
@@ -83,6 +86,10 @@ export abstract class BaseFacade<TEntity, TFilter> {
         console.log('prevFilter222: ', prevFilter);
         this.pageSubject.next(page);
         this.isLoadingSubject.next(true);
+
+        if (forceRefresh) {
+            this.cacheBypass.setBypass(true);
+        }
 
         fetch$
             .pipe(
@@ -98,6 +105,10 @@ export abstract class BaseFacade<TEntity, TFilter> {
                 finalize(() => this.isLoadingSubject.next(false))
             )
             .subscribe();
+
+        if (forceRefresh) {
+            this.cacheBypass.setBypass(false);
+        }
     }
 
     private hasFilterChanged(
