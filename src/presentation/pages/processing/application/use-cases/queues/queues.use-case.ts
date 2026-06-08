@@ -4,7 +4,7 @@ import { QueuesFilterEntity } from '@pages/processing/domain/entities/queues/que
 import { QueuesEntity } from '@pages/processing/domain/entities/queues/queues.entity';
 import { QueuesRepository } from '@pages/processing/domain/repositories/queues/queues.repository';
 import { QueuesFilterVo } from '@pages/processing/domain/value-objects/queues/queues-filter.vo';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

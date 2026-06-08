@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { CloseQuery } from '@pages/report-states/application/queries/close/close.query';
 import { CloseHandler } from '@pages/report-states/application/queries-handlers/close/close.handler';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

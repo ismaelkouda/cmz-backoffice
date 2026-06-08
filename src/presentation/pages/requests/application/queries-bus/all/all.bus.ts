@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { AllQuery } from '@pages/requests/application/queries/all/all.query';
 import { AllHandler } from '@pages/requests/application/queries-handlers/all/all.handler';
 import { AllEntity } from '@pages/requests/domain/entities/all/all.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

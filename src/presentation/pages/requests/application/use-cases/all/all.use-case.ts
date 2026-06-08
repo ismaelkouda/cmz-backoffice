@@ -4,7 +4,7 @@ import { AllFilterEntity } from '@pages/requests/domain/entities/all/all-filter.
 import { AllEntity } from '@pages/requests/domain/entities/all/all.entity';
 import { AllRepository } from '@pages/requests/domain/repositories/all/all.repository';
 import { AllFilterVo } from '@pages/requests/domain/value-objects/all/all-filter.vo';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

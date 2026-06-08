@@ -1,6 +1,6 @@
 import { TasksFilterEntity } from '@pages/processing/domain/entities/tasks/tasks-filter.entity';
 import { TasksEntity } from '@pages/processing/domain/entities/tasks/tasks.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

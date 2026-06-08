@@ -201,11 +201,11 @@ export class SlideFormStore {
                 }),
                 buttonLabel: new FormControl('', {
                     nonNullable: true,
-                    validators: [
-                        // Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
-                        // Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
-                        Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
-                    ],
+                    // validators: [
+                    //     // Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
+                    //     // Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
+                    //     // Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
+                    // ],
                 }),
                 buttonUrl: new FormControl('', {
                     nonNullable: true,

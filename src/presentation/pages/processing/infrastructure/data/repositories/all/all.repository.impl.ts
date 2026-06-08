@@ -5,7 +5,7 @@ import { AllRepository } from '@pages/processing/domain/repositories/all/all.rep
 import { AllFilterMapper } from '@pages/processing/infrastructure/data/mappers/all/all-filter.mapper';
 import { AllMapper } from '@pages/processing/infrastructure/data/mappers/all/all.mapper';
 import { AllApi } from '@pages/processing/infrastructure/data/sources/all/all.api';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 

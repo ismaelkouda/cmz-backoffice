@@ -5,7 +5,7 @@ import { QueuesRepository } from '@pages/processing/domain/repositories/queues/q
 import { QueuesFilterMapper } from '@pages/processing/infrastructure/data/mappers/queues/queues-filter.mapper';
 import { QueuesMapper } from '@pages/processing/infrastructure/data/mappers/queues/queues.mapper';
 import { QueuesApi } from '@pages/processing/infrastructure/data/sources/queues/queues.api';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 

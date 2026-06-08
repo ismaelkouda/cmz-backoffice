@@ -5,7 +5,7 @@ import { RejectBus } from '@pages/report-states/application/queries-bus/reject/r
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 

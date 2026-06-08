@@ -42,6 +42,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { formatDate } from '@shared/domain/functions/format-data.function';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
 @Component({
     selector: 'app-queues',
@@ -316,7 +317,10 @@ export class QueuesComponent {
     }
     private onRefreshData(): void {
         this.formStore.reset();
-        this.facade.refresh();
+
+        this.facade.read({}, PAGINATION_CONST.DEFAULT_PAGE, {
+            forceRefresh: true,
+        });
     }
     private exportData(): void {
         if (!this.canExport()) {

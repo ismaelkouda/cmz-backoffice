@@ -5,7 +5,7 @@ import { TasksRepository } from '@pages/processing/domain/repositories/tasks/tas
 import { TasksFilterMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-filter.mapper';
 import { TasksMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks.mapper';
 import { TasksApi } from '@pages/processing/infrastructure/data/sources/tasks/tasks.api';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 

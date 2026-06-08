@@ -2,8 +2,8 @@ import { Injectable, inject } from '@angular/core';
 import { QueuesQuery } from '@pages/requests/application/queries/queues/queues.query';
 import { QueuesUseCase } from '@pages/requests/application/use-cases/queues/queues.use-case';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
