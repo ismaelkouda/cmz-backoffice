@@ -49,8 +49,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter,
             page,
             fetch$,
-            this.uiFeedbackService,
-            forceRefresh
+            this.uiFeedbackService
         );
 
         this.hasInitialized = true;
@@ -73,13 +72,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            null,
-            page,
-            fetch$,
-            this.uiFeedbackService,
-            true
-        );
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -126,8 +119,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter,
             page,
             fetch$,
-            this.uiFeedbackService,
-            true
+            this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
     }

@@ -5,7 +5,6 @@ import {
     isStaticAssetRequest,
 } from '@core/interceptors/utils/interceptor-request-filter.util';
 import { ConfigurationService } from '@core/services/configuration.service';
-import { CacheBypassService } from '@core/services/cache-bypass.service';
 import { of, shareReplay, tap } from 'rxjs';
 
 interface CacheEntry {
@@ -18,7 +17,6 @@ const inFlight = new Map<string, any>();
 
 export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     const config = inject(ConfigurationService);
-    const bypassService = inject(CacheBypassService);
 
     if (req.method !== 'GET') {
         return next(req);
@@ -39,22 +37,27 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     }
 
     const key = req.urlWithParams;
-
-    if (bypassService.shouldBypass()) {
-        responseCache.delete(key);
+    const cached = responseCache.get(key);
+    console.log('cached', cached);
+    console.log('Date.now()', Date.now());
+    console.log('cached.timestamp', cached?.timestamp);
+    console.log('CACHE_TTL', CACHE_TTL);
+    console.log(
+        'cached && Date.now() - cached.timestamp < CACHE_TTL',
+        cached && Date.now() - cached.timestamp < CACHE_TTL
+    );
+    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+        return of(cached.response.clone());
     } else {
-        const cached = responseCache.get(key);
-        if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-            return of(cached.response.clone());
-        } else {
-            responseCache.delete(key);
-        }
+        responseCache.delete(key);
     }
 
     const existing$ = inFlight.get(key);
-    if (existing$ && !bypassService.shouldBypass()) {
+    console.log('existing$', existing$);
+    if (existing$) {
         return existing$;
     }
+    console.log('next(req)', next(req));
 
     const shared$ = next(req).pipe(
         tap((event) => {
