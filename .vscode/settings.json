@@ -34,7 +34,8 @@
     "typescript.preferences.useAliases": true,
     "workbench.editor.alwaysShowEditorActions": false,
     "workbench.editor.autoLockGroups": {
-        "workbench.editorinputs.searchEditorInput": true
+        "workbench.editorinputs.searchEditorInput": true,
+        "default": true
     },
     "workbench.editor.highlightModifiedTabs": true,
     "workbench.settings.openDefaultKeybindings": false,

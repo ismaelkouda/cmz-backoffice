@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { TermsUseFindOneFacade } from '@pages/content-management/application/services/terms-use/terms-use-find-one.facade';
 import { TermsUseFormControl } from '@pages/content-management/application/store/terms-use/terms-use-form.control';
-import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
+// import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 
 @Injectable()
 export class TermsUseFormStore {
@@ -74,10 +74,10 @@ export class TermsUseFormStore {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-                    Validators.minLength(FormValidators.CONTENT.MIN),
-                    this.htmlContentMaxLengthValidator(
-                        FormValidators.CONTENT.STRIP_HTML_MAX
-                    ),
+                    // Validators.minLength(FormValidators.CONTENT.MIN),
+                    // this.htmlContentMaxLengthValidator(
+                    //     FormValidators.CONTENT.STRIP_HTML_MAX
+                    // ),
                 ],
             }),
         });

@@ -1,10 +1,4 @@
-// =============================================================================
-// Interactive Map Component – Styles refactorisés
-// =============================================================================
-
-// --- Variables de thème (portée du composant) ---
 :host {
-    // Couleurs de base
     --color-primary: #2563eb;
     --color-primary-light: #eff6ff;
     --color-primary-bg: #dbeafe;
@@ -27,25 +21,21 @@
     --color-warning: #92400e;
     --color-overlay: rgba(15, 23, 42, 0.18);
 
-    // Ombres
     --shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.18);
     --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.18);
     --shadow-lg: 0 16px 34px rgba(15, 23, 42, 0.18);
     --shadow-xl: 0 18px 44px rgba(15, 23, 42, 0.24);
 
-    // Espacements
     --space-xs: 4px;
     --space-sm: 8px;
     --space-md: 12px;
     --space-lg: 16px;
     --space-xl: 18px;
 
-    // Arrondis
     --radius-sm: 4px;
     --radius-md: 6px;
     --radius-lg: 8px;
 
-    // Typographie
     --font-size-xs: 11px;
     --font-size-sm: 12px;
     --font-size-md: 13px;
@@ -53,14 +43,12 @@
     --font-size-xl: 17px;
     --font-size-2xl: 18px;
 
-    // Boutons
     --btn-min-height: 38px;
     --btn-radius: var(--radius-md);
     --btn-font-size: var(--font-size-md);
     --btn-font-weight: 800;
 }
 
-// --- Mixins (SCSS) pour éviter les répétitions ---
 @mixin card($padding: var(--space-md), $bg: var(--color-bg-surface)) {
     background: $bg;
     border: 1px solid var(--color-border);
@@ -148,7 +136,6 @@
     }
 }
 
-// --- Panneaux latéraux ---
 .filters-panel,
 .reports-panel {
     overflow: auto;
@@ -182,7 +169,6 @@
     padding: var(--space-xl);
 }
 
-// --- En-tête de panneau ---
 .panel-heading {
     display: flex;
     align-items: flex-start;
@@ -209,7 +195,6 @@
     }
 }
 
-// --- Bouton de fermeture du panneau de filtres ---
 .close-toggle-button {
     position: absolute;
     top: 5px;
@@ -245,7 +230,6 @@
     }
 }
 
-// --- Groupes de filtres ---
 .filter-group {
     display: grid;
     gap: var(--space-sm);
@@ -298,7 +282,6 @@
     }
 }
 
-// --- Map et éléments superposés ---
 .map-workspace {
     position: relative;
     overflow: hidden;
@@ -307,10 +290,9 @@
 .map {
     width: 100%;
     height: 100%;
-    background: #d7dee8; // couleur neutre de fond, conservée
+    background: #d7dee8;
 }
 
-// Barre de recherche
 .map-search-bar {
     position: absolute;
     top: var(--space-lg);

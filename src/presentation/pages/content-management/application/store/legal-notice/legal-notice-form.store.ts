@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { LegalNoticeFindOneFacade } from '@pages/content-management/application/services/legal-notice/legal-notice-find-one.facade';
 import { LegalNoticeFormControl } from '@pages/content-management/application/store/legal-notice/legal-notice-form.control';
-import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
+// import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 
 @Injectable()
 export class LegalNoticeFormStore {
@@ -74,10 +74,10 @@ export class LegalNoticeFormStore {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-                    Validators.minLength(FormValidators.CONTENT.MIN),
-                    this.htmlContentMaxLengthValidator(
-                        FormValidators.CONTENT.STRIP_HTML_MAX
-                    ),
+                    // Validators.minLength(FormValidators.CONTENT.MIN),
+                    // this.htmlContentMaxLengthValidator(
+                    //     FormValidators.CONTENT.STRIP_HTML_MAX
+                    // ),
                 ],
             }),
         });

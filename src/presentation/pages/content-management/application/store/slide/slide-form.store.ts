@@ -102,6 +102,7 @@ export class SlideFormStore {
 
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
+        console.log('item', item);
 
         if (!item || Object.keys(item).length === 0) {
             return;
@@ -168,8 +169,8 @@ export class SlideFormStore {
                     nonNullable: true,
                     validators: [
                         Validators.required,
-                        Validators.minLength(FormValidators.TITLE.MIN),
-                        Validators.maxLength(FormValidators.TITLE.MAX),
+                        // Validators.minLength(FormValidators.TITLE.MIN),
+                        // Validators.maxLength(FormValidators.TITLE.MAX),
                         Validators.pattern(FormValidators.TITLE.PATTERN),
                     ],
                 }),
@@ -177,19 +178,19 @@ export class SlideFormStore {
                     nonNullable: true,
                     validators: [
                         Validators.required,
-                        Validators.minLength(FormValidators.SUBTITLE.MIN),
-                        Validators.maxLength(FormValidators.SUBTITLE.MAX),
-                        Validators.pattern(FormValidators.SUBTITLE.PATTERN),
+                        // Validators.minLength(FormValidators.SUBTITLE.MIN),
+                        // Validators.maxLength(FormValidators.SUBTITLE.MAX),
+                        // Validators.pattern(FormValidators.SUBTITLE.PATTERN),
                     ],
                 }),
                 content: new FormControl('', {
                     nonNullable: true,
                     validators: [
                         Validators.required,
-                        Validators.minLength(FormValidators.CONTENT.MIN),
-                        this.htmlContentMaxLengthValidator(
-                            FormValidators.CONTENT.STRIP_HTML_MAX
-                        ),
+                        // Validators.minLength(FormValidators.CONTENT.MIN),
+                        // this.htmlContentMaxLengthValidator(
+                        //     FormValidators.CONTENT.STRIP_HTML_MAX
+                        // ),
                     ],
                 }),
                 image: new FormControl(null, {
@@ -201,15 +202,15 @@ export class SlideFormStore {
                 buttonLabel: new FormControl('', {
                     nonNullable: true,
                     validators: [
-                        Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
-                        Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
+                        // Validators.minLength(FormValidators.BUTTON_LABEL.MIN),
+                        // Validators.maxLength(FormValidators.BUTTON_LABEL.MAX),
                         Validators.pattern(FormValidators.BUTTON_LABEL.PATTERN),
                     ],
                 }),
                 buttonUrl: new FormControl('', {
                     nonNullable: true,
                     validators: [
-                        Validators.maxLength(FormValidators.BUTTON_URL.MAX),
+                        // Validators.maxLength(FormValidators.BUTTON_URL.MAX),
                         Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
                     ],
                 }),

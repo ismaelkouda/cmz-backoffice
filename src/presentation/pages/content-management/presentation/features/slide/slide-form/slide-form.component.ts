@@ -18,7 +18,10 @@ import { SlideFormStore } from '@pages/content-management/application/store/slid
 import { SlideFormHelperService } from '@pages/content-management/domain/services/slide/slide-form-helper.service';
 import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import { enumToFilterOptions } from '@shared/components/filter/filter.types';
+import {
+    enumToFilterOptions,
+    enumToFilterOptionsWithValue,
+} from '@shared/components/filter/filter.types';
 import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/image-crop-dialog.component';
 import { ImagePreviewDialogComponent } from '@shared/components/image-preview-dialog/image-preview-dialog.component';
 import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
@@ -135,7 +138,9 @@ export class SlideFormComponent {
     );
 
     readonly platformOptions = computed(() =>
-        enumToFilterOptions(Platform, (key) => this.translate.instant(key))
+        enumToFilterOptionsWithValue(Platform, (key) =>
+            this.translate.instant(key)
+        )
     );
 
     readonly uniqId: Signal<string> = toSignal(
