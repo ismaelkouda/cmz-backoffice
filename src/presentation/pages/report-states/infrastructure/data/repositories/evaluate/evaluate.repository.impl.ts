@@ -5,6 +5,7 @@ import { EvaluateRepository } from '@pages/report-states/domain/repositories/eva
 import { EvaluateFilterMapper } from '@pages/report-states/infrastructure/data/mappers/evaluate/evaluate-filter.mapper';
 import { EvaluateMapper } from '@pages/report-states/infrastructure/data/mappers/evaluate/evaluate.mapper';
 import { EvaluateApi } from '@pages/report-states/infrastructure/data/sources/evaluate/evaluate.api';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 
@@ -18,11 +19,12 @@ export class EvaluateRepositoryImpl extends EvaluateRepository {
 
     execute(
         entity: EvaluateFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<EvaluateEntity>> {
         const paramsDto = this.filterMapper.map(entity);
         return this.api
-            .execute(paramsDto, page)
+            .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

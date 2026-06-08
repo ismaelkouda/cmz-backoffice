@@ -4,6 +4,7 @@ import { QueuesFilterEntity } from '@pages/processing/domain/entities/queues/que
 import { QueuesEntity } from '@pages/processing/domain/entities/queues/queues.entity';
 import { QueuesRepository } from '@pages/processing/domain/repositories/queues/queues.repository';
 import { QueuesFilterVo } from '@pages/processing/domain/value-objects/queues/queues-filter.vo';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -15,10 +16,11 @@ export class QueuesUseCase {
 
     execute(
         filterDto: QueuesFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<QueuesEntity>> {
         const vo = QueuesFilterVo.fromDto(filterDto);
         const entity = QueuesFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 }

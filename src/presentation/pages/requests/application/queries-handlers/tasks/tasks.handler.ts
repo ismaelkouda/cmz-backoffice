@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { TasksQuery } from '@pages/requests/application/queries/tasks/tasks.query';
 import { TasksUseCase } from '@pages/requests/application/use-cases/tasks/tasks.use-case';
 import { TasksEntity } from '@pages/requests/domain/entities/tasks/tasks.entity';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -11,7 +12,8 @@ export class TasksHandler {
 
     execute(
         query: TasksQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksEntity>> {
         return this.useCase.execute(
             {
@@ -23,7 +25,8 @@ export class TasksHandler {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

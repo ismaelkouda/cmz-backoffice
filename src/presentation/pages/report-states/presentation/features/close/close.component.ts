@@ -268,7 +268,7 @@ export class CloseComponent {
         this.title.setTitle(this.t('REPORT_STATES.CLOSE.TITLE'));
     }
     public onFilterClicked(): void {
-        this.facade.read(this.formStore.value, '1', true);
+        this.facade.read(this.formStore.value, '1', { forceRefresh: true });
     }
     public onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

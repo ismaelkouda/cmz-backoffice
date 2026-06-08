@@ -275,7 +275,7 @@ export class TasksComponent {
         this.title.setTitle(this.t('REQUESTS.TASKS.TITLE'));
     }
     protected onFilterClicked(): void {
-        this.facade.read(this.formStore.value, '1', true);
+        this.facade.read(this.formStore.value, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

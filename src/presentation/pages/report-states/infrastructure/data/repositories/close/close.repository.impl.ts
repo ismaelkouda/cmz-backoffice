@@ -5,6 +5,7 @@ import { CloseRepository } from '@pages/report-states/domain/repositories/close/
 import { CloseFilterMapper } from '@pages/report-states/infrastructure/data/mappers/close/close-filter.mapper';
 import { CloseMapper } from '@pages/report-states/infrastructure/data/mappers/close/close.mapper';
 import { CloseApi } from '@pages/report-states/infrastructure/data/sources/close/close.api';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 
@@ -18,10 +19,11 @@ export class CloseRepositoryImpl extends CloseRepository {
 
     execute(
         entity: CloseFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<CloseEntity>> {
         return this.api
-            .execute(this.filterMapper.map(entity), page)
+            .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

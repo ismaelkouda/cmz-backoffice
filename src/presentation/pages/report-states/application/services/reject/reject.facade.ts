@@ -5,6 +5,7 @@ import { RejectBus } from '@pages/report-states/application/queries-bus/reject/r
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
@@ -20,8 +21,9 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
     read(
         filter: RejectFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
+        const forceRefresh = options.forceRefresh ?? false;
         const hasData = this.itemsSubject.getValue().length > 0;
         if (
             !shouldFetch(
@@ -35,7 +37,7 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
         }
 
         const command = this.buildQuery(filter);
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, options);
         this.fetchWithFilterAndPage(
             filter,
             page,
@@ -53,7 +55,9 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = this.buildQuery(filter);
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
@@ -78,7 +82,9 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = this.buildQuery(filter);
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(
             filter,
             page,

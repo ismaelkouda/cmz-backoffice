@@ -1,4 +1,8 @@
-import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import {
+    HttpContextToken,
+    HttpInterceptorFn,
+    HttpResponse,
+} from '@angular/common/http';
 import { inject } from '@angular/core';
 import {
     isInternalUrl,
@@ -6,6 +10,8 @@ import {
 } from '@core/interceptors/utils/interceptor-request-filter.util';
 import { ConfigurationService } from '@core/services/configuration.service';
 import { of, shareReplay, tap } from 'rxjs';
+
+export const BYPASS_CACHE = new HttpContextToken<boolean>(() => false);
 
 interface CacheEntry {
     response: HttpResponse<any>;
@@ -37,27 +43,23 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     }
 
     const key = req.urlWithParams;
-    const cached = responseCache.get(key);
-    console.log('cached', cached);
-    console.log('Date.now()', Date.now());
-    console.log('cached.timestamp', cached?.timestamp);
-    console.log('CACHE_TTL', CACHE_TTL);
-    console.log(
-        'cached && Date.now() - cached.timestamp < CACHE_TTL',
-        cached && Date.now() - cached.timestamp < CACHE_TTL
-    );
-    if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
-        return of(cached.response.clone());
-    } else {
-        responseCache.delete(key);
-    }
+    const bypass = req.context.get(BYPASS_CACHE);
 
-    const existing$ = inFlight.get(key);
-    console.log('existing$', existing$);
-    if (existing$) {
-        return existing$;
+    if (bypass) {
+        responseCache.delete(key);
+        inFlight.delete(key);
+    } else {
+        const cached = responseCache.get(key);
+        if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+            return of(cached.response.clone());
+        }
+        responseCache.delete(key);
+
+        const existing$ = inFlight.get(key);
+        if (existing$) {
+            return existing$;
+        }
     }
-    console.log('next(req)', next(req));
 
     const shared$ = next(req).pipe(
         tap((event) => {

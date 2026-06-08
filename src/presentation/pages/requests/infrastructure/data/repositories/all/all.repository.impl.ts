@@ -5,6 +5,7 @@ import { AllRepository } from '@pages/requests/domain/repositories/all/all.repos
 import { AllFilterMapper } from '@pages/requests/infrastructure/data/mappers/all/all-filter.mapper';
 import { AllMapper } from '@pages/requests/infrastructure/data/mappers/all/all.mapper';
 import { AllApi } from '@pages/requests/infrastructure/data/sources/all/all.api';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 
@@ -18,11 +19,12 @@ export class AllRepositoryImpl extends AllRepository {
 
     execute(
         entity: AllFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AllEntity>> {
         const paramsDto = this.filterMapper.map(entity);
         return this.api
-            .execute(paramsDto, page)
+            .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

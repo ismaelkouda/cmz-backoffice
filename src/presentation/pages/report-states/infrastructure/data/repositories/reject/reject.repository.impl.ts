@@ -5,6 +5,7 @@ import { RejectRepository } from '@pages/report-states/domain/repositories/rejec
 import { RejectFilterMapper } from '@pages/report-states/infrastructure/data/mappers/reject/reject-filter.mapper';
 import { RejectMapper } from '@pages/report-states/infrastructure/data/mappers/reject/reject.mapper';
 import { RejectApi } from '@pages/report-states/infrastructure/data/sources/reject/reject.api';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 
@@ -18,11 +19,12 @@ export class RejectRepositoryImpl extends RejectRepository {
 
     execute(
         entity: RejectFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<RejectEntity>> {
         const paramsDto = this.filterMapper.map(entity);
         return this.api
-            .execute(paramsDto, page)
+            .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

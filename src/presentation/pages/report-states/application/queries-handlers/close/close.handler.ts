@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { CloseQuery } from '@pages/report-states/application/queries/close/close.query';
 import { CloseUseCase } from '@pages/report-states/application/use-cases/close/close.use-case';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -11,7 +12,8 @@ export class CloseHandler {
 
     execute(
         query: CloseQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<CloseEntity>> {
         return this.useCase.execute(
             {
@@ -23,7 +25,8 @@ export class CloseHandler {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

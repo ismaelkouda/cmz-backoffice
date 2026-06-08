@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { CloseQuery } from '@pages/report-states/application/queries/close/close.query';
 import { CloseHandler } from '@pages/report-states/application/queries-handlers/close/close.handler';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -9,9 +10,13 @@ import { Observable } from 'rxjs';
 export class CloseBus {
     private readonly filterHandler = inject(CloseHandler);
 
-    dispatch<T>(query: T, page: string): Observable<Paginate<CloseEntity>> {
+    dispatch<T>(
+        query: T,
+        page: string,
+        options?: FetchOptions
+    ): Observable<Paginate<CloseEntity>> {
         if (query instanceof CloseQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');
