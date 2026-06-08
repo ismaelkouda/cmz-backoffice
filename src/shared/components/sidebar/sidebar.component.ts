@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -28,7 +29,7 @@ import { Subscription } from 'rxjs';
     standalone: true,
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.scss'],
-    imports: [RouterLink, RouterLinkActive, TranslateModule],
+    imports: [CommonModule, RouterLink, RouterLinkActive, TranslateModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SidebarComponent implements OnInit, OnDestroy {

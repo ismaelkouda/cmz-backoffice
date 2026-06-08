@@ -214,10 +214,6 @@
                                                             class="form-input"
                                                             formControlName="video"
                                                             [placeholder]="'https://youtube.com/watch?v=... ou https://vimeo.com/...'"
-                                                            [attr.maxlength]="
-                                                                allowed.VIDEO
-                                                                    .MAX
-                                                            "
                                                             [attr.aria-label]="
                                                                 'CONTENT_MANAGEMENT.SLIDE.FORM.VIDEO'
                                                                     | translate
@@ -246,7 +242,7 @@
                                                                     }}
                                                                 </small>
                                                             }
-                                                            <div
+                                                            <!-- <div
                                                                 class="d-flex align-items-center gap-2 ms-auto"
                                                             >
                                                                 @let video =
@@ -270,7 +266,7 @@
                                                                         }}s
                                                                     </small>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 }
@@ -356,10 +352,6 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                        [attr.maxlength]="
-                                                            allowed.BUTTON_LABEL
-                                                                .MAX
-                                                        "
                                                         [attr.aria-label]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_LABEL'
                                                                 | translate
@@ -388,7 +380,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <div
+                                                        <!-- <div
                                                             class="d-flex align-items-center gap-2 ms-auto"
                                                         >
                                                             @let labelButton =
@@ -411,7 +403,7 @@
                                                                     }}
                                                                 </small>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
@@ -431,10 +423,6 @@
                                                         [placeholder]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL_PLACEHOLDER'
                                                                 | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            allowed.BUTTON_URL
-                                                                .MAX
                                                         "
                                                         [attr.aria-label]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL'
@@ -464,7 +452,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <div
+                                                        <!-- <div
                                                             class="d-flex align-items-center gap-2 ms-auto"
                                                         >
                                                             @let urlButton =
@@ -487,7 +475,7 @@
                                                                     }}
                                                                 </small>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -649,9 +637,6 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                        [attr.maxlength]="
-                                                            allowed.TITLE.MAX
-                                                        "
                                                         [attr.aria-label]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE'
                                                                 | translate
@@ -681,7 +666,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <div
+                                                        <!-- <div
                                                             class="d-flex align-items-center gap-2 ms-auto"
                                                         >
                                                             @let title =
@@ -704,7 +689,7 @@
                                                                     }}
                                                                 </small>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
 
@@ -730,47 +715,27 @@
                                                         pTextarea
                                                         class="form-p-textarea w-100"
                                                         [invalid]="
-                                                            isFieldInvalid(
-                                                                'subtitle'
-                                                            )
+                                                            isFieldInvalid('subtitle')
                                                         "
                                                         [placeholder]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                        [attr.maxlength]="
-                                                            allowed.SUBTITLE.MAX
-                                                        "
                                                         [attr.aria-label]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE'
                                                                 | translate
                                                         "
-                                                        [attr.aria-invalid]="
-                                                            isFieldInvalid(
-                                                                'subtitle'
-                                                            )
-                                                        "
+                                                        [attr.aria-invalid]="isFieldInvalid('subtitle')"
                                                     ></textarea>
                                                     <div
                                                         class="d-flex justify-content-between align-items-center"
                                                     >
-                                                        @if (
-                                                            isFieldInvalid(
-                                                                'subtitle'
-                                                            )
-                                                        ) {
-                                                            <small
-                                                                class="text-danger d-block mt-1"
-                                                                role="alert"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'subtitle'
-                                                                    )
-                                                                }}
+                                                        @if (isFieldInvalid('subtitle')) {
+                                                            <small class="text-danger d-block mt-1" role="alert">
+                                                                {{ getErrorMessage('subtitle') }}
                                                             </small>
                                                         }
-                                                        <div
+                                                        <!-- <div
                                                             class="d-flex align-items-center gap-2 ms-auto"
                                                         >
                                                             @let subtitle =
@@ -784,7 +749,7 @@
                                                                     class="subtitle-value text-muted ms-2"
                                                                 >
                                                                     {{
-                                                                        subtitle.length ||
+                                                                        subtitle?.length ||
                                                                             0
                                                                     }}/{{
                                                                         allowed
@@ -793,7 +758,7 @@
                                                                     }}
                                                                 </small>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
 
@@ -814,30 +779,11 @@
                                                     <p-editor
                                                         id="content"
                                                         formControlName="content"
-                                                        [invalid]="
-                                                            isFieldInvalid(
-                                                                'content'
-                                                            )
-                                                        "
-                                                        [placeholder]="
-                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT_PLACEHOLDER'
-                                                                | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            allowed.CONTENT.MAX
-                                                        "
-                                                        [attr.aria-label]="
-                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT'
-                                                                | translate
-                                                        "
-                                                        [attr.aria-invalid]="
-                                                            isFieldInvalid(
-                                                                'subtitle'
-                                                            )
-                                                        "
-                                                        [style]="{
-                                                            height: '200px',
-                                                        }"
+                                                        [invalid]="isFieldInvalid('content')" 
+                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT_PLACEHOLDER' | translate"
+                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT' | translate "
+                                                        [attr.aria-invalid]="isFieldInvalid('content')"
+                                                        [style]="{ height: '200px' }"
                                                     />
 
                                                     <div

@@ -42,9 +42,9 @@ export class NewsFormStore {
     readonly form: FormGroup<NewsFormControl> = this.createForm();
 
     public readonly isEditMode = signal(false);
-    readonly subCategories = signal<readonly NewsSubCategoriesSelectProps[]>(
-        []
-    );
+    public readonly subCategories = signal<
+        readonly NewsSubCategoriesSelectProps[]
+    >([]);
     readonly loadingNewsSubCategories = signal<boolean>(false);
     readonly categories = toSignal(this.categoriesFacade.items$, {
         initialValue: [],
@@ -196,8 +196,8 @@ export class NewsFormStore {
                     nonNullable: true,
                     validators: [
                         Validators.required,
-                        Validators.minLength(FormValidators.TITLE.MIN),
-                        Validators.maxLength(FormValidators.TITLE.MAX),
+                        // Validators.minLength(FormValidators.TITLE.MIN),
+                        // Validators.maxLength(FormValidators.TITLE.MAX),
                         Validators.pattern(FormValidators.TITLE.PATTERN),
                     ],
                 }),
@@ -205,8 +205,8 @@ export class NewsFormStore {
                     nonNullable: true,
                     validators: [
                         Validators.required,
-                        Validators.minLength(FormValidators.RESUME.MIN),
-                        Validators.maxLength(FormValidators.RESUME.MAX),
+                        // Validators.minLength(FormValidators.RESUME.MIN),
+                        // Validators.maxLength(FormValidators.RESUME.MAX),
                         Validators.pattern(FormValidators.RESUME.PATTERN),
                     ],
                 }),
@@ -214,10 +214,10 @@ export class NewsFormStore {
                     nonNullable: true,
                     validators: [
                         Validators.required,
-                        Validators.minLength(FormValidators.CONTENT.MIN),
-                        this.htmlContentMaxLengthValidator(
-                            FormValidators.CONTENT.STRIP_HTML_MAX
-                        ),
+                        // Validators.minLength(FormValidators.CONTENT.MIN),
+                        // this.htmlContentMaxLengthValidator(
+                        //     FormValidators.CONTENT.STRIP_HTML_MAX
+                        // ),
                     ],
                 }),
                 image: new FormControl<MediaValue | null>(null, {

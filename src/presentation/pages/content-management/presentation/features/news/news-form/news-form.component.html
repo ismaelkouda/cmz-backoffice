@@ -118,10 +118,6 @@
                                                             class="form-input"
                                                             formControlName="video"
                                                             [placeholder]="'https://youtube.com/watch?v=... ou https://vimeo.com/...'"
-                                                            [attr.maxlength]="
-                                                                allowed.VIDEO
-                                                                    .MAX
-                                                            "
                                                             [attr.aria-label]="
                                                                 'CONTENT_MANAGEMENT.NEWS.FORM.VIDEO'
                                                                     | translate
@@ -150,7 +146,7 @@
                                                                     }}
                                                                 </small>
                                                             }
-                                                            <div
+                                                            <!-- <div
                                                                 class="d-flex align-items-center gap-2 ms-auto"
                                                             >
                                                                 @let video =
@@ -174,7 +170,7 @@
                                                                         }}s
                                                                     </small>
                                                                 </div>
-                                                            </div>
+                                                            </div> -->
                                                         </div>
                                                     </div>
                                                 }
@@ -316,9 +312,7 @@
                                                     </label>
                                                     <p-select
                                                         class="form-p-select"
-                                                        [options]="
-                                                            store.subCategories()
-                                                        "
+                                                        [options]="store.subCategories()"
                                                         [loading]="
                                                             store.loadingNewsSubCategories()
                                                         "
@@ -508,9 +502,6 @@
                                                             'CONTENT_MANAGEMENT.NEWS.FORM.TITLE_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                        [attr.maxlength]="
-                                                            allowed.TITLE.MAX
-                                                        "
                                                         [attr.aria-label]="
                                                             'CONTENT_MANAGEMENT.NEWS.FORM.TITLE'
                                                                 | translate
@@ -540,7 +531,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <div
+                                                        <!-- <div
                                                             class="d-flex align-items-center gap-2 ms-auto"
                                                         >
                                                             @let title =
@@ -563,7 +554,7 @@
                                                                     }}
                                                                 </small>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
 
@@ -597,9 +588,6 @@
                                                             'CONTENT_MANAGEMENT.NEWS.FORM.RESUME_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                        [attr.maxlength]="
-                                                            allowed.RESUME.MAX
-                                                        "
                                                         [attr.aria-label]="
                                                             'CONTENT_MANAGEMENT.NEWS.FORM.RESUME'
                                                                 | translate
@@ -629,7 +617,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <div
+                                                        <!-- <div
                                                             class="d-flex align-items-center gap-2 ms-auto"
                                                         >
                                                             @let resume =
@@ -652,7 +640,7 @@
                                                                     }}
                                                                 </small>
                                                             </div>
-                                                        </div>
+                                                        </div> -->
                                                     </div>
                                                 </div>
 
@@ -681,9 +669,6 @@
                                                         [placeholder]="
                                                             'CONTENT_MANAGEMENT.NEWS.FORM.CONTENT_PLACEHOLDER'
                                                                 | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            allowed.CONTENT.MAX
                                                         "
                                                         [attr.aria-label]="
                                                             'CONTENT_MANAGEMENT.NEWS.FORM.CONTENT'

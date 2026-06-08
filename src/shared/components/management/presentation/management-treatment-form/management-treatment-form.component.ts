@@ -60,6 +60,10 @@ export class ManagementTreatmentFormComponent {
         return this.store.decision() === value;
     }
 
+    protected isApprovalType(value: 'edit' | 'callback' | 'view'): boolean {
+        return this.store.isApprovalType(value);
+    }
+
     protected isFieldInvalid(fieldName: keyof ManagementFormControl): boolean {
         const control = this.store.form.get(fieldName);
         return !!(control?.invalid && control?.touched);

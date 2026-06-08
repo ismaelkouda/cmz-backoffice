@@ -87,10 +87,6 @@ export abstract class BaseFacade<TEntity, TFilter> {
         this.pageSubject.next(page);
         this.isLoadingSubject.next(true);
 
-        if (forceRefresh) {
-            this.cacheBypass.setBypass(true);
-        }
-
         fetch$
             .pipe(
                 debounceTime(PAGINATION_CONST.DEBOUNCE_TIME_MS),
@@ -105,10 +101,6 @@ export abstract class BaseFacade<TEntity, TFilter> {
                 finalize(() => this.isLoadingSubject.next(false))
             )
             .subscribe();
-
-        if (forceRefresh) {
-            this.cacheBypass.setBypass(false);
-        }
     }
 
     private hasFilterChanged(
