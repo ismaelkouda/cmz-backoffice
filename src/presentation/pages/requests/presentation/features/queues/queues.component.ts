@@ -331,11 +331,9 @@ export class QueuesComponent {
 
         const fileName = `${this.exportFilePrefix}-queues`;
 
-        // Construction des colonnes pour l'export (basée sur QUEUES_TABLE)
         const exportColumns: ExportColumn[] = QUEUES_TABLE.cols
-            .filter((col) => col.field !== '__action') // exclure la colonne actions
+            .filter((col) => col.field !== '__action')
             .map((col) => {
-                // Déterminer la largeur : convertir "8rem" en nombre (approximatif)
                 let width = 15;
                 if (col.width) {
                     const num = parseFloat(col.width);
@@ -346,15 +344,12 @@ export class QueuesComponent {
                     header: this.translate.instant(col.header),
                     width: width,
                     transform: (value: any, row: any) => {
-                        // Cas spécial pour l'index (généré dynamiquement)
                         if (col.field === '__index') {
                             return (items.indexOf(row) + 1).toString();
                         }
-                        // Formatage des dates
                         if (col.field === 'reportedAt' && value) {
                             return formatDate(value);
                         }
-                        // Si la valeur est un tableau, la joindre
                         if (Array.isArray(value)) {
                             return value.join(', ');
                         }
@@ -367,7 +362,7 @@ export class QueuesComponent {
             .exportToExcel({
                 fileName: fileName,
                 columns: exportColumns,
-                data: items, // les données présentées
+                data: items,
                 sheetName: this.translate.instant('REQUESTS.QUEUES.TITLE'),
                 autoFilter: true,
             })
