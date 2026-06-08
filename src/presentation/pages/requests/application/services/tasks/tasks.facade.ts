@@ -48,8 +48,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {
             filter,
             page,
             fetch$,
-            this.uiFeedbackService,
-            forceRefresh
+            this.uiFeedbackService
         );
 
         this.hasInitialized = true;
@@ -71,13 +70,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            null,
-            page,
-            fetch$,
-            this.uiFeedbackService,
-            true
-        );
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -122,8 +115,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {
             filter,
             page,
             fetch$,
-            this.uiFeedbackService,
-            true
+            this.uiFeedbackService
         );
         this.lastFetchTimestamp = Date.now();
     }
