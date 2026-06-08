@@ -4,6 +4,7 @@ import { CloseFilterEntity } from '@pages/report-states/domain/entities/close/cl
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
 import { CloseRepository } from '@pages/report-states/domain/repositories/close/close.repository';
 import { CloseFilterVo } from '@pages/report-states/domain/value-objects/close/close-filter.vo';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -15,10 +16,11 @@ export class CloseUseCase {
 
     execute(
         filterDto: CloseFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<CloseEntity>> {
         const vo = CloseFilterVo.fromDto(filterDto);
         const entity = CloseFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 }

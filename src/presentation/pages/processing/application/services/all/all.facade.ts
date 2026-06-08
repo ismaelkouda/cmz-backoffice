@@ -5,6 +5,7 @@ import { AllBus } from '@pages/processing/application/queries-bus/all/all.bus';
 import { AllEntity } from '@pages/processing/domain/entities/all/all.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
@@ -20,8 +21,9 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
     read(
         filter: AllFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
+        const forceRefresh = options.forceRefresh ?? false;
         const hasData = this.itemsSubject.getValue().length > 0;
         if (
             !shouldFetch(
@@ -44,7 +46,7 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, options);
         this.fetchWithFilterAndPage(
             filter,
             page,
@@ -71,7 +73,9 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
@@ -114,7 +118,9 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(
             filter,
             page,

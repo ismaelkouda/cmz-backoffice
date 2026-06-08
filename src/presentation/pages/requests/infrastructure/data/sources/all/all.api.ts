@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { REPORT_API_URL } from '@core/config/config.tokens';
+import { BYPASS_CACHE } from '@core/interceptors/cache.interceptor';
 import { AllFilterApiDto } from '@pages/requests/infrastructure/api/dto/all/all-filter-api.dto';
 import { AllResponseApiDto } from '@pages/requests/infrastructure/api/dto/all/all-response-api.dto';
 import { REQUESTS_ENDPOINTS } from '@presentation/pages/requests/infrastructure/api/requests.endpoints';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
 
@@ -14,15 +16,20 @@ export class AllApi {
 
     execute(
         filter: AllFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<AllResponseApiDto> {
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
 
         return this.http.get<AllResponseApiDto>(
             `${this.reportApiUrl}${REQUESTS_ENDPOINTS.ALL}`,
-            { params: { ...params, page } }
+            { params: { ...params, page }, context }
         );
     }
 }

@@ -5,6 +5,7 @@ import { TasksRepository } from '@pages/requests/domain/repositories/tasks/tasks
 import { TasksFilterMapper } from '@pages/requests/infrastructure/data/mappers/tasks/tasks-filter.mapper';
 import { TasksMapper } from '@pages/requests/infrastructure/data/mappers/tasks/tasks.mapper';
 import { TasksApi } from '@pages/requests/infrastructure/data/sources/tasks/tasks.api';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 
@@ -18,10 +19,11 @@ export class TasksRepositoryImpl extends TasksRepository {
 
     execute(
         entity: TasksFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksEntity>> {
         return this.api
-            .execute(this.filterMapper.map(entity), page)
+            .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

@@ -1,9 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache.interceptor';
 import { EvaluateFilterApiDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-filter-api.dto';
 import { EvaluateResponseApiDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
 import { REPORT_STATES_BASE_URL } from '@presentation/pages/report-states/infrastructure/api/report-states.base-url';
 import { REPORT_STATES_ENDPOINTS } from '@presentation/pages/report-states/infrastructure/api/report-states.endpoints';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
 
@@ -14,14 +16,20 @@ export class EvaluateApi {
 
     execute(
         filter: EvaluateFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<EvaluateResponseApiDto> {
         const url = `${this.baseUrl}${REPORT_STATES_ENDPOINTS.EVALUATE}?page=${page}`;
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
         return this.http.get<EvaluateResponseApiDto>(url, {
             params,
+            context,
         });
     }
 }

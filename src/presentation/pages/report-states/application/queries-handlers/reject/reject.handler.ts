@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { RejectQuery } from '@pages/report-states/application/queries/reject/reject.query';
 import { RejectUseCase } from '@pages/report-states/application/use-cases/reject/reject.use-case';
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
+import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -11,7 +12,8 @@ export class RejectHandler {
 
     execute(
         query: RejectQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<RejectEntity>> {
         return this.useCase.execute(
             {
@@ -24,7 +26,8 @@ export class RejectHandler {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }
