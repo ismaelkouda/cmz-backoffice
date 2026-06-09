@@ -45,8 +45,9 @@ start_new_task() {
     echo -e "${YELLOW}👉 Entrez la description de la tâche (ex: add login page) :${NC}"
     read -r task_desc
 
+    jira_upper=$(echo "$jira_id" | tr '[:lower:]' '[:upper:]')
     clean_desc=$(echo "$task_desc" | sed 's/ /-/g' | tr '[:upper:]' '[:lower:]')
-    local branch_name="feature/${jira_id^^}-$clean_desc"
+    local branch_name="feature/${jira_upper}-$clean_desc"
 
     git checkout -b "$branch_name"
     log_success "Branche créée : $branch_name"
