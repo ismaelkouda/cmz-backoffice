@@ -7,8 +7,8 @@ export interface SlideUpdateApiDto {
     image_file: File | string;
     video_url: string;
     platforms: PlatformDto[];
-    start_date: Date;
-    end_date: Date;
+    start_date: string;
+    end_date: string;
     title: string;
     subtitle: string;
     content: string;

@@ -277,6 +277,7 @@ export class QueuesComponent {
         this.title.setTitle(this.t('REQUESTS.QUEUES.TITLE'));
     }
     protected onFilterClicked(): void {
+        console.log('this.formStore.value', this.formStore.value);
         this.facade.read(this.formStore.value, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {

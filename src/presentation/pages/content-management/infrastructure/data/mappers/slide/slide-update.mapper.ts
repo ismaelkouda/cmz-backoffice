@@ -1,10 +1,12 @@
 import { SlideUpdateEntity } from '@pages/content-management/domain/entities/slide/slide-update.entity';
 import { SlideUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-update-api.dto';
+import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
 export function slideUpdateMapper(
     entity: SlideUpdateEntity,
-    platformMapper: PlatformMapper
+    platformMapper: PlatformMapper,
+    apiDateMapper: ApiDateMapper
 ): SlideUpdateApiDto {
     const params: SlideUpdateApiDto = {} as SlideUpdateApiDto;
 
@@ -29,10 +31,10 @@ export function slideUpdateMapper(
         );
     }
     if (entity.startDate) {
-        params.start_date = entity.startDate;
+        params.start_date = apiDateMapper.toDateTimeApi(entity.startDate);
     }
     if (entity.endDate) {
-        params.end_date = entity.endDate;
+        params.end_date = apiDateMapper.toDateTimeApi(entity.endDate);
     }
     if (entity.title) {
         params.title = entity.title;

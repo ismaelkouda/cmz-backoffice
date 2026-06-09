@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { QueuesFilterEntity } from '@pages/requests/domain/entities/queues/queues-filter.entity';
 import { QueuesFilterApiDto } from '@pages/requests/infrastructure/api/dto/queues/queues-filter-api.dto';
+import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 
 @Injectable({
@@ -8,6 +9,7 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 })
 export class QueuesFilterMapper {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
+    private readonly apiDateMapper = inject(ApiDateMapper);
 
     map(entity: QueuesFilterEntity): QueuesFilterApiDto {
         console.log('entity: ', entity);
@@ -16,16 +18,17 @@ export class QueuesFilterMapper {
                 initiator_phone_number: entity?.initiatorPhoneNumber,
             }),
             ...(entity?.uniqId && { uniq_id: entity?.uniqId }),
-            // ...(entity?.reportType && {
-            //     report_type: this.reportTypeMapper.mapToDto(entity?.reportType),
-            // }),
             ...(entity?.reportType && {
                 report_type: entity?.reportType,
             }),
             ...(entity?.operators && { operators: entity?.operators }),
             ...(entity?.source && { source: entity?.source }),
-            ...(entity?.period?.start && { start_date: entity?.period.start }),
-            ...(entity?.period?.end && { end_date: entity?.period.end }),
+            ...(entity?.period?.start && {
+                start_date: this.apiDateMapper.toDateApi(entity.period.start),
+            }),
+            ...(entity?.period?.end && {
+                end_date: this.apiDateMapper.toDateApi(entity.period.end),
+            }),
         };
     }
 }

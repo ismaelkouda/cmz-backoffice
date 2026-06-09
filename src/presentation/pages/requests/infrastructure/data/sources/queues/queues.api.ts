@@ -18,10 +18,12 @@ export class QueuesApi {
         page: string,
         options?: FetchOptions
     ): Observable<QueuesResponseApiDto> {
+        console.log('filter', filter);
         const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.QUEUES}?page=${page}`;
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
+        console.log('params', params);
         const context = new HttpContext().set(
             BYPASS_CACHE,
             options?.forceRefresh ?? false

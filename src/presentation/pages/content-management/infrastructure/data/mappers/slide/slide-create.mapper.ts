@@ -1,10 +1,12 @@
 import { SlideCreateEntity } from '@pages/content-management/domain/entities/slide/slide-create.entity';
 import { SlideCreateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-create-api.dto';
+import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 
 export function slideCreateMapper(
     entity: SlideCreateEntity,
-    platformMapper: PlatformMapper
+    platformMapper: PlatformMapper,
+    apiDateMapper: ApiDateMapper
 ): SlideCreateApiDto {
     const params: SlideCreateApiDto = {} as SlideCreateApiDto;
 
@@ -26,10 +28,10 @@ export function slideCreateMapper(
         );
     }
     if (entity.startDate) {
-        params.start_date = entity.startDate;
+        params.start_date = apiDateMapper.toDateApi(entity.startDate);
     }
     if (entity.endDate) {
-        params.end_date = entity.endDate;
+        params.end_date = apiDateMapper.toDateApi(entity.endDate);
     }
     if (entity.title) {
         params.title = entity.title;
