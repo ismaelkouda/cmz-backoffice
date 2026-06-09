@@ -2,6 +2,7 @@ import { PlatformDto } from '@shared/data/dto/platform.dto';
 
 export interface SlideCreateApiDto {
     time_duration_in_seconds: number;
+    order: number;
     type: string;
     image_file: File | string;
     video_url: string | null;

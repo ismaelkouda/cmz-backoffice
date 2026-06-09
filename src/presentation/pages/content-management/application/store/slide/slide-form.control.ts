@@ -3,6 +3,7 @@ import { MediaValue } from '@shared/domain/types/media.types';
 
 export interface SlideFormControl {
     timeDuration: FormControl<number>;
+    order: FormControl<number>;
     type: FormControl<string>;
     title: FormControl<string>;
     subtitle: FormControl<string>;

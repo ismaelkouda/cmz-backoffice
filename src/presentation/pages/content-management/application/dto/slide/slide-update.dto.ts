@@ -1,6 +1,7 @@
 export interface SlideUpdateDto {
     uniqId: string;
     timeDuration: number;
+    order: number;
     type: string;
     image: File | null | string;
     video: string | null;

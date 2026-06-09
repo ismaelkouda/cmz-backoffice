@@ -43,6 +43,7 @@ export class SlideUseCase {
     create(dto: SlideCreateDto): Observable<SimpleResponseDto<void>> {
         const vo = SlideCreateVo.fromDto(dto);
         const entity = SlideCreateEntity.fromVo(vo);
+        console.log('entitysdfdsdd', entity);
         return this.repository.create(entity);
     }
 

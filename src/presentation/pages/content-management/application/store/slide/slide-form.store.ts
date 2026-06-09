@@ -24,6 +24,7 @@ import { PLATFORM_ASPECT_RATIOS } from '@shared/components/image-upload/domain/t
 import { Platform } from '@shared/domain/enums/platform.enum';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 import { MediaValue } from '@shared/domain/types/media.types';
+import { startWith } from 'rxjs';
 
 export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
 const VIDEO = getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO) as string;
@@ -43,6 +44,12 @@ export class SlideFormStore {
     readonly form: FormGroup<SlideFormControl> = this.createForm();
 
     public readonly isEditMode = signal(false);
+
+    private readonly status = toSignal(
+        this.form.statusChanges.pipe(startWith(this.form.status)),
+        { initialValue: this.form.status }
+    );
+    public readonly isValid = computed(() => this.status() === 'VALID');
 
     readonly typeControl = toSignal(this.form.controls.type.valueChanges, {
         initialValue: this.form.controls.type.value,
@@ -111,9 +118,12 @@ export class SlideFormStore {
             return;
         }
 
+        console.log('item.platforms', item.platforms);
+
         this.form.patchValue(
             {
                 timeDuration: item.timeDuration,
+                order: item.order,
                 type: item.type,
                 video: item.video,
                 title: item.title,
@@ -155,11 +165,11 @@ export class SlideFormStore {
             {
                 timeDuration: new FormControl(5, {
                     nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        Validators.min(FormValidators.TIME_DURATION.MIN),
-                        Validators.max(FormValidators.TIME_DURATION.MAX),
-                    ],
+                    validators: [Validators.required],
+                }),
+                order: new FormControl(0, {
+                    nonNullable: true,
+                    validators: [Validators.required],
                 }),
                 type: new FormControl(IMAGE, {
                     nonNullable: true,
@@ -176,22 +186,22 @@ export class SlideFormStore {
                 }),
                 subtitle: new FormControl('', {
                     nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        // Validators.minLength(FormValidators.SUBTITLE.MIN),
-                        // Validators.maxLength(FormValidators.SUBTITLE.MAX),
-                        // Validators.pattern(FormValidators.SUBTITLE.PATTERN),
-                    ],
+                    // validators: [
+                    //     Validators.required,
+                    //     // Validators.minLength(FormValidators.SUBTITLE.MIN),
+                    //     // Validators.maxLength(FormValidators.SUBTITLE.MAX),
+                    //     // Validators.pattern(FormValidators.SUBTITLE.PATTERN),
+                    // ],
                 }),
                 content: new FormControl('', {
                     nonNullable: true,
-                    validators: [
-                        Validators.required,
-                        // Validators.minLength(FormValidators.CONTENT.MIN),
-                        // this.htmlContentMaxLengthValidator(
-                        //     FormValidators.CONTENT.STRIP_HTML_MAX
-                        // ),
-                    ],
+                    // validators: [
+                    //     Validators.required,
+                    //     // Validators.minLength(FormValidators.CONTENT.MIN),
+                    //     // this.htmlContentMaxLengthValidator(
+                    //     //     FormValidators.CONTENT.STRIP_HTML_MAX
+                    //     // ),
+                    // ],
                 }),
                 image: new FormControl(null, {
                     validators: [Validators.required],
@@ -209,10 +219,10 @@ export class SlideFormStore {
                 }),
                 buttonUrl: new FormControl('', {
                     nonNullable: true,
-                    validators: [
-                        // Validators.maxLength(FormValidators.BUTTON_URL.MAX),
-                        Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
-                    ],
+                    // validators: [
+                    //     // Validators.maxLength(FormValidators.BUTTON_URL.MAX),
+                    //     // Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
+                    // ],
                 }),
                 platforms: new FormControl([], {
                     nonNullable: true,

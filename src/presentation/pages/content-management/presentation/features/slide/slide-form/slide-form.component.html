@@ -50,7 +50,39 @@
                                             <div
                                                 class="row g-3 align-items-center"
                                             >
-                                                <div class="col-md-3">
+
+                                                <div class="col-md-2">
+                                                    <label
+                                                        for="order"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.ORDER'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+
+                                                    <input
+                                                        id="order"
+                                                        class="form-input"
+                                                        type="number"
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.ORDER'
+                                                                | translate
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.ORDER_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        formControlName="order"
+                                                    />
+                                                </div>
+
+                                                <div class="col-md-2">
                                                     <label
                                                         for="timeDuration"
                                                         class="form-label fw-bold"
@@ -88,18 +120,13 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION'
                                                                 | translate
                                                         "
-                                                        [attr.aria-invalid]="
-                                                            isFieldInvalid(
-                                                                'timeDuration'
-                                                            )
-                                                        "
                                                         [placeholder]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.DURATION_PLACEHOLDER'
                                                                 | translate
                                                         "
                                                         formControlName="timeDuration"
                                                     />
-                                                    <div
+                                                    <!-- <div
                                                         class="d-flex justify-content-between align-items-center"
                                                     >
                                                         @if (
@@ -141,10 +168,10 @@
                                                                 </small>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> -->
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label
                                                         for="type"
                                                         class="form-label fw-bold"
@@ -159,7 +186,7 @@
                                                         >
                                                     </label>
                                                     <p-select
-                                                        class="form-p-select mb-4"
+                                                        class="form-p-select"
                                                         [options]="
                                                             typeOptions()
                                                         "
@@ -702,10 +729,6 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE'
                                                                 | translate
                                                         }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        >
                                                     </label>
                                                     <textarea
                                                         id="subtitle"
@@ -727,7 +750,7 @@
                                                         "
                                                         [attr.aria-invalid]="isFieldInvalid('subtitle')"
                                                     ></textarea>
-                                                    <div
+                                                    <!-- <div
                                                         class="d-flex justify-content-between align-items-center"
                                                     >
                                                         @if (isFieldInvalid('subtitle')) {
@@ -735,7 +758,7 @@
                                                                 {{ getErrorMessage('subtitle') }}
                                                             </small>
                                                         }
-                                                        <!-- <div
+                                                        <div
                                                             class="d-flex align-items-center gap-2 ms-auto"
                                                         >
                                                             @let subtitle =
@@ -758,8 +781,8 @@
                                                                     }}
                                                                 </small>
                                                             </div>
-                                                        </div> -->
-                                                    </div>
+                                                        </div>
+                                                    </div> -->
                                                 </div>
 
                                                 <div class="col-12">
@@ -771,22 +794,17 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.DESCRIPTION'
                                                                 | translate
                                                         }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        >
                                                     </label>
                                                     <p-editor
                                                         id="content"
                                                         formControlName="content"
-                                                        [invalid]="isFieldInvalid('content')" 
                                                         [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT_PLACEHOLDER' | translate"
                                                         [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT' | translate "
                                                         [attr.aria-invalid]="isFieldInvalid('content')"
                                                         [style]="{ height: '200px' }"
                                                     />
 
-                                                    <div
+                                                    <!-- <div
                                                         class="d-flex justify-content-between align-items-center"
                                                     >
                                                         @if (
@@ -805,7 +823,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                    </div>
+                                                    </div> -->
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -823,6 +841,7 @@
 
                                             <p-button
                                                 type="submit"
+                                                [disabled]="!store.isValid() || loadingSubmit()"
                                                 [label]="
                                                     'COMMON.SAVE' | translate
                                                 "

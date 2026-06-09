@@ -182,6 +182,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
 
         const command = new SlideCreateCommand(
             slide.timeDuration,
+            slide.order,
             slide.type,
             slide.image,
             slide.video,
@@ -217,6 +218,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         const command = new SlideUpdateCommand(
             slide.uniqId,
             slide.timeDuration,
+            slide.order,
             slide.type,
             slide.image,
             slide.video,

@@ -23,11 +23,7 @@ export class SlideFindOneMapper extends SimpleResponseMapper<
         const props: SlideFindOneProps = {
             uniqId: dto.id,
             type: dto.type,
-            platforms: this.utils.memoizedList(
-                dto.platforms,
-                (p) => this.platformMapper.mapFromDto(p),
-                (p) => `platform:${p}`
-            ),
+            platforms: dto.platforms,
             title: dto.title,
             subtitle: dto.subtitle,
             content: dto.content,
