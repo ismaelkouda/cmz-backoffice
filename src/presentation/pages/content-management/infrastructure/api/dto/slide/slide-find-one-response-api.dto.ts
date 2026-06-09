@@ -1,4 +1,3 @@
-import { PlatformDto } from '@shared/data/dto/platform.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface SlideFindOneItemApiDto {
@@ -9,7 +8,7 @@ export interface SlideFindOneItemApiDto {
     type: string;
     image_url: string;
     video_url: string;
-    platforms: PlatformDto[];
+    platforms: string[];
     start_date: string;
     end_date: string;
     title: string;

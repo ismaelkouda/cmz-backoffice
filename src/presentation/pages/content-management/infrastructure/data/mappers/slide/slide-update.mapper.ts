@@ -16,6 +16,9 @@ export function slideUpdateMapper(
     if (entity.timeDuration) {
         params.time_duration_in_seconds = entity.timeDuration;
     }
+    if (entity.order) {
+        params.order = entity.order;
+    }
     if (entity.type) {
         params.type = entity.type;
     }

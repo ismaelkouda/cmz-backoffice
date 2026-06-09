@@ -1,6 +1,7 @@
 export class SlideCreateCommand {
     constructor(
         public readonly timeDuration: number,
+        public readonly order: number,
         public readonly type: string,
         public readonly image: File | null | string,
         public readonly video: string | null,

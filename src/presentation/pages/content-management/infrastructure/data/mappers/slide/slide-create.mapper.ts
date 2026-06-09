@@ -8,10 +8,14 @@ export function slideCreateMapper(
     platformMapper: PlatformMapper,
     apiDateMapper: ApiDateMapper
 ): SlideCreateApiDto {
+    console.log('entity', entity);
     const params: SlideCreateApiDto = {} as SlideCreateApiDto;
 
     if (entity.timeDuration) {
         params.time_duration_in_seconds = entity.timeDuration;
+    }
+    if (entity.order) {
+        params.order = entity.order;
     }
     if (entity.type) {
         params.type = entity.type;
@@ -48,6 +52,8 @@ export function slideCreateMapper(
     if (entity.buttonUrl) {
         params.button_url = entity.buttonUrl;
     }
+
+    console.log('params', params);
 
     return params;
 }

@@ -12,6 +12,10 @@ export class SlideUpdateVo {
         return this.props.timeDuration;
     }
 
+    get order(): number {
+        return this.props.order;
+    }
+
     get type(): string {
         return this.props.type;
     }
