@@ -340,8 +340,8 @@ export class QueuesComponent {
             .map((col) => {
                 let width = 15;
                 if (col.width) {
-                    const num = parseFloat(col.width);
-                    width = isNaN(num) ? 15 : num;
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
                 }
                 return {
                     field: col.field,
