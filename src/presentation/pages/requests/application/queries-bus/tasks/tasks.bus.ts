@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { TasksQuery } from '@pages/requests/application/queries/tasks/tasks.query';
 import { TasksHandler } from '@pages/requests/application/queries-handlers/tasks/tasks.handler';
 import { TasksEntity } from '@pages/requests/domain/entities/tasks/tasks.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

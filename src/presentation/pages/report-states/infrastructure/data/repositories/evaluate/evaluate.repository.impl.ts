@@ -5,7 +5,7 @@ import { EvaluateRepository } from '@pages/report-states/domain/repositories/eva
 import { EvaluateFilterMapper } from '@pages/report-states/infrastructure/data/mappers/evaluate/evaluate-filter.mapper';
 import { EvaluateMapper } from '@pages/report-states/infrastructure/data/mappers/evaluate/evaluate.mapper';
 import { EvaluateApi } from '@pages/report-states/infrastructure/data/sources/evaluate/evaluate.api';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 

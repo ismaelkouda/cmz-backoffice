@@ -19,6 +19,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { map, Observable } from 'rxjs';
 
@@ -29,6 +30,7 @@ export class SlideRepositoryImpl implements SlideRepository {
     private readonly api = inject(SlideApi);
     private readonly mapper = inject(SlideMapper);
     private readonly platformMapper = inject(PlatformMapper);
+    private readonly apiDateMapper = inject(ApiDateMapper);
 
     readAll(
         filter: SlideFilterEntity,
@@ -40,11 +42,15 @@ export class SlideRepositoryImpl implements SlideRepository {
     }
 
     create(payload: SlideCreateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.create(slideCreateMapper(payload, this.platformMapper));
+        return this.api.create(
+            slideCreateMapper(payload, this.platformMapper, this.apiDateMapper)
+        );
     }
 
     update(payload: SlideUpdateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.update(slideUpdateMapper(payload, this.platformMapper));
+        return this.api.update(
+            slideUpdateMapper(payload, this.platformMapper, this.apiDateMapper)
+        );
     }
 
     delete(entity: SlideDeleteEntity): Observable<SimpleResponseDto<void>> {

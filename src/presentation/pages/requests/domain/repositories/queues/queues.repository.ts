@@ -1,7 +1,7 @@
 import { QueuesFilterEntity } from '@pages/requests/domain/entities/queues/queues-filter.entity';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 export abstract class QueuesRepository {

@@ -42,6 +42,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { formatDate } from '@shared/domain/functions/format-data.function';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
 @Component({
     selector: 'app-queues',
@@ -276,6 +277,7 @@ export class QueuesComponent {
         this.title.setTitle(this.t('REQUESTS.QUEUES.TITLE'));
     }
     protected onFilterClicked(): void {
+        console.log('this.formStore.value', this.formStore.value);
         this.facade.read(this.formStore.value, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {
@@ -316,7 +318,10 @@ export class QueuesComponent {
     }
     private onRefreshData(): void {
         this.formStore.reset();
-        this.facade.refresh();
+
+        this.facade.read({}, PAGINATION_CONST.DEFAULT_PAGE, {
+            forceRefresh: true,
+        });
     }
     private exportData(): void {
         if (!this.canExport()) {
@@ -331,30 +336,25 @@ export class QueuesComponent {
 
         const fileName = `${this.exportFilePrefix}-queues`;
 
-        // Construction des colonnes pour l'export (basée sur QUEUES_TABLE)
         const exportColumns: ExportColumn[] = QUEUES_TABLE.cols
-            .filter((col) => col.field !== '__action') // exclure la colonne actions
+            .filter((col) => col.field !== '__action')
             .map((col) => {
-                // Déterminer la largeur : convertir "8rem" en nombre (approximatif)
                 let width = 15;
                 if (col.width) {
-                    const num = parseFloat(col.width);
-                    width = isNaN(num) ? 15 : num;
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
                 }
                 return {
                     field: col.field,
                     header: this.translate.instant(col.header),
                     width: width,
                     transform: (value: any, row: any) => {
-                        // Cas spécial pour l'index (généré dynamiquement)
                         if (col.field === '__index') {
                             return (items.indexOf(row) + 1).toString();
                         }
-                        // Formatage des dates
                         if (col.field === 'reportedAt' && value) {
                             return formatDate(value);
                         }
-                        // Si la valeur est un tableau, la joindre
                         if (Array.isArray(value)) {
                             return value.join(', ');
                         }
@@ -367,7 +367,7 @@ export class QueuesComponent {
             .exportToExcel({
                 fileName: fileName,
                 columns: exportColumns,
-                data: items, // les données présentées
+                data: items,
                 sheetName: this.translate.instant('REQUESTS.QUEUES.TITLE'),
                 autoFilter: true,
             })

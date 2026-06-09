@@ -41,6 +41,7 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 
 @Component({
     selector: 'app-tasks',
@@ -69,6 +70,7 @@ export class TasksComponent {
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(TasksFilterStore);
     // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name

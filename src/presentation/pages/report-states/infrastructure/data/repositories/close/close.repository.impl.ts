@@ -5,7 +5,7 @@ import { CloseRepository } from '@pages/report-states/domain/repositories/close/
 import { CloseFilterMapper } from '@pages/report-states/infrastructure/data/mappers/close/close-filter.mapper';
 import { CloseMapper } from '@pages/report-states/infrastructure/data/mappers/close/close.mapper';
 import { CloseApi } from '@pages/report-states/infrastructure/data/sources/close/close.api';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 

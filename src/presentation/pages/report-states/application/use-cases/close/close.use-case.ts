@@ -4,7 +4,7 @@ import { CloseFilterEntity } from '@pages/report-states/domain/entities/close/cl
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
 import { CloseRepository } from '@pages/report-states/domain/repositories/close/close.repository';
 import { CloseFilterVo } from '@pages/report-states/domain/value-objects/close/close-filter.vo';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

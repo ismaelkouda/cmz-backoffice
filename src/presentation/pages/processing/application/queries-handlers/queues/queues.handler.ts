@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { QueuesQuery } from '@pages/processing/application/queries/queues/queues.query';
 import { QueuesUseCase } from '@pages/processing/application/use-cases/queues/queues.use-case';
 import { QueuesEntity } from '@pages/processing/domain/entities/queues/queues.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

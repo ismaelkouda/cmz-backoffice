@@ -4,10 +4,9 @@ import { QueuesQuery } from '@pages/requests/application/queries/queues/queues.q
 import { QueuesBus } from '@pages/requests/application/queries-bus/queues/queues.bus';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import { shouldFetch } from '@shared/application/services/facade.utils';
-import { FetchOptions } from '@shared/application/types/fetch-options';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
@@ -23,19 +22,6 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        const forceRefresh = options.forceRefresh ?? false;
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new QueuesQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,

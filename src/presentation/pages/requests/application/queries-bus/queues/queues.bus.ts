@@ -2,9 +2,9 @@ import { Injectable, inject } from '@angular/core';
 import { QueuesQuery } from '@pages/requests/application/queries/queues/queues.query';
 import { QueuesHandler } from '@pages/requests/application/queries-handlers/queues/queues.handler';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesBus {

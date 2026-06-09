@@ -5,7 +5,7 @@ import { TasksBus } from '@pages/requests/application/queries-bus/tasks/tasks.bu
 import { TasksEntity } from '@pages/requests/domain/entities/tasks/tasks.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
 import { shouldFetch } from '@shared/application/services/facade.utils';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 

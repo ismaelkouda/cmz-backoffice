@@ -1,11 +1,11 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { BYPASS_CACHE } from '@core/interceptors/cache.interceptor';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { QueuesFilterApiDto } from '@pages/processing/infrastructure/api/dto/queues/queues-filter-api.dto';
 import { QueuesResponseApiDto } from '@pages/processing/infrastructure/api/dto/queues/queues-response-api.dto';
 import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
 import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
 

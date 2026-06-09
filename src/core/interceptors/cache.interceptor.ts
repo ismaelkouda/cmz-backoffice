@@ -1,17 +1,12 @@
-import {
-    HttpContextToken,
-    HttpInterceptorFn,
-    HttpResponse,
-} from '@angular/common/http';
+import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
 import {
     isInternalUrl,
     isStaticAssetRequest,
 } from '@core/interceptors/utils/interceptor-request-filter.util';
 import { ConfigurationService } from '@core/services/configuration.service';
-import { of, shareReplay, tap } from 'rxjs';
-
-export const BYPASS_CACHE = new HttpContextToken<boolean>(() => false);
+import { finalize, of, shareReplay, tap } from 'rxjs';
+import { BYPASS_CACHE } from './cache-context.token';
 
 interface CacheEntry {
     response: HttpResponse<any>;
@@ -43,19 +38,25 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
     }
 
     const key = req.urlWithParams;
-    const bypass = req.context.get(BYPASS_CACHE);
 
-    if (bypass) {
+    const bypassCache = req.context.get(BYPASS_CACHE);
+
+    if (bypassCache) {
         responseCache.delete(key);
         inFlight.delete(key);
-    } else {
+    }
+
+    if (!bypassCache) {
         const cached = responseCache.get(key);
+
         if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
             return of(cached.response.clone());
         }
+
         responseCache.delete(key);
 
         const existing$ = inFlight.get(key);
+
         if (existing$) {
             return existing$;
         }
@@ -70,15 +71,16 @@ export const cacheInterceptor: HttpInterceptorFn = (req, next) => {
                 });
             }
         }),
-        shareReplay({ refCount: true, bufferSize: 1 })
+        finalize(() => {
+            inFlight.delete(key);
+        }),
+        shareReplay({
+            bufferSize: 1,
+            refCount: true,
+        })
     );
 
     inFlight.set(key, shared$);
-    shared$.subscribe({
-        next: () => inFlight.delete(key),
-        error: () => inFlight.delete(key),
-        complete: () => inFlight.delete(key),
-    });
 
     return shared$;
 };

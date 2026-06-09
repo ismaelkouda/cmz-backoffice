@@ -4,6 +4,6 @@ export interface TasksFilterApiDto {
     report_type?: string;
     operators?: string[];
     source?: string;
-    start_date?: Date;
-    end_date?: Date;
+    start_date?: string;
+    end_date?: string;
 }

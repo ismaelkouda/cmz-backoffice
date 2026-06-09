@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { RejectQuery } from '@pages/report-states/application/queries/reject/reject.query';
 import { RejectHandler } from '@pages/report-states/application/queries-handlers/reject/reject.handler';
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
-import { FetchOptions } from '@shared/application/types/fetch-options';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 

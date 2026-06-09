@@ -9,7 +9,7 @@ export class QueuesPresenter {
             uniqId: item.uniqId,
             type: item.type,
             reportTypeLabel: this.t(item.reportType),
-            operators: item.operators,
+            operators: item.operators.map((operator) => this.t(operator)),
             sourceLabel: this.t(item.source),
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
