@@ -37,10 +37,10 @@ export class HomeFindOneEntity {
     get status(): Status {
         return this.props.status;
     }
-    get startDate(): Date {
+    get startDate(): string {
         return this.props.startDate;
     }
-    get endDate(): Date {
+    get endDate(): string {
         return this.props.endDate;
     }
     get createdAt(): string {

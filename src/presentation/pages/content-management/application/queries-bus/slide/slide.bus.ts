@@ -4,14 +4,19 @@ import { SlideHandler } from '@pages/content-management/application/queries-hand
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class SlideBus {
     private readonly filterHandler = inject(SlideHandler);
 
-    dispatch<T>(query: T, page: string): Observable<Paginate<SlideEntity>> {
+    dispatch<T>(
+        query: T,
+        page: string,
+        options?: FetchOptions
+    ): Observable<Paginate<SlideEntity>> {
         if (query instanceof SlideQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

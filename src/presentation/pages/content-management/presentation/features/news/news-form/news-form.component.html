@@ -312,7 +312,9 @@
                                                     </label>
                                                     <p-select
                                                         class="form-p-select"
-                                                        [options]="store.subCategories()"
+                                                        [options]="
+                                                            store.subCategories()
+                                                        "
                                                         [loading]="
                                                             store.loadingNewsSubCategories()
                                                         "

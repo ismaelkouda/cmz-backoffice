@@ -42,7 +42,6 @@ import { ToastrService } from 'ngx-toastr';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { formatDate } from '@shared/domain/functions/format-data.function';
-import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 
 @Component({
     selector: 'app-queues',
@@ -68,7 +67,6 @@ export class QueuesComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(QueuesFilterStore);
-    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
@@ -277,7 +275,6 @@ export class QueuesComponent {
         this.title.setTitle(this.t('REQUESTS.QUEUES.TITLE'));
     }
     protected onFilterClicked(): void {
-        console.log('this.formStore.value', this.formStore.value);
         this.facade.read(this.formStore.value, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {
@@ -294,9 +291,6 @@ export class QueuesComponent {
     }
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
-    }
-    private t(key: string): string {
-        return this.translate.instant(key);
     }
     private readonly headerActions: Record<string, () => void> = {
         refresh: () => this.onRefreshData(),
@@ -318,10 +312,7 @@ export class QueuesComponent {
     }
     private onRefreshData(): void {
         this.formStore.reset();
-
-        this.facade.read({}, PAGINATION_CONST.DEFAULT_PAGE, {
-            forceRefresh: true,
-        });
+        this.facade.refresh();
     }
     private exportData(): void {
         if (!this.canExport()) {
@@ -383,6 +374,9 @@ export class QueuesComponent {
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+    private t(key: string): string {
+        return this.translate.instant(key);
     }
 
     // private exportToExcel(): void {

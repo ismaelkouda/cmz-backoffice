@@ -5,7 +5,7 @@ import { SlideFilterApiDto } from '@pages/content-management/infrastructure/api/
 export function slideFilterMapper(
     entity: SlideFilterEntity
 ): SlideFilterApiDto {
-    const params: SlideFilterApiDto = {} as SlideFilterApiDto;
+    const params: SlideFilterApiDto = {};
 
     if (entity.search) {
         params.search = entity.search;

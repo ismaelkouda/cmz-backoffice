@@ -19,13 +19,11 @@ import { HomeQuery } from '@pages/content-management/application/queries/home/ho
 import { HomeBus } from '@pages/content-management/application/queries-bus/home/home.bus';
 import { HomeEntity } from '@pages/content-management/domain/entities/home/home.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -67,20 +65,8 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
     readAll(
         filter: HomeFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new HomeQuery(
             filter?.search,
             filter?.platforms,
@@ -88,7 +74,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, options);
         this.fetchWithFilterAndPage(
             filter,
             page,
@@ -112,7 +98,9 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
@@ -149,7 +137,9 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(
             filter,
             page,

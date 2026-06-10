@@ -4,8 +4,8 @@ export interface HomeUpdateApiDto {
     uniq_id: string;
     image_file: File | string;
     platforms: PlatformDto[];
-    start_date: Date;
-    end_date: Date;
+    start_date: string;
+    end_date: string;
     title: string;
     resume: string;
     content: string;

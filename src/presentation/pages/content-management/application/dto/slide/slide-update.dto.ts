@@ -1,13 +1,12 @@
 export interface SlideUpdateDto {
     uniqId: string;
     timeDuration: number;
-    order: number;
     type: string;
     image: File | null | string;
     video: string | null;
     platforms: string[];
-    startDate: Date | null;
-    endDate: Date | null;
+    startDate: string;
+    endDate: string;
     title: string;
     subtitle: string;
     content: string;

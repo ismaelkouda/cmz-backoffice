@@ -6,6 +6,7 @@ export class InvalidDateRangeError extends DomainError {
     readonly statusCode = 422;
 
     constructor(message?: string) {
+        console.log('fzgefefezfzef');
         super(message || 'INVALID_DATE_RANGE');
     }
 }

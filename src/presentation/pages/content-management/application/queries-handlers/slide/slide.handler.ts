@@ -3,6 +3,7 @@ import { SlideQuery } from '@pages/content-management/application/queries/slide/
 import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class SlideHandler {
 
     execute(
         command: SlideQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<SlideEntity>> {
         return this.useCase.execute(
             {
@@ -21,7 +23,8 @@ export class SlideHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

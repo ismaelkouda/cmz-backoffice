@@ -23,7 +23,8 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
-import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
+import { defer, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -33,41 +34,51 @@ export class SlideUseCase {
 
     execute(
         dto: SlideFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<SlideEntity>> {
         const vo = SlideFilterVo.fromDto(dto);
         const entity = SlideFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page);
+        return this.repository.readAll(entity, page, options);
     }
 
     create(dto: SlideCreateDto): Observable<SimpleResponseDto<void>> {
-        const vo = SlideCreateVo.fromDto(dto);
-        const entity = SlideCreateEntity.fromVo(vo);
-        console.log('entitysdfdsdd', entity);
-        return this.repository.create(entity);
+        return defer(() => {
+            const vo = SlideCreateVo.fromDto(dto);
+            const entity = SlideCreateEntity.fromVo(vo);
+            return this.repository.create(entity);
+        });
     }
 
     update(dto: SlideUpdateDto): Observable<SimpleResponseDto<void>> {
-        const vo = SlideUpdateVo.fromDto(dto);
-        const entity = SlideUpdateEntity.fromVo(vo);
-        return this.repository.update(entity);
+        return defer(() => {
+            const vo = SlideUpdateVo.fromDto(dto);
+            const entity = SlideUpdateEntity.fromVo(vo);
+            return this.repository.update(entity);
+        });
     }
 
     enable(dto: SlideEnableDto): Observable<SimpleResponseDto<void>> {
-        const vo = SlideEnableVo.fromDto(dto);
-        const entity = SlideEnableEntity.fromVo(vo);
-        return this.repository.enable(entity);
+        return defer(() => {
+            const vo = SlideEnableVo.fromDto(dto);
+            const entity = SlideEnableEntity.fromVo(vo);
+            return this.repository.enable(entity);
+        });
     }
 
     disable(dto: SlideDisableDto): Observable<SimpleResponseDto<void>> {
-        const vo = SlideDisableVo.fromDto(dto);
-        const entity = SlideDisableEntity.fromVo(vo);
-        return this.repository.disable(entity);
+        return defer(() => {
+            const vo = SlideDisableVo.fromDto(dto);
+            const entity = SlideDisableEntity.fromVo(vo);
+            return this.repository.disable(entity);
+        });
     }
 
     delete(dto: SlideDeleteDto): Observable<SimpleResponseDto<void>> {
-        const vo = SlideDeleteVo.fromDto(dto);
-        const entity = SlideDeleteEntity.fromVo(vo);
-        return this.repository.delete(entity);
+        return defer(() => {
+            const vo = SlideDeleteVo.fromDto(dto);
+            const entity = SlideDeleteEntity.fromVo(vo);
+            return this.repository.delete(entity);
+        });
     }
 }

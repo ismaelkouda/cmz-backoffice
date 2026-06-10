@@ -32,6 +32,7 @@ export class HomeFormStore {
 
     private readonly imageError = signal<string | null>(null);
     public readonly imageFile = signal<File | string | null>(null);
+    private readonly alreadyPatched = signal(false);
 
     public readonly selectedPlatforms = computed(
         () => this.form.controls.platforms.value
@@ -113,11 +114,13 @@ export class HomeFormStore {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-                startDate: new FormControl<Date | null>(null, {
+                startDate: new FormControl<string>('', {
                     nonNullable: true,
+                    validators: [Validators.required],
                 }),
-                endDate: new FormControl<Date | null>(null, {
+                endDate: new FormControl<string>('', {
                     nonNullable: true,
+                    validators: [Validators.required],
                 }),
             },
             { validators: [this.buttonFieldsConsistencyValidator()] }
@@ -127,12 +130,15 @@ export class HomeFormStore {
     private readonly patchItemEffect = effect(() => {
         const item = this.item();
 
-        if (!item || Object.keys(item).length === 0) {
+        if (!item) {
             return;
         }
-        if (!this.form.pristine) {
+
+        if (this.alreadyPatched()) {
             return;
         }
+
+        this.alreadyPatched.set(true);
 
         this.form.patchValue(
             {
@@ -148,26 +154,24 @@ export class HomeFormStore {
             { emitEvent: false }
         );
         if (item.image) {
-            this.handleExistingImage(item.image);
+            this.form.controls.image.setValue(
+                {
+                    type: 'remote',
+                    url: item.image,
+                },
+                { emitEvent: false }
+            );
+
+            this.imageFile.set(item.image);
         } else {
             this.resetImage();
         }
     });
 
     private async handleExistingImage(url: string): Promise<void> {
-        try {
-            const mediaValue: MediaValue = {
-                type: 'remote',
-                url: url,
-            };
-            this.imageFile.set(url);
-            this.form.controls.image.setValue(mediaValue, { emitEvent: false });
-            this.imageError.set(null);
-        } catch (error) {
-            console.error('❌ Failed to handle existing image:', error);
-            this.imageError.set('CONTENT_MANAGEMENT.HOME.IMAGE_LOAD_ERROR');
-            this.form.controls.image.setErrors({ imageLoadFailed: true });
-        }
+        this.imageFile.set(url);
+
+        this.imageError.set(null);
     }
 
     private buttonFieldsConsistencyValidator(): ValidatorFn {

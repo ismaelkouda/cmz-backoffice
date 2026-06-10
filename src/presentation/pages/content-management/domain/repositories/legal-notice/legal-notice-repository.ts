@@ -10,6 +10,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,7 +19,8 @@ import { Observable } from 'rxjs';
 export abstract class LegalNoticeRepository {
     abstract readAll(
         entity: LegalNoticeFilterEntity | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<LegalNoticeEntity>>;
     abstract create(
         entity: LegalNoticeCreateEntity

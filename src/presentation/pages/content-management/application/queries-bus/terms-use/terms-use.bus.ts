@@ -4,12 +4,17 @@ import { TermsUseHandler } from '@pages/content-management/application/queries-h
 import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class TermsUseBus {
     private readonly filterHandler = inject(TermsUseHandler);
 
-    dispatch<T>(query: T, page: string): Observable<Paginate<TermsUseEntity>> {
+    dispatch<T>(
+        query: T,
+        page: string,
+        options?: FetchOptions
+    ): Observable<Paginate<TermsUseEntity>> {
         if (query instanceof TermsUseQuery) {
             return this.filterHandler.execute(query, page);
         }

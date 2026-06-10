@@ -1,5 +1,6 @@
 import { HomeCreateProps } from '@pages/content-management/domain/interfaces/home/home-create-props.interface';
 import { HomeCreateVo } from '@pages/content-management/domain/value-objects/home/home-create.vo';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class HomeCreateEntity {
     constructor(private readonly props: HomeCreateProps) {}
@@ -12,12 +13,8 @@ export class HomeCreateEntity {
         return this.props.platforms;
     }
 
-    get startDate(): Date | null {
-        return this.props.startDate;
-    }
-
-    get endDate(): Date | null {
-        return this.props.endDate;
+    get period(): DatePeriod {
+        return this.props.period;
     }
 
     get title(): string {

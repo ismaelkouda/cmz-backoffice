@@ -251,7 +251,10 @@
                                             'MANAGEMENT.TREATMENT.TAKE_ACTION.COMMENT'
                                                 | translate
                                         }}
-                                        @if (isDecision('rejected') || !isApprovalType('view')) {
+                                        @if (
+                                            isDecision('rejected') ||
+                                            !isApprovalType('view')
+                                        ) {
                                             <span
                                                 class="text-danger"
                                                 aria-label="required"
