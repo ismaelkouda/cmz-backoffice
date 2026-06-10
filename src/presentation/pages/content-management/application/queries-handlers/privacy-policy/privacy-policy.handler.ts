@@ -3,6 +3,7 @@ import { PrivacyPolicyQuery } from '@pages/content-management/application/querie
 import { PrivacyPolicyUseCase } from '@pages/content-management/application/use-cases/privacy-policy/privacy-policy.use-case';
 import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class PrivacyPolicyHandler {
 
     execute(
         command: PrivacyPolicyQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<PrivacyPolicyEntity>> {
         return this.useCase.execute(
             {

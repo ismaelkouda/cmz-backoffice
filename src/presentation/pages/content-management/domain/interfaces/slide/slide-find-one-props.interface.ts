@@ -9,8 +9,8 @@ export interface SlideFindOneProps {
     image: string;
     video: string;
     platforms: string[];
-    startDate: Date | null;
-    endDate: Date | null;
+    startDate: string;
+    endDate: string;
     title: string;
     subtitle: string;
     content: string;

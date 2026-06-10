@@ -2,9 +2,9 @@ import { DomainError } from '@shared/domain/errors/domain-error.abstract';
 
 export class PasswordRequiredError extends DomainError {
     readonly code = 'PASSWORD_REQUIRED';
-    readonly messageKey = 'AUTHENTICATION.FORM.PASSWORD.REQUIRED';
+    readonly messageKey = 'COMMON.PASSWORD.REQUIRED';
     readonly statusCode = 422;
-    constructor() {
-        super('Password is required');
+    constructor(message?: string) {
+        super(message || 'Password is required');
     }
 }

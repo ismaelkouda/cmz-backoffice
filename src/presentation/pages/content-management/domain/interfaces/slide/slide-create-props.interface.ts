@@ -1,12 +1,12 @@
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
+
 export interface SlideCreateProps {
     timeDuration: number;
-    order: number;
     type: string;
     image: File | null | string;
     video: string | null;
     platforms: string[];
-    startDate: Date | null;
-    endDate: Date | null;
+    period: DatePeriod;
     title: string;
     subtitle: string;
     content: string;

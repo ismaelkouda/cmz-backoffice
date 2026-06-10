@@ -19,13 +19,11 @@ import { NewsQuery } from '@pages/content-management/application/queries/news/ne
 import { NewsBus } from '@pages/content-management/application/queries-bus/news/news.bus';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -67,27 +65,15 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
     readAll(
         filter: NewsFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new NewsQuery(
             filter?.search,
             filter?.status,
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, options);
         this.fetchWithFilterAndPage(
             filter,
             page,
@@ -110,7 +96,9 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
@@ -145,7 +133,9 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(
             filter,
             page,

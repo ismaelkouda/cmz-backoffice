@@ -19,10 +19,8 @@ import { SlideQuery } from '@pages/content-management/application/queries/slide/
 import { SlideBus } from '@pages/content-management/application/queries-bus/slide/slide.bus';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
@@ -67,20 +65,8 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
     readAll(
         filter: SlideFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new SlideQuery(
             filter?.search,
             filter?.platforms,
@@ -88,7 +74,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, options);
         this.fetchWithFilterAndPage(
             filter,
             page,
@@ -112,7 +98,9 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
@@ -149,7 +137,9 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(
             filter,
             page,
@@ -182,7 +172,6 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
 
         const command = new SlideCreateCommand(
             slide.timeDuration,
-            slide.order,
             slide.type,
             slide.image,
             slide.video,
@@ -218,7 +207,6 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         const command = new SlideUpdateCommand(
             slide.uniqId,
             slide.timeDuration,
-            slide.order,
             slide.type,
             slide.image,
             slide.video,

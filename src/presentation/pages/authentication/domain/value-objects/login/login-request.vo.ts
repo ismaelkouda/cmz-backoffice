@@ -6,7 +6,7 @@ export class LoginRequestVo {
     private constructor(public readonly props: LoginRequestProps) {}
 
     static fromDto(dto: LoginRequestDto): LoginRequestVo {
-        validateLoginRequest(dto.email, dto.password);
+        validateLoginRequest(dto);
 
         return new LoginRequestVo({
             email: dto.email.trim(),

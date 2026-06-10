@@ -17,13 +17,24 @@ export class ErrorHandlerRegistry {
         this.handlers.set(errorType, handler);
     }
 
-    getHandler(error: DomainError): ErrorHandler | undefined {
+    private getHandler(error: DomainError): ErrorHandler | undefined {
+        console.log('error', error);
         if (this.handlers.has(error.constructor as Type<DomainError>)) {
+            console.log('error111', error);
+            console.log('error.constructor', error.constructor);
             return this.handlers.get(error.constructor as Type<DomainError>);
         }
         if (error.code && this.handlers.has(error.code)) {
             return this.handlers.get(error.code);
         }
         return undefined;
+    }
+
+    handle(error: DomainError): void {
+        const handler = this.getHandler(error);
+
+        if (handler) {
+            handler(error);
+        }
     }
 }

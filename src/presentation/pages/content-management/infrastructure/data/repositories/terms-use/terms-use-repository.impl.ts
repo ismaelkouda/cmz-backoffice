@@ -19,6 +19,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({
@@ -30,10 +31,11 @@ export class TermsUseRepositoryImpl implements TermsUseRepository {
 
     readAll(
         filter: TermsUseFilterEntity,
-        page: string
+        page: string,
+        options: FetchOptions
     ): Observable<Paginate<TermsUseEntity>> {
         return this.api
-            .readAll(termsUseFilterMapper(filter), page)
+            .readAll(termsUseFilterMapper(filter), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 

@@ -9,6 +9,6 @@ export interface HomeFormControl {
     buttonLabel: FormControl<string>;
     buttonUrl: FormControl<string>;
     platforms: FormControl<string[]>;
-    startDate: FormControl<Date | null>;
-    endDate: FormControl<Date | null>;
+    startDate: FormControl<string>;
+    endDate: FormControl<string>;
 }

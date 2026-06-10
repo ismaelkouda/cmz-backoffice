@@ -4,6 +4,7 @@ import { PrivacyPolicyHandler } from '@pages/content-management/application/quer
 import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class PrivacyPolicyBus {
@@ -11,7 +12,8 @@ export class PrivacyPolicyBus {
 
     dispatch<T>(
         query: T,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<PrivacyPolicyEntity>> {
         if (query instanceof PrivacyPolicyQuery) {
             return this.filterHandler.execute(query, page);

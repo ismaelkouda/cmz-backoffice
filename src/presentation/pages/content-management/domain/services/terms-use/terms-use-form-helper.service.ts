@@ -15,13 +15,13 @@ export class TermsUseFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'CONTENT_MANAGEMENT.TERMS_USE.SWEET_ALERT.TITLE.UPDATE'
+            ? 'CONTENT_MANAGEMENT.TERMS_USE.SWEET_ALERT.TITLE.EDIT'
             : 'CONTENT_MANAGEMENT.TERMS_USE.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'CONTENT_MANAGEMENT.TERMS_USE.SWEET_ALERT.MESSAGE.UPDATE'
+            ? 'CONTENT_MANAGEMENT.TERMS_USE.SWEET_ALERT.MESSAGE.EDIT'
             : 'CONTENT_MANAGEMENT.TERMS_USE.SWEET_ALERT.MESSAGE.CREATE';
     }
 }

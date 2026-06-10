@@ -56,6 +56,7 @@ const createInitialState = (): CropperState => ({
 @Injectable({ providedIn: 'root' })
 export class ImageUploadStateService {
     private readonly stores = new Map<string, WritableSignal<CropperState>>();
+    private readonly hydrating = new Set<string>();
 
     public getStore(id: string): WritableSignal<CropperState> {
         let store = this.stores.get(id);
@@ -141,6 +142,12 @@ export class ImageUploadStateService {
     }
 
     public async hydrate(id: string, url: string): Promise<void> {
+        console.log('HYDRATE CALLED', id, url);
+        if (this.hydrating.has(id)) {
+            return;
+        }
+
+        this.hydrating.add(id);
         const store = this.getStore(id);
         store.update((s) => ({
             ...s,
@@ -185,6 +192,8 @@ export class ImageUploadStateService {
                 errorMessage:
                     'CONTENT_MANAGEMENT.HOME.CROPPER.ERROR_LOAD_FAILED',
             }));
+        } finally {
+            this.hydrating.delete(id);
         }
     }
 
@@ -205,6 +214,7 @@ export class ImageUploadStateService {
     }
 
     public setFailed(id: string): void {
+        console.trace('FAILED', id);
         this.getStore(id).update((s) => ({
             ...s,
             status: 'error',
@@ -334,6 +344,7 @@ export class ImageUploadStateService {
     }
 
     public reset(id: string): void {
+        console.log('RESET', id);
         const store = this.getStore(id);
         const state = store();
 

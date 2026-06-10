@@ -118,12 +118,9 @@ export class SlideFormStore {
             return;
         }
 
-        console.log('item.platforms', item.platforms);
-
         this.form.patchValue(
             {
                 timeDuration: item.timeDuration,
-                order: item.order,
                 type: item.type,
                 video: item.video,
                 title: item.title,
@@ -145,29 +142,19 @@ export class SlideFormStore {
     });
 
     private async handleExistingImage(url: string): Promise<void> {
-        try {
-            const mediaValue: MediaValue = {
-                type: 'remote',
-                url: url,
-            };
-            this.imageFile.set(url);
-            this.form.controls.image.setValue(mediaValue, { emitEvent: false });
-            this.imageError.set(null);
-        } catch (error) {
-            console.error('❌ Failed to handle existing image:', error);
-            this.imageError.set('CONTENT_MANAGEMENT.SLIDE.IMAGE_LOAD_ERROR');
-            this.form.controls.image.setErrors({ imageLoadFailed: true });
-        }
+        const mediaValue: MediaValue = {
+            type: 'remote',
+            url: url,
+        };
+        this.imageFile.set(url);
+        this.form.controls.image.setValue(mediaValue, { emitEvent: false });
+        this.imageError.set(null);
     }
 
     private createForm(): FormGroup<SlideFormControl> {
         return this.fb.nonNullable.group<SlideFormControl>(
             {
                 timeDuration: new FormControl(5, {
-                    nonNullable: true,
-                    validators: [Validators.required],
-                }),
-                order: new FormControl(0, {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
@@ -181,7 +168,7 @@ export class SlideFormStore {
                         Validators.required,
                         // Validators.minLength(FormValidators.TITLE.MIN),
                         // Validators.maxLength(FormValidators.TITLE.MAX),
-                        Validators.pattern(FormValidators.TITLE.PATTERN),
+                        // Validators.pattern(FormValidators.TITLE.PATTERN),
                     ],
                 }),
                 subtitle: new FormControl('', {
@@ -228,11 +215,13 @@ export class SlideFormStore {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-                startDate: new FormControl<Date | null>(null, {
+                startDate: new FormControl<string>('', {
                     nonNullable: true,
+                    validators: [Validators.required],
                 }),
-                endDate: new FormControl<Date | null>(null, {
+                endDate: new FormControl<string>('', {
                     nonNullable: true,
+                    validators: [Validators.required],
                 }),
             },
             {

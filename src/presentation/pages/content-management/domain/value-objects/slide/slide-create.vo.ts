@@ -1,15 +1,13 @@
 import { SlideCreateDto } from '@pages/content-management/application/dto/slide/slide-create.dto';
 import { SlideCreateProps } from '@pages/content-management/domain/interfaces/slide/slide-create-props.interface';
+import { validateSlideCreate } from '@presentation/pages/content-management/application/validators/slide/slide-create.validator';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class SlideCreateVo {
     constructor(private readonly props: SlideCreateProps) {}
 
     get timeDuration(): number {
         return this.props.timeDuration;
-    }
-
-    get order(): number {
-        return this.props.order;
     }
 
     get type(): string {
@@ -28,12 +26,8 @@ export class SlideCreateVo {
         return this.props.platforms;
     }
 
-    get startDate(): Date | null {
-        return this.props.startDate;
-    }
-
-    get endDate(): Date | null {
-        return this.props.endDate;
+    get period(): DatePeriod {
+        return this.props.period;
     }
 
     get title(): string {
@@ -57,6 +51,11 @@ export class SlideCreateVo {
     }
 
     static fromDto(dto: SlideCreateDto): SlideCreateVo {
-        return new SlideCreateVo(dto);
+        validateSlideCreate(dto);
+        const period = DatePeriod.create(dto.startDate, dto.endDate);
+        return new SlideCreateVo({
+            ...dto,
+            period,
+        });
     }
 }

@@ -34,8 +34,8 @@ export class SlideFindOneMapper extends SimpleResponseMapper<
             buttonLabel: dto.button_label,
             buttonUrl: dto.button_url,
             status: this.statusMapper.mapFromDto(dto.is_active),
-            startDate: dto.start_date ? new Date(dto.start_date) : new Date(),
-            endDate: dto.end_date ? new Date(dto.end_date) : new Date(),
+            startDate: dto.start_date,
+            endDate: dto.end_date,
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };

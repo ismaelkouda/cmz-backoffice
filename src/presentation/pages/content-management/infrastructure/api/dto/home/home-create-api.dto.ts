@@ -3,8 +3,8 @@ import { PlatformDto } from '@shared/data/dto/platform.dto';
 export interface HomeCreateApiDto {
     image_file: File | string;
     platforms: PlatformDto[];
-    start_date: Date;
-    end_date: Date;
+    start_date: string;
+    end_date: string;
     title: string;
     resume: string;
     content: string;

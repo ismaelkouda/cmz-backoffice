@@ -538,7 +538,7 @@ export class MapAdapter {
         console.log('report bgrbgrbgrbr createReportStyle: ', report);
         const color = report ? this.getMarkerColor(report) : '#64748b';
         // const icon = report ? this.getReportIcon(report.report_type) : '!';
-        const isSelected = this.isSelectedReport(report);
+        // const isSelected = this.isSelectedReport(report);
 
         return [
             // ...(isSelected

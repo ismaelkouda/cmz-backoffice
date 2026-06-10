@@ -50,39 +50,7 @@
                                             <div
                                                 class="row g-3 align-items-center"
                                             >
-
-                                                <div class="col-md-2">
-                                                    <label
-                                                        for="order"
-                                                        class="form-label fw-bold"
-                                                    >
-                                                        {{
-                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.ORDER'
-                                                                | translate
-                                                        }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        >
-                                                    </label>
-
-                                                    <input
-                                                        id="order"
-                                                        class="form-input"
-                                                        type="number"
-                                                        [attr.aria-label]="
-                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.ORDER'
-                                                                | translate
-                                                        "
-                                                        [placeholder]="
-                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.ORDER_PLACEHOLDER'
-                                                                | translate
-                                                        "
-                                                        formControlName="order"
-                                                    />
-                                                </div>
-
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="timeDuration"
                                                         class="form-label fw-bold"
@@ -171,7 +139,7 @@
                                                     </div> -->
                                                 </div>
 
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="type"
                                                         class="form-label fw-bold"
@@ -583,7 +551,10 @@
                                                         {{
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.START_DATE'
                                                                 | translate
-                                                        }}
+                                                        }}<span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
 
                                                     <p-datePicker
@@ -600,7 +571,27 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.START_DATE'
                                                                 | translate
                                                         "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'startDate'
+                                                            )
+                                                        "
                                                     />
+                                                    @if (
+                                                        isFieldInvalid(
+                                                            'startDate'
+                                                        )
+                                                    ) {
+                                                        <small
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'startDate'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label
@@ -610,7 +601,10 @@
                                                         {{
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.END_DATE'
                                                                 | translate
-                                                        }}
+                                                        }}<span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
                                                     </label>
 
                                                     <p-datePicker
@@ -627,7 +621,27 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.END_DATE'
                                                                 | translate
                                                         "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'endDate'
+                                                            )
+                                                        "
                                                     />
+                                                    @if (
+                                                        isFieldInvalid(
+                                                            'endDate'
+                                                        )
+                                                    ) {
+                                                        <small
+                                                            class="text-danger"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'endDate'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
                                                 </div>
                                             </div>
                                         </fieldset>
@@ -738,7 +752,9 @@
                                                         pTextarea
                                                         class="form-p-textarea w-100"
                                                         [invalid]="
-                                                            isFieldInvalid('subtitle')
+                                                            isFieldInvalid(
+                                                                'subtitle'
+                                                            )
                                                         "
                                                         [placeholder]="
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE_PLACEHOLDER'
@@ -748,7 +764,11 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.SUBTITLE'
                                                                 | translate
                                                         "
-                                                        [attr.aria-invalid]="isFieldInvalid('subtitle')"
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'subtitle'
+                                                            )
+                                                        "
                                                     ></textarea>
                                                     <!-- <div
                                                         class="d-flex justify-content-between align-items-center"
@@ -798,10 +818,22 @@
                                                     <p-editor
                                                         id="content"
                                                         formControlName="content"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT_PLACEHOLDER' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT' | translate "
-                                                        [attr.aria-invalid]="isFieldInvalid('content')"
-                                                        [style]="{ height: '200px' }"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.SLIDE.FORM.CONTENT'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'content'
+                                                            )
+                                                        "
+                                                        [style]="{
+                                                            height: '200px',
+                                                        }"
                                                     />
 
                                                     <!-- <div
@@ -841,7 +873,10 @@
 
                                             <p-button
                                                 type="submit"
-                                                [disabled]="!store.isValid() || loadingSubmit()"
+                                                [disabled]="
+                                                    !store.isValid() ||
+                                                    loadingSubmit()
+                                                "
                                                 [label]="
                                                     'COMMON.SAVE' | translate
                                                 "

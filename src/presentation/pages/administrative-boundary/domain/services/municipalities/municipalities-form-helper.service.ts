@@ -15,13 +15,13 @@ export class MunicipalitiesFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.UPDATE'
+            ? 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.EDIT'
             : 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.UPDATE'
+            ? 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.EDIT'
             : 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.SWEET_ALERT.MESSAGE.CREATE';
     }
 }

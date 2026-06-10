@@ -1,9 +1,10 @@
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
+
 export interface HomeUpdateProps {
     uniqId: string;
     image: File | null | string;
     platforms: string[];
-    startDate: Date | null;
-    endDate: Date | null;
+    period: DatePeriod;
     title: string;
     resume: string;
     content: string;

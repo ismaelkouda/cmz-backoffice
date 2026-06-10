@@ -1,5 +1,6 @@
 import { HomeUpdateDto } from '@pages/content-management/application/dto/home/home-update.dto';
 import { HomeUpdateProps } from '@pages/content-management/domain/interfaces/home/home-update-props.interface';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class HomeUpdateVo {
     constructor(private readonly props: HomeUpdateProps) {}
@@ -16,12 +17,8 @@ export class HomeUpdateVo {
         return this.props.platforms;
     }
 
-    get startDate(): Date | null {
-        return this.props.startDate;
-    }
-
-    get endDate(): Date | null {
-        return this.props.endDate;
+    get period(): DatePeriod {
+        return this.props.period;
     }
 
     get title(): string {
@@ -45,6 +42,10 @@ export class HomeUpdateVo {
     }
 
     static fromDto(dto: HomeUpdateDto): HomeUpdateVo {
-        return new HomeUpdateVo(dto);
+        const period = DatePeriod.create(dto.startDate, dto.endDate);
+        return new HomeUpdateVo({
+            ...dto,
+            period,
+        });
     }
 }

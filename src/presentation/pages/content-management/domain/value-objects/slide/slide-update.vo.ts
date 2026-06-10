@@ -1,5 +1,6 @@
 import { SlideUpdateDto } from '@pages/content-management/application/dto/slide/slide-update.dto';
 import { SlideUpdateProps } from '@pages/content-management/domain/interfaces/slide/slide-update-props.interface';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class SlideUpdateVo {
     constructor(private readonly props: SlideUpdateProps) {}
@@ -10,10 +11,6 @@ export class SlideUpdateVo {
 
     get timeDuration(): number {
         return this.props.timeDuration;
-    }
-
-    get order(): number {
-        return this.props.order;
     }
 
     get type(): string {
@@ -32,12 +29,8 @@ export class SlideUpdateVo {
         return this.props.platforms;
     }
 
-    get startDate(): Date | null {
-        return this.props.startDate;
-    }
-
-    get endDate(): Date | null {
-        return this.props.endDate;
+    get period(): DatePeriod {
+        return this.props.period;
     }
 
     get title(): string {
@@ -61,6 +54,11 @@ export class SlideUpdateVo {
     }
 
     static fromDto(dto: SlideUpdateDto): SlideUpdateVo {
-        return new SlideUpdateVo(dto);
+        const period = DatePeriod.create(dto.startDate, dto.endDate);
+
+        return new SlideUpdateVo({
+            ...dto,
+            period,
+        });
     }
 }

@@ -23,6 +23,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,11 +34,12 @@ export class PrivacyPolicyUseCase {
 
     execute(
         dto: PrivacyPolicyFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<PrivacyPolicyEntity>> {
         const vo = PrivacyPolicyFilterVo.fromDto(dto);
         const entity = PrivacyPolicyFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page);
+        return this.repository.readAll(entity, page, options);
     }
 
     create(dto: PrivacyPolicyCreateDto): Observable<SimpleResponseDto<void>> {

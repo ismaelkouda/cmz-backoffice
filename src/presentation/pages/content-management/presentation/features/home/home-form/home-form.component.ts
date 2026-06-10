@@ -88,9 +88,7 @@ export class HomeFormComponent {
     protected readonly isEditMode = this.store.isEditMode;
     protected readonly item = this.store.item;
     protected readonly previewVisible = signal(false);
-    protected readonly imageVm = computed(() =>
-        this.imageStore.connect(this.instanceId)
-    );
+    protected readonly imageVm = this.imageStore.connect(this.instanceId);
     protected readonly cropperState = computed(() =>
         this.imageStore.getStore(this.instanceId)()
     );
@@ -109,16 +107,16 @@ export class HomeFormComponent {
     protected readonly hasPhotos = computed((): boolean => {
         return !!this.image();
     });
-    protected readonly isIdle = computed(() => !this.imageVm().hasImage());
-    protected readonly hasError = computed(() => this.imageVm().hasError());
-    protected readonly hasImage = computed(() => this.imageVm().hasImage());
+    protected readonly isIdle = computed(() => !this.imageVm.hasImage());
+    protected readonly hasError = computed(() => this.imageVm.hasError());
+    protected readonly hasImage = computed(() => this.imageVm.hasImage());
     protected readonly fileName = computed(
-        () => this.imageVm().fileName() ?? null
+        () => this.imageVm.fileName() ?? null
     );
     protected readonly fileSize = computed(
-        () => this.imageVm().fileSize() ?? null
+        () => this.imageVm.fileSize() ?? null
     );
-    protected readonly previewUrl = computed(() => this.imageVm().previewUrl());
+    protected readonly previewUrl = computed(() => this.imageVm.previewUrl());
     protected readonly platformOptions = computed(() =>
         enumToFilterOptions(Platform, (key) => this.translate.instant(key))
     );
@@ -148,35 +146,41 @@ export class HomeFormComponent {
         this.lastSuccess = current;
         this.navigateToBack();
     });
+
+    private readonly hydratedUrl = signal<string | null>(null);
     constructor() {
         this.initializeImageHydration();
+        effect(() => {
+            const state = this.cropperState();
+
+            console.log({
+                status: state.status,
+                previewUrl: state.previewUrl,
+                sourceFile: state.sourceFile,
+            });
+        });
     }
     private initializeImageHydration(): void {
         effect(() => {
-            const item = this.item();
             const formImage = this.imageSignal();
-            const previewUrl = this.imageVm().previewUrl();
+            const item = this.item();
 
-            if (previewUrl) {
+            const remoteUrl =
+                formImage?.type === 'remote'
+                    ? formImage.url
+                    : (item?.image ?? null);
+
+            if (!remoteUrl) {
                 return;
             }
 
-            if (formImage?.type === 'remote' && formImage.url) {
-                this.imageStore.hydrate(this.instanceId, formImage.url);
+            if (this.hydratedUrl() === remoteUrl) {
                 return;
             }
 
-            if (formImage?.type === 'local' && formImage.file) {
-                this.imageStore.setPreviewFromFile(
-                    this.instanceId,
-                    formImage.file
-                );
-                return;
-            }
+            this.hydratedUrl.set(remoteUrl);
 
-            if (item?.image) {
-                this.imageStore.hydrate(this.instanceId, item.image);
-            }
+            this.imageStore.hydrate(this.instanceId, remoteUrl);
         });
     }
 
@@ -242,7 +246,7 @@ export class HomeFormComponent {
     }
 
     protected openImagePreview(): void {
-        if (this.imageVm().hasImage()) {
+        if (this.imageVm.hasImage()) {
             this.previewVisible.set(true);
         }
     }

@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
 import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
 import { SlideCreateApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-create-api.dto';
@@ -13,6 +14,7 @@ import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -22,14 +24,20 @@ export class SlideApi {
 
     readAll(
         filter: SlideFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<SlideResponseApiDto> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}?page=${page}`;
 
         const params = buildHttpParams(filter);
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
 
         return this.http.get<SlideResponseApiDto>(url, {
             params,
+            context,
         });
     }
 

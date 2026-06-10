@@ -19,13 +19,11 @@ import { TermsUseQuery } from '@pages/content-management/application/queries/ter
 import { TermsUseBus } from '@pages/content-management/application/queries-bus/terms-use/terms-use.bus';
 import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -70,20 +68,8 @@ export class TermsUseFacade extends BaseFacade<
     readAll(
         filter: TermsUseFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new TermsUseQuery(
             filter?.search,
             filter?.version,
@@ -91,7 +77,7 @@ export class TermsUseFacade extends BaseFacade<
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, options);
         this.fetchWithFilterAndPage(
             filter,
             page,
@@ -115,7 +101,9 @@ export class TermsUseFacade extends BaseFacade<
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
         this.lastFetchTimestamp = Date.now();
     }
@@ -152,7 +140,9 @@ export class TermsUseFacade extends BaseFacade<
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(
             filter,
             page,

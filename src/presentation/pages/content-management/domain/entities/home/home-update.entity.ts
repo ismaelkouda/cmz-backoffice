@@ -1,5 +1,6 @@
 import { HomeUpdateProps } from '@pages/content-management/domain/interfaces/home/home-update-props.interface';
 import { HomeUpdateVo } from '@pages/content-management/domain/value-objects/home/home-update.vo';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class HomeUpdateEntity {
     constructor(private readonly props: HomeUpdateProps) {}
@@ -16,12 +17,8 @@ export class HomeUpdateEntity {
         return this.props.platforms;
     }
 
-    get startDate(): Date | null {
-        return this.props.startDate;
-    }
-
-    get endDate(): Date | null {
-        return this.props.endDate;
+    get period(): DatePeriod {
+        return this.props.period;
     }
 
     get title(): string {

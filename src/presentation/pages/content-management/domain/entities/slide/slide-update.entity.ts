@@ -1,5 +1,6 @@
 import { SlideUpdateProps } from '@pages/content-management/domain/interfaces/slide/slide-update-props.interface';
 import { SlideUpdateVo } from '@pages/content-management/domain/value-objects/slide/slide-update.vo';
+import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export class SlideUpdateEntity {
     constructor(private readonly props: SlideUpdateProps) {}
@@ -10,10 +11,6 @@ export class SlideUpdateEntity {
 
     get timeDuration(): number {
         return this.props.timeDuration;
-    }
-
-    get order(): number {
-        return this.props.order;
     }
 
     get type(): string {
@@ -32,12 +29,8 @@ export class SlideUpdateEntity {
         return this.props.platforms;
     }
 
-    get startDate(): Date | null {
-        return this.props.startDate;
-    }
-
-    get endDate(): Date | null {
-        return this.props.endDate;
+    get period(): DatePeriod {
+        return this.props.period;
     }
 
     get title(): string {

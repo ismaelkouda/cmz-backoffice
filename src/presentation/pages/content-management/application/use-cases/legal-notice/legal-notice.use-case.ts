@@ -23,6 +23,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,11 +34,12 @@ export class LegalNoticeUseCase {
 
     execute(
         dto: LegalNoticeFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<LegalNoticeEntity>> {
         const vo = LegalNoticeFilterVo.fromDto(dto);
         const entity = LegalNoticeFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page);
+        return this.repository.readAll(entity, page, options);
     }
 
     create(dto: LegalNoticeCreateDto): Observable<SimpleResponseDto<void>> {

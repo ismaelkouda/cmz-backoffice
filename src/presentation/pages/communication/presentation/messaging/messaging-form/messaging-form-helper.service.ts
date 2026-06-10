@@ -15,13 +15,13 @@ export class MessagingFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.UPDATE'
+            ? 'COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.EDIT'
             : 'COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {
         return isEditMode
-            ? 'COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.UPDATE'
+            ? 'COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.EDIT'
             : 'COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.CREATE';
     }
 }
