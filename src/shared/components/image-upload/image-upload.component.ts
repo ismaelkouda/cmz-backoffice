@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { MediaValue } from '@shared/domain/types/media.types';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { TooltipModule } from 'primeng/tooltip';
@@ -176,13 +177,22 @@ export class ImageUploadComponent implements ControlValueAccessor {
         this.imageError.emit(error);
     }
 
-    writeValue(file: File | null): void {
-        if (!file) {
+    writeValue(value: File | MediaValue | null): void {
+        if (!value) {
             this.service.reset(this.instanceId());
             return;
         }
-        const preview = URL.createObjectURL(file);
-        this.service.hydrate(this.instanceId(), preview);
+
+        if (value instanceof File || value instanceof Blob) {
+            const preview = URL.createObjectURL(value);
+            this.service.hydrate(this.instanceId(), preview);
+            return;
+        }
+
+        // MediaValue: the parent component's hydration effect populates the
+        // preview from the form value (remote URL or local File). Don't call
+        // URL.createObjectURL on a plain object — it would throw TypeError and
+        // break the form initialization.
     }
 
     public registerOnChange(fn: (value: File | null) => void): void {
