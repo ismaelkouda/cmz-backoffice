@@ -75,7 +75,7 @@ export class HistoryDialogComponent {
             }
 
             this.loadedId.set(uniqId);
-            this.facade.read({ uniqId: uniqId, typeModel: typeModel }, true);
+            this.facade.read({ uniqId: uniqId, typeModel: typeModel });
         });
     }
 

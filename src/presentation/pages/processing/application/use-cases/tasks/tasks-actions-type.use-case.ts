@@ -4,6 +4,7 @@ import { TasksActionsTypeRepository } from '@pages/processing/domain/repositorie
 import { TasksActionsTypeFilterDto } from '@presentation/pages/processing/application/dto/tasks/tasks-actions-type-filter.dto';
 import { TasksActionsTypeFilterEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions-type-filter.entity';
 import { TasksActionsTypeFilterVo } from '@presentation/pages/processing/domain/value-objects/tasks/tasks-actions-type-filter.vo';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,10 +14,11 @@ export class TasksActionsTypeUseCase {
     private readonly repository = inject(TasksActionsTypeRepository);
 
     readAll(
-        filterDto: TasksActionsTypeFilterDto | null
+        filterDto: TasksActionsTypeFilterDto | null,
+        options?: FetchOptions
     ): Observable<TasksActionsTypeEntity[]> {
         const vo = TasksActionsTypeFilterVo.fromDto(filterDto);
         const filter = TasksActionsTypeFilterEntity.fromVo(vo);
-        return this.repository.readAll(filter);
+        return this.repository.readAll(filter, options);
     }
 }

@@ -4,9 +4,10 @@ import { NotificationsFindOneQuery } from '@pages/communication/application/quer
 import { NotificationsFindOneBus } from '@pages/communication/application/queries-bus/notifications/notifications-find-one.bus';
 import { NotificationsFindOneEntity } from '@pages/communication/domain/entities/notifications/notifications-find-one.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import { shouldFetch } from '@shared/application/services/facade.utils';
+
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -15,38 +16,20 @@ export class NotificationsFindOneFacade extends BaseFacade<
     NotificationsFindOneEntity,
     NotificationsFindOneFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(NotificationsFindOneBus);
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     execute(
         filter: NotificationsFindOneFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new NotificationsFindOneQuery(filter?.uniqId);
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(command, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -58,8 +41,10 @@ export class NotificationsFindOneFacade extends BaseFacade<
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const command = new NotificationsFindOneQuery(filter?.uniqId ?? '');
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -70,12 +55,7 @@ export class NotificationsFindOneFacade extends BaseFacade<
         }
         const command = new NotificationsFindOneQuery(filter?.uniqId);
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -84,12 +64,7 @@ export class NotificationsFindOneFacade extends BaseFacade<
         const page = this.pageSubject.getValue();
         const command = new NotificationsFindOneQuery(filter?.uniqId ?? '');
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

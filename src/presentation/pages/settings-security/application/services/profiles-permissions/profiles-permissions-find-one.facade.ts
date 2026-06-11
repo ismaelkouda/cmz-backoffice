@@ -5,6 +5,7 @@ import { ProfilesPermissionsFindOneBus } from '@pages/settings-security/applicat
 import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -16,11 +17,12 @@ export class ProfilesPermissionsFindOneFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(ProfilesPermissionsFindOneBus);
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
-    read(filter: ProfilesPermissionsFindOneFilterDto, force = false): void {
+    read(
+        filter: ProfilesPermissionsFindOneFilterDto,
+        options: FetchOptions = {}
+    ): void {
         const command = new ProfilesPermissionsFindOneQuery(filter.uniqId);
-        const fetch$ = this.bus.dispatch(command);
-        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
+        const fetch$ = this.bus.dispatch(command, options);
+        this.fetch(filter, fetch$, this.ui);
     }
 }

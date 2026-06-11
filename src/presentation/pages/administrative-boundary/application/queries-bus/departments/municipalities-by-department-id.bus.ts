@@ -4,6 +4,7 @@ import { MunicipalitiesByDepartmentIdHandler } from '@pages/administrative-bound
 import { MunicipalitiesByDepartmentIdEntity } from '@pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesByDepartmentIdBus {
@@ -13,10 +14,11 @@ export class MunicipalitiesByDepartmentIdBus {
 
     dispatch<T>(
         query: T,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesByDepartmentIdEntity>> {
         if (query instanceof MunicipalitiesByDepartmentIdQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

@@ -32,7 +32,7 @@ export class LegalNoticeFacade extends BaseFacade<
     LegalNoticeEntity,
     LegalNoticeFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(LegalNoticeBus);
     private readonly createBus = inject(LegalNoticeCreateBus);
     private readonly updateBus = inject(LegalNoticeUpdateBus);
@@ -51,7 +51,6 @@ export class LegalNoticeFacade extends BaseFacade<
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -59,7 +58,7 @@ export class LegalNoticeFacade extends BaseFacade<
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refreshWithLastFilterAndPage()
         );
@@ -78,12 +77,7 @@ export class LegalNoticeFacade extends BaseFacade<
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -104,7 +98,7 @@ export class LegalNoticeFacade extends BaseFacade<
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -121,12 +115,7 @@ export class LegalNoticeFacade extends BaseFacade<
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -143,12 +132,7 @@ export class LegalNoticeFacade extends BaseFacade<
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

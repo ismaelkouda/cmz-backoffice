@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { NewsFindOneFilterEntity } from '@pages/content-management/domain/entities/news/news-find-one-filter.entity';
 import { NewsFindOneEntity } from '@pages/content-management/domain/entities/news/news-find-one.entity';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export abstract class NewsFindOneRepository {
     abstract execute(
-        filter: NewsFindOneFilterEntity
+        filter: NewsFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<NewsFindOneEntity>;
 }

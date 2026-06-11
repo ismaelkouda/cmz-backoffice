@@ -73,7 +73,6 @@ export class UiFeedbackService {
     }
 
     notifyError(error: DomainError): void {
-        console.log('error', error);
         this.registry.handle(error);
     }
 }

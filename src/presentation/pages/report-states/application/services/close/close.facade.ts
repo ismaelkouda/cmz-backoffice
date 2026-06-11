@@ -4,38 +4,24 @@ import { CloseQuery } from '@pages/report-states/application/queries/close/close
 import { CloseBus } from '@pages/report-states/application/queries-bus/close/close.bus';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import { shouldFetch } from '@shared/application/services/facade.utils';
+
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 @Injectable({ providedIn: 'root' })
 export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(CloseBus);
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     read(
         filter: CloseFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        const forceRefresh = options.forceRefresh ?? false;
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
@@ -46,12 +32,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -74,7 +55,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -93,12 +74,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -117,12 +93,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

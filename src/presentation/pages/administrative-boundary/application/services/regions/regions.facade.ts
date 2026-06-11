@@ -13,19 +13,17 @@ import { RegionsQuery } from '@pages/administrative-boundary/application/queries
 import { RegionsBus } from '@pages/administrative-boundary/application/queries-bus/regions/regions.bus';
 import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
 })
 export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(RegionsBus);
     private readonly createBus = inject(RegionsCreateBus);
     private readonly updateBus = inject(RegionsUpdateBus);
@@ -42,25 +40,13 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     readAll(
         filter: RegionsFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-        this.performFetch(filter, page);
+        this.performFetch(filter, page, options);
         this.hasInitialized = true;
     }
 
@@ -82,13 +68,10 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -118,15 +101,14 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         };
     }
 
-    private performFetch(filter: RegionsFilterDto | null, page: string): void {
+    private performFetch(
+        filter: RegionsFilterDto | null,
+        page: string,
+        options?: FetchOptions
+    ): void {
         const query = this.buildQueryFromFilter(filter);
-        const fetch$ = this.filterBus.dispatch(query, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(query, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
     private buildQueryFromFilter(
@@ -184,7 +166,7 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
 
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refresh()
         ).pipe(

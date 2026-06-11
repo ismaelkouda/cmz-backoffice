@@ -3,14 +3,18 @@ import { MunicipalitiesFindOneQuery } from '@pages/administrative-boundary/appli
 import { MunicipalitiesFindOneHandler } from '@pages/administrative-boundary/application/queries-handlers/municipalities/municipalities-find-one.handler';
 import { MunicipalitiesFindOneEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-find-one.entity';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class MunicipalitiesFindOneBus {
     private readonly filterHandler = inject(MunicipalitiesFindOneHandler);
 
-    dispatch<T>(query: T): Observable<MunicipalitiesFindOneEntity> {
+    dispatch<T>(
+        query: T,
+        options?: FetchOptions
+    ): Observable<MunicipalitiesFindOneEntity> {
         if (query instanceof MunicipalitiesFindOneQuery) {
-            return this.filterHandler.execute(query);
+            return this.filterHandler.execute(query, options);
         }
 
         throw new Error('No handler found for query');

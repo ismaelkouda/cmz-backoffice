@@ -34,7 +34,7 @@ export class HomeRepositoryImpl implements HomeRepository {
     readAll(
         filter: HomeFilterEntity,
         page: string,
-        options: FetchOptions
+        options?: FetchOptions
     ): Observable<Paginate<HomeEntity>> {
         return this.api
             .readAll(homeFilterMapper(filter), page, options)

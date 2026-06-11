@@ -45,6 +45,7 @@
                                     <div
                                         class="field-value photo-container d-flex justify-content-center"
                                     >
+<<<<<<< HEAD
                                         @if (isApprovalType('view')) {
                                             @if (placePhotoUrl(); as url) {
                                                 <img
@@ -56,6 +57,45 @@
                                                     "
                                                     (click)="openImagePreview()"
                                                 />
+=======
+                                        <div
+                                            class="no-image-placeholder"
+                                            role="status"
+                                        >
+                                            @if (isApprovalType('view')) {
+                                                @if (
+                                                    placePhoto();
+                                                    as photoUrl
+                                                ) {
+                                                    <app-image-zoom
+                                                        id="image"
+                                                        [src]="photoUrl"
+                                                        [instanceId]="
+                                                            instanceId()
+                                                        "
+                                                        formControlName="image"
+                                                        (viewImage)="
+                                                            openImagePreview()
+                                                        "
+                                                        (imageCleared)="
+                                                            onImageCleared()
+                                                        "
+                                                    />
+                                                } @else {
+                                                    <i
+                                                        class="pi pi-image d-flex align-items-center"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    <h4
+                                                        class="card-title text-danger"
+                                                    >
+                                                        {{
+                                                            'MANAGEMENT.FORM.PICTURES.NO_DATA'
+                                                                | translate
+                                                        }}
+                                                    </h4>
+                                                }
+>>>>>>> d562ec37f (feat: Refactor Chatbot and Map Clusters Facades to Use FetchOptions)
                                             } @else {
                                                 <div
                                                     class="no-image-placeholder"

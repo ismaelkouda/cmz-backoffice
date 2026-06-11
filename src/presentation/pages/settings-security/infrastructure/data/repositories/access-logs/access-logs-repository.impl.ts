@@ -6,6 +6,7 @@ import { AccessLogsFilterMapper } from '@pages/settings-security/infrastructure/
 import { AccessLogsMapper } from '@pages/settings-security/infrastructure/data/mappers/access-logs/access-logs.mapper';
 import { AccessLogsApi } from '@pages/settings-security/infrastructure/data/sources/access-logs/access-logs.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +16,12 @@ export class AccessLogsRepositoryImpl implements AccessLogsRepository {
 
     readAll(
         filter: AccessLogsFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AccessLogsEntity>> {
         const paramsDto = AccessLogsFilterMapper(filter);
         return this.api
-            .readAll(paramsDto, page)
+            .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

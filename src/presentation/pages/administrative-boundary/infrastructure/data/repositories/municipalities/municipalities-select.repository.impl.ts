@@ -3,6 +3,7 @@ import { MunicipalitiesSelectEntity } from '@pages/administrative-boundary/domai
 import { MunicipalitiesSelectRepository } from '@pages/administrative-boundary/domain/repositories/municipalities/municipalities-select-repository';
 import { MunicipalitiesSelectMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-select.mapper';
 import { MunicipalitiesSelectApi } from '@pages/administrative-boundary/infrastructure/data/sources/municipalities/municipalities-select.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -10,9 +11,9 @@ export class MunicipalitiesSelectRepositoryImpl implements MunicipalitiesSelectR
     private readonly api = inject(MunicipalitiesSelectApi);
     private readonly mapper = inject(MunicipalitiesSelectMapper);
 
-    execute(): Observable<MunicipalitiesSelectEntity[]> {
+    execute(options?: FetchOptions): Observable<MunicipalitiesSelectEntity[]> {
         return this.api
-            .readAll()
+            .readAll(options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

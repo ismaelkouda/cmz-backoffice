@@ -9,6 +9,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -17,10 +18,11 @@ export class ProfilesPermissionsFreeUsersRepositoryImpl implements ProfilesPermi
     private readonly mapper = inject(ProfilesPermissionsFreeUsersMapper);
 
     execute(
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsFreeUsersEntity>> {
         return this.api
-            .readAll(page)
+            .readAll(page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 

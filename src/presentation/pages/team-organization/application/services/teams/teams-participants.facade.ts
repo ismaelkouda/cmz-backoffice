@@ -14,13 +14,11 @@ import { TeamsParticipantsBus } from '@pages/team-organization/application/queri
 import { TeamsFacade } from '@pages/team-organization/application/services/teams/teams.facade';
 import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -30,7 +28,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
     TeamsParticipantsFilterDto
 > {
     private readonly teamFacade = inject(TeamsFacade);
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(TeamsParticipantsBus);
     private readonly reassignBus = inject(TeamsParticipantsReassignBus);
     private readonly assignBus = inject(TeamsParticipantsAssignBus);
@@ -47,7 +45,6 @@ export class TeamsParticipantsFacade extends BaseFacade<
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -55,7 +52,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => {
                 this.refresh();
@@ -67,32 +64,15 @@ export class TeamsParticipantsFacade extends BaseFacade<
     readAll(
         filter: TeamsParticipantsFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new TeamsParticipantsQuery(
             filter.uniqId,
             filter?.search
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, options);
 
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -106,13 +86,10 @@ export class TeamsParticipantsFacade extends BaseFacade<
             filter?.uniqId ?? '',
             filter?.search
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -126,12 +103,7 @@ export class TeamsParticipantsFacade extends BaseFacade<
             filter?.search
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

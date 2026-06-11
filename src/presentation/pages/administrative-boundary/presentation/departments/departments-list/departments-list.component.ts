@@ -250,7 +250,7 @@ export class DepartmentsListComponent {
     });
     constructor() {
         this.facade.readAll(this.currentFilter() as DepartmentsFilterDto);
-        this.regionsFacade.readAll(true);
+        this.regionsFacade.readAll();
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {
@@ -347,7 +347,7 @@ export class DepartmentsListComponent {
         });
     }
     protected onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1', true);
+        this.facade.readAll(filterValues, '1');
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

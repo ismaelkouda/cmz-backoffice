@@ -22,7 +22,8 @@ export class NewsHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

@@ -5,6 +5,7 @@ import { DepartmentsFindOneRepository } from '@pages/administrative-boundary/dom
 import { departmentsFindOneFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-find-one-filter.mapper';
 import { DepartmentsFindOneMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-find-one.mapper';
 import { DepartmentsFindOneApi } from '@pages/administrative-boundary/infrastructure/data/sources/departments/departments-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class DepartmentsFindOneRepositoryImpl implements DepartmentsFindOneRepos
     private readonly mapper = inject(DepartmentsFindOneMapper);
 
     execute(
-        filter: DepartmentsFindOneFilterEntity
+        filter: DepartmentsFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<DepartmentsFindOneEntity> {
         const paramsDto = departmentsFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

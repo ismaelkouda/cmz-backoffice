@@ -4,7 +4,7 @@ import { EvaluateQuery } from '@pages/report-states/application/queries/evaluate
 import { EvaluateBus } from '@pages/report-states/application/queries-bus/evaluate/evaluate.bus';
 import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/evaluate.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import { shouldFetch } from '@shared/application/services/facade.utils';
+
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
@@ -14,31 +14,17 @@ export class EvaluateFacade extends BaseFacade<
     EvaluateEntity,
     EvaluateFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(EvaluateBus);
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     read(
         filter: EvaluateFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        const forceRefresh = options.forceRefresh ?? false;
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new EvaluateQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
@@ -49,12 +35,7 @@ export class EvaluateFacade extends BaseFacade<
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -77,7 +58,7 @@ export class EvaluateFacade extends BaseFacade<
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -96,12 +77,7 @@ export class EvaluateFacade extends BaseFacade<
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -120,12 +96,7 @@ export class EvaluateFacade extends BaseFacade<
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

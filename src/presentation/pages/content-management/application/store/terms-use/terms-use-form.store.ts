@@ -131,7 +131,7 @@ export class TermsUseFormStore {
         this.form.reset();
 
         if (uniqId) {
-            this.facade.read({ uniqId }, true);
+            this.facade.read({ uniqId });
         }
     }
 

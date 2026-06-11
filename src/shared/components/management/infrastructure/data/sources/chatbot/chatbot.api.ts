@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { ChatbotDeleteApiDto } from '@shared/components/management/infrastructure//api/dto/chatbot/chatbot-delete-api.dto';
 import { ChatbotDisableApiDto } from '@shared/components/management/infrastructure//api/dto/chatbot/chatbot-disable-api.dto';
 import { ChatbotEnableApiDto } from '@shared/components/management/infrastructure//api/dto/chatbot/chatbot-enable-api.dto';
@@ -12,6 +13,7 @@ import { MANAGEMENT_ENDPOINTS } from '@shared/components/management/infrastructu
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -21,14 +23,20 @@ export class ChatbotApi {
 
     readAll(
         filter: ChatbotFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<ChatbotResponseApiDto> {
         const url = `${this.baseUrl}${MANAGEMENT_ENDPOINTS.CHATBOT}?page=${page}`;
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
         return this.http.get<ChatbotResponseApiDto>(url, {
             params,
+            context,
         });
     }
 

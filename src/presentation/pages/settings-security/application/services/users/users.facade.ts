@@ -19,19 +19,17 @@ import { UsersQuery } from '@pages/settings-security/application/queries/users/u
 import { UsersBus } from '@pages/settings-security/application/queries-bus/users/users.bus';
 import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
 })
 export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(UsersBus);
     private readonly createBus = inject(UsersCreateBus);
     private readonly updateBus = inject(UsersUpdateBus);
@@ -50,7 +48,6 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -58,7 +55,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refresh()
         );
@@ -67,33 +64,16 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
     readAll(
         filter: UsersFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new UsersQuery(
             filter?.search,
             filter?.profile,
             filter?.role,
             filter?.isActive
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(command, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -110,8 +90,10 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
             filter?.role,
             filter?.isActive
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -127,12 +109,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
             filter?.isActive
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -146,12 +123,7 @@ export class UsersFacade extends BaseFacade<UsersEntity, UsersFilterDto> {
             filter?.isActive
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

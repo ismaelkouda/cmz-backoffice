@@ -29,7 +29,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
     providedIn: 'root',
 })
 export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(NewsBus);
     private readonly createBus = inject(NewsCreateBus);
     private readonly updateBus = inject(NewsUpdateBus);
@@ -48,7 +48,6 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -56,7 +55,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refreshWithLastFilterAndPage()
         );
@@ -74,12 +73,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -99,7 +93,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -115,12 +109,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -136,12 +125,7 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

@@ -4,6 +4,7 @@ import { DashboardFilterEntity } from '@pages/dashboard/domain/entities/dashboar
 import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
 import { DashboardRepository } from '@pages/dashboard/domain/repositories/dashboard.repository';
 import { DashboardFilterVo } from '@pages/dashboard/domain/value-objects/dashboard-filter.vo';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,9 +13,12 @@ import { Observable } from 'rxjs';
 export class DashboardUseCase {
     private readonly repository = inject(DashboardRepository);
 
-    execute(filterDto: DashboardFilterDto): Observable<DashboardEntity> {
+    execute(
+        filterDto: DashboardFilterDto,
+        options?: FetchOptions
+    ): Observable<DashboardEntity> {
         const vo = DashboardFilterVo.fromDto(filterDto);
         const filter = DashboardFilterEntity.fromVo(vo);
-        return this.repository.execute(filter);
+        return this.repository.execute(filter, options);
     }
 }

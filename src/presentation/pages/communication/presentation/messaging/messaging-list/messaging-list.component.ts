@@ -227,7 +227,7 @@ export class MessagingListComponent {
     }
 
     protected onFilterClicked(): void {
-        this.facade.readAll(this.formStore.value, '1', true);
+        this.facade.readAll(this.formStore.value, '1');
     }
 
     protected onChangePageClicked(event: number): void {

@@ -13,9 +13,8 @@ export class ProfileUpdateFacade extends ObjectBaseFacade<
 > {
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(ProfileUpdateBus);
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    execute(dto: ProfileUpdateDto, force = true): void {
+    execute(dto: ProfileUpdateDto): void {
         const command = new ProfileUpdateCommand(
             dto.id,
             dto.lastName,
@@ -24,6 +23,6 @@ export class ProfileUpdateFacade extends ObjectBaseFacade<
             dto.phone
         );
         const fetch$ = this.bus.dispatch(command);
-        this.fetch(dto, fetch$, this.ui, this.STALE_TIME, force, true);
+        this.fetch(dto, fetch$, this.ui);
     }
 }

@@ -3,6 +3,7 @@ import { ProfilesPermissionsPermissionsBus } from '@pages/settings-security/appl
 import { ProfilesPermissionsPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -14,10 +15,8 @@ export class ProfilesPermissionsPermissionsFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(ProfilesPermissionsPermissionsBus);
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
-    readAll(force = false): void {
-        const fetch$ = this.bus.dispatch();
-        this.fetch(null, fetch$, this.ui, this.STALE_TIME, force);
+    readAll(options: FetchOptions = {}): void {
+        const fetch$ = this.bus.dispatch(options);
+        this.fetch(null, fetch$, this.ui);
     }
 }

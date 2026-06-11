@@ -23,6 +23,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,11 +34,12 @@ export class ProfilesPermissionsUseCase {
 
     execute(
         dto: ProfilesPermissionsFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsEntity>> {
         const vo = ProfilesPermissionsFilterVo.fromDto(dto);
         const entity = ProfilesPermissionsFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 
     create(

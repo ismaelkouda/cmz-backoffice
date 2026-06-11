@@ -248,7 +248,7 @@ export class TeamsParticipantsComponent implements OnInit {
     private onAssignRoleSelected(role: Roles): void {
         this.role.set(role);
         this.openAssignRequested.set(true);
-        this.participantsSelectFacade.readAll(true);
+        this.participantsSelectFacade.readAll();
     }
 
     protected readonly assignTitle = computed(() => {
@@ -300,7 +300,7 @@ export class TeamsParticipantsComponent implements OnInit {
                 tap((uniqId) => {
                     this.facade.reset();
                     if (uniqId) {
-                        this.facade.readAll({ uniqId }, '1', true);
+                        this.facade.readAll({ uniqId }, '1');
                     } else {
                         this.form.reset();
                     }
@@ -318,7 +318,7 @@ export class TeamsParticipantsComponent implements OnInit {
             ...filterValue,
             uniqId: this.uniqId(),
         };
-        this.facade.readAll(filter, '1', true);
+        this.facade.readAll(filter, '1');
     }
 
     public onPageChange(event: number): void {
@@ -366,7 +366,7 @@ export class TeamsParticipantsComponent implements OnInit {
 
     private openReassignModal(): void {
         this.openReassignRequested.set(true);
-        this.teamsSelectFacade.readAll(true);
+        this.teamsSelectFacade.readAll();
     }
 
     public closeReassignModal(): void {

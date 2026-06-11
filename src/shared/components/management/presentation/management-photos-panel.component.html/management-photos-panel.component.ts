@@ -14,6 +14,7 @@ import { ImageCropDialogComponent } from '@shared/components/image-crop-dialog/i
 import { ImagePreviewDialogComponent } from '@shared/components/image-preview-dialog/image-preview-dialog.component';
 import { ImageUploadStateService } from '@shared/components/image-upload/domain/services/image-upload-state.service';
 import { ImageUploadComponent } from '@shared/components/image-upload/image-upload.component';
+import { ImageZoomComponent } from '@shared/components/image-zoom/image-zoom.component';
 import { ManagementEntityType } from '@shared/components/management/domain/types/management-entity.type';
 import { ManagementFormStore } from '@shared/components/management/presentation/store/management-form.store';
 import { MediaValue } from '@shared/domain/types/media.types';
@@ -26,6 +27,7 @@ import { MediaValue } from '@shared/domain/types/media.types';
         ImageUploadComponent,
         ImagePreviewDialogComponent,
         ImageCropDialogComponent,
+        ImageZoomComponent,
     ],
     templateUrl: './management-photos-panel.component.html',
     styleUrls: ['./management-photos-panel.component.scss'],

@@ -4,6 +4,7 @@ import { ProfilesPermissionsHandler } from '@pages/settings-security/application
 import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsBus {
@@ -11,10 +12,11 @@ export class ProfilesPermissionsBus {
 
     dispatch<T>(
         query: T,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsEntity>> {
         if (query instanceof ProfilesPermissionsQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

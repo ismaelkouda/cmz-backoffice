@@ -29,7 +29,7 @@ import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
     providedIn: 'root',
 })
 export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(SlideBus);
     private readonly createBus = inject(SlideCreateBus);
     private readonly updateBus = inject(SlideUpdateBus);
@@ -48,7 +48,6 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -56,7 +55,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refreshWithLastFilterAndPage()
         );
@@ -75,12 +74,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -101,7 +95,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -118,12 +112,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -140,12 +129,7 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

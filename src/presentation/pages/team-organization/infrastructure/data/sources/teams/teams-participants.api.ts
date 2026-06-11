@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { TeamsParticipantsAssignApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-assign-api.dto';
 import { TeamsParticipantsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-filter-api.dto';
@@ -9,6 +10,7 @@ import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastruct
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -18,12 +20,19 @@ export class TeamsParticipantsApi {
 
     readAll(
         dto: TeamsParticipantsFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<TeamsParticipantsResponseApiDto> {
         const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.uniq_id}/members?page=${page}`;
-        const payload = buildHttpPayload(dto, ['uniq_id']);
+        const params = buildHttpPayload(dto, ['uniq_id']);
+
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
         return this.http.get<TeamsParticipantsResponseApiDto>(url, {
-            params: payload,
+            params,
+            context,
         });
     }
 

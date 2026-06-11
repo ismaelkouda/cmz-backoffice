@@ -6,6 +6,7 @@ import { agentsPerformancesFindOneFilterMapper } from '@pages/team-organization/
 import { AgentsPerformancesFindOneMapper } from '@pages/team-organization/infrastructure/data/mappers/agents-performances/agents-performances-find-one.mapper';
 import { AgentsPerformancesFindOneApi } from '@pages/team-organization/infrastructure/data/sources/agents-performances/agents-performances-find-one.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +16,12 @@ export class AgentsPerformancesFindOneRepositoryImpl implements AgentsPerformanc
 
     execute(
         filter: AgentsPerformancesFindOneFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AgentsPerformancesFindOneEntity>> {
         const paramsDto = agentsPerformancesFindOneFilterMapper(filter);
         return this.api
-            .execute(paramsDto, page)
+            .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

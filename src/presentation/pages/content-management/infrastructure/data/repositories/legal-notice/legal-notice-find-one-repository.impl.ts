@@ -5,6 +5,7 @@ import { LegalNoticeFindOneRepository } from '@pages/content-management/domain/r
 import { legalNoticeFindOneFilterMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-find-one-filter.mapper';
 import { LegalNoticeFindOneMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-find-one.mapper';
 import { LegalNoticeFindOneApi } from '@pages/content-management/infrastructure/data/sources/legal-notice/legal-notice-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class LegalNoticeFindOneRepositoryImpl implements LegalNoticeFindOneRepos
     private readonly mapper = inject(LegalNoticeFindOneMapper);
 
     execute(
-        filter: LegalNoticeFindOneFilterEntity
+        filter: LegalNoticeFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<LegalNoticeFindOneEntity> {
         const paramsDto = legalNoticeFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

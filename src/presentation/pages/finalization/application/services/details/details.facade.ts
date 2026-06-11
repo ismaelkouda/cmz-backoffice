@@ -16,6 +16,7 @@ import { handleObservableWithFeedback } from '@shared/application/services/facad
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -41,8 +42,6 @@ export class DetailsFacade extends ObjectBaseFacade<
     private readonly _actionError = signal<unknown | null>(null);
     readonly actionError = this._actionError.asReadonly();
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
         successKey: string,
@@ -56,10 +55,10 @@ export class DetailsFacade extends ObjectBaseFacade<
         );
     }
 
-    read(filter: DetailsFilterDto): void {
+    read(filter: DetailsFilterDto, options: FetchOptions = {}): void {
         const command = new DetailsQuery(filter.uniqId);
-        const fetch$ = this.bus.dispatch(command);
-        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, true, true);
+        const fetch$ = this.bus.dispatch(command, options);
+        this.fetch(filter, fetch$, this.ui);
     }
 
     take(item: DetailsTakeDto): void {

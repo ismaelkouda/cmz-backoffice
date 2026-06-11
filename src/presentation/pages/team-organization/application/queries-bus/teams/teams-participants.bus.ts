@@ -4,6 +4,7 @@ import { TeamsParticipantsHandler } from '@pages/team-organization/application/q
 import { TeamsParticipantsEntity } from '@pages/team-organization/domain/entities/teams/teams-participants.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsBus {
@@ -11,10 +12,11 @@ export class TeamsParticipantsBus {
 
     dispatch<T>(
         command: T,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TeamsParticipantsEntity>> {
         if (command instanceof TeamsParticipantsQuery) {
-            return this.filterHandler.execute(command, page);
+            return this.filterHandler.execute(command, page, options);
         }
 
         throw new Error('No handler found for command');

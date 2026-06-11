@@ -4,6 +4,7 @@ import { ParticipantsFindOneFilterEntity } from '@pages/team-organization/domain
 import { ParticipantsFindOneEntity } from '@pages/team-organization/domain/entities/participants/participants-find-one.entity';
 import { ParticipantsFindOneRepository } from '@pages/team-organization/domain/repositories/participants/participants-find-one-repository';
 import { ParticipantsFindOneFilterVo } from '@pages/team-organization/domain/value-objects/participants/participants-find-one-filter.vo';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,10 +14,11 @@ export class ParticipantsFindOneUseCase {
     private readonly repository = inject(ParticipantsFindOneRepository);
 
     execute(
-        filterDto: ParticipantsFindOneFilterDto
+        filterDto: ParticipantsFindOneFilterDto,
+        options?: FetchOptions
     ): Observable<ParticipantsFindOneEntity> {
         const vo = ParticipantsFindOneFilterVo.fromDto(filterDto);
         const filter = ParticipantsFindOneFilterEntity.fromVo(vo);
-        return this.repository.execute(filter);
+        return this.repository.execute(filter, options);
     }
 }

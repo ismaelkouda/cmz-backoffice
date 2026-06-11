@@ -19,13 +19,11 @@ import { ProfilesPermissionsQuery } from '@pages/settings-security/application/q
 import { ProfilesPermissionsBus } from '@pages/settings-security/application/queries-bus/profiles-permissions/profiles-permissions.bus';
 import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -34,7 +32,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
     ProfilesPermissionsEntity,
     ProfilesPermissionsFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(ProfilesPermissionsBus);
     private readonly createBus = inject(ProfilesPermissionsCreateBus);
     private readonly updateBus = inject(ProfilesPermissionsUpdateBus);
@@ -53,7 +51,6 @@ export class ProfilesPermissionsFacade extends BaseFacade<
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -61,7 +58,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refresh()
         );
@@ -70,32 +67,15 @@ export class ProfilesPermissionsFacade extends BaseFacade<
     readAll(
         filter: ProfilesPermissionsFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new ProfilesPermissionsQuery(
             filter?.search,
             filter?.user,
             filter?.status
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(command, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -111,8 +91,10 @@ export class ProfilesPermissionsFacade extends BaseFacade<
             filter?.user,
             filter?.status
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -127,12 +109,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -145,12 +122,7 @@ export class ProfilesPermissionsFacade extends BaseFacade<
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

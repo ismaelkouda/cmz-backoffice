@@ -4,6 +4,7 @@ import { TasksActionsHandler } from '@pages/processing/application/queries-handl
 import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsBus {
@@ -11,10 +12,11 @@ export class TasksActionsBus {
 
     dispatch<T>(
         query: T,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksActionsEntity>> {
         if (query instanceof TasksActionsQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

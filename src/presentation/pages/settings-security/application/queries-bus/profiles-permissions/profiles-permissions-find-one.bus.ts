@@ -3,14 +3,18 @@ import { ProfilesPermissionsFindOneQuery } from '@pages/settings-security/applic
 import { ProfilesPermissionsFindOneHandler } from '@pages/settings-security/application/queries-handlers/profiles-permissions/profiles-permissions-find-one.handler';
 import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFindOneBus {
     private readonly filterHandler = inject(ProfilesPermissionsFindOneHandler);
 
-    dispatch<T>(command: T): Observable<ProfilesPermissionsFindOneEntity> {
+    dispatch<T>(
+        command: T,
+        options?: FetchOptions
+    ): Observable<ProfilesPermissionsFindOneEntity> {
         if (command instanceof ProfilesPermissionsFindOneQuery) {
-            return this.filterHandler.execute(command);
+            return this.filterHandler.execute(command, options);
         }
 
         throw new Error('No handler found for command');

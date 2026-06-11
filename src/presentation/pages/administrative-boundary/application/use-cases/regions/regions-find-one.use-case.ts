@@ -6,6 +6,7 @@ import { RegionsFindOneFilterVo } from '@pages/administrative-boundary/domain/va
 import { Observable } from 'rxjs';
 
 import { RegionsFindOneFilterDto } from '../../dto/regions/regions-find-one-filter.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -14,10 +15,11 @@ export class RegionsFindOneUseCase {
     private readonly repository = inject(RegionsFindOneRepository);
 
     execute(
-        filterDto: RegionsFindOneFilterDto
+        filterDto: RegionsFindOneFilterDto,
+        options?: FetchOptions
     ): Observable<RegionsFindOneEntity> {
         const vo = RegionsFindOneFilterVo.fromDto(filterDto);
         const filter = RegionsFindOneFilterEntity.fromVo(vo);
-        return this.repository.execute(filter);
+        return this.repository.execute(filter, options);
     }
 }

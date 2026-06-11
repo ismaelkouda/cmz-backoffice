@@ -6,6 +6,7 @@ import { agentsPerformancesFindOneFilterMapper } from '@pages/communication/infr
 import { NotificationsFindOneMapper } from '@pages/communication/infrastructure/data/mappers/notifications/notifications-find-one.mapper';
 import { NotificationsFindOneApi } from '@pages/communication/infrastructure/data/sources/notifications/notifications-find-one.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +16,12 @@ export class NotificationsFindOneRepositoryImpl implements NotificationsFindOneR
 
     execute(
         filter: NotificationsFindOneFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<NotificationsFindOneEntity>> {
         const paramsDto = agentsPerformancesFindOneFilterMapper(filter);
         return this.api
-            .execute(paramsDto, page)
+            .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

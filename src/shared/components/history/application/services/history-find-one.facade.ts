@@ -5,6 +5,7 @@ import { HistoryFindOneFilterCommand } from '@shared/components/history/applicat
 import { HistoryFindOneFilterDto } from '@shared/components/history/application/dto/history-find-one-filter.dto';
 import { HistoryFindOneEntity } from '@shared/components/history/domain/entities/history-find-one.entity';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -16,14 +17,12 @@ export class HistoryFindOneFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(HistoryFindOneFilterBus);
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
-    read(filter: HistoryFindOneFilterDto, force = false): void {
+    read(filter: HistoryFindOneFilterDto, options: FetchOptions = {}): void {
         const command = new HistoryFindOneFilterCommand(
             filter.uniqId,
             filter.typeModel
         );
-        const fetch$ = this.bus.dispatch(command);
-        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
+        const fetch$ = this.bus.dispatch(command, options);
+        this.fetch(filter, fetch$, this.ui);
     }
 }

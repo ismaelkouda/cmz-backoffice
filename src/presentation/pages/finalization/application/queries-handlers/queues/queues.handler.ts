@@ -3,6 +3,7 @@ import { QueuesQuery } from '@pages/finalization/application/queries/queues/queu
 import { QueuesUseCase } from '@pages/finalization/application/use-cases/queues/queues.use-case';
 import { QueuesEntity } from '@pages/finalization/domain/entities/queues/queues.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class QueuesHandler {
 
     execute(
         query: QueuesQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<QueuesEntity>> {
         return this.useCase.execute(
             {
@@ -23,7 +25,8 @@ export class QueuesHandler {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

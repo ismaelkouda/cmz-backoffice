@@ -32,7 +32,7 @@ export class PrivacyPolicyRepositoryImpl implements PrivacyPolicyRepository {
     readAll(
         filter: PrivacyPolicyFilterEntity,
         page: string,
-        options: FetchOptions
+        options?: FetchOptions
     ): Observable<Paginate<PrivacyPolicyEntity>> {
         return this.api
             .readAll(privacyPolicyFilterMapper(filter), page, options)

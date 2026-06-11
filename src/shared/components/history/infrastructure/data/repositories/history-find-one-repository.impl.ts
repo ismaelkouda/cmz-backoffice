@@ -5,6 +5,7 @@ import { HistoryFindOneRepository } from '@shared/components/history/domain/repo
 import { historyFindOneFilterMapper } from '@shared/components/history/infrastructure/data/mappers/history-find-one-filter.mapper';
 import { HistoryFindOneMapper } from '@shared/components/history/infrastructure/data/mappers/history-find-one.mapper';
 import { HistoryFindOneApi } from '@shared/components/history/infrastructure/data/sources/history-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -12,10 +13,13 @@ export class HistoryFindOneRepositoryImpl implements HistoryFindOneRepository {
     private readonly api = inject(HistoryFindOneApi);
     private readonly mapper = inject(HistoryFindOneMapper);
 
-    read(filter: HistoryFindOneFilterEntity): Observable<HistoryFindOneEntity> {
+    read(
+        filter: HistoryFindOneFilterEntity,
+        options?: FetchOptions
+    ): Observable<HistoryFindOneEntity> {
         const paramsDto = historyFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

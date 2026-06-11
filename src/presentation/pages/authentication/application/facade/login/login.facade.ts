@@ -13,11 +13,10 @@ export class LoginFacade extends ObjectBaseFacade<
 > {
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(LoginRequestBus);
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    execute(dto: LoginRequestDto, force = true): void {
+    execute(dto: LoginRequestDto): void {
         const command = new LoginRequestCommand(dto.email, dto.password);
         const fetch$ = this.bus.dispatch(command);
-        this.fetch(dto, fetch$, this.ui, this.STALE_TIME, force, true);
+        this.fetch(dto, fetch$, this.ui);
     }
 }

@@ -13,13 +13,11 @@ import { MunicipalitiesQuery } from '@pages/administrative-boundary/application/
 import { MunicipalitiesBus } from '@pages/administrative-boundary/application/queries-bus/municipalities/municipalities.bus';
 import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +26,7 @@ export class MunicipalitiesFacade extends BaseFacade<
     MunicipalitiesEntity,
     MunicipalitiesFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(MunicipalitiesBus);
     private readonly createBus = inject(MunicipalitiesCreateBus);
     private readonly updateBus = inject(MunicipalitiesUpdateBus);
@@ -45,25 +43,13 @@ export class MunicipalitiesFacade extends BaseFacade<
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     readAll(
         filter: MunicipalitiesFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-        this.performFetch(filter, page);
+        this.performFetch(filter, page, options);
         this.hasInitialized = true;
     }
 
@@ -72,7 +58,9 @@ export class MunicipalitiesFacade extends BaseFacade<
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        this.performFetch(filter, page);
+        this.performFetch(filter, page, {
+            forceRefresh: true,
+        });
     }
 
     changePage(page: string): void {
@@ -88,12 +76,7 @@ export class MunicipalitiesFacade extends BaseFacade<
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -125,16 +108,12 @@ export class MunicipalitiesFacade extends BaseFacade<
 
     private performFetch(
         filter: MunicipalitiesFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): void {
         const query = this.buildQueryFromFilter(filter);
-        const fetch$ = this.filterBus.dispatch(query, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(query, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
     private buildQueryFromFilter(
@@ -198,7 +177,7 @@ export class MunicipalitiesFacade extends BaseFacade<
 
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refresh()
         ).pipe(

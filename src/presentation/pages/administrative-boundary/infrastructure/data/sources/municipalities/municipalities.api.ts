@@ -1,5 +1,6 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { MunicipalitiesCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-create-api.dto';
@@ -8,6 +9,7 @@ import { MunicipalitiesFilterApiDto } from '@pages/administrative-boundary/infra
 import { MunicipalitiesResponseApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-response-api.dto';
 import { MunicipalitiesUpdateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,13 +21,20 @@ export class MunicipalitiesApi {
 
     readAll(
         paramsDto: MunicipalitiesFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<MunicipalitiesResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.MUNICIPALITIES}?page=${page}`;
 
         const params = this.createHttpParams(paramsDto);
-
-        return this.http.get<MunicipalitiesResponseApiDto>(url, { params });
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
+        return this.http.get<MunicipalitiesResponseApiDto>(url, {
+            params,
+            context,
+        });
     }
 
     private createHttpParams(payload: MunicipalitiesFilterApiDto): HttpParams {

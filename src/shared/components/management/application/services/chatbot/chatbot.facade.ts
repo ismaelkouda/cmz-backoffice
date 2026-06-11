@@ -1,9 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { ChatbotCreateCommand } from '@shared/components/management/application/commands/chatbot/chatbot-create.command';
 import { ChatbotDeleteCommand } from '@shared/components/management/application/commands/chatbot/chatbot-delete.command';
 import { ChatbotDisableCommand } from '@shared/components/management/application/commands/chatbot/chatbot-disable.command';
@@ -26,12 +23,13 @@ import { ChatbotEntity } from '@shared/components/management/domain/entities/cha
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(ChatbotBus);
     private readonly createBus = inject(ChatbotCreateBus);
     private readonly updateBus = inject(ChatbotUpdateBus);
@@ -50,7 +48,6 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -58,7 +55,7 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refreshWithLastFilterAndPage()
         );
@@ -67,20 +64,8 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
     readAll(
         filter: ChatbotFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new ChatbotQuery(
             filter?.search,
             filter?.reportId,
@@ -92,13 +77,8 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(command, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -120,8 +100,10 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -142,12 +124,7 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -166,12 +143,7 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

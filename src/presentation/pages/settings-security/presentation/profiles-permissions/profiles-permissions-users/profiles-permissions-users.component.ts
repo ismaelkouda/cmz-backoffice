@@ -263,7 +263,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
                 tap((uniqId) => {
                     this.facade.reset();
                     if (uniqId) {
-                        this.facade.readAll({ uniqId }, '1', true);
+                        this.facade.readAll({ uniqId }, '1');
                     } else {
                         this.form.reset();
                     }
@@ -282,7 +282,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
             uniqId: this.uniqId(),
         };
         console.log('filter: ', filter);
-        this.facade.readAll(filter, '1', true);
+        this.facade.readAll(filter, '1');
     }
 
     public onPageChange(event: number): void {
@@ -334,7 +334,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
 
     private openReassignModal(): void {
         this.openReassignRequested.set(true);
-        this.profilesPermissionsSelectFacade.readAll(true);
+        this.profilesPermissionsSelectFacade.readAll();
     }
 
     public closeReassignModal(): void {
@@ -344,7 +344,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
 
     private openAssignModal(): void {
         this.openAssignRequested.set(true);
-        this.usersSelectFacade.readAll(true);
+        this.usersSelectFacade.readAll();
     }
 
     public closeAssignModal(): void {

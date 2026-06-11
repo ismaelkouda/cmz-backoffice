@@ -18,6 +18,7 @@ import {
 import { Observable, map } from 'rxjs';
 
 import { ConformityMapper } from '../../mappers/tasks/tasks-actions-conformity.mapper';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class TasksActionsRepositoryImpl extends TasksActionsRepository {
@@ -27,10 +28,11 @@ export class TasksActionsRepositoryImpl extends TasksActionsRepository {
 
     execute(
         entity: TasksActionsFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksActionsEntity>> {
         return this.api
-            .execute(TasksActionsFilterMapper(entity), page)
+            .execute(TasksActionsFilterMapper(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 

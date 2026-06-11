@@ -2,8 +2,9 @@ import { inject, Injectable } from '@angular/core';
 import { NewsCategoriesSelectUseCase } from '@pages/content-management/application/use-cases/news/news-categories-select.use-case';
 import { NewsCategoriesSelectEntity } from '@pages/content-management/domain/entities/news/news-categories-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
-import { shouldFetch } from '@shared/application/services/facade.utils';
+
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -12,32 +13,19 @@ export class NewsCategoriesSelectFacade extends ArrayBaseFacade<
     NewsCategoriesSelectEntity,
     void
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly fetchUseCase = inject(NewsCategoriesSelectUseCase);
 
     readonly municipalitiesByDepartmentId$ = this.items$;
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    readAll(forceRefresh = false): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
+    readAll(options: FetchOptions = {}): void {
         this.fetchWithFilter(
             null,
-            this.fetchUseCase.execute.bind(this.fetchUseCase),
-            this.uiFeedbackService
+            this.fetchUseCase.execute.bind(this.fetchUseCase, options),
+            this.uiFeedback
         );
 
         this.hasInitialized = true;
@@ -49,8 +37,10 @@ export class NewsCategoriesSelectFacade extends ArrayBaseFacade<
 
         this.fetchWithFilter(
             null,
-            this.fetchUseCase.execute.bind(this.fetchUseCase),
-            this.uiFeedbackService
+            this.fetchUseCase.execute.bind(this.fetchUseCase, {
+                forceRefresh: true,
+            }),
+            this.uiFeedback
         );
 
         this.lastFetchTimestamp = Date.now();

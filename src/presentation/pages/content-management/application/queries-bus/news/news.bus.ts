@@ -16,7 +16,7 @@ export class NewsBus {
         options?: FetchOptions
     ): Observable<Paginate<NewsEntity>> {
         if (query instanceof NewsQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

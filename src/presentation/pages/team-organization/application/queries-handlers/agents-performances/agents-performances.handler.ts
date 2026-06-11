@@ -3,6 +3,7 @@ import { AgentsPerformancesQuery } from '@pages/team-organization/application/qu
 import { AgentsPerformancesUseCase } from '@pages/team-organization/application/use-cases/agents-performances/agents-performances.use-case';
 import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class AgentsPerformancesHandler {
 
     execute(
         query: AgentsPerformancesQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AgentsPerformancesEntity>> {
         return this.useCase.execute(
             {
@@ -21,7 +23,8 @@ export class AgentsPerformancesHandler {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

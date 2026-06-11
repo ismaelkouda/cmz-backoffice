@@ -6,6 +6,7 @@ import { AllFilterMapper } from '@pages/finalization/infrastructure/data/mappers
 import { AllMapper } from '@pages/finalization/infrastructure/data/mappers/all/all.mapper';
 import { AllApi } from '@pages/finalization/infrastructure/data/sources/all/all.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -18,10 +19,11 @@ export class AllRepositoryImpl extends AllRepository {
 
     execute(
         entity: AllFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AllEntity>> {
         return this.api
-            .execute(this.filterMapper.map(entity), page)
+            .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ProfilesPermissionsPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-permissions.entity';
 import { ProfilesPermissionsPermissionsRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-permissions-repository';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -11,7 +12,9 @@ export class ProfilesPermissionsPermissionsUseCase {
         ProfilesPermissionsPermissionsRepository
     );
 
-    execute(): Observable<ProfilesPermissionsPermissionsEntity> {
-        return this.repository.execute();
+    execute(
+        options?: FetchOptions
+    ): Observable<ProfilesPermissionsPermissionsEntity> {
+        return this.repository.execute(options);
     }
 }

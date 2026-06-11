@@ -4,6 +4,7 @@ import { AgentsPerformancesHandler } from '@pages/team-organization/application/
 import { AgentsPerformancesEntity } from '@pages/team-organization/domain/entities/agents-performances/agents-performances.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesBus {
@@ -11,10 +12,11 @@ export class AgentsPerformancesBus {
 
     dispatch<T>(
         query: T,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AgentsPerformancesEntity>> {
         if (query instanceof AgentsPerformancesQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

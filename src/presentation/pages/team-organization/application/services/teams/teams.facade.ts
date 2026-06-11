@@ -19,19 +19,17 @@ import { TeamsQuery } from '@pages/team-organization/application/queries/teams/t
 import { TeamsBus } from '@pages/team-organization/application/queries-bus/teams/teams.bus';
 import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
 })
 export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(TeamsBus);
     private readonly createBus = inject(TeamsCreateBus);
     private readonly updateBus = inject(TeamsUpdateBus);
@@ -50,7 +48,6 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -58,7 +55,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refreshWithLastFilterAndPage()
         );
@@ -67,32 +64,15 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
     readAll(
         filter: TeamsFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new TeamsQuery(
             filter?.search,
             filter?.member,
             filter?.status
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(command, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -108,8 +88,10 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
             filter?.member,
             filter?.status
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -124,12 +106,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -142,12 +119,7 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

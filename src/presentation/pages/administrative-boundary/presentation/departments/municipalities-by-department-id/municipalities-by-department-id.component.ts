@@ -174,7 +174,7 @@ export class MunicipalitiesByDepartmentIdComponent implements OnInit {
             startDate: startDate?.format('YYYY-MM-DD'),
             endDate: endDate?.format('YYYY-MM-DD'),
         };
-        this.facade.execute(filter, '1', true);
+        this.facade.execute(filter, '1');
     }
 
     public onPageChange(event: number): void {

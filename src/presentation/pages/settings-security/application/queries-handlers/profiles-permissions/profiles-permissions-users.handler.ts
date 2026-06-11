@@ -3,6 +3,7 @@ import { ProfilesPermissionsUsersQuery } from '@pages/settings-security/applicat
 import { ProfilesPermissionsUsersUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions-users.use-case';
 import { ProfilesPermissionsUsersEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-users.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class ProfilesPermissionsUsersHandler {
 
     execute(
         command: ProfilesPermissionsUsersQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsUsersEntity>> {
         return this.useCase.execute(
             {
@@ -20,7 +22,8 @@ export class ProfilesPermissionsUsersHandler {
                 userEmail: command.userEmail,
                 phone: command.phone,
             },
-            page
+            page,
+            options
         );
     }
 }

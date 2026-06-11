@@ -224,7 +224,7 @@ export class TeamsFormStore {
 
         this.editingId.set(uniqId);
 
-        this.facade.read({ uniqId }, true);
+        this.facade.read({ uniqId });
     }
 
     public close(): void {

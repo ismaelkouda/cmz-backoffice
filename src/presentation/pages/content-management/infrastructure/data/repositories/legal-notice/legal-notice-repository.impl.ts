@@ -32,7 +32,7 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
     readAll(
         filter: LegalNoticeFilterEntity,
         page: string,
-        options: FetchOptions
+        options?: FetchOptions
     ): Observable<Paginate<LegalNoticeEntity>> {
         return this.api
             .readAll(legalNoticeFilterMapper(filter), page, options)

@@ -34,7 +34,7 @@ export class SlideRepositoryImpl implements SlideRepository {
     readAll(
         filter: SlideFilterEntity,
         page: string,
-        options: FetchOptions
+        options?: FetchOptions
     ): Observable<Paginate<SlideEntity>> {
         return this.api
             .readAll(slideFilterMapper(filter), page, options)

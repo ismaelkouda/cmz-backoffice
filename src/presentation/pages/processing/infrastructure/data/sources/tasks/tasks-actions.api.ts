@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { TasksActionsCreateApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-create-api.dto';
 import { TasksActionsDeleteApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-delete-api.dto';
 import { TasksActionsFilterApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-filter-api.dto';
@@ -9,6 +10,7 @@ import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/proces
 import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -18,11 +20,18 @@ export class TasksActionsApi {
 
     execute(
         dto: TasksActionsFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<TasksActionsResponseApiDto> {
         const { report_uniq_id } = dto;
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
         const url = `${this.baseUrl}${report_uniq_id}/${PROCESSING_ENDPOINTS.PROCESSING}?page=${page}`;
-        return this.http.get<TasksActionsResponseApiDto>(url);
+        return this.http.get<TasksActionsResponseApiDto>(url, {
+            context,
+        });
     }
 
     create(

@@ -16,7 +16,7 @@ export class TermsUseBus {
         options?: FetchOptions
     ): Observable<Paginate<TermsUseEntity>> {
         if (query instanceof TermsUseQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

@@ -3,6 +3,7 @@ import { DepartmentsQuery } from '@pages/administrative-boundary/application/que
 import { DepartmentsUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments.use-case';
 import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class DepartmentsHandler {
 
     execute(
         command: DepartmentsQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<DepartmentsEntity>> {
         return this.useCase.execute(
             {
@@ -20,7 +22,8 @@ export class DepartmentsHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

@@ -3,6 +3,7 @@ import { HistoryFilterCommand } from '@shared/components/history/application/com
 import { HistoryUseCase } from '@shared/components/history/application/use-cases/history.use-case';
 import { HistoryEntity } from '@shared/components/history/domain/entities/history.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class HistoryFilterHandler {
 
     execute(
         command: HistoryFilterCommand,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<HistoryEntity>> {
         return this.useCase.execute(
             {
@@ -21,7 +23,8 @@ export class HistoryFilterHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

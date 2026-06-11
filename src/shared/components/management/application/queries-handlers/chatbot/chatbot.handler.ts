@@ -3,6 +3,7 @@ import { ChatbotQuery } from '@shared/components/management/application/queries/
 import { ChatbotUseCase } from '@shared/components/management/application/use-cases/chatbot/chatbot.use-case';
 import { ChatbotEntity } from '@shared/components/management/domain/entities/chatbot/chatbot.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class ChatbotHandler {
 
     execute(
         command: ChatbotQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ChatbotEntity>> {
         return this.useCase.execute(
             {
@@ -25,7 +27,8 @@ export class ChatbotHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

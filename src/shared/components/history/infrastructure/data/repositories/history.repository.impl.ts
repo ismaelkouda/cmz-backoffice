@@ -6,6 +6,7 @@ import { HistoryFilterMapper } from '@shared/components/history/infrastructure/d
 import { HistoryMapper } from '@shared/components/history/infrastructure/data/mappers/history.mapper';
 import { HistoryApi } from '@shared/components/history/infrastructure/data/sources/history.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -16,11 +17,12 @@ export class HistoryRepositoryImpl implements HistoryRepository {
 
     readAll(
         filter: HistoryFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<HistoryEntity>> {
         const paramsDto = HistoryFilterMapper(filter);
         return this.api
-            .readAll(paramsDto, page)
+            .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

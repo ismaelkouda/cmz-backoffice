@@ -13,11 +13,10 @@ export class TwoFactorRequestFacade extends ObjectBaseFacade<
 > {
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(TwoFactorRequestBus);
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    execute(dto: TwoFactorRequestDto, force = true): void {
+    execute(dto: TwoFactorRequestDto): void {
         const command = new TwoFactorRequestCommand(dto.userId, dto.email);
         const fetch$ = this.bus.dispatch(command);
-        this.fetch(dto, fetch$, this.ui, this.STALE_TIME, force, true);
+        this.fetch(dto, fetch$, this.ui);
     }
 }

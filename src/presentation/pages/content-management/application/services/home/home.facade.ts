@@ -29,7 +29,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
     providedIn: 'root',
 })
 export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(HomeBus);
     private readonly createBus = inject(HomeCreateBus);
     private readonly updateBus = inject(HomeUpdateBus);
@@ -48,7 +48,6 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     private handleActionWithRefresh<T>(
         observable: Observable<T>,
@@ -56,7 +55,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
     ): Observable<T> {
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refreshWithLastFilterAndPage()
         );
@@ -75,12 +74,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -101,7 +95,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -118,12 +112,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -140,12 +129,7 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 

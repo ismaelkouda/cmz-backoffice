@@ -5,15 +5,16 @@ import { NodeEntity } from '../../../domain/entities/node/node.entity';
 import { NodeRepository } from '../../../domain/repositories/node-repository.interface';
 import { NodeMapper } from '../mappers/node.mapper';
 import { NodeApi } from '../sources/node.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class NodeRepositoryImpl implements NodeRepository {
     private readonly api = inject(NodeApi);
     private readonly nodeMapper = inject(NodeMapper);
 
-    getNode(): Observable<NodeEntity> {
+    getNode(options?: FetchOptions): Observable<NodeEntity> {
         return this.api
-            .getNode()
+            .getNode(options)
             .pipe(map((response) => this.nodeMapper.mapFromDto(response)));
     }
 }

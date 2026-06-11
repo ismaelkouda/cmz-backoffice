@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import { shouldFetch } from '@shared/application/services/facade.utils';
+
 import { MapClustersFilterDto } from '@shared/components/map-clusters/application/dto/map-clusters-filter.dto';
 import { MapClustersQuery } from '@shared/components/map-clusters/application/queries/map-clusters.query';
 import { MapClustersBus } from '@shared/components/map-clusters/application/queries-bus/map-clusters.bus';
@@ -13,30 +13,16 @@ export class MapClustersFacade extends BaseFacade<
     MapClustersEntity,
     MapClustersFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(MapClustersBus);
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     read(
         filter: MapClustersFilterDto,
-        page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        page: string = PAGINATION_CONST.DEFAULT_PAGE
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-
         const command = new MapClustersQuery(
             filter.minLat,
             filter.maxLat,
@@ -44,12 +30,7 @@ export class MapClustersFacade extends BaseFacade<
             filter.maxLng
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -67,7 +48,7 @@ export class MapClustersFacade extends BaseFacade<
     //         filter.maxLng,
     //     );
     //     const fetch$ = this.filterBus.dispatch(command, page);
-    //     this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+    //     this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
     //     this.lastFetchTimestamp = Date.now();
     // }
 
@@ -90,7 +71,7 @@ export class MapClustersFacade extends BaseFacade<
     //         filter,
     //         page,
     //         fetch$,
-    //         this.uiFeedbackService
+    //         this.uiFeedback
     //     );
     //     this.lastFetchTimestamp = Date.now();
     // }
@@ -112,7 +93,7 @@ export class MapClustersFacade extends BaseFacade<
     //         filter,
     //         page,
     //         fetch$,
-    //         this.uiFeedbackService
+    //         this.uiFeedback
     //     );
     //     this.lastFetchTimestamp = Date.now();
     // }

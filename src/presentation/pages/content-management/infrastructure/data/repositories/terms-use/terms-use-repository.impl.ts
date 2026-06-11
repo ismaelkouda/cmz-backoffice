@@ -32,7 +32,7 @@ export class TermsUseRepositoryImpl implements TermsUseRepository {
     readAll(
         filter: TermsUseFilterEntity,
         page: string,
-        options: FetchOptions
+        options?: FetchOptions
     ): Observable<Paginate<TermsUseEntity>> {
         return this.api
             .readAll(termsUseFilterMapper(filter), page, options)
