@@ -66,13 +66,28 @@ export class ManagementPhotosPanelComponent {
         }
     );
 
+    protected readonly placePhotoUrl = computed((): string | null => {
+        const value = this.placePhoto();
+        if (!value) return null;
+        if (typeof value === 'string') return value || null;
+        if (value.type === 'remote') return value.url || null;
+        return null;
+    });
+
     protected readonly accessPhoto = computed((): string | null => {
-        return this.item()?.accessPlacePhoto ?? null;
+        return this.item()?.accessPlacePhoto || null;
     });
 
     protected readonly hasPhotos = computed((): boolean => {
-        return !!(this.placePhoto() || this.accessPhoto());
+        return !!(this.placePhotoUrl() || this.accessPhoto());
     });
+
+    protected openAccessPreview(): void {
+        const url = this.accessPhoto();
+        if (url) {
+            window.open(url, '_blank', 'noopener,noreferrer');
+        }
+    }
 
     readonly isIdle = computed(() => !this.imageVm().hasImage());
     readonly hasError = computed(() => this.imageVm().hasError());

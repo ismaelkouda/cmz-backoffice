@@ -111,6 +111,23 @@ $dark-gray: var(--color-gray);
     min-height: 50px;
 }
 
+.report-photo {
+    max-width: 100%;
+    max-height: 280px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    cursor: zoom-in;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+    &:hover {
+        transform: scale(1.01);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+    }
+}
+
 .image-upload-container {
     position: relative;
     border: 2px dashed var(--p-surface-300);

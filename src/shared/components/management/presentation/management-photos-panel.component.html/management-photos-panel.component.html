@@ -45,46 +45,56 @@
                                     <div
                                         class="field-value photo-container d-flex justify-content-center"
                                     >
-                                        <div
-                                            class="no-image-placeholder"
-                                            role="status"
-                                        >
-                                            @if (isApprovalType('view')) {
-                                                <i
-                                                    class="pi pi-image d-flex align-items-center"
-                                                    aria-hidden="true"
-                                                ></i>
-                                                <h4
-                                                    class="card-title text-danger"
-                                                >
-                                                    {{
-                                                        'MANAGEMENT.FORM.PICTURES.NO_DATA'
+                                        @if (isApprovalType('view')) {
+                                            @if (placePhotoUrl(); as url) {
+                                                <img
+                                                    class="report-photo"
+                                                    [src]="url"
+                                                    [alt]="
+                                                        'MANAGEMENT.FORM.PICTURES.OBSERVATION_POINT'
                                                             | translate
-                                                    }}
-                                                </h4>
+                                                    "
+                                                    (click)="openImagePreview()"
+                                                />
                                             } @else {
-                                                <div class="image">
-                                                    <app-image-upload
-                                                        id="image"
-                                                        [instanceId]="
-                                                            instanceId()
-                                                        "
-                                                        [isIdle]="isIdle()"
-                                                        [hasError]="hasError()"
-                                                        [hasImage]="hasImage()"
-                                                        [fileName]="fileName()"
-                                                        [fileSize]="fileSize()"
-                                                        formControlName="placePhoto"
-                                                        (viewImage)="
-                                                            openImagePreview()
-                                                        "
-                                                        (imageCleared)="
-                                                            onImageCleared()
-                                                        "
-                                                    />
+                                                <div
+                                                    class="no-image-placeholder"
+                                                    role="status"
+                                                >
+                                                    <i
+                                                        class="pi pi-image d-flex align-items-center"
+                                                        aria-hidden="true"
+                                                    ></i>
+                                                    <h4
+                                                        class="card-title text-danger"
+                                                    >
+                                                        {{
+                                                            'MANAGEMENT.FORM.PICTURES.NO_DATA'
+                                                                | translate
+                                                        }}
+                                                    </h4>
                                                 </div>
                                             }
-                                        </div>
+                                        } @else {
+                                            <div class="image">
+                                                <app-image-upload
+                                                    id="image"
+                                                    [instanceId]="instanceId()"
+                                                    [isIdle]="isIdle()"
+                                                    [hasError]="hasError()"
+                                                    [hasImage]="hasImage()"
+                                                    [fileName]="fileName()"
+                                                    [fileSize]="fileSize()"
+                                                    formControlName="placePhoto"
+                                                    (viewImage)="
+                                                        openImagePreview()
+                                                    "
+                                                    (imageCleared)="
+                                                        onImageCleared()
+                                                    "
+                                                />
+                                            </div>
+                                        }
                                     </div>
                                 </div>
 
@@ -105,21 +115,35 @@
                                     <div
                                         class="field-value photo-container d-flex justify-content-center"
                                     >
-                                        <div
-                                            class="no-image-placeholder"
-                                            role="status"
-                                        >
-                                            <i
-                                                class="pi pi-image d-flex align-items-center"
-                                                aria-hidden="true"
-                                            ></i>
-                                            <h4 class="card-title text-danger">
-                                                {{
-                                                    'MANAGEMENT.FORM.PICTURES.NO_DATA'
+                                        @if (accessPhoto(); as url) {
+                                            <img
+                                                class="report-photo"
+                                                [src]="url"
+                                                [alt]="
+                                                    'MANAGEMENT.FORM.PICTURES.ACCESS_ROAD'
                                                         | translate
-                                                }}
-                                            </h4>
-                                        </div>
+                                                "
+                                                (click)="openAccessPreview()"
+                                            />
+                                        } @else {
+                                            <div
+                                                class="no-image-placeholder"
+                                                role="status"
+                                            >
+                                                <i
+                                                    class="pi pi-image d-flex align-items-center"
+                                                    aria-hidden="true"
+                                                ></i>
+                                                <h4
+                                                    class="card-title text-danger"
+                                                >
+                                                    {{
+                                                        'MANAGEMENT.FORM.PICTURES.NO_DATA'
+                                                            | translate
+                                                    }}
+                                                </h4>
+                                            </div>
+                                        }
                                     </div>
                                 </div>
                             </div>
