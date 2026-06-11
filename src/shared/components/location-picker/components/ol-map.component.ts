@@ -10,6 +10,7 @@ import {
     output,
     viewChild,
 } from '@angular/core';
+import { transformExtent } from 'ol/proj';
 import {
     OpenLayersLoaderService,
     OpenLayersModules,
@@ -26,7 +27,13 @@ import {
     normalizeCoordinates,
 } from '../utils/coordinates.utils';
 import { fromOlCoordinate, toOlCoordinate } from '../utils/projection.utils';
-
+import { Bounds } from '@presentation/pages/interactive-map/domain/models/interactive-map-report.model';
+const IVORY_COAST_BOUNDS: Bounds = {
+    minLat: 4.223876, // Point le plus au sud (Latitude minimale)
+    maxLat: 10.873696, // Point le plus au nord (Latitude maximale)
+    minLng: -9.698757, // Point le plus à l'ouest (Longitude minimale)
+    maxLng: -1.656668, // Point le plus à l'est (Longitude maximale)
+};
 @Component({
     selector: 'app-ol-map',
     standalone: true,
@@ -57,18 +64,44 @@ export class OlMapComponent implements OnDestroy {
             const container = this.mapContainer();
             const coords = this.initialCoords();
 
-            if (container && coords) {
+            if (container) {
                 if (!this.map) {
-                    const olCoord = toOlCoordinate(
-                        coords.latitude,
-                        coords.longitude
-                    );
-                    this.initMap(container.nativeElement, olCoord);
-                } else {
+                    // Si la carte n'existe pas encore, l'initialiser
+                    // Si des coordonnées sont fournies, les utiliser, sinon utiliser le centre de la Côte d'Ivoire
+                    const centerCoord =
+                        coords &&
+                        isValidCoordinates(coords.latitude, coords.longitude)
+                            ? toOlCoordinate(coords.latitude, coords.longitude)
+                            : toOlCoordinate(7.539989, -5.54708); // Centre approximatif de la Côte d'Ivoire
+
+                    this.initMap(container.nativeElement, centerCoord);
+                } else if (
+                    coords &&
+                    isValidCoordinates(coords.latitude, coords.longitude)
+                ) {
+                    // Si la carte existe et que des coordonnées valides sont fournies
                     this.moveMapToCoordinates(
                         coords.latitude,
                         coords.longitude
                     );
+                } else if (
+                    !coords ||
+                    !isValidCoordinates(coords.latitude, coords.longitude)
+                ) {
+                    // Si la carte existe mais les coordonnées sont null/invalides, centrer sur la Côte d'Ivoire
+                    const ivoryCoastCenter = toOlCoordinate(7.539989, -5.54708);
+                    this.map.getView().animate({
+                        center: ivoryCoastCenter,
+                        duration: 500,
+                        zoom: 6, // Un zoom plus large pour voir tout le pays
+                    });
+                    // Optionnel : déplacer ou masquer le marqueur
+                    if (this.markerFeature) {
+                        this.vectorLayer
+                            .getSource()
+                            ?.removeFeature(this.markerFeature);
+                        this.markerFeature = null;
+                    }
                 }
             }
         });
@@ -130,6 +163,16 @@ export class OlMapComponent implements OnDestroy {
                 zoom: this.initialZoom(),
                 minZoom: 2,
                 maxZoom: 18,
+                extent: transformExtent(
+                    [
+                        IVORY_COAST_BOUNDS.minLng,
+                        IVORY_COAST_BOUNDS.minLat,
+                        IVORY_COAST_BOUNDS.maxLng,
+                        IVORY_COAST_BOUNDS.maxLat,
+                    ],
+                    'EPSG:4326',
+                    'EPSG:3857'
+                ),
             }),
             interactions: Interactions({
                 mouseWheelZoom: true,
