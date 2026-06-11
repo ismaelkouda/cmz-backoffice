@@ -187,31 +187,38 @@ export class SlideFormComponent {
             });
     }
 
+    private readonly hydratedUrl = signal<string | null>(null);
+
     private initializeImageHydration(): void {
         effect(() => {
             const item = this.item();
             const formImage = this.imageSignal();
-            const previewUrl = this.imageVm().previewUrl();
 
-            if (previewUrl) {
-                return;
-            }
-
-            if (formImage?.type === 'remote' && formImage.url) {
-                this.imageStore.hydrate(this.instanceId, formImage.url);
-                return;
-            }
             if (formImage?.type === 'local' && formImage.file) {
-                this.imageStore.setPreviewFromFile(
-                    this.instanceId,
-                    formImage.file
-                );
+                const previewUrl = this.imageVm().previewUrl();
+                if (!previewUrl) {
+                    this.imageStore.setPreviewFromFile(
+                        this.instanceId,
+                        formImage.file
+                    );
+                }
                 return;
             }
 
-            if (item?.image) {
-                this.imageStore.hydrate(this.instanceId, item.image);
+            const remoteUrl =
+                formImage?.type === 'remote'
+                    ? formImage.url
+                    : (item?.image ?? null);
+
+            if (!remoteUrl) {
+                return;
             }
+            if (this.hydratedUrl() === remoteUrl) {
+                return;
+            }
+
+            this.hydratedUrl.set(remoteUrl);
+            this.imageStore.hydrate(this.instanceId, remoteUrl);
         });
     }
 
