@@ -20,13 +20,13 @@ export class NewsCategoriesSelectMapper extends ArrayResponseMapper<
         dto: NewsCategoriesSelectItemApiDto
     ): NewsCategoriesSelectEntity {
         MapperUtils.validateDto(dto, {
-            required: ['id', 'name', 'sub_categories'],
+            required: ['id', 'name'],
         });
 
         const cacheKey = `categories:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
-        const sub_categories = dto.sub_categories.map(
+        const sub_categories = (dto.sub_categories ?? []).map(
             (m): NewsSubCategoriesSelectProps => ({
                 uniqId: m.id,
                 name: m.name,
