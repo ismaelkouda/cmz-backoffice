@@ -5,6 +5,7 @@ import { DailyGoalEntity } from '@pages/team-organization/domain/entities/daily-
 import { DailyGoalRepository } from '@pages/team-organization/domain/repositories/daily-goal/daily-goal.repository';
 import { DailyGoalFilterVo } from '@pages/team-organization/domain/value-objects/daily-goal/daily-goal-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,10 +14,11 @@ export class DailyGoalUseCase {
 
     execute(
         filterDto: DailyGoalFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<DailyGoalEntity>> {
         const vo = DailyGoalFilterVo.fromDto(filterDto);
         const entity = DailyGoalFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page);
+        return this.repository.readAll(entity, page, options);
     }
 }

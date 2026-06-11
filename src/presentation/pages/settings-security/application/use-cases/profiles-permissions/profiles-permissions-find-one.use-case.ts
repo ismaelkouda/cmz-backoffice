@@ -4,6 +4,7 @@ import { ProfilesPermissionsFindOneFilterEntity } from '@pages/settings-security
 import { ProfilesPermissionsFindOneEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-find-one.entity';
 import { ProfilesPermissionsFindOneRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-find-one-repository';
 import { ProfilesPermissionsFindOneFilterVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-find-one-filter.vo';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,10 +14,11 @@ export class ProfilesPermissionsFindOneUseCase {
     private readonly repository = inject(ProfilesPermissionsFindOneRepository);
 
     execute(
-        filterDto: ProfilesPermissionsFindOneFilterDto
+        filterDto: ProfilesPermissionsFindOneFilterDto,
+        options?: FetchOptions
     ): Observable<ProfilesPermissionsFindOneEntity> {
         const vo = ProfilesPermissionsFindOneFilterVo.fromDto(filterDto);
         const filter = ProfilesPermissionsFindOneFilterEntity.fromVo(vo);
-        return this.repository.execute(filter);
+        return this.repository.execute(filter, options);
     }
 }

@@ -116,7 +116,7 @@ export class MunicipalitiesFormStore {
     );
 
     constructor() {
-        this.regionsFacade.readAll(true);
+        this.regionsFacade.readAll();
         this.initializeFormEffect();
         this.initializeDisableFormEffect();
         this.initializeSubmitSuccessEffect();
@@ -226,7 +226,7 @@ export class MunicipalitiesFormStore {
         this.resetInternalState();
         this.formMode.set('view');
         this.editingId.set(uniqId);
-        this.facade.read({ uniqId }, true);
+        this.facade.read({ uniqId });
     }
 
     public close(): void {

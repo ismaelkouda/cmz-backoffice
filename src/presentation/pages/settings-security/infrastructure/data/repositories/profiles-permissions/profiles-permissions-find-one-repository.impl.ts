@@ -5,6 +5,7 @@ import { ProfilesPermissionsFindOneRepository } from '@pages/settings-security/d
 import { profilesPermissionsFindOneFilterMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one-filter.mapper';
 import { ProfilesPermissionsFindOneMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-find-one.mapper';
 import { ProfilesPermissionsFindOneApi } from '@pages/settings-security/infrastructure/data/sources/profiles-permissions/profiles-permissions-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class ProfilesPermissionsFindOneRepositoryImpl implements ProfilesPermiss
     private readonly mapper = inject(ProfilesPermissionsFindOneMapper);
 
     execute(
-        filter?: ProfilesPermissionsFindOneFilterEntity
+        filter?: ProfilesPermissionsFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<ProfilesPermissionsFindOneEntity> {
         const paramsDto = profilesPermissionsFindOneFilterMapper(filter);
         return this.api
-            .readAll(paramsDto)
+            .readAll(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

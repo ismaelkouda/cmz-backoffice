@@ -4,6 +4,7 @@ import { DepartmentsFindOneFilterEntity } from '@pages/administrative-boundary/d
 import { DepartmentsFindOneEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-find-one.entity';
 import { DepartmentsFindOneRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-find-one-repository';
 import { DepartmentsFindOneFilterVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-find-one-filter.vo';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -13,10 +14,11 @@ export class DepartmentsFindOneUseCase {
     private readonly repository = inject(DepartmentsFindOneRepository);
 
     execute(
-        dto: DepartmentsFindOneFilterDto
+        dto: DepartmentsFindOneFilterDto,
+        options?: FetchOptions
     ): Observable<DepartmentsFindOneEntity> {
         const vo = DepartmentsFindOneFilterVo.fromDto(dto);
         const filter = DepartmentsFindOneFilterEntity.fromVo(vo);
-        return this.repository.execute(filter);
+        return this.repository.execute(filter, options);
     }
 }

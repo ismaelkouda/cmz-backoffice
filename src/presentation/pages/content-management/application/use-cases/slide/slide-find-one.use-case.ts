@@ -4,6 +4,7 @@ import { SlideFindOneFilterEntity } from '@pages/content-management/domain/entit
 import { SlideFindOneEntity } from '@pages/content-management/domain/entities/slide/slide-find-one.entity';
 import { SlideFindOneRepository } from '@pages/content-management/domain/repositories/slide/slide-find-one-repository';
 import { SlideFindOneFilterVo } from '@pages/content-management/domain/value-objects/slide/slide-find-one-filter.vo';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,9 +13,12 @@ import { Observable } from 'rxjs';
 export class SlideFindOneUseCase {
     private readonly repository = inject(SlideFindOneRepository);
 
-    execute(filterDto: SlideFindOneFilterDto): Observable<SlideFindOneEntity> {
+    execute(
+        filterDto: SlideFindOneFilterDto,
+        options?: FetchOptions
+    ): Observable<SlideFindOneEntity> {
         const vo = SlideFindOneFilterVo.fromDto(filterDto);
         const filter = SlideFindOneFilterEntity.fromVo(vo);
-        return this.repository.execute(filter);
+        return this.repository.execute(filter, options);
     }
 }

@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { TeamsCreateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-create-api.dto';
 import { TeamsDeleteApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-delete-api.dto';
@@ -12,6 +13,7 @@ import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastruc
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -21,14 +23,20 @@ export class TeamsApi {
 
     readAll(
         dto: TeamsFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<TeamsResponseApiDto> {
         const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}?page=${page}`;
 
         const params = buildHttpParams(dto);
 
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
         return this.http.get<TeamsResponseApiDto>(url, {
             params,
+            context,
         });
     }
 

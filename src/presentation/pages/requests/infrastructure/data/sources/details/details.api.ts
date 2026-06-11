@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { DetailsApproveApiDto } from '@pages/requests/infrastructure/api/dto/details/details-approve-api.dto';
 import { DetailsFilterApiDto } from '@pages/requests/infrastructure/api/dto/details/details-filter-api.dto';
@@ -10,6 +11,7 @@ import { REQUESTS_ENDPOINTS } from '@presentation/pages/requests/infrastructure/
 import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -17,9 +19,19 @@ export class DetailsApi {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = inject(REQUESTS_BASE_URL);
 
-    execute(apiDto: DetailsFilterApiDto): Observable<DetailsResponseApiDto> {
+    execute(
+        apiDto: DetailsFilterApiDto,
+        options?: FetchOptions
+    ): Observable<DetailsResponseApiDto> {
         const url = `${this.baseUrl}${REQUESTS_ENDPOINTS.DETAILS_REQUESTS}/${apiDto.uniq_id}`;
-        return this.http.get<DetailsResponseApiDto>(url);
+
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
+        return this.http.get<DetailsResponseApiDto>(url, {
+            context,
+        });
     }
 
     take(apiDto: DetailsTakeApiDto): Observable<SimpleResponseDto<void>> {

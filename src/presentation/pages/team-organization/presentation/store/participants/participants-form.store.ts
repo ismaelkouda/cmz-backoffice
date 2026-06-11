@@ -91,7 +91,7 @@ export class ParticipantsFormStore {
         this.facade.reset();
         this.form.reset();
         if (uniqId) {
-            this.facade.read({ uniqId }, true);
+            this.facade.read({ uniqId });
         }
     }
 

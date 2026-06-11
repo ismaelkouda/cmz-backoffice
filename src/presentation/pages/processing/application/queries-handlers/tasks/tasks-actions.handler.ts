@@ -3,6 +3,7 @@ import { TasksActionsQuery } from '@pages/processing/application/queries/tasks/t
 import { TasksActionsUseCase } from '@pages/processing/application/use-cases/tasks/tasks-actions.use-case';
 import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,13 +12,15 @@ export class TasksActionsHandler {
 
     execute(
         query: TasksActionsQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksActionsEntity>> {
         return this.useCase.execute(
             {
                 uniqId: query.uniqId,
             },
-            page
+            page,
+            options
         );
     }
 }

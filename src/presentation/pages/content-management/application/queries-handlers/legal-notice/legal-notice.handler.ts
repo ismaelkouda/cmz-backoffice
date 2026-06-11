@@ -23,7 +23,8 @@ export class LegalNoticeHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

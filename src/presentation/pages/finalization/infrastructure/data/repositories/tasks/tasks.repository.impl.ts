@@ -6,6 +6,7 @@ import { TasksFilterMapper } from '@pages/finalization/infrastructure/data/mappe
 import { TasksMapper } from '@pages/finalization/infrastructure/data/mappers/tasks/tasks.mapper';
 import { TasksApi } from '@pages/finalization/infrastructure/data/sources/tasks/tasks.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -18,10 +19,11 @@ export class TasksRepositoryImpl extends TasksRepository {
 
     execute(
         entity: TasksFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksEntity>> {
         return this.api
-            .execute(this.filterMapper.map(entity), page)
+            .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

@@ -3,14 +3,18 @@ import { RegionsFindOneQuery } from '@pages/administrative-boundary/application/
 import { RegionsFindOneHandler } from '@pages/administrative-boundary/application/queries-handlers/regions/regions-find-one.handler';
 import { RegionsFindOneEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class RegionsFindOneBus {
     private readonly filterHandler = inject(RegionsFindOneHandler);
 
-    dispatch<T>(query: T): Observable<RegionsFindOneEntity> {
+    dispatch<T>(
+        query: T,
+        options?: FetchOptions
+    ): Observable<RegionsFindOneEntity> {
         if (query instanceof RegionsFindOneQuery) {
-            return this.filterHandler.execute(query);
+            return this.filterHandler.execute(query, options);
         }
 
         throw new Error('No handler found for query');

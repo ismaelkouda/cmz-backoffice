@@ -191,7 +191,7 @@ export class AccessLogsListComponent implements OnInit {
             endDate: endDate?.format('YYYY-MM-DD'),
         };
 
-        this.facade.readAll(filter, '1', true);
+        this.facade.readAll(filter, '1');
     }
 
     public onPageChange(event: number): void {

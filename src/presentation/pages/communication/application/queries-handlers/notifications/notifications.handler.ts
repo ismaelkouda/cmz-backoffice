@@ -3,6 +3,7 @@ import { NotificationsQuery } from '@pages/communication/application/queries/not
 import { NotificationsUseCase } from '@pages/communication/application/use-cases/notifications/notifications.use-case';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class NotificationsHandler {
 
     execute(
         query: NotificationsQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<NotificationsEntity>> {
         return this.useCase.execute(
             {
@@ -20,7 +22,8 @@ export class NotificationsHandler {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

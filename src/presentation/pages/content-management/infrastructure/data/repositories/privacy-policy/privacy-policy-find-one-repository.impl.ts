@@ -5,6 +5,7 @@ import { PrivacyPolicyFindOneRepository } from '@pages/content-management/domain
 import { privacyPolicyFindOneFilterMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-find-one-filter.mapper';
 import { PrivacyPolicyFindOneMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-find-one.mapper';
 import { PrivacyPolicyFindOneApi } from '@pages/content-management/infrastructure/data/sources/privacy-policy/privacy-policy-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class PrivacyPolicyFindOneRepositoryImpl implements PrivacyPolicyFindOneR
     private readonly mapper = inject(PrivacyPolicyFindOneMapper);
 
     execute(
-        filter: PrivacyPolicyFindOneFilterEntity
+        filter: PrivacyPolicyFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<PrivacyPolicyFindOneEntity> {
         const paramsDto = privacyPolicyFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

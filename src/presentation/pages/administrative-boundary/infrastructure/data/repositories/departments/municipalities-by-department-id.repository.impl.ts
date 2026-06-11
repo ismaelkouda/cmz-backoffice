@@ -6,6 +6,7 @@ import { municipalitiesByDepartmentIdFilterMapper } from '@pages/administrative-
 import { MunicipalitiesByDepartmentIdMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/municipalities-by-department-id.mapper';
 import { MunicipalitiesByDepartmentIdApi } from '@pages/administrative-boundary/infrastructure/data/sources/departments/municipalities-by-department-id.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +16,12 @@ export class MunicipalitiesByDepartmentIdRepositoryImpl implements Municipalitie
 
     execute(
         entity: MunicipalitiesByDepartmentIdFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesByDepartmentIdEntity>> {
         const paramsDto = municipalitiesByDepartmentIdFilterMapper(entity);
         return this.api
-            .readAll(paramsDto, page)
+            .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

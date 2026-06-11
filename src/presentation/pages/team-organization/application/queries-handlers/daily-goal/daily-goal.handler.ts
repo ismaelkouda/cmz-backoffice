@@ -3,6 +3,7 @@ import { DailyGoalQuery } from '@pages/team-organization/application/queries/dai
 import { DailyGoalUseCase } from '@pages/team-organization/application/use-cases/daily-goal/daily-goal.use-case';
 import { DailyGoalEntity } from '@pages/team-organization/domain/entities/daily-goal/daily-goal.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,14 +12,16 @@ export class DailyGoalHandler {
 
     execute(
         query: DailyGoalQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<DailyGoalEntity>> {
         return this.useCase.execute(
             {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

@@ -7,12 +7,14 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 export abstract class MunicipalitiesRepository {
     abstract execute(
         entity: MunicipalitiesFilterEntity | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesEntity>>;
     abstract create(
         entity: MunicipalitiesCreateEntity

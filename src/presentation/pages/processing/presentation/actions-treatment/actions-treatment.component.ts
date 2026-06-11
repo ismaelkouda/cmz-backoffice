@@ -52,6 +52,8 @@ import { TextareaModule } from 'primeng/textarea';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { Tooltip } from 'primeng/tooltip';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -93,9 +95,12 @@ export class ActionsTreatmentComponent {
     private readonly closureFacade = inject(DetailsFacade);
     private readonly permissionActions = inject(PermissionActionsService);
     private readonly sweetAlert = inject(SweetAlertService);
-    // private readonly exportService = inject(TableExportExcelFileService);
-    private readonly appCustomization = inject(AppCustomizationService);
     protected readonly formStore = inject(ActionsTreatmentFormStore);
+    private readonly excelExport = inject(ExcelExportService);
+    private readonly appConfig = inject(AppCustomizationService);
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.customization.app.name
+    );
     protected readonly tableConfig = TASKS_ACTIONS_TABLE;
     private readonly presenter = new ActionsTreatmentPresenter(
         this.translate.instant.bind(this.translate)
@@ -301,7 +306,7 @@ export class ActionsTreatmentComponent {
             actionId: 'refresh',
             icon: 'pi pi-refresh',
             class: 'btn-dark',
-            tooltip: this.t('PROCESSING.QUEUES.TOOLTIP.REFRESH'),
+            tooltip: this.t('PROCESSING.TASKS.TOOLTIP.REFRESH'),
         },
         {
             label: 'COMMON.EXPORT',
@@ -350,7 +355,7 @@ export class ActionsTreatmentComponent {
             return;
         }
         this.facade.reset();
-        this.facade.readAll({ uniqId }, '1', true);
+        this.facade.readAll({ uniqId });
     }
 
     private initializeActionEffect(): void {
@@ -508,24 +513,6 @@ export class ActionsTreatmentComponent {
                 : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CREATE',
         });
     }
-    private exportData(): void {
-        if (!this.canExport()) {
-            this.toast.error(this.exportTooltip());
-            return;
-        }
-        const items = this.items();
-        if (!items.length) {
-            this.toast.error(this.t('EXPORT.NO_DATA'));
-            return;
-        }
-        // const appName = this.appCustomization.customization.app.name;
-        // const filePrefix = this.normalizePrefix(appName);
-        // this.exportService.exportAsExcelFile(
-        //     items,
-        //     this.tableConfig,
-        //     `${filePrefix}-actions-treatment`
-        // );
-    }
     protected onChangePageClicked(event: number): void {
         if (this.uniqId()) {
             this.facade.changePage(JSON.stringify(event + 1));
@@ -569,10 +556,64 @@ export class ActionsTreatmentComponent {
         }
         return value ? [value] : [];
     }
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const items = this.itemsVM();
+        if (!items.length) {
+            this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
+        }
 
-    private normalizePrefix(value: string): string {
+        const fileName = `${this.exportFilePrefix}-actions-treatment`;
+
+        const exportColumns: ExportColumn[] = TASKS_ACTIONS_TABLE.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                let width = 15;
+                if (col.width) {
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'reportedAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items,
+                sheetName: this.translate.instant(
+                    'PROCESSING.TASKS.ACTIONS.TITLE'
+                ),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
+    }
+    private normalizeExportPrefix(appName: string): string {
         return (
-            value
+            appName
                 .toLowerCase()
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'

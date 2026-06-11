@@ -10,6 +10,7 @@ import { detailsTreatMapper } from '@pages/processing/infrastructure/data/mapper
 import { DetailsMapper } from '@pages/processing/infrastructure/data/mappers/details/details.mapper';
 import { DetailsApi } from '@pages/processing/infrastructure/data/sources/details/details.api';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -17,10 +18,13 @@ export class DetailsRepositoryImpl implements DetailsRepository {
     private readonly api = inject(DetailsApi);
     private readonly mapper = inject(DetailsMapper);
 
-    execute(entity: DetailsFilterEntity): Observable<DetailsEntity> {
+    execute(
+        entity: DetailsFilterEntity,
+        options?: FetchOptions
+    ): Observable<DetailsEntity> {
         const paramsDto = detailsFilterMapper(entity);
         return this.api
-            .execute(paramsDto)
+            .execute(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 

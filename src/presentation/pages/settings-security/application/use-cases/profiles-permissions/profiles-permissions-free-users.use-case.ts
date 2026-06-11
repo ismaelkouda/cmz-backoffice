@@ -8,6 +8,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 export class ProfilesPermissionsFreeUsersUseCase {
@@ -17,9 +18,10 @@ export class ProfilesPermissionsFreeUsersUseCase {
 
     execute(
         filter: null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsFreeUsersEntity>> {
-        return this.repository.execute(page);
+        return this.repository.execute(page, options);
     }
 
     assign(

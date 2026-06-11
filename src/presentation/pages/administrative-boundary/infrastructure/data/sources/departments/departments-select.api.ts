@@ -1,8 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { DepartmentsSelectResponseApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-select-response-api.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -12,9 +14,17 @@ export class DepartmentsSelectApi {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL);
 
-    readAll(): Observable<DepartmentsSelectResponseApiDto> {
+    readAll(
+        options?: FetchOptions
+    ): Observable<DepartmentsSelectResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.DEPARTMENTS}/selected-field`;
 
-        return this.http.get<DepartmentsSelectResponseApiDto>(url);
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
+        return this.http.get<DepartmentsSelectResponseApiDto>(url, {
+            context,
+        });
     }
 }

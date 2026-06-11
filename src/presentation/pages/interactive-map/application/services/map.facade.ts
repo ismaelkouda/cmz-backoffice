@@ -10,15 +10,14 @@ import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 export class MapFacade extends ObjectBaseFacade<MapEntity, undefined> {
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(MapBus);
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    execute(force = false): void {
+    execute(): void {
         const fetch$ = this.bus.dispatch();
-        this.fetch(undefined, fetch$, this.ui, this.STALE_TIME, force);
+        this.fetch(undefined, fetch$, this.ui);
     }
 
     refresh(): void {
         const fetch$ = this.bus.dispatch();
-        this.fetch(undefined, fetch$, this.ui, this.STALE_TIME, true);
+        this.fetch(undefined, fetch$, this.ui);
     }
 }

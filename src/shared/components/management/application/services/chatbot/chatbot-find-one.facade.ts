@@ -5,6 +5,7 @@ import { ChatbotFindOneQuery } from '@shared/components/management/application/q
 import { ChatbotFindOneBus } from '@shared/components/management/application/queries-bus/chatbot/chatbot-find-one.bus';
 import { ChatbotFindOneEntity } from '@shared/components/management/domain/entities/chatbot/chatbot-find-one.entity';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -16,11 +17,9 @@ export class ChatbotFindOneFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(ChatbotFindOneBus);
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
-    read(filter: ChatbotFindOneFilterDto, force = false): void {
+    read(filter: ChatbotFindOneFilterDto, options: FetchOptions = {}): void {
         const command = new ChatbotFindOneQuery(filter.uniqId);
-        const fetch$ = this.bus.dispatch(command);
-        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
+        const fetch$ = this.bus.dispatch(command, options);
+        this.fetch(filter, fetch$, this.ui);
     }
 }

@@ -129,7 +129,7 @@ export class ProfilesPermissionsFormStore {
         this.isEditMode.set(!!uniqId);
 
         if (uniqId) {
-            this.findOneFacade.read({ uniqId }, true);
+            this.findOneFacade.read({ uniqId });
         } else {
             this.permissionsFacade.readAll();
         }

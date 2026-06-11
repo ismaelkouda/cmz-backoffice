@@ -45,7 +45,7 @@ export class ResetPasswordStore {
             this.form.markAllAsTouched();
             return;
         }
-        this.facade.execute(this.value, true);
+        this.facade.execute(this.value);
     }
 
     public isFieldInvalid(field: keyof ResetPasswordFormControl): boolean {

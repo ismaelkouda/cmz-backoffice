@@ -236,7 +236,7 @@ export class HomeFormStore {
             this.imageError.set(null);
             return;
         }
-        this.facade.read({ uniqId }, true);
+        this.facade.read({ uniqId });
     }
 
     public setImage(file: File): void {

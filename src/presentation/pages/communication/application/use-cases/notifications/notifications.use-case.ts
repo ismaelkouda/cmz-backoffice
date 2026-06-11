@@ -11,6 +11,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -21,11 +22,12 @@ export class NotificationsUseCase {
 
     execute(
         filterDto: NotificationsFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<NotificationsEntity>> {
         const vo = NotificationsFilterVo.fromDto(filterDto);
         const entity = NotificationsFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 
     readOne(dto: NotificationsReadOneDto): Observable<SimpleResponseDto<void>> {

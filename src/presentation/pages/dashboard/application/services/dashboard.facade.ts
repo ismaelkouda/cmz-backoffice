@@ -5,6 +5,7 @@ import { DashboardBus } from '@pages/dashboard/application/queries-bus/dashboard
 import { DashboardEntity } from '@pages/dashboard/domain/entities/dashboard.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -16,22 +17,10 @@ export class DashboardFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(DashboardBus);
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
-    read(
-        filter: DashboardFilterDto,
-        force = false,
-        skipSameFilter = false
-    ): void {
+    read(filter: DashboardFilterDto, options: FetchOptions = {}): void {
+        console.log('filter: ', filter);
         const command = new DashboardQuery(filter.period);
-        const fetch$ = this.bus.dispatch(command);
-        this.fetch(
-            filter,
-            fetch$,
-            this.ui,
-            this.STALE_TIME,
-            force,
-            skipSameFilter
-        );
+        const fetch$ = this.bus.dispatch(command, options);
+        this.fetch(filter, fetch$, this.ui);
     }
 }

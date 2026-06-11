@@ -5,6 +5,7 @@ import { MunicipalitiesByDepartmentIdEntity } from '@pages/administrative-bounda
 import { MunicipalitiesByDepartmentIdRepository } from '@pages/administrative-boundary/domain/repositories/departments/municipalities-by-department-id-repository';
 import { MunicipalitiesByDepartmentIdFilterVo } from '@pages/administrative-boundary/domain/value-objects/departments/municipalities-by-department-id-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -17,10 +18,11 @@ export class MunicipalitiesByDepartmentIdUseCase {
 
     execute(
         filterDto: MunicipalitiesByDepartmentIdFilterDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesByDepartmentIdEntity>> {
         const vo = MunicipalitiesByDepartmentIdFilterVo.fromDto(filterDto);
         const filter = MunicipalitiesByDepartmentIdFilterEntity.fromVo(vo);
-        return this.repository.execute(filter, page);
+        return this.repository.execute(filter, page, options);
     }
 }

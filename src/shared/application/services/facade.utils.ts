@@ -16,7 +16,7 @@ export interface FetchOptions<TEntity, TFilter> {
 
 /* export function fetchWithFilterAndPage<TEntity, TFilter>(
     fetchObservable: Observable<Paginate<TEntity>>,
-    options: FetchOptions<TEntity, TFilter>
+    options?: FetchOptions<TEntity, TFilter>
 ): void {
     const {
         itemsSubject,

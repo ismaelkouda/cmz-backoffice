@@ -4,14 +4,19 @@ import { QueuesHandler } from '@pages/finalization/application/queries-handlers/
 import { QueuesEntity } from '@pages/finalization/domain/entities/queues/queues.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesBus {
     private readonly filterHandler = inject(QueuesHandler);
 
-    dispatch<T>(query: T, page: string): Observable<Paginate<QueuesEntity>> {
+    dispatch<T>(
+        query: T,
+        page: string,
+        options?: FetchOptions
+    ): Observable<Paginate<QueuesEntity>> {
         if (query instanceof QueuesQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

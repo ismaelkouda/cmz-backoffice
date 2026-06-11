@@ -151,7 +151,7 @@ export class UsersStore {
         this.profilesFacade.readAll();
 
         if (uniqId) {
-            this.facade.read({ uniqId }, true);
+            this.facade.read({ uniqId });
         }
     }
 

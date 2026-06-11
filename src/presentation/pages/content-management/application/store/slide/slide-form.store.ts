@@ -337,7 +337,7 @@ export class SlideFormStore {
             return;
         }
 
-        this.facade.read({ uniqId }, true);
+        this.facade.read({ uniqId });
     }
 
     public setImage(file: File): void {

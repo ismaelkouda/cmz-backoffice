@@ -288,7 +288,7 @@ export class QueuesComponent {
         this.title.setTitle(this.t('FINALIZATION.QUEUES.TITLE'));
     }
     protected onFilterClicked(): void {
-        this.facade.read(this.formStore.value, '1', true);
+        this.facade.read(this.formStore.value, '1');
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

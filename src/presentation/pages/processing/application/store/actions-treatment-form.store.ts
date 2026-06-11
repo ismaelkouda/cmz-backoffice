@@ -130,7 +130,7 @@ export class ActionsTreatmentFormStore {
     ): void {
         this.dialogMode.set('create');
         this.editingId.set(null);
-        this.actionsTypeFacade.readAll({ uniqId }, true);
+        this.actionsTypeFacade.readAll({ uniqId });
         this.form.reset({
             date: null,
             type: '',
@@ -147,14 +147,14 @@ export class ActionsTreatmentFormStore {
     public openEdit(uniqId: string, item: TasksActionsVmProps): void {
         this.dialogMode.set('edit');
         this.editingId.set(item.uniqId);
-        this.actionsTypeFacade.readAll({ uniqId }, true);
+        this.actionsTypeFacade.readAll({ uniqId });
         this.patchValue(item);
         this.modalOpen.set(true);
     }
     public openView(uniqId: string, item: TasksActionsVmProps): void {
         this.dialogMode.set('view');
         this.editingId.set(item.uniqId);
-        this.actionsTypeFacade.readAll({ uniqId }, true);
+        this.actionsTypeFacade.readAll({ uniqId });
         this.patchValue(item);
         this.modalOpen.set(true);
     }

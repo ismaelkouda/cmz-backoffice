@@ -13,15 +13,14 @@ export class PasswordChangeFacade extends ObjectBaseFacade<
 > {
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(PasswordChangeBus);
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    execute(dto: PasswordChangeDto, force = true): void {
+    execute(dto: PasswordChangeDto): void {
         const command = new PasswordChangeCommand(
             dto.oldPassword,
             dto.newPassword,
             dto.newPasswordConfirmation
         );
         const fetch$ = this.bus.dispatch(command);
-        this.fetch(dto, fetch$, this.ui, this.STALE_TIME, force, true);
+        this.fetch(dto, fetch$, this.ui);
     }
 }

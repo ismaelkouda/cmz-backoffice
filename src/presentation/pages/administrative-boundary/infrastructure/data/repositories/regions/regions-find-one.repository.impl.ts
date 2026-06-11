@@ -5,6 +5,7 @@ import { RegionsFindOneRepository } from '@pages/administrative-boundary/domain/
 import { regionsFindOneFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-find-one-filter.mapper';
 import { RegionsFindOneMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-find-one.mapper';
 import { RegionsFindOneApi } from '@pages/administrative-boundary/infrastructure/data/sources/regions/regions-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class RegionsFindOneRepositoryImpl implements RegionsFindOneRepository {
     private readonly mapper = inject(RegionsFindOneMapper);
 
     execute(
-        filter: RegionsFindOneFilterEntity
+        filter: RegionsFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<RegionsFindOneEntity> {
         const paramsDto = regionsFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

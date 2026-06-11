@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { DepartmentsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-create-api.dto';
@@ -9,6 +10,7 @@ import { DepartmentsResponseApiDto } from '@pages/administrative-boundary/infras
 import { DepartmentsUpdateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-update-api.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -20,13 +22,20 @@ export class DepartmentsApi {
 
     readAll(
         dto: DepartmentsFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<DepartmentsResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.DEPARTMENTS}?page=${page}`;
 
         const params = buildHttpParams(dto);
-
-        return this.http.get<DepartmentsResponseApiDto>(url, { params });
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
+        return this.http.get<DepartmentsResponseApiDto>(url, {
+            params,
+            context,
+        });
     }
 
     create(dto: DepartmentsCreateApiDto): Observable<SimpleResponseDto<void>> {

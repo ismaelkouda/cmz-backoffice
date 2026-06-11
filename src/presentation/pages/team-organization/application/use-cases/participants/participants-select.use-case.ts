@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { ParticipantsSelectEntity } from '@pages/team-organization/domain/entities/participants/participants-select.entity';
 import { ParticipantsSelectRepository } from '@pages/team-organization/domain/repositories/participants/participants-select-repository';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { Observable } from 'rxjs';
 export class ParticipantsSelectUseCase {
     private readonly repository = inject(ParticipantsSelectRepository);
 
-    readAll(): Observable<ParticipantsSelectEntity[]> {
-        return this.repository.readAll();
+    readAll(options?: FetchOptions): Observable<ParticipantsSelectEntity[]> {
+        return this.repository.readAll(options);
     }
 }

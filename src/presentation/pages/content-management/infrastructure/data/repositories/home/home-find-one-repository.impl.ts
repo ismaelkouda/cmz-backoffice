@@ -5,6 +5,7 @@ import { HomeFindOneRepository } from '@pages/content-management/domain/reposito
 import { homeFindOneFilterMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-find-one-filter.mapper';
 import { HomeFindOneMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-find-one.mapper';
 import { HomeFindOneApi } from '@pages/content-management/infrastructure/data/sources/home/home-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -12,10 +13,13 @@ export class HomeFindOneRepositoryImpl implements HomeFindOneRepository {
     private readonly api = inject(HomeFindOneApi);
     private readonly mapper = inject(HomeFindOneMapper);
 
-    execute(filter: HomeFindOneFilterEntity): Observable<HomeFindOneEntity> {
+    execute(
+        filter: HomeFindOneFilterEntity,
+        options?: FetchOptions
+    ): Observable<HomeFindOneEntity> {
         const paramsDto = homeFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

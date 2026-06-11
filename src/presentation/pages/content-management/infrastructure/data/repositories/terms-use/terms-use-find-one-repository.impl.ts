@@ -5,6 +5,7 @@ import { TermsUseFindOneRepository } from '@pages/content-management/domain/repo
 import { termsUseFindOneFilterMapper } from '@pages/content-management/infrastructure/data/mappers/terms-use/terms-use-find-one-filter.mapper';
 import { TermsUseFindOneMapper } from '@pages/content-management/infrastructure/data/mappers/terms-use/terms-use-find-one.mapper';
 import { TermsUseFindOneApi } from '@pages/content-management/infrastructure/data/sources/terms-use/terms-use-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class TermsUseFindOneRepositoryImpl implements TermsUseFindOneRepository 
     private readonly mapper = inject(TermsUseFindOneMapper);
 
     execute(
-        filter: TermsUseFindOneFilterEntity
+        filter: TermsUseFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<TermsUseFindOneEntity> {
         const paramsDto = termsUseFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

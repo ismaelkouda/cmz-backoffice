@@ -5,6 +5,7 @@ import { AllEntity } from '@pages/finalization/domain/entities/all/all.entity';
 import { AllRepository } from '@pages/finalization/domain/repositories/all/all.repository';
 import { AllFilterVo } from '@pages/finalization/domain/value-objects/all/all-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,10 +16,11 @@ export class AllUseCase {
 
     execute(
         filterDto: AllFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AllEntity>> {
         const vo = AllFilterVo.fromDto(filterDto);
         const entity = AllFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 }

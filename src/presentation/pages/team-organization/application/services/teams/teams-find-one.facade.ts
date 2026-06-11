@@ -5,6 +5,7 @@ import { TeamsFindOneBus } from '@pages/team-organization/application/queries-bu
 import { TeamsFindOneEntity } from '@pages/team-organization/domain/entities/teams/teams-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -16,23 +17,9 @@ export class TeamsFindOneFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(TeamsFindOneBus);
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
-    read(
-        filter: TeamsFindOneFilterDto,
-        force = false,
-        skipSameFilter = false
-    ): void {
+    read(filter: TeamsFindOneFilterDto, options: FetchOptions = {}): void {
         const command = new TeamsFindOneQuery(filter.uniqId);
-        console.log('command: ', command);
-        const fetch$ = this.bus.dispatch(command);
-        this.fetch(
-            filter,
-            fetch$,
-            this.ui,
-            this.STALE_TIME,
-            force,
-            skipSameFilter
-        );
+        const fetch$ = this.bus.dispatch(command, options);
+        this.fetch(filter, fetch$, this.ui);
     }
 }

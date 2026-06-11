@@ -3,6 +3,7 @@ import { ParticipantsQuery } from '@pages/team-organization/application/queries/
 import { ParticipantsUseCase } from '@pages/team-organization/application/use-cases/participants/participants.use-case';
 import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class ParticipantsHandler {
 
     execute(
         command: ParticipantsQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ParticipantsEntity>> {
         return this.useCase.execute(
             {
@@ -19,7 +21,8 @@ export class ParticipantsHandler {
                 role: command.role,
                 status: command.status,
             },
-            page
+            page,
+            options
         );
     }
 }

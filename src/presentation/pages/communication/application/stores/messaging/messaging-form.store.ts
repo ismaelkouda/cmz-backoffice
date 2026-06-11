@@ -474,15 +474,12 @@ export class MessagingFormStore {
 
         this.isDetailsMode.set(isDetails);
 
-        this.regionsFacade.readAll(true);
+        this.regionsFacade.readAll();
 
         if (isDetails && uniqId) {
-            this.findOneFacade.read(
-                {
-                    uniqId,
-                },
-                true
-            );
+            this.findOneFacade.read({
+                uniqId,
+            });
 
             return;
         }

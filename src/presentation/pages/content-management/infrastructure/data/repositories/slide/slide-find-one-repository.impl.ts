@@ -5,6 +5,7 @@ import { SlideFindOneRepository } from '@pages/content-management/domain/reposit
 import { slideFindOneFilterMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-find-one-filter.mapper';
 import { SlideFindOneMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-find-one.mapper';
 import { SlideFindOneApi } from '@pages/content-management/infrastructure/data/sources/slide/slide-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -12,10 +13,13 @@ export class SlideFindOneRepositoryImpl implements SlideFindOneRepository {
     private readonly api = inject(SlideFindOneApi);
     private readonly mapper = inject(SlideFindOneMapper);
 
-    execute(filter: SlideFindOneFilterEntity): Observable<SlideFindOneEntity> {
+    execute(
+        filter: SlideFindOneFilterEntity,
+        options?: FetchOptions
+    ): Observable<SlideFindOneEntity> {
         const paramsDto = slideFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

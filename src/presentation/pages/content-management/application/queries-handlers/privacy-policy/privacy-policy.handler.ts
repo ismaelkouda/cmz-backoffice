@@ -23,7 +23,8 @@ export class PrivacyPolicyHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

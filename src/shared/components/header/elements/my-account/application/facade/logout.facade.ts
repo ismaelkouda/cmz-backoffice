@@ -8,10 +8,9 @@ import { LogoutBus } from '../commands-bus/logout.bus';
 export class LogoutFacade extends ObjectBaseFacade<MessageEntity, null> {
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(LogoutBus);
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    execute(force = true): void {
+    execute(): void {
         const fetch$ = this.bus.dispatch();
-        this.fetch(null, fetch$, this.ui, this.STALE_TIME, force, true);
+        this.fetch(null, fetch$, this.ui);
     }
 }

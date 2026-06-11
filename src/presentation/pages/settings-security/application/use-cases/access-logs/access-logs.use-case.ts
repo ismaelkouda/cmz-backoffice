@@ -5,6 +5,7 @@ import { AccessLogsEntity } from '@pages/settings-security/domain/entities/acces
 import { AccessLogsRepository } from '@pages/settings-security/domain/repositories/access-logs/access-logs.repository';
 import { AccessLogsFilterVo } from '@pages/settings-security/domain/value-objects/access-logs/access-logs-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,13 +16,14 @@ export class AccessLogsUseCase {
 
     execute(
         filterDto: AccessLogsFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AccessLogsEntity>> {
         const vo = AccessLogsFilterVo.fromDto(filterDto);
         const entity = AccessLogsFilterEntity.fromVo(vo);
         if (entity?.appliesToAdminScope()) {
             // règles spécifiques
         }
-        return this.repository.readAll(entity, page);
+        return this.repository.readAll(entity, page, options);
     }
 }

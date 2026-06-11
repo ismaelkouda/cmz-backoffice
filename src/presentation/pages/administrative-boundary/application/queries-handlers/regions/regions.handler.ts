@@ -3,6 +3,7 @@ import { RegionsQuery } from '@pages/administrative-boundary/application/queries
 import { RegionsUseCase } from '@pages/administrative-boundary/application/use-cases/regions/regions.use-case';
 import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class RegionsHandler {
 
     execute(
         command: RegionsQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<RegionsEntity>> {
         return this.useCase.execute(
             {
@@ -19,7 +21,8 @@ export class RegionsHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

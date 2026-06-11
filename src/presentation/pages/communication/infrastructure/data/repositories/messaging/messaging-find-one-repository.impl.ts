@@ -5,6 +5,7 @@ import { MessagingFindOneRepository } from '@pages/communication/domain/reposito
 import { messagingFindOneFilterMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-find-one-filter.mapper';
 import { MessagingFindOneMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-find-one.mapper';
 import { MessagingFindOneApi } from '@pages/communication/infrastructure/data/sources/messaging/messaging-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class MessagingFindOneRepositoryImpl implements MessagingFindOneRepositor
     private readonly mapper = inject(MessagingFindOneMapper);
 
     read(
-        filter: MessagingFindOneFilterEntity
+        filter: MessagingFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<MessagingFindOneEntity> {
         const paramsDto = messagingFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

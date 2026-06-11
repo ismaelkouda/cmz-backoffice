@@ -150,7 +150,7 @@ export class DailyGoalListComponent implements OnInit, OnDestroy {
     }
 
     public onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1', true);
+        this.facade.readAll(filterValues, '1');
     }
 
     public onRefreshClicked(): void {

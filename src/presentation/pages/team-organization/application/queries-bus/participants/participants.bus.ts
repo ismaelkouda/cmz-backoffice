@@ -4,6 +4,7 @@ import { ParticipantsHandler } from '@pages/team-organization/application/querie
 import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ParticipantsBus {
@@ -11,10 +12,11 @@ export class ParticipantsBus {
 
     dispatch<T>(
         query: T,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ParticipantsEntity>> {
         if (query instanceof ParticipantsQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

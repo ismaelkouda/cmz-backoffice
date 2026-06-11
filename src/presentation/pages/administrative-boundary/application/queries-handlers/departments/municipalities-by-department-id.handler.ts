@@ -3,6 +3,7 @@ import { MunicipalitiesByDepartmentIdQuery } from '@pages/administrative-boundar
 import { MunicipalitiesByDepartmentIdUseCase } from '@pages/administrative-boundary/application/use-cases/departments/municipalities-by-department-id.use-case';
 import { MunicipalitiesByDepartmentIdEntity } from '@pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class MunicipalitiesByDepartmentIdHandler {
 
     execute(
         command: MunicipalitiesByDepartmentIdQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesByDepartmentIdEntity>> {
         return this.useCase.execute(
             {
@@ -23,7 +25,8 @@ export class MunicipalitiesByDepartmentIdHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

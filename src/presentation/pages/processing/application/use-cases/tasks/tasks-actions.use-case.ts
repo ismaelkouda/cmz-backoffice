@@ -17,6 +17,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,11 +28,12 @@ export class TasksActionsUseCase {
 
     execute(
         dto: TasksActionsFilterDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksActionsEntity>> {
         const vo = TasksActionsFilterVo.fromDto(dto);
         const entity = TasksActionsFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 
     create(dto: TasksActionsCreateDto): Observable<SimpleResponseDto<void>> {

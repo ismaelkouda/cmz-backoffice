@@ -32,7 +32,7 @@ export class NewsRepositoryImpl implements NewsRepository {
     readAll(
         filter: NewsFilterEntity,
         page: string,
-        options: FetchOptions
+        options?: FetchOptions
     ): Observable<Paginate<NewsEntity>> {
         return this.api
             .readAll(newsFilterMapper(filter), page, options)

@@ -6,6 +6,7 @@ import { DailyGoalFilterMapper } from '@pages/team-organization/infrastructure/d
 import { DailyGoalMapper } from '@pages/team-organization/infrastructure/data/mappers/daily-goal/daily-goal.mapper';
 import { DailyGoalApi } from '@pages/team-organization/infrastructure/data/sources/daily-goal/daily-goal.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -15,11 +16,12 @@ export class DailyGoalRepositoryImpl implements DailyGoalRepository {
 
     readAll(
         filter: DailyGoalFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<DailyGoalEntity>> {
         const paramsDto = DailyGoalFilterMapper(filter);
         return this.api
-            .execute(paramsDto, page)
+            .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

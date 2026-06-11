@@ -271,7 +271,7 @@ export class MunicipalitiesListComponent {
             .subscribe((event: LangChangeEvent) => {
                 this.currentLang.set(event.lang);
             });
-        this.regionsFacade.readAll(true);
+        this.regionsFacade.readAll();
         effect(() => {
             this.pageTitle();
             this.filterFields();
@@ -364,7 +364,7 @@ export class MunicipalitiesListComponent {
         });
     }
     protected onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1', true);
+        this.facade.readAll(filterValues, '1');
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

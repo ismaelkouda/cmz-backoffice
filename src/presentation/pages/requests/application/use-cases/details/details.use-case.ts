@@ -14,6 +14,7 @@ import { DetailsFilterVo } from '@pages/requests/domain/value-objects/details/de
 import { DetailsRejectVo } from '@pages/requests/domain/value-objects/details/details-reject.vo';
 import { DetailsTakeVo } from '@pages/requests/domain/value-objects/details/details-take.vo';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -22,10 +23,13 @@ import { Observable } from 'rxjs';
 export class DetailsUseCase {
     private readonly repository = inject(DetailsRepository);
 
-    execute(filterDto: DetailsFilterDto): Observable<DetailsEntity> {
+    execute(
+        filterDto: DetailsFilterDto,
+        options?: FetchOptions
+    ): Observable<DetailsEntity> {
         const vo = DetailsFilterVo.fromDto(filterDto);
         const filter = DetailsFilterEntity.fromVo(vo);
-        return this.repository.execute(filter);
+        return this.repository.execute(filter, options);
     }
 
     take(dto: DetailsTakeDto): Observable<SimpleResponseDto<void>> {

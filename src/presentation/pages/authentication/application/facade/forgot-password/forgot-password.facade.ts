@@ -13,11 +13,10 @@ export class ForgotPasswordFacade extends ObjectBaseFacade<
 > {
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(ForgotPasswordRequestBus);
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
-    execute(dto: ForgotPasswordRequestDto, force = true): void {
+    execute(dto: ForgotPasswordRequestDto): void {
         const command = new ForgotPasswordRequestCommand(dto.email);
         const fetch$ = this.bus.dispatch(command);
-        this.fetch(dto, fetch$, this.ui, this.STALE_TIME, force, true);
+        this.fetch(dto, fetch$, this.ui);
     }
 }

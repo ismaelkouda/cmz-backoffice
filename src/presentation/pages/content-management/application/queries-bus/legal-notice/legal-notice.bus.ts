@@ -16,7 +16,7 @@ export class LegalNoticeBus {
         options?: FetchOptions
     ): Observable<Paginate<LegalNoticeEntity>> {
         if (query instanceof LegalNoticeQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

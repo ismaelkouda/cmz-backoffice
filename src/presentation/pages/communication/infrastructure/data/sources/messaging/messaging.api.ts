@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { MessagingDeleteApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-delete-api.dto';
 import { MessagingDisableApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-disable-api.dto';
 import { MessagingEnableApiDto } from '@pages/communication/infrastructure//api/dto/messaging/messaging-enable-api.dto';
@@ -12,6 +13,7 @@ import { MessagingUpdateApiDto } from '@pages/communication/infrastructure/api/d
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -21,15 +23,20 @@ export class MessagingApi {
 
     readAll(
         filter: MessagingFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<MessagingResponseApiDto> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}?page=${page}`;
         const params = buildHttpParams(filter, {
             arrayFormat: 'comma',
         });
-        console.log('params: ', params);
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
         return this.http.get<MessagingResponseApiDto>(url, {
             params,
+            context,
         });
     }
 

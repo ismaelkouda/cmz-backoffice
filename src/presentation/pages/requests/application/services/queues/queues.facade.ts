@@ -10,12 +10,11 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly feedback = inject(UiFeedbackService);
     private readonly filterBus = inject(QueuesBus);
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     read(
         filter: QueuesFilterDto = {},
@@ -32,12 +31,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.feedback);
 
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
@@ -60,7 +54,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedbackService);
+        this.fetchWithFilterAndPage(null, page, fetch$, this.feedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -79,12 +73,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.feedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -103,12 +92,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
         const fetch$ = this.filterBus.dispatch(command, page, {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.feedback);
         this.lastFetchTimestamp = Date.now();
     }
 

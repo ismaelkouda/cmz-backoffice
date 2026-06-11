@@ -178,7 +178,7 @@ export class HistoryPageComponent {
         if (!typeModel) {
             return;
         }
-        this.facade.readAll({ typeModel, module }, '1', true);
+        this.facade.readAll({ typeModel, module }, '1');
     }
     protected onHeaderButtonClicked(actionId: string): void {
         const action = this.headerActions[actionId];
@@ -195,7 +195,7 @@ export class HistoryPageComponent {
     protected onFilterClicked(): void {
         const typeModel = this.typeModel();
         const module = this.module();
-        this.facade.readAll(this.store.value(typeModel, module), '1', true);
+        this.facade.readAll(this.store.value(typeModel, module), '1');
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

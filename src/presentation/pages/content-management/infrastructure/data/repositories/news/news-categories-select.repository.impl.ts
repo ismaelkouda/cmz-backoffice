@@ -3,6 +3,7 @@ import { NewsCategoriesSelectEntity } from '@pages/content-management/domain/ent
 import { NewsCategoriesSelectRepository } from '@pages/content-management/domain/repositories/news/news-categories-select-repository';
 import { NewsCategoriesSelectMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-categories-select.mapper';
 import { NewsCategoriesSelectApi } from '@pages/content-management/infrastructure/data/sources/news/news-categories-select.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -10,9 +11,9 @@ export class NewsCategoriesSelectRepositoryImpl implements NewsCategoriesSelectR
     private readonly api = inject(NewsCategoriesSelectApi);
     private readonly mapper = inject(NewsCategoriesSelectMapper);
 
-    execute(): Observable<NewsCategoriesSelectEntity[]> {
+    execute(options?: FetchOptions): Observable<NewsCategoriesSelectEntity[]> {
         return this.api
-            .readAll()
+            .readAll(options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

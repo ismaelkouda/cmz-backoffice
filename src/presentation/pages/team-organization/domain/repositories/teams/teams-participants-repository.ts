@@ -8,6 +8,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -16,7 +17,8 @@ import { Observable } from 'rxjs';
 export abstract class TeamsParticipantsRepository {
     abstract readAll(
         filter: TeamsParticipantsFilterEntity | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TeamsParticipantsEntity>>;
 
     abstract reassign(

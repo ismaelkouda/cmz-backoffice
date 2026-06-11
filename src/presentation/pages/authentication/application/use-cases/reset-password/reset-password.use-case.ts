@@ -5,16 +5,18 @@ import { ResetPasswordRequestVo } from '@presentation/pages/authentication/domai
 import { Observable } from 'rxjs';
 import { ResetPasswordRequestDto } from '@presentation/pages/authentication/application/dto/reset-password/reset-password-request.dto';
 import { ResetPasswordRequestEntity } from '@presentation/pages/authentication/domain/entities/reset-password/reset-password-request.entity';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ResetPasswordUseCase {
     private readonly repository = inject(ResetPasswordRepository);
 
     execute(
-        dto: ResetPasswordRequestDto
+        dto: ResetPasswordRequestDto,
+        options?: FetchOptions
     ): Observable<ResetPasswordResponseEntity> {
         const vo = ResetPasswordRequestVo.fromDto(dto);
         const entity = ResetPasswordRequestEntity.fromVo(vo);
-        return this.repository.execute(entity);
+        return this.repository.execute(entity, options);
     }
 }

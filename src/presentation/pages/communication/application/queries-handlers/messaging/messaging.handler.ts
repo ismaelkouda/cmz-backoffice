@@ -3,6 +3,7 @@ import { MessagingQuery } from '@pages/communication/application/queries/messagi
 import { MessagingUseCase } from '@pages/communication/application/use-cases/messaging/messaging.use-case';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class MessagingHandler {
 
     execute(
         command: MessagingQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<MessagingEntity>> {
         return this.useCase.execute(
             {
@@ -25,7 +27,8 @@ export class MessagingHandler {
                 startDate: command.startDate,
                 endDate: command.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

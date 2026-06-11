@@ -23,6 +23,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -33,11 +34,12 @@ export class ChatbotUseCase {
 
     execute(
         dto: ChatbotFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ChatbotEntity>> {
         const vo = ChatbotFilterVo.fromDto(dto);
         const entity = ChatbotFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page);
+        return this.repository.readAll(entity, page, options);
     }
 
     create(dto: ChatbotCreateDto): Observable<SimpleResponseDto<void>> {

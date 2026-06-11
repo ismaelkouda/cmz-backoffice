@@ -17,6 +17,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 export class ProfilesPermissionsUsersUseCase {
@@ -24,11 +25,12 @@ export class ProfilesPermissionsUsersUseCase {
 
     execute(
         filterDto: ProfilesPermissionsUsersFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsUsersEntity>> {
         const vo = ProfilesPermissionsUsersFilterVo.fromDto(filterDto);
         const entity = ProfilesPermissionsUsersFilterEntity.toEntity(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 
     reassign(

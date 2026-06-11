@@ -5,6 +5,7 @@ import { MunicipalitiesFindOneRepository } from '@pages/administrative-boundary/
 import { municipalitiesFindOneFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-find-one-filter.mapper';
 import { MunicipalitiesFindOneMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-find-one.mapper';
 import { MunicipalitiesFindOneApi } from '@pages/administrative-boundary/infrastructure/data/sources/municipalities/municipalities-find-one.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class MunicipalitiesFindOneRepositoryImpl implements MunicipalitiesFindOn
     private readonly mapper = inject(MunicipalitiesFindOneMapper);
 
     execute(
-        filter: MunicipalitiesFindOneFilterEntity
+        filter: MunicipalitiesFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<MunicipalitiesFindOneEntity> {
         const paramsDto = municipalitiesFindOneFilterMapper(filter);
         return this.api
-            .read(paramsDto)
+            .read(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

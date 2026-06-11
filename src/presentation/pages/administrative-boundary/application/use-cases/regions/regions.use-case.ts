@@ -17,6 +17,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -27,11 +28,12 @@ export class RegionsUseCase {
 
     execute(
         dto: RegionsFilterDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<RegionsEntity>> {
         const vo = RegionsFilterVo.fromDto(dto);
         const entity = RegionsFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 
     create(createDto: RegionsCreateDto): Observable<SimpleResponseDto<void>> {

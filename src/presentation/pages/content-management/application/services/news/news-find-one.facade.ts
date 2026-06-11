@@ -5,6 +5,7 @@ import { NewsFindOneBus } from '@pages/content-management/application/queries-bu
 import { NewsFindOneEntity } from '@pages/content-management/domain/entities/news/news-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -16,11 +17,9 @@ export class NewsFindOneFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(NewsFindOneBus);
 
-    private readonly STALE_TIME = 2 * 60 * 1000;
-
-    read(filter: NewsFindOneFilterDto, force = false): void {
+    read(filter: NewsFindOneFilterDto, options: FetchOptions = {}): void {
         const command = new NewsFindOneQuery(filter.uniqId);
-        const fetch$ = this.bus.dispatch(command);
-        this.fetch(filter, fetch$, this.ui, this.STALE_TIME, force);
+        const fetch$ = this.bus.dispatch(command, options);
+        this.fetch(filter, fetch$, this.ui);
     }
 }

@@ -131,7 +131,7 @@ export class ChatbotStore {
             search: uniqId,
         };
 
-        this.facade.readAll(filter, page.toString(), true);
+        this.facade.readAll(filter, page.toString());
     }
 
     public loadNextPage(): void {

@@ -16,7 +16,7 @@ export class PrivacyPolicyBus {
         options?: FetchOptions
     ): Observable<Paginate<PrivacyPolicyEntity>> {
         if (query instanceof PrivacyPolicyQuery) {
-            return this.filterHandler.execute(query, page);
+            return this.filterHandler.execute(query, page, options);
         }
 
         throw new Error('No handler found for query');

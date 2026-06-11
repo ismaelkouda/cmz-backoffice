@@ -6,6 +6,6 @@ export class ServerError extends DomainError {
     readonly statusCode = 500;
 
     constructor() {
-        super('Internal server error');
+        super('ERRORS.HTTP.SERVER_ERROR');
     }
 }

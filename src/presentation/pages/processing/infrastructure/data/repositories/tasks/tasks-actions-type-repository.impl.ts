@@ -5,6 +5,7 @@ import { tasksActionsTypeFilterMapper } from '@pages/processing/infrastructure/d
 import { TasksActionsTypeMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions-type.mapper';
 import { TasksActionsTypeApi } from '@pages/processing/infrastructure/data/sources/tasks/tasks-actions-type.api';
 import { TasksActionsTypeFilterEntity } from '@presentation/pages/processing/domain/entities/tasks/tasks-actions-type-filter.entity';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,11 +14,12 @@ export class TasksActionsTypeRepositoryImpl implements TasksActionsTypeRepositor
     private readonly mapper = inject(TasksActionsTypeMapper);
 
     readAll(
-        filter: TasksActionsTypeFilterEntity
+        filter: TasksActionsTypeFilterEntity,
+        options?: FetchOptions
     ): Observable<TasksActionsTypeEntity[]> {
         const paramsDto = tasksActionsTypeFilterMapper(filter);
         return this.api
-            .readAll(paramsDto)
+            .readAll(paramsDto, options)
             .pipe(map((dto) => this.mapper.mapFromDto(dto)));
     }
 }

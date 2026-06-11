@@ -15,6 +15,7 @@ import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -25,11 +26,12 @@ export class TeamsParticipantsRepositoryImpl implements TeamsParticipantsReposit
 
     readAll(
         filter: TeamsParticipantsFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TeamsParticipantsEntity>> {
         const paramsDto = teamsParticipantsFilterMapper(filter);
         return this.api
-            .readAll(paramsDto, page)
+            .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 

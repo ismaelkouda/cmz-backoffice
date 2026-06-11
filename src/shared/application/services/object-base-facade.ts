@@ -27,34 +27,11 @@ export class ObjectBaseFacade<TEntity, TFilter> {
     protected fetch(
         filter: TFilter,
         fetch$: Observable<TEntity>,
-        ui?: UiFeedbackService,
-        staleTime = 0,
-        force = false,
-        skipSameFilter = false
+        ui?: UiFeedbackService
     ): void {
         const current = this._state();
-
-        if (!force && !this.shouldFetch(current, staleTime)) {
-            return;
-        }
-
         if (current.loading) {
             return;
-        }
-
-        if (!skipSameFilter) {
-            const prev = this.normalize(current?.filter);
-            const curr = this.normalize(filter);
-
-            /* const prevEmpty = this.isEmpty(prev); */
-            const currEmpty = this.isEmpty(curr);
-
-            if (!currEmpty) {
-                const same = this.isSameFilter(prev, curr);
-                if (same) {
-                    return;
-                }
-            }
         }
 
         this._state.update((s) => ({
@@ -82,7 +59,6 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                     }));
 
                     ui?.notifyError(err);
-
                     return throwError(() => err);
                 }),
                 finalize(() => {
@@ -93,14 +69,6 @@ export class ObjectBaseFacade<TEntity, TFilter> {
                 })
             )
             .subscribe();
-    }
-
-    protected shouldFetch(
-        state: ResourceState<TEntity, TFilter>,
-        staleTime: number
-    ): boolean {
-        const isStale = Date.now() - state.lastFetch > staleTime;
-        return !state.data || isStale;
     }
 
     reset(): void {

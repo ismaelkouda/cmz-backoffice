@@ -264,11 +264,11 @@ export class ChatbotFormStore {
     public setDetailsMode(uniqId: string | null): void {
         this.isDetailsMode.set(!!uniqId);
         if (uniqId) {
-            this.facade.read({ uniqId }, true);
+            this.facade.read({ uniqId });
         } else {
             this.form.reset();
             this.facade.reset();
         }
-        this.regionsFacade.readAll(true);
+        this.regionsFacade.readAll();
     }
 }

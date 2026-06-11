@@ -3,6 +3,7 @@ import { AccessLogsQuery } from '@pages/settings-security/application/queries/ac
 import { AccessLogsUseCase } from '@pages/settings-security/application/use-cases/access-logs/access-logs.use-case';
 import { AccessLogsEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -11,7 +12,8 @@ export class AccessLogsHandler {
 
     execute(
         query: AccessLogsQuery,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<AccessLogsEntity>> {
         return this.useCase.execute(
             {
@@ -20,7 +22,8 @@ export class AccessLogsHandler {
                 startDate: query.startDate,
                 endDate: query.endDate,
             },
-            page
+            page,
+            options
         );
     }
 }

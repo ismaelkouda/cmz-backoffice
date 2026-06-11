@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { PrivacyPolicyFindOneFilterEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one-filter.entity';
 import { PrivacyPolicyFindOneEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-find-one.entity';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export abstract class PrivacyPolicyFindOneRepository {
     abstract execute(
-        filter: PrivacyPolicyFindOneFilterEntity
+        filter: PrivacyPolicyFindOneFilterEntity,
+        options?: FetchOptions
     ): Observable<PrivacyPolicyFindOneEntity>;
 }

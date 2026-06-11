@@ -5,15 +5,16 @@ import { ServicesEntity } from '../../../domain/entities/services/services.entit
 import { ServicesRepository } from '../../../domain/repositories/services-repository.interface';
 import { ServicesMapper } from '../mappers/services.mapper';
 import { ServicesApi } from '../sources/services.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ServicesRepositoryImpl implements ServicesRepository {
     private readonly api = inject(ServicesApi);
     private readonly requestMapper = inject(ServicesMapper);
 
-    fetchServices(): Observable<ServicesEntity> {
+    fetchServices(options?: FetchOptions): Observable<ServicesEntity> {
         return this.api
-            .getServices()
+            .getServices(options)
             .pipe(map((response) => this.requestMapper.mapFromDto(response)));
     }
 }

@@ -13,13 +13,11 @@ import { DepartmentsQuery } from '@pages/administrative-boundary/application/que
 import { DepartmentsBus } from '@pages/administrative-boundary/application/queries-bus/departments/departments.bus';
 import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
-import {
-    handleObservableWithFeedback,
-    shouldFetch,
-} from '@shared/application/services/facade.utils';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -28,7 +26,7 @@ export class DepartmentsFacade extends BaseFacade<
     DepartmentsEntity,
     DepartmentsFilterDto
 > {
-    private readonly uiFeedbackService = inject(UiFeedbackService);
+    private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(DepartmentsBus);
     private readonly createBus = inject(DepartmentsCreateBus);
     private readonly updateBus = inject(DepartmentsUpdateBus);
@@ -45,25 +43,13 @@ export class DepartmentsFacade extends BaseFacade<
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
-    private readonly STALE_TIME = 2 * 60 * 1000;
 
     readAll(
         filter: DepartmentsFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
-        forceRefresh = false
+        options: FetchOptions = {}
     ): void {
-        const hasData = this.itemsSubject.getValue().length > 0;
-        if (
-            !shouldFetch(
-                forceRefresh,
-                hasData,
-                this.lastFetchTimestamp,
-                this.STALE_TIME
-            )
-        ) {
-            return;
-        }
-        this.performFetch(filter, page);
+        this.performFetch(filter, page, options);
         this.hasInitialized = true;
     }
 
@@ -72,7 +58,9 @@ export class DepartmentsFacade extends BaseFacade<
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        this.performFetch(filter, page);
+        this.performFetch(filter, page, {
+            forceRefresh: true,
+        });
     }
 
     changePage(page: string): void {
@@ -87,12 +75,7 @@ export class DepartmentsFacade extends BaseFacade<
             filter?.endDate
         );
         const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
@@ -124,16 +107,12 @@ export class DepartmentsFacade extends BaseFacade<
 
     private performFetch(
         filter: DepartmentsFilterDto | null,
-        page: string
+        page: string,
+        options: FetchOptions = {}
     ): void {
         const query = this.buildQueryFromFilter(filter);
-        const fetch$ = this.filterBus.dispatch(query, page);
-        this.fetchWithFilterAndPage(
-            filter,
-            page,
-            fetch$,
-            this.uiFeedbackService
-        );
+        const fetch$ = this.filterBus.dispatch(query, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
     private buildQueryFromFilter(
@@ -194,7 +173,7 @@ export class DepartmentsFacade extends BaseFacade<
 
         return handleObservableWithFeedback(
             observable,
-            this.uiFeedbackService,
+            this.uiFeedback,
             successKey,
             () => this.refresh()
         ).pipe(

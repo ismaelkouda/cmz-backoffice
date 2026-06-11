@@ -1,4 +1,5 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsUsersAssignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-assign-api.dto';
 import { ProfilesPermissionsUsersFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-users-filter-api.dto';
@@ -10,6 +11,7 @@ import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastruc
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -19,13 +21,20 @@ export class ProfilesPermissionsUsersApi {
 
     readAll(
         dto: ProfilesPermissionsUsersFilterApiDto,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<ProfilesPermissionsUsersResponseApiDto> {
         const { uniq_id, ...filterParams } = dto;
         const url = `${this.baseUrl}${SETTINGS_SECURITY_ENDPOINTS.PROFILES_PERMISSIONS}/${uniq_id}/users?page=${page}`;
         const params = buildHttpParams(filterParams, { skipEmptyString: true });
+
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
         return this.http.get<ProfilesPermissionsUsersResponseApiDto>(url, {
             params,
+            context,
         });
     }
 

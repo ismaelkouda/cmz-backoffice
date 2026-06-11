@@ -20,7 +20,7 @@ export class QueuesRepositoryImpl extends QueuesRepository {
     execute(
         entity: QueuesFilterEntity,
         page: string,
-        options: FetchOptions
+        options?: FetchOptions
     ): Observable<Paginate<QueuesEntity>> {
         const paramsDto = this.filterMapper.map(entity);
         return this.api

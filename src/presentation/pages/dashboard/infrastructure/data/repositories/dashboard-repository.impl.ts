@@ -5,6 +5,7 @@ import { DashboardRepository } from '@pages/dashboard/domain/repositories/dashbo
 import { dashboardFilterMapper } from '@pages/dashboard/infrastructure/data/mappers/dashboard-filter.mapper';
 import { DashboardMapper } from '@pages/dashboard/infrastructure/data/mappers/dashboard.mapper';
 import { DashboardApi } from '@pages/dashboard/infrastructure/data/sources/dashboard.api';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -12,10 +13,13 @@ export class DashboardRepositoryImpl implements DashboardRepository {
     private readonly api = inject(DashboardApi);
     private readonly mapper = inject(DashboardMapper);
 
-    execute(entity: DashboardFilterEntity): Observable<DashboardEntity> {
+    execute(
+        entity: DashboardFilterEntity,
+        options?: FetchOptions
+    ): Observable<DashboardEntity> {
         const paramsDto = dashboardFilterMapper(entity);
         return this.api
-            .execute(paramsDto)
+            .execute(paramsDto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

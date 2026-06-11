@@ -5,6 +5,7 @@ import { HistoryEntity } from '@shared/components/history/domain/entities/histor
 import { HistoryRepository } from '@shared/components/history/domain/repositories/history.repository';
 import { HistoryFilterVo } from '@shared/components/history/domain/value-objects/history-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -13,10 +14,11 @@ export class HistoryUseCase {
 
     execute(
         filterDto: HistoryFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<HistoryEntity>> {
         const vo = HistoryFilterVo.fromDto(filterDto);
         const entity = HistoryFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page);
+        return this.repository.readAll(entity, page, options);
     }
 }

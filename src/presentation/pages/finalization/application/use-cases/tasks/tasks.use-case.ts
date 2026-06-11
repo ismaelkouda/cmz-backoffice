@@ -5,6 +5,7 @@ import { TasksEntity } from '@pages/finalization/domain/entities/tasks/tasks.ent
 import { TasksRepository } from '@pages/finalization/domain/repositories/tasks/tasks.repository';
 import { TasksFilterVo } from '@pages/finalization/domain/value-objects/tasks/tasks-filter.vo';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -15,10 +16,11 @@ export class TasksUseCase {
 
     execute(
         filterDto: TasksFilterDto | null,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<TasksEntity>> {
         const vo = TasksFilterVo.fromDto(filterDto);
         const entity = TasksFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page);
+        return this.repository.execute(entity, page, options);
     }
 }

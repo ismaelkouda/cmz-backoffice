@@ -6,6 +6,7 @@ import { QueuesFilterMapper } from '@pages/finalization/infrastructure/data/mapp
 import { QueuesMapper } from '@pages/finalization/infrastructure/data/mappers/queues/queues.mapper';
 import { QueuesApi } from '@pages/finalization/infrastructure/data/sources/queues/queues.api';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
@@ -18,12 +19,13 @@ export class QueuesRepositoryImpl extends QueuesRepository {
 
     execute(
         entity: QueuesFilterEntity,
-        page: string
+        page: string,
+        options?: FetchOptions
     ): Observable<Paginate<QueuesEntity>> {
         const dto = this.filterMapper.map(entity);
         console.log('dto: ', dto);
         return this.api
-            .execute(dto, page)
+            .execute(dto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }
