@@ -1,4 +1,11 @@
-import { Component, OnInit, effect, inject, signal } from '@angular/core';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    OnInit,
+    effect,
+    inject,
+    signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -43,6 +50,7 @@ const INITIAL_DAY = '90';
         DashboardSkeletonComponent,
         SkeletonModule,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DashboardPageComponent implements OnInit {
     private readonly title = inject(Title);

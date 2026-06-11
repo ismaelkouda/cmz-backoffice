@@ -126,10 +126,10 @@ export class ManagementStateService {
 
         switch (context) {
             case 'requests':
-                this.requestsFacade.read(dto);
+                this.requestsFacade.read(dto, { forceRefresh: true });
                 break;
             case 'processing':
-                this.processingFacade.read(dto);
+                this.processingFacade.read(dto, { forceRefresh: true });
                 break;
             // case 'finalization':
             //     this.finalizationFacade.read(dto);

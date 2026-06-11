@@ -1,4 +1,5 @@
 import {
+    ChangeDetectionStrategy,
     Component,
     DestroyRef,
     Signal,
@@ -58,6 +59,7 @@ import { formatDate } from '@shared/domain/functions/format-data.function';
         TranslateModule,
     ],
     providers: [QueuesFilterStore],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class QueuesComponent {
     private readonly permissionActions = inject(PermissionActionsService);
