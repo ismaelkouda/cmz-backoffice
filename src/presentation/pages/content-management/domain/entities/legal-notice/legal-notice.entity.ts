@@ -11,7 +11,7 @@ export class LegalNoticeEntity implements LegalNoticeProps {
         return this.props.uniqId;
     }
     get actionsRef(): string {
-        return this.props.uniqId;
+        return this.props.version;
     }
     get version(): string {
         return this.props.version;

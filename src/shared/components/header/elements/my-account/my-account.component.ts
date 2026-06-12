@@ -114,7 +114,6 @@ export class MyAccountComponent {
 
         const payload = this.accountForm.getRawValue();
         this.profileUpdateFacade.execute(payload);
-        this.authFacade.logout();
         // .pipe(takeUntilDestroyed(this.destroyRef))
         // .subscribe(() => {
         //     const updatedUser = this.mergeCurrentUser({
