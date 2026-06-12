@@ -17,8 +17,8 @@ export class UsersFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE.EDIT'
-            : 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE.CREATE';
+            ? 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE_UPDATE'
+            : 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE_CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {

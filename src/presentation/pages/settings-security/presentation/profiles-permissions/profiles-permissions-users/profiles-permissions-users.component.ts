@@ -378,7 +378,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
         }
 
         const title: string = this.t(
-            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.SWEET_ALERT.TITLE.REMOVE'
+            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.SWEET_ALERT.TITLE_REMOVE'
         );
         const text: string = this.t(
             'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.SWEET_ALERT.MESSAGE.REMOVE'

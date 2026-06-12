@@ -463,7 +463,7 @@ export class ParticipantsListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.ENABLE',
+            titleKey: 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_ENABLE',
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.ENABLE',
             messageParams: {
@@ -482,7 +482,7 @@ export class ParticipantsListComponent {
         }
         const confirmed = await this.sweetAlert.confirm({
             titleKey:
-                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.DISABLE',
+                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_DISABLE',
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {
