@@ -482,7 +482,7 @@ export class ProfilesPermissionsListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_ENABLE',
+            titleKey: 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.ENABLE',
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.ENABLE',
             messageParams: {
@@ -504,7 +504,7 @@ export class ProfilesPermissionsListComponent {
         }
         const confirmed = await this.sweetAlert.confirm({
             titleKey:
-                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE_DISABLE',
+                'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.TITLE.DISABLE',
             messageKey:
                 'TEAM_ORGANIZATION.PARTICIPANTS.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {

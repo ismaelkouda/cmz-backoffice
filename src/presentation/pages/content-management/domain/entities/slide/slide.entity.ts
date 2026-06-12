@@ -13,7 +13,7 @@ export class SlideEntity {
     }
 
     get actionsRef(): string {
-        return this.props.uniqId;
+        return this.props.title.trim().slice(0, 15);
     }
     get platforms(): Platform[] {
         return this.props.platforms;

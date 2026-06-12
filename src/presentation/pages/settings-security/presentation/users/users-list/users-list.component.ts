@@ -380,7 +380,7 @@ export class UsersListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE_ENABLE',
+            titleKey: 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE.ENABLE',
             messageKey: 'SETTINGS_SECURITY.USERS.SWEET_ALERT.MESSAGE.ENABLE',
             messageParams: {
                 uniqId: item.actionsRef,
@@ -397,7 +397,7 @@ export class UsersListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE_DISABLE',
+            titleKey: 'SETTINGS_SECURITY.USERS.SWEET_ALERT.TITLE.DISABLE',
             messageKey: 'SETTINGS_SECURITY.USERS.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {
                 uniqId: item.actionsRef,
