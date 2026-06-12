@@ -165,7 +165,7 @@
             <button
                 type="submit"
                 class="btn btn-save"
-                [disabled]="accountForm.invalid || loading()"
+                [disabled]="accountForm.invalid"
             >
                 {{ 'COMMON.SAVE' | translate }}
             </button>
@@ -269,7 +269,7 @@
             <button
                 type="submit"
                 class="btn btn-save"
-                [disabled]="passwordForm.invalid || loading()"
+                [disabled]="passwordForm.invalid"
             >
                 Valider
             </button>
@@ -360,7 +360,7 @@
                     type="button"
                     class="btn-link"
                     (click)="resendCode()"
-                    [disabled]="resendCooldown() > 0 || loading()"
+                    [disabled]="resendCooldown() > 0"
                 >
                     @if (resendCooldown() > 0) {
                         Renvoyer dans {{ resendCooldown() }}s
@@ -401,7 +401,7 @@
                 type="button"
                 class="btn btn-save"
                 (click)="verifyTwoFactor()"
-                [disabled]="twoFactorForm.invalid || loading()"
+                [disabled]="twoFactorForm.invalid"
             >
                 Valider
             </button>

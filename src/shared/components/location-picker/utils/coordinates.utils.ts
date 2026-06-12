@@ -18,6 +18,14 @@ export function isValidCoordinates(lat: number, lng: number): boolean {
     return isValidLat(lat) && isValidLng(lng);
 }
 
+export function isValidAndNonZeroCoordinates(
+    lat: number,
+    lng: number
+): boolean {
+    return isValidCoordinates(lat, lng) && !(lat === 0 && lng === 0);
+}
+
+// Le reste du code reste identique...
 export function normalizeCoordinates(lat: number, lng: number): Coordinates {
     const factor = Math.pow(10, DECIMAL_PRECISION);
 

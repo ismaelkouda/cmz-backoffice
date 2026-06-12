@@ -13,7 +13,6 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { CurrentUser } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
-import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
@@ -32,6 +31,7 @@ import {
     createTwoFactorForm,
 } from './domain/controls/my-account-form.control';
 import { LogoutFacade } from './application/facade/logout.facade';
+import { ProfileUpdateFacade } from './application/facade/profile-update.facade';
 
 type AccountField = 'email' | 'firstName' | 'lastName' | 'phone';
 type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
@@ -54,7 +54,7 @@ type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
 })
 export class MyAccountComponent {
     private readonly destroyRef = inject(DestroyRef);
-    private readonly feedback = inject(UiFeedbackService);
+    private readonly profileUpdateFacade = inject(ProfileUpdateFacade);
     private readonly translate = inject(TranslateService);
     private readonly logoutFacade = inject(LogoutFacade);
     private readonly encodingDataService = inject(EncodingDataService);
@@ -104,30 +104,29 @@ export class MyAccountComponent {
         this.openModal(template);
     }
 
-    // saveAccount(): void {
-    //     if (this.accountForm.invalid) {
-    //         this.accountForm.markAllAsTouched();
-    //         return;
-    //     }
+    saveAccount(): void {
+        if (this.accountForm.invalid) {
+            this.accountForm.markAllAsTouched();
+            return;
+        }
 
-    //     const payload = this.accountForm.getRawValue();
-    //     this.profileUpdateFacade
-    //         .execute(payload)
-    //         .pipe(takeUntilDestroyed(this.destroyRef))
-    //         .subscribe(() => {
-    //             const updatedUser = this.mergeCurrentUser({
-    //                 last_name: payload.lastName,
-    //                 first_name: payload.firstName,
-    //                 email: payload.email,
-    //                 phone: payload.phone,
-    //             });
-    //             this.persistUser(updatedUser);
-    //             this.feedback.success(
-    //                 'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
-    //             );
-    //             this.closeModal();
-    //         });
-    // }
+        const payload = this.accountForm.getRawValue();
+        this.profileUpdateFacade.execute(payload);
+        // .pipe(takeUntilDestroyed(this.destroyRef))
+        // .subscribe(() => {
+        //     const updatedUser = this.mergeCurrentUser({
+        //         last_name: payload.lastName,
+        //         first_name: payload.firstName,
+        //         email: payload.email,
+        //         phone: payload.phone,
+        //     });
+        //     this.persistUser(updatedUser);
+        //     this.feedback.success(
+        //         'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
+        //     );
+        //     this.closeModal();
+        // });
+    }
 
     openPasswordModal(): void {
         this.closeDropdown();

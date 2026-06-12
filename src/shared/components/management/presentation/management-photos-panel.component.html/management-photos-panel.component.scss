@@ -119,7 +119,9 @@ $dark-gray: var(--color-gray);
     object-fit: contain;
     border-radius: 12px;
     cursor: zoom-in;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
 
     &:hover {
