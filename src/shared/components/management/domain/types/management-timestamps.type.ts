@@ -1,5 +1,6 @@
 export type ManagementTimestampKey =
     | 'createdAt'
+    | 'reportedAt'
     | 'approvedAt'
     | 'processedAt'
     | 'acknowledgedAt'

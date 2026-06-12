@@ -2,12 +2,13 @@ import { ManagementTimestamp } from '@shared/components/management/domain/interf
 
 export const MANAGEMENT_TIMESTAMP: ManagementTimestamp[] = [
     {
-        key: 'createdAt',
+        key: 'reportedAt',
         label: 'MANAGEMENT.STATUS.SUBMISSION',
         timestamp: null,
     },
     {
-        key: 'acknowledgedAt',
+        key: 'approvedAt',
+        key1: 'rejectedAt',
         label: 'MANAGEMENT.STATUS.QUALIFICATION',
         timestamp: null,
     },
