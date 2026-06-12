@@ -15,8 +15,8 @@ export class ProfilesPermissionsFormHelperService {
 
     getSweetAlertTitle(isEditMode: boolean): string {
         return isEditMode
-            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_UPDATE'
-            : 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE_CREATE';
+            ? 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE.EDIT'
+            : 'SETTINGS_SECURITY.PROFILES_PERMISSIONS.SWEET_ALERT.TITLE.CREATE';
     }
 
     getSweetAlertMessage(isEditMode: boolean): string {

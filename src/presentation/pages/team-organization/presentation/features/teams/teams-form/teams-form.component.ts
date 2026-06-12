@@ -228,8 +228,8 @@ export class TeamsFormComponent {
         const uniqId = this.uniqId();
         return this.sweetAlert.confirm({
             titleKey: isEdit
-                ? 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE_UPDATE'
-                : 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE_CREATE',
+                ? 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE.EDIT'
+                : 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.TITLE.CREATE',
             messageKey: isEdit
                 ? 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE.EDIT'
                 : 'TEAM_ORGANIZATION.TEAMS.SWEET_ALERT.MESSAGE.CREATE',

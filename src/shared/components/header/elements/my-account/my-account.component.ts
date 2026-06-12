@@ -32,6 +32,7 @@ import {
 } from './domain/controls/my-account-form.control';
 import { LogoutFacade } from './application/facade/logout.facade';
 import { ProfileUpdateFacade } from './application/facade/profile-update.facade';
+import { AuthFacade } from './application/facade/auth.facade';
 
 type AccountField = 'email' | 'firstName' | 'lastName' | 'phone';
 type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
@@ -58,6 +59,7 @@ export class MyAccountComponent {
     private readonly translate = inject(TranslateService);
     private readonly logoutFacade = inject(LogoutFacade);
     private readonly encodingDataService = inject(EncodingDataService);
+    private readonly authFacade = inject(AuthFacade);
     private readonly modal = inject(NgbModal);
 
     private readonly passwordModalTemplate =
@@ -112,6 +114,7 @@ export class MyAccountComponent {
 
         const payload = this.accountForm.getRawValue();
         this.profileUpdateFacade.execute(payload);
+        this.authFacade.logout();
         // .pipe(takeUntilDestroyed(this.destroyRef))
         // .subscribe(() => {
         //     const updatedUser = this.mergeCurrentUser({

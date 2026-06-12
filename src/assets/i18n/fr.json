@@ -3787,6 +3787,21 @@
                     "LAST_NAME": "Nom",
                     "PHONE": "Téléphone",
                     "EMAIL": "Email"
+                },
+                "SWEET_ALERT": {
+                    "TITLE_REASSIGN": "Réaffectation de(s) utilisateur(s)",
+                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} utilisateur(s) de ce profil ?",
+                    "TITLE_REMOVE": "Retrait de(s) utilisateur(s)",
+                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} utilisateur(s) de ce profil ?"
+                },
+                "MODAL": {
+                    "REASSIGN_TITLE": "Réaffectation des utilisateurs",
+                    "REASSIGN_LABEL": "Utilisateurs",
+                    "ASSIGN_TITLE": "Affecter des utilisateurs a ce profil",
+                    "ASSIGN_LABEL": "Utilisateur(s)",
+                    "NEW_PROFILE": "Nouveau profil",
+                    "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
+                    "REASSIGN_MESSAGE": "{{count}} utilisateur(s) seront réaffectés"
                 }
             }
         },
