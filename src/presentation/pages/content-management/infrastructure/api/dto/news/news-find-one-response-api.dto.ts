@@ -1,3 +1,4 @@
+import { SelectDto } from '@shared/data/dto/select.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface NewsFindOneItemApiDto {
@@ -10,8 +11,8 @@ export interface NewsFindOneItemApiDto {
     order: number;
     hashtags: string[];
     content: string;
-    category: string;
-    sub_category: string;
+    category: SelectDto;
+    sub_category: SelectDto;
     is_published: boolean;
     created_at: string;
     updated_at: string;

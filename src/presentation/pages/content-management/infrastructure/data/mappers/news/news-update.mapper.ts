@@ -17,7 +17,7 @@ export function newsUpdateMapper(entity: NewsUpdateEntity): NewsUpdateApiDto {
         params.video_url = entity.video;
     }
     if (entity.category) {
-        params.category = entity.category;
+        params.category_id = entity.category;
     }
     if (entity.subCategory) {
         params.sub_category = entity.subCategory;
