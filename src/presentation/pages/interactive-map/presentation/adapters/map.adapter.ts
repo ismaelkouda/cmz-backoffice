@@ -49,10 +49,10 @@ export interface MapClickInfo {
 }
 
 const IVORY_COAST_BOUNDS: Bounds = {
-    minLat: 4.223876, // Point le plus au sud (Latitude minimale)
-    maxLat: 10.873696, // Point le plus au nord (Latitude maximale)
-    minLng: -9.698757, // Point le plus à l'ouest (Longitude minimale)
-    maxLng: -1.656668, // Point le plus à l'est (Longitude maximale)
+    minLat: 4.223876,
+    maxLat: 10.873696,
+    minLng: -9.698757,
+    maxLng: -1.656668,
 };
 
 @Injectable({

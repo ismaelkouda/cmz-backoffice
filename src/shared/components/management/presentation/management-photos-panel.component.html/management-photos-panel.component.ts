@@ -70,9 +70,15 @@ export class ManagementPhotosPanelComponent {
 
     protected readonly placePhotoUrl = computed((): string | null => {
         const value = this.placePhoto();
-        if (!value) return null;
-        if (typeof value === 'string') return value || null;
-        if (value.type === 'remote') return value.url || null;
+        if (!value) {
+            return null;
+        }
+        if (typeof value === 'string') {
+            return value || null;
+        }
+        if (value.type === 'remote') {
+            return value.url || null;
+        }
         return null;
     });
 
