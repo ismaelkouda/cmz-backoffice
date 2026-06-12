@@ -12,14 +12,14 @@ import { NotFoundError } from '../errors/http/not-found.error';
 import { ValidationError } from '../errors/http/validation.error';
 import { ServerError } from '../errors/http/server.error';
 import { UnknownError } from '../errors/http/unknown.error';
-import { EncodingDataService } from './encoding-data.service';
+import { SessionService } from './session.service';
 
 @Injectable({ providedIn: 'root' })
 export class UiFeedbackService {
     private readonly toast = inject(ToastrService);
     private readonly translate = inject(TranslateService);
     private readonly registry = inject(ErrorHandlerRegistry);
-    private readonly encodingDataService = inject(EncodingDataService);
+    private readonly sessionService = inject(SessionService);
 
     constructor() {
         this.registerDefaultHandlers();
@@ -48,12 +48,7 @@ export class UiFeedbackService {
 
         this.registry.register(UnauthorizedError, (error) => {
             this.toast.warning(this.translate.instant(error.message));
-            this.encodingDataService.removeKeysWithPrefix('token_data');
-            this.encodingDataService.removeKeysWithPrefix('user_data');
-            this.encodingDataService.clearEncryptedData();
-            localStorage.clear();
-            sessionStorage.clear();
-            globalThis.location.href = '/auth/login';
+            this.sessionService.clear();
         });
 
         this.registry.register(PasswordRequiredError, (error) => {
