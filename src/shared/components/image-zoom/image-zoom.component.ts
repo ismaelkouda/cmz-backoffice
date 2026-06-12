@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -13,7 +14,7 @@ import { DialogModule } from 'primeng/dialog';
     standalone: true,
     templateUrl: './image-zoom.component.html',
     styleUrls: ['./image-zoom.component.scss'],
-    imports: [DialogModule],
+    imports: [CommonModule, DialogModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImageZoomComponent {

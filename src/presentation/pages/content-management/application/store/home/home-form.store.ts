@@ -79,7 +79,7 @@ export class HomeFormStore {
                         Validators.required,
                         // Validators.minLength(FormValidators.RESUME.MIN),
                         // Validators.maxLength(FormValidators.RESUME.MAX),
-                        Validators.pattern(FormValidators.RESUME.PATTERN),
+                        // Validators.pattern(FormValidators.RESUME.PATTERN),
                     ],
                 }),
                 content: new FormControl('', {
@@ -105,10 +105,10 @@ export class HomeFormStore {
                 }),
                 buttonUrl: new FormControl('', {
                     nonNullable: true,
-                    validators: [
-                        // Validators.maxLength(FormValidators.BUTTON_URL.MAX),
-                        Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
-                    ],
+                    // validators: [
+                    //     // Validators.maxLength(FormValidators.BUTTON_URL.MAX),
+                    //     Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
+                    // ],
                 }),
                 platforms: new FormControl([], {
                     nonNullable: true,
@@ -122,8 +122,8 @@ export class HomeFormStore {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-            },
-            { validators: [this.buttonFieldsConsistencyValidator()] }
+            }
+            // { validators: [this.buttonFieldsConsistencyValidator()] }
         );
     }
 
@@ -174,19 +174,19 @@ export class HomeFormStore {
         this.imageError.set(null);
     }
 
-    private buttonFieldsConsistencyValidator(): ValidatorFn {
-        return (control: AbstractControl): ValidationErrors | null => {
-            const label = control.get('buttonLabel')?.value?.trim() as string;
-            const url = control.get('buttonUrl')?.value?.trim() as string;
-            if (label && !url) {
-                return { buttonLabelWithoutUrl: true };
-            }
-            if (url && !label) {
-                return { buttonUrlWithoutLabel: true };
-            }
-            return null;
-        };
-    }
+    // private buttonFieldsConsistencyValidator(): ValidatorFn {
+    //     return (control: AbstractControl): ValidationErrors | null => {
+    //         const label = control.get('buttonLabel')?.value?.trim() as string;
+    //         const url = control.get('buttonUrl')?.value?.trim() as string;
+    //         if (label && !url) {
+    //             return { buttonLabelWithoutUrl: true };
+    //         }
+    //         if (url && !label) {
+    //             return { buttonUrlWithoutLabel: true };
+    //         }
+    //         return null;
+    //     };
+    // }
 
     private htmlContentMaxLengthValidator(maxLength: number): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {

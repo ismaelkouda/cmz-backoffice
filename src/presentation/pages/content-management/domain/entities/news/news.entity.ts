@@ -11,7 +11,7 @@ export class NewsEntity {
         return this.props.uniqId;
     }
     get actionsRef(): string {
-        return this.props.uniqId;
+        return this.props.title.trim().slice(0, 15);
     }
     get type(): string {
         return this.props.type;

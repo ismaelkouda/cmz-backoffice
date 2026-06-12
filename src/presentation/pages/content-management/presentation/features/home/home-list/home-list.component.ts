@@ -469,7 +469,7 @@ export class HomeListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE_ENABLE',
+            titleKey: 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE.ENABLE',
             messageKey: 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE.ENABLE',
             messageParams: {
                 uniqId: item.actionsRef,
@@ -486,7 +486,7 @@ export class HomeListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE_DISABLE',
+            titleKey: 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.TITLE.DISABLE',
             messageKey: 'CONTENT_MANAGEMENT.HOME.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {
                 uniqId: item.actionsRef,
