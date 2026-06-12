@@ -471,7 +471,7 @@ export class SlideListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'CONTENT_MANAGEMENT.SLIDE.SWEET_ALERT.TITLE.ENABLE',
+            titleKey: 'CONTENT_MANAGEMENT.SLIDE.SWEET_ALERT.TITLE_ENABLE',
             messageKey: 'CONTENT_MANAGEMENT.SLIDE.SWEET_ALERT.MESSAGE.ENABLE',
             messageParams: {
                 uniqId: item.actionsRef,
@@ -488,7 +488,7 @@ export class SlideListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey: 'CONTENT_MANAGEMENT.SLIDE.SWEET_ALERT.TITLE.DISABLE',
+            titleKey: 'CONTENT_MANAGEMENT.SLIDE.SWEET_ALERT.TITLE_DISABLE',
             messageKey: 'CONTENT_MANAGEMENT.SLIDE.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {
                 uniqId: item.actionsRef,

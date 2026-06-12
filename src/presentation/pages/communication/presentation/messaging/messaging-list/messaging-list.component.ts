@@ -308,7 +308,7 @@ export class MessagingListComponent {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.ENABLE'),
+            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE_ENABLE'),
             text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.ENABLE')}`,
             backdrop: false,
             confirmButtonText: this.t('COMMON.CONFIRM'),
@@ -327,7 +327,7 @@ export class MessagingListComponent {
         }
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE.DISABLE'),
+            title: this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.TITLE_DISABLE'),
             text: `${this.t('COMMUNICATION.MESSAGING.SWEET_ALERT.MESSAGE.DISABLE')}`,
             confirmButtonText: this.t('COMMON.CONFIRM'),
             cancelButtonText: this.t('COMMON.CANCEL'),
