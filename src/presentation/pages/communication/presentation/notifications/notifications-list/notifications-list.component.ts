@@ -36,6 +36,9 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { formatDate } from '@shared/domain/functions/format-data.function';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 
 @Component({
     selector: 'app-notifications',
@@ -63,8 +66,11 @@ export class NotificationsListComponent {
     private readonly formStore = inject(NotificationsFilterStore);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.customization.app.name
+    );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
@@ -289,36 +295,71 @@ export class NotificationsListComponent {
             }
         });
     }
-
     private exportData(): void {
         if (!this.canExport()) {
             this.toast.error(this.exportTooltip());
             return;
         }
-        const items = this.items();
+        const items = this.itemsVM();
         if (!items.length) {
-            this.toast.error(this.t('EXPORT.NO_DATA'));
+            this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
             return;
         }
-        // const appName = this.appConfig.customization.app.name;
-        // const filePrefix = this.normalizePrefix(appName);
-        // this.exportService.exportAsExcelFile(
-        //     items,
-        //     this.tableConfig,
-        //     `${filePrefix}-actions-treatment`
-        // );
-    }
 
-    private t(key: string): string {
-        return this.translate.instant(key);
-    }
+        const fileName = `${this.exportFilePrefix}-notifications`;
 
-    private normalizePrefix(appName: string): string {
+        const exportColumns: ExportColumn[] = NOTIFICATIONS.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                let width = 15;
+                if (col.width) {
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'sendAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items,
+                sheetName: this.translate.instant(
+                    'COMMUNICATION.NOTIFICATIONS.TITLE'
+                ),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
+    }
+    private normalizeExportPrefix(appName: string): string {
         return (
             appName
                 .toLowerCase()
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+
+    private t(key: string): string {
+        return this.translate.instant(key);
     }
 }

@@ -13,13 +13,14 @@ import { map, Observable } from 'rxjs';
 export class AccessLogsRepositoryImpl implements AccessLogsRepository {
     private readonly api = inject(AccessLogsApi);
     private readonly mapper = inject(AccessLogsMapper);
+    private readonly filterMapper = inject(AccessLogsFilterMapper);
 
     readAll(
         filter: AccessLogsFilterEntity,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<AccessLogsEntity>> {
-        const paramsDto = AccessLogsFilterMapper(filter);
+        const paramsDto = this.filterMapper.map(filter);
         return this.api
             .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

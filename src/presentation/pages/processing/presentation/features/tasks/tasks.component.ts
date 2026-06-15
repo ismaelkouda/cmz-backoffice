@@ -41,6 +41,9 @@ import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 
 @Component({
     selector: 'app-tasks',
@@ -69,7 +72,7 @@ export class TasksComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(TasksFilterStore);
-    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
@@ -210,7 +213,7 @@ export class TasksComponent {
             class: 'btn-dark',
             icon: 'pi pi-refresh',
             translateKey: 'COMMON.REFRESH',
-            tooltip: this.t('PROCESSING.QUEUES.TOOLTIP.REFRESH'),
+            tooltip: this.t('PROCESSING.TASKS.TOOLTIP.REFRESH'),
         },
         {
             label: 'COMMON.EXPORT',
@@ -297,7 +300,7 @@ export class TasksComponent {
     }
     private readonly headerActions: Record<string, () => void> = {
         refresh: () => this.onRefreshData(),
-        export: () => this.onExportData(),
+        export: () => this.exportData(),
     };
     protected onHeaderButtonClicked(actionId: string): void {
         const action = this.headerActions[actionId];
@@ -311,22 +314,58 @@ export class TasksComponent {
         this.formStore.reset();
         this.facade.refresh();
     }
-    public onExportData(): void {
+    private exportData(): void {
         if (!this.canExport()) {
             this.toast.error(this.exportTooltip());
             return;
         }
-        const item = this.items();
-        if (item && item.length > 0) {
-            // const fileName = `${this.exportFilePrefix}-tasks`;
-            // this.exportService.exportAsExcelFile(
-            //     item,
-            //     this.tableConfig,
-            //     fileName
-            // );
-        } else {
+        const items = this.itemsVM();
+        if (!items.length) {
             this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
         }
+
+        const fileName = `${this.exportFilePrefix}-tasks`;
+
+        const exportColumns: ExportColumn[] = TASKS_TABLE.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                let width = 15;
+                if (col.width) {
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'reportedAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items,
+                sheetName: this.translate.instant('PROCESSING.TASKS.TITLE'),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
     }
     private normalizeExportPrefix(appName: string): string {
         return (

@@ -1,23 +1,24 @@
+import { inject, Injectable } from '@angular/core';
 import { AccessLogsFilterEntity } from '@pages/settings-security/domain/entities/access-logs/access-logs-filter.entity';
 import { AccessLogsFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/access-logs/access-logs-filter-api.dto';
+import { AccessLogsActionsMapper } from '@pages/settings-security/infrastructure/data/mappers/access-logs/access-logs-actions.mapper';
 
-export function AccessLogsFilterMapper(
-    vo: AccessLogsFilterEntity
-): AccessLogsFilterApiDto {
-    const params: AccessLogsFilterApiDto = {} as AccessLogsFilterApiDto;
+@Injectable({
+    providedIn: 'root',
+})
+export class AccessLogsFilterMapper {
+    private readonly actionsMapper = inject(AccessLogsActionsMapper);
 
-    if (vo.search) {
-        params.search = vo.search;
+    map(entity: AccessLogsFilterEntity): AccessLogsFilterApiDto {
+        return {
+            ...(entity.search && {
+                search: entity.search,
+            }),
+            ...(entity.action && {
+                action: this.actionsMapper.mapToDto(entity.action),
+            }),
+            ...(entity.period?.start && { start_date: entity.period.start }),
+            ...(entity.period?.end && { end_date: entity.period.end }),
+        };
     }
-    if (vo.action) {
-        params.action = vo.action;
-    }
-    if (vo.period?.start) {
-        params.start_date = vo.period.start;
-    }
-    if (vo.period?.end) {
-        params.end_date = vo.period.end;
-    }
-
-    return params;
 }

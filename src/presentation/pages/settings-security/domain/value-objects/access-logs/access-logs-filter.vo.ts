@@ -1,31 +1,36 @@
 import { AccessLogsFilterDto } from '@pages/settings-security/application/dto/access-logs/access-logs-filter.dto';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
+import { AccessLogsFilterProps } from '../../interfaces/access-logs-filter.props';
+import { AccessLogsActions } from '../../enums/access-logs/access-logs-actions.enum';
 
 export class AccessLogsFilterVo {
-    public readonly search?: string;
-    public readonly action?: string;
-    public readonly period?: DatePeriod;
+    private constructor(private readonly props: AccessLogsFilterProps) {}
 
-    private constructor(props: {
-        search?: string;
-        action?: string;
-        period?: DatePeriod;
-    }) {
-        this.search = props.search;
-        this.action = props.action;
-        this.period = props.period;
+    get search(): string | undefined {
+        return this.props.search;
     }
 
-    static fromDto(dto: AccessLogsFilterDto | null): AccessLogsFilterVo {
-        const search = dto?.search?.trim() || undefined;
-        const action = dto?.action;
+    get action(): AccessLogsActions | undefined {
+        return this.props.action;
+    }
 
-        let period: DatePeriod | undefined;
+    get period(): DatePeriod | undefined {
+        return this.props.period;
+    }
 
-        if (dto?.startDate || dto?.endDate) {
-            period = DatePeriod.create(dto.startDate, dto.endDate);
-        }
+    static fromDto(dto: AccessLogsFilterDto): AccessLogsFilterVo {
+        const normalizedSearch = dto.search?.trim();
 
-        return new AccessLogsFilterVo({ search, action, period });
+        const search =
+            normalizedSearch && normalizedSearch.length > 0
+                ? normalizedSearch
+                : undefined;
+
+        const period =
+            dto.startDate || dto.endDate
+                ? DatePeriod.create(dto.startDate, dto.endDate)
+                : undefined;
+
+        return new AccessLogsFilterVo({ search, action: dto.action, period });
     }
 }

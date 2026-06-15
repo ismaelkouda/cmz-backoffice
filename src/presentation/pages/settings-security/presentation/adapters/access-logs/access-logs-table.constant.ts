@@ -1,4 +1,4 @@
-export const ACCESS_LOGS_TABLE_CONSTANT = {
+export const ACCESS_LOGS_TABLE = {
     cols: [
         {
             field: '__index',

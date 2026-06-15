@@ -34,6 +34,9 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 
 type TTableActions = 'edit' | 'delete';
 
@@ -64,8 +67,11 @@ export class DepartmentsListComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(DepartmentsFilterStore);
-    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.customization.app.name
+    );
     private readonly canExport = this.permissionActions.can(
         '/territorial-structure/departments',
         'export'
@@ -271,23 +277,6 @@ export class DepartmentsListComponent {
         this.formStore.reset();
         this.facade.refresh();
     }
-    private exportData(): void {
-        if (!this.canExport()) {
-            this.toast.error(this.exportTooltip());
-            return;
-        }
-        const items = this.items();
-        if (!items.length) {
-            this.toast.error(this.t('EXPORT.NO_DATA'));
-            return;
-        }
-
-        // this.exportService.exportAsExcelFile(
-        //     items,
-        //     this.tableConfig,
-        //     `${this.normalizeExportPrefix}-departments`
-        // );
-    }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {
             if (!this.canCreate()) {
@@ -376,7 +365,6 @@ export class DepartmentsListComponent {
         }
         action(item);
     }
-
     protected async onDelete(item: DepartmentsVmProps): Promise<void> {
         const uniqId = item.uniqId;
         if (!uniqId) {
@@ -396,18 +384,6 @@ export class DepartmentsListComponent {
         }
         this.facade.delete({ uniqId });
     }
-    private t(key: string): string {
-        return this.translate.instant(key);
-    }
-    private get normalizeExportPrefix(): string {
-        const appName = this.appConfig.customization.app.name;
-        return (
-            appName
-                .toLowerCase()
-                .replaceAll(/[^a-z0-9]+/g, '-')
-                .replaceAll(/(^-|-$)/g, '') || 'cmz'
-        );
-    }
     public onBadgeClicked(event: {
         item: DepartmentsVmProps;
         col: HTMLTableCellElement;
@@ -416,5 +392,71 @@ export class DepartmentsListComponent {
             relativeTo: this.route,
             queryParams: { uniqId: event.item.uniqId, name: event.item.name },
         });
+    }
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const items = this.itemsVM();
+        if (!items.length) {
+            this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
+        }
+
+        const fileName = `${this.exportFilePrefix}-departments`;
+
+        const exportColumns: ExportColumn[] = DEPARTMENTS_TABLE.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                let width = 15;
+                if (col.width) {
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'updatedAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items,
+                sheetName: this.translate.instant(
+                    'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.TITLE'
+                ),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
+    }
+    private normalizeExportPrefix(appName: string): string {
+        return (
+            appName
+                .toLowerCase()
+                .replaceAll(/[^a-z0-9]+/g, '-')
+                .replaceAll(/(^-|-$)/g, '') || 'cmz'
+        );
+    }
+    private t(key: string): string {
+        return this.translate.instant(key);
     }
 }
