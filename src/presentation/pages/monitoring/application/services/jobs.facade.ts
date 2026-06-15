@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { JobsBus } from '@pages/reporting//application/queries-bus/jobs/jobs.bus';
-import { JobsEntity } from '@pages/reporting/domain/entities/jobs/jobs.entity';
+import { JobsBus } from '@presentation/pages/monitoring/application/queries-bus/jobs/jobs.bus';
+import { JobsEntity } from '@presentation/pages/monitoring/domain/entities/jobs/jobs.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';

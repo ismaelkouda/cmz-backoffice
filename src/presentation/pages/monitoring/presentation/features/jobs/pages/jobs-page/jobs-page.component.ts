@@ -5,7 +5,7 @@ import {
     OnInit,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { JobsFacade } from '@pages/reporting/application/services/jobs.facade';
+import { JobsFacade } from '@presentation/pages/monitoring/application/services/jobs.facade';
 import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/dashboard-viewer.component';
 
 @Component({

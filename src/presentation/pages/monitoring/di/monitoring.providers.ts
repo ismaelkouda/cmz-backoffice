@@ -14,6 +14,8 @@ import { ServicesRepositoryImpl } from '../infrastructure/data/repositories/serv
 import { NodeApi } from '../infrastructure/data/sources/node.api';
 import { ResourcesApi } from '../infrastructure/data/sources/resources.api';
 import { ServicesApi } from '../infrastructure/data/sources/services.api';
+import { JobsRepository } from '../domain/repositories/jobs-repository.interface';
+import { JobsRepositoryImpl } from '../infrastructure/data/repositories/jobs.repository.impl';
 
 const getApiBaseUrl = (): string => {
     const baseUrl = inject(EnvService).settingUrl;
@@ -41,4 +43,5 @@ export const provideMonitoring = (): Provider[] => [
     { provide: NodeRepository, useClass: NodeRepositoryImpl },
     { provide: ServicesRepository, useClass: ServicesRepositoryImpl },
     { provide: ResourcesRepository, useClass: ResourcesRepositoryImpl },
+    { provide: JobsRepository, useClass: JobsRepositoryImpl },
 ];

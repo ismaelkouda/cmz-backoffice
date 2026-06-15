@@ -4,19 +4,19 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { JobsResponseDto } from '../../api/dto/jobs/jobs-response.dto';
-import { REPORTING_API_BASE_URL } from '../../api/reporting.config';
-import { REPORTING_ENDPOINTS } from '../../api/reporting.endpoints';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
+import { MONITORING_ENDPOINTS } from '../../api/monitoring.endpoints';
+import { MONITORING_API_BASE_URL } from '../../api/monitoring.config';
 
 @Injectable({
     providedIn: 'root',
 })
 export class JobsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(REPORTING_API_BASE_URL);
+    private readonly baseUrl = inject(MONITORING_API_BASE_URL);
 
     getJobs(options?: FetchOptions): Observable<JobsResponseDto> {
-        const url = `${this.baseUrl}${REPORTING_ENDPOINTS.REQUESTS}`;
+        const url = `${this.baseUrl}${MONITORING_ENDPOINTS.JOBS}`;
 
         const context = new HttpContext().set(
             BYPASS_CACHE,

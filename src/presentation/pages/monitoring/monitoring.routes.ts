@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 export const NODE_ROUTE = 'processing-status';
 export const SERVICES_ROUTE = 'services-states';
 export const RESOURCES_ROUTE = 'resources-states';
+export const JOBS_ROUTE = 'jobs';
 
 export const routes: Routes = [
     {
@@ -68,6 +69,29 @@ export const routes: Routes = [
                         loadComponent: () =>
                             import('./presentation/features/resources/pages/resources-page/resources-page.component').then(
                                 (m) => m.ResourcesPageComponent
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: JOBS_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'REPORTING.JOBS.BREADCRUMB.LABEL',
+                        icon: 'REPORTING.JOBS.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./presentation/features/jobs/pages/jobs-page/jobs-page.component').then(
+                                (m) => m.JobsPageComponent
                             ),
                         data: { breadcrumb: { hide: true } },
                     },

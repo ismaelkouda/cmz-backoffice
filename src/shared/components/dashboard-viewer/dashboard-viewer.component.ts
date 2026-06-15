@@ -56,6 +56,7 @@ export class DashboardViewerComponent implements OnInit {
         viewChild<HTMLIFrameElement>('grafanaIframe');
 
     ngOnInit(): void {
+        console.log('this.grafanaLink: ', this.grafanaLink());
         this.updatePageTitle();
     }
 
