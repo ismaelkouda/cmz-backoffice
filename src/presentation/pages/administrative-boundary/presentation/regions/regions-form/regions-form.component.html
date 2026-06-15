@@ -46,7 +46,7 @@
                                                 }}</b>
                                             </legend>
                                             <div class="row g-3">
-                                                <div class="col-md-6">
+                                                <div class="col-md-2">
                                                     <label
                                                         for="code"
                                                         class="form-label fw-bold"
@@ -66,9 +66,6 @@
                                                         [placeholder]="
                                                             'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.CODE_PLACEHOLDER'
                                                                 | translate
-                                                        "
-                                                        [attr.maxlength]="
-                                                            VALIDATION.CODE.MAX
                                                         "
                                                     />
                                                     <div
@@ -92,7 +89,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <small
+                                                        <!-- <small
                                                             class="text-muted ms-auto"
                                                         >
                                                             {{
@@ -106,7 +103,7 @@
                                                                 VALIDATION.CODE
                                                                     .MAX
                                                             }}
-                                                        </small>
+                                                        </small> -->
                                                     </div>
                                                 </div>
 
@@ -131,9 +128,6 @@
                                                             'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.NAME_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                        [attr.maxlength]="
-                                                            VALIDATION.NAME.MAX
-                                                        "
                                                     />
                                                     <div
                                                         class="d-flex justify-content-between align-items-center mt-1"
@@ -156,7 +150,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <small
+                                                        <!-- <small
                                                             class="text-muted ms-auto"
                                                         >
                                                             {{
@@ -169,7 +163,118 @@
                                                                 VALIDATION.NAME
                                                                     .MAX
                                                             }}
-                                                        </small>
+                                                        </small> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label
+                                                        for="population"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.INFRASTRUCTURE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-inputnumber 
+                                                        id="population"
+                                                        inputId="integeronly" 
+                                                        formControlName="population" 
+                                                        [placeholder]="'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.POPULATION_PLACEHOLDER' | translate" />
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mt-1"
+                                                    >
+                                                        @if (
+                                                            formStore.form.get(
+                                                                'population'
+                                                            )?.invalid &&
+                                                            formStore.form.get(
+                                                                'population'
+                                                            )?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'population'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <!-- <small
+                                                            class="text-muted ms-auto"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    formStore.form.get(
+                                                                        'population'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.POPULATION
+                                                                    .MAX
+                                                            }}
+                                                        </small> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <label
+                                                        for="infrastructure"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.INFRASTRUCTURE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-inputnumber 
+                                                        inputId="integeronly" 
+                                                        formControlName="infrastructure" 
+                                                        [placeholder]="'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.INFRASTRUCTURE_PLACEHOLDER' | translate" />
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center mt-1"
+                                                    >
+                                                        @if (
+                                                            formStore.form.get(
+                                                                'infrastructure'
+                                                            )?.invalid &&
+                                                            formStore.form.get(
+                                                                'infrastructure'
+                                                            )?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage('infrastructure')
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <!-- <small
+                                                            class="text-muted ms-auto"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    formStore.form.get(
+                                                                        'infrastructure'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.INFRASTRUCTURE
+                                                                    .MAX
+                                                            }}
+                                                        </small> -->
                                                     </div>
                                                 </div>
 
@@ -189,10 +294,6 @@
                                                         id="description"
                                                         formControlName="description"
                                                         class="w-100"
-                                                        [attr.maxlength]="
-                                                            VALIDATION
-                                                                .DESCRIPTION.MAX
-                                                        "
                                                         [placeholder]="
                                                             'ADMINISTRATIVE_BOUNDARY.REGIONS.FORM.FIELDSET_GENERAL_INFO.DESCRIPTION_PLACEHOLDER'
                                                                 | translate
@@ -218,7 +319,7 @@
                                                                 }}
                                                             </small>
                                                         }
-                                                        <small
+                                                        <!-- <small
                                                             class="text-muted ms-auto"
                                                         >
                                                             {{
@@ -232,7 +333,7 @@
                                                                     .DESCRIPTION
                                                                     .MAX
                                                             }}
-                                                        </small>
+                                                        </small> -->
                                                     </div>
                                                 </div>
                                             </div>

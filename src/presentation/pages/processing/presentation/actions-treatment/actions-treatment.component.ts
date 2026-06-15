@@ -515,7 +515,7 @@ export class ActionsTreatmentComponent {
         return this.sweetAlert.confirm({
             titleKey: isEdit
                 ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE_UPDATE'
-                : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE_CREATE',
+                : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CREATE',
             messageKey: isEdit
                 ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.EDIT'
                 : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CREATE',

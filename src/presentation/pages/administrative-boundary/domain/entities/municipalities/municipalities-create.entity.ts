@@ -3,6 +3,8 @@ import { MunicipalitiesCreateVo } from '@pages/administrative-boundary/domain/va
 export class MunicipalitiesCreateEntity {
     constructor(
         public readonly code: string,
+        public readonly population: number,
+        public readonly infrastructure: number,
         public readonly name: string,
         public readonly region: string,
         public readonly description: string,
@@ -12,6 +14,8 @@ export class MunicipalitiesCreateEntity {
     static fromVo(vo: MunicipalitiesCreateVo): MunicipalitiesCreateEntity {
         return new MunicipalitiesCreateEntity(
             vo.code,
+            vo.population,
+            vo.infrastructure,
             vo.name,
             vo.region,
             vo.description,

@@ -159,7 +159,11 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     );
     protected readonly tabs = computed(() => {
         const type = this.type();
-        if (type === TypeReport.REQUESTS) {
+        const item = this.items();
+        if (
+            type === TypeReport.REQUESTS ||
+            (TypeReport.PROCESSING && item?.canTake)
+        ) {
             return TABS.filter((tab) => tab.value !== 'chatbot');
         }
         return TABS;

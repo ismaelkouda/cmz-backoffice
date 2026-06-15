@@ -99,7 +99,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 this.createMap(container);
                 this.addMarker();
                 this.setupPopup();
-                this.setupMapEvents();
+                // this.setupMapEvents();
             });
 
             this.isMapInitialized.set(true);
@@ -146,8 +146,8 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             geometry: new Point(
                 this.olModules.fromLonLat([this.longitude(), this.latitude()])
             ),
-            title: this.markerTitle(),
-            description: this.markerDescription(),
+            // title: this.markerTitle(),
+            // description: this.markerDescription(),
         });
 
         marker.setStyle(

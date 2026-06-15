@@ -17,6 +17,6 @@ export const NEWS_TABS = [
         route: `/${CONTENT_MANAGEMENT_ROUTE}/${NEWS_ROUTE}/${NEWS_HISTORY_ROUTE}`,
         label: 'CONTENT_MANAGEMENT.NEWS.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { ref: 'region', module: 'content-management' },
+        queryParams: { ref: 'news', module: 'content-management' },
     },
 ];

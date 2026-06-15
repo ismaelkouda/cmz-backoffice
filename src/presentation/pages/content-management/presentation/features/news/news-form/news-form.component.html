@@ -758,6 +758,7 @@
 
 <app-image-crop-dialog
     [visible]="cropperState().isOpen"
+    (closeDialog)="onCloseCropDialog()"
     [sourceFile]="cropperState().sourceFile"
     [rotation]="cropperState().rotation"
     [flipH]="cropperState().flipH"

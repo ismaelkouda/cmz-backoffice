@@ -3,6 +3,7 @@ import { HomeFindOneEntity } from '@pages/content-management/domain/entities/hom
 import { HomeFindOneProps } from '@pages/content-management/domain/interfaces/home/home-find-one-props.interface';
 import { HomeFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-find-one-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-status.mapper';
+import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
@@ -13,6 +14,7 @@ export class HomeFindOneMapper extends SimpleResponseMapper<
 > {
     private readonly entityCache = new Map<string, HomeFindOneEntity>();
     private readonly statusMapper = inject(StatusMapper);
+    private readonly apiDateMapper = inject(ApiDateMapper);
 
     protected mapItemFromDto(dto: HomeFindOneItemApiDto): HomeFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
@@ -29,8 +31,8 @@ export class HomeFindOneMapper extends SimpleResponseMapper<
             buttonLabel: dto.button_label,
             buttonUrl: dto.button_url,
             status: this.statusMapper.mapFromDto(dto.is_active),
-            startDate: dto.start_date,
-            endDate: dto.end_date,
+            startDate: this.apiDateMapper.fromDateTimeApi(dto.start_date),
+            endDate: this.apiDateMapper.fromDateTimeApi(dto.end_date),
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };

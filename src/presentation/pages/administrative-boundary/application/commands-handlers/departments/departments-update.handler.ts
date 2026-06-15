@@ -14,6 +14,8 @@ export class DepartmentsUpdateHandler {
         return this.useCase.update({
             uniqId: command.uniqId,
             code: command.code,
+            population: command.population,
+            infrastructure: command.infrastructure,
             name: command.name,
             region: command.region,
             description: command.description,

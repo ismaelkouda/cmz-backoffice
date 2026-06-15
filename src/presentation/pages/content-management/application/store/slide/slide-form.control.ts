@@ -12,6 +12,6 @@ export interface SlideFormControl {
     buttonLabel: FormControl<string>;
     buttonUrl: FormControl<string>;
     platforms: FormControl<string[]>;
-    startDate: FormControl<string>;
-    endDate: FormControl<string>;
+    startDate: FormControl<Date | undefined>;
+    endDate: FormControl<Date | undefined>;
 }

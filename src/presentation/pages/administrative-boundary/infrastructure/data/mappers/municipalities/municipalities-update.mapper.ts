@@ -10,6 +10,12 @@ export function municipalitiesUpdateMapper(
     if (update.code) {
         params['code'] = update.code;
     }
+    if (update.population) {
+        params['population_size'] = update.population;
+    }
+    if (update.infrastructure) {
+        params['infrastructure_size'] = update.infrastructure;
+    }
     if (update.name) {
         params['name'] = update.name;
     }

@@ -284,6 +284,10 @@ export class HomeFormComponent {
         this.previewVisible.set(false);
     }
 
+    protected onCloseCropDialog(): void {
+        this.imageStore.abandonCrop(this.instanceId);
+    }
+
     navigateToBack(): void {
         this.helper.navigateToHomeList();
     }

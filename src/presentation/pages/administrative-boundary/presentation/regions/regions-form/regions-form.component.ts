@@ -15,7 +15,7 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RegionsFormHelperService } from '@pages/administrative-boundary/domain/services/regions/regions-form-helper.service';
-import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+// import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
 import { RegionsFormStore } from '@presentation/pages/administrative-boundary/application/store/regions/regions-form.store';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
@@ -24,6 +24,7 @@ import { PermissionActionsService } from '@shared/domain/services/permission-act
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
@@ -42,6 +43,7 @@ import SweetAlert from 'sweetalert2';
         BreadcrumbComponent,
         PageTitleComponent,
         ReactiveFormsModule,
+        InputNumberModule,
         InputTextModule,
         TextareaModule,
         ButtonModule,
@@ -79,7 +81,7 @@ export class RegionsFormComponent {
 
     private readonly validation = inject(FormValidationService);
     private readonly helperService = inject(RegionsFormHelperService);
-    public readonly VALIDATION = FormValidators;
+    // public readonly VALIDATION = FormValidators;
 
     private readonly queryParams = toSignal(
         this.route.queryParams.pipe(map((params: Params) => params)),
@@ -184,7 +186,7 @@ export class RegionsFormComponent {
         const uniqId = this.uniqId();
         return this.sweetAlert.confirm({
             titleKey: isEdit
-                ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.EDIT'
+                ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE_UPDATE'
                 : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.CREATE',
             messageKey: isEdit
                 ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE.EDIT'

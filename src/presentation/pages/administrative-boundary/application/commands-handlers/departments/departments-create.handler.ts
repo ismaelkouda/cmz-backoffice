@@ -13,6 +13,8 @@ export class DepartmentsCreateHandler {
     ): Observable<SimpleResponseDto<void>> {
         return this.useCase.create({
             code: command.code,
+            population: command.population,
+            infrastructure: command.infrastructure,
             name: command.name,
             region: command.region,
             description: command.description,

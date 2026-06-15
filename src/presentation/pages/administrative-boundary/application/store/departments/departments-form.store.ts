@@ -47,6 +47,24 @@ export class DepartmentsFormStore {
                     Validators.pattern(FormValidators.CODE.PATTERN),
                 ],
             }),
+            population: new FormControl(0, {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    // Validators.minLength(FormValidators.POPULATION.MIN),
+                    // Validators.maxLength(FormValidators.POPULATION.MAX),
+                    // Validators.pattern(FormValidators.POPULATION.PATTERN),
+                ],
+            }),
+            infrastructure: new FormControl(0, {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    // Validators.minLength(FormValidators.INFRASTRUCTURE.MIN),
+                    // Validators.maxLength(FormValidators.INFRASTRUCTURE.MAX),
+                    // Validators.pattern(FormValidators.INFRASTRUCTURE.PATTERN),
+                ],
+            }),
             name: new FormControl('', {
                 nonNullable: true,
                 validators: [

@@ -124,6 +124,8 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
     create(dto: RegionsCreateDto): void {
         const command = new RegionsCreateCommand(
             dto.code,
+            dto.population,
+            dto.infrastructure,
             dto.name,
             dto.description
         );
@@ -137,6 +139,8 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         const command = new RegionsUpdateCommand(
             dto.uniqId,
             dto.code,
+            dto.population,
+            dto.infrastructure,
             dto.name,
             dto.description
         );

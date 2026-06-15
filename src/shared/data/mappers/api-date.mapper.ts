@@ -22,4 +22,8 @@ export class ApiDateMapper {
 
         return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     }
+
+    fromDateTimeApi(date: string): Date {
+        return new Date(date.replace(' ', 'T'));
+    }
 }

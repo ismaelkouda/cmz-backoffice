@@ -64,6 +64,7 @@ export class ImageCropDialogComponent {
     readonly flipHorizontal = output();
     readonly flipVertical = output();
     readonly resetTransforms = output();
+    readonly closeDialog = output();
 
     readonly cropperReady = signal(false);
     private readonly lastCroppedBlob = signal<Blob | null>(null);
@@ -125,5 +126,6 @@ export class ImageCropDialogComponent {
         this.lastCroppedBlob.set(null);
         this.cropperReady.set(false);
         this.cropCancelled.emit();
+        this.closeDialog.emit();
     }
 }

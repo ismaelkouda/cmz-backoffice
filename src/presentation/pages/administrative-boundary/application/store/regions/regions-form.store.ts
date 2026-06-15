@@ -9,7 +9,7 @@ import {
 import { RegionsFindOneFacade } from '@pages/administrative-boundary/application/services/regions/regions-find-one.facade';
 import { RegionsFacade } from '@pages/administrative-boundary/application/services/regions/regions.facade';
 import { RegionsFormHelperService } from '@pages/administrative-boundary/domain/services/regions/regions-form-helper.service';
-import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
+// import { FormValidators } from '@pages/administrative-boundary/domain/validators/form-validators';
 import { RegionsFormControl } from '@presentation/pages/administrative-boundary/application/store/regions/regions-form.control';
 import { RegionsFindOneEntity } from '@presentation/pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
 import { startWith } from 'rxjs';
@@ -43,27 +43,45 @@ export class RegionsFormStore {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-                    Validators.minLength(FormValidators.CODE.MIN),
-                    Validators.maxLength(FormValidators.CODE.MAX),
-                    Validators.pattern(FormValidators.CODE.PATTERN),
+                    // Validators.minLength(FormValidators.CODE.MIN),
+                    // Validators.maxLength(FormValidators.CODE.MAX),
+                    // Validators.pattern(FormValidators.CODE.PATTERN),
+                ],
+            }),
+            population: new FormControl(0, {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    // Validators.minLength(FormValidators.POPULATION.MIN),
+                    // Validators.maxLength(FormValidators.POPULATION.MAX),
+                    // Validators.pattern(FormValidators.POPULATION.PATTERN),
+                ],
+            }),
+            infrastructure: new FormControl(0, {
+                nonNullable: true,
+                validators: [
+                    Validators.required,
+                    // Validators.minLength(FormValidators.INFRASTRUCTURE.MIN),
+                    // Validators.maxLength(FormValidators.INFRASTRUCTURE.MAX),
+                    // Validators.pattern(FormValidators.INFRASTRUCTURE.PATTERN),
                 ],
             }),
             name: new FormControl('', {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-                    Validators.minLength(FormValidators.NAME.MIN),
-                    Validators.maxLength(FormValidators.NAME.MAX),
-                    Validators.pattern(FormValidators.NAME.PATTERN),
+                    // Validators.minLength(FormValidators.NAME.MIN),
+                    // Validators.maxLength(FormValidators.NAME.MAX),
+                    // Validators.pattern(FormValidators.NAME.PATTERN),
                 ],
             }),
             description: new FormControl('', {
                 nonNullable: true,
-                validators: [
-                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-                ],
+                // validators: [
+                //     Validators.minLength(FormValidators.DESCRIPTION.MIN),
+                //     Validators.maxLength(FormValidators.DESCRIPTION.MAX),
+                //     Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
+                // ],
             }),
         });
 
@@ -180,6 +198,8 @@ export class RegionsFormStore {
         this.form.patchValue(
             {
                 code: item.code,
+                population: item.population,
+                infrastructure: item.infrastructure,
                 name: item.name,
                 description: item.description,
             },

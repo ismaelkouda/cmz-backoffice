@@ -9,6 +9,12 @@ export function departmentsCreateMapper(
     if (create.code) {
         params['code'] = create.code;
     }
+    if (create.population) {
+        params['population_size'] = create.population;
+    }
+    if (create.infrastructure) {
+        params['infrastructure_size'] = create.infrastructure;
+    }
     if (create.name) {
         params['name'] = create.name;
     }
