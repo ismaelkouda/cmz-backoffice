@@ -506,8 +506,8 @@ export class ActionsTreatmentComponent {
         const isEdit = this.formStore.isEditMode();
         return this.sweetAlert.confirm({
             titleKey: isEdit
-                ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.EDIT'
-                : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CREATE',
+                ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE_UPDATE'
+                : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE_CREATE',
             messageKey: isEdit
                 ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.EDIT'
                 : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.CREATE',
@@ -585,7 +585,7 @@ export class ActionsTreatmentComponent {
                         if (col.field === '__index') {
                             return (items.indexOf(row) + 1).toString();
                         }
-                        if (col.field === 'reportedAt' && value) {
+                        if (col.field === 'date' && value) {
                             return formatDate(value);
                         }
                         if (Array.isArray(value)) {

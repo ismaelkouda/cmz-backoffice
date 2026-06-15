@@ -41,6 +41,9 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { formatDate } from '@shared/domain/functions/format-data.function';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 
 @Component({
     selector: 'app-evaluate',
@@ -68,7 +71,7 @@ export class EvaluateComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(EvaluateFilterStore);
-    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
@@ -317,17 +320,55 @@ export class EvaluateComponent {
             this.toast.error(this.exportTooltip());
             return;
         }
-        const item = this.items();
-        if (item && item.length > 0) {
-            // const fileName = `${this.exportFilePrefix}-evaluated`;
-            // this.exportService.exportAsExcelFile(
-            //     item,
-            //     this.tableConfig,
-            //     fileName
-            // );
-        } else {
+        const items = this.itemsVM();
+        if (!items.length) {
             this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
         }
+
+        const fileName = `${this.exportFilePrefix}-evaluate`;
+
+        const exportColumns: ExportColumn[] = EVALUATE_TABLE.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                let width = 15;
+                if (col.width) {
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'reportedAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items,
+                sheetName: this.translate.instant(
+                    'REPORT_STATES.EVALUATE.TITLE'
+                ),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
     }
     private normalizeExportPrefix(appName: string): string {
         return (

@@ -15,15 +15,15 @@ export class AccessLogsUseCase {
     private readonly repository = inject(AccessLogsRepository);
 
     execute(
-        filterDto: AccessLogsFilterDto | null,
+        filterDto: AccessLogsFilterDto,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<AccessLogsEntity>> {
         const vo = AccessLogsFilterVo.fromDto(filterDto);
         const entity = AccessLogsFilterEntity.fromVo(vo);
-        if (entity?.appliesToAdminScope()) {
-            // règles spécifiques
-        }
+        // if (entity?.appliesToAdminScope()) {
+        //     // règles spécifiques
+        // }
         return this.repository.readAll(entity, page, options);
     }
 }

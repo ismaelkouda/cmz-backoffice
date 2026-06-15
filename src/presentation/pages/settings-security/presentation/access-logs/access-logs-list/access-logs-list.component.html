@@ -19,10 +19,10 @@
                     <div class="access-logs-content">
                         <app-filter
                             class="filter-component"
-                            [isLoading]="isLoading()"
-                            [formGroup]="formFilter"
+                            [isLoading]="loading()"
+                            [formGroup]="form"
                             [fields]="filterFields()"
-                            (filter)="filter($event)"
+                            (filter)="onFilterClicked()"
                             [filterState]="facade.currentFilter$"
                             [limit]="5"
                         ></app-filter>
@@ -32,18 +32,21 @@
                         <section class="table-section">
                             <app-table
                                 class="table-component"
-                                [loading]="isLoading()"
-                                [items]="items()"
-                                [pagination]="pagination()"
-                                [config]="tableConfig"
-                                (refreshRequested)="refresh()"
                                 dataKey="uniqId"
+                                [config]="tableConfig"
+                                [loading]="loading()"
+                                [headerButtons]="headerButtons()"
+                                [items]="itemsVM()"
+                                [pagination]="pagination()"
+                                (headerButtonClicked)="
+                                    onHeaderButtonClicked($event)
+                                "
                             ></app-table>
 
                             <app-pagination
                                 class="pagination-component"
                                 [pagination]="pagination()"
-                                (pageChange)="onPageChange($event)"
+                                (pageChange)="onChangePageClicked($event)"
                             ></app-pagination>
                         </section>
                     </div>

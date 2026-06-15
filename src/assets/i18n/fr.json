@@ -387,7 +387,7 @@
                 }
             },
             "TYPE": {
-                "TITLE": "Types de signalements",
+                "TITLE": "Signalements approuvés",
                 "TOTAL_PROCESSING": {
                     "LABEL": "Total des signalements",
                     "SUBTITLE": "Tous les signalements confondus"
@@ -3835,6 +3835,12 @@
                 "USED_AGENT": "Agent utilisé",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des journaux",
+                "EXPORT": "Exporter la liste de {nb} journaux",
+                "NO_EXPORT": "Aucun profile à exporter",
+                "NO_PERMISSION_EXPORT": "Exportation des journaux non permis"
             }
         }
     },

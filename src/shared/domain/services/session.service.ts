@@ -14,5 +14,6 @@ export class SessionService {
 
         localStorage.clear();
         sessionStorage.clear();
+        globalThis.location.reload();
     }
 }
