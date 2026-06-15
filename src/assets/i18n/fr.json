@@ -90,7 +90,7 @@
         "NO_DATA": "Aucune donnée disponible",
         "SELECT_EMPTY_FILTER_MESSAGE": "Aucun résultat trouvé",
         "SELECT_EMPTY_MESSAGE": "Aucune donnée disponible",
-        "UNKNOWN": "Inconnu",
+        "UNKNOWN": "Inconnue",
         "UNKNOWN_STYLE": "danger",
         "CHOOSE": "Choisir",
         "CREATE": "Créer",
@@ -597,7 +597,7 @@
                 "ENABLE": "Activer ce block d'acceuil",
                 "DISABLE": "Désactiver ce block d'acceuil",
                 "NO_EXPORT": "Aucun block d'acceuil à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer ce block d'acceuil",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer ce block d'acceuil",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des blocks d'acceuil non permis",
                 "NO_PERMISSION_CREATE": "Création d'un block d'acceuil non permis",
@@ -762,7 +762,7 @@
                 "PUBLISH": "Publier ce block d'infos",
                 "UNPUBLISH": "Dépublier ce block d'infos",
                 "NO_EXPORT": "Aucun block d'infos à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer ce block d'infos",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer ce block d'infos",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des blocks d'infos non permis",
                 "NO_PERMISSION_CREATE": "Création d'un block d'infos non permis",
@@ -929,7 +929,7 @@
                 "ENABLE": "Activer ce slide",
                 "DISABLE": "Désactiver ce slide",
                 "NO_EXPORT": "Aucun slide à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer ce slide",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer ce slide",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des slides non permis",
                 "NO_PERMISSION_CREATE": "Création d'un slide non permis",
@@ -1038,7 +1038,7 @@
                 "PUBLISH": "Publier cette politique de confidentialité",
                 "UNPUBLISH": "Dépublier cette politique de confidentialité",
                 "NO_EXPORT": "Aucune politique de confidentialité à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer cette politique de confidentialité",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer cette politique de confidentialité",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des politiques de confidentialité non permis",
                 "NO_PERMISSION_CREATE": "Création d'une politique de confidentialité non permis",
@@ -1148,7 +1148,7 @@
                 "PUBLISH": "Publier cette mention légale",
                 "UNPUBLISH": "Dépublier cette mention légale",
                 "NO_EXPORT": "Aucune mention légale à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer cette mention légale",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer cette mention légale",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des mentions légales non permis",
                 "NO_PERMISSION_CREATE": "Création d'une mention légale non permis",
@@ -1255,7 +1255,7 @@
                 "PUBLISH": "Publier cette condition d'utilisation",
                 "UNPUBLISH": "Dépublier cette condition d'utilisation",
                 "NO_EXPORT": "Aucune condition d'utilisation à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer cette condition d'utilisation",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer cette condition d'utilisation",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des conditions d'utilisation non permis",
                 "NO_PERMISSION_CREATE": "Création d'une condition d'utilisation non permis",
@@ -2316,7 +2316,7 @@
                         "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'action de traitement",
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
-                        "NOTIFY_USERS": "Notifier les utilisateurs",
+                        "NOTIFY_USERS": "Publier dans le journal & Notifier les utilisateurs",
                         "CONFORMITY": {
                             "TITLE": "Conformité du résultat avec le signalement",
                             "CONFORM": "Conforme",
@@ -3065,7 +3065,7 @@
                 "REGION": "Région",
                 "DEPARTMENT": "département",
                 "MUNICIPALITIES": "Commune / Sous-préfecture",
-                "CHANNELS": "Cannaux",
+                "CHANNELS": "Canaux",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"
@@ -3075,7 +3075,7 @@
                 "CREATED_AT": "Créé le",
                 "TYPE": "Type de message",
                 "TARGET_TYPE": "Cible",
-                "CHANNELS": "Cannaux",
+                "CHANNELS": "Canaux",
                 "SUBJECT": "Sujet",
                 "CONTENT": "Contenu",
                 "SEE_MORE": "Voir plus",
@@ -3115,7 +3115,7 @@
                     "MUNICIPALITY": "Commune / Sous-prefecture"
                 },
                 "FIELDSET_CHANNELS": {
-                    "TITLE": "Cannaux",
+                    "TITLE": "Canaux",
                     "PUSH": "Push",
                     "EMAIL": "Email",
                     "SMS": "SMS"
@@ -3611,23 +3611,23 @@
                 }
             },
             "TOOLTIP": {
-                "REFRESH": "Rafraîchir la liste des membres",
-                "EXPORT": "Exporter la liste de {nb} membres",
+                "REFRESH": "Rafraîchir la liste des intervenants",
+                "EXPORT": "Exporter la liste de {nb} intervenants",
                 "CHOOSE": "Choisir une action",
-                "CREATE": "Créer un membre",
-                "EDIT": "Editer ce membre",
-                "DELETE": "Supprimer ce membre",
-                "ENABLE": "Activer ce membre",
-                "DISABLE": "Désactiver ce membre",
-                "NO_EXPORT": "Aucun membre à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer ce membre",
+                "CREATE": "Créer un intervenant",
+                "EDIT": "Editer ce intervenant",
+                "DELETE": "Supprimer ce intervenant",
+                "ENABLE": "Activer ce intervenant",
+                "DISABLE": "Désactiver ce intervenant",
+                "NO_EXPORT": "Aucun intervenant à exporter",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer ce intervenant",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
-                "NO_PERMISSION_EXPORT": "Exportation des membres non permis",
-                "NO_PERMISSION_CREATE": "Création d'un membre non permis",
-                "NO_PERMISSION_EDIT": "Edition d'un membre non permis",
-                "NO_PERMISSION_DELETE": "Suppression d'un membre non permis",
-                "NO_PERMISSION_ENABLE": "Activation d'un membre non permis",
-                "NO_PERMISSION_DISABLE": "Désactivation d'un membre non permis",
+                "NO_PERMISSION_EXPORT": "Exportation des intervenants non permis",
+                "NO_PERMISSION_CREATE": "Création d'un intervenant non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un intervenant non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un intervenant non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un intervenant non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un intervenant non permis",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "OPTIONS": {
@@ -3759,7 +3759,7 @@
                 "ENABLE": "Activer ce profile",
                 "DISABLE": "Désactiver ce profile",
                 "NO_EXPORT": "Aucun profile à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer ce profile",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer ce profile",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des profiles non permis",
                 "NO_PERMISSION_CREATE": "Création d'un profile non permis",
@@ -3854,12 +3854,12 @@
         "ROUTE": "organization",
         "PARTICIPANTS": {
             "BREADCRUMB": {
-                "LABEL": "Membres",
+                "LABEL": "Intervenants",
                 "ROUTE": "participant"
             },
             "TABS": {
                 "PARTICIPANTS": {
-                    "LABEL": "Membres",
+                    "LABEL": "Intervenants",
                     "ROUTE": "participant"
                 },
                 "HISTORY": {
@@ -3867,7 +3867,7 @@
                     "ROUTE": "history"
                 }
             },
-            "TITLE": "Membres",
+            "TITLE": "Intervenants",
             "ROUTE": "participant",
             "FILTER": {
                 "SEARCH": "Recherche",
@@ -3892,8 +3892,8 @@
                 "ACTION": "Action"
             },
             "FORM": {
-                "CREATE_TITLE": "Ajouter un membre",
-                "EDIT_TITLE": "Modifier un membre",
+                "CREATE_TITLE": "Ajouter un intervenant",
+                "EDIT_TITLE": "Modifier un intervenant",
                 "PHONE": "Téléphone",
                 "ROLE": "Rôle",
                 "MATRICULE": "Matricule",
@@ -3905,8 +3905,8 @@
                 "EMAIL_REQUIRED": "L'email est requis",
                 "EMAIL_INVALID": "L'email n'est pas valide",
                 "PHONE_REQUIRED": "Le téléphone est requis",
-                "TITLE_FORM_ADD": "Formulaire d'ajout de membre",
-                "TITLE_FORM_EDIT": "Formulaire de modification de membre",
+                "TITLE_FORM_ADD": "Formulaire d'ajout de intervenant",
+                "TITLE_FORM_EDIT": "Formulaire de modification de intervenant",
                 "FIELDSET_GENERAL_INFO": {
                     "TITLE": "Informations Générales",
                     "LAST_NAME": "Nom",
@@ -3925,49 +3925,49 @@
             },
             "SWEET_ALERT": {
                 "TITLE": {
-                    "CREATE": "Créer ce membre",
-                    "NOT_CREATE": "Impossible de créer ce membre",
-                    "EDIT": "Editer ce membre",
-                    "NOT_EDIT": "Impossible d'éditer ce membre",
-                    "DELETE": "Supprimer ce membre",
-                    "NOT_DELETE": "Impossible de supprimer ce membre",
-                    "ENABLE": "Activer ce membre",
-                    "NOT_ENABLE": "Impossible d'activer ce membre",
-                    "DISABLE": "Désactiver ce membre",
-                    "NOT_DISABLE": "Impossible de desactiver ce membre"
+                    "CREATE": "Créer ce intervenant",
+                    "NOT_CREATE": "Impossible de créer ce intervenant",
+                    "EDIT": "Editer ce intervenant",
+                    "NOT_EDIT": "Impossible d'éditer ce intervenant",
+                    "DELETE": "Supprimer ce intervenant",
+                    "NOT_DELETE": "Impossible de supprimer ce intervenant",
+                    "ENABLE": "Activer ce intervenant",
+                    "NOT_ENABLE": "Impossible d'activer ce intervenant",
+                    "DISABLE": "Désactiver ce intervenant",
+                    "NOT_DISABLE": "Impossible de desactiver ce intervenant"
                 },
                 "MESSAGE": {
-                    "CREATE": "Êtes-vous sûr de vouloir créer ce membre",
-                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce membre",
-                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce membre </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
-                    "EDIT": "Êtes-vous sûr de vouloir éditer ce membre",
-                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce membre",
-                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce membre <b class='text-primary'>uniqId</b>",
-                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce membre <b class='text-primary'>uniqId</b>",
-                    "ENABLE": "Êtes-vous sûr de vouloir activer ce membre <b class='text-primary'>uniqId</b>",
-                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce membre <b class='text-primary'>uniqId</b>",
-                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce membre <b class='text-primary'>uniqId</b>",
-                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce membre <b class='text-primary'>uniqId</b>"
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce intervenant",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce intervenant",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce intervenant </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce intervenant",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce intervenant",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce intervenant <b class='text-primary'>uniqId</b>",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce intervenant <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce intervenant <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce intervenant <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce intervenant <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce intervenant <b class='text-primary'>uniqId</b>"
                 }
             },
             "TOOLTIP": {
-                "REFRESH": "Rafraîchir la liste des membres",
-                "EXPORT": "Exporter la liste de {nb} membres",
+                "REFRESH": "Rafraîchir la liste des intervenants",
+                "EXPORT": "Exporter la liste de {nb} intervenants",
                 "CHOOSE": "Choisir une action",
-                "CREATE": "Créer un membre",
-                "EDIT": "Editer ce membre",
-                "DELETE": "Supprimer ce membre",
-                "ENABLE": "Activer ce membre",
-                "DISABLE": "Désactiver ce membre",
-                "NO_EXPORT": "Aucun membre à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer ce membre",
+                "CREATE": "Créer un intervenant",
+                "EDIT": "Editer ce intervenant",
+                "DELETE": "Supprimer ce intervenant",
+                "ENABLE": "Activer ce intervenant",
+                "DISABLE": "Désactiver ce intervenant",
+                "NO_EXPORT": "Aucun intervenant à exporter",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer ce intervenant",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
-                "NO_PERMISSION_EXPORT": "Exportation des membres non permis",
-                "NO_PERMISSION_CREATE": "Création d'un membre non permis",
-                "NO_PERMISSION_EDIT": "Edition d'un membre non permis",
-                "NO_PERMISSION_DELETE": "Suppression d'un membre non permis",
-                "NO_PERMISSION_ENABLE": "Activation d'un membre non permis",
-                "NO_PERMISSION_DISABLE": "Désactivation d'un membre non permis",
+                "NO_PERMISSION_EXPORT": "Exportation des intervenants non permis",
+                "NO_PERMISSION_CREATE": "Création d'un intervenant non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un intervenant non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un intervenant non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un intervenant non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un intervenant non permis",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "BUTTONS": {
@@ -4018,15 +4018,15 @@
                 "SEARCH_PLACEHOLDER": "Rechercher",
                 "STATUS": "Status",
                 "STATUS_PLACEHOLDER": "Status",
-                "PARTICIPANT": "Membre",
-                "PARTICIPANT_PLACEHOLDER": "Trouver un membre"
+                "PARTICIPANT": "Intervenant",
+                "PARTICIPANT_PLACEHOLDER": "Trouver un intervenant"
             },
             "TABLE": {
                 "CODE": "Code",
                 "NAME": "Equipe",
                 "DESCRIPTION": "Description",
                 "STATUS": "Statut",
-                "PARTICIPANTS_COUNT": "# membres",
+                "PARTICIPANTS_COUNT": "# intervenants",
                 "ROLES": "Rôles",
                 "CREATED_AT": "Créé le",
                 "UPDATED_AT": "Modifié le",
@@ -4131,7 +4131,7 @@
                 "ENABLE": "Activer cette équipe",
                 "DISABLE": "Désactiver cette équipe",
                 "NO_EXPORT": "Aucune équipe à exporter",
-                "NOT_DELETE": "Membre actif, Impossible de supprimer cette équipe",
+                "NOT_DELETE": "Intervenant actif, Impossible de supprimer cette équipe",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des équipes non permis",
                 "NO_PERMISSION_CREATE": "Création d'une équipe non permis",
@@ -4143,11 +4143,11 @@
             },
             "PARTICIPANTS": {
                 "BREADCRUMB": {
-                    "LABEL": "Membres",
+                    "LABEL": "Intervenants",
                     "ROUTE": "participant"
                 },
-                "TITLE": "Membres de l'équipe",
-                "LABEL": "Membres",
+                "TITLE": "Intervenants de l'équipe",
+                "LABEL": "Intervenants",
                 "ROUTE": "team-users",
                 "FILTER": {
                     "SEARCH": "Rechercher",
@@ -4185,19 +4185,19 @@
                 },
                 "SWEET_ALERT": {
                     "MESSAGE_DISABLE": "Voulez-vous vraiment désactiver cette équipe ?",
-                    "TITLE_REASSIGN": "Réaffectation de(s) membre(s)",
-                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} membre(s) de cette équipe ?",
-                    "TITLE_REMOVE": "Retrait de(s) membre(s)",
-                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} membre(s) de cette équipe ?"
+                    "TITLE_REASSIGN": "Réaffectation de(s) intervenant(s)",
+                    "MESSAGE_REASSIGN": "Voulez-vous vraiment réaffecter {{count}} intervenant(s) de cette équipe ?",
+                    "TITLE_REMOVE": "Retrait de(s) intervenant(s)",
+                    "MESSAGE_REMOVE": "Êtes-vous sûr de vouloir retirer {{count}} intervenant(s) de cette équipe ?"
                 },
                 "MODAL": {
-                    "REASSIGN_TITLE": "Réaffectation des membres",
+                    "REASSIGN_TITLE": "Réaffectation des intervenants",
                     "REASSIGN_LABEL": "Équipe",
-                    "ASSIGN_TITLE": "Affecter des {{membres}} à l'équipe {{team}}",
-                    "ASSIGN_LABEL": "Membre(s)",
+                    "ASSIGN_TITLE": "Affecter des {{intervenants}} à l'équipe {{team}}",
+                    "ASSIGN_LABEL": "Intervenant(s)",
                     "NEW_PROFILE": "Nouveau profil",
                     "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",
-                    "REASSIGN_MESSAGE": "{{count}} membre(s) seront réaffectés"
+                    "REASSIGN_MESSAGE": "{{count}} intervenant(s) seront réaffectés"
                 }
             }
         },
@@ -4224,8 +4224,8 @@
                 "SEARCH_PLACEHOLDER": "Rechercher",
                 "STATUS": "Status",
                 "STATUS_PLACEHOLDER": "Status",
-                "PARTICIPANT": "Membre",
-                "PARTICIPANT_PLACEHOLDER": "Trouver un membre",
+                "PARTICIPANT": "Intervenant",
+                "PARTICIPANT_PLACEHOLDER": "Trouver un intervenant",
                 "DATE": {
                     "FROM": "Date de début",
                     "TO": "Date de fin",

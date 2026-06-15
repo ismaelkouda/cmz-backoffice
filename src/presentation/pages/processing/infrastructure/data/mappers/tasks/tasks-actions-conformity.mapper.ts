@@ -9,14 +9,16 @@ export class ConformityMapper {
             [ConformityDto.CONFORM]: Conformity.CONFORM,
             [ConformityDto.NON_CONFORM]: Conformity.NON_CONFORM,
             [ConformityDto.IN_PROGRESS]: Conformity.IN_PROGRESS,
+            [ConformityDto.UNKNOWN]: Conformity.UNKNOWN,
         };
-        return methodMap[dto] ?? Conformity.IN_PROGRESS;
+        return methodMap[dto] ?? Conformity.UNKNOWN;
     }
     mapToDto(value: Conformity): ConformityDto {
         const methodMap: Record<Conformity, ConformityDto> = {
             [Conformity.CONFORM]: ConformityDto.CONFORM,
             [Conformity.NON_CONFORM]: ConformityDto.NON_CONFORM,
             [Conformity.IN_PROGRESS]: ConformityDto.IN_PROGRESS,
+            [Conformity.UNKNOWN]: ConformityDto.UNKNOWN,
         };
         return methodMap[value];
     }
