@@ -2,6 +2,8 @@ import { MunicipalitiesCreateDto } from '@pages/administrative-boundary/applicat
 
 export class MunicipalitiesCreateVo {
     public readonly code: string;
+    public readonly population: number;
+    public readonly infrastructure: number;
     public readonly name: string;
     public readonly region: string;
     public readonly description: string;
@@ -9,12 +11,16 @@ export class MunicipalitiesCreateVo {
 
     constructor(props: {
         code: string;
+        population: number;
+        infrastructure: number;
         name: string;
         region: string;
         description: string;
         department: string | null;
     }) {
         this.code = props.code;
+        this.population = props.population;
+        this.infrastructure = props.infrastructure;
         this.name = props.name;
         this.region = props.region;
         this.description = props.description;
@@ -24,6 +30,8 @@ export class MunicipalitiesCreateVo {
     static fromDto(dto: MunicipalitiesCreateDto): MunicipalitiesCreateVo {
         return new MunicipalitiesCreateVo({
             code: dto.code,
+            population: dto.population,
+            infrastructure: dto.infrastructure,
             name: dto.name,
             region: dto.region,
             description: dto.description,

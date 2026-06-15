@@ -10,6 +10,7 @@ import { NewsPublishApiDto } from '@pages/content-management/infrastructure/api/
 import { NewsFilterApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-filter-api.dto';
 import { NewsResponseApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-response-api.dto';
 import { NewsUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-update-api.dto';
+import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
@@ -43,13 +44,15 @@ export class NewsApi {
     create(apiDto: NewsCreateApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.NEWS}/store`;
         const payload = buildHttpPayload(apiDto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        const formData = formDataBuilder(payload);
+        return this.http.post<SimpleResponseDto<void>>(url, formData);
     }
 
     update(apiDto: NewsUpdateApiDto): Observable<SimpleResponseDto<void>> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.NEWS}/${apiDto.id}/update`;
         const payload = buildHttpPayload(apiDto, ['id']);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        const formData = formDataBuilder(payload);
+        return this.http.post<SimpleResponseDto<void>>(url, formData);
     }
 
     delete(apiDto: NewsDeleteApiDto): Observable<SimpleResponseDto<void>> {

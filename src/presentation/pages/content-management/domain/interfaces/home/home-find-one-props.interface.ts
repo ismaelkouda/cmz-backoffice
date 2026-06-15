@@ -12,8 +12,8 @@ export interface HomeFindOneProps {
     timeDurationInSeconds: number;
     buttonLabel: string;
     buttonUrl: string;
-    startDate: string;
-    endDate: string;
+    startDate: Date;
+    endDate: Date;
     createdAt: string;
     updatedAt: string;
 }

@@ -24,6 +24,7 @@ import { FormValidators } from '@pages/content-management/domain/validators/form
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 import { TypeMedia } from '@shared/domain/enums/type-media.enum';
 import { MediaValue } from '@shared/domain/types/media.types';
+import { startWith } from 'rxjs';
 
 export type CropperStatus = 'idle' | 'loading' | 'ready' | 'cropping' | 'error';
 const VIDEO = getEnumKeyByValue(TypeMedia, TypeMedia.VIDEO) as string;
@@ -59,12 +60,15 @@ export class NewsFormStore {
         initialValue: this.form.controls.type.value,
     });
     readonly categoryValue = toSignal(
-        this.form.controls.category.valueChanges,
-        {
-            initialValue: this.form.controls.category.value,
-        }
+        this.form.controls.category.valueChanges.pipe(
+            startWith(this.form.controls.category.value)
+        )
     );
+    readonly selectedCategory = computed(() => {
+        const value = this.categoryValue();
 
+        return this.categories().find((category) => category.value === value);
+    });
     public readonly isVideoMode = computed(() => {
         const type = this.typeControl();
         return type === VIDEO;
@@ -72,12 +76,6 @@ export class NewsFormStore {
     public readonly isImageMode = computed(() => {
         const type = this.typeControl();
         return type === IMAGE;
-    });
-    readonly selectedCategory = computed(() => {
-        if (this.isPatching()) {
-            return undefined;
-        }
-        return this.categories().find((r) => r.value === this.categoryValue());
     });
     public readonly hashtagsErrors = computed(() => {
         const errors = this.hashtagsArray.errors;
@@ -120,33 +118,45 @@ export class NewsFormStore {
         this.updateValidatorsByType(type);
     }
     private readonly categoryEffect = effect(() => {
-        if (this.isPatching()) {
-            return;
-        }
         const category = this.selectedCategory();
-        this.loadingNewsSubCategories.set(true);
-        if (category?.subCategories) {
-            this.subCategories.set(category.subCategories);
-            this.form.controls.subCategory.enable({ emitEvent: false });
-            if (!this.form.controls.subCategory.value) {
-                this.form.controls.subCategory.reset('', { emitEvent: false });
+
+        untracked(() => {
+            if (category?.subCategories?.length) {
+                this.subCategories.set(category.subCategories);
+
+                this.form.controls.subCategory.enable({
+                    emitEvent: false,
+                });
+            } else {
+                this.subCategories.set([]);
+
+                this.form.controls.subCategory.reset('', {
+                    emitEvent: false,
+                });
+
+                this.form.controls.subCategory.disable({
+                    emitEvent: false,
+                });
             }
-        } else {
-            this.subCategories.set([]);
-            this.form.controls.subCategory.reset('', { emitEvent: false });
-            this.form.controls.subCategory.disable({ emitEvent: false });
-        }
-        this.form.controls.subCategory.updateValueAndValidity({
-            emitEvent: false,
         });
-        this.loadingNewsSubCategories.set(false);
     });
+    private readonly hydratedId = signal<string | null>(null);
+
     private readonly hydrateForm = effect(() => {
         const item = this.item();
+
         if (!item) {
             return;
         }
+
+        if (this.hydratedId() === item.uniqId) {
+            return;
+        }
+
+        this.hydratedId.set(item.uniqId);
+
         this.isPatching.set(true);
+
         this.form.patchValue(
             {
                 type: item.type,
@@ -158,7 +168,7 @@ export class NewsFormStore {
                 subCategory: item.subCategory,
                 hashtags: item.hashtags || [],
             },
-            { emitEvent: false }
+            { emitEvent: true }
         );
 
         if (item.image) {
@@ -166,7 +176,8 @@ export class NewsFormStore {
         } else {
             this.resetImage();
         }
-        queueMicrotask(() => this.isPatching.set(false));
+
+        this.isPatching.set(false);
     });
 
     private async handleExistingImage(url: string): Promise<void> {
@@ -198,7 +209,7 @@ export class NewsFormStore {
                         Validators.required,
                         // Validators.minLength(FormValidators.TITLE.MIN),
                         // Validators.maxLength(FormValidators.TITLE.MAX),
-                        Validators.pattern(FormValidators.TITLE.PATTERN),
+                        // Validators.pattern(FormValidators.TITLE.PATTERN),
                     ],
                 }),
                 resume: new FormControl('', {
@@ -207,7 +218,7 @@ export class NewsFormStore {
                         Validators.required,
                         // Validators.minLength(FormValidators.RESUME.MIN),
                         // Validators.maxLength(FormValidators.RESUME.MAX),
-                        Validators.pattern(FormValidators.RESUME.PATTERN),
+                        // Validators.pattern(FormValidators.RESUME.PATTERN),
                     ],
                 }),
                 content: new FormControl('', {

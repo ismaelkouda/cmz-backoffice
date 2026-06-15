@@ -3,6 +3,8 @@ import { DepartmentsCreateVo } from '@pages/administrative-boundary/domain/value
 export class DepartmentsCreateEntity {
     constructor(
         public readonly code: string,
+        public readonly population: number,
+        public readonly infrastructure: number,
         public readonly name: string,
         public readonly region: string,
         public readonly description: string
@@ -11,20 +13,11 @@ export class DepartmentsCreateEntity {
     static fromVo(vo: DepartmentsCreateVo): DepartmentsCreateEntity {
         return new DepartmentsCreateEntity(
             vo.code,
+            vo.population,
+            vo.infrastructure,
             vo.name,
             vo.region,
             vo.description
-        );
-    }
-
-    public clone(
-        updates: Partial<DepartmentsCreateEntity>
-    ): DepartmentsCreateEntity {
-        return new DepartmentsCreateEntity(
-            updates.code ?? this.code,
-            updates.name ?? this.name,
-            updates.region ?? this.region,
-            updates.description ?? this.description
         );
     }
 }

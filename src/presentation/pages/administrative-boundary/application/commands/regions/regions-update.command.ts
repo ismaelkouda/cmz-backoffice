@@ -2,6 +2,8 @@ export class RegionsUpdateCommand {
     constructor(
         public readonly uniqId: string,
         public readonly code: string,
+        public readonly population: number,
+        public readonly infrastructure: number,
         public readonly name: string,
         public readonly description: string
     ) {}

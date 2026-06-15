@@ -17,6 +17,6 @@ export const TERMS_USE_TABS = [
         route: `/${CONTENT_MANAGEMENT_ROUTE}/${TERMS_USE_ROUTE}/${TERMS_USE_HISTORY_ROUTE}`,
         label: 'CONTENT_MANAGEMENT.TERMS_USE.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { ref: 'terms-use', module: 'content-management' },
+        queryParams: { ref: 'term-of-use', module: 'content-management' },
     },
 ];

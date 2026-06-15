@@ -129,6 +129,8 @@ export class DepartmentsFacade extends BaseFacade<
     create(dto: DepartmentsCreateDto): void {
         const command = new DepartmentsCreateCommand(
             dto.code,
+            dto.population,
+            dto.infrastructure,
             dto.name,
             dto.region,
             dto.description
@@ -143,6 +145,8 @@ export class DepartmentsFacade extends BaseFacade<
         const command = new DepartmentsUpdateCommand(
             dto.uniqId,
             dto.code,
+            dto.population,
+            dto.infrastructure,
             dto.name,
             dto.region,
             dto.description

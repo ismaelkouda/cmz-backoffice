@@ -114,16 +114,16 @@ export class HomeFormStore {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-                startDate: new FormControl<string>('', {
+                startDate: new FormControl<Date | undefined>(undefined, {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-                endDate: new FormControl<string>('', {
+                endDate: new FormControl<Date | undefined>(undefined, {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-            }
-            // { validators: [this.buttonFieldsConsistencyValidator()] }
+            },
+            { validators: [this.buttonFieldsConsistencyValidator()] }
         );
     }
 
@@ -174,19 +174,22 @@ export class HomeFormStore {
         this.imageError.set(null);
     }
 
-    // private buttonFieldsConsistencyValidator(): ValidatorFn {
-    //     return (control: AbstractControl): ValidationErrors | null => {
-    //         const label = control.get('buttonLabel')?.value?.trim() as string;
-    //         const url = control.get('buttonUrl')?.value?.trim() as string;
-    //         if (label && !url) {
-    //             return { buttonLabelWithoutUrl: true };
-    //         }
-    //         if (url && !label) {
-    //             return { buttonUrlWithoutLabel: true };
-    //         }
-    //         return null;
-    //     };
-    // }
+    private buttonFieldsConsistencyValidator(): ValidatorFn {
+        return (control: AbstractControl): ValidationErrors | null => {
+            const label = control.get('buttonLabel')?.value?.trim() as string;
+            const url = control.get('buttonUrl')?.value?.trim() as string;
+
+            if (label && !url) {
+                return { buttonUrlRequired: true };
+            }
+
+            if (url && !label) {
+                return { buttonLabelRequired: true };
+            }
+
+            return null;
+        };
+    }
 
     private htmlContentMaxLengthValidator(maxLength: number): ValidatorFn {
         return (control: AbstractControl): ValidationErrors | null => {

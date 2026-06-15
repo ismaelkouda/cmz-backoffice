@@ -17,6 +17,6 @@ export const SLIDE_TABS = [
         route: `/${CONTENT_MANAGEMENT_ROUTE}/${SLIDE_ROUTE}/${SLIDE_HISTORY_ROUTE}`,
         label: 'CONTENT_MANAGEMENT.SLIDE.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { ref: 'region', module: 'content-management' },
+        queryParams: { ref: 'slide', module: 'content-management' },
     },
 ];

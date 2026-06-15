@@ -33,18 +33,10 @@
                         <strong>Longitude:</strong>
                         {{ longitude() | number: '1.6-6' }}
                     </p>
-                    @if (selectedMarker()?.description) {
-                        <p class="description">
-                            {{ selectedMarker()?.description }}
-                        </p>
-                    }
                 </div>
                 <div class="popup-actions">
                     <button class="btn-copy" (click)="copyCoordinates()">
                         📋 Copier
-                    </button>
-                    <button class="btn-recenter" (click)="recenterMap()">
-                        🎯 Recentrer
                     </button>
                 </div>
             </div>

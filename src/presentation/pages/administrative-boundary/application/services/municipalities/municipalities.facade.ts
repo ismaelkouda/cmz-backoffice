@@ -131,6 +131,8 @@ export class MunicipalitiesFacade extends BaseFacade<
     create(dto: MunicipalitiesCreateDto): void {
         const command = new MunicipalitiesCreateCommand(
             dto.code,
+            dto.population,
+            dto.infrastructure,
             dto.name,
             dto.region,
             dto.description,
@@ -146,6 +148,8 @@ export class MunicipalitiesFacade extends BaseFacade<
         const command = new MunicipalitiesUpdateCommand(
             dto.uniqId,
             dto.code,
+            dto.population,
+            dto.infrastructure,
             dto.name,
             dto.region,
             dto.description,

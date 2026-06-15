@@ -17,6 +17,6 @@ export const HOME_TABS = [
         route: `/${CONTENT_MANAGEMENT_ROUTE}/${HOME_ROUTE}/${HOME_HISTORY_ROUTE}`,
         label: 'CONTENT_MANAGEMENT.HOME.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { ref: 'region', module: 'content-management' },
+        queryParams: { ref: 'home-block-info', module: 'content-management' },
     },
 ];

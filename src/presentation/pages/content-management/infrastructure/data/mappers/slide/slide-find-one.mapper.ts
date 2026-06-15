@@ -3,8 +3,8 @@ import { SlideFindOneEntity } from '@pages/content-management/domain/entities/sl
 import { SlideFindOneProps } from '@pages/content-management/domain/interfaces/slide/slide-find-one-props.interface';
 import { SlideFindOneItemApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-find-one-response-api.dto';
 import { StatusMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-status.mapper';
+import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
@@ -13,9 +13,8 @@ export class SlideFindOneMapper extends SimpleResponseMapper<
     SlideFindOneItemApiDto
 > {
     private readonly entityCache = new Map<string, SlideFindOneEntity>();
-    private readonly platformMapper = inject(PlatformMapper);
     private readonly statusMapper = inject(StatusMapper);
-    private readonly utils = new MapperUtils();
+    private readonly apiDateMapper = inject(ApiDateMapper);
 
     protected mapItemFromDto(dto: SlideFindOneItemApiDto): SlideFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
@@ -34,8 +33,8 @@ export class SlideFindOneMapper extends SimpleResponseMapper<
             buttonLabel: dto.button_label,
             buttonUrl: dto.button_url,
             status: this.statusMapper.mapFromDto(dto.is_active),
-            startDate: dto.start_date,
-            endDate: dto.end_date,
+            startDate: this.apiDateMapper.fromDateTimeApi(dto.start_date),
+            endDate: this.apiDateMapper.fromDateTimeApi(dto.end_date),
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };

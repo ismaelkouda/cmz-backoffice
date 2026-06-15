@@ -198,8 +198,8 @@ export class DepartmentsFormComponent {
         const uniqId = this.uniqId();
         return this.sweetAlert.confirm({
             titleKey: isEdit
-                ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE.EDIT'
-                : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE.CREATE',
+                ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_UPDATE'
+                : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_CREATE',
             messageKey: isEdit
                 ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE.EDIT'
                 : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE.CREATE',

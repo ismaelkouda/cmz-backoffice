@@ -215,11 +215,11 @@ export class SlideFormStore {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-                startDate: new FormControl<string>('', {
+                startDate: new FormControl<Date | undefined>(undefined, {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-                endDate: new FormControl<string>('', {
+                endDate: new FormControl<Date | undefined>(undefined, {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),

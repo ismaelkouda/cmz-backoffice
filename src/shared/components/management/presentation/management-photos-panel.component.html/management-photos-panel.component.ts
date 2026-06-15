@@ -205,4 +205,8 @@ export class ManagementPhotosPanelComponent {
     public closeImagePreview(): void {
         this.previewVisible.set(false);
     }
+
+    protected onCloseCropDialog(): void {
+        this.imageStore.abandonCrop(this.instanceId());
+    }
 }
