@@ -78,6 +78,7 @@ export class TasksActionsEntity implements TasksActionsProps {
             [Conformity.CONFORM]: ConformityStyle.CONFORM,
             [Conformity.NON_CONFORM]: ConformityStyle.NON_CONFORM,
             [Conformity.IN_PROGRESS]: ConformityStyle.IN_PROGRESS,
+            [Conformity.UNKNOWN]: ConformityStyle.UNKNOWN,
         };
         return methodMap[conform];
     }
