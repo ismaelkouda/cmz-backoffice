@@ -2316,7 +2316,7 @@
                         "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'action de traitement",
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
-                        "NOTIFY_USERS": "Notifier les utilisateurs",
+                        "NOTIFY_USERS": "Publier dans le journal & Notifier les utilisateurs",
                         "CONFORMITY": {
                             "TITLE": "Conformité du résultat avec le signalement",
                             "CONFORM": "Conforme",
@@ -3065,7 +3065,7 @@
                 "REGION": "Région",
                 "DEPARTMENT": "département",
                 "MUNICIPALITIES": "Commune / Sous-préfecture",
-                "CHANNELS": "Cannaux",
+                "CHANNELS": "Canaux",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"
@@ -3075,7 +3075,7 @@
                 "CREATED_AT": "Créé le",
                 "TYPE": "Type de message",
                 "TARGET_TYPE": "Cible",
-                "CHANNELS": "Cannaux",
+                "CHANNELS": "Canaux",
                 "SUBJECT": "Sujet",
                 "CONTENT": "Contenu",
                 "SEE_MORE": "Voir plus",
@@ -3115,7 +3115,7 @@
                     "MUNICIPALITY": "Commune / Sous-prefecture"
                 },
                 "FIELDSET_CHANNELS": {
-                    "TITLE": "Cannaux",
+                    "TITLE": "Canaux",
                     "PUSH": "Push",
                     "EMAIL": "Email",
                     "SMS": "SMS"

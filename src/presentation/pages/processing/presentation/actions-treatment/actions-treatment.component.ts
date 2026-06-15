@@ -54,6 +54,7 @@ import { Tooltip } from 'primeng/tooltip';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -355,7 +356,9 @@ export class ActionsTreatmentComponent {
             return;
         }
         this.facade.reset();
-        this.facade.readAll({ uniqId });
+        this.facade.readAll({ uniqId }, PAGINATION_CONST.DEFAULT_PAGE, {
+            forceRefresh: true,
+        });
     }
 
     private initializeActionEffect(): void {
@@ -366,7 +369,12 @@ export class ActionsTreatmentComponent {
                 takeUntilDestroyed(this.destroyRef)
             )
             .subscribe((uniqId) => {
-                this.closureFacade.read({ uniqId });
+                this.closureFacade.read(
+                    { uniqId },
+                    {
+                        forceRefresh: true,
+                    }
+                );
             });
     }
     private initializeOperatorAutoSelectEffect(): void {
