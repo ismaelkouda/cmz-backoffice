@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { JobsHandler } from '@pages/reporting/application/queries-handlers/jobs/jobs.handler';
-import { JobsEntity } from '@pages/reporting/domain/entities/jobs/jobs.entity';
+import { JobsHandler } from '@presentation/pages/monitoring/application/queries-handlers/jobs/jobs.handler';
+import { JobsEntity } from '@presentation/pages/monitoring/domain/entities/jobs/jobs.entity';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
