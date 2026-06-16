@@ -37,27 +37,21 @@ export class ActionsTreatmentPresenter {
                 'PROCESSING.TASKS.ACTIONS.TOOLTIP.SEE_MORE'
             ),
             tooltipButtonDelete:
-                permission.canTreat &&
-                !item.shouldNotifyUser &&
-                !item.autoChecked
+                permission.canTreat && !item.shouldNotifyUser
                     ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.DELETE')
                     : permission.tooltip.delete,
             tooltipButtonEdit:
-                permission.canTreat &&
-                !item.shouldNotifyUser &&
-                !item.autoChecked
+                permission.canTreat && !item.shouldNotifyUser
                     ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.EDIT')
                     : permission.tooltip.edit,
             disableButtonDelete:
                 item.shouldNotifyUser ||
                 !permission.canTreat ||
-                !permission.hasClosed ||
-                item.autoChecked,
+                !permission.hasClosed,
             disableButtonEdit:
                 item.shouldNotifyUser ||
                 !permission.canTreat ||
-                !permission.hasClosed ||
-                item.autoChecked,
+                !permission.hasClosed,
         };
     }
 }

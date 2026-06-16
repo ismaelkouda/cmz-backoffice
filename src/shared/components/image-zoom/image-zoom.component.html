@@ -4,8 +4,6 @@
         [alt]="label() || 'Image zoomable'"
         class="main-image"
         draggable="false"
-        (click)="openModal()"
-        (keypress)="openModal()"
     />
 
     @if (zoomVisible) {
@@ -29,7 +27,7 @@
     }
 </div>
 
-<p-dialog
+<!-- <p-dialog
     header="{{ label() }}"
     [(visible)]="modalVisible"
     [modal]="true"
@@ -37,4 +35,4 @@
     styleClass="custom-dialog"
 >
     <img [src]="src()" alt="{{ label() }}" style="width: 100%" />
-</p-dialog>
+</p-dialog> -->

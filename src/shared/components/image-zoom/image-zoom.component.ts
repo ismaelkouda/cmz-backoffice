@@ -29,7 +29,6 @@ export class ImageZoomComponent {
     private rect!: DOMRect;
 
     rotation = 0;
-    modalVisible = false;
 
     rotateLeft() {
         this.rotation = (this.rotation - 90) % 360;
@@ -40,7 +39,6 @@ export class ImageZoomComponent {
     }
 
     openModal() {
-        this.modalVisible = true;
         this.onLeave();
     }
 
@@ -60,7 +58,7 @@ export class ImageZoomComponent {
 
     @HostListener('mousemove', ['$event'])
     onMove(event: MouseEvent) {
-        if (!this.zoomVisible || this.modalVisible) {
+        if (!this.zoomVisible) {
             return;
         }
 

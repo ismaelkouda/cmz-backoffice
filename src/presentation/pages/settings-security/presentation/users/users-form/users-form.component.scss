@@ -253,7 +253,8 @@ $dark-gray: var(--color-gray);
     gap: 8px;
 }
 
-.form-input {
+.form-input,
+:host ::ng-deep.p-inputtext {
     width: 100%;
     padding: 16px;
     border: 2px solid var(--color-gray-light);

@@ -438,10 +438,6 @@ export class ActionsTreatmentComponent {
                     this.toast.error(this.editTooltip());
                     return;
                 }
-                if (event.item.autoChecked) {
-                    this.toast.error(this.editTooltip());
-                    return;
-                }
                 this.formStore.openEdit(uniqId, event.item);
             },
             view: () => {
