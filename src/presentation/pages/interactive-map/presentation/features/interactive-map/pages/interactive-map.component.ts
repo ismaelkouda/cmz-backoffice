@@ -142,12 +142,8 @@ export class InteractiveMapComponent
         { value: 'mtn', label: 'MTN' },
     ];
     public readonly statusOptions: { value: ReportStatus; label: string }[] = [
-        { value: 'pending', label: 'En attente' },
-        { value: 'approved', label: 'Approuve' },
         { value: 'in-progress', label: 'En cours' },
-        { value: 'rejected', label: 'Rejete' },
         { value: 'completed', label: 'Clôturé' },
-        { value: 'abandoned', label: 'Abandonne' },
     ];
 
     private readonly geolocationService = inject(GeolocationService);

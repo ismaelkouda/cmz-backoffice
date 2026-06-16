@@ -24,7 +24,7 @@ export interface HistoryDialogViewModel {
         uniqId: string;
         eventType: HistoryEventType;
         eventLabelKey: string;
-        eventSeverity: 'success' | 'info' | 'warning' | 'danger';
+        eventSeverity: 'success' | 'info' | 'warning' | 'danger' | 'contrast';
         timestamp: string;
         canCopyId: boolean;
     };
@@ -45,7 +45,6 @@ export interface HistoryDialogViewModel {
         summaryKey: string;
     };
     table: {
-        // ← NOUVELLE PROPRIÉTÉ
         mode: HistoryTableMode;
         config: TableConfig;
         rows: HistoryDialogChangeRowVM[];

@@ -6,7 +6,7 @@ export function calculateActionColumnWidth(actionCount: number): string {
 export const HISTORY_TABLE = {
     actions: [
         {
-            id: 'history-dialog',
+            id: 'view',
             icon: 'pi pi-window-maximize',
             tooltip: 'HISTORY.TABLE.SEE_MORE',
             severity: 'primary',

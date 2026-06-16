@@ -141,7 +141,9 @@ export class HistoryPageComponent {
             disabled: this.canExportData(),
         },
     ]);
-    private readonly presenter = new HistoryPresenter();
+    private readonly presenter = new HistoryPresenter(
+        this.translate.instant.bind(this.translate)
+    );
     protected readonly itemsVM = computed(() => {
         this.currentLang();
         return this.items().map((item) => this.presenter.map(item));

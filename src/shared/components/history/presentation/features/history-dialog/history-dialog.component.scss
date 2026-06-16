@@ -12,43 +12,6 @@
         width: 100%;
         color: white;
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap;
-
-            .header-skeleton {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-            }
-
-            .header-title {
-                font-size: 1.25rem;
-                font-weight: 600;
-                color: white;
-
-                &.copyable {
-                    cursor: pointer;
-                    transition: opacity 0.2s;
-
-                    &:hover {
-                        opacity: 0.8;
-                    }
-                }
-            }
-
-            .report-id-badge {
-                background: rgba(255, 255, 255, 0.1);
-                padding: 0.5rem 1rem;
-                border-radius: 20px;
-                font-size: 0.875rem;
-                font-weight: 500;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            }
-        }
-
         .header-center {
             .report-title-badge {
                 background-color: #fff;
@@ -618,6 +581,17 @@
     }
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    @media (max-width: 480px) {
+        gap: 0.75rem;
+    }
+}
+
 @media (max-width: 480px) {
     :host {
         font-size: 14px;
@@ -646,16 +620,6 @@
     .content-tab {
         padding: 0.75rem 1rem;
         min-width: 100px;
-    }
-
-    .header-left {
-        .header-title {
-            font-size: 1rem;
-        }
-
-        .p-tag {
-            font-size: 0.7rem;
-        }
     }
 
     .summary-section .summary-card .summary-stats {

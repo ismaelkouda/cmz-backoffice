@@ -10,7 +10,7 @@ export const EVENT_TYPE_TO_API: Record<HistoryEventType, string> = {
     [HistoryEventType.CREATE]: 'Création',
     [HistoryEventType.UPDATE]: 'Mise à jour',
     [HistoryEventType.DELETE]: 'Suppression',
-    [HistoryEventType.EVENT]: 'Évènement',
+    [HistoryEventType.EVENT]: 'Évèvement',
     [HistoryEventType.UNKNOWN]: 'Inconnu',
 };
 
@@ -18,7 +18,7 @@ export const API_TO_EVENT_TYPE: Record<string, HistoryEventType> = {
     Création: HistoryEventType.CREATE,
     'Mise à jour': HistoryEventType.UPDATE,
     Suppression: HistoryEventType.DELETE,
-    Évènement: HistoryEventType.EVENT,
+    Évèvement: HistoryEventType.EVENT,
 };
 
 export function mapToHistoryEventType(value: string | null): HistoryEventType {
@@ -30,7 +30,7 @@ export function mapToHistoryEventType(value: string | null): HistoryEventType {
 
 export function getEventSeverity(
     type: HistoryEventType
-): 'success' | 'info' | 'warning' | 'danger' {
+): 'success' | 'info' | 'warning' | 'danger' | 'contrast' {
     switch (type) {
         case HistoryEventType.CREATE:
             return 'success';
@@ -38,6 +38,8 @@ export function getEventSeverity(
             return 'warning';
         case HistoryEventType.DELETE:
             return 'danger';
+        case HistoryEventType.EVENT:
+            return 'contrast';
         default:
             return 'info';
     }

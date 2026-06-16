@@ -48,7 +48,7 @@ export class HistoryDialogVmPresenter {
         return {
             header: {
                 titleKey: 'HISTORY.DIALOG.TITLE',
-                uniqId: entity.uniqId,
+                uniqId: entity.action,
                 eventType: entity.event,
                 eventLabelKey: getEventLabelKey(entity.event),
                 eventSeverity: getEventSeverity(entity.event),
@@ -198,6 +198,7 @@ export class HistoryDialogVmPresenter {
     }
 
     private getOperationKey(rawEvent: string): string {
+        console.log('rawEvent: ', rawEvent);
         const normalized = rawEvent?.toLowerCase() || '';
         if (normalized.includes('création') || normalized === 'creation') {
             return 'HISTORY.OPERATION.CREATE';
@@ -210,6 +211,9 @@ export class HistoryDialogVmPresenter {
         }
         if (normalized.includes('suppression')) {
             return 'HISTORY.OPERATION.DELETE';
+        }
+        if (normalized.includes('évèvement')) {
+            return 'HISTORY.OPERATION.EVENT';
         }
         return 'HISTORY.OPERATION.UNKNOWN';
     }
