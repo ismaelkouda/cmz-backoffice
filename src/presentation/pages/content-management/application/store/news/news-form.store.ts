@@ -39,6 +39,7 @@ export class NewsFormStore {
     private readonly isPatching = signal(false);
     private readonly imageError = signal<string | null>(null);
     public readonly imageFile = signal<File | string | null>(null);
+    private readonly currentItemUniqId = signal<string | null>(null);
 
     readonly form: FormGroup<NewsFormControl> = this.createForm();
 
@@ -140,20 +141,21 @@ export class NewsFormStore {
             }
         });
     });
-    private readonly hydratedId = signal<string | null>(null);
 
     private readonly hydrateForm = effect(() => {
         const item = this.item();
+        console.log('item: ', item);
 
         if (!item) {
             return;
         }
 
-        if (this.hydratedId() === item.uniqId) {
+        const currentId = item.uniqId;
+        if (this.currentItemUniqId() === currentId) {
             return;
         }
 
-        this.hydratedId.set(item.uniqId);
+        this.currentItemUniqId.set(currentId);
 
         this.isPatching.set(true);
 
@@ -321,6 +323,7 @@ export class NewsFormStore {
             this.form.reset();
             this.facade.reset();
             this.form.controls.subCategory.disable({ emitEvent: false });
+            this.currentItemUniqId.set(null);
             return;
         }
 
@@ -393,5 +396,6 @@ export class NewsFormStore {
         this.imageError.set(null);
         this.isEditMode.set(false);
         this.isPatching.set(false);
+        this.currentItemUniqId.set(null);
     }
 }

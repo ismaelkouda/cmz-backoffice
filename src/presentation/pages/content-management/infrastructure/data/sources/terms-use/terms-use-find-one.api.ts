@@ -17,7 +17,7 @@ export class TermsUseFindOneApi {
         filter?: TermsUseFindOneFilterApiDto,
         options?: FetchOptions
     ): Observable<TermsUseFindOneResponseApiDto> {
-        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}/${filter?.id}`;
+        const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.TERMS_USE}/${filter?.id}`;
         const context = new HttpContext().set(
             BYPASS_CACHE,
             options?.forceRefresh ?? false

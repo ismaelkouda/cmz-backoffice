@@ -4,7 +4,7 @@ export interface NewsUpdateApiDto {
     image_file: File | string;
     video_url: string;
     category_id: string;
-    sub_category: string;
+    sub_category_id: string;
     hashtags: string[];
     title: string;
     resume: string;

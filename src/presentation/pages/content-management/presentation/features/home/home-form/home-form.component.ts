@@ -289,6 +289,7 @@ export class HomeFormComponent {
     }
 
     navigateToBack(): void {
+        this.store.resetForm();
         this.helper.navigateToHomeList();
     }
 }
