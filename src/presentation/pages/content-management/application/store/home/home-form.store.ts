@@ -135,9 +135,6 @@ export class HomeFormStore {
         }
 
         const currentId = item.uniqId;
-        if (this.currentItemUniqId() === currentId) {
-            return;
-        }
 
         this.currentItemUniqId.set(currentId);
 
