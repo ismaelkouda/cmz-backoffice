@@ -20,7 +20,7 @@ export function newsUpdateMapper(entity: NewsUpdateEntity): NewsUpdateApiDto {
         params.category_id = entity.category;
     }
     if (entity.subCategory) {
-        params.sub_category = entity.subCategory;
+        params.sub_category_id = entity.subCategory;
     }
     if (entity.hashtags.length > 0) {
         params.hashtags = entity.hashtags;

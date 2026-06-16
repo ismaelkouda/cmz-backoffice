@@ -2,6 +2,7 @@ import {
     ChangeDetectionStrategy,
     Component,
     DestroyRef,
+    effect,
     inject,
     Signal,
     signal,
@@ -69,7 +70,7 @@ export class LegalNoticeFormComponent {
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
     );
-
+    private lastSuccess = this.submitFacade.actionSuccess();
     private readonly uniqId: Signal<string> = toSignal(
         this.activatedRoute.queryParams.pipe(
             map(
@@ -81,6 +82,23 @@ export class LegalNoticeFormComponent {
         ),
         { initialValue: '' }
     );
+    private readonly formStateEffect = effect(() => {
+        const state = this.submitFacade.actionState();
+        if (state === 'loading') {
+            this.form.disable({ emitEvent: false });
+        } else {
+            this.form.enable({ emitEvent: false });
+        }
+    });
+    private readonly successEffect = effect(() => {
+        const current = this.submitFacade.actionSuccess();
+        if (current === this.lastSuccess) {
+            return;
+        }
+
+        this.lastSuccess = current;
+        this.navigateToBack();
+    });
 
     constructor() {
         this.translate.onLangChange

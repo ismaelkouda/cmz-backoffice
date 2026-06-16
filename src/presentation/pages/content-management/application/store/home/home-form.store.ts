@@ -32,7 +32,7 @@ export class HomeFormStore {
 
     private readonly imageError = signal<string | null>(null);
     public readonly imageFile = signal<File | string | null>(null);
-    private readonly alreadyPatched = signal(false);
+    private readonly currentItemUniqId = signal<string | null>(null);
 
     public readonly selectedPlatforms = computed(
         () => this.form.controls.platforms.value
@@ -134,11 +134,12 @@ export class HomeFormStore {
             return;
         }
 
-        if (this.alreadyPatched()) {
+        const currentId = item.uniqId;
+        if (this.currentItemUniqId() === currentId) {
             return;
         }
 
-        this.alreadyPatched.set(true);
+        this.currentItemUniqId.set(currentId);
 
         this.form.patchValue(
             {
@@ -153,6 +154,7 @@ export class HomeFormStore {
             },
             { emitEvent: false }
         );
+
         if (item.image) {
             this.form.controls.image.setValue(
                 {
@@ -161,7 +163,6 @@ export class HomeFormStore {
                 },
                 { emitEvent: false }
             );
-
             this.imageFile.set(item.image);
         } else {
             this.resetImage();
@@ -233,10 +234,13 @@ export class HomeFormStore {
 
     public setMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
+
         if (!uniqId) {
             this.form.reset();
             this.facade.reset();
             this.imageError.set(null);
+            this.resetImage();
+            this.currentItemUniqId.set(null);
             return;
         }
         this.facade.read({ uniqId });
@@ -263,5 +267,6 @@ export class HomeFormStore {
         this.imageFile.set(null);
         this.imageError.set(null);
         this.isEditMode.set(false);
+        this.currentItemUniqId.set(null);
     }
 }

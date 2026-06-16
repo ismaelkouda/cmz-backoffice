@@ -17,7 +17,7 @@ export function newsCreateMapper(entity: NewsCreateEntity): NewsCreateApiDto {
         params.category_id = entity.category;
     }
     if (entity.subCategory) {
-        params.sub_category = entity.subCategory;
+        params.sub_category_id = entity.subCategory;
     }
     if (entity.hashtags.length > 0) {
         params.hashtags = entity.hashtags;
