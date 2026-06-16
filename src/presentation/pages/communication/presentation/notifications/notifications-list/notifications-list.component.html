@@ -58,7 +58,7 @@
     @if (isVisibleDialog()) {
         <app-management-dialog
             [visible]="isVisibleDialog()"
-            [uniqId]="selectedReportId"
+            [uniqId]="selectedReportId()"
             [type]="selectedManagementType()"
             [isNotification]="true"
             (visibleChange)="onVisibleDialogClicked($event)"

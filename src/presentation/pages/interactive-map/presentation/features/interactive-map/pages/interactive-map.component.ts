@@ -124,7 +124,7 @@ export class InteractiveMapComponent
     protected readonly selectedManagementType = signal<TypeReport | null>(
         TypeReport.PROCESSING
     );
-    protected selectedReportId: string | null = null;
+    protected readonly selectedReportId = signal<string>('');
 
     public readonly reportTypeOptions: { value: ReportType; label: string }[] =
         [
@@ -809,8 +809,7 @@ export class InteractiveMapComponent
     }
 
     protected onSeeMoreInfosClicked(item: any): void {
-        console.log('item: ', item);
-        this.selectedReportId = item.uniq_id;
+        this.selectedReportId.set(item.uniq_id);
         this.isVisibleDialog.set(true);
     }
 
