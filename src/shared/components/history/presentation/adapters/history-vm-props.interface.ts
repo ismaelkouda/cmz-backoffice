@@ -5,4 +5,6 @@ export interface HistoryVmProps {
     source: string;
     createdAt: string;
     actionsRef: string;
+    tooltipButtonView: string;
+    disableButtonView: boolean;
 }

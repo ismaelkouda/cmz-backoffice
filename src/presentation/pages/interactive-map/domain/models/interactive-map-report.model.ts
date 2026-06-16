@@ -1,13 +1,7 @@
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 export type ReportType = 'zob' | 'cpo' | 'cps' | 'abi';
 export type ReportOperator = 'orange' | 'moov' | 'mtn';
-export type ReportStatus =
-    | 'pending'
-    | 'approved'
-    | 'in-progress'
-    | 'rejected'
-    | 'completed'
-    | 'abandoned';
+export type ReportStatus = 'in-progress' | 'completed';
 
 export interface NamedPlace {
     id?: string | number;
