@@ -780,11 +780,11 @@
             },
             "TABS": {
                 "SLIDE": {
-                    "LABEL": "Liste des slides",
+                    "LABEL": "Slides",
                     "ROUTE": "sliders"
                 },
                 "HISTORY": {
-                    "LABEL": "Historique des slides",
+                    "LABEL": "Historique",
                     "ROUTE": "history"
                 }
             },
@@ -947,11 +947,11 @@
             },
             "TABS": {
                 "PRIVACY_POLICY": {
-                    "LABEL": "Liste des politiques de confidentialité",
+                    "LABEL": "Politiques de confidentialité",
                     "ROUTE": "privacy-policies"
                 },
                 "HISTORY": {
-                    "LABEL": "Historique des politiques de confidentialité",
+                    "LABEL": "Historique",
                     "ROUTE": "history"
                 }
             },
@@ -1056,11 +1056,11 @@
             },
             "TABS": {
                 "LEGAL_NOTICE": {
-                    "LABEL": "Liste des mentions légales",
+                    "LABEL": "Mentions légales",
                     "ROUTE": "legal-notices"
                 },
                 "HISTORY": {
-                    "LABEL": "Historique des mentions légales",
+                    "LABEL": "Historique",
                     "ROUTE": "history"
                 }
             },
@@ -1166,11 +1166,11 @@
             },
             "TABS": {
                 "TERMS_USE": {
-                    "LABEL": "Liste des conditions d'utilisation",
+                    "LABEL": "Conditions d'utilisation",
                     "ROUTE": "terms-of-service"
                 },
                 "HISTORY": {
-                    "LABEL": "Historique des conditions d'utilisation",
+                    "LABEL": "Historique",
                     "ROUTE": "history"
                 }
             },

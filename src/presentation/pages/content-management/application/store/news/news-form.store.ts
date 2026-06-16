@@ -246,7 +246,6 @@ export class NewsFormStore {
                 ),
                 hashtags: new FormControl<string[]>([], {
                     nonNullable: true,
-                    validators: [Validators.minLength(1)],
                 }),
             },
             { validators: [this.typeMediaConsistencyValidator()] }

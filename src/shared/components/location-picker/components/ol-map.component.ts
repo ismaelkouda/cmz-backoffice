@@ -76,7 +76,7 @@ export class OlMapComponent implements OnDestroy {
             if (container && !this.map) {
                 // Initialisation de la carte
                 let centerCoord: Coordinate;
-                let showMarker = true;
+                let showMarker;
 
                 if (hasValidNonZeroCoords) {
                     centerCoord = toOlCoordinate(

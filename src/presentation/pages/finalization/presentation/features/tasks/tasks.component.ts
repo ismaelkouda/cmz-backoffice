@@ -86,7 +86,7 @@ export class TasksComponent {
         '/reports-finalization/tasks',
         'execute'
     );
-    protected selectedReportId: string | null = null;
+    protected readonly selectedReportId = signal<string>('');
     protected readonly tableConfig = TASKS_TABLE;
     protected readonly form = this.formStore.form;
     protected readonly isVisibleDialog = signal<boolean>(false);
@@ -305,7 +305,7 @@ export class TasksComponent {
     }): void {
         const { item } = event;
         this.selectedManagementType.set(item.type);
-        this.selectedReportId = item.uniqId;
+        this.selectedReportId.set(item.uniqId);
         this.isVisibleDialog.set(true);
     }
     protected onSelectionChange(

@@ -6,6 +6,6 @@ export class UnknownError extends DomainError {
     readonly statusCode = 0;
 
     constructor() {
-        super('Unknown error');
+        super('Connexion error');
     }
 }

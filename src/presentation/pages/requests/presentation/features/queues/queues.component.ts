@@ -85,7 +85,7 @@ export class QueuesComponent {
         '/requests/queues',
         'take'
     );
-    protected selectedReportId: string | null = null;
+    protected readonly selectedReportId = signal<string>('');
     protected readonly tableConfig = QUEUES_TABLE;
     protected readonly form = this.formStore.form;
     protected readonly isVisibleDialog = signal<boolean>(false);
@@ -288,7 +288,7 @@ export class QueuesComponent {
     }): void {
         const { item } = event;
         this.selectedManagementType.set(item.type);
-        this.selectedReportId = item.uniqId;
+        this.selectedReportId.set(item.uniqId);
         this.isVisibleDialog.set(true);
     }
     protected onVisibleDialogClicked(event: boolean): void {

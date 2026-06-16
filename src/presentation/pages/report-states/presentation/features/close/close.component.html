@@ -1,11 +1,11 @@
-<main class="container-fluid queues-container" role="main">
-    <section class="row queues-row">
-        <article class="col-sm-12 queues-article">
+<main class="container-fluid close-container" role="main">
+    <section class="row close-row">
+        <article class="col-sm-12 close-article">
             <app-breadcrumb />
 
-            <section class="card queues-card">
-                <div class="card-body queues-card-body">
-                    <header class="queues-header">
+            <section class="card close-card">
+                <div class="card-body close-card-body">
+                    <header class="close-header">
                         <app-page-title
                             class="page-title-component"
                             [displayDate]="false"
@@ -14,7 +14,7 @@
                         </app-page-title>
                     </header>
 
-                    <div class="queues-content">
+                    <div class="close-content">
                         <app-filter
                             class="filter-component"
                             [isLoading]="loading()"
@@ -25,7 +25,7 @@
                             [limit]="4"
                         ></app-filter>
 
-                        <hr class="queues-divider" />
+                        <hr class="close-divider" />
 
                         <section class="table-section">
                             <app-table
@@ -57,7 +57,7 @@
     @if (isVisibleDialog()) {
         <app-management-dialog
             [visible]="isVisibleDialog()"
-            [uniqId]="selectedReportId"
+            [uniqId]="selectedReportId()"
             [type]="selectedManagementType()"
             (visibleChange)="onVisibleDialogClicked($event)"
         ></app-management-dialog>

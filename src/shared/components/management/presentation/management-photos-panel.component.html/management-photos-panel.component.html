@@ -83,28 +83,29 @@
                                                     </h4>
                                                 }
                                             } @else {
-                                            <div class="image">
-                                                <app-image-upload
-                                                    id="image"
-                                                    [instanceId]="instanceId()"
-                                                    [isIdle]="isIdle()"
-                                                    [hasError]="hasError()"
-                                                    [hasImage]="hasImage()"
-                                                    [fileName]="fileName()"
-                                                    [fileSize]="fileSize()"
-                                                    formControlName="placePhoto"
-                                                    (viewImage)="
-                                                        openImagePreview()
-                                                    "
-                                                    (imageCleared)="
-                                                        onImageCleared()
-                                                    "
-                                                />
-                                            </div>
+                                                <div class="image">
+                                                    <app-image-upload
+                                                        id="image"
+                                                        [instanceId]="
+                                                            instanceId()
+                                                        "
+                                                        [isIdle]="isIdle()"
+                                                        [hasError]="hasError()"
+                                                        [hasImage]="hasImage()"
+                                                        [fileName]="fileName()"
+                                                        [fileSize]="fileSize()"
+                                                        formControlName="placePhoto"
+                                                        (viewImage)="
+                                                            openImagePreview()
+                                                        "
+                                                        (imageCleared)="
+                                                            onImageCleared()
+                                                        "
+                                                    />
+                                                </div>
                                             }
                                         </div>
                                     </div>
-                            
                                 </div>
                                 <div class="data-field">
                                     <div class="photo-header">
@@ -131,7 +132,15 @@
                                                     'MANAGEMENT.FORM.PICTURES.ACCESS_ROAD'
                                                         | translate
                                                 "
+                                                tabindex="0"
                                                 (click)="openAccessPreview()"
+                                                (keydown.enter)="
+                                                    openAccessPreview()
+                                                "
+                                                (keydown.space)="
+                                                    openAccessPreview();
+                                                    $event.preventDefault()
+                                                "
                                             />
                                         } @else {
                                             <div
@@ -154,12 +163,12 @@
                                         }
                                     </div>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </form>
 
     <app-image-preview-dialog
@@ -171,7 +180,7 @@
 
     <app-image-crop-dialog
         [visible]="cropperState().isOpen"
-    (closeDialog)="onCloseCropDialog()"
+        (closeDialog)="onCloseCropDialog()"
         [sourceFile]="cropperState().sourceFile"
         [rotation]="cropperState().rotation"
         [flipH]="cropperState().flipH"

@@ -108,47 +108,118 @@
                                                 }}</b>
                                             </legend>
 
-                                            <div class="row g-3 align-items-center">
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
                                                 <div class="col-md-6">
-                                                    <label for="buttonLabel" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL' | translate }}
+                                                    <label
+                                                        for="buttonLabel"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'
+                                                                | translate
+                                                        }}
                                                     </label>
                                                     <input
                                                         id="buttonLabel"
                                                         class="form-input"
                                                         formControlName="buttonLabel"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL_PLACEHOLDER' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('buttonLabel')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'buttonLabel'
+                                                            )
+                                                        "
                                                     />
-                                                    <div class="d-flex justify-content-between align-items-center">
-                                                        @if (isFieldInvalid('buttonLabel')) {
-                                                            <small class="text-danger d-block mt-1">
-                                                                {{ getErrorMessage('buttonLabel') }}
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'buttonLabel'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'buttonLabel'
+                                                                    )
+                                                                }}
                                                             </small>
                                                         }
-                                                        @if (form.hasError('buttonLabelRequired') && form.get('buttonUrl')?.value) {
-                                                            <small class="text-danger d-block mt-1">
-                                                                {{ 'CONTENT_MANAGEMENT.HOME.FORM.ERROR_BUTTON_LABEL_REQUIRED' | translate }}
+                                                        @if (
+                                                            form.hasError(
+                                                                'buttonLabelRequired'
+                                                            ) &&
+                                                            form.get(
+                                                                'buttonUrl'
+                                                            )?.value
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    'CONTENT_MANAGEMENT.HOME.FORM.ERROR_BUTTON_LABEL_REQUIRED'
+                                                                        | translate
+                                                                }}
                                                             </small>
                                                         }
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-md-6">
-                                                    <label for="buttonUrl" class="form-label fw-bold">
-                                                        {{ 'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL' | translate }}
-                                                        @if (form.hasError('buttonUrlRequired') && form.get('buttonLabel')?.value) {
-                                                            <span class="text-danger">*</span>
+                                                    <label
+                                                        for="buttonUrl"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'
+                                                                | translate
+                                                        }}
+                                                        @if (
+                                                            form.hasError(
+                                                                'buttonUrlRequired'
+                                                            ) &&
+                                                            form.get(
+                                                                'buttonLabel'
+                                                            )?.value
+                                                        ) {
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         }
                                                     </label>
                                                     <input
                                                         id="buttonUrl"
                                                         class="form-input"
                                                         formControlName="buttonUrl"
-                                                        [placeholder]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL_PLACEHOLDER' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('buttonUrl') || form.hasError('buttonUrlRequired')"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'buttonUrl'
+                                                            ) ||
+                                                            form.hasError(
+                                                                'buttonUrlRequired'
+                                                            )
+                                                        "
                                                     />
                                                     <!-- <div class="d-flex justify-content-between align-items-center">
                                                         @if (isFieldInvalid('buttonUrl')) {
@@ -185,16 +256,35 @@
 
                                                     <p-multiSelect
                                                         class="form-p-select"
-                                                        [options]="platformOptions()"
-                                                        [class.mb-4]="!isFieldInvalid('platforms')"
+                                                        [options]="
+                                                            platformOptions()
+                                                        "
+                                                        [class.mb-4]="
+                                                            !isFieldInvalid(
+                                                                'platforms'
+                                                            )
+                                                        "
                                                         formControlName="platforms"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         styleClass="w-100"
-                                                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
-                                                        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
-                                                        [attr.aria-label]="'CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS' | translate"
-                                                        [attr.aria-invalid]="isFieldInvalid('platforms')"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'platforms'
+                                                            )
+                                                        "
                                                         [filter]="false"
                                                         [showToggleAll]="false"
                                                     />
