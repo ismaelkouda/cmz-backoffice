@@ -3651,12 +3651,12 @@
         },
         "PROFILES_PERMISSIONS": {
             "BREADCRUMB": {
-                "LABEL": "Profils et Habilitations",
+                "LABEL": "Profils et Permissions",
                 "ROUTE": "profils et habilitations"
             },
             "TABS": {
                 "PROFILES_PERMISSIONS": {
-                    "LABEL": "Profils et Habilitations",
+                    "LABEL": "Profils et Permissions",
                     "ROUTE": "profils et habilitations"
                 },
                 "HISTORY": {
@@ -3664,7 +3664,7 @@
                     "ROUTE": "history"
                 }
             },
-            "TITLE": "Profils habilitations",
+            "TITLE": "Profils permissions",
             "LABEL": "Permissions Profils",
             "ROUTE": "permission-profiles",
             "FILTER": {
