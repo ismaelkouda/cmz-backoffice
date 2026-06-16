@@ -13,7 +13,6 @@ import { startWith } from 'rxjs';
 export class LoginStore {
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(LoginFacade);
-
     public readonly loading = this.facade.loading;
     public readonly error = this.facade.error;
     public readonly session = this.facade.items;
@@ -26,17 +25,14 @@ export class LoginStore {
             ],
             [LOGIN_FORM_KEYS.PASSWORD]: ['', [Validators.required]],
         });
-
     private readonly status = toSignal(
         this.form.statusChanges.pipe(startWith(this.form.status)),
         { initialValue: this.form.status }
     );
     public readonly isValid = computed(() => this.status() === 'VALID');
-
     private get value(): LoginFormValue {
         return this.form.getRawValue();
     }
-
     public submit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
@@ -44,27 +40,21 @@ export class LoginStore {
         }
         this.facade.execute(this.value);
     }
-
     public resetPassword(): void {
         this.form.controls.password.setValue('');
     }
-
     public isFieldInvalid(field: keyof LoginFormControl): boolean {
         const control = this.form.controls[field];
-
         return control.invalid && control.touched;
     }
-
     public isFieldValid(field: keyof LoginFormControl): boolean {
         const control = this.form.controls[field];
         return control.valid && control.touched;
     }
-
     public isFieldTouched(field: keyof LoginFormControl): boolean {
         const control = this.form.controls[field];
         return control.touched;
     }
-
     public getFieldError(field: keyof LoginFormControl): string | null {
         return getControlError(
             this.form.controls[field],
