@@ -64,6 +64,9 @@ export class DetailsMapper extends SimpleResponseMapper<
             processedBy: this.utils.memoized(dto.processed_by, (p) =>
                 this.actorMapper.mapToEntity(p)
             ),
+            finalizedBy: this.utils.memoized(dto.finalized_by, (p) =>
+                this.actorMapper.mapToEntity(p)
+            ),
             approvedBy: this.utils.memoized(dto.approved_by, (a) =>
                 this.actorMapper.mapToEntity(a)
             ),

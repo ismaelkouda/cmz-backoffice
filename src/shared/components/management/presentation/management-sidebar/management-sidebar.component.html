@@ -229,6 +229,54 @@
                     </div>
                 </div>
             }
+
+            @if (showClosureSection()) {
+                <div class="sidebar-section">
+                    <div class="sidebar-header">
+                        {{ 'MANAGEMENT.STATUS.CLOSURE' | translate }}
+                    </div>
+                    <div class="sidebar-content">
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.CLOSE.LAST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ closureLastName() }}
+                        </p>
+                        <p>
+                            <strong
+                                >{{
+                                    'MANAGEMENT.SIDEBAR.CLOSE.FIRST_NAME'
+                                        | translate
+                                }}:</strong
+                            >
+                            {{ closureFirstName() }}
+                        </p>
+                        @if (closurePhone()) {
+                            <p class="phone-number">
+                                <strong
+                                    >{{
+                                        'MANAGEMENT.SIDEBAR.CLOSE.PHONE'
+                                            | translate
+                                    }}:</strong
+                                >
+                                {{ closurePhone() }}
+                                <i
+                                    class="pi pi-copy copy-icon"
+                                    (click)="copyItem.emit(closurePhone()!)"
+                                    (keypress)="
+                                        copyItem.emit(closurePhone()!)
+                                    "
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                >
+                                </i>
+                            </p>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     }
 </div>

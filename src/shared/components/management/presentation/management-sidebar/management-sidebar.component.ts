@@ -113,4 +113,22 @@ export class ManagementSidebarComponent {
     protected readonly processorPhone = computed((): string | null => {
         return this.item()?.processedBy?.phone ?? null;
     });
+
+    protected readonly showClosureSection = computed((): boolean => {
+        return !!(
+            this.item()?.treater?.finalizedAt || this.item()?.finalizedBy
+        );
+    });
+
+    protected readonly closureLastName = computed((): string => {
+        return this.item()?.finalizedBy?.lastName ?? '';
+    });
+
+    protected readonly closureFirstName = computed((): string => {
+        return this.item()?.finalizedBy?.firstName ?? '';
+    });
+
+    protected readonly closurePhone = computed((): string | null => {
+        return this.item()?.finalizedBy?.phone ?? null;
+    });
 }

@@ -49,6 +49,7 @@ export interface DetailsItemApiDto {
     confirm_count: number;
     acknowledged_comment: string | null;
     processed_comment: string | null;
+    finalized_comment: string | null;
     approved_comment: string | null;
     rejected_comment: string | null;
     confirmed_comment: string | null;
@@ -65,6 +66,7 @@ export interface DetailsItemApiDto {
     initiator: ActorDto | null;
     acknowledged_by: ActorDto | null;
     approved_by: ActorDto | null;
+    finalized_by: ActorDto | null;
     rejected_by: ActorDto | null;
     processed_by: ActorDto | null;
     confirmed_by: ActorDto | null;
