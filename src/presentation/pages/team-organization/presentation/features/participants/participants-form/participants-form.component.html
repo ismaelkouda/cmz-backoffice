@@ -314,12 +314,7 @@
                                                             'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.PHONE'
                                                                 | translate
                                                         }}
-                                                        <span
-                                                            class="text-danger"
-                                                            aria-label="required"
-                                                            >*</span
-                                                        ></label
-                                                    >
+                                                        </label>
                                                     <p-inputMask
                                                         id="phone"
                                                         formControlName="phone"
@@ -331,50 +326,7 @@
                                                             'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.PHONE'
                                                                 | translate
                                                         "
-                                                        [attr.aria-invalid]="
-                                                            form.get('phone')
-                                                                ?.invalid &&
-                                                            form.get('phone')
-                                                                ?.touched
-                                                        "
                                                     />
-                                                    <div
-                                                        class="d-flex justify-content-between mt-1"
-                                                    >
-                                                        @if (
-                                                            form.get('phone')
-                                                                ?.invalid &&
-                                                            form.get('phone')
-                                                                ?.touched
-                                                        ) {
-                                                            <small
-                                                                class="text-danger"
-                                                                role="alert"
-                                                            >
-                                                                {{
-                                                                    getErrorMessage(
-                                                                        'phone'
-                                                                    )
-                                                                }}
-                                                            </small>
-                                                        }
-                                                        <small
-                                                            class="text-muted ms-auto"
-                                                            aria-live="polite"
-                                                        >
-                                                            {{
-                                                                (
-                                                                    form.get(
-                                                                        'phone'
-                                                                    )?.value ||
-                                                                    ''
-                                                                ).length
-                                                            }}/{{
-                                                                VALIDATION.PHONE
-                                                                    .MAX
-                                                            }}
-                                                        </small>
-                                                    </div>
                                                 </div>
 
                                                 <!-- <div class="col-md-4">
