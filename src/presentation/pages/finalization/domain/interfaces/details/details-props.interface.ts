@@ -22,6 +22,7 @@ export interface DetailsProps {
     initiator: ActorEntity | null;
     acknowledgedBy: ActorEntity | null;
     processedBy: ActorEntity | null;
+    finalizedBy: ActorEntity | null;
     approvedBy: ActorEntity | null;
     rejectedBy: ActorEntity | null;
     confirmedBy: ActorEntity | null;

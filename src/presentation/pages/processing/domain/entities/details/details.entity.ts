@@ -76,6 +76,10 @@ export class DetailsEntity {
         return this.props.processedBy;
     }
 
+    get finalizedBy(): ActorEntity | null {
+        return this.props.finalizedBy;
+    }
+
     get approvedBy(): ActorEntity | null {
         return this.props.approvedBy;
     }
