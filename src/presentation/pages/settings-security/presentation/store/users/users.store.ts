@@ -70,12 +70,6 @@ export class UsersStore {
             }),
             phone: new FormControl('', {
                 nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.PHONE.MIN),
-                    Validators.maxLength(FormValidators.PHONE.MAX),
-                    Validators.pattern(FormValidators.PHONE.PATTERN),
-                ],
             }),
             profile: new FormControl('', {
                 nonNullable: true,

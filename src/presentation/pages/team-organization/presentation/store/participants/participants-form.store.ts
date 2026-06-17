@@ -49,12 +49,6 @@ export class ParticipantsFormStore {
             }),
             phone: new FormControl('', {
                 nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.PHONE.MIN),
-                    Validators.maxLength(FormValidators.PHONE.MAX),
-                    Validators.pattern(FormValidators.PHONE.PATTERN),
-                ],
             }),
             // role: new FormControl('', {
             //     nonNullable: true,
