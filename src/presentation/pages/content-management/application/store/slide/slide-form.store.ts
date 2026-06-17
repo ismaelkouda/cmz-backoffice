@@ -18,7 +18,10 @@ import {
 } from '@angular/forms';
 import { SlideFindOneFacade } from '@pages/content-management/application/services/slide/slide-find-one.facade';
 import { SlideFormControl } from '@pages/content-management/application/store/slide/slide-form.control';
-import { FormValidators } from '@pages/content-management/domain/validators/form-validators';
+import {
+    FormValidators,
+    urlValidator,
+} from '@pages/content-management/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 import { PLATFORM_ASPECT_RATIOS } from '@shared/components/image-upload/domain/types/image-upload.types';
 import { Platform } from '@shared/domain/enums/platform.enum';
@@ -205,10 +208,7 @@ export class SlideFormStore {
                 }),
                 buttonUrl: new FormControl('', {
                     nonNullable: true,
-                    // validators: [
-                    //     // Validators.maxLength(FormValidators.BUTTON_URL.MAX),
-                    //     // Validators.pattern(FormValidators.BUTTON_URL.PATTERN),
-                    // ],
+                    validators: [urlValidator()],
                 }),
                 platforms: new FormControl([], {
                     nonNullable: true,
