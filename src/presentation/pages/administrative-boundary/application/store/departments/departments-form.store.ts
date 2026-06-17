@@ -80,11 +80,6 @@ export class DepartmentsFormStore {
             }),
             description: new FormControl('', {
                 nonNullable: true,
-                validators: [
-                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-                ],
             }),
         });
 
@@ -202,6 +197,8 @@ export class DepartmentsFormStore {
             {
                 code: item.code,
                 name: item.name,
+                population: item.population,
+                infrastructure: item.infrastructure,
                 region: item.region,
                 description: item.description,
             },

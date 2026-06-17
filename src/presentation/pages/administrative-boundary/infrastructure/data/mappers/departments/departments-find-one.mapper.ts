@@ -25,6 +25,7 @@ export class DepartmentsFindOneMapper extends SimpleResponseMapper<
             description: dto.description,
             region: dto.region_code,
             populationSize: dto.population_size,
+            infrastructureSize: dto.infrastructure_size,
             municipalitiesCount: dto.municipalities_count,
             status: this.statusMapper.mapApiToStatus(dto.is_active),
             createdBy: dto.created_by,

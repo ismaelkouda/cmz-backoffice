@@ -19,7 +19,7 @@ export class RegionsFindOneEntity {
         return this.props.populationSize;
     }
     get infrastructure(): number {
-        return this.props.departmentsCount;
+        return this.props.infrastructureSize;
     }
     get departmentsCount(): number {
         return this.props.departmentsCount;

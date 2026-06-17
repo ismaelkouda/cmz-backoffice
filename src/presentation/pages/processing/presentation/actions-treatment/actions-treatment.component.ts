@@ -510,7 +510,7 @@ export class ActionsTreatmentComponent {
         const isEdit = this.formStore.isEditMode();
         return this.sweetAlert.confirm({
             titleKey: isEdit
-                ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE_UPDATE'
+                ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.EDIT'
                 : 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.TITLE.CREATE',
             messageKey: isEdit
                 ? 'PROCESSING.TASKS.ACTIONS.SWEET_ALERT.MESSAGE.EDIT'

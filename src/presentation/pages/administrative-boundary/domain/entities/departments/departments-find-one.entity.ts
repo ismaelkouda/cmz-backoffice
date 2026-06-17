@@ -19,8 +19,11 @@ export class DepartmentsFindOneEntity {
     get region(): string {
         return this.props.region;
     }
-    get populationSize(): number {
+    get population(): number {
         return this.props.populationSize;
+    }
+    get infrastructure(): number {
+        return this.props.infrastructureSize;
     }
     get municipalitiesCount(): number {
         return this.props.municipalitiesCount;

@@ -510,7 +510,7 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar bloque de inicio",
+                "TITLE.EDIT": "Actualizar bloque de inicio",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este bloque de inicio?",
                 "TITLE_CREATE": "Crear bloque de inicio",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear este bloque de inicio?",
@@ -630,7 +630,7 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar Info y Noticias",
+                "TITLE.EDIT": "Actualizar Info y Noticias",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar esta Info y Noticias?",
                 "TITLE_CREATE": "Crear Info y Noticias",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear esta Info y Noticias?",
@@ -751,7 +751,7 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar diapositiva",
+                "TITLE.EDIT": "Actualizar diapositiva",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar esta diapositiva?",
                 "TITLE_CREATE": "Crear diapositiva",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear esta diapositiva?",
@@ -868,7 +868,7 @@
                 "CONFIG": "Configuración y Acciones"
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar aviso legal",
+                "TITLE.EDIT": "Actualizar aviso legal",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este aviso legal?",
                 "TITLE_CREATE": "Crear aviso legal",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear este aviso legal?",
@@ -1016,7 +1016,7 @@
                     "CANCEL": "Cancelar"
                 },
                 "SWEET_ALERT": {
-                    "TITLE_UPDATE": "Actualizar departamento",
+                    "TITLE.EDIT": "Actualizar departamento",
                     "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este departamento?",
                     "TITLE_CREATE": "Crear departamento",
                     "MESSAGE_CREATE": "¿Está seguro de que desea crear este departamento?",
@@ -1106,7 +1106,7 @@
                     "CANCEL": "Cancelar"
                 },
                 "SWEET_ALERT": {
-                    "TITLE_UPDATE": "Actualizar Municipio/Subprefectura",
+                    "TITLE.EDIT": "Actualizar Municipio/Subprefectura",
                     "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este Municipio/Subprefectura?",
                     "TITLE_CREATE": "Crear Municipio/Subprefectura",
                     "MESSAGE_CREATE": "¿Está seguro de que desea crear este Municipio/Subprefectura?",
@@ -1192,7 +1192,7 @@
                     "CANCEL": "Cancelar"
                 },
                 "SWEET_ALERT": {
-                    "TITLE_UPDATE": "Actualizar región",
+                    "TITLE.EDIT": "Actualizar región",
                     "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar esta región?",
                     "TITLE_CREATE": "Crear región",
                     "MESSAGE_CREATE": "¿Está seguro de que desea crear esta región?",
@@ -1775,7 +1775,7 @@
                     "SWEET_ALERT": {
                         "TITLE_CREATE": "Crear acción de tratamiento",
                         "MESSAGE_CREATE": "¿Está seguro de que desea crear esta acción de tratamiento?",
-                        "TITLE_UPDATE": "Actualizar acción de tratamiento",
+                        "TITLE.EDIT": "Actualizar acción de tratamiento",
                         "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar esta acción de tratamiento?",
                         "TITLE_DELETE": "Eliminar acción de tratamiento",
                         "MESSAGE_DELETE": "¿Está seguro de que desea eliminar esta acción de tratamiento?",
@@ -2325,7 +2325,7 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar mensaje",
+                "TITLE.EDIT": "Actualizar mensaje",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este mensaje?",
                 "TITLE_CREATE": "Crear mensaje",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear este mensaje?",
@@ -2856,7 +2856,7 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar perfil",
+                "TITLE.EDIT": "Actualizar perfil",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este perfil?",
                 "TITLE_CREATE": "Crear perfil",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear este perfil?",
@@ -3016,7 +3016,7 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar miembro",
+                "TITLE.EDIT": "Actualizar miembro",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este miembro?",
                 "TITLE_CREATE": "Crear miembro",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear este miembro?",
@@ -3166,7 +3166,7 @@
                 }
             },
             "SWEET_ALERT": {
-                "TITLE_UPDATE": "Actualizar equipo",
+                "TITLE.EDIT": "Actualizar equipo",
                 "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este equipo?",
                 "TITLE_CREATE": "Crear equipo",
                 "MESSAGE_CREATE": "¿Está seguro de que desea crear este equipo?",

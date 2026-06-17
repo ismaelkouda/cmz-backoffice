@@ -186,7 +186,7 @@ export class RegionsFormComponent {
         const uniqId = this.uniqId();
         return this.sweetAlert.confirm({
             titleKey: isEdit
-                ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE_UPDATE'
+                ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.EDIT'
                 : 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.TITLE.CREATE',
             messageKey: isEdit
                 ? 'ADMINISTRATIVE_BOUNDARY.REGIONS.SWEET_ALERT.MESSAGE.EDIT'
