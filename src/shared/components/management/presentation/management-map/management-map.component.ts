@@ -13,7 +13,9 @@ import {
     signal,
     viewChild,
 } from '@angular/core';
+import { Bounds } from '@presentation/pages/interactive-map/domain/models/interactive-map-report.model';
 import { OpenLayersLoaderService } from '@shared/domain/services/openlayers-loader.service';
+import { transformExtent } from 'ol/proj';
 import { Subject } from 'rxjs';
 
 export interface MapMarker {
@@ -25,6 +27,12 @@ export interface MapMarker {
     color?: string;
 }
 
+const IVORY_COAST_BOUNDS: Bounds = {
+    minLat: 4.223876,
+    maxLat: 10.873696,
+    minLng: -9.698757,
+    maxLng: -1.656668,
+};
 @Component({
     selector: 'app-management-map',
     templateUrl: './management-map.component.html',
@@ -134,6 +142,16 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 zoom: this.zoom(),
                 minZoom: 2,
                 maxZoom: 18,
+                extent: transformExtent(
+                    [
+                        IVORY_COAST_BOUNDS.minLng,
+                        IVORY_COAST_BOUNDS.minLat,
+                        IVORY_COAST_BOUNDS.maxLng,
+                        IVORY_COAST_BOUNDS.maxLat,
+                    ],
+                    'EPSG:4326',
+                    'EPSG:3857'
+                ),
             }),
         });
     }
