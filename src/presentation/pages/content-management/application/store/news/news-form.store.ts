@@ -144,7 +144,6 @@ export class NewsFormStore {
 
     private readonly hydrateForm = effect(() => {
         const item = this.item();
-        console.log('item: ', item);
 
         if (!item) {
             return;
