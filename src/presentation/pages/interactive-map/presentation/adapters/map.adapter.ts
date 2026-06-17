@@ -1,4 +1,4 @@
-import { Injectable, NgZone, inject } from '@angular/core';
+import { NgZone, inject } from '@angular/core';
 import {
     Bounds,
     ClusterSummary,
@@ -55,9 +55,6 @@ const IVORY_COAST_BOUNDS: Bounds = {
     maxLng: -1.656668,
 };
 
-@Injectable({
-    providedIn: 'root',
-})
 export class MapAdapter {
     private readonly ngZone = inject(NgZone);
 
@@ -134,7 +131,7 @@ export class MapAdapter {
                 ),
             }),
         });
-
+        console.log('fsfsfsfsfsf');
         this.setupClickListener();
         this.setupPointerMoveListener();
     }
@@ -411,9 +408,11 @@ export class MapAdapter {
     }
 
     private setupClickListener(): void {
+        console.log('click');
         if (!this.map) {
             return;
         }
+        console.log('map');
 
         this.map.on('singleclick', (event) => {
             const feature = this.map?.forEachFeatureAtPixel(
@@ -538,33 +537,33 @@ export class MapAdapter {
         console.log('report bgrbgrbgrbr createReportStyle: ', report);
         const color = report ? this.getMarkerColor(report) : '#64748b';
         // const icon = report ? this.getReportIcon(report.report_type) : '!';
-        const isSelected = this.isSelectedReport(report);
+        // const isSelected = this.isSelectedReport(report);
 
         return [
-            ...(isSelected
-                ? [
-                      new Style({
-                          image: new CircleStyle({
-                              radius: 22,
-                              fill: new Fill({ color: 'rgba(255,255,255,0)' }),
-                              stroke: new Stroke({
-                                  color: 'rgba(15, 23, 42, 0.78)',
-                                  width: 4,
-                              }),
-                          }),
-                      }),
-                      new Style({
-                          image: new CircleStyle({
-                              radius: 18,
-                              fill: new Fill({ color: 'rgba(255,255,255,0)' }),
-                              stroke: new Stroke({
-                                  color: '#ffffff',
-                                  width: 5,
-                              }),
-                          }),
-                      }),
-                  ]
-                : []),
+            // ...(isSelected
+            //     ? [
+            //           new Style({
+            //               image: new CircleStyle({
+            //                   radius: 22,
+            //                   fill: new Fill({ color: 'rgba(255,255,255,0)' }),
+            //                   stroke: new Stroke({
+            //                       color: 'rgba(15, 23, 42, 0.78)',
+            //                       width: 4,
+            //                   }),
+            //               }),
+            //           }),
+            //           new Style({
+            //               image: new CircleStyle({
+            //                   radius: 18,
+            //                   fill: new Fill({ color: 'rgba(255,255,255,0)' }),
+            //                   stroke: new Stroke({
+            //                       color: '#ffffff',
+            //                       width: 5,
+            //                   }),
+            //               }),
+            //           }),
+            //       ]
+            //     : []),
             new Style({
                 image: new CircleStyle({
                     radius: 15,

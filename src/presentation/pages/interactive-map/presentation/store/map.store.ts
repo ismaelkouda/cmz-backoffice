@@ -63,13 +63,10 @@ const initialState: MapState = {
     error: null,
 };
 
-@Injectable({ providedIn: 'root' })
 export class MapStore {
     private readonly state = signal<MapState>(initialState);
-    // Cache local des signalements chargés (tous, sans filtrage)
     private reportsCache = new Map<string, InteractiveMapReport>();
 
-    // Signaux publics (inchangés)
     public readonly userPosition = computed(() => this.state().userPosition);
     public readonly viewportBounds = computed(
         () => this.state().viewportBounds
