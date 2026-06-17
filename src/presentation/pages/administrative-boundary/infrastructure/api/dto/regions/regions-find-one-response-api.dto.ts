@@ -6,6 +6,7 @@ export interface RegionsFindOneItemApiDto {
     code: string;
     description: string;
     population_size: number;
+    infrastructure_size: number;
     departments_count: number;
     municipalities_count: number;
     is_active: boolean;

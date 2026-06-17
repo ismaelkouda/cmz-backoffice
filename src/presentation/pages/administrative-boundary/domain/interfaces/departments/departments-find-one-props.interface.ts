@@ -7,6 +7,7 @@ export interface DepartmentsFindOneProps {
     description: string;
     region: string;
     populationSize: number;
+    infrastructureSize: number;
     municipalitiesCount: number;
     status: Status;
     createdBy: string;

@@ -13,6 +13,7 @@ export interface MunicipalitiesFindOneItemApiDto {
     region: AdministrativeBoundaryDto;
     department: AdministrativeBoundaryDto;
     population_size: number;
+    infrastructure_size: number;
     is_active: boolean;
     created_by: string;
     updated_by: string;

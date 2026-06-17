@@ -6,6 +6,7 @@ export interface RegionsFindOneProps {
     code: string;
     description: string;
     populationSize: number;
+    infrastructureSize: number;
     departmentsCount: number;
     municipalitiesCount: number;
     status: Status;

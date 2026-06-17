@@ -10,6 +10,7 @@ export interface DepartmentsFindOneItemApiDto {
     region_code: string;
     region: AdministrativeBoundaryDto;
     population_size: number;
+    infrastructure_size: number;
     municipalities_count: number;
     is_active: boolean;
     created_by: string;

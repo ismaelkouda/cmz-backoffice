@@ -8,6 +8,7 @@ export interface MunicipalitiesFindOneProps {
     region: string;
     department: string;
     populationSize: number;
+    infrastructureSize: number;
     status: Status;
     createdAt: string;
     updatedAt: string;

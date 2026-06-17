@@ -222,8 +222,9 @@ p-fileupload {
     }
 }
 
-.form-input,
-.p-inputtext {
+:host ::ng-deep .form-input,
+:host ::ng-deep .integeronly,
+:host ::ng-deep .p-inputtext {
     width: 100%;
     padding: 16px;
     border: 2px solid $light-gray;

@@ -25,6 +25,7 @@ import { PermissionActionsService } from '@shared/domain/services/permission-act
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
@@ -44,6 +45,7 @@ import SweetAlert from 'sweetalert2';
         BreadcrumbComponent,
         PageTitleComponent,
         ReactiveFormsModule,
+        InputNumberModule,
         InputTextModule,
         TextareaModule,
         SelectModule,
@@ -198,8 +200,8 @@ export class DepartmentsFormComponent {
         const uniqId = this.uniqId();
         return this.sweetAlert.confirm({
             titleKey: isEdit
-                ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_UPDATE'
-                : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE_CREATE',
+                ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE.EDIT'
+                : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.TITLE.CREATE',
             messageKey: isEdit
                 ? 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE.EDIT'
                 : 'ADMINISTRATIVE_BOUNDARY.DEPARTMENTS.SWEET_ALERT.MESSAGE.CREATE',
