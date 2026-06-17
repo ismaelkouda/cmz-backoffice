@@ -11,6 +11,7 @@ import {
     inject,
     signal,
     viewChild,
+    ChangeDetectionStrategy,
 } from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
@@ -91,6 +92,8 @@ interface NominatimSearchResult {
         DatePickerModule,
         TagModule,
     ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [MapAdapter, MapStore],
     templateUrl: './interactive-map.component.html',
     styleUrls: ['./interactive-map.component.scss'],
 })
@@ -472,7 +475,6 @@ export class InteractiveMapComponent
     private setupStoreEffects(): void {
         effect(() => {
             const reports = this.store.visibleReports();
-            console.log('reports: ', reports);
             const heatmapEnabled = this.store.heatmapEnabled();
             if (this.mapAdapter.isReady()) {
                 this.mapAdapter.renderReports(reports, heatmapEnabled);
@@ -601,6 +603,7 @@ export class InteractiveMapComponent
     }
 
     private handleMapClick(info: MapClickInfo): void {
+        console.log('info: ', info);
         if (!info.reports.length) {
             this.store.setSelectedReport(null);
             this.selectedClusterReports.set([]);

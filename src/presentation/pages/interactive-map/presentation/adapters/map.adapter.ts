@@ -1,4 +1,4 @@
-import { Injectable, NgZone, inject } from '@angular/core';
+import { NgZone, inject } from '@angular/core';
 import {
     Bounds,
     ClusterSummary,
@@ -55,9 +55,6 @@ const IVORY_COAST_BOUNDS: Bounds = {
     maxLng: -1.656668,
 };
 
-@Injectable({
-    providedIn: 'root',
-})
 export class MapAdapter {
     private readonly ngZone = inject(NgZone);
 
@@ -134,7 +131,7 @@ export class MapAdapter {
                 ),
             }),
         });
-
+        console.log('fsfsfsfsfsf');
         this.setupClickListener();
         this.setupPointerMoveListener();
     }
@@ -411,9 +408,11 @@ export class MapAdapter {
     }
 
     private setupClickListener(): void {
+        console.log('click');
         if (!this.map) {
             return;
         }
+        console.log('map');
 
         this.map.on('singleclick', (event) => {
             const feature = this.map?.forEachFeatureAtPixel(
