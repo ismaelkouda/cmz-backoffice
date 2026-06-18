@@ -55,6 +55,10 @@ export class ImageUploadComponent implements ControlValueAccessor {
     readonly disabled = signal(false);
     readonly validationError = signal<ImageUploadError | null>(null);
 
+    get truncatedFileName(): string {
+        const name = this.fileName()?.substring(0, 20) ?? '';
+        return name;
+    }
     private readonly fileInputRef =
         viewChild<ElementRef<HTMLInputElement>>('fileInput');
 

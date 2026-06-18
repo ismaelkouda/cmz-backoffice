@@ -8,6 +8,7 @@ export interface ParticipantsProps {
     email: string;
     phone: string;
     role: Roles | null;
+    team: string | null;
     status: Status;
     updatedAt: string;
 }

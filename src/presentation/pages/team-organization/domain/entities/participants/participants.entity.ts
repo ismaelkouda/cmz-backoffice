@@ -44,6 +44,10 @@ export class ParticipantsEntity {
         return methodMap[role];
     }
 
+    get team(): string | null {
+        return this.props.team;
+    }
+
     get status(): Status {
         return this.props.status;
     }

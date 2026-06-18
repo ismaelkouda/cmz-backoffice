@@ -20,13 +20,17 @@ export class ParticipantsMapper extends PaginatedMapper<
 
     protected mapItemFromDto(dto: ParticipantsItemApiDto): ParticipantsEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
+        const role = this.rolesMapper.mapFromDto(dto.role);
+        const team = dto.team?.id ? `${dto.team?.name}` : null;
+
         const props: ParticipantsProps = {
             uniqId: dto.id,
             lastName: dto.last_name,
             firstName: dto.first_name,
             email: dto.email,
             phone: dto.phone,
-            role: this.rolesMapper.mapFromDto(dto.role),
+            role,
+            team,
             status: this.statusMapper.mapFromDto(dto.status),
             updatedAt: dto.updated_at,
         };

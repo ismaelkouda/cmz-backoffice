@@ -48,7 +48,7 @@
                                                 }}</b>
                                             </legend>
                                             <div
-                                                class="row g-3 align-items-center"
+                                                class="row g-3 align-items-end"
                                             >
                                                 <div class="col-md-3">
                                                     <label
@@ -413,6 +413,12 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL'
                                                                 | translate
                                                         }}
+                                                        @if (form.get('buttonLabel')?.value) {
+                                                            <span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                >
+                                                        }
                                                     </label>
                                                     <input
                                                         id="buttonUrl"

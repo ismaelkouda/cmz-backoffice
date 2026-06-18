@@ -7,12 +7,12 @@ import { ParticipantsFilterEntity } from '@pages/team-organization/domain/entiti
 import { ParticipantsUpdateEntity } from '@pages/team-organization/domain/entities/participants/participants-update.entity';
 import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
 import { ParticipantsRepository } from '@pages/team-organization/domain/repositories/participants/participants-repository';
-import { participantsCreateMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-create.mapper';
+import { ParticipantsCreateMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-create.mapper';
 import { participantsDeleteMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-delete.mapper';
 import { participantsDisableMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-disable.mapper';
 import { participantsEnableMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-enable.mapper';
-import { participantsFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-filter.mapper';
-import { participantsUpdateMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-update.mapper';
+import { ParticipantsFilterMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-filter.mapper';
+import { ParticipantsUpdateMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-update.mapper';
 import { ParticipantsMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants.mapper';
 import { ParticipantsApi } from '@pages/team-organization/infrastructure/data/sources/participants/participants.api';
 import {
@@ -28,6 +28,9 @@ import { map, Observable } from 'rxjs';
 export class ParticipantsRepositoryImpl implements ParticipantsRepository {
     private readonly api = inject(ParticipantsApi);
     private readonly mapper = inject(ParticipantsMapper);
+    private readonly filterMapper = inject(ParticipantsFilterMapper);
+    private readonly createMapper = inject(ParticipantsCreateMapper);
+    private readonly updateMapper = inject(ParticipantsUpdateMapper);
 
     readAll(
         filter: ParticipantsFilterEntity,
@@ -35,20 +38,20 @@ export class ParticipantsRepositoryImpl implements ParticipantsRepository {
         options?: FetchOptions
     ): Observable<Paginate<ParticipantsEntity>> {
         return this.api
-            .readAll(participantsFilterMapper(filter), page, options)
+            .readAll(this.filterMapper.mapEntityToApi(filter), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
     create(
         payload: ParticipantsCreateEntity
     ): Observable<SimpleResponseDto<void>> {
-        return this.api.create(participantsCreateMapper(payload));
+        return this.api.create(this.createMapper.mapEntityToApi(payload));
     }
 
     update(
         payload: ParticipantsUpdateEntity
     ): Observable<SimpleResponseDto<void>> {
-        return this.api.update(participantsUpdateMapper(payload));
+        return this.api.update(this.updateMapper.mapEntityToApi(payload));
     }
 
     delete(

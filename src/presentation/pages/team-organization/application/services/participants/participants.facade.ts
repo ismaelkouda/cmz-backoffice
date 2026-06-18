@@ -72,6 +72,7 @@ export class ParticipantsFacade extends BaseFacade<
         const command = new ParticipantsQuery(
             filter?.search,
             filter?.role,
+            filter?.team,
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page, options);
@@ -89,6 +90,7 @@ export class ParticipantsFacade extends BaseFacade<
         const command = new ParticipantsQuery(
             filter?.search,
             filter?.role,
+            filter?.team,
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page, {
@@ -106,6 +108,7 @@ export class ParticipantsFacade extends BaseFacade<
         const command = new ParticipantsQuery(
             filter?.search,
             filter?.role,
+            filter?.team,
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
@@ -119,6 +122,7 @@ export class ParticipantsFacade extends BaseFacade<
         const command = new ParticipantsQuery(
             filter?.search,
             filter?.role,
+            filter?.team,
             filter?.status
         );
         const fetch$ = this.filterBus.dispatch(command, page);
@@ -151,8 +155,9 @@ export class ParticipantsFacade extends BaseFacade<
             participant.firstName,
             participant.lastName,
             participant.email,
-            participant.phone
-            // participant.role
+            participant.phone,
+            participant?.role,
+            participant?.team
         );
 
         this.handleActionWithRefresh(
@@ -179,8 +184,9 @@ export class ParticipantsFacade extends BaseFacade<
             participant.firstName,
             participant.lastName,
             participant.email,
-            participant.phone
-            // participant.role
+            participant.phone,
+            participant?.role,
+            participant?.team
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

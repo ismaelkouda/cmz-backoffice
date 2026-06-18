@@ -329,7 +329,71 @@
                                                     />
                                                 </div>
 
-                                                <!-- <div class="col-md-4">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="team"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.TEAMS'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <p-select
+                                                        id="team"
+                                                        class="form-p-select"
+                                                        [options]="teams()"
+                                                        [showClear]="true"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        [loading]="loadingTeams()"
+                                                        formControlName="team"
+                                                        [filter]="true"
+                                                        filterBy="label"
+                                                        appendTo="body"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.TEAMS'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('team')
+                                                                ?.invalid &&
+                                                            form.get('team')
+                                                                ?.touched
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('team')
+                                                            ?.invalid &&
+                                                        form.get('team')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            role="alert"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
                                                     <label
                                                         for="role"
                                                         class="form-label fw-bold"
@@ -338,11 +402,13 @@
                                                             'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
                                                                 | translate
                                                         }}
-                                                        <span
-                                                            class="text-danger"
-                                                            aria-label="required"
-                                                            >*</span
-                                                        >
+                                                        @if (form.get('role')
+                                                            ?.invalid) {
+                                                            <span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                >
+                                                        }
                                                     </label>
                                                     <p-select
                                                         id="role"
@@ -350,6 +416,7 @@
                                                         [options]="
                                                             rolesOptions()
                                                         "
+                                                        [showClear]="true"
                                                         formControlName="role"
                                                         optionLabel="label"
                                                         optionValue="value"
@@ -395,7 +462,7 @@
                                                             }}</small
                                                         >
                                                     }
-                                                </div> -->
+                                                </div>
                                             </div>
                                         </fieldset>
 

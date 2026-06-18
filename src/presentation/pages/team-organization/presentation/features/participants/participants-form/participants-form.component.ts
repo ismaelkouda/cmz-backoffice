@@ -65,6 +65,9 @@ export class ParticipantsFormComponent {
     private readonly submitFacade = inject(ParticipantsFacade);
     private readonly helper = inject(ParticipantsFormHelperService);
     private readonly validation = inject(FormValidationService);
+    protected readonly rolesOptions = this.store.rolesOptions;
+    protected readonly teams = this.store.teams;
+    protected readonly loadingTeams = this.store.loadingTeams;
     protected readonly form = this.store.form;
     protected readonly loading = this.store.loading;
     protected readonly isEditMode = this.store.isEditMode;

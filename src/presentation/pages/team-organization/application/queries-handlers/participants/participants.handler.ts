@@ -17,9 +17,10 @@ export class ParticipantsHandler {
     ): Observable<Paginate<ParticipantsEntity>> {
         return this.useCase.execute(
             {
-                search: command.search,
-                role: command.role,
-                status: command.status,
+                search: command?.search,
+                role: command?.role,
+                team: command?.team,
+                status: command?.status,
             },
             page,
             options
