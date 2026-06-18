@@ -391,8 +391,8 @@ export class NewsListComponent {
             queryParams,
         });
     }
-    protected onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1', { forceRefresh: true });
+    protected onFilterClicked(): void {
+        this.facade.readAll(this.formStore.value, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

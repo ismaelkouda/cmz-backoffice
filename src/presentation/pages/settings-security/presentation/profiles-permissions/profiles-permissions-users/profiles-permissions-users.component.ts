@@ -80,7 +80,6 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly destroyRef = inject(DestroyRef);
-    // private readonly exportService = inject(TableExportExcelFileService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()

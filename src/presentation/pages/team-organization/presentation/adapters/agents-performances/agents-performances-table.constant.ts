@@ -1,4 +1,17 @@
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 3);
+    return `${width}rem`;
+}
+
 export const AGENTS_PERFORMANCES_TABLE_CONSTANT = {
+    actions: [
+        {
+            id: 'view',
+            icon: 'pi pi-eye',
+            tooltip: 'EAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.SEE_MORE',
+            severity: 'contrast',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -39,6 +52,12 @@ export const AGENTS_PERFORMANCES_TABLE_CONSTANT = {
             header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.CREATED_AT',
             class: 'text-center',
             width: '9rem',
+        },
+        {
+            field: '__action',
+            header: 'TEAM_ORGANIZATION.AGENTS_PERFORMANCES.TABLE.ACTION',
+            class: 'text-center',
+            width: calculateActionColumnWidth(2),
         },
     ],
     globalFilterFields: [

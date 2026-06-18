@@ -31,6 +31,10 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { ToastrService } from 'ngx-toastr';
 import { DialogModule } from 'primeng/dialog';
 import { map, switchMap } from 'rxjs';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
+import { formatDate } from '@shared/domain/functions/format-data.function';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 
 @Component({
     selector: 'app-history',
@@ -50,6 +54,7 @@ import { map, switchMap } from 'rxjs';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HistoryPageComponent {
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly route = inject(ActivatedRoute);
     private readonly destroyRef = inject(DestroyRef);
     private readonly title = inject(Title);
@@ -57,13 +62,17 @@ export class HistoryPageComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly store = inject(HistoryFilterStore);
-    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
         this.appConfig.customization.app.name
     );
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
+    );
+    private readonly canExport = this.permissionActions.can(
+        '/requests/queues',
+        'export'
     );
     protected uniqId: string | null = null;
     protected readonly tableConfig = HISTORY_TABLE;
@@ -226,23 +235,58 @@ export class HistoryPageComponent {
     private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
     }
-
     private exportData(): void {
-        if (!this.canExportData()) {
+        if (!this.canExport()) {
             this.toast.error(this.exportTooltip());
             return;
         }
-        const item = this.items();
-        if (item && item.length > 0) {
-            // const fileName = `${this.exportFilePrefix}-history`;
-            // this.exportService.exportAsExcelFile(
-            //     item,
-            //     this.tableConfig,
-            //     fileName
-            // );
-        } else {
-            this.toast.error(this.t('EXPORT.NO_DATA'));
+        const items = this.itemsVM();
+        if (!items.length) {
+            this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
         }
+
+        const fileName = `${this.exportFilePrefix}-history`;
+
+        const exportColumns: ExportColumn[] = HISTORY_TABLE.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                let width = 15;
+                if (col.width) {
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'createdAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items,
+                sheetName: this.translate.instant('HISTORY.TITLE'),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
     }
     private normalizeExportPrefix(appName: string): string {
         return (
