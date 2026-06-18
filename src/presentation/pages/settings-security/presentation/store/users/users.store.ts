@@ -107,7 +107,7 @@ export class UsersStore {
                 lastName: item.lastName,
                 firstName: item.firstName,
                 email: item.email,
-                phone: formatPhoneForMask(item.phone),
+                phone: item.phone ? formatPhoneForMask(item.phone) : undefined,
                 profile: item.profile,
                 // role: item.role,
             },
