@@ -55,7 +55,9 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
-        this.performFetch(filter, page);
+        this.performFetch(filter, page, {
+            forceRefresh: true,
+        });
     }
 
     changePage(page: string): void {
@@ -68,9 +70,7 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page, {
-            forceRefresh: true,
-        });
+        const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
@@ -79,7 +79,9 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         if (filter) {
-            this.performFetch(filter, page);
+            this.performFetch(filter, page, {
+                forceRefresh: true,
+            });
         }
     }
 
