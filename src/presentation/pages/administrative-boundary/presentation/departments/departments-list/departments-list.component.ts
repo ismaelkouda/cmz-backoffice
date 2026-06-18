@@ -336,7 +336,7 @@ export class DepartmentsListComponent {
         });
     }
     protected onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1');
+        this.facade.readAll(filterValues, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));

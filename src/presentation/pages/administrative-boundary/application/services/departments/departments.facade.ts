@@ -83,7 +83,9 @@ export class DepartmentsFacade extends BaseFacade<
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         if (filter) {
-            this.performFetch(filter, page);
+            this.performFetch(filter, page, {
+                forceRefresh: true,
+            });
         }
     }
 
