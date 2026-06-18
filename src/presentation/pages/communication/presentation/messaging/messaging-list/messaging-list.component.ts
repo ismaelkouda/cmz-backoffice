@@ -231,9 +231,8 @@ export class MessagingListComponent {
         this.currentLang();
         this.title.setTitle(this.t('COMMUNICATION.MESSAGING.PAGE_TITLE'));
     }
-
     protected onFilterClicked(): void {
-        this.facade.readAll(this.formStore.value, '1');
+        this.facade.readAll(this.formStore.value, '1', { forceRefresh: true });
     }
 
     protected onChangePageClicked(event: number): void {

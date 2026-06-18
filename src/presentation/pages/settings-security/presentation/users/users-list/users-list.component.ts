@@ -24,6 +24,9 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ToastrService } from 'ngx-toastr';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
 
 @Component({
@@ -43,9 +46,11 @@ export class UsersListComponent {
     protected readonly facade = inject(UsersFacade);
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
-
-    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
+    private readonly exportFilePrefix = this.normalizeExportPrefix(
+        this.appConfig.customization.app.name
+    );
     private readonly canExport = this.permissionActions.can(
         '/security-settings/users',
         'export'
@@ -236,23 +241,6 @@ export class UsersListComponent {
     private onRefreshData(): void {
         this.facade.refresh();
     }
-    private exportData(): void {
-        if (!this.canExport()) {
-            this.toast.error(this.exportTooltip());
-            return;
-        }
-        const items = this.items();
-        if (!items.length) {
-            this.toast.error(this.t('EXPORT.NO_DATA'));
-            return;
-        }
-
-        // this.exportService.exportAsExcelFile(
-        //     items,
-        //     this.tableConfig,
-        //     `${this.normalizeExportPrefix}-users`
-        // );
-    }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {
             if (!this.canCreate()) {
@@ -327,8 +315,8 @@ export class UsersListComponent {
             queryParams,
         });
     }
-    protected onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1');
+    protected onFilterClicked(): void {
+        this.facade.readAll({}, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
@@ -408,17 +396,70 @@ export class UsersListComponent {
         }
         this.facade.disable({ uniqId });
     }
-    private t(key: string): string {
-        return this.translate.instant(key);
-    }
+    private exportData(): void {
+        if (!this.canExport()) {
+            this.toast.error(this.exportTooltip());
+            return;
+        }
+        const items = this.itemsVM();
+        if (!items.length) {
+            this.toast.error(this.translate.instant('EXPORT.NO_DATA'));
+            return;
+        }
 
-    private get normalizeExportPrefix(): string {
-        const appName = this.appConfig.customization.app.name;
+        const fileName = `${this.exportFilePrefix}-users`;
+
+        const exportColumns: ExportColumn[] = USERS_TABLE.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                let width = 15;
+                if (col.width) {
+                    const num = Number.parseFloat(col.width);
+                    width = Number.isNaN(num) ? 15 : num;
+                }
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: width,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'updatedAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: fileName,
+                columns: exportColumns,
+                data: items,
+                sheetName: this.translate.instant(
+                    'SETTINGS_SECURITY.USERS.TITLE'
+                ),
+                autoFilter: true,
+            })
+            .catch((err) => {
+                console.error('Export error', err);
+                this.toast.error(this.translate.instant('EXPORT.ERROR'));
+            });
+    }
+    private normalizeExportPrefix(appName: string): string {
         return (
             appName
                 .toLowerCase()
                 .replaceAll(/[^a-z0-9]+/g, '-')
                 .replaceAll(/(^-|-$)/g, '') || 'cmz'
         );
+    }
+    private t(key: string): string {
+        return this.translate.instant(key);
     }
 }

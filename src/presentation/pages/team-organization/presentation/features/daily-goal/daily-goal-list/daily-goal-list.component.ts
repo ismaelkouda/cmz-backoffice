@@ -149,8 +149,8 @@ export class DailyGoalListComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    public onFilterClicked(filterValues: any): void {
-        this.facade.readAll(filterValues, '1');
+    public onFilterClicked(): void {
+        this.facade.readAll({}, '1', { forceRefresh: true });
     }
 
     public onRefreshClicked(): void {

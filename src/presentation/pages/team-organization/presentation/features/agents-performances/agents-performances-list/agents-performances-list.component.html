@@ -4,7 +4,7 @@
         [isLoading]="loading()"
         [formGroup]="form"
         [fields]="filterFields()"
-        (filter)="onFilterClicked($event)"
+        (filter)="onFilterClicked()"
         [filterState]="facade.currentFilter$"
         [limit]="5"
     ></app-filter>
@@ -14,15 +14,16 @@
     <section class="table-section">
         <app-table
             class="table-component"
+            dataKey="uniqId"
+            [config]="tableConfig"
             [loading]="loading()"
+            [headerButtons]="headerButtons()"
             [items]="itemsVM()"
             [pagination]="pagination()"
-            [config]="tableConfig"
-            (refreshRequested)="onRefreshClicked()"
-            (actionClicked)="onNavigateToForm($event)"
-            (export)="onExportExcel()"
-            [hiddenButtonOther]="true"
-            dataKey="uniqId"
+            (actionClicked)="onActionClicked($event)"
+            (headerButtonClicked)="
+                onHeaderButtonClicked($event)
+            "
         ></app-table>
 
         <app-pagination
