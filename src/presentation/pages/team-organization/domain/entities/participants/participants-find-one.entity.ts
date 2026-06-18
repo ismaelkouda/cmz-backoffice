@@ -1,10 +1,13 @@
+import { Roles } from '@shared/domain/enums/roles.enum';
+
 export interface ParticipantsFindOneProps {
     uniqId: string;
     lastName: string;
     firstName: string;
     email: string;
     phone: string;
-    role: string;
+    role: Roles | null;
+    team: string | null;
     updatedAt: string;
 }
 export class ParticipantsFindOneEntity {
@@ -30,8 +33,12 @@ export class ParticipantsFindOneEntity {
         return this.props.phone;
     }
 
-    get role(): string {
+    get role(): Roles | null {
         return this.props.role;
+    }
+
+    get team(): string | null {
+        return this.props.team;
     }
 
     get updatedAt(): string {

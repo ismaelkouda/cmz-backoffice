@@ -1,24 +1,42 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import {
+    AbstractControl,
     FormBuilder,
     FormControl,
     FormGroup,
+    ValidationErrors,
+    ValidatorFn,
     Validators,
 } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
 import { ParticipantsFindOneFacade } from '@pages/team-organization/application/services/participants/participants-find-one.facade';
 import { FormValidators } from '@pages/team-organization/domain/validators/form-validators';
 import { ParticipantsFormControl } from '@presentation/pages/team-organization/presentation/store/participants/participants-form.control';
+import { enumToFilterOptionsWithValue } from '@shared/components/filter/filter.types';
+import { Roles } from '@shared/domain/enums/roles.enum';
 import { formatPhoneForMask } from '@shared/domain/functions/format-phone-for-mask.function';
+import { TeamsSelectFacade } from '@pages/team-organization/application/services/teams/teams-select.facade';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class ParticipantsFormStore {
+    private readonly translate = inject(TranslateService);
     private readonly fb = inject(FormBuilder);
     private readonly facade = inject(ParticipantsFindOneFacade);
+    public readonly teamsSelectFacade = inject(TeamsSelectFacade);
     public readonly isEditMode = signal(false);
     private readonly item = this.facade.items;
     public readonly loading = this.facade.loading;
-    public readonly form: FormGroup<ParticipantsFormControl> =
-        this.createForm();
+    public readonly form = this.createForm();
+    public readonly rolesOptions = computed(() =>
+        enumToFilterOptionsWithValue(Roles, this.t.bind(this))
+    );
+    readonly teams = toSignal(this.teamsSelectFacade.items$, {
+        initialValue: [],
+    });
+    readonly loadingTeams = toSignal(this.teamsSelectFacade.isLoading$, {
+        initialValue: false,
+    });
 
     private createForm(): FormGroup<ParticipantsFormControl> {
         return this.fb.nonNullable.group<ParticipantsFormControl>({
@@ -50,10 +68,12 @@ export class ParticipantsFormStore {
             phone: new FormControl('', {
                 nonNullable: true,
             }),
-            // role: new FormControl('', {
-            //     nonNullable: true,
-            //     validators: [Validators.required],
-            // }),
+            role: new FormControl(undefined, {
+                nonNullable: true,
+            }),
+            team: new FormControl(undefined, {
+                nonNullable: true,
+            }),
         });
     }
 
@@ -73,15 +93,35 @@ export class ParticipantsFormStore {
                 firstName: item.firstName,
                 email: item.email,
                 phone: formatPhoneForMask(item.phone),
-                // role: item.role,
             },
             { emitEvent: false }
         );
+
+        if (item.role) {
+            this.form.controls.role.setValue(item.role);
+        }
+        if (item.team) {
+            this.form.controls.team.setValue(item.team);
+        }
+    });
+
+    private readonly teamFieldsConsistencyValidator = effect(() => {
+        this.form.controls.team.valueChanges.subscribe((team) => {
+            const roleControl = this.form.controls.role;
+
+            if (team) {
+                roleControl.addValidators(Validators.required);
+            } else {
+                roleControl.removeValidators(Validators.required);
+            }
+
+            roleControl.updateValueAndValidity();
+        });
     });
 
     public setMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
-
+        this.teamsSelectFacade.readAll();
         this.facade.reset();
         this.form.reset();
         if (uniqId) {
@@ -93,5 +133,8 @@ export class ParticipantsFormStore {
         this.form.reset();
         this.isEditMode.set(false);
         this.facade.reset();
+    }
+    private t(key: string): string {
+        return this.translate.instant(key);
     }
 }

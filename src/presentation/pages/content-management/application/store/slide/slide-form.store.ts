@@ -237,10 +237,10 @@ export class SlideFormStore {
             const label = control.get('buttonLabel')?.value?.trim() as string;
             const url = control.get('buttonUrl')?.value?.trim() as string;
             if (label && !url) {
-                return { buttonLabelWithoutUrl: true };
+                return { buttonUrlRequired: true };
             }
             if (url && !label) {
-                return { buttonUrlWithoutLabel: true };
+                return { buttonLabelRequired: true };
             }
             return null;
         };

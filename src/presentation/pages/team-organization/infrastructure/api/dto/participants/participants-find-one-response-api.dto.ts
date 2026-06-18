@@ -1,3 +1,5 @@
+import { RolesDto } from '@shared/data/dto/roles.dto';
+import { SelectDto } from '@shared/data/dto/select.dto';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface ParticipantsFindOneItemApiDto {
@@ -6,7 +8,8 @@ export interface ParticipantsFindOneItemApiDto {
     last_name: string;
     email: string;
     phone: string;
-    role: string;
+    role: RolesDto | null;
+    team: SelectDto | null;
     updated_at: string;
 }
 

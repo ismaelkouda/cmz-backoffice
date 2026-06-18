@@ -1,5 +1,8 @@
+import { RolesDto } from '@shared/data/dto/roles.dto';
+
 export interface ParticipantsFilterApiDto {
     search?: string;
-    role?: string;
+    role?: RolesDto;
+    team_id?: string;
     status?: string;
 }

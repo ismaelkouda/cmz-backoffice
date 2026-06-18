@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ParticipantsFilterDto } from '@pages/team-organization/application/dto/participants/participants-filter.dto';
 import { ParticipantsFacade } from '@pages/team-organization/application/services/participants/participants.facade';
 import { ParticipantsFilterControl } from '@pages/team-organization/presentation/store/participants/participants-filter.control';
+import { Roles } from '@shared/domain/enums/roles.enum';
 
 @Injectable()
 export class ParticipantsFilterStore {
@@ -22,7 +23,10 @@ export class ParticipantsFilterStore {
             status: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
-            role: new FormControl<string | undefined>(undefined, {
+            role: new FormControl<Roles | undefined>(undefined, {
+                nonNullable: true,
+            }),
+            team: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
         });

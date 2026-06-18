@@ -1,4 +1,5 @@
 import { ParticipantsCreateDto } from '@pages/team-organization/application/dto/participants/participants-create.dto';
+import { Roles } from '@shared/domain/enums/roles.enum';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 
 export class ParticipantsCreateVo {
@@ -6,20 +7,23 @@ export class ParticipantsCreateVo {
     public readonly lastName: string;
     public readonly email: string;
     public readonly phone: string;
-    // public readonly role: string;
+    public readonly role?: Roles;
+    public readonly team?: string;
 
     constructor(props: {
         firstName: string;
         lastName: string;
         email: string;
         phone: string;
-        // role: string;
+        role?: Roles;
+        team?: string;
     }) {
         this.firstName = props.firstName;
         this.lastName = props.lastName;
         this.email = props.email;
         this.phone = props.phone;
-        // this.role = props.role;
+        this.role = props.role;
+        this.team = props.team;
     }
 
     static fromDto(dto: ParticipantsCreateDto): ParticipantsCreateVo {
@@ -29,7 +33,8 @@ export class ParticipantsCreateVo {
             lastName: dto.lastName,
             email: dto.email,
             phone,
-            // role: dto.role,
+            role: dto?.role,
+            team: dto?.team,
         });
     }
 }

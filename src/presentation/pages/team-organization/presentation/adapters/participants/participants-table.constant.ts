@@ -39,6 +39,12 @@ export const PARTICIPANTS_TABLE = {
             width: '7rem',
         },
         {
+            field: 'team',
+            header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.TEAM',
+            class: 'text-center',
+            width: '7rem',
+        },
+        {
             field: 'statusLabel',
             header: 'TEAM_ORGANIZATION.PARTICIPANTS.TABLE.STATUS',
             class: 'text-center',
@@ -64,6 +70,7 @@ export const PARTICIPANTS_TABLE = {
         'email',
         'phone',
         'roleLabel',
+        'team',
         'statusLabel',
         'createdAt',
     ],

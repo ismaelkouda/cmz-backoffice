@@ -17,7 +17,8 @@ export class ParticipantsUpdateHandler {
             lastName: command.lastName,
             email: command.email,
             phone: command.phone,
-            // role: command.role,
+            role: command?.role,
+            team: command?.team,
         });
     }
 }
