@@ -28,7 +28,7 @@ export class NewsFindOneMapper extends SimpleResponseMapper<
             video: dto.video_url,
             order: dto.order,
             category: JSON.stringify(dto.category.id),
-            subCategory: JSON.stringify(dto.sub_category.id),
+            subCategory: JSON.stringify(dto.sub_category?.id),
             status: this.statusMapper.mapFromDto(dto.is_published),
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,

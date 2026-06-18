@@ -46,8 +46,8 @@ export const MUNICIPALITIES_TABLE = {
              width: '17rem',
          }, */
         {
-            field: 'createdAt',
-            header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABLE.CREATED_AT',
+            field: 'updatedAt',
+            header: 'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TABLE.UPDATED_AT',
             class: 'text-center',
             width: '5rem',
         },
@@ -66,6 +66,6 @@ export const MUNICIPALITIES_TABLE = {
         'department',
         'populationSize',
         'infrastructureCount',
-        'createdAt',
+        'updatedAt',
     ],
 };
