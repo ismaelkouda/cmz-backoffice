@@ -1,11 +1,8 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import {
-    AbstractControl,
     FormBuilder,
     FormControl,
     FormGroup,
-    ValidationErrors,
-    ValidatorFn,
     Validators,
 } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -92,7 +89,7 @@ export class ParticipantsFormStore {
                 lastName: item.lastName,
                 firstName: item.firstName,
                 email: item.email,
-                phone: formatPhoneForMask(item.phone),
+                phone: item.phone ? formatPhoneForMask(item.phone) : undefined,
             },
             { emitEvent: false }
         );
