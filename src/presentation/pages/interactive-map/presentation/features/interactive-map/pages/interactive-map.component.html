@@ -115,10 +115,6 @@
                             [class.is-collapsed]="!filtersPanelOpen()"
                         >
                             <div class="panel-heading">
-                                <div>
-                                    <h2>Filtre</h2>
-                                </div>
-
                                 <!-- <button
                                     type="button"
                                     class="icon-button"
@@ -312,9 +308,8 @@
                             </section>
 
                             <section class="filter-group dates">
-                                <h3>Du</h3>
+                                <h3>Du / Au</h3>
                                 <label>
-                                    <span>Depuis</span>
                                     <p-datepicker
                                         [placeholder]="
                                             'COMMON.DATE_PLACEHOLDER'
@@ -344,7 +339,6 @@
                                     /> -->
                                 </label>
                                 <label>
-                                    <span>Au</span>
                                     <p-datepicker
                                         [placeholder]="
                                             'COMMON.DATE_PLACEHOLDER'
@@ -365,22 +359,10 @@
                                 </label>
                             </section>
 
-                            <button
-                                type="button"
-                                class="primary-button"
-                                (click)="submitFilters()"
-                            >
-                                <i class="pi pi-check" pButtonIcon></i>
-                                Soumettre
-                            </button>
-
-                            <button
-                                type="button"
-                                class="secondary-button"
-                                (click)="resetFilters()"
-                            >
-                                Reinitialiser les filtres
-                            </button>
+                            <div class="d-flex justify-content-center gap-3">
+                                <p-button (click)="resetFilters()" label="Annuler" icon="pi pi-times" severity="danger" />
+                                <p-button (click)="submitFilters()" label="Appliquer" icon="pi pi-check" />
+                            </div>
                         </aside>
 
                         <main class="map-workspace">
