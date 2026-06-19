@@ -49,10 +49,10 @@ export interface MapClickInfo {
 }
 
 const IVORY_COAST_BOUNDS: Bounds = {
-    minLat: 4.223876,
-    maxLat: 10.873696,
-    minLng: -9.698757,
-    maxLng: -1.656668,
+    minLat: 2.5, // Étendu vers le sud
+    maxLat: 12.0, // Étendu vers le nord
+    minLng: -11.0, // Étendu vers l'ouest
+    maxLng: 0.5, // Étendu vers l'est (inclut une petite marge)
 };
 
 export class MapAdapter {
