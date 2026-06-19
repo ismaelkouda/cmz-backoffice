@@ -145,7 +145,12 @@ export class UsersStore {
         this.profilesFacade.readAll();
 
         if (uniqId) {
-            this.facade.read({ uniqId });
+            this.facade.read(
+                { uniqId },
+                {
+                    forceRefresh: true,
+                }
+            );
         }
     }
 

@@ -21,7 +21,7 @@ export class ParticipantsFindOneMapper extends SimpleResponseMapper<
     ): ParticipantsFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
         const role = this.rolesMapper.mapFromDto(dto.role);
-        const team = dto.team?.id ? `${dto.team?.name}` : null;
+        const team = dto.team?.uniq_id ?? null;
 
         const props: ParticipantsFindOneProps = {
             uniqId: dto.id,

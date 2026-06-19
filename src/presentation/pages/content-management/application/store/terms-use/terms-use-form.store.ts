@@ -131,7 +131,12 @@ export class TermsUseFormStore {
         this.form.reset();
 
         if (uniqId) {
-            this.facade.read({ uniqId });
+            this.facade.read(
+                { uniqId },
+                {
+                    forceRefresh: true,
+                }
+            );
         }
     }
 
