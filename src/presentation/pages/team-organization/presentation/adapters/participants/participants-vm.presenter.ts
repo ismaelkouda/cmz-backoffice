@@ -33,6 +33,7 @@ export class ParticipantsPresenter {
             role: item.role,
             roleLabel: item.role ? this.t(item.role) : null,
             roleStyle: item.role ? item.roleStyle(item.role) : null,
+            team: item.team,
             status: item.status,
             statusLabel: this.t(item.status),
             statusStyle: item.statusStyle(item.status),
