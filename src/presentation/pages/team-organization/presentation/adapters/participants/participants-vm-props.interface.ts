@@ -21,6 +21,8 @@ export interface ParticipantsVmProps {
     statusLabel: string;
     statusStyle: StatusStyle;
 
+    team: string | null;
+
     updatedAt: string;
     actionsRef: string;
 

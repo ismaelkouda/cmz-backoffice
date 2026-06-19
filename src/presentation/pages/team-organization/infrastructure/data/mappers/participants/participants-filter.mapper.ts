@@ -18,7 +18,7 @@ export class ParticipantsFilterMapper {
             params.role = this.rolesMapper.mapToDto(entity.role);
         }
         if (entity.team) {
-            params.team_id = entity.team;
+            params.team_uniq_id = entity.team;
         }
         if (entity.status) {
             params.status = entity.status;

@@ -7,5 +7,5 @@ export interface ParticipantsUpdateApiDto {
     email: string;
     phone_number: string;
     role?: RolesDto;
-    team_id?: string;
+    team_uniq_id?: string;
 }
