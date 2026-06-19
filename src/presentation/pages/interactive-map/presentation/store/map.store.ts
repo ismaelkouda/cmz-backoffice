@@ -1,4 +1,4 @@
-import { Injectable, computed, signal } from '@angular/core';
+import { computed, signal } from '@angular/core';
 import {
     Bounds,
     InteractiveMapReport,
@@ -44,7 +44,7 @@ const initialState: MapState = {
     loadedBounds: null,
 
     view: {
-        center: { lat: 7.545, lng: -5.545 },
+        center: { lat: 7.5, lng: -5.5 },
         zoom: 0,
     },
 
