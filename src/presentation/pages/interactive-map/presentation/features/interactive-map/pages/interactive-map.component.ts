@@ -47,6 +47,7 @@ import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputTextModule } from 'primeng/inputtext';
 import { DatePickerModule } from 'primeng/datepicker';
+import { BadgeModule } from 'primeng/badge';
 import {
     EMPTY,
     Subject,
@@ -91,6 +92,7 @@ interface NominatimSearchResult {
         InputGroupAddonModule,
         DatePickerModule,
         TagModule,
+        BadgeModule,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [MapAdapter, MapStore],
