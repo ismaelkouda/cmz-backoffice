@@ -2325,7 +2325,7 @@
                         "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'action de traitement",
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
-                        "NOTIFY_USERS": "Publier dans le journal & Notifier les utilisateurs",
+                        "NOTIFY_USERS": "Publier dans le journal et notifier les utilisateurs",
                         "CONFORMITY": {
                             "TITLE": "Conformité du résultat avec le signalement",
                             "CONFORM": "Conforme",
