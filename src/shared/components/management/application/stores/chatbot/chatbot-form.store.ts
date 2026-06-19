@@ -264,7 +264,12 @@ export class ChatbotFormStore {
     public setDetailsMode(uniqId: string | null): void {
         this.isDetailsMode.set(!!uniqId);
         if (uniqId) {
-            this.facade.read({ uniqId });
+            this.facade.read(
+                { uniqId },
+                {
+                    forceRefresh: true,
+                }
+            );
         } else {
             this.form.reset();
             this.facade.reset();

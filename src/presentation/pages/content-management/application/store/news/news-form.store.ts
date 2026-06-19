@@ -322,7 +322,12 @@ export class NewsFormStore {
             return;
         }
 
-        this.facade.read({ uniqId });
+        this.facade.read(
+            { uniqId },
+            {
+                forceRefresh: true,
+            }
+        );
     }
 
     public setImage(file: File): void {

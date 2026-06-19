@@ -234,14 +234,24 @@ export class MunicipalitiesFormStore {
         this.resetInternalState();
         this.formMode.set('edit');
         this.editingId.set(uniqId);
-        this.facade.read({ uniqId });
+        this.facade.read(
+            { uniqId },
+            {
+                forceRefresh: true,
+            }
+        );
     }
 
     public openView(uniqId: string): void {
         this.resetInternalState();
         this.formMode.set('view');
         this.editingId.set(uniqId);
-        this.facade.read({ uniqId });
+        this.facade.read(
+            { uniqId },
+            {
+                forceRefresh: true,
+            }
+        );
     }
 
     public close(): void {

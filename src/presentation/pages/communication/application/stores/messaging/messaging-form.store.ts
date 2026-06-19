@@ -477,9 +477,14 @@ export class MessagingFormStore {
         this.regionsFacade.readAll();
 
         if (isDetails && uniqId) {
-            this.findOneFacade.read({
-                uniqId,
-            });
+            this.findOneFacade.read(
+                {
+                    uniqId,
+                },
+                {
+                    forceRefresh: true,
+                }
+            );
 
             return;
         }

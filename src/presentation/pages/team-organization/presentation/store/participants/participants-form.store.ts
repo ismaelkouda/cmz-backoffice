@@ -122,7 +122,12 @@ export class ParticipantsFormStore {
         this.facade.reset();
         this.form.reset();
         if (uniqId) {
-            this.facade.read({ uniqId });
+            this.facade.read(
+                { uniqId },
+                {
+                    forceRefresh: true,
+                }
+            );
         }
     }
 

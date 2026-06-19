@@ -205,7 +205,6 @@ export class TeamsFormStore {
     }
 
     public openEdit(uniqId: string): void {
-        console.log('uniqId: ', uniqId);
         this.submitFacade.resetActionSuccess();
 
         this.resetInternalState();
@@ -214,7 +213,12 @@ export class TeamsFormStore {
 
         this.editingId.set(uniqId);
 
-        this.facade.read({ uniqId });
+        this.facade.read(
+            { uniqId },
+            {
+                forceRefresh: true,
+            }
+        );
     }
 
     public openView(uniqId: string): void {
