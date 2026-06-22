@@ -314,7 +314,7 @@
                                                             'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.PHONE'
                                                                 | translate
                                                         }}
-                                                        </label>
+                                                    </label>
                                                     <p-inputMask
                                                         id="phone"
                                                         formControlName="phone"
@@ -346,7 +346,9 @@
                                                         [showClear]="true"
                                                         optionLabel="label"
                                                         optionValue="value"
-                                                        [loading]="loadingTeams()"
+                                                        [loading]="
+                                                            loadingTeams()
+                                                        "
                                                         formControlName="team"
                                                         [filter]="true"
                                                         filterBy="label"
@@ -402,12 +404,14 @@
                                                             'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
                                                                 | translate
                                                         }}
-                                                        @if (form.get('role')
-                                                            ?.invalid) {
+                                                        @if (
+                                                            form.get('role')
+                                                                ?.invalid
+                                                        ) {
                                                             <span
-                                                                    class="text-danger"
-                                                                    >*</span
-                                                                >
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         }
                                                     </label>
                                                     <p-select
