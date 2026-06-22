@@ -266,9 +266,7 @@
                                 <i
                                     class="pi pi-copy copy-icon"
                                     (click)="copyItem.emit(closurePhone()!)"
-                                    (keypress)="
-                                        copyItem.emit(closurePhone()!)
-                                    "
+                                    (keypress)="copyItem.emit(closurePhone()!)"
                                     pTooltip="{{ 'COMMON.COPY' | translate }}"
                                 >
                                 </i>

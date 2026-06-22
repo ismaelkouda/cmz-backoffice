@@ -413,11 +413,15 @@
                                                             'CONTENT_MANAGEMENT.SLIDE.FORM.BUTTON_URL'
                                                                 | translate
                                                         }}
-                                                        @if (form.get('buttonLabel')?.value) {
+                                                        @if (
+                                                            form.get(
+                                                                'buttonLabel'
+                                                            )?.value
+                                                        ) {
                                                             <span
-                                                                    class="text-danger"
-                                                                    >*</span
-                                                                >
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
                                                         }
                                                     </label>
                                                     <input

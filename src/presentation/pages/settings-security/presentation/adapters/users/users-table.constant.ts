@@ -14,7 +14,7 @@ export const USERS_TABLE = {
         {
             field: 'firstName',
             header: 'SETTINGS_SECURITY.USERS.TABLE.FIRST_NAME',
-            width: '13rem',
+            width: '10rem',
         },
         {
             field: 'email',

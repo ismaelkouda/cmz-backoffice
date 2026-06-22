@@ -4211,7 +4211,7 @@
                 "MODAL": {
                     "REASSIGN_TITLE": "Réaffectation des intervenants",
                     "REASSIGN_LABEL": "Équipe",
-                    "ASSIGN_TITLE": "Affecter des {{intervenants}} à l'équipe {{team}}",
+                    "ASSIGN_TITLE": "Affecter des intervenants à l'équipe {{team}}",
                     "ASSIGN_LABEL": "Intervenant(s)",
                     "NEW_PROFILE": "Nouveau profil",
                     "NEW_PROFILE_REQUIRED": "Le nouveau profil est requis",

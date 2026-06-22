@@ -61,7 +61,10 @@
                             </div>
                         </div>
                         <p class="mb-0 d-flex align-items-end gap-2">
-                            <p-badge badgeSize="large" [value]="store.visibleReports().length" />
+                            <p-badge
+                                badgeSize="large"
+                                [value]="store.visibleReports().length"
+                            />
                             signalement(s)
                         </p>
 
@@ -360,8 +363,17 @@
                             </section>
 
                             <div class="d-flex justify-content-center gap-3">
-                                <p-button (click)="resetFilters()" label="Annuler" icon="pi pi-times" severity="danger" />
-                                <p-button (click)="submitFilters()" label="Appliquer" icon="pi pi-check" />
+                                <p-button
+                                    (click)="resetFilters()"
+                                    label="Annuler"
+                                    icon="pi pi-times"
+                                    severity="danger"
+                                />
+                                <p-button
+                                    (click)="submitFilters()"
+                                    label="Appliquer"
+                                    icon="pi pi-check"
+                                />
                             </div>
                         </aside>
 
