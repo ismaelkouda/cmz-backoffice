@@ -13,19 +13,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { MessagingFacade } from '@pages/communication/application/services/messaging/messaging.facade';
-import { MessagingFormStore } from '@pages/communication/application/stores/messaging/messaging-form.store';
-import { Channels } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
-import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
-import { Type } from '@pages/communication/domain/enums/messaging/messaging-type.enum';
+import { MessagingChannelsEnum } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingTargetEnum } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { MessagingTypeEnum } from '@pages/communication/domain/enums/messaging/messaging-type.enum';
 import { FormValidators } from '@pages/communication/domain/validators/form-validators';
 import { MessagingFormHelperService } from '@pages/communication/presentation/messaging/messaging-form/messaging-form-helper.service';
 import { MessagingFormValidationService } from '@pages/communication/presentation/messaging/messaging-form/messaging-form-validation.service';
 import { MessagingFormSkeletonComponent } from '@pages/communication/presentation/messaging/messaging-form-skeleton/messaging-form-skeleton.component';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
-import {
-    enumToFilterOptions,
-    getEnumKeyByValue,
-} from '@shared/components/filter/filter.types';
+import { enumToFilterOptionsWithValue } from '@shared/components/filter/filter.types';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
@@ -43,6 +39,7 @@ import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs/operators';
 import SweetAlert from 'sweetalert2';
+import { MessagingFormStore } from '@pages/communication/presentation/store/messaging/messaging-form.store';
 
 @Component({
     selector: 'app-messaging-form',
@@ -94,13 +91,19 @@ export class MessagingFormComponent implements OnInit {
     protected readonly departments = this.store.departments;
     protected readonly municipalities = this.store.municipalities;
     protected readonly typeOptions = computed(() =>
-        enumToFilterOptions(Type, (key: string) => this.t(key))
+        enumToFilterOptionsWithValue(MessagingTypeEnum, (key: string) =>
+            this.t(key)
+        )
     );
     protected readonly targetOptions = computed(() =>
-        enumToFilterOptions(Target, (key: string) => this.t(key))
+        enumToFilterOptionsWithValue(MessagingTargetEnum, (key: string) =>
+            this.t(key)
+        )
     );
     protected readonly channelsOptions = computed(() =>
-        enumToFilterOptions(Channels, (key: string) => this.t(key))
+        enumToFilterOptionsWithValue(MessagingChannelsEnum, (key: string) =>
+            this.t(key)
+        )
     );
 
     readonly VALIDATION = FormValidators;
@@ -159,10 +162,10 @@ export class MessagingFormComponent implements OnInit {
         const targetType = this.form.controls.targetType.value;
 
         if (fieldName === 'reportId') {
-            return targetType === getEnumKeyByValue(Target, Target.report);
+            return targetType === MessagingTargetEnum.REPORT;
         }
 
-        return targetType === getEnumKeyByValue(Target, Target.area);
+        return targetType === MessagingTargetEnum.AREA;
     }
 
     private readonly createTooltip = computed(() => {

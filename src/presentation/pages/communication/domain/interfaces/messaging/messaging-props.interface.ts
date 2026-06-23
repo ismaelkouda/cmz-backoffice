@@ -1,4 +1,5 @@
-import { Channels } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingChannelsEnum } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+
 export interface MessagingProps {
     uniqId: string;
     reportId: string;
@@ -7,7 +8,7 @@ export interface MessagingProps {
     region: string;
     department: string;
     municipality: string;
-    channels: Channels[];
+    channels: MessagingChannelsEnum[];
     subject: string;
     content: string;
     createdAt: string;

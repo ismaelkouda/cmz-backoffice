@@ -1,30 +1,30 @@
 import { inject, Injectable } from '@angular/core';
-import { MessagingCreateDto } from '@pages/communication/application/dto/messaging/messaging-create.dto';
 import { MessagingDeleteDto } from '@pages/communication/application/dto/messaging/messaging-delete.dto';
 import { MessagingDisableDto } from '@pages/communication/application/dto/messaging/messaging-disable.dto';
 import { MessagingEnableDto } from '@pages/communication/application/dto/messaging/messaging-enable.dto';
-import { MessagingFilterDto } from '@pages/communication/application/dto/messaging/messaging-filter.dto';
-import { MessagingUpdateDto } from '@pages/communication/application/dto/messaging/messaging-update.dto';
-import { MessagingCreateEntity } from '@pages/communication/domain/entities/messaging/messaging-create.entity';
 import { MessagingDeleteEntity } from '@pages/communication/domain/entities/messaging/messaging-delete.entity';
 import { MessagingDisableEntity } from '@pages/communication/domain/entities/messaging/messaging-disable.entity';
 import { MessagingEnableEntity } from '@pages/communication/domain/entities/messaging/messaging-enable.entity';
-import { MessagingFilterEntity } from '@pages/communication/domain/entities/messaging/messaging-filter.entity';
-import { MessagingUpdateEntity } from '@pages/communication/domain/entities/messaging/messaging-update.entity';
+import { messagingFilterEntity } from '@pages/communication/domain/entities/messaging/messaging-filter.entity';
+import { MessagingCreateContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-create.contract';
+import { MessagingUpdateContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-update.contract';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { MessagingRepository } from '@pages/communication/domain/repositories/messaging/messaging-repository';
-import { MessagingCreateVo } from '@pages/communication/domain/value-objects/messaging/messaging-create.vo';
+import { messagingCreateVo } from '@pages/communication/domain/value-objects/messaging/messaging-create.vo';
 import { MessagingDeleteVo } from '@pages/communication/domain/value-objects/messaging/messaging-delete.vo';
 import { MessagingDisableVo } from '@pages/communication/domain/value-objects/messaging/messaging-disable.vo';
 import { MessagingEnableVo } from '@pages/communication/domain/value-objects/messaging/messaging-enable.vo';
-import { MessagingFilterVo } from '@pages/communication/domain/value-objects/messaging/messaging-filter.vo';
-import { MessagingUpdateVo } from '@pages/communication/domain/value-objects/messaging/messaging-update.vo';
+import { messagingFilterVo } from '@pages/communication/domain/value-objects/messaging/messaging-filter.vo';
+import { messagingUpdateVo } from '@pages/communication/domain/value-objects/messaging/messaging-update.vo';
+import { MessagingFilterContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-filter.contract';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
+import { messagingCreateFactory } from '@presentation/pages/communication/domain/factories/messaging/messaging-create.factory';
+import { messagingUpdateFactory } from '@presentation/pages/communication/domain/factories/messaging/messaging-update.factory';
 
 @Injectable({
     providedIn: 'root',
@@ -33,24 +33,30 @@ export class MessagingUseCase {
     private readonly repository = inject(MessagingRepository);
 
     execute(
-        dto: MessagingFilterDto | null,
+        contract: MessagingFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<MessagingEntity>> {
-        const vo = MessagingFilterVo.fromDto(dto);
-        const entity = MessagingFilterEntity.fromVo(vo);
+        const vo = messagingFilterVo(contract);
+        const entity = messagingFilterEntity(vo);
         return this.repository.readAll(entity, page, options);
     }
 
-    create(dto: MessagingCreateDto): Observable<SimpleResponseDto<void>> {
-        const vo = MessagingCreateVo.fromDto(dto);
-        const entity = MessagingCreateEntity.fromVo(vo);
+    create(
+        contract: MessagingCreateContract
+    ): Observable<SimpleResponseDto<void>> {
+        const validated = messagingCreateVo(contract);
+        const entity = messagingCreateFactory(validated);
+        // entity.ensureCanBeCreated();
         return this.repository.create(entity);
     }
 
-    update(dto: MessagingUpdateDto): Observable<SimpleResponseDto<void>> {
-        const vo = MessagingUpdateVo.fromDto(dto);
-        const entity = MessagingUpdateEntity.fromVo(vo);
+    update(
+        contract: MessagingUpdateContract
+    ): Observable<SimpleResponseDto<void>> {
+        const validated = messagingUpdateVo(contract);
+        const entity = messagingUpdateFactory(validated);
+        // entity.ensureCanBeUpdated();
         return this.repository.update(entity);
     }
 

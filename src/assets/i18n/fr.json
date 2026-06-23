@@ -11,7 +11,7 @@
         "APPROVED": "Approuvé",
         "APPROVED_STYLE": "success",
         "IN_PROGRESS": "En cours",
-        "IN_PROGRESS_STYLE": "warn",
+        "IN_PROGRESS_STYLE": "contrast",
         "TERMINATED": "Terminé",
         "TERMINATED_STYLE": "info",
         "CONFIRMED": "Confirmé",
@@ -41,7 +41,7 @@
         "ERROR_GRAFANA_DASHBOARD": "Erreur du tableau de bord",
         "REPORT": "Signalement",
         "OPERATORS": "Opérateurs",
-        "CREATED_AT":"Créé le",
+        "CREATED_AT": "Créé le",
         "SOURCE": "Source [Num]",
         "AUTO": "AUTO",
         "AUTO_STYLE": "info",
@@ -106,7 +106,7 @@
         "ACTIVATED": "Activé",
         "PUBLISH": "Publier",
         "PUBLISH_STYLE": "success",
-        "PUBLISHED" : "Publié",
+        "PUBLISHED": "Publié",
         "UNPUBLISH": "Dépublier",
         "UNPUBLISH_STYLE": "danger",
         "UNPUBLISHED": "Non Publié",
@@ -122,8 +122,8 @@
         "DEACTIVATED": "Désactivé",
         "INVALID_DATE_RANGE": "Plage de date invalide",
         "FORM_INVALID": "Formulaire invalide",
-        "START_DATE":"Date de début",
-        "END_DATE":"Date de fin",
+        "START_DATE": "Date de début",
+        "END_DATE": "Date de fin",
         "DATE_PLACEHOLDER": "AAAA-MM-JJ",
         "PHONE_PLACEHOLDER": "Saisir le numéro de tel",
         "REPORT_UNIQ_ID_PLACEHOLDER": "Saisir l'id de la demande",
@@ -1317,7 +1317,7 @@
                 "POPULATION_SIZE": "# Populations",
                 "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
-                "UPDATED_AT":"Modifié le",
+                "UPDATED_AT": "Modifié le",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -1445,7 +1445,7 @@
                 "POPULATION_SIZE": "# Populations",
                 "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
-                "UPDATED_AT":"Modifié le",
+                "UPDATED_AT": "Modifié le",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -1573,7 +1573,7 @@
                 "POPULATION_SIZE": "# Populations",
                 "INFRASTRUCTURES_COUNT": "# Equipements",
                 "CREATED_AT": "Créé le",
-                "UPDATED_AT":"Modifié le",
+                "UPDATED_AT": "Modifié le",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -1721,9 +1721,9 @@
     },
     "LOGOUT": {
         "SWEET_ALERT_PARAMS": {
-        "CONFIRM": "Se déconnecter du compte ?",
-        "MESSAGES": "Êtes-vous sûr de vouloir vous déconnecter",
-        "BUTTONS": "Se déconnecter"
+            "CONFIRM": "Se déconnecter du compte ?",
+            "MESSAGES": "Êtes-vous sûr de vouloir vous déconnecter",
+            "BUTTONS": "Se déconnecter"
         }
     },
     "MY_ACCOUNT": {
@@ -1786,10 +1786,10 @@
     },
     "REQUESTS": {
         "BREADCRUMB": {
-                "LABEL": "Qualifications demandes",
-                "ROUTE": "requests",
-                "ICON": "pi-list-check"
-            },
+            "LABEL": "Qualifications demandes",
+            "ROUTE": "requests",
+            "ICON": "pi-list-check"
+        },
         "LABEL": "Qualifications",
         "ROUTE": "requests",
         "QUEUES": {
@@ -2732,10 +2732,10 @@
     },
     "REPORT_STATES": {
         "BREADCRUMB": {
-                "LABEL": "Etat des signalements",
-                "ROUTE": "report-status",
-                "ICON": "pi-list-check"
-            },
+            "LABEL": "Etat des signalements",
+            "ROUTE": "report-status",
+            "ICON": "pi-list-check"
+        },
         "LABEL": "Qualifications",
         "ROUTE": "report-status",
         "REJECT": {
@@ -3006,7 +3006,7 @@
                 "LABEL": "Notifications",
                 "ROUTE": "notification"
             },
-            "TITLE": "Notifications",
+            "TITLE": "notifications",
             "LABEL": "Notifications",
             "ROUTE": "notification",
             "FILTER": {
@@ -3025,15 +3025,17 @@
                 "TITLE": "Titre",
                 "TYPE": "Type Notification",
                 "MESSAGE": "Message",
-                "STATUS":"Statut",
+                "STATUS": "Statut",
                 "SEND_AT": "Envoyer Le",
                 "SEE_MORE": "Voir plus",
                 "READ": "Lire",
                 "ACTION": "Action"
             },
             "SWEET_ALERT": {
-                "TITLE": {"READ_ALL": "Lire toute les notifications"},
-                "MESSAGE": {"READ_ALL": "Voulez-vous vraiment lire toutes les notifications ?"}
+                "TITLE": { "READ_ALL": "Lire toute les notifications" },
+                "MESSAGE": {
+                    "READ_ALL": "Voulez-vous vraiment lire toutes les notifications ?"
+                }
             },
             "BUTTONS": {
                 "DELETE": "Supprimer"
@@ -3112,7 +3114,7 @@
                 "TITLE_FORM_EDIT": "Details du message",
                 "FIELDSET_GENERAL_INFO": {
                     "TITLE": "Informations Générales",
-                    "TYPE": "Type de message", 
+                    "TYPE": "Type de message",
                     "TARGET": "Cible",
                     "REPORT_ID": "ID Signalement",
                     "REPORT_ID_PLACEHOLDER": "Saisir l'identifiant du signalement"
@@ -3159,256 +3161,256 @@
         }
     },
     "MANAGEMENT": {
-            "TITLE": "Traitement du signalement",
-            "LABEL": "Traitement du signalement",
-            "REPORT_ID": "Identifiant du signalement",
-            "PLACEHOLDER": "Contenu du traitement à venir...",
+        "TITLE": "Traitement du signalement",
+        "LABEL": "Traitement du signalement",
+        "REPORT_ID": "Identifiant du signalement",
+        "PLACEHOLDER": "Contenu du traitement à venir...",
+        "STATUS": {
+            "SUBMISSION": "Soumission",
+            "QUALIFICATION": "Qualification",
+            "TREATMENT": "Traitement",
+            "FINALIZATION": "Prise en charge",
+            "INFORMATION": "Information",
+            "CLOSURE": "Clôture",
+            "TAKE": "Ajout au panier",
+            "APPROBATION": "Approbation"
+        },
+        "BUTTONS": {
+            "SUBMISSION": "Soummetre",
+            "QUALIFICATION": "Qualifier",
+            "TREATMENT": "Traiter",
+            "FINALIZATION": "Finaliser",
+            "INFORMATION": "Information",
+            "TAKE": "Prendre",
+            "APPROBATION": "Valider"
+        },
+        "HEADER": {
+            "DETAILS_REPORT": "du signalement",
+            "DETAILS_DEMAND": "de la demande",
+            "NUMBER_OF_CONFIRMATIONS": "Nombre de confirmations",
+            "REPORT_ID": "Identifiant",
+            "STATUS": "Statut",
+            "STATUS_PENDING": "En attente",
+            "TYPE": "Type",
+            "TYPE_PLACEHOLDER": "Aucun réseau",
+            "DATE_PLACEHOLDER": "Date à venir..."
+        },
+        "STEP_BAR": {
+            "PRISE_EN_CHARGE": "Ajouter au panier à",
+            "APPROBATION": "Approuvé à",
+            "TREATMENT": "Traité à",
+            "FINALIZATION": "Finalisé à",
+            "EVALUATION": "Évalué à"
+        },
+        "SIDEBAR": {
+            "ACTIONS": {
+                "TAKE": "Ajouter au panier",
+                "APPROVE": "Approuver",
+                "TREAT": "Traiter"
+            },
+            "INITIATOR": {
+                "TITLE": "Informations de l'initiateur",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Contact",
+                "EMAIL": "Email"
+            },
+            "APPROVER": {
+                "TITLE": "Informations de l'approbateur",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Contact"
+            },
+            "TOOK": {
+                "TITLE": "Informations du gestionnaire",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Contact"
+            },
+            "REFUSER": {
+                "TITLE": "Informations du refuseur",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Contact"
+            },
+            "PROCESSED": {
+                "TITLE": "Informations du traitant",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Contact"
+            },
+            "CLOSE": {
+                "TITLE": "Informations du clôtureur",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Contact"
+            },
+            "LOCATION": {
+                "TITLE": "Localisation",
+                "PLACEHOLDER": "Localisation à venir..."
+            }
+        },
+        "TABS": {
+            "CATEGORIES": {
+                "INFORMATION": "Informations",
+                "IMAGES": "Photos",
+                "GEOGRAPHIC_VIEW": "Vue géographique",
+                "CHATBOT": "Messagerie",
+                "TREATMENT_LOGS": "Journal de traitement"
+            },
+            "SECTIONS": {
+                "INFO": "Informations"
+            }
+        },
+        "CONTENT": {
+            "INFORMATION": {
+                "PLACEHOLDER": "Contenu des informations à venir..."
+            },
+            "PHOTOS": {
+                "PLACEHOLDER": "Contenu des photos à venir..."
+            },
+            "GEOGRAPHIC_VIEW": {
+                "PLACEHOLDER": "Contenu de la vue géographique à venir..."
+            }
+        },
+        "TREATMENT": {
+            "PANEL": "Panneau de traitement",
+            "TAKE_ACTION": {
+                "TITLE": "Ajouter au panier le signalement",
+                "REQUIRED": "Requis",
+                "DECISION": "Décision",
+                "CALLBACK": "Rappel",
+                "COMMENT": "Commentaire",
+                "COMMENT_PLACEHOLDER": "Saisissez votre commentaire...",
+                "MOTIF": "Motif",
+                "CALLBACK_TYPE": "Type de rappel",
+                "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
+                "OPTIONS": {
+                    "APPROVE": {
+                        "LABEL": "Accepter",
+                        "DESCRIPTION": "Ajouter au panier le signalement"
+                    },
+                    "REJECT": {
+                        "LABEL": "Rejeter",
+                        "DESCRIPTION": "Refuser le signalement"
+                    }
+                },
+                "VALIDATION": {
+                    "MOTIF_REQUIRED": "Le motif est réquis",
+                    "CALLBACK_TYPE_REQUIRED": "Le type de rappel est réquis",
+                    "COMMENT_REQUIRED": "Un commentaire est requis"
+                }
+            },
+            "CALLBACK_ACTION": {
+                "TITLE": "Ajouter au panier le signalement",
+                "REQUIRED": "Requis",
+                "DECISION": "Décision",
+                "CALLBACK": "Rappel",
+                "COMMENT": "Commentaire",
+                "COMMENT_PLACEHOLDER": "Saisissez votre commentaire...",
+                "MOTIF": "Motif",
+                "CALLBACK_TYPE": "Type de rappel",
+                "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
+                "OPTIONS": {
+                    "DETAILS": {
+                        "LABEL": "Visualisation",
+                        "DESCRIPTION": "Voir les détails du signalement"
+                    },
+                    "CALLBACK": {
+                        "LABEL": "Callback",
+                        "DESCRIPTION": "Faire un rappel sur le signalement"
+                    },
+                    "EDIT": {
+                        "LABEL": "Modifier",
+                        "DESCRIPTION": "Modifier le signalement"
+                    }
+                },
+                "VALIDATION": {
+                    "MOTIF_REQUIRED": "Le motif est réquis",
+                    "CALLBACK_TYPE_REQUIRED": "Le type de rappel est réquis",
+                    "COMMENT_REQUIRED": "Un commentaire est requis"
+                }
+            }
+        },
+        "FORM": {
+            "READ_ONLY": "Lecture seule",
+            "NOT_SPECIFIED": "Non spécifié",
+            "NO_DESCRIPTION": "Aucune description fournie",
             "STATUS": {
-                "SUBMISSION": "Soumission",
-                "QUALIFICATION": "Qualification",
-                "TREATMENT": "Traitement",
-                "FINALIZATION": "Prise en charge",
-                "INFORMATION": "Information",
-                "CLOSURE": "Clôture",
-                "TAKE": "Ajout au panier",
-                "APPROBATION": "Approbation"
-            },
-            "BUTTONS": {
-                "SUBMISSION": "Soummetre",
-                "QUALIFICATION": "Qualifier",
-                "TREATMENT": "Traiter",
-                "FINALIZATION": "Finaliser",
-                "INFORMATION": "Information",
-                "TAKE": "Prendre",
-                "APPROBATION": "Valider"
-            },
-            "HEADER": {
-                "DETAILS_REPORT": "du signalement",
-                "DETAILS_DEMAND": "de la demande",
-                "NUMBER_OF_CONFIRMATIONS": "Nombre de confirmations",
-                "REPORT_ID": "Identifiant",
-                "STATUS": "Statut",
-                "STATUS_PENDING": "En attente",
-                "TYPE": "Type",
-                "TYPE_PLACEHOLDER": "Aucun réseau",
-                "DATE_PLACEHOLDER": "Date à venir..."
-            },
-            "STEP_BAR": {
-                "PRISE_EN_CHARGE": "Ajouter au panier à",
-                "APPROBATION": "Approuvé à",
-                "TREATMENT": "Traité à",
-                "FINALIZATION": "Finalisé à",
-                "EVALUATION": "Évalué à"
-            },
-            "SIDEBAR": {
-                "ACTIONS": {
-                    "TAKE":"Ajouter au panier",
-                    "APPROVE": "Approuver",
-                    "TREAT": "Traiter"
-                },
-                "INITIATOR": {
-                    "TITLE": "Informations de l'initiateur",
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contact",
-                    "EMAIL": "Email"
-                },
-                "APPROVER": {
-                    "TITLE": "Informations de l'approbateur",
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contact"
-                },
-                "TOOK": {
-                    "TITLE": "Informations du gestionnaire",
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contact"
-                },
-                "REFUSER": {
-                    "TITLE": "Informations du refuseur",
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contact"
-                },
-                "PROCESSED": {
-                    "TITLE": "Informations du traitant",
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contact"
-                },
-                "CLOSE": {
-                    "TITLE": "Informations du clôtureur",
-                    "LAST_NAME": "Nom",
-                    "FIRST_NAME": "Prénoms",
-                    "PHONE": "Contact"
-                },
-                "LOCATION": {
-                    "TITLE": "Localisation",
-                    "PLACEHOLDER": "Localisation à venir..."
-                }
-            },
-            "TABS": {
-                "CATEGORIES": {
-                    "INFORMATION": "Informations",
-                    "IMAGES": "Photos",
-                    "GEOGRAPHIC_VIEW": "Vue géographique",
-                    "CHATBOT": "Messagerie",
-                    "TREATMENT_LOGS": "Journal de traitement"
-                },
-                "SECTIONS": {
-                    "INFO": "Informations"
-                }
-            },
-            "CONTENT": {
-                "INFORMATION": {
-                    "PLACEHOLDER": "Contenu des informations à venir..."
-                },
-                "PHOTOS": {
-                    "PLACEHOLDER": "Contenu des photos à venir..."
-                },
-                "GEOGRAPHIC_VIEW": {
-                    "PLACEHOLDER": "Contenu de la vue géographique à venir..."
-                }
-            },
-            "TREATMENT": {
-                "PANEL": "Panneau de traitement",
-                "TAKE_ACTION": {
-                    "TITLE": "Ajouter au panier le signalement",
-                    "REQUIRED": "Requis",
-                    "DECISION": "Décision",
-                    "CALLBACK": "Rappel",
-                    "COMMENT": "Commentaire",
-                    "COMMENT_PLACEHOLDER": "Saisissez votre commentaire...",
-                    "MOTIF": "Motif",
-                    "CALLBACK_TYPE": "Type de rappel",
-                    "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
-                    "OPTIONS": {
-                        "APPROVE": {
-                            "LABEL": "Accepter",
-                            "DESCRIPTION": "Ajouter au panier le signalement"
-                        },
-                        "REJECT": {
-                            "LABEL": "Rejeter",
-                            "DESCRIPTION": "Refuser le signalement"
-                        }
-                    },
-                    "VALIDATION": {
-                    "MOTIF_REQUIRED": "Le motif est réquis",
-                    "CALLBACK_TYPE_REQUIRED": "Le type de rappel est réquis",
-                    "COMMENT_REQUIRED": "Un commentaire est requis"
-                    }
-                },
-                "CALLBACK_ACTION": {
-                    "TITLE": "Ajouter au panier le signalement",
-                    "REQUIRED": "Requis",
-                    "DECISION": "Décision",
-                    "CALLBACK": "Rappel",
-                    "COMMENT": "Commentaire",
-                    "COMMENT_PLACEHOLDER": "Saisissez votre commentaire...",
-                    "MOTIF": "Motif",
-                    "CALLBACK_TYPE": "Type de rappel",
-                    "MOTIF_PLACEHOLDER": "Saisissez votre commentaire...",
-                    "OPTIONS": {
-                        "DETAILS": {
-                            "LABEL": "Visualisation",
-                            "DESCRIPTION": "Voir les détails du signalement"
-                        },
-                        "CALLBACK": {
-                            "LABEL": "Callback",
-                            "DESCRIPTION": "Faire un rappel sur le signalement"
-                        },
-                        "EDIT": {
-                            "LABEL": "Modifier",
-                            "DESCRIPTION": "Modifier le signalement"
-                        }
-                    },
-                    "VALIDATION": {
-                    "MOTIF_REQUIRED": "Le motif est réquis",
-                    "CALLBACK_TYPE_REQUIRED": "Le type de rappel est réquis",
-                    "COMMENT_REQUIRED": "Un commentaire est requis"
-                    }
-                }
-            },
-            "FORM": {
-                "READ_ONLY": "Lecture seule",
-                "NOT_SPECIFIED": "Non spécifié",
-                "NO_DESCRIPTION": "Aucune description fournie",
-                "STATUS": {
-                    "INVALID": "Inalide",
+                "INVALID": "Inalide",
                 "VALID": "Valide"
-                },
-                "REPORT_INFO": {
-                    "TITLE": "Information du signalement",
-                    "TRANSMISSION_CHANNEL": "Canal Emission",
-                    "GEOLOCATION_SYSTEM": "Système Géolocalisation",
-                    "OPERATORS": "Opérateurs concernés",
-                    "DATE_TIME_ENTRY": "Date Heure saisie",
-                    "DATE_TIME_RECEIPT": "Date Heure réception",
-                    "NUMBER_OF_ACTIONS": "Nombre d'actions menées",
-                    "REGION": "Région",
-                    "DEPARTMENT": "Département",
-                    "COMMUNE": "Commune/Sous-préfecture",
-                    "TYPE": "Types de signalements",
-                    "STATUS": "Statut",
-                    "DESCRIPTION": "Description du signalement",
-                    "COMMENT_APPROVER": "Commentaire de l'approbateur",
-                    "COMMENT_REJECT": "Commentaire du qualifiant",
-                    "NO_COMMENT_APPROVER": "Aucun commentaire de l'approbateur fourni",
-                    "NO_COMMENT_REJECT": "Aucun commentaire de l'approbateur fourni",
-                    "COMMENT_TREATMENT": "Commentaire du traitent",
-                    "COMMENT_FINALIZATION": "Commentaire du finalisateur",
-                    "NO_COMMENT_FINALIZATION": "Aucun commentaire du finalisateur fourni",
-                    "NO_COMMENT_TREATMENT": "Aucun commentaire du traitent fourni",
-                    "COMMENT_TREAT": "Commentaire du traitement",
-                    "LOCATION_NAME": "Lien avec la zone",
-                    "NO_DESCRIPTION": "Aucune description fournie"
-                },
-                "LOCATION_INFO": {
-                    "TITLE": "Informations de la localisation",
-                    "COORDINATES": "Coordonnées(Lat, Lng)",
-                    "LOCATION_METHOD": "Lecture Coordonnées",
-                    "LONGITUDE": "Longitude",
-                    "LATITUDE": "Latitude",
-                    "PLACE_DESCRIPTION": "Description de l'endroit",
-                    "NO_DESCRIPTION": "Aucune description de localisation fournie"
-                },
-                "PICTURES_INFO": {
-                    "TITLE": "Description de l'endroit"
-                },
-                "PICTURES": {
-                    "TITLE": "Photos",
-                    "ACCESS_ROAD": "Une voie d'accès",
-                    "OBSERVATION_POINT": "Le point d'observation",
-                    "NO_DATA": "Aucune photo disponible."
-                },
+            },
+            "REPORT_INFO": {
+                "TITLE": "Information du signalement",
+                "TRANSMISSION_CHANNEL": "Canal Emission",
+                "GEOLOCATION_SYSTEM": "Système Géolocalisation",
+                "OPERATORS": "Opérateurs concernés",
+                "DATE_TIME_ENTRY": "Date Heure saisie",
+                "DATE_TIME_RECEIPT": "Date Heure réception",
+                "NUMBER_OF_ACTIONS": "Nombre d'actions menées",
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "COMMUNE": "Commune/Sous-préfecture",
+                "TYPE": "Types de signalements",
+                "STATUS": "Statut",
+                "DESCRIPTION": "Description du signalement",
+                "COMMENT_APPROVER": "Commentaire de l'approbateur",
+                "COMMENT_REJECT": "Commentaire du qualifiant",
+                "NO_COMMENT_APPROVER": "Aucun commentaire de l'approbateur fourni",
+                "NO_COMMENT_REJECT": "Aucun commentaire de l'approbateur fourni",
+                "COMMENT_TREATMENT": "Commentaire du traitent",
+                "COMMENT_FINALIZATION": "Commentaire du finalisateur",
+                "NO_COMMENT_FINALIZATION": "Aucun commentaire du finalisateur fourni",
+                "NO_COMMENT_TREATMENT": "Aucun commentaire du traitent fourni",
+                "COMMENT_TREAT": "Commentaire du traitement",
+                "LOCATION_NAME": "Lien avec la zone",
+                "NO_DESCRIPTION": "Aucune description fournie"
+            },
+            "LOCATION_INFO": {
+                "TITLE": "Informations de la localisation",
+                "COORDINATES": "Coordonnées(Lat, Lng)",
+                "LOCATION_METHOD": "Lecture Coordonnées",
+                "LONGITUDE": "Longitude",
+                "LATITUDE": "Latitude",
+                "PLACE_DESCRIPTION": "Description de l'endroit",
+                "NO_DESCRIPTION": "Aucune description de localisation fournie"
+            },
+            "PICTURES_INFO": {
+                "TITLE": "Description de l'endroit"
+            },
+            "PICTURES": {
+                "TITLE": "Photos",
+                "ACCESS_ROAD": "Une voie d'accès",
+                "OBSERVATION_POINT": "Le point d'observation",
+                "NO_DATA": "Aucune photo disponible."
+            },
 
-                "FIELDS": {
-                    "REPORT_ID": "ID Signalement",
-                    "SOURCE": "Source",
-                    "INITIATOR": "Initiateur",
-                    "OPERATORS": "Opérateurs concernés",
-                    "LOCATION_NAME": "Nom du lieu",
-                    "LOCATION_METHOD": "Méthode",
-                    "LOCATION_TYPE": "Type localisation",
-                    "REGION": "Région",
-                    "DEPARTMENT": "Département",
-                    "COMMUNE": "Commune/Sous-préfecture"
-                },
-                "VALUES": {
-                    "SOURCE": {
+            "FIELDS": {
+                "REPORT_ID": "ID Signalement",
+                "SOURCE": "Source",
+                "INITIATOR": "Initiateur",
+                "OPERATORS": "Opérateurs concernés",
+                "LOCATION_NAME": "Nom du lieu",
+                "LOCATION_METHOD": "Méthode",
+                "LOCATION_TYPE": "Type localisation",
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "COMMUNE": "Commune/Sous-préfecture"
+            },
+            "VALUES": {
+                "SOURCE": {
                     "APP": "Application Mobile",
                     "WEB": "Site Web",
                     "ADMIN": "Administration"
-                    },
-                    "REPORT_TYPE": {
+                },
+                "REPORT_TYPE": {
                     "ABI": "Absence d'Internet",
                     "ZOB": "Aucun réseau",
                     "CPS": "Mauvais Signal d'opérateur",
                     "CPO": "Couverture Partielle Operateur",
                     "OTHER": "Autre"
-                    },
-                    "STATUS": {
+                },
+                "STATUS": {
                     "PENDING": "En attente",
                     "APPROVED": "Approuvé",
                     "REJECTED": "Rejeté",
@@ -3419,97 +3421,97 @@
                     "IN_PROGRESS": "En cours",
                     "SUBMISSION": "Soumission",
                     "PROCESSING": "Traitement"
-                    },
-                    "OPERATORS": {
+                },
+                "OPERATORS": {
                     "MTN": "MTN",
                     "ORANGE": "Orange",
                     "MOOV": "Moov"
-                    },
-                    "LOCATION": {
+                },
+                "LOCATION": {
                     "METHOD_AUTO": "Automatique",
                     "METHOD_MANUAL": "Manuel",
                     "TYPE_GPS": "GPS",
                     "TYPE_NETWORK": "Réseau",
                     "TYPE_MANUAL": "Manuel"
-                    }
-                },
-                "ACTIONS": {
-                    "VIEW_MAP": "Voir sur la carte",
-                    "COPY_COORDINATES": "Copier les coordonnées",
-                    "OPEN_MAP": "Ouvrir la carte"
                 }
             },
-            "FOOTER": {
-                "ACTIONS": {
-                    "TAKE_CHARGE": "Ajouter au panier",
-                    "APPROVE": "Approuver",
-                    "PROCESS": "Traiter",
-                    "FINALIZE": "Finaliser",
-                    "EVALUATE": "Évaluer",
-                    "SAVE": "Enregistrer",
-                    "CANCEL": "Annuler"
-                }
-            },
-            "SWEET_ALERT_PARAMS": {
-                "CONFIRM": {
-                    "REJECT": {
-                    "TITLE": "Rejeter le signalement"
-                    },
-                    "APPROVAL": {
-                    "TITLE": "Approuver le signalement"
-                    },
-                    "TREATMENT": {
-                    "TITLE": "Traiter le signalement"
-                    },
-                    "FINALIZE": {
-                    "TITLE": "Finaliser le signalement"
-                    },
-                    "EVALUATE": {
-                    "TITLE": "Evaluer le signalement"
-                    }
-                },
-                "MESSAGES": {
-                    "WAITING": {
-                    "TITLE": "Êtes-vous sûr de vouloir ajouter au panier le signalement <b class='text-primary'>uniqId</b>"
-                    },
-                    "REJECT": {
-                    "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement <b class='text-primary'>uniqId</b>"
-                    },
-                    "APPROVAL": {
-                    "TITLE": "Êtes-vous sûr de vouloir approuver le signalement <b class='text-primary'>uniqId</b>"
-                    },
-                    "TREATMENT": {
-                    "TITLE": "Êtes-vous sûr de vouloir traiter le signalement <b class='text-primary'>uniqId</b>"
-                    },
-                    "FINALIZE": {
-                    "TITLE": "Êtes-vous sûr de vouloir finaliser le signalement <b class='text-primary'>uniqId</b>"
-                    },
-                    "EVALUATE": {
-                    "TITLE": "Êtes-vous sûr de vouloir évaluer le signalement <b class='text-primary'>uniqId</b>"
-                    }
-                },
-                "BUTTONS": {
-                    "WAITING": {
-                    "TITLE": "Prendre en charge"
-                    },
-                    "REJECT": {
-                    "TITLE": "Rejeter"
-                    },
-                    "APPROVAL": {
-                    "TITLE": "Approuver"
-                    },
-                    "TREATMENT": {
-                    "TITLE": "Traiter"
-                    },
-                    "FINALIZE": {
-                    "TITLE": "Finaliser"
-                    },
-                    "EVALUATE": {
-                    "TITLE": "Evaluer"
-                    },
-                    "CONFIRM": "Confirmer"
-                }
+            "ACTIONS": {
+                "VIEW_MAP": "Voir sur la carte",
+                "COPY_COORDINATES": "Copier les coordonnées",
+                "OPEN_MAP": "Ouvrir la carte"
             }
+        },
+        "FOOTER": {
+            "ACTIONS": {
+                "TAKE_CHARGE": "Ajouter au panier",
+                "APPROVE": "Approuver",
+                "PROCESS": "Traiter",
+                "FINALIZE": "Finaliser",
+                "EVALUATE": "Évaluer",
+                "SAVE": "Enregistrer",
+                "CANCEL": "Annuler"
+            }
+        },
+        "SWEET_ALERT_PARAMS": {
+            "CONFIRM": {
+                "REJECT": {
+                    "TITLE": "Rejeter le signalement"
+                },
+                "APPROVAL": {
+                    "TITLE": "Approuver le signalement"
+                },
+                "TREATMENT": {
+                    "TITLE": "Traiter le signalement"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finaliser le signalement"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluer le signalement"
+                }
+            },
+            "MESSAGES": {
+                "WAITING": {
+                    "TITLE": "Êtes-vous sûr de vouloir ajouter au panier le signalement <b class='text-primary'>uniqId</b>"
+                },
+                "REJECT": {
+                    "TITLE": "Êtes-vous sûr de vouloir rejeté le signalement <b class='text-primary'>uniqId</b>"
+                },
+                "APPROVAL": {
+                    "TITLE": "Êtes-vous sûr de vouloir approuver le signalement <b class='text-primary'>uniqId</b>"
+                },
+                "TREATMENT": {
+                    "TITLE": "Êtes-vous sûr de vouloir traiter le signalement <b class='text-primary'>uniqId</b>"
+                },
+                "FINALIZE": {
+                    "TITLE": "Êtes-vous sûr de vouloir finaliser le signalement <b class='text-primary'>uniqId</b>"
+                },
+                "EVALUATE": {
+                    "TITLE": "Êtes-vous sûr de vouloir évaluer le signalement <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "BUTTONS": {
+                "WAITING": {
+                    "TITLE": "Prendre en charge"
+                },
+                "REJECT": {
+                    "TITLE": "Rejeter"
+                },
+                "APPROVAL": {
+                    "TITLE": "Approuver"
+                },
+                "TREATMENT": {
+                    "TITLE": "Traiter"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finaliser"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluer"
+                },
+                "CONFIRM": "Confirmer"
+            }
+        }
     },
     "SETTINGS_SECURITY": {
         "BREADCRUMB": {
@@ -3900,12 +3902,12 @@
                 "EMAIL": "Email",
                 "PHONE": "Téléphone",
                 "ROLE": "Rôle",
-                    "TEAM": "Équipe",
+                "TEAM": "Équipe",
                 "RESPONSIBILITY": "Responsabilité",
                 "STATE": "État",
                 "STATUS": "Statut",
                 "CREATED_AT": "Créé le",
-                "UPDATED_AT":"Modifié le",
+                "UPDATED_AT": "Modifié le",
                 "ACTION": "Action"
             },
             "FORM": {
@@ -4278,12 +4280,12 @@
             "SEE_MORE": "Voir plus",
             "ACTION": "Action"
         },
-            "TOOLTIP": {
-                "REFRESH": "Rafraîchir la liste des historiques",
-                "EXPORT": "Exporter la liste de {nb} historiques",
-                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des historiques",
-                "SEE_MORE": "Voir plus d'informations"
-            },
+        "TOOLTIP": {
+            "REFRESH": "Rafraîchir la liste des historiques",
+            "EXPORT": "Exporter la liste de {nb} historiques",
+            "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des historiques",
+            "SEE_MORE": "Voir plus d'informations"
+        },
         "DIALOG": {
             "TITLE": "Détail de l'historique",
             "DATE": "Date & Heure",
@@ -4370,7 +4372,6 @@
             "LOADING_DESCRIPTION": "Suivi des signalements en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements. Veuillez recharger la page ou contacter le support."
         }
-
     },
     "MONITORING": {
         "BREADCRUMB": {
@@ -4439,4 +4440,3 @@
         }
     }
 }
-

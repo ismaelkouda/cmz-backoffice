@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Channels } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
-import { ChannelsDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
+import { MessagingChannelsEnum } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingChannelsDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ChannelsMapper {
-    mapFromDto(dto: ChannelsDto): Channels {
-        const methodMap: Record<ChannelsDto, Channels> = {
-            [ChannelsDto.PUSH]: Channels.PUSH,
-            [ChannelsDto.MAIL]: Channels.MAIL,
-            [ChannelsDto.SMS]: Channels.SMS,
+export class MessagingChannelsMapper {
+    mapFromDto(dto: MessagingChannelsDto): MessagingChannelsEnum {
+        const methodMap: Record<MessagingChannelsDto, MessagingChannelsEnum> = {
+            [MessagingChannelsDto.PUSH]: MessagingChannelsEnum.PUSH,
+            [MessagingChannelsDto.MAIL]: MessagingChannelsEnum.MAIL,
+            [MessagingChannelsDto.SMS]: MessagingChannelsEnum.SMS,
         };
         return methodMap[dto];
     }
-    mapToDto(value: Channels): ChannelsDto {
-        const methodMap: Record<Channels, ChannelsDto> = {
-            [Channels.PUSH]: ChannelsDto.PUSH,
-            [Channels.MAIL]: ChannelsDto.MAIL,
-            [Channels.SMS]: ChannelsDto.SMS,
+    mapToDto(value: MessagingChannelsEnum): MessagingChannelsDto {
+        const methodMap: Record<MessagingChannelsEnum, MessagingChannelsDto> = {
+            [MessagingChannelsEnum.PUSH]: MessagingChannelsDto.PUSH,
+            [MessagingChannelsEnum.MAIL]: MessagingChannelsDto.MAIL,
+            [MessagingChannelsEnum.SMS]: MessagingChannelsDto.SMS,
         };
         return methodMap[value];
     }

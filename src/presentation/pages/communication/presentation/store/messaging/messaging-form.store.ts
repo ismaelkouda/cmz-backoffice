@@ -15,8 +15,8 @@ import {
 } from '@angular/forms';
 import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
 import { MessagingFindOneFacade } from '@pages/communication/application/services/messaging/messaging-find-one.facade';
-import { MessagingFormControl } from '@pages/communication/domain/controls/messaging/messaging-form.control';
-import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { MessagingFormControl } from '@presentation/pages/communication/presentation/store/messaging/messaging-form.control';
+import { MessagingTargetEnum } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
 import { FormValidators } from '@pages/communication/domain/validators/form-validators';
 import { getEnumKeyByValue } from '@shared/components/filter/filter.types';
 import { filter, pairwise, startWith } from 'rxjs';
@@ -84,7 +84,7 @@ export class MessagingFormStore {
     readonly isReportMode = computed(() => {
         return (
             this.selectedTargetType() ===
-            getEnumKeyByValue(Target, Target.report)
+            getEnumKeyByValue(MessagingTargetEnum, MessagingTargetEnum.REPORT)
         );
     });
 
@@ -147,12 +147,12 @@ export class MessagingFormStore {
                 nonNullable: true,
             }),
 
-            type: new FormControl('', {
+            type: new FormControl(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
 
-            targetType: new FormControl('', {
+            targetType: new FormControl(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
@@ -251,7 +251,11 @@ export class MessagingFormStore {
 
                 queueMicrotask(() => {
                     const isReport =
-                        targetType === getEnumKeyByValue(Target, Target.report);
+                        targetType ===
+                        getEnumKeyByValue(
+                            MessagingTargetEnum,
+                            MessagingTargetEnum.REPORT
+                        );
 
                     if (isReport) {
                         this.clearAdministrativeArea();
@@ -317,7 +321,8 @@ export class MessagingFormStore {
         const reportIdControl = this.form.controls.reportId;
 
         const isReport =
-            targetType === getEnumKeyByValue(Target, Target.report);
+            targetType ===
+            getEnumKeyByValue(MessagingTargetEnum, MessagingTargetEnum.REPORT);
 
         if (isReport) {
             reportIdControl.setValidators([
@@ -371,29 +376,29 @@ export class MessagingFormStore {
 
         regionControl.setValidators([Validators.required]);
 
-        if (regionControl.value) {
-            departmentControl.setValidators([Validators.required]);
-        } else {
-            departmentControl.clearValidators();
-        }
+        // if (regionControl.value) {
+        //     departmentControl.setValidators([Validators.required]);
+        // } else {
+        //     departmentControl.clearValidators();
+        // }
 
-        if (departmentControl.value) {
-            municipalityControl.setValidators([Validators.required]);
-        } else {
-            municipalityControl.clearValidators();
-        }
+        // if (departmentControl.value) {
+        //     municipalityControl.setValidators([Validators.required]);
+        // } else {
+        //     municipalityControl.clearValidators();
+        // }
 
-        regionControl.updateValueAndValidity({
-            emitEvent: false,
-        });
+        // regionControl.updateValueAndValidity({
+        //     emitEvent: false,
+        // });
 
-        departmentControl.updateValueAndValidity({
-            emitEvent: false,
-        });
+        // departmentControl.updateValueAndValidity({
+        //     emitEvent: false,
+        // });
 
-        municipalityControl.updateValueAndValidity({
-            emitEvent: false,
-        });
+        // municipalityControl.updateValueAndValidity({
+        //     emitEvent: false,
+        // });
     }
 
     private resetDepartmentAndMunicipality(): void {
@@ -502,8 +507,8 @@ export class MessagingFormStore {
         this.form.reset(
             {
                 reportId: '',
-                type: '',
-                targetType: '',
+                type: undefined,
+                targetType: undefined,
                 region: '',
                 department: '',
                 municipality: '',

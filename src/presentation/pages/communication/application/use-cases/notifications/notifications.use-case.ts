@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { NotificationsFilterDto } from '@pages/communication/application/dto/notifications/notifications-filter.dto';
+import { NotificationsFilterContract } from '@pages/communication/domain/contracts/notifications/notifications-filter.contract';
 import { NotificationsReadOneDto } from '@pages/communication/application/dto/notifications/notifications-read-one.dto';
-import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
+import { notificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
 import { NotificationsReadOneEntity } from '@pages/communication/domain/entities/notifications/notifications-read-one.entity';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
 import { NotificationsRepository } from '@pages/communication/domain/repositories/notifications/notifications.repository';
-import { NotificationsFilterVo } from '@pages/communication/domain/value-objects/notifications/notifications-filter.vo';
+import { notificationsFilterVo } from '@pages/communication/domain/value-objects/notifications/notifications-filter.vo';
 import { NotificationsReadOneVo } from '@pages/communication/domain/value-objects/notifications/notifications-read-one.vo';
 import {
     Paginate,
@@ -21,12 +21,12 @@ export class NotificationsUseCase {
     private readonly repository = inject(NotificationsRepository);
 
     execute(
-        filterDto: NotificationsFilterDto | null,
+        contract: NotificationsFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<NotificationsEntity>> {
-        const vo = NotificationsFilterVo.fromDto(filterDto);
-        const entity = NotificationsFilterEntity.fromVo(vo);
+        const vo = notificationsFilterVo(contract);
+        const entity = notificationsFilterEntity(vo);
         return this.repository.execute(entity, page, options);
     }
 

@@ -1,18 +1,23 @@
-import { Injectable } from '@angular/core';
-import {
-    MessagingFindOneEntity,
-    MessagingFindOneProps,
-} from '@pages/communication/domain/entities/messaging/messaging-find-one.entity';
+import { inject, Injectable } from '@angular/core';
+import { MessagingFindOneEntity } from '@pages/communication/domain/entities/messaging/messaging-find-one.entity';
 import { MessagingFindOneItemApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { MessagingTypeMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-type.mapper';
+import { MessagingTargetMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-target.mapper';
+import { MessagingChannelsMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-channels.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
+import { MessagingFindOneProps } from '@presentation/pages/communication/domain/interfaces/messaging/messaging-find-one-props.interface';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingFindOneMapper extends SimpleResponseMapper<
     MessagingFindOneEntity,
     MessagingFindOneItemApiDto
 > {
+    private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, MessagingFindOneEntity>();
+    private readonly typeMapper = inject(MessagingTypeMapper);
+    private readonly targetMapper = inject(MessagingTargetMapper);
+    private readonly channelsMapper = inject(MessagingChannelsMapper);
 
     protected mapItemFromDto(
         dto: MessagingFindOneItemApiDto
@@ -22,12 +27,16 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
         const props: MessagingFindOneProps = {
             uniqId: dto.uniq_id,
             reportId: dto.report_uniq_id,
-            type: dto.type.toLowerCase(),
-            targetType: dto.target_type,
+            type: this.typeMapper.mapFromDto(dto.type),
+            targetType: this.targetMapper.mapFromDto(dto.target_type),
             region: dto.region?.id,
             department: dto.department?.id,
             municipality: dto.municipality?.id,
-            channels: dto.channels,
+            channels: this.utils.memoizedList(
+                dto?.channels,
+                (p) => this.channelsMapper.mapFromDto(p),
+                (p) => `channel${p}`
+            ),
             subject: dto.subject,
             content: dto.content,
             createdAt: dto.created_at,

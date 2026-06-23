@@ -1,22 +1,22 @@
-import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
+import { NotificationsFilterContract } from '@pages/communication/domain/contracts/notifications/notifications-filter.contract';
 import { NotificationsFilterApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
 
-export function NotificationsFilterMapper(
-    vo: NotificationsFilterEntity
+export function notificationsFilterMapper(
+    contract: NotificationsFilterContract
 ): NotificationsFilterApiDto {
     const params: NotificationsFilterApiDto = {} as NotificationsFilterApiDto;
 
-    if (vo.search) {
-        params.search = vo.search;
+    if (contract.search) {
+        params.search = contract.search;
     }
-    if (vo.type) {
-        params.type = vo.type;
+    if (contract.type) {
+        params.type = contract.type;
     }
-    if (vo.period?.start) {
-        params.start_date = vo.period.start;
+    if (contract.startDate) {
+        params.start_date = contract.startDate;
     }
-    if (vo.period?.end) {
-        params.end_date = vo.period.end;
+    if (contract.endDate) {
+        params.end_date = contract.endDate;
     }
 
     return params;

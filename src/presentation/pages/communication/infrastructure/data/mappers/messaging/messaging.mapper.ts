@@ -2,7 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import { MessagingProps } from '@pages/communication/domain/interfaces/messaging/messaging-props.interface';
 import { MessagingItemApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-response-api.dto';
-import { ChannelsMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-channels.mapper';
+import { MessagingChannelsMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging-channels.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
@@ -14,7 +14,7 @@ export class MessagingMapper extends PaginatedMapper<
     MessagingItemApiDto
 > {
     private readonly entityCache = new Map<string, MessagingEntity>();
-    private readonly channelsMapper = inject(ChannelsMapper);
+    private readonly channelsMapper = inject(MessagingChannelsMapper);
     private readonly utils = new MapperUtils();
 
     protected mapItemFromDto(dto: MessagingItemApiDto): MessagingEntity {

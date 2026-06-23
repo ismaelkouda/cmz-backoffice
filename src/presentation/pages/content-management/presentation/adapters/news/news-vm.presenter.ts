@@ -40,7 +40,7 @@ export class NewsPresenter {
                     icon: 'pi pi-pencil',
                     disabled: !permission.authorization.canEdit,
                     tooltip: permission.authorization.canEdit
-                        ? this.t('CONTENT_MANAGEMENT.HOME.TOOLTIP.EDIT')
+                        ? this.t('CONTENT_MANAGEMENT.NEWS.TOOLTIP.EDIT')
                         : permission.tooltip.edit,
                 },
                 ...(item.status === Status.UNPUBLISH
@@ -52,7 +52,7 @@ export class NewsPresenter {
                               disabled: !permission.authorization.canPublish,
                               tooltip: permission.authorization.canPublish
                                   ? this.t(
-                                        'CONTENT_MANAGEMENT.HOME.TOOLTIP.PUBLISH'
+                                        'CONTENT_MANAGEMENT.NEWS.TOOLTIP.PUBLISH'
                                     )
                                   : permission.tooltip.publish,
                           },
@@ -65,7 +65,7 @@ export class NewsPresenter {
                               disabled: !permission.authorization.canUnpublish,
                               tooltip: permission.authorization.canUnpublish
                                   ? this.t(
-                                        'CONTENT_MANAGEMENT.HOME.TOOLTIP.UNPUBLISH'
+                                        'CONTENT_MANAGEMENT.NEWS.TOOLTIP.UNPUBLISH'
                                     )
                                   : permission.tooltip.unpublish,
                           },
@@ -81,13 +81,13 @@ export class NewsPresenter {
                     tooltip:
                         permission.authorization.canDelete &&
                         item.status !== Status.PUBLISH
-                            ? this.t('CONTENT_MANAGEMENT.HOME.TOOLTIP.DELETE')
+                            ? this.t('CONTENT_MANAGEMENT.NEWS.TOOLTIP.DELETE')
                             : permission.tooltip.delete,
                 },
             ],
             disableDropdown: !permission.authorization.canChoose,
             tooltipDropdown: permission.authorization.canChoose
-                ? this.t('CONTENT_MANAGEMENT.HOME.TOOLTIP.CHOOSE')
+                ? this.t('CONTENT_MANAGEMENT.NEWS.TOOLTIP.CHOOSE')
                 : permission.tooltip.choose,
         };
     }

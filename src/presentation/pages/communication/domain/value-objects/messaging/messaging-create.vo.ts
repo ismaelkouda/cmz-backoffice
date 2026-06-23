@@ -1,49 +1,20 @@
-import { MessagingCreateDto } from '@pages/communication/application/dto/messaging/messaging-create.dto';
+import { MessagingCreateContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-create.contract';
+import { MessagingCreateValidateContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-create.validate-contract';
+import { validateMessagingCreate } from '@presentation/pages/communication/domain/validators/messaging/messaging-create.validator';
 
-export class MessagingCreateVo {
-    public readonly reportId: string;
-    public readonly type: string;
-    public readonly targetType: string;
-    public readonly region: string;
-    public readonly department: string;
-    public readonly municipality: string;
-    public readonly channels: string[];
-    public readonly subject: string;
-    public readonly content: string;
-
-    constructor(props: {
-        reportId: string;
-        type: string;
-        targetType: string;
-        region: string;
-        department: string;
-        municipality: string;
-        channels: string[];
-        subject: string;
-        content: string;
-    }) {
-        this.reportId = props.reportId;
-        this.type = props.type;
-        this.targetType = props.targetType;
-        this.region = props.region;
-        this.department = props.department;
-        this.municipality = props.municipality;
-        this.channels = props.channels;
-        this.subject = props.subject;
-        this.content = props.content;
-    }
-
-    static fromDto(dto: MessagingCreateDto): MessagingCreateVo {
-        return new MessagingCreateVo({
-            reportId: dto.reportId,
-            type: dto.type,
-            targetType: dto.targetType,
-            region: dto.region,
-            department: dto.department,
-            municipality: dto.municipality,
-            channels: dto.channels,
-            subject: dto.subject,
-            content: dto.content,
-        });
-    }
+export function messagingCreateVo(
+    contract: MessagingCreateContract
+): MessagingCreateValidateContract {
+    validateMessagingCreate(contract);
+    return {
+        reportId: contract.reportId,
+        type: contract.type,
+        targetType: contract.targetType,
+        region: contract.region,
+        department: contract.department,
+        municipality: contract.municipality,
+        channels: contract.channels,
+        subject: contract.subject,
+        content: contract.content,
+    };
 }

@@ -25,7 +25,6 @@ export class DatePeriod {
         }
 
         if (startDate && endDate && startDate > endDate) {
-            console.log('startDate', startDate);
             throw new InvalidDateRangeError();
         }
 
