@@ -222,7 +222,7 @@
             "FORGOT_PASSWORD": "Forgot password",
             "FEATURES": {
                 "SECURE_ACCESS": "Secure access",
-                "TREATMENT_AND_MONITORING_OF_PROCESSING": "Report tracking and processing",
+                "MONITORING_OF_PROCESSING": "Report tracking",
                 "REAL_TIME_DASHBOARD": "Real-time dashboard",
                 "TEAM_MANAGEMENT": "Team management",
                 "EXTRACTION_OF_DATA": "Data extraction",

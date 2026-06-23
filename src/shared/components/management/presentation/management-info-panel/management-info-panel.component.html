@@ -386,59 +386,7 @@
                                         />
                                     }
                                 </div>
-
-                                <!-- <div class="data-field">
-                              <label class="field-label">{{
-                                'MANAGEMENT.FORM.LOCATION_INFO.LOCATION_METHOD'
-                                | translate
-                              }}</label>
-                              <div class="field-value">
-                                {{
-                                item()?.location?.method ||
-                                'MANAGEMENT.FORM.NOT_SPECIFIED'
-                                | translate
-                                }}
-                              </div>
-                            </div> -->
-
-                                <!-- <div class="data-field">
-                            <label class="field-label">
-                              {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
-                            </label>
-                            <div class="field-value">
-                              {{ item()?.source || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
-                            </div>
-                          </div> -->
-
-                                <!-- <div class="data-field">
-                          <label class="field-label">{{
-                            'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_ENTRY'
-                            | translate
-                          }}</label>
-                          <div class="field-value">
-                            {{
-                            item()?.reportedAt ||
-                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
-                            | translate)
-                            }}
-                          </div>
-                        </div>
-
-                        <div class="data-field">
-                          <label class="field-label">{{
-                            'MANAGEMENT.FORM.REPORT_INFO.DATE_TIME_RECEIPT'
-                            | translate
-                          }}</label>
-                          <div class="field-value">
-                            {{
-                            item()?.createdAt ||
-                            ('MANAGEMENT.FORM.NOT_SPECIFIED'
-                            | translate)
-                            }}
-                          </div>
-                        </div> -->
-
-                                @if (
+                                <!-- @if (
                                     item()?.inProcessing ||
                                     item()?.inFinalization
                                 ) {
@@ -454,7 +402,47 @@
                                             }}
                                         </div>
                                     </div>
-                                }
+                                } -->
+                            </div>
+
+                            <div class="data-row triple-equals">
+
+                                <div class="data-field">
+                                    <label class="field-label">{{
+                                        'MANAGEMENT.FORM.ADMINISTRATIVE_BOUNDARY.REGION'
+                                        | translate
+                                    }}</label>
+                                    <div class="field-value">
+                                        {{
+                                        item()?.region?.name ||
+                                        'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                        | translate
+                                        }}
+                                    </div>
+                                </div>
+                                
+                                <div class="data-field">
+                                    <label class="field-label">
+                                    {{ 'MANAGEMENT.FORM.ADMINISTRATIVE_BOUNDARY.DEPARTMENT' | translate }}
+                                    </label>
+                                    <div class="field-value">
+                                    {{ item()?.department?.name || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                    </div>
+                                </div>
+
+                                <div class="data-field">
+                                    <label class="field-label">{{
+                                        'MANAGEMENT.FORM.ADMINISTRATIVE_BOUNDARY.REGION'
+                                        | translate
+                                    }}</label>
+                                    <div class="field-value">
+                                        {{
+                                        item()?.municipality?.name ||
+                                        ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                        | translate)
+                                        }}
+                                    </div>
+                                </div>
                             </div>
 
                             @if (item()?.displayApproveComment()) {

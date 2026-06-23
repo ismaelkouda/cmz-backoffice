@@ -611,23 +611,11 @@
                                             </dd>
                                             <dt>Operateur(s)</dt>
                                             <dd>{{ getOperators(report) }}</dd>
-                                            <dt>Commune / Region</dt>
-                                            <dd>
-                                                {{
-                                                    getPlaceName(
-                                                        report.municipality
-                                                    )
-                                                }}
-                                                /
-                                                {{
-                                                    getPlaceName(report.region)
-                                                }}
-                                            </dd>
                                             <dt>Signale le</dt>
                                             <dd>
                                                 {{ report.reported_at || '-' }}
                                             </dd>
-                                            <dt>Telephone</dt>
+                                            <dt>Tel. Emetteur</dt>
                                             <dd>
                                                 {{
                                                     report.initiator_phone_number ||
@@ -649,7 +637,7 @@
                                                     )
                                                 "
                                             >
-                                                Voir les plus d'infos
+                                                Voir les détails
                                             </button>
                                         </div>
                                     </article>

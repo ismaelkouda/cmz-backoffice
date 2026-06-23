@@ -263,7 +263,7 @@
             "FORGOT_PASSWORD": "Mot de passe oublié",
             "FEATURES": {
                 "SECURE_ACCESS": "Accès sécurisé",
-                "TREATMENT_AND_MONITORING_OF_PROCESSING": "Suivi et Traitement des signalements",
+                "MONITORING_OF_PROCESSING": "Suivi des signalements",
                 "REAL_TIME_DASHBOARD": "Tableau de bord en temps réel",
                 "TEAM_MANAGEMENT": "Gestion des équipes",
                 "EXTRACTION_OF_DATA": "Extraction de données",
@@ -3377,6 +3377,11 @@
                 "LATITUDE": "Latitude",
                 "PLACE_DESCRIPTION": "Description de l'endroit",
                 "NO_DESCRIPTION": "Aucune description de localisation fournie"
+            },
+            "ADMINISTRATIVE_BOUNDARY": {
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "COMMUNE": "Commune/Sous-préfecture"
             },
             "PICTURES_INFO": {
                 "TITLE": "Description de l'endroit"
