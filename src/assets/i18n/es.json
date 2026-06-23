@@ -222,7 +222,7 @@
             "FORGOT_PASSWORD": "¿Olvidó su contraseña?",
             "FEATURES": {
                 "SECURE_ACCESS": "Acceso seguro",
-                "TREATMENT_AND_MONITORING_OF_PROCESSING": "Seguimiento y Tratamiento de reportes",
+                "MONITORING_OF_PROCESSING": "Seguimiento de reportes",
                 "REAL_TIME_DASHBOARD": "Panel de control en tiempo real",
                 "TEAM_MANAGEMENT": "Gestión de equipos",
                 "EXTRACTION_OF_DATA": "Extracción de datos",

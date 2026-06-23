@@ -51,7 +51,7 @@
                                                     }}</b>
                                                 </legend>
                                                 <div class="row g-3">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label
                                                             for="type"
                                                             class="form-label fw-bold"
@@ -116,7 +116,7 @@
                                                         } -->
                                                     </div>
 
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label
                                                             for="targetType"
                                                             class="form-label fw-bold"
@@ -186,7 +186,7 @@
                                                         )
                                                     ) {
                                                         <div
-                                                            class="fade-in col-md-4"
+                                                            class="fade-in col-md-6"
                                                         >
                                                             <label
                                                                 for="reportId"
@@ -268,33 +268,9 @@
                                                             </div> -->
                                                         </div>
                                                     }
-                                                </div>
-                                                <div class="row">
-                                                    <div class="fade-in col-md-12">
-                                                        <p-message>
-                                                        @if (shouldShowField('reportId')) {
-                                                        Les émetteurs du signalement selectionné
-                                                        }
-                                                        @if (shouldShowField('region')) {
-                                                        Les émetteurs des signalements de la zone selectionnée
-                                                        }
-                                                        </p-message>
-                                                    </div>
-                                                </div>
-                                            </fieldset>
 
-                                            @if (shouldShowField('region')) {
-                                                <fieldset
-                                                    class="fade-in fieldset"
-                                                >
-                                                    <legend>
-                                                        <b>{{
-                                                            'COMMUNICATION.MESSAGING.FORM.FIELDSET_ADMINISTRATIVE_BOUNDARY.TITLE'
-                                                                | translate
-                                                        }}</b>
-                                                    </legend>
-                                                    <div class="row g-3">
-                                                        <div class="col-md-4">
+                                                    @if (shouldShowField('region')) {
+                                                        <div class="fade-in col-md-2">
                                                             <label
                                                                 for="region"
                                                                 class="form-label fw-bold"
@@ -355,7 +331,7 @@
                                                             }
                                                         </div>
 
-                                                        <div class="col-md-4">
+                                                        <div class="fade-in col-md-2">
                                                             <label
                                                                 for="department"
                                                                 class="form-label fw-bold"
@@ -410,7 +386,7 @@
                                                             }
                                                         </div>
 
-                                                        <div class="col-md-4">
+                                                        <div class="fade-in col-md-2">
                                                             <label
                                                                 for="municipality"
                                                                 class="form-label fw-bold"
@@ -464,9 +440,23 @@
                                                                 </small>
                                                             }
                                                         </div>
+                                                    }
+                                                </div>
+                                                @if (shouldShowField('reportId') || shouldShowField('region')) {
+                                                <div class="row">
+                                                    <div class="fade-in col-md-12">
+                                                        <p-message>
+                                                        @if (shouldShowField('reportId')) {
+                                                        Destinateur : Les émetteurs du signalement selectionné
+                                                        }
+                                                        @if (shouldShowField('region')) {
+                                                        Destinateur : Les émetteurs des signalements de la zone selectionnée
+                                                        }
+                                                        </p-message>
                                                     </div>
-                                                </fieldset>
-                                            }
+                                                </div>
+                                                }
+                                            </fieldset>
 
                                             <fieldset class="fieldset">
                                                 <legend>
