@@ -172,15 +172,15 @@ export class MessagingFacade extends BaseFacade<
         this._actionState.set('loading');
 
         const command = new MessagingCreateCommand(
-            messaging.reportId,
-            messaging.type,
-            messaging.targetType,
-            messaging.region,
-            messaging.department,
-            messaging.municipality,
-            messaging.channels,
-            messaging.subject,
-            messaging.content
+            messaging?.reportId,
+            messaging?.type,
+            messaging?.targetType,
+            messaging?.region,
+            messaging?.department,
+            messaging?.municipality,
+            messaging?.channels,
+            messaging?.subject,
+            messaging?.content
         );
 
         this.handleActionWithRefresh(

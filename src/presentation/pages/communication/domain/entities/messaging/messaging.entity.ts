@@ -1,5 +1,5 @@
 import {
-    Channels,
+    MessagingChannelsEnum,
     ChannelsStyle,
 } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
 import { MessagingProps } from '@pages/communication/domain/interfaces/messaging/messaging-props.interface';
@@ -42,14 +42,14 @@ export class MessagingEntity {
         return this.props.municipality;
     }
 
-    get channels(): Channels[] {
+    get channels(): MessagingChannelsEnum[] {
         return this.props.channels;
     }
-    channelsStyle(channels: Channels): ChannelsStyle {
-        const methodMap: Record<Channels, ChannelsStyle> = {
-            [Channels.PUSH]: ChannelsStyle.PUSH,
-            [Channels.MAIL]: ChannelsStyle.MAIL,
-            [Channels.SMS]: ChannelsStyle.SMS,
+    channelsStyle(channels: MessagingChannelsEnum): ChannelsStyle {
+        const methodMap: Record<MessagingChannelsEnum, ChannelsStyle> = {
+            [MessagingChannelsEnum.PUSH]: ChannelsStyle.PUSH,
+            [MessagingChannelsEnum.MAIL]: ChannelsStyle.MAIL,
+            [MessagingChannelsEnum.SMS]: ChannelsStyle.SMS,
         };
         return methodMap[channels];
     }

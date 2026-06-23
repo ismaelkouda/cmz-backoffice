@@ -1,30 +1,39 @@
-import { MessagingUpdateVo } from '@pages/communication/domain/value-objects/messaging/messaging-update.vo';
+import { MessagingUpdateValidateContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-update.validate-contract';
+import { MessagingChannelsEnum } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
 
 export class MessagingUpdateEntity {
-    constructor(
-        public readonly uniqId: string,
-        public readonly reportId: string,
-        public readonly type: string,
-        public readonly targetType: string,
-        public readonly region: string,
-        public readonly department: string,
-        public readonly municipality: string,
-        public readonly channels: string[],
-        public readonly subject: string,
-        public readonly content: string
-    ) {}
-    static fromVo(vo: MessagingUpdateVo): MessagingUpdateEntity {
-        return new MessagingUpdateEntity(
-            vo.uniqId,
-            vo.reportId,
-            vo.type,
-            vo.targetType,
-            vo.region,
-            vo.department,
-            vo.municipality,
-            vo.channels,
-            vo.subject,
-            vo.content
-        );
+    constructor(private readonly contract: MessagingUpdateValidateContract) {}
+
+    get data(): MessagingUpdateValidateContract {
+        return this.contract;
+    }
+
+    hasSmsChannel(): boolean {
+        return this.contract.channels.includes(MessagingChannelsEnum.SMS);
+    }
+
+    hasMailChannel(): boolean {
+        return this.contract.channels.includes(MessagingChannelsEnum.MAIL);
+    }
+
+    hasPushChannel(): boolean {
+        return this.contract.channels.includes(MessagingChannelsEnum.PUSH);
+    }
+
+    ensureCanBeUpdated(): void {
+        this.ensureSmsContentLength();
+        this.ensureMailSubject();
+    }
+
+    private ensureSmsContentLength(): void {
+        if (this.hasSmsChannel() && this.contract.content.length > 160) {
+            throw new Error('SMS content cannot exceed 160 characters');
+        }
+    }
+
+    private ensureMailSubject(): void {
+        if (this.hasMailChannel() && !this.contract.subject.trim()) {
+            throw new Error('Subject is required for email channel');
+        }
     }
 }

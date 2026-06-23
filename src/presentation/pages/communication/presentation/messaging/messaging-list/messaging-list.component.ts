@@ -14,12 +14,12 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { MessagingFacade } from '@pages/communication/application/services/messaging/messaging.facade';
-import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { MessagingTargetEnum } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
 import { MessagingPresenter } from '@pages/communication/presentation/adapters/messaging/messaging-vm.presenter';
 import { MESSAGING_FORM } from '@pages/communication/presentation/messaging/messaging-paths.constants';
 import { MessagingFilterStore } from '@pages/communication/presentation/store/messaging/messaging-filter.store';
 import { MessagingFilterDto } from '@presentation/pages/communication/application/dto/messaging/messaging-filter.dto';
-import { Channels } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingChannelsEnum } from '@presentation/pages/communication/domain/enums/messaging/messaging-channels.enum';
 import { MESSAGING_TABLE } from '@presentation/pages/communication/presentation/adapters/messaging/messaging-table.constant';
 import { MessagingVmProps } from '@presentation/pages/communication/presentation/adapters/messaging/messaging-vm-props.interface';
 import { FilterComponent } from '@shared/components/filter/filter.component';
@@ -96,11 +96,11 @@ export class MessagingListComponent {
     });
     private readonly targetOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(Target, this.t.bind(this));
+        return enumToFilterOptions(MessagingTargetEnum, this.t.bind(this));
     });
     private readonly channelsOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
-        return enumToFilterOptions(Channels, this.t.bind(this));
+        return enumToFilterOptions(MessagingChannelsEnum, this.t.bind(this));
     });
     private readonly createTooltip = computed(() => {
         if (!this.canCreate()) {

@@ -19,13 +19,13 @@ export class NotificationsFilterStore {
             search: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            type: new FormControl<string | null>(null, {
+            type: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
-            startDate: new FormControl<string>('', {
+            startDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
-            endDate: new FormControl<string>('', {
+            endDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
         });
@@ -50,10 +50,10 @@ export class NotificationsFilterStore {
         const raw = this.form.getRawValue();
 
         return {
-            search: raw.search || undefined,
-            startDate: raw.startDate || undefined,
-            endDate: raw.endDate || undefined,
-            type: raw.type || undefined,
+            search: raw.search,
+            startDate: raw.startDate,
+            endDate: raw.endDate,
+            type: raw.type,
         };
     }
 }

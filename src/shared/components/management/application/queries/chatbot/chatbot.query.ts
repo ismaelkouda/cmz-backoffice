@@ -1,7 +1,7 @@
 export class ChatbotQuery {
     constructor(
-        public readonly search?: string,
         public readonly reportId?: string,
+        public readonly search?: string,
         public readonly targetType?: string,
         public readonly region?: string,
         public readonly department?: string,

@@ -174,7 +174,6 @@ export class ChatbotStore {
             department: '',
             municipality: '',
         });
-        // Le reset du draft et du sending se fait dans l'effect success
     }
 
     public reset(): void {

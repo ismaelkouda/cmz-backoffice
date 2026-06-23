@@ -1,4 +1,4 @@
-export enum ChannelsDto {
+export enum MessagingChannelsDto {
     PUSH = 'push',
     MAIL = 'mail',
     SMS = 'sms',

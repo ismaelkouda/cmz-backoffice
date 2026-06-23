@@ -1,17 +1,7 @@
-export interface MessagingFindOneProps {
-    uniqId: string;
-    reportId: string;
-    type: string;
-    targetType: string;
-    region: string;
-    department: string;
-    municipality: string;
-    channels: string[];
-    subject: string;
-    content: string;
-    createdAt: string;
-    updatedAt: string;
-}
+import { MessagingFindOneProps } from '@pages/communication/domain/interfaces/messaging/messaging-find-one-props.interface';
+import { MessagingChannelsEnum } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingTargetEnum } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { MessagingTypeEnum } from '@pages/communication/domain/enums/messaging/messaging-type.enum';
 
 export class MessagingFindOneEntity {
     constructor(private readonly props: MessagingFindOneProps) {}
@@ -24,11 +14,11 @@ export class MessagingFindOneEntity {
         return this.props.reportId;
     }
 
-    get type(): string {
+    get type(): MessagingTypeEnum {
         return this.props.type;
     }
 
-    get targetType(): string {
+    get targetType(): MessagingTargetEnum {
         return this.props.targetType;
     }
 
@@ -44,7 +34,7 @@ export class MessagingFindOneEntity {
         return this.props.municipality;
     }
 
-    get channels(): string[] {
+    get channels(): MessagingChannelsEnum[] {
         return this.props.channels;
     }
 

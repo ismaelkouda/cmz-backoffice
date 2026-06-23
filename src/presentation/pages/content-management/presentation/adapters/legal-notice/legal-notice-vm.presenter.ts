@@ -40,9 +40,7 @@ export class LegalNoticePresenter {
                     icon: 'pi pi-pencil',
                     disabled: !permission.authorization.canEdit,
                     tooltip: permission.authorization.canEdit
-                        ? this.t(
-                              'CONTENT_MANAGEMENT.PRIVACY_POLICY.TOOLTIP.EDIT'
-                          )
+                        ? this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.TOOLTIP.EDIT')
                         : permission.tooltip.edit,
                 },
                 ...(item.status === Status.UNPUBLISH
@@ -54,7 +52,7 @@ export class LegalNoticePresenter {
                               disabled: !permission.authorization.canPublish,
                               tooltip: permission.authorization.canPublish
                                   ? this.t(
-                                        'CONTENT_MANAGEMENT.PRIVACY_POLICY.TOOLTIP.PUBLISH'
+                                        'CONTENT_MANAGEMENT.LEGAL_NOTICE.TOOLTIP.PUBLISH'
                                     )
                                   : permission.tooltip.publish,
                           },
@@ -67,7 +65,7 @@ export class LegalNoticePresenter {
                               disabled: !permission.authorization.canUnpublish,
                               tooltip: permission.authorization.canUnpublish
                                   ? this.t(
-                                        'CONTENT_MANAGEMENT.PRIVACY_POLICY.TOOLTIP.UNPUBLISH'
+                                        'CONTENT_MANAGEMENT.LEGAL_NOTICE.TOOLTIP.UNPUBLISH'
                                     )
                                   : permission.tooltip.unpublish,
                           },
@@ -84,14 +82,14 @@ export class LegalNoticePresenter {
                         permission.authorization.canDelete &&
                         item.status !== Status.PUBLISH
                             ? this.t(
-                                  'CONTENT_MANAGEMENT.PRIVACY_POLICY.TOOLTIP.DELETE'
+                                  'CONTENT_MANAGEMENT.LEGAL_NOTICE.TOOLTIP.DELETE'
                               )
                             : permission.tooltip.delete,
                 },
             ],
             disableDropdown: !permission.authorization.canChoose,
             tooltipDropdown: permission.authorization.canChoose
-                ? this.t('CONTENT_MANAGEMENT.PRIVACY_POLICY.TOOLTIP.CHOOSE')
+                ? this.t('CONTENT_MANAGEMENT.LEGAL_NOTICE.TOOLTIP.CHOOSE')
                 : permission.tooltip.choose,
         };
     }

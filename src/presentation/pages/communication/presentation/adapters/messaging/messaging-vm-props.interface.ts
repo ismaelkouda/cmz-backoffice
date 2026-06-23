@@ -1,5 +1,5 @@
 import {
-    Channels,
+    MessagingChannelsEnum,
     ChannelsStyle,
 } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
 
@@ -7,8 +7,8 @@ export interface MessagingVmProps {
     uniqId: string;
     type: string;
     targetType: string;
-    channels: Channels[];
-    channelsStyle: (channel: Channels) => ChannelsStyle;
+    channels: MessagingChannelsEnum[];
+    channelsStyle: (channel: MessagingChannelsEnum) => ChannelsStyle;
     subject: string;
     content: string;
     createdAt: string;

@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MessagingFilterDto } from '@pages/communication/application/dto/messaging/messaging-filter.dto';
 import { MessagingFacade } from '@pages/communication/application/services/messaging/messaging.facade';
 import { MessagingFilterControl } from '@pages/communication/presentation/store/messaging/messaging-filter.control';
+import { MessagingChannelsEnum } from '@pages/communication/domain/enums/messaging/messaging-channels.enum';
+import { MessagingTargetEnum } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
 
 @Injectable()
 export class MessagingFilterStore {
@@ -19,12 +21,18 @@ export class MessagingFilterStore {
             search: new FormControl<string>('', {
                 nonNullable: true,
             }),
-            channels: new FormControl<string[]>([], {
-                nonNullable: true,
-            }),
-            targetType: new FormControl<string | null>(null, {
-                nonNullable: true,
-            }),
+            channels: new FormControl<MessagingChannelsEnum[] | undefined>(
+                undefined,
+                {
+                    nonNullable: true,
+                }
+            ),
+            targetType: new FormControl<MessagingTargetEnum | undefined>(
+                undefined,
+                {
+                    nonNullable: true,
+                }
+            ),
         });
 
     constructor() {

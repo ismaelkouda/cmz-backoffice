@@ -1,4 +1,4 @@
-import { ChannelsDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
+import { MessagingChannelsDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-channels.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface MessagingItemApiDto {
@@ -9,7 +9,7 @@ export interface MessagingItemApiDto {
     region: string;
     department: string;
     municipality: string;
-    channels: ChannelsDto[];
+    channels: MessagingChannelsDto[];
     subject: string;
     content: string;
     created_at: string;

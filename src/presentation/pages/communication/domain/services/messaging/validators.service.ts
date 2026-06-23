@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { Target } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
+import { MessagingTargetEnum } from '@pages/communication/domain/enums/messaging/messaging-target.enum';
 import { FormValidators } from '@pages/communication/domain/validators/form-validators';
 
 @Injectable({ providedIn: 'root' })
@@ -19,7 +19,7 @@ export class ValidatorsService {
         targetType: string | null,
         field: 'reportId' | 'region'
     ): any {
-        const isReport = targetType === Target.report;
+        const isReport = targetType === MessagingTargetEnum.REPORT;
 
         if (field === 'reportId') {
             return isReport ? this.baseValidators.reportId : [];
