@@ -3098,6 +3098,9 @@
                     "AREA": "Zone"
                 },
                 "TYPE": {
+                    "TIP": "Astuce",
+                    "EDUCATION": "Éducation",
+                    "INFO": "Information",
                     "AWARENESS": "Sensibilisation"
                 },
                 "CHANNELS": {
@@ -3120,7 +3123,7 @@
                     "REPORT_ID_PLACEHOLDER": "Saisir l'identifiant du signalement"
                 },
                 "FIELDSET_ADMINISTRATIVE_BOUNDARY": {
-                    "TITLE": "Limite administrative",
+                    "TITLE": "Zone / Limite administrative",
                     "REGION": "Région",
                     "DEPARTMENT": "Département",
                     "MUNICIPALITY": "Commune / Sous-prefecture"

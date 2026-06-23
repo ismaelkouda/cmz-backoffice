@@ -5,32 +5,43 @@ import { Status as requestsStatus } from '@pages/requests/domain/enums/details/d
 import { MANAGEMENT_TIMESTAMP } from '@shared/components/management/domain/constants/management-timestamps.constant';
 import { ManagementTimestamp } from '@shared/components/management/domain/interfaces/management-timestamps.interface';
 import { ManagementTimestampKey } from '../types/management-timestamps.type';
+import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export function managementWorkflowTimestamps(
     props: processingProps | requestsProps | finalizationProps
 ): ManagementTimestamp[] {
-    return MANAGEMENT_TIMESTAMP.map((step) => {
+    const steps =
+        props.type === TypeReport.REQUESTS
+            ? MANAGEMENT_TIMESTAMP.filter(
+                  (step) =>
+                      !['acknowledgedAt', 'finalizedAt'].includes(step.key)
+              )
+            : MANAGEMENT_TIMESTAMP;
+
+    return steps.map((step) => {
         let timestamp: string | null = null;
         const treater = props.treater;
 
         if (!treater) {
             return { ...step, timestamp };
         }
-        timestamp = treater[step.key];
 
         if (step.key === 'approvedAt' && step.key1) {
             switch (props.status) {
                 case requestsStatus.APPROVED:
                     timestamp = treater[step.key];
                     break;
+
                 case requestsStatus.REJECTED:
                     timestamp = treater[step.key1];
                     break;
+
                 default: {
                     const keys: ManagementTimestampKey[] = [
                         step.key,
                         step.key1,
                     ];
+
                     for (const key of keys) {
                         if (key && treater[key]) {
                             timestamp = treater[key];
@@ -42,6 +53,7 @@ export function managementWorkflowTimestamps(
         } else {
             timestamp = treater[step.key];
         }
+
         return { ...step, timestamp };
     });
 }

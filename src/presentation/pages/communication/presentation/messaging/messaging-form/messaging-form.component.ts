@@ -40,6 +40,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { map, tap } from 'rxjs/operators';
 import SweetAlert from 'sweetalert2';
 import { MessagingFormStore } from '@pages/communication/presentation/store/messaging/messaging-form.store';
+import { MessageModule } from 'primeng/message';
 
 @Component({
     selector: 'app-messaging-form',
@@ -62,6 +63,7 @@ import { MessagingFormStore } from '@pages/communication/presentation/store/mess
         CheckboxModule,
         TooltipModule,
         EditorModule,
+        MessageModule,
     ],
     providers: [
         MessageService,
