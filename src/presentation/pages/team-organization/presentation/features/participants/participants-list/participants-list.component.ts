@@ -327,7 +327,7 @@ export class ParticipantsListComponent {
     });
     constructor() {
         this.facade.readAll(this.currentFilter() as ParticipantsFilterDto);
-        this.teamsSelectFacade.readAll();
+        this.teamsSelectFacade.readAll({ forceRefresh: true });
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {

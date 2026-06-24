@@ -274,6 +274,6 @@ export class ChatbotFormStore {
             this.form.reset();
             this.facade.reset();
         }
-        this.regionsFacade.readAll();
+        this.regionsFacade.readAll({ forceRefresh: true });
     }
 }

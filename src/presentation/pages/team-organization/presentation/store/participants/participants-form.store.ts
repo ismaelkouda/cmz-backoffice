@@ -118,7 +118,7 @@ export class ParticipantsFormStore {
 
     public setMode(uniqId: string | null): void {
         this.isEditMode.set(!!uniqId);
-        this.teamsSelectFacade.readAll();
+        this.teamsSelectFacade.readAll({ forceRefresh: true });
         this.facade.reset();
         this.form.reset();
         if (uniqId) {

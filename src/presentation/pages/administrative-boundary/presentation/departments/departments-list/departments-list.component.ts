@@ -256,7 +256,7 @@ export class DepartmentsListComponent {
     });
     constructor() {
         this.facade.readAll(this.currentFilter() as DepartmentsFilterDto);
-        this.regionsFacade.readAll();
+        this.regionsFacade.readAll({ forceRefresh: true });
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event: LangChangeEvent) => {

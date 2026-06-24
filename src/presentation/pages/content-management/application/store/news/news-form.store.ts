@@ -311,7 +311,7 @@ export class NewsFormStore {
     }
 
     public setEditMode(uniqId: string | null): void {
-        this.categoriesFacade.readAll();
+        this.categoriesFacade.readAll({ forceRefresh: true });
         this.isEditMode.set(!!uniqId);
 
         if (!uniqId) {

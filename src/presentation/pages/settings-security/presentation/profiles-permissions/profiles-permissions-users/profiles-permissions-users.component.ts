@@ -333,7 +333,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
 
     private openReassignModal(): void {
         this.openReassignRequested.set(true);
-        this.profilesPermissionsSelectFacade.readAll();
+        this.profilesPermissionsSelectFacade.readAll({ forceRefresh: true });
     }
 
     public closeReassignModal(): void {
@@ -343,7 +343,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
 
     private openAssignModal(): void {
         this.openAssignRequested.set(true);
-        this.usersSelectFacade.readAll();
+        this.usersSelectFacade.readAll({ forceRefresh: true });
     }
 
     public closeAssignModal(): void {

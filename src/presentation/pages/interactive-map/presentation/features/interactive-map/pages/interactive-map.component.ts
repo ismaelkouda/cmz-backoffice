@@ -196,7 +196,7 @@ export class InteractiveMapComponent
     ngOnInit(): void {
         this.restoreStateFromUrl();
         this.draftFilters.set(this.cloneFilters(this.store.filters()));
-        this.regionsFacade.readAll();
+        this.regionsFacade.readAll({ forceRefresh: true });
         this.setupLocationSearch();
         this.checkInitialPermission();
     }
