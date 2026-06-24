@@ -42,7 +42,7 @@
         "REPORT": "Signalement",
         "OPERATORS": "Opérateurs",
         "CREATED_AT": "Créé le",
-        "SOURCE": "Source [Num]",
+        "SOURCE": "Canal Emission [Numéro]",
         "AUTO": "AUTO",
         "AUTO_STYLE": "info",
         "MANUAL": "MANUELLE",
@@ -1805,7 +1805,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "SEE_MORE": "Voir plus",
                 "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
@@ -1815,7 +1815,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"
@@ -1891,7 +1891,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
@@ -1900,7 +1900,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"
@@ -2003,7 +2003,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -2015,7 +2015,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "STATUS": "Statut",
                 "DATE": {
                     "FROM": "Date début",
@@ -2101,7 +2101,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATUS": "Statut",
                 "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
@@ -2111,7 +2111,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
-                "SOURCE": "Source"
+                "SOURCE": "Canal d'émission"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -2183,7 +2183,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATE": "État",
                 "TREAT": "Traiter",
                 "ADD_ACTION": "Ajouter une Action",
@@ -2201,7 +2201,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
-                "SOURCE": "Source"
+                "SOURCE": "Canal d'émission"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -2382,7 +2382,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -2394,7 +2394,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "STATUS": "Statut"
             },
             "OPTIONS": {
@@ -2481,7 +2481,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATE": "État",
                 "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
@@ -2562,7 +2562,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -2660,7 +2660,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -2671,7 +2671,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "STATUS": "Statut"
             },
             "OPTIONS": {
@@ -2751,7 +2751,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "SEE_MORE": "Voir plus",
                 "TAKE": "Ajouter au panier",
                 "ACTION": "Action"
@@ -2761,7 +2761,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"
@@ -2824,7 +2824,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "QUALIFY": "Qualifier",
                 "ACTION": "Action"
             },
@@ -2833,7 +2833,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "DATE": {
                     "FROM": "Date début",
                     "TO": "Date fin"
@@ -2923,7 +2923,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Initiateur [Num]",
+                "SOURCE": "Canal Emission [Numéro]",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -2935,7 +2935,7 @@
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "STATUS": "Statut",
                 "DATE": {
                     "FROM": "Date début",
@@ -3395,7 +3395,7 @@
 
             "FIELDS": {
                 "REPORT_ID": "ID Signalement",
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "INITIATOR": "Initiateur",
                 "OPERATORS": "Opérateurs concernés",
                 "LOCATION_NAME": "Nom du lieu",
@@ -3857,7 +3857,7 @@
                 }
             },
             "TABLE": {
-                "SOURCE": "Source",
+                "SOURCE": "Canal d'émission",
                 "USED_AGENT": "Agent utilisé",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
@@ -4283,7 +4283,7 @@
         "TABLE": {
             "ACTION_TYPE": "Type d'action",
             "DETAILS": "Détails",
-            "SOURCE": "Source",
+            "SOURCE": "Canal d'émission",
             "CREATED_AT": "Créé le",
             "SEE_MORE": "Voir plus",
             "ACTION": "Action"
