@@ -56,7 +56,7 @@ export function createProfileForm(): ProfileForm {
             nonNullable: true,
             validators: [
                 Validators.required,
-                Validators.pattern(/^(07|05|03)\d{8}$/),
+                // Validators.pattern(/^(07|05|03)\d{8}$/),
             ],
         }),
     });
