@@ -129,7 +129,7 @@ export class MunicipalitiesFormStore {
     );
 
     constructor() {
-        this.regionsFacade.readAll();
+        this.regionsFacade.readAll({ forceRefresh: true });
         this.initializeFormEffect();
         this.initializeDisableFormEffect();
         this.initializeSubmitSuccessEffect();

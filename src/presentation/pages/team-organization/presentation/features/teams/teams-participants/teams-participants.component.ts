@@ -248,7 +248,7 @@ export class TeamsParticipantsComponent implements OnInit {
     private onAssignRoleSelected(role: Roles): void {
         this.role.set(role);
         this.openAssignRequested.set(true);
-        this.participantsSelectFacade.readAll();
+        this.participantsSelectFacade.readAll({ forceRefresh: true });
     }
 
     protected readonly assignTitle = computed(() => {
@@ -366,7 +366,7 @@ export class TeamsParticipantsComponent implements OnInit {
 
     private openReassignModal(): void {
         this.openReassignRequested.set(true);
-        this.teamsSelectFacade.readAll();
+        this.teamsSelectFacade.readAll({ forceRefresh: true });
     }
 
     public closeReassignModal(): void {

@@ -277,7 +277,7 @@ export class MunicipalitiesListComponent {
             .subscribe((event: LangChangeEvent) => {
                 this.currentLang.set(event.lang);
             });
-        this.regionsFacade.readAll();
+        this.regionsFacade.readAll({ forceRefresh: true });
         effect(() => {
             this.pageTitle();
             this.filterFields();

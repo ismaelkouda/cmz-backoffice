@@ -118,7 +118,7 @@ export class DepartmentsFormComponent {
     }
     private initializeFetchEffect(): void {
         const uniqId = this.uniqId();
-        this.regionsFacade.readAll();
+        this.regionsFacade.readAll({ forceRefresh: true });
         if (!uniqId) {
             this.formStore.openCreate();
             return;

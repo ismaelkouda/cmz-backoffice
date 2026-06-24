@@ -142,7 +142,7 @@ export class UsersStore {
 
         this.facade.reset();
         this.form.reset();
-        this.profilesFacade.readAll();
+        this.profilesFacade.readAll({ forceRefresh: true });
 
         if (uniqId) {
             this.facade.read(
