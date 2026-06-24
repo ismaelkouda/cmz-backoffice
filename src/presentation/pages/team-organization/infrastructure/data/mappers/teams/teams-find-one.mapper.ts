@@ -16,13 +16,13 @@ export class TeamsFindOneMapper extends SimpleResponseMapper<
     protected mapItemFromDto(dto: TeamsFindOneItemApiDto): TeamsFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['code'] });
 
-        const cacheKey =
-            dto.code ?? this.buildPermissionsCacheKey(dto.permissions_json);
+        // const cacheKey =
+        //     dto.code ?? this.buildPermissionsCacheKey(dto.permissions_json);
 
-        const cached = this.entityCache.get(cacheKey);
-        if (cached) {
-            return cached;
-        }
+        // const cached = this.entityCache.get(cacheKey);
+        // if (cached) {
+        //     return cached.with(dto);
+        // }
 
         const entity = new TeamsFindOneEntity(
             dto.id ?? null,
@@ -34,7 +34,7 @@ export class TeamsFindOneMapper extends SimpleResponseMapper<
             dto.permissions_json.map((p) => this.mapPermissionNode(p))
         );
 
-        this.entityCache.set(cacheKey, entity);
+        // this.entityCache.set(cacheKey, entity);
         return entity;
     }
 
