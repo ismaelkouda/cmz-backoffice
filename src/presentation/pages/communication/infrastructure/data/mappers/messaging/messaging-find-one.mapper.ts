@@ -29,9 +29,9 @@ export class MessagingFindOneMapper extends SimpleResponseMapper<
             reportId: dto.report_uniq_id,
             type: this.typeMapper.mapFromDto(dto.type),
             targetType: this.targetMapper.mapFromDto(dto.target_type),
-            region: dto.region?.id,
-            department: dto.department?.id,
-            municipality: dto.municipality?.id,
+            region: JSON.stringify(dto.region?.id),
+            department: JSON.stringify(dto.department?.id),
+            municipality: JSON.stringify(dto.municipality?.id),
             channels: this.utils.memoizedList(
                 dto?.channels,
                 (p) => this.channelsMapper.mapFromDto(p),
