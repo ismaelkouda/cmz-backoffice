@@ -148,6 +148,9 @@ export class NewsFormStore {
         if (!item) {
             return;
         }
+        if (this.form.dirty) {
+            return;
+        }
 
         const currentId = item.uniqId;
 
@@ -239,10 +242,7 @@ export class NewsFormStore {
                     nonNullable: true,
                     validators: [Validators.required],
                 }),
-                subCategory: new FormControl(
-                    { value: '', disabled: true },
-                    { nonNullable: true }
-                ),
+                subCategory: new FormControl('', { nonNullable: true }),
                 hashtags: new FormControl<string[]>([], {
                     nonNullable: true,
                 }),
