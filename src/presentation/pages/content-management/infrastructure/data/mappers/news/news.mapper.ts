@@ -16,10 +16,15 @@ export class NewsMapper extends PaginatedMapper<NewsEntity, NewsItemApiDto> {
 
     protected mapItemFromDto(dto: NewsItemApiDto): NewsEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
+        const category = dto.category?.name ?? null;
+        const subCategory = dto.sub_category?.name ?? null;
+
         const props: NewsProps = {
             uniqId: dto.id,
             type: dto.type,
             title: dto.title,
+            category,
+            subCategory,
             status: this.statusMapper.mapFromDto(dto.is_published),
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,

@@ -28,6 +28,8 @@ export class NewsPresenter {
             uniqId: item.uniqId,
             type: item.type,
             title: item.title,
+            category: item.category,
+            subCategory: item.subCategory,
             status: item.status,
             statusLabel: this.t(item.status),
             statusStyle: item.statusStyle(item.status),

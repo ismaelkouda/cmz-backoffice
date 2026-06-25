@@ -8,6 +8,8 @@ export interface NewsVmProps {
     uniqId: string;
     type: string;
     title: string;
+    category: string;
+    subCategory: string;
     status: Status;
     statusLabel: string;
     statusStyle: StatusStyle;

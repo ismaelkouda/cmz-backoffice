@@ -661,6 +661,8 @@
                 "TITLE": "Titre",
                 "SUBTITLE": "Sous-titre",
                 "PLATFORM": "Plateforme",
+                "CATEGORY": "Categorie",
+                "SUB_CATEGORY": "Sous-catégorie",
                 "ORDER": "Ordre",
                 "STATUS": "Status",
                 "CREATED_AT": "Créé le",
