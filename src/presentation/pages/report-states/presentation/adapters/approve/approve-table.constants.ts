@@ -3,12 +3,12 @@ export function calculateActionColumnWidth(actionCount: number): string {
     return `${width}rem`;
 }
 
-export const REJECT_TABLE = {
+export const APPROVE_TABLE = {
     actions: [
         {
-            id: 'view',
+            id: 'qualify',
             icon: 'pi pi-window-maximize',
-            tooltip: 'REPORT_STATES.REJECT.TABLE.SEE_MORE',
+            tooltip: 'REPORT_STATES.APPROVE.TABLE.QUALIFY',
             severity: 'primary',
         },
     ],
@@ -21,34 +21,34 @@ export const REJECT_TABLE = {
         },
         {
             field: 'uniqId',
-            header: 'REPORT_STATES.REJECT.TABLE.UNIQ_ID',
+            header: 'REPORT_STATES.APPROVE.TABLE.UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },
         {
             field: 'reportTypeLabel',
-            header: 'REPORT_STATES.REJECT.TABLE.REPORT_TYPE',
+            header: 'REPORT_STATES.APPROVE.TABLE.REPORT_TYPE',
             width: '11rem',
         },
         {
             field: 'operators',
-            header: 'REPORT_STATES.REJECT.TABLE.OPERATORS',
+            header: 'REPORT_STATES.APPROVE.TABLE.OPERATORS',
             width: '10rem',
         },
         {
             field: 'sourceLabel',
-            header: 'REPORT_STATES.REJECT.TABLE.SOURCE',
+            header: 'REPORT_STATES.APPROVE.TABLE.SOURCE',
             width: '12rem',
         },
         {
             field: 'reportedAt',
-            header: 'REPORT_STATES.REJECT.TABLE.CREATED_AT',
+            header: 'REPORT_STATES.APPROVE.TABLE.CREATED_AT',
             class: 'text-center',
             width: '8rem',
         },
         {
             field: '__action',
-            header: 'REPORT_STATES.REJECT.TABLE.ACTION',
+            header: 'REPORT_STATES.APPROVE.TABLE.ACTION',
             class: 'text-center',
             width: calculateActionColumnWidth(1),
         },
