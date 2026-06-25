@@ -1,10 +1,34 @@
 import { Routes } from '@angular/router';
 
+export const APPROVE_ROUTE = 'approved';
 export const EVALUATE_ROUTE = 'evaluated';
 export const CLOSE_ROUTE = 'closed';
 export const REJECT_ROUTE = 'rejected';
 
 export const routes: Routes = [
+    {
+        path: APPROVE_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORT_STATES.APPROVE.BREADCRUMB.LABEL',
+                icon: 'REPORT_STATES.APPROVE.BREADCRUMB.ICON',
+            },
+        },
+        children: [
+            {
+                path: '',
+                loadComponent: () =>
+                    import('@presentation/pages/report-states/presentation/features/approve/approve.component').then(
+                        (m) => m.ApproveComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
     {
         path: EVALUATE_ROUTE,
         data: {
