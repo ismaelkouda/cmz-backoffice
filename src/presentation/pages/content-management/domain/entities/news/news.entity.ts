@@ -19,6 +19,12 @@ export class NewsEntity {
     get title(): string {
         return this.props.title;
     }
+    get category(): string {
+        return this.props.category;
+    }
+    get subCategory(): string {
+        return this.props.subCategory;
+    }
     get status(): Status {
         return this.props.status;
     }
