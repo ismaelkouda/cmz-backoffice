@@ -13,6 +13,7 @@ import { ValidationError } from '../errors/http/validation.error';
 import { ServerError } from '../errors/http/server.error';
 import { UnknownError } from '../errors/http/unknown.error';
 import { SessionService } from './session.service';
+import { AccountLockedError } from '../errors/http/account-locked.error';
 
 @Injectable({ providedIn: 'root' })
 export class UiFeedbackService {
@@ -26,6 +27,10 @@ export class UiFeedbackService {
     }
 
     private registerDefaultHandlers(): void {
+        this.registry.register(AccountLockedError, (error) => {
+            this.toast.error(this.translate.instant(error.message));
+        });
+
         this.registry.register(ForbiddenError, (error) => {
             this.toast.error(this.translate.instant(error.message));
         });

@@ -23,10 +23,10 @@ export class CategoryEntity {
         );
     }
 
-    getSubCategoriesForSelect(): { label: string; value: number }[] {
+    getSubCategoriesForSelect(): { label: string; value: string }[] {
         return this.subCategories.map((subCategory) => ({
             label: subCategory.name,
-            value: subCategory.id,
+            value: JSON.stringify(subCategory.id),
         }));
     }
 
