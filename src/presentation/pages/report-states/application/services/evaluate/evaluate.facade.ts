@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { EvaluateFilterDto } from '@pages/report-states/application/dto/evaluate/evaluate-filter.dto';
 import { EvaluateQuery } from '@pages/report-states/application/queries/evaluate/evaluate.query';
 import { EvaluateBus } from '@pages/report-states/application/queries-bus/evaluate/evaluate.bus';
@@ -8,6 +8,11 @@ import { BaseFacade } from '@shared/application/services/base-facade';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { EvaluateDownloadBus } from '@pages/report-states/application/queries-bus/evaluate/evaluate-download.bus';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
+import { EvaluateDownloadDto } from '@pages/report-states/application/dto/evaluate/evaluate-download.dto';
+import { EvaluateDownloadQuery } from '@pages/report-states/application/queries/evaluate/evaluate-download.query';
 
 @Injectable({ providedIn: 'root' })
 export class EvaluateFacade extends BaseFacade<
@@ -16,9 +21,31 @@ export class EvaluateFacade extends BaseFacade<
 > {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(EvaluateBus);
+    private readonly downloadBus = inject(EvaluateDownloadBus);
+
+    private readonly _actionState = signal<'idle' | 'loading'>('idle');
+    readonly actionState = this._actionState.asReadonly();
+
+    private readonly _actionSuccess = signal(0);
+    readonly actionSuccess = this._actionSuccess.asReadonly();
+
+    private readonly _actionError = signal<unknown | null>(null);
+    readonly actionError = this._actionError.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
+
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedback,
+            successKey,
+            () => this.refreshWithLastFilterAndPage()
+        );
+    }
 
     read(
         filter: EvaluateFilterDto = {},
@@ -116,5 +143,36 @@ export class EvaluateFacade extends BaseFacade<
             lastFetch: this.lastFetchTimestamp,
             hasData: this.itemsSubject.getValue() !== null,
         };
+    }
+
+    download(download: EvaluateDownloadDto): void {
+        this._actionState.set('loading');
+
+        const query = new EvaluateDownloadQuery(
+            download.format,
+            download?.initiatorPhoneNumber,
+            download?.uniqId,
+            download?.reportType,
+            download?.operators,
+            download?.source,
+            download?.startDate,
+            download?.endDate
+        );
+
+        this.handleActionWithRefresh(
+            this.downloadBus.dispatch(query),
+            'COMMON.SUCCESS.DOWNLOAD'
+        )
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
+            .subscribe();
     }
 }

@@ -44,6 +44,9 @@ import { ToastrService } from 'ngx-toastr';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { formatDate } from '@shared/domain/functions/format-data.function';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
+import { MenuItem } from 'primeng/api';
+import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 
 @Component({
     selector: 'app-reject',
@@ -71,6 +74,7 @@ export class RejectComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(RejectFilterStore);
+    private readonly sweetAlert = inject(SweetAlertService);
     private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly exportFilePrefix = this.normalizeExportPrefix(
@@ -82,6 +86,10 @@ export class RejectComponent {
     private readonly canExport = this.permissionActions.can(
         '/report-status/rejected',
         'export'
+    );
+    private readonly canDownload = this.permissionActions.can(
+        '/report-status/rejected',
+        'download'
     );
     protected readonly selectedReportId = signal<string>('');
     protected readonly tableConfig = REJECT_TABLE;
@@ -210,6 +218,20 @@ export class RejectComponent {
     });
     protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
+            label: 'COMMON.DOWNLOAD',
+            actionId: 'download',
+            type: 'splitbutton',
+            class: 'btn-primary',
+            icon: 'pi pi-download',
+            translateKey: 'COMMON.DOWNLOAD',
+            items: this.buildDownloadMenuItems(),
+            // disabled:
+            //     this.hasActiveFilter() ||
+            //     !this.canDownload() ||
+            //     this.itemsVM().length <= 0,
+            tooltip: this.downloadTooltip(),
+        },
+        {
             label: 'COMMON.REFRESH',
             actionId: 'refresh',
             class: 'btn-dark',
@@ -227,6 +249,96 @@ export class RejectComponent {
             disabled: this.canExportData(),
         },
     ]);
+
+    private buildDownloadMenuItems(): MenuItem[] {
+        return Object.entries(DownloadType).map(([, translationKey]) => ({
+            label: this.t(translationKey),
+            command: () => this.onDownloadTypeSelected(translationKey),
+        }));
+    }
+    protected readonly downloadType = signal<DownloadType | null>(null);
+    public readonly displayDownloadModal = signal<boolean>(false);
+    private readonly openDownloadRequested = signal<boolean>(false);
+    private onDownloadTypeSelected(downloadType: DownloadType): void {
+        this.downloadType.set(downloadType);
+        this.openDownloadRequested.set(true);
+    }
+    private readonly assignModalEffect = effect(() => {
+        if (!this.openDownloadRequested()) {
+            return;
+        }
+        this.displayDownloadModal.set(true);
+        this.openDownloadRequested.set(false);
+        this.onDownloadClicked();
+    });
+
+    public closeAssignModal(): void {
+        this.displayDownloadModal.set(false);
+    }
+    private readonly hasActiveFilter = computed(() => {
+        const filter = this.currentFilter();
+        if (!filter) {
+            return false;
+        }
+        return Object.values(filter).some((v) => {
+            if (Array.isArray(v)) {
+                return v.length > 0;
+            }
+            return v !== null && v !== undefined && v !== '';
+        });
+    });
+    protected readonly downloadTooltip = computed(() => {
+        const noFilter = this.hasActiveFilter();
+        const permission = !this.canDownload();
+        const noData = this.itemsVM().length < 1;
+        if (permission) {
+            return this.t(
+                'REPORT_STATES.REJECT.TOOLTIP.NO_PERMISSION_DOWNLOAD'
+            );
+        }
+        if (noFilter) {
+            return this.t('REPORT_STATES.REJECT.TOOLTIP.NO_FILTER');
+        }
+        if (noData) {
+            return this.t('REPORT_STATES.REJECT.TOOLTIP.NO_DOWNLOAD');
+        }
+        return this.t('REPORT_STATES.REJECT.TOOLTIP.DOWNLOAD').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
+    });
+    protected async onDownloadClicked(): Promise<void> {
+        // if (!this.canDownload()) {
+        //     this.toast.error(this.downloadTooltip());
+        //     return;
+        // }
+        if (!this.hasActiveFilter()) {
+            const message = this.t(
+                'REPORT_STATES.REJECT.TOOLTIP.FILTER_REQUIRE'
+            );
+            this.toast.error(message);
+            return;
+        }
+        const uniqId = this.downloadType();
+        if (!uniqId) {
+            return;
+        }
+        const translateType = this.t(uniqId);
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey: 'REPORT_STATES.REJECT.SWEET_ALERT.TITLE.DOWNLOAD',
+            messageKey: 'REPORT_STATES.REJECT.SWEET_ALERT.MESSAGE.DOWNLOAD',
+            messageParams: {
+                uniqId: translateType,
+            },
+        });
+        if (!confirmed) {
+            return;
+        }
+        // this.approveFacade.treat({
+        //     uniqId,
+        // });
+        // this.facade.refreshWithLastFilterAndPage();
+    }
     private readonly presenter = new RejectPresenter(
         this.translate.instant.bind(this.translate)
     );

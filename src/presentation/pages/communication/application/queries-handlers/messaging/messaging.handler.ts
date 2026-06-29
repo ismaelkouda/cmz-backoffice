@@ -5,30 +5,17 @@ import { MessagingEntity } from '@pages/communication/domain/entities/messaging/
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
+import { messagingQueryMapper } from '@pages/communication/application/queries-mappers/messaging/messaging.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingHandler {
     private readonly useCase = inject(MessagingUseCase);
 
     execute(
-        command: MessagingQuery,
+        query: MessagingQuery,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<MessagingEntity>> {
-        return this.useCase.execute(
-            {
-                reportId: command.reportId,
-                search: command.search,
-                targetType: command.targetType,
-                region: command.region,
-                department: command.department,
-                municipality: command.municipality,
-                channels: command.channels,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(messagingQueryMapper(query), page, options);
     }
 }

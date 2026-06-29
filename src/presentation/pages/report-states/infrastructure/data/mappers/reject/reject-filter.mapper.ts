@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { RejectFilterEntity } from '@pages/report-states/domain/entities/reject/reject-filter.entity';
+import { RejectFilterContract } from '@pages/report-states/domain/contracts/reject/reject-filter.contract';
 import { RejectFilterApiDto } from '@pages/report-states/infrastructure/api/dto/reject/reject-filter-api.dto';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 
@@ -9,7 +9,7 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 export class RejectFilterMapper {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
 
-    map(entity: RejectFilterEntity): RejectFilterApiDto {
+    map(entity: RejectFilterContract): RejectFilterApiDto {
         return {
             ...(entity.initiatorPhoneNumber && {
                 initiator_phone_number: entity.initiatorPhoneNumber,
@@ -24,8 +24,8 @@ export class RejectFilterMapper {
             ...(entity.operators && { operators: entity.operators }),
             ...(entity.source && { source: entity.source }),
             ...(entity.status && { status: entity.status }),
-            ...(entity.period?.start && { start_date: entity.period.start }),
-            ...(entity.period?.end && { end_date: entity.period.end }),
+            ...(entity?.startDate && { start_date: entity.startDate }),
+            ...(entity?.endDate && { end_date: entity.endDate }),
         };
     }
 }

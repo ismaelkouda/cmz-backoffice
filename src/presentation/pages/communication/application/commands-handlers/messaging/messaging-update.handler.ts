@@ -3,6 +3,7 @@ import { MessagingUpdateCommand } from '@pages/communication/application/command
 import { MessagingUseCase } from '@pages/communication/application/use-cases/messaging/messaging.use-case';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { messagingUpdateCommandMapper } from '@pages/communication/application/commands-mappers/messaging/messaging-update.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingUpdateHandler {
@@ -11,17 +12,6 @@ export class MessagingUpdateHandler {
     execute(
         command: MessagingUpdateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            reportId: command.reportId,
-            type: command.type,
-            targetType: command.targetType,
-            region: command.region,
-            department: command.department,
-            municipality: command.municipality,
-            channels: command.channels,
-            subject: command.subject,
-            content: command.content,
-        });
+        return this.useCase.update(messagingUpdateCommandMapper(command));
     }
 }

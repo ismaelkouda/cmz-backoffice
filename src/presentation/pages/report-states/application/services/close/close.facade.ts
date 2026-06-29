@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { CloseFilterDto } from '@pages/report-states/application/dto/close/close-filter.dto';
 import { CloseQuery } from '@pages/report-states/application/queries/close/close.query';
 import { CloseBus } from '@pages/report-states/application/queries-bus/close/close.bus';
@@ -8,14 +8,41 @@ import { BaseFacade } from '@shared/application/services/base-facade';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { CloseDownloadBus } from '@pages/report-states/application/queries-bus/close/close-download.bus';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
+import { CloseDownloadDto } from '@pages/report-states/application/dto/close/close-download.dto';
+import { CloseDownloadQuery } from '@pages/report-states/application/queries/close/close-download.query';
 
 @Injectable({ providedIn: 'root' })
 export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(CloseBus);
+    private readonly downloadBus = inject(CloseDownloadBus);
+
+    private readonly _actionState = signal<'idle' | 'loading'>('idle');
+    readonly actionState = this._actionState.asReadonly();
+
+    private readonly _actionSuccess = signal(0);
+    readonly actionSuccess = this._actionSuccess.asReadonly();
+
+    private readonly _actionError = signal<unknown | null>(null);
+    readonly actionError = this._actionError.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
+
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedback,
+            successKey,
+            () => this.refreshWithLastFilterAndPage()
+        );
+    }
 
     read(
         filter: CloseFilterDto = {},
@@ -113,5 +140,36 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
             lastFetch: this.lastFetchTimestamp,
             hasData: this.itemsSubject.getValue() !== null,
         };
+    }
+
+    download(download: CloseDownloadDto): void {
+        this._actionState.set('loading');
+
+        const query = new CloseDownloadQuery(
+            download.format,
+            download?.initiatorPhoneNumber,
+            download?.uniqId,
+            download?.reportType,
+            download?.operators,
+            download?.source,
+            download?.startDate,
+            download?.endDate
+        );
+
+        this.handleActionWithRefresh(
+            this.downloadBus.dispatch(query),
+            'COMMON.SUCCESS.DOWNLOAD'
+        )
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
+            .subscribe();
     }
 }

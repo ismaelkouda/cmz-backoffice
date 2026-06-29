@@ -32,10 +32,10 @@ export class CloseFilterStore {
             source: new FormControl<string | null>(null, {
                 nonNullable: true,
             }),
-            startDate: new FormControl<string>('', {
+            startDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
-            endDate: new FormControl<string>('', {
+            endDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
         });

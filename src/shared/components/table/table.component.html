@@ -111,7 +111,11 @@
                         </div>
                     } @else if (col.type === 'image') {
                         <div class="flex justify-content-center">
-                            <img [src]="rowData[col.field]" [alt]="col.type" class="w-24 rounded" />
+                            <img
+                                [src]="rowData[col.field]"
+                                [alt]="col.type"
+                                class="w-24 rounded"
+                            />
                         </div>
                     } @else if (col.type === 'video') {
                         <!-- <div class="flex justify-content-center">

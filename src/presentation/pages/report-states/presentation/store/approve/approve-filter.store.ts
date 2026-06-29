@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ApproveFilterDto } from '@pages/report-states/application/dto/approve/approve-filter.dto';
 import { ApproveFacade } from '@pages/report-states/application/services/approve/approve.facade';
 import { ApproveFilterControl } from '@pages/report-states/presentation/store/approve/approve-filter-control';
+import { ApproveDownloadDto } from '@presentation/pages/report-states/application/dto/approve/approve-download.dto';
+import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
@@ -32,10 +34,10 @@ export class ApproveFilterStore {
             source: new FormControl<string | null>(null, {
                 nonNullable: true,
             }),
-            startDate: new FormControl<string>('', {
+            startDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
-            endDate: new FormControl<string>('', {
+            endDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
         });
@@ -60,6 +62,21 @@ export class ApproveFilterStore {
         const raw = this.form.getRawValue();
 
         return {
+            initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
+            uniqId: raw.uniqId || undefined,
+            startDate: raw.startDate || undefined,
+            endDate: raw.endDate || undefined,
+            reportType: raw.reportType || undefined,
+            source: raw.source || undefined,
+            operators: raw.operators?.length ? raw.operators : undefined,
+        };
+    }
+
+    downloadValue(format: DownloadType): ApproveDownloadDto {
+        const raw = this.form.getRawValue();
+
+        return {
+            format,
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
             startDate: raw.startDate || undefined,

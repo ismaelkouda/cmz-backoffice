@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { RejectFilterDto } from '@pages/report-states/application/dto/reject/reject-filter.dto';
 import { RejectQuery } from '@pages/report-states/application/queries/reject/reject.query';
 import { RejectBus } from '@pages/report-states/application/queries-bus/reject/reject.bus';
@@ -8,14 +8,41 @@ import { BaseFacade } from '@shared/application/services/base-facade';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { RejectDownloadBus } from '@pages/report-states/application/queries-bus/reject/reject-download.bus';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
+import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
+import { RejectDownloadDto } from '@pages/report-states/application/dto/reject/reject-download.dto';
+import { RejectDownloadQuery } from '@pages/report-states/application/queries/reject/reject-download.query';
 
 @Injectable({ providedIn: 'root' })
 export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(RejectBus);
+    private readonly downloadBus = inject(RejectDownloadBus);
+
+    private readonly _actionState = signal<'idle' | 'loading'>('idle');
+    readonly actionState = this._actionState.asReadonly();
+
+    private readonly _actionSuccess = signal(0);
+    readonly actionSuccess = this._actionSuccess.asReadonly();
+
+    private readonly _actionError = signal<unknown | null>(null);
+    readonly actionError = this._actionError.asReadonly();
 
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
+
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedback,
+            successKey,
+            () => this.refreshWithLastFilterAndPage()
+        );
+    }
 
     read(
         filter: RejectFilterDto = {},
@@ -94,5 +121,37 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
             lastFetch: this.lastFetchTimestamp,
             hasData: this.itemsSubject.getValue() !== null,
         };
+    }
+
+    download(download: RejectDownloadDto): void {
+        this._actionState.set('loading');
+
+        const query = new RejectDownloadQuery(
+            download.format,
+            download?.initiatorPhoneNumber,
+            download?.uniqId,
+            download?.reportType,
+            download?.operators,
+            download?.source,
+            download?.status,
+            download?.startDate,
+            download?.endDate
+        );
+
+        this.handleActionWithRefresh(
+            this.downloadBus.dispatch(query),
+            'COMMON.SUCCESS.DOWNLOAD'
+        )
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
+            .subscribe();
     }
 }
