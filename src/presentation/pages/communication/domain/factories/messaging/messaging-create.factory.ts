@@ -4,6 +4,5 @@ import { MessagingCreateEntity } from '@presentation/pages/communication/domain/
 export function messagingCreateFactory(
     contract: MessagingCreateValidateContract
 ): MessagingCreateEntity {
-    // const normalizedSubject = contract.subject.trim();
     return new MessagingCreateEntity(contract);
 }

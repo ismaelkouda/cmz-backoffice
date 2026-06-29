@@ -9,7 +9,7 @@ export class RejectQuery {
         public readonly operators?: string[],
         public readonly source?: string,
         public readonly status?: Status,
-        public readonly startDate?: string,
-        public readonly endDate?: string
+        public readonly startDate?: Date,
+        public readonly endDate?: Date
     ) {}
 }

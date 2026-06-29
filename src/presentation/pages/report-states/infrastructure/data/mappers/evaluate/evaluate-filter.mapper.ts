@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { EvaluateFilterEntity } from '@pages/report-states/domain/entities/evaluate/evaluate-filter.entity';
+import { EvaluateFilterContract } from '@pages/report-states/domain/contracts/evaluate/evaluate-filter.contract';
 import { EvaluateFilterApiDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-filter-api.dto';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 
@@ -9,7 +9,7 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 export class EvaluateFilterMapper {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
 
-    map(entity: EvaluateFilterEntity): EvaluateFilterApiDto {
+    map(entity: EvaluateFilterContract): EvaluateFilterApiDto {
         return {
             ...(entity.initiatorPhoneNumber && {
                 initiator_phone_number: entity.initiatorPhoneNumber,
@@ -23,8 +23,8 @@ export class EvaluateFilterMapper {
             }),
             ...(entity.operators && { operators: entity.operators }),
             ...(entity.source && { source: entity.source }),
-            ...(entity.period?.start && { start_date: entity.period.start }),
-            ...(entity.period?.end && { end_date: entity.period.end }),
+            ...(entity?.startDate && { start_date: entity.startDate }),
+            ...(entity?.endDate && { end_date: entity.endDate }),
         };
     }
 }

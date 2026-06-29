@@ -52,28 +52,41 @@ export interface TableHeaderButton {
                         appendTo="body"
                     />
 
-                    <button
-                        type="button"
-                        [disabled]="btn.disabled"
-                        class="btn"
-                        [ngClass]="btn.class || 'btn-primary'"
-                        [attr.aria-label]="
-                            showLabels
-                                ? null
-                                : (btn.translateKey || btn.label || ''
-                                  | translate)
-                        "
-                        (click)="menu.toggle($event)"
+                    <span
+                        appendTo="body"
+                        tooltipPosition="bottom"
+                        [pTooltip]="btn.tooltip"
                     >
-                        @if (btn.icon) {
-                            <i [class]="btn.icon" [class.me-2]="showLabels"></i>
-                        }
-                        @if (showLabels && (btn.label || btn.translateKey)) {
-                            <span>{{
-                                btn.translateKey || btn.label | translate
-                            }}</span>
-                        }
-                    </button>
+                        <button
+                            type="button"
+                            [disabled]="btn.disabled"
+                            [pTooltip]="btn.tooltip"
+                            tooltipPosition="bottom"
+                            class="btn"
+                            [ngClass]="btn.class || 'btn-primary'"
+                            [attr.aria-label]="
+                                showLabels
+                                    ? null
+                                    : (btn.translateKey || btn.label || ''
+                                      | translate)
+                            "
+                            (click)="menu.toggle($event)"
+                        >
+                            @if (btn.icon) {
+                                <i
+                                    [class]="btn.icon"
+                                    [class.me-2]="showLabels"
+                                ></i>
+                            }
+                            @if (
+                                showLabels && (btn.label || btn.translateKey)
+                            ) {
+                                <span>{{
+                                    btn.translateKey || btn.label | translate
+                                }}</span>
+                            }
+                        </button>
+                    </span>
                 } @else {
                     <span [pTooltip]="btn.tooltip" tooltipPosition="bottom">
                         <button

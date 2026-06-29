@@ -16,72 +16,72 @@ $dark-gray: var(--color-gray);
 }
 
 // Styles du dialog principal
-::ng-deep .report-treatment-dialog {
-    .p-dialog-header {
-        background-color: #091624;
-        border-radius: 12px 12px 0 0;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 1.5rem 2rem;
+// ::ng-deep .report-treatment-dialog {
+//     .p-dialog-header {
+//         background-color: #091624;
+//         border-radius: 12px 12px 0 0;
+//         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+//         padding: 1.5rem 2rem;
 
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        color: white;
+//         display: flex;
+//         justify-content: space-between;
+//         align-items: center;
+//         width: 100%;
+//         color: white;
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
+//         .header-left {
+//             display: flex;
+//             align-items: center;
+//             gap: 1rem;
 
-            .header-title {
-                font-size: 1.25rem;
-                font-weight: 600;
-                color: white;
-            }
+//             .header-title {
+//                 font-size: 1.25rem;
+//                 font-weight: 600;
+//                 color: white;
+//             }
 
-            .report-id-badge {
-                background: rgba(255, 255, 255, 0.1);
-                padding: 0.5rem 1rem;
-                border-radius: 20px;
-                font-size: 0.875rem;
-                font-weight: 500;
-                border: 1px solid rgba(255, 255, 255, 0.2);
-            }
-        }
+//             .report-id-badge {
+//                 background: rgba(255, 255, 255, 0.1);
+//                 padding: 0.5rem 1rem;
+//                 border-radius: 20px;
+//                 font-size: 0.875rem;
+//                 font-weight: 500;
+//                 border: 1px solid rgba(255, 255, 255, 0.2);
+//             }
+//         }
 
-        .header-center {
-            .report-title-badge {
-                background-color: #fff;
-                color: black;
-                padding: 0.75rem 1.5rem;
-                border-radius: 25px;
-                font-size: 0.9rem;
-                font-weight: 600;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-            }
-        }
-    }
+//         .header-center {
+//             .report-title-badge {
+//                 background-color: #fff;
+//                 color: black;
+//                 padding: 0.75rem 1.5rem;
+//                 border-radius: 25px;
+//                 font-size: 0.9rem;
+//                 font-weight: 600;
+//                 text-transform: uppercase;
+//                 letter-spacing: 0.5px;
+//             }
+//         }
+//     }
 
-    .p-dialog-title {
-        display: block;
-    }
+//     .p-dialog-title {
+//         display: block;
+//     }
 
-    .p-dialog-content {
-        padding: 0;
-        background: #f8f9fa;
-        overflow: hidden;
-    }
+//     .p-dialog-content {
+//         padding: 0;
+//         background: #f8f9fa;
+//         overflow: hidden;
+//     }
 
-    .p-dialog-header-close {
-        display: none;
-    }
+//     .p-dialog-header-close {
+//         display: none;
+//     }
 
-    .p-dialog-footer {
-        padding: 0;
-    }
-}
+//     .p-dialog-footer {
+//         padding: 0;
+//     }
+// }
 
 // Layout principal
 .main-container {

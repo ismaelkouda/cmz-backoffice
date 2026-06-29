@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ApproveFilterEntity } from '@pages/report-states/domain/entities/approve/approve-filter.entity';
+import { ApproveFilterContract } from '@pages/report-states/domain/contracts/approve/approve-filter.contract';
 import { ApproveFilterApiDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-filter-api.dto';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 
@@ -8,7 +8,7 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 })
 export class ApproveFilterMapper {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
-    map(entity: ApproveFilterEntity): ApproveFilterApiDto {
+    map(entity: ApproveFilterContract): ApproveFilterApiDto {
         return {
             ...(entity.initiatorPhoneNumber && {
                 initiator_phone_number: entity.initiatorPhoneNumber,
@@ -22,8 +22,8 @@ export class ApproveFilterMapper {
             }),
             ...(entity.operators && { operators: entity.operators }),
             ...(entity.source && { source: entity.source }),
-            ...(entity.period?.start && { start_date: entity.period.start }),
-            ...(entity.period?.end && { end_date: entity.period.end }),
+            ...(entity?.startDate && { start_date: entity.startDate }),
+            ...(entity?.endDate && { end_date: entity.endDate }),
         };
     }
 }

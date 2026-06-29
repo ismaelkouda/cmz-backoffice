@@ -6,6 +6,11 @@
         "ES": "Espagnol"
     },
     "COMMON": {
+        "DOWNLOAD": "Télécharger",
+        "EXCEL": "Excel",
+        "SHAPE": "Shape",
+        "EXCEL_STYLE": "success",
+        "SHAPE_STYLE": "info",
         "PENDING": "En attente",
         "PENDING_STYLE": "warn",
         "APPROVED": "Approuvé",
@@ -161,7 +166,8 @@
             "APPROVE": "Approbation reussie",
             "REJECT": "Rejecter avec succès",
             "TREAT": "Traiter avec succès",
-            "FINALIZE": "Finaliser avec succès"
+            "FINALIZE": "Finaliser avec succès",
+            "DOWNLOAD": "Télécharger avec succès"
         },
         "ERROR": {
             "GENERIC": "Une erreur est survenue"
@@ -2809,8 +2815,17 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des demandes",
                 "EXPORT": "Exporter la liste de {nb} demandes approuvées",
+                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des demandes",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des demandes Approuvées",
+                "NO_DOWNLOAD": "Aucune données a télécharger",
                 "SEE_MORE": "Voir plus d'informations"
+            },
+            "SWEET_ALERT": {
+                "TITLE": { "DOWNLOAD": "Télécharger les demandes filtrés" },
+                "MESSAGE": {
+                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les demandes approuvées au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                }
             }
         },
         "REJECT": {
@@ -2882,8 +2897,17 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des demandes",
                 "EXPORT": "Exporter la liste de {nb} demandes rejetées",
+                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des demandes",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des demandes rejetées",
+                "NO_DOWNLOAD": "Aucune données a télécharger",
                 "SEE_MORE": "Voir plus d'informations"
+            },
+            "SWEET_ALERT": {
+                "TITLE": { "DOWNLOAD": "Télécharger les demandes filtrés" },
+                "MESSAGE": {
+                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les demandes rejetées au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                }
             }
         },
         "CLOSE": {
@@ -2965,8 +2989,17 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des signalements",
                 "EXPORT": "Exporter la liste de {nb} signalements clôturés",
+                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements clôturés",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements clôturés",
+                "NO_DOWNLOAD": "Aucune données a télécharger",
                 "SEE_MORE": "Voir plus d'informations"
+            },
+            "SWEET_ALERT": {
+                "TITLE": { "DOWNLOAD": "Télécharger les signalements filtrés" },
+                "MESSAGE": {
+                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les signalements clôturés au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                }
             }
         },
         "EVALUATE": {
@@ -3063,8 +3096,17 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des signalements",
                 "EXPORT": "Exporter la liste de {nb} signalements évalués",
+                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements évalués",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements évalués",
+                "NO_DOWNLOAD": "Aucune données a télécharger",
                 "SEE_MORE": "Voir plus d'informations"
+            },
+            "SWEET_ALERT": {
+                "TITLE": { "DOWNLOAD": "Télécharger les signalements filtrés" },
+                "MESSAGE": {
+                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les signalements évalués au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                }
             }
         }
     },

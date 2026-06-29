@@ -8,6 +8,6 @@ export interface RejectFilterDto {
     operators?: string[];
     source?: string;
     status?: Status;
-    startDate?: string;
-    endDate?: string;
+    startDate?: Date;
+    endDate?: Date;
 }

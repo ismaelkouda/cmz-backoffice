@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { CloseFilterEntity } from '@pages/report-states/domain/entities/close/close-filter.entity';
+import { CloseFilterContract } from '@pages/report-states/domain/contracts/close/close-filter.contract';
 import { CloseFilterApiDto } from '@pages/report-states/infrastructure/api/dto/close/close-filter-api.dto';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 
@@ -8,7 +8,7 @@ import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 })
 export class CloseFilterMapper {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
-    map(entity: CloseFilterEntity): CloseFilterApiDto {
+    map(entity: CloseFilterContract): CloseFilterApiDto {
         return {
             ...(entity.initiatorPhoneNumber && {
                 initiator_phone_number: entity.initiatorPhoneNumber,
@@ -22,8 +22,8 @@ export class CloseFilterMapper {
             }),
             ...(entity.operators && { operators: entity.operators }),
             ...(entity.source && { source: entity.source }),
-            ...(entity.period?.start && { start_date: entity.period.start }),
-            ...(entity.period?.end && { end_date: entity.period.end }),
+            ...(entity?.startDate && { start_date: entity.startDate }),
+            ...(entity?.endDate && { end_date: entity.endDate }),
         };
     }
 }

@@ -8,6 +8,9 @@ import { REPORT_STATES_ENDPOINTS } from '@presentation/pages/report-states/infra
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
+import { ApproveDownloadApiDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-download-api.dto';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
 @Injectable({ providedIn: 'root' })
 export class ApproveApi {
@@ -31,5 +34,13 @@ export class ApproveApi {
             params,
             context,
         });
+    }
+
+    download(
+        apiDto: ApproveDownloadApiDto
+    ): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${REPORT_STATES_ENDPOINTS.DOWNLOAD}`;
+        const payload = buildHttpPayload(apiDto, []);
+        return this.http.post<SimpleResponseDto<void>>(url, payload);
     }
 }

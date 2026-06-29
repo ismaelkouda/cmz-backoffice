@@ -406,40 +406,46 @@
                             </div>
 
                             <div class="data-row triple-equals">
-
                                 <div class="data-field">
                                     <label class="field-label">{{
                                         'MANAGEMENT.FORM.ADMINISTRATIVE_BOUNDARY.REGION'
-                                        | translate
+                                            | translate
                                     }}</label>
                                     <div class="field-value">
                                         {{
-                                        item()?.region?.name ||
-                                        'MANAGEMENT.FORM.NOT_SPECIFIED'
-                                        | translate
+                                            item()?.region?.name ||
+                                                'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate
                                         }}
                                     </div>
                                 </div>
-                                
+
                                 <div class="data-field">
                                     <label class="field-label">
-                                    {{ 'MANAGEMENT.FORM.ADMINISTRATIVE_BOUNDARY.DEPARTMENT' | translate }}
+                                        {{
+                                            'MANAGEMENT.FORM.ADMINISTRATIVE_BOUNDARY.DEPARTMENT'
+                                                | translate
+                                        }}
                                     </label>
                                     <div class="field-value">
-                                    {{ item()?.department?.name || 'MANAGEMENT.FORM.NOT_SPECIFIED' | translate }}
+                                        {{
+                                            item()?.department?.name ||
+                                                'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate
+                                        }}
                                     </div>
                                 </div>
 
                                 <div class="data-field">
                                     <label class="field-label">{{
                                         'MANAGEMENT.FORM.ADMINISTRATIVE_BOUNDARY.REGION'
-                                        | translate
+                                            | translate
                                     }}</label>
                                     <div class="field-value">
                                         {{
-                                        item()?.municipality?.name ||
-                                        ('MANAGEMENT.FORM.NOT_SPECIFIED'
-                                        | translate)
+                                            item()?.municipality?.name ||
+                                                ('MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                    | translate)
                                         }}
                                     </div>
                                 </div>

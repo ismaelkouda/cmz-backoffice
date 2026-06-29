@@ -7,7 +7,7 @@ export class ApproveQuery {
         public readonly reportType?: ReportType,
         public readonly operators?: string[],
         public readonly source?: string,
-        public readonly startDate?: string,
-        public readonly endDate?: string
+        public readonly startDate?: Date,
+        public readonly endDate?: Date
     ) {}
 }
