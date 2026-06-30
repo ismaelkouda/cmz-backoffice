@@ -424,7 +424,7 @@ export class SlideListComponent {
             this.onDisableClicked(item);
         },
     };
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const action = this.headerActions[actionId];
         if (!action) {
             console.warn('Unknown action:', actionId);

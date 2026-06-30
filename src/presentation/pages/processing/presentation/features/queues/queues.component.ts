@@ -304,7 +304,7 @@ export class QueuesComponent {
             this.exportData();
         },
     };
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const action = this.headerActions[actionId];
         if (!action) {
             console.warn('Unknown action:', actionId);

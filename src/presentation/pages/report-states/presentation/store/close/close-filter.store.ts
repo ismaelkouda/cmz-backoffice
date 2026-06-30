@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { CloseFilterDto } from '@pages/report-states/application/dto/close/close-filter.dto';
 import { CloseFacade } from '@pages/report-states/application/services/close/close.facade';
 import { CloseFilterControl } from '@pages/report-states/presentation/store/close/close-filter-control';
+import { CloseDownloadDto } from '@presentation/pages/report-states/application/dto/close/close-download.dto';
+import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
@@ -60,6 +62,21 @@ export class CloseFilterStore {
         const raw = this.form.getRawValue();
 
         return {
+            initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
+            uniqId: raw.uniqId || undefined,
+            startDate: raw.startDate || undefined,
+            endDate: raw.endDate || undefined,
+            reportType: raw.reportType || undefined,
+            source: raw.source || undefined,
+            operators: raw.operators?.length ? raw.operators : undefined,
+        };
+    }
+
+    downloadValue(format: DownloadType): CloseDownloadDto {
+        const raw = this.form.getRawValue();
+
+        return {
+            format,
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
             startDate: raw.startDate || undefined,

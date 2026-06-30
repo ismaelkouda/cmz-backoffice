@@ -226,10 +226,10 @@ export class EvaluateComponent {
             icon: 'pi pi-download',
             translateKey: 'COMMON.DOWNLOAD',
             items: this.buildDownloadMenuItems(),
-            // disabled:
-            //     this.hasActiveFilter() ||
-            //     !this.canDownload() ||
-            //     this.itemsVM().length <= 0,
+            disabled:
+                this.hasActiveFilter() ||
+                !this.canDownload() ||
+                this.itemsVM().length <= 0,
             tooltip: this.downloadTooltip(),
         },
         {
@@ -309,10 +309,10 @@ export class EvaluateComponent {
         );
     });
     protected async onDownloadClicked(): Promise<void> {
-        // if (!this.canDownload()) {
-        //     this.toast.error(this.downloadTooltip());
-        //     return;
-        // }
+        if (!this.canDownload()) {
+            this.toast.error(this.downloadTooltip());
+            return;
+        }
         if (!this.hasActiveFilter()) {
             const message = this.t(
                 'REPORT_STATES.EVALUATE.TOOLTIP.FILTER_REQUIRE'
@@ -335,10 +335,8 @@ export class EvaluateComponent {
         if (!confirmed) {
             return;
         }
-        // this.approveFacade.treat({
-        //     uniqId,
-        // });
-        // this.facade.refreshWithLastFilterAndPage();
+        this.facade.download(this.formStore.downloadValue(uniqId));
+        this.facade.refreshWithLastFilterAndPage();
     }
     private readonly presenter = new EvaluatePresenter(
         this.translate.instant.bind(this.translate)
@@ -415,7 +413,7 @@ export class EvaluateComponent {
             this.exportData();
         },
     };
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const action = this.headerActions[actionId];
         if (!action) {
             console.warn('Unknown action:', actionId);

@@ -349,7 +349,7 @@ export class TeamsParticipantsComponent implements OnInit {
         // );
     }
 
-    public onHeaderButtonClicked(actionId: string): void {
+    public onHeaderClicked(actionId: string): void {
         if (actionId === 'reassign') {
             this.openReassignModal();
         } else if (actionId === 'remove') {

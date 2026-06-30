@@ -315,7 +315,7 @@ export class AllComponent {
     private t(key: string): string {
         return this.translate.instant(key);
     }
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const actions: Record<string, () => void> = {
             refresh: () => this.refreshData(),
             export: () => {

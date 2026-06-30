@@ -4,6 +4,7 @@ export const APPROVE_ROUTE = 'approved';
 export const EVALUATE_ROUTE = 'evaluated';
 export const CLOSE_ROUTE = 'closed';
 export const REJECT_ROUTE = 'rejected';
+export const DOWNLOAD_ROUTE = 'downloads';
 
 export const routes: Routes = [
     {
@@ -89,6 +90,29 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('@presentation/pages/report-states/presentation/features/reject/reject.component').then(
                         (m) => m.RejectComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
+    {
+        path: DOWNLOAD_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'REPORT_STATES.DOWNLOAD.BREADCRUMB.LABEL',
+                icon: 'REPORT_STATES.DOWNLOAD.BREADCRUMB.ICON',
+            },
+        },
+        children: [
+            {
+                path: '',
+                loadComponent: () =>
+                    import('@presentation/pages/report-states/presentation/features/download/download.component').then(
+                        (m) => m.DownloadComponent
                     ),
                 data: { breadcrumb: { hide: true } },
             },

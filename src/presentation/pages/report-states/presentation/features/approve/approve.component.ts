@@ -309,10 +309,10 @@ export class ApproveComponent {
         );
     });
     protected async onDownloadClicked(): Promise<void> {
-        // if (!this.canDownload()) {
-        //     this.toast.error(this.downloadTooltip());
-        //     return;
-        // }
+        if (!this.canDownload()) {
+            this.toast.error(this.downloadTooltip());
+            return;
+        }
         if (!this.hasActiveFilter()) {
             const message = this.t(
                 'REPORT_STATES.APPROVE.TOOLTIP.FILTER_REQUIRE'
@@ -411,7 +411,7 @@ export class ApproveComponent {
             this.exportData();
         },
     };
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const action = this.headerActions[actionId];
         if (!action) {
             console.warn('Unknown action:', actionId);

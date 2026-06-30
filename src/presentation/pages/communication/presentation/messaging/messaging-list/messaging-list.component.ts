@@ -238,7 +238,7 @@ export class MessagingListComponent {
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const actions: Record<string, () => void> = {
             create: () => {
                 if (!this.canCreate()) {

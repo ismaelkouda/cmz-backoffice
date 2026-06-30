@@ -312,7 +312,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
         // );
     }
 
-    public onHeaderButtonClicked(actionId: string): void {
+    public onHeaderClicked(actionId: string): void {
         if (actionId === 'reassign') {
             this.openReassignModal();
         } else if (actionId === 'assign') {
