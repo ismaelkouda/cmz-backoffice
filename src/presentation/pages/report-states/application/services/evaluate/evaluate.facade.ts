@@ -13,6 +13,7 @@ import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { EvaluateDownloadDto } from '@pages/report-states/application/dto/evaluate/evaluate-download.dto';
 import { EvaluateDownloadQuery } from '@pages/report-states/application/queries/evaluate/evaluate-download.query';
+import { DownloadFacade } from '@pages/report-states/application/services/download/download.facade';
 
 @Injectable({ providedIn: 'root' })
 export class EvaluateFacade extends BaseFacade<
@@ -22,6 +23,7 @@ export class EvaluateFacade extends BaseFacade<
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(EvaluateBus);
     private readonly downloadBus = inject(EvaluateDownloadBus);
+    private readonly downloadFacade = inject(DownloadFacade);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
     readonly actionState = this._actionState.asReadonly();
@@ -43,7 +45,10 @@ export class EvaluateFacade extends BaseFacade<
             observable,
             this.uiFeedback,
             successKey,
-            () => this.refreshWithLastFilterAndPage()
+            () => {
+                this.refreshWithLastFilterAndPage();
+                this.downloadFacade.refreshWithLastFilterAndPage();
+            }
         );
     }
 

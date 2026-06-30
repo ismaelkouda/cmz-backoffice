@@ -13,12 +13,14 @@ import { ApproveDownloadBus } from '@pages/report-states/application/queries-bus
 import { ApproveDownloadDto } from '@pages/report-states/application/dto/approve/approve-download.dto';
 import { ApproveDownloadQuery } from '@pages/report-states/application/queries/approve/approve-download.query';
 import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
+import { DownloadFacade } from '@pages/report-states/application/services/download/download.facade';
 
 @Injectable({ providedIn: 'root' })
 export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(ApproveBus);
     private readonly downloadBus = inject(ApproveDownloadBus);
+    private readonly downloadFacade = inject(DownloadFacade);
 
     private readonly _actionState = signal<'idle' | 'loading'>('idle');
     readonly actionState = this._actionState.asReadonly();
@@ -40,7 +42,10 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
             observable,
             this.uiFeedback,
             successKey,
-            () => this.refreshWithLastFilterAndPage()
+            () => {
+                this.refreshWithLastFilterAndPage();
+                this.downloadFacade.refreshWithLastFilterAndPage();
+            }
         );
     }
 

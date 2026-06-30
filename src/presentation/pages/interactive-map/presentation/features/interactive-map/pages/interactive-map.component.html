@@ -22,30 +22,51 @@
                                     <div class="legend-item">
                                         <span
                                             class="legend-color"
-                                            style="background-color: #dc2626"
+                                            style="background-color: #7c3aed"
                                         ></span>
                                         <span>Zone blanche</span>
                                     </div>
                                     <div class="legend-item">
                                         <span
                                             class="legend-color"
-                                            style="background-color: #2563eb"
+                                            style="background-color: #0f766e"
                                         ></span>
                                         <span>Absence d'opérateur(s)</span>
                                     </div>
                                     <div class="legend-item">
                                         <span
                                             class="legend-color"
-                                            style="background-color: #f97316"
+                                            style="background-color: #be123c"
                                         ></span>
                                         <span>Mauvais signal</span>
                                     </div>
                                     <div class="legend-item">
                                         <span
                                             class="legend-color"
-                                            style="background-color: #eab308"
+                                            style="background-color: #475569"
                                         ></span>
                                         <span>Absence d'internet</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color ring"
+                                            style="border-color: #ff7900"
+                                        ></span>
+                                        <span>Couverture Orange</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color ring"
+                                            style="border-color: #ffcc00"
+                                        ></span>
+                                        <span>Couverture MTN</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color ring"
+                                            style="border-color: #005baa"
+                                        ></span>
+                                        <span>Couverture Moov</span>
                                     </div>
                                     <div class="legend-item">
                                         <span
@@ -66,6 +87,19 @@
                                 [value]="store.visibleReports().length"
                             />
                             signalement(s)
+                            @if (coverageAreasVisible()) {
+                                <span class="coverage-counter">
+                                    <p-badge
+                                        badgeSize="large"
+                                        severity="success"
+                                        [value]="coverageAreasCount()"
+                                    />
+                                    zone(s)
+                                    @if (coverageAreasLoading()) {
+                                        <i class="pi pi-spin pi-spinner"></i>
+                                    }
+                                </span>
+                            }
                         </p>
 
                         <button
@@ -140,6 +174,22 @@
                                     />
                                 }
                             </div>
+
+                            <section class="filter-group">
+                                <h3>Affichage</h3>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        [checked]="coverageAreasVisible()"
+                                        (change)="
+                                            toggleCoverageAreas(
+                                                $any($event.target).checked
+                                            )
+                                        "
+                                    />
+                                    <span>Zones de couverture</span>
+                                </label>
+                            </section>
 
                             <section class="filter-group">
                                 <h3>Type de signalements</h3>
