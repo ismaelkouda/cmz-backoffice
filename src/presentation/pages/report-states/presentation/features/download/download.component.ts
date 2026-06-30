@@ -29,6 +29,7 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import {
     enumToFilterOptions,
+    enumToFilterOptionsWithValue,
     FilterField,
     FilterOption,
 } from '@shared/components/filter/filter.types';
@@ -48,6 +49,7 @@ import { ExcelExportService } from '@shared/domain/services/excel-export.service
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { DialogModule } from 'primeng/dialog';
 import { SkeletonModule } from 'primeng/skeleton';
+import { Status } from '@presentation/pages/report-states/domain/enums/download/download-status.enum';
 
 @Component({
     selector: 'app-download',
@@ -130,92 +132,131 @@ export class DownloadComponent {
             return enumToFilterOptions(ReportType, this.t.bind(this));
         }
     );
+    private readonly statusOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptionsWithValue(Status, this.t.bind(this));
+    });
     protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
-        const telecomOperatorsOpts = this.telecomOperatorsOptions();
-        const reportSourceOpts = this.reportSourceOptions();
-        const reportTypeOpts = this.reportTypeOptions();
+        // const telecomOperatorsOpts = this.telecomOperatorsOptions();
+        // const reportSourceOpts = this.reportSourceOptions();
+        // const reportTypeOpts = this.reportTypeOptions();
+        const statusOpts = this.statusOptions();
         return [
             {
                 type: 'text',
-                name: 'initiatorPhoneNumber',
-                label: this.t('REPORT_STATES.DOWNLOAD.FILTER.INITIATOR'),
-                placeholder: this.t('COMMON.PHONE_PLACEHOLDER'),
-                icon: 'pi pi-phone',
+                name: 'search',
+                label: this.t('REPORT_STATES.DOWNLOAD.FILTER.SEARCH'),
+                placeholder: this.t(
+                    'REPORT_STATES.DOWNLOAD.FILTER.SEARCH_PLACEHOLDER'
+                ),
+                icon: 'pi pi-search',
                 translationKeys: {
-                    label: 'REPORT_STATES.DOWNLOAD.FILTER.INITIATOR',
-                    placeholder: 'COMMON.PHONE_PLACEHOLDER',
-                },
-            },
-            {
-                type: 'text',
-                name: 'uniqId',
-                label: this.t('REPORT_STATES.DOWNLOAD.FILTER.UNIQ_ID'),
-                placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
-                icon: 'pi pi-id-card',
-                translationKeys: {
-                    label: 'REPORT_STATES.DOWNLOAD.FILTER.UNIQ_ID',
-                    placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
+                    label: 'REPORT_STATES.DOWNLOAD.FILTER.SEARCH',
+                    placeholder:
+                        'REPORT_STATES.DOWNLOAD.FILTER.SEARCH_PLACEHOLDER',
                 },
             },
             {
                 type: 'select',
-                name: 'reportType',
-                label: this.t('REPORT_STATES.DOWNLOAD.FILTER.REPORT_TYPE'),
+                name: 'status',
+                label: this.t('CONTENT_MANAGEMENT.HOME.FILTER.STATUS'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
-                options: reportTypeOpts,
+                options: statusOpts,
                 optionLabel: 'label',
                 optionValue: 'value',
                 showClear: true,
                 icon: 'pi pi-filter',
                 translationKeys: {
-                    label: 'REPORT_STATES.DOWNLOAD.FILTER.REPORT_TYPE',
-                },
-                class: 'p-long',
-            },
-            {
-                type: 'multi-select',
-                name: 'operators',
-                label: this.t('REPORT_STATES.DOWNLOAD.FILTER.OPERATORS'),
-                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
-                options: telecomOperatorsOpts,
-                optionLabel: 'label',
-                optionValue: 'value',
-                filter: false,
-                showToggleDownload: false,
-                showClear: true,
-                icon: 'pi pi-filter',
-                translationKeys: {
-                    label: 'REPORT_STATES.DOWNLOAD.FILTER.OPERATORS',
-                },
-                class: 'p-medium',
-            },
-            {
-                type: 'select',
-                name: 'source',
-                label: this.t('REPORT_STATES.DOWNLOAD.FILTER.SOURCE'),
-                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
-                options: reportSourceOpts,
-                optionLabel: 'label',
-                optionValue: 'value',
-                showClear: true,
-                icon: 'pi pi-filter',
-                translationKeys: {
-                    label: 'REPORT_STATES.DOWNLOAD.FILTER.SOURCE',
+                    label: 'CONTENT_MANAGEMENT.HOME.FILTER.STATUS',
                 },
             },
             {
                 type: 'date',
-                name: 'startDate',
-                label: 'COMMON.START_DATE',
+                name: 'date',
+                label: this.t('REPORT_STATES.DOWNLOAD.FILTER.DATE'),
                 placeholder: 'COMMON.DATE_PLACEHOLDER',
             },
-            {
-                type: 'date',
-                name: 'endDate',
-                label: 'COMMON.END_DATE',
-                placeholder: 'COMMON.DATE_PLACEHOLDER',
-            },
+            // {
+            //     type: 'text',
+            //     name: 'initiatorPhoneNumber',
+            //     label: this.t('REPORT_STATES.DOWNLOAD.FILTER.INITIATOR'),
+            //     placeholder: this.t('COMMON.PHONE_PLACEHOLDER'),
+            //     icon: 'pi pi-phone',
+            //     translationKeys: {
+            //         label: 'REPORT_STATES.DOWNLOAD.FILTER.INITIATOR',
+            //         placeholder: 'COMMON.PHONE_PLACEHOLDER',
+            //     },
+            // },
+            // {
+            //     type: 'text',
+            //     name: 'uniqId',
+            //     label: this.t('REPORT_STATES.DOWNLOAD.FILTER.UNIQ_ID'),
+            //     placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
+            //     icon: 'pi pi-id-card',
+            //     translationKeys: {
+            //         label: 'REPORT_STATES.DOWNLOAD.FILTER.UNIQ_ID',
+            //         placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
+            //     },
+            // },
+            // {
+            //     type: 'select',
+            //     name: 'reportType',
+            //     label: this.t('REPORT_STATES.DOWNLOAD.FILTER.REPORT_TYPE'),
+            //     placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+            //     options: reportTypeOpts,
+            //     optionLabel: 'label',
+            //     optionValue: 'value',
+            //     showClear: true,
+            //     icon: 'pi pi-filter',
+            //     translationKeys: {
+            //         label: 'REPORT_STATES.DOWNLOAD.FILTER.REPORT_TYPE',
+            //     },
+            //     class: 'p-long',
+            // },
+            // {
+            //     type: 'multi-select',
+            //     name: 'operators',
+            //     label: this.t('REPORT_STATES.DOWNLOAD.FILTER.OPERATORS'),
+            //     placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+            //     options: telecomOperatorsOpts,
+            //     optionLabel: 'label',
+            //     optionValue: 'value',
+            //     filter: false,
+            //     showToggleDownload: false,
+            //     showClear: true,
+            //     icon: 'pi pi-filter',
+            //     translationKeys: {
+            //         label: 'REPORT_STATES.DOWNLOAD.FILTER.OPERATORS',
+            //     },
+            //     class: 'p-medium',
+            // },
+            // {
+            //     type: 'select',
+            //     name: 'source',
+            //     label: this.t('REPORT_STATES.DOWNLOAD.FILTER.SOURCE'),
+            //     placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+            //     options: reportSourceOpts,
+            //     optionLabel: 'label',
+            //     optionValue: 'value',
+            //     showClear: true,
+            //     icon: 'pi pi-filter',
+            //     translationKeys: {
+            //         label: 'REPORT_STATES.DOWNLOAD.FILTER.SOURCE',
+            //     },
+            // },
+            // {
+            //     type: 'date',
+            //     name: 'startDate',
+            //     label: 'COMMON.START_DATE',
+            //     placeholder: 'COMMON.DATE_PLACEHOLDER',
+            // },
+            // {
+            //     type: 'date',
+            //     name: 'endDate',
+            //     label: 'COMMON.END_DATE',
+            //     placeholder: 'COMMON.DATE_PLACEHOLDER',
+            // },
         ];
     });
     protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
@@ -292,7 +333,7 @@ export class DownloadComponent {
         actionId?: string;
     }): void {
         const { item } = event;
-        // window.open(item.urlFile);
+        window.open(item.url, '_blank');
     }
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
@@ -326,7 +367,7 @@ export class DownloadComponent {
         item: DownloadVmProps;
         col: HTMLTableCellElement;
     }): void {
-        this.selectedItem.set(event.item.filter);
+        this.selectedItem.set(event.item.filters);
         this.isVisibleDialog.set(true);
     }
     private exportData(): void {

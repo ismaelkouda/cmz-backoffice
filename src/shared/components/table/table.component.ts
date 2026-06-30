@@ -137,7 +137,8 @@ export class TableComponent {
             | 'treat'
             | 'finalize'
             | 'view'
-            | 'read',
+            | 'read'
+            | 'download',
         item: any
     ): void {
         const disable = {
@@ -149,6 +150,7 @@ export class TableComponent {
             finalize: item.disableButtonFinalize,
             view: item.disableButtonView,
             read: item.disableButtonRead,
+            download: item.disableButtonDownload,
         };
         return disable[type];
     }
@@ -178,7 +180,8 @@ export class TableComponent {
             | 'treat'
             | 'finalize'
             | 'view'
-            | 'read',
+            | 'read'
+            | 'download',
         item: any
     ): string {
         const tooltip = {
@@ -190,6 +193,7 @@ export class TableComponent {
             edit: item.tooltipButtonEdit,
             delete: item.tooltipButtonDelete,
             read: item.tooltipButtonRead,
+            download: item.tooltipButtonDownload,
         };
 
         return `${tooltip[type]} 

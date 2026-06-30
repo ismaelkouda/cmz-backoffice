@@ -9,8 +9,8 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
 import { RejectDownloadApiDto } from '@pages/report-states/infrastructure/api/dto/reject/reject-download-api.dto';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RejectApi {
@@ -36,11 +36,9 @@ export class RejectApi {
         });
     }
 
-    download(
-        apiDto: RejectDownloadApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    download(apiDto: RejectDownloadApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${REPORT_STATES_ENDPOINTS.DOWNLOAD}`;
         const payload = buildHttpPayload(apiDto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 }

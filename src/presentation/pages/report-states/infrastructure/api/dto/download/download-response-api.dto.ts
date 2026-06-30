@@ -3,14 +3,14 @@ import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 import { DownloadTypeDto } from '../download-type-api.dto';
 
 export interface DownloadItemApiDto {
-    uniq_id: string;
-    date: string;
-    name: string;
-    type: DownloadTypeDto;
-    size: number;
+    id: string;
+    download_url: string;
+    file_name: string;
+    file_size: number;
+    format: DownloadTypeDto;
     status: ApiStatus;
-    filter: { name: string; value: string }[];
-    updated_at: string;
+    filters: { name: string; value: string }[];
+    created_at: string;
 }
 
 export type DownloadResponseApiDto = PaginatedResponseDto<DownloadItemApiDto>;

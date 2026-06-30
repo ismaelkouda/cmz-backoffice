@@ -7,8 +7,8 @@ import { CloseMapper } from '@pages/report-states/infrastructure/data/mappers/cl
 import { CloseApi } from '@pages/report-states/infrastructure/data/sources/close/close.api';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { CloseDownloadEntity } from '@presentation/pages/report-states/domain/entities/close/close-download.entity';
@@ -32,7 +32,7 @@ export class CloseRepositoryImpl extends CloseRepository {
             .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
-    download(entity: CloseDownloadEntity): Observable<SimpleResponseDto<void>> {
+    download(entity: CloseDownloadEntity): Observable<MessageResponseDto> {
         return this.api.download(this.downloadMapper.map(entity));
     }
 }

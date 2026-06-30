@@ -7,8 +7,8 @@ import { EvaluateMapper } from '@pages/report-states/infrastructure/data/mappers
 import { EvaluateApi } from '@pages/report-states/infrastructure/data/sources/evaluate/evaluate.api';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { EvaluateDownloadEntity } from '@presentation/pages/report-states/domain/entities/evaluate/evaluate-download.entity';
@@ -33,9 +33,7 @@ export class EvaluateRepositoryImpl extends EvaluateRepository {
             .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
-    download(
-        entity: EvaluateDownloadEntity
-    ): Observable<SimpleResponseDto<void>> {
+    download(entity: EvaluateDownloadEntity): Observable<MessageResponseDto> {
         return this.api.download(this.downloadMapper.map(entity));
     }
 }

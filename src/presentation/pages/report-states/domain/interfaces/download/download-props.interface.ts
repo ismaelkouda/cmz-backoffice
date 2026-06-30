@@ -3,11 +3,11 @@ import { DownloadType } from '../../enums/download-type.enum';
 
 export interface DownloadProps {
     uniqId: string;
-    date: string;
+    url: string;
     name: string;
-    type: DownloadType;
     size: number;
+    type: DownloadType;
     status: Status;
-    filter: { name: string; value: string }[];
-    updatedAt: string;
+    filters: { name: string; value: string }[];
+    createdAt: string;
 }

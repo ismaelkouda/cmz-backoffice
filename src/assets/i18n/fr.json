@@ -12,7 +12,13 @@
         "EXCEL_STYLE": "success",
         "SHAPE_STYLE": "info",
         "PENDING": "En attente",
+        "PROCESSING": "En traitement",
+        "DONE": "Terminé",
+        "FAILED": "Echoué",
         "PENDING_STYLE": "warn",
+        "DONE_STYLE": "success",
+        "FAILED_STYLE": "danger",
+        "PROCESSING_STYLE": "info",
         "APPROVED": "Approuvé",
         "APPROVED_STYLE": "success",
         "IN_PROGRESS": "En cours",
@@ -2815,16 +2821,17 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des demandes",
                 "EXPORT": "Exporter la liste de {nb} demandes approuvées",
-                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
+                "DOWNLOAD": "Télécharger la liste de {nb} demandes approuvées",
+                "FILTER_REQUIRE": "Veuillez filtrer par au moins une donnée avant de télécharger",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des demandes",
                 "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des demandes Approuvées",
                 "NO_DOWNLOAD": "Aucune données a télécharger",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les demandes filtrés" },
+                "TITLE": { "DOWNLOAD": "Télécharger les demandes au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les demandes approuvées au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
                 }
             }
         },
@@ -2897,16 +2904,17 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des demandes",
                 "EXPORT": "Exporter la liste de {nb} demandes rejetées",
-                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
+                "DOWNLOAD": "Télécharger la liste de {nb} demandes rejectées",
+                "FILTER_REQUIRE": "Veuillez filtrer par au moins une donnée avant de télécharger",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des demandes",
                 "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des demandes rejetées",
                 "NO_DOWNLOAD": "Aucune données a télécharger",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les demandes filtrés" },
+                "TITLE": { "DOWNLOAD": "Télécharger les demandes au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les demandes rejetées au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
                 }
             }
         },
@@ -2989,16 +2997,17 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des signalements",
                 "EXPORT": "Exporter la liste de {nb} signalements clôturés",
-                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
+                "DOWNLOAD": "Télécharger la liste de {nb} signalements clôturés",
+                "FILTER_REQUIRE": "Veuillez filtrer par au moins une donnée avant de télécharger",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements clôturés",
                 "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements clôturés",
                 "NO_DOWNLOAD": "Aucune données a télécharger",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les signalements filtrés" },
+                "TITLE": { "DOWNLOAD": "Télécharger les signalements au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les signalements clôturés au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
                 }
             }
         },
@@ -3096,16 +3105,18 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des signalements",
                 "EXPORT": "Exporter la liste de {nb} signalements évalués",
-                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
+                "DOWNLOAD": "Télécharger la liste de {nb} signalements évalués",
+                "FILTER_REQUIRE": "Veuillez filtrer par au moins une donnée avant de télécharger",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements évalués",
                 "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements évalués",
                 "NO_DOWNLOAD": "Aucune données a télécharger",
+                "NO_FILTER": "Veuillez filtrer avant de télécharger",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les signalements filtrés" },
+                "TITLE": { "DOWNLOAD": "Télécharger les signalements au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les signalements évalués au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
                 }
             }
         },
@@ -3135,15 +3146,14 @@
                 "ACTION": "Action"
             },
             "FILTER": {
+                "SEARCH": "Rechercher",
+                "DATE": "Date",
+                "SEARCH_PLACEHOLDER": "Rechercher",
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "Identifiant",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
-                "SOURCE": "Canal d'émission",
-                "DATE": {
-                    "FROM": "Date début",
-                    "TO": "Date fin"
-                }
+                "SOURCE": "Canal d'émission"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
@@ -3185,11 +3195,19 @@
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des téléchargements",
                 "EXPORT": "Exporter la liste de {nb} téléchargements",
+                "DOWNLOAD": "Télécharger",
                 "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des téléchargements",
                 "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste",
-                "NO_DOWNLOAD": "Aucune données a télécharger",
+                "NO_DOWNLOAD": "Impossible de télécharger",
                 "SEE_MORE": "Voir plus d'informations"
+            },
+            "DIALOG": {
+                "TITLE": "Listes des filtres appliqués",
+                "TABLE": {
+                    "NAME": "Nom du champ",
+                    "VALUE": "Valeur du champ"
+                }
             }
         }
     },

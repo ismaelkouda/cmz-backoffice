@@ -61,7 +61,7 @@
         [resizable]="false"
         [closable]="true"
         [closeOnEscape]="true"
-        [style]="{ width: '100vw', height: '100vh' }"
+        [style]="{ width: '50rem' }"
         [maximizable]="false"
         styleClass="dialog"
     >
@@ -76,20 +76,16 @@
         </ng-template>
 
         <div class="main-container command-layout">
-            <main class="content-main">
-                <div class="tab-content-area">
-                    <div class="changes-section">
-                            <app-table
-                                class="table-component history-diff-table"
-                                dataKey="name"
-                                [hiddenTableTitle]="true"
-                                [config]="tableDialogConfig"
-                                [items]="selectedItem()"
-                                [hiddenButtonExport]="true"
-                                [hiddenButtonRefresh]="false"
-                            ></app-table>
-                        </div>
-                </div>
+            <main class="content-main mt-2">
+                <app-table
+                    class="table-component"
+                    dataKey="name"
+                    [hiddenTableTitle]="true"
+                    [config]="tableDialogConfig"
+                    [items]="selectedItem()"
+                    [hiddenButtonExport]="true"
+                    [hiddenButtonRefresh]="false"
+                ></app-table>
             </main>
         </div>
     </p-dialog>

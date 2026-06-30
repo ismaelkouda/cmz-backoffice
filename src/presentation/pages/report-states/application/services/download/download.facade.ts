@@ -94,6 +94,7 @@ export class DownloadFacade extends BaseFacade<
     private buildQuery(filter: DownloadFilterDto | null): DownloadQuery {
         return new DownloadQuery(
             filter?.search,
+            filter?.date,
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
             filter?.reportType,

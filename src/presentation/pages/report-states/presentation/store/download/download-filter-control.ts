@@ -3,6 +3,8 @@ import { Status } from '@pages/report-states/domain/enums/download/download-stat
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 export interface DownloadFilterControl {
+    search: FormControl<string>;
+    date: FormControl<Date | undefined>;
     uniqId: FormControl<string>;
     initiatorPhoneNumber: FormControl<string>;
     startDate: FormControl<Date | undefined>;

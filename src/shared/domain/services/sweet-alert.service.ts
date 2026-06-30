@@ -6,6 +6,7 @@ import SweetAlert from 'sweetalert2';
 export interface SweetAlertConfig {
     titleKey: string;
     messageKey: string;
+    titleParams?: Record<string, string>;
     messageParams?: Record<string, string>;
     confirmTextKey?: string;
     cancelTextKey?: string;
@@ -19,7 +20,7 @@ export class SweetAlertService {
     async confirm(config: SweetAlertConfig): Promise<boolean> {
         const result = await SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant(config.titleKey),
+            title: this.formatMessage(config.titleKey, config.titleParams),
             html: this.formatMessage(config.messageKey, config.messageParams),
             confirmButtonText: this.translate.instant(
                 config.confirmTextKey ?? 'COMMON.CONFIRM'

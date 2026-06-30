@@ -9,7 +9,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
 import { ApproveDownloadApiDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-download-api.dto';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 
 @Injectable({ providedIn: 'root' })
@@ -36,11 +36,9 @@ export class ApproveApi {
         });
     }
 
-    download(
-        apiDto: ApproveDownloadApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    download(apiDto: ApproveDownloadApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${REPORT_STATES_ENDPOINTS.DOWNLOAD}`;
         const payload = buildHttpPayload(apiDto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 }

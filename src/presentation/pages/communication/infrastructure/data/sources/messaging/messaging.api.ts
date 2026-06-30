@@ -10,7 +10,7 @@ import { MessagingCreateApiDto } from '@pages/communication/infrastructure/api/d
 import { MessagingFilterApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-filter-api.dto';
 import { MessagingResponseApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-response-api.dto';
 import { MessagingUpdateApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-update-api.dto';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -40,32 +40,30 @@ export class MessagingApi {
         });
     }
 
-    create(apiDto: MessagingCreateApiDto): Observable<SimpleResponseDto<void>> {
+    create(apiDto: MessagingCreateApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}/store`;
         const payload = buildHttpPayload(apiDto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 
-    update(apiDto: MessagingUpdateApiDto): Observable<SimpleResponseDto<void>> {
+    update(apiDto: MessagingUpdateApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}/${apiDto.id}/update`;
         const payload = buildHttpPayload(apiDto, ['id']);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 
-    delete(apiDto: MessagingDeleteApiDto): Observable<SimpleResponseDto<void>> {
+    delete(apiDto: MessagingDeleteApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}/${apiDto}/delete`;
-        return this.http.delete<SimpleResponseDto<void>>(url);
+        return this.http.delete<MessageResponseDto>(url);
     }
 
-    enable(apiDto: MessagingEnableApiDto): Observable<SimpleResponseDto<void>> {
+    enable(apiDto: MessagingEnableApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}/${apiDto}/enable`;
-        return this.http.put<SimpleResponseDto<void>>(url, {});
+        return this.http.put<MessageResponseDto>(url, {});
     }
 
-    disable(
-        apiDto: MessagingDisableApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    disable(apiDto: MessagingDisableApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${COMMUNICATION_ENDPOINTS.MESSAGING}/${apiDto}/disable`;
-        return this.http.put<SimpleResponseDto<void>>(url, {});
+        return this.http.put<MessageResponseDto>(url, {});
     }
 }

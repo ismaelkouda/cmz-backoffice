@@ -75,9 +75,10 @@ export function handleObservableWithFeedback<T>(
     refresh?: () => void
 ): Observable<T> {
     return obs.pipe(
-        tap(() => {
+        tap((response: any) => {
+            console.log('response.message: ', response.message);
             if (successKey) {
-                uiFeedback.success(successKey);
+                uiFeedback.success(response.message ?? successKey);
             }
             if (refresh) {
                 refresh();

@@ -2,14 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { CloseDownloadQuery } from '@pages/report-states/application/queries/close/close-download.query';
 import { CloseUseCase } from '@pages/report-states/application/use-cases/close/close.use-case';
 import { DownloadSource } from '@presentation/pages/report-states/domain/enums/download-source.enum';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CloseDownloadHandler {
     private readonly useCase = inject(CloseUseCase);
 
-    execute(query: CloseDownloadQuery): Observable<SimpleResponseDto<void>> {
+    execute(query: CloseDownloadQuery): Observable<MessageResponseDto> {
         return this.useCase.download({
             metaData: {
                 source: DownloadSource.REPORT,

@@ -421,9 +421,7 @@
                                     [hiddenButtonRefresh]="true"
                                 ></app-table>
                             </div>
-                        } @else if (
-                            !data.summary?.hasDiff && data.changes?.length === 0
-                        ) {
+                        } @else if (!data.summary?.hasDiff && data.changes?.length === 0) {
                             <div class="no-changes-state">
                                 <i class="pi pi-info-circle"></i>
                                 <p>
@@ -434,7 +432,6 @@
                             </div>
                         }
                     } @else {
-                        <!-- ÉTAT VIDE (aucune donnée) -->
                         <div class="empty-state">
                             <i class="pi pi-inbox"></i>
                             <p>{{ 'HISTORY.DIALOG.NO_DATA' | translate }}</p>

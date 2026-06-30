@@ -2,8 +2,8 @@ import { EvaluateFilterContract } from '@pages/report-states/domain/contracts/ev
 import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/evaluate.entity';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { EvaluateDownloadEntity } from '@pages/report-states/domain/entities/evaluate/evaluate-download.entity';
@@ -16,5 +16,5 @@ export abstract class EvaluateRepository {
     ): Observable<Paginate<EvaluateEntity>>;
     abstract download(
         entity: EvaluateDownloadEntity
-    ): Observable<SimpleResponseDto<void>>;
+    ): Observable<MessageResponseDto>;
 }

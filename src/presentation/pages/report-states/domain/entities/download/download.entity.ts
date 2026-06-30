@@ -3,63 +3,64 @@ import {
     StatusStyle,
 } from '@pages/report-states/domain/enums/download/download-status.enum';
 import { DownloadProps } from '@pages/report-states/domain/interfaces/download/download-props.interface';
-import { DownloadType } from '../../enums/download-type.enum';
+import { StatusMapper } from '@pages/report-states/infrastructure/data/mappers/download/download-status.mapper';
+import { DownloadType } from '@pages/report-states/domain/enums/download-type.enum';
 
 export class DownloadEntity implements DownloadProps {
-    constructor(private readonly props: DownloadProps) {}
+    constructor(
+        private readonly props: DownloadProps,
+        private readonly statusMapper: StatusMapper
+    ) {}
 
     get actionsRef(): string {
-        return this.props.uniqId;
-    }
-
-    get date(): string {
-        return this.props.date;
+        return this.props.createdAt;
     }
 
     get uniqId(): string {
         return this.props.uniqId;
     }
 
-    get name(): string {
-        return this.props.name;
+    get url(): string {
+        return this.props.url;
     }
 
-    get type(): DownloadType {
-        return this.props.type;
+    get name(): string {
+        return this.props.name;
     }
 
     get size(): number {
         return this.props.size;
     }
 
+    get type(): DownloadType {
+        return this.props.type;
+    }
+
     get status(): Status {
         return this.props.status;
     }
     statusStyle(status: Status): StatusStyle {
-        const methodMap: Record<Status, StatusStyle> = {
-            [Status.PENDING]: StatusStyle.PENDING,
-            [Status.PROCESSING]: StatusStyle.PROCESSING,
-            [Status.DONE]: StatusStyle.DONE,
-            [Status.FAILED]: StatusStyle.FAILED,
-        };
-        return methodMap[status];
+        return this.statusMapper.mapStatusToStyle(status);
     }
 
-    get filter(): { name: string; value: string }[] {
-        return this.props.filter;
+    get filters(): { name: string; value: string }[] {
+        return this.props.filters;
     }
 
-    get updatedAt(): string {
-        return this.props.updatedAt;
+    get createdAt(): string {
+        return this.props.createdAt;
     }
 
-    public with(props: DownloadProps): DownloadEntity {
-        if (
-            this.updatedAt === props.updatedAt &&
-            this.uniqId === props.uniqId
-        ) {
-            return this;
-        }
-        return new DownloadEntity(props);
+    public with(
+        props: DownloadProps,
+        statusMapper: StatusMapper
+    ): DownloadEntity {
+        // if (
+        //     this.createdAt === props.createdAt &&
+        //     this.uniqId === props.uniqId
+        // ) {
+        //     return this;
+        // }
+        return new DownloadEntity(props, statusMapper);
     }
 }

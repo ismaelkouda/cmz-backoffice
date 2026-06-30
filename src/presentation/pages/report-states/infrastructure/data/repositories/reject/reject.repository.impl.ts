@@ -7,6 +7,7 @@ import { RejectMapper } from '@pages/report-states/infrastructure/data/mappers/r
 import { RejectApi } from '@pages/report-states/infrastructure/data/sources/reject/reject.api';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
@@ -33,9 +34,7 @@ export class RejectRepositoryImpl extends RejectRepository {
             .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
-    download(
-        entity: RejectDownloadEntity
-    ): Observable<SimpleResponseDto<void>> {
+    download(entity: RejectDownloadEntity): Observable<MessageResponseDto> {
         return this.api.download(this.downloadMapper.map(entity));
     }
 }
