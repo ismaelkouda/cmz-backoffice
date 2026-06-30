@@ -7,8 +7,8 @@ import { ApproveMapper } from '@pages/report-states/infrastructure/data/mappers/
 import { ApproveApi } from '@pages/report-states/infrastructure/data/sources/approve/approve.api';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { ApproveDownloadEntity } from '@presentation/pages/report-states/domain/entities/approve/approve-download.entity';
@@ -32,9 +32,7 @@ export class ApproveRepositoryImpl extends ApproveRepository {
             .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
-    download(
-        entity: ApproveDownloadEntity
-    ): Observable<SimpleResponseDto<void>> {
+    download(entity: ApproveDownloadEntity): Observable<MessageResponseDto> {
         return this.api.download(this.downloadMapper.map(entity));
     }
 }

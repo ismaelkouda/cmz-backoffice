@@ -4,6 +4,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 export class DownloadQuery {
     constructor(
         public readonly search?: string,
+        public readonly date?: Date,
         public readonly initiatorPhoneNumber?: string,
         public readonly uniqId?: string,
         public readonly reportType?: ReportType,

@@ -5,8 +5,8 @@ import { EvaluateRepository } from '@pages/report-states/domain/repositories/eva
 import { evaluateFilterVo } from '@pages/report-states/domain/value-objects/evaluate/evaluate-filter.vo';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { EvaluateDownloadContract } from '@presentation/pages/report-states/domain/contracts/evaluate/evaluate-download.contract';
@@ -32,7 +32,7 @@ export class EvaluateUseCase {
 
     download(
         contract: EvaluateDownloadContract
-    ): Observable<SimpleResponseDto<void>> {
+    ): Observable<MessageResponseDto> {
         const validated = evaluateDownloadVo(contract);
         const entity = evaluateDownloadFactory(validated);
         return this.repository.download(entity);

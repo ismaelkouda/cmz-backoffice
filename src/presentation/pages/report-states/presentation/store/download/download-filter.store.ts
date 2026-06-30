@@ -18,6 +18,12 @@ export class DownloadFilterStore {
 
     readonly form: FormGroup<DownloadFilterControl> =
         this.fb.group<DownloadFilterControl>({
+            search: new FormControl<string>('', {
+                nonNullable: true,
+            }),
+            date: new FormControl<Date | undefined>(undefined, {
+                nonNullable: true,
+            }),
             initiatorPhoneNumber: new FormControl<string>('', {
                 nonNullable: true,
             }),
@@ -64,6 +70,8 @@ export class DownloadFilterStore {
         const raw = this.form.getRawValue();
 
         return {
+            search: raw.search,
+            date: raw.date,
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
             startDate: raw.startDate || undefined,

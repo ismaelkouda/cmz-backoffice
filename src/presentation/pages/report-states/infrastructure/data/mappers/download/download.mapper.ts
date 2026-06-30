@@ -20,24 +20,26 @@ export class DownloadMapper extends PaginatedMapper<
 
     protected override mapItemFromDto(dto: DownloadItemApiDto): DownloadEntity {
         MapperUtils.validateDto(dto, {
-            required: ['uniq_id'],
+            required: ['id'],
         });
 
         const props: DownloadProps = {
-            uniqId: dto.uniq_id,
-            date: dto.date,
-            name: dto.name,
-            type: this.typeDto.mapFromDto(dto.type),
-            size: dto.size,
+            uniqId: dto.id,
+            url: dto.download_url,
+            name: dto.file_name,
+            size: dto.file_size,
+            type: this.typeDto.mapFromDto(dto.format),
             status: this.statusMapper.mapApiToStatus(dto.status),
-            filter: dto.filter,
-            updatedAt: dto.updated_at,
+            filters: dto.filters,
+            createdAt: dto.created_at,
         };
 
-        const cacheKey = `dto:${dto.uniq_id}`;
+        const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
-        const entity = cached ? cached.with(props) : new DownloadEntity(props);
+        const entity = cached
+            ? cached.with(props, this.statusMapper)
+            : new DownloadEntity(props, this.statusMapper);
 
         this.entityCache.set(cacheKey, entity);
         return entity;

@@ -5,8 +5,8 @@ import { ApproveRepository } from '@pages/report-states/domain/repositories/appr
 import { approveFilterVo } from '@pages/report-states/domain/value-objects/approve/approve-filter.vo';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { ApproveDownloadContract } from '@presentation/pages/report-states/domain/contracts/approve/approve-download.contract';
@@ -32,7 +32,7 @@ export class ApproveUseCase {
 
     download(
         contract: ApproveDownloadContract
-    ): Observable<SimpleResponseDto<void>> {
+    ): Observable<MessageResponseDto> {
         const validated = approveDownloadVo(contract);
         const entity = approveDownloadFactory(validated);
         return this.repository.download(entity);

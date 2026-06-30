@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Status } from '@pages/report-states/domain/enums/download/download-status.enum';
+import {
+    Status,
+    StatusStyle,
+} from '@pages/report-states/domain/enums/download/download-status.enum';
 import { ApiStatus } from '@pages/report-states/infrastructure/enums/download/download-status-api.enum';
 
 @Injectable({ providedIn: 'root' })
@@ -17,6 +20,12 @@ export class StatusMapper {
             [ApiStatus.DONE]: Status.DONE,
             [ApiStatus.FAILED]: Status.FAILED,
         },
+        toStyle: {
+            [Status.PENDING]: StatusStyle.PENDING,
+            [Status.PROCESSING]: StatusStyle.PROCESSING,
+            [Status.DONE]: StatusStyle.DONE,
+            [Status.FAILED]: StatusStyle.FAILED,
+        },
     };
 
     mapStatusToApi(status: Status): ApiStatus {
@@ -25,5 +34,9 @@ export class StatusMapper {
 
     mapApiToStatus(apiStatus: ApiStatus): Status {
         return this.statusMapping.fromApi[apiStatus];
+    }
+
+    mapStatusToStyle(status: Status): StatusStyle {
+        return this.statusMapping.toStyle[status];
     }
 }

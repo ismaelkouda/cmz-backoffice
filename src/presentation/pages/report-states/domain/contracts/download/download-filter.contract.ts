@@ -3,6 +3,7 @@ import { Status } from '@pages/report-states/domain/enums/download/download-stat
 
 export interface DownloadFilterContract {
     search?: string;
+    date?: Date;
     initiatorPhoneNumber?: string;
     uniqId?: string;
     reportType?: ReportType;

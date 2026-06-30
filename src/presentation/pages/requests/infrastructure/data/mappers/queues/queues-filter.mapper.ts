@@ -10,7 +10,6 @@ export class QueuesFilterMapper {
     private readonly apiDateMapper = inject(ApiDateMapper);
 
     map(entity: QueuesFilterEntity): QueuesFilterApiDto {
-        console.log('entity: ', entity);
         return {
             ...(entity?.initiatorPhoneNumber && {
                 initiator_phone_number: entity?.initiatorPhoneNumber,

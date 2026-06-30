@@ -50,7 +50,7 @@ export const DOWNLOAD_TABLE = {
             width: '11rem',
         },
         {
-            field: 'type',
+            field: 'typeLabel',
             header: 'REPORT_STATES.DOWNLOAD.TABLE.TYPE',
             class: 'text-center',
             width: '5rem',
@@ -68,9 +68,10 @@ export const DOWNLOAD_TABLE = {
             width: '6rem',
         },
         {
-            field: 'filter',
+            field: 'filtersCount',
             header: 'REPORT_STATES.DOWNLOAD.TABLE.FILTER',
             width: '5rem',
+            class: 'text-center',
             type: 'badge-button',
         },
         {
@@ -83,7 +84,7 @@ export const DOWNLOAD_TABLE = {
     globalFilterFields: [
         'date',
         'name',
-        'type',
+        'typeLabel',
         'size',
         'statusLabel',
         'filter',

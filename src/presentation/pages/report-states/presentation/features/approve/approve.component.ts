@@ -227,7 +227,7 @@ export class ApproveComponent {
             translateKey: 'COMMON.DOWNLOAD',
             items: this.buildDownloadMenuItems(),
             disabled:
-                this.hasActiveFilter() ||
+                !this.hasActiveFilter() ||
                 !this.canDownload() ||
                 this.itemsVM().length <= 0,
             tooltip: this.downloadTooltip(),
@@ -289,7 +289,7 @@ export class ApproveComponent {
         });
     });
     protected readonly downloadTooltip = computed(() => {
-        const noFilter = this.hasActiveFilter();
+        const noFilter = !this.hasActiveFilter();
         const permission = !this.canDownload();
         const noData = this.itemsVM().length < 1;
         if (permission) {
@@ -298,7 +298,7 @@ export class ApproveComponent {
             );
         }
         if (noFilter) {
-            return this.t('REPORT_STATES.APPROVE.TOOLTIP.NO_FILTER');
+            return this.t('REPORT_STATES.APPROVE.TOOLTIP.FILTER_REQUIRE');
         }
         if (noData) {
             return this.t('REPORT_STATES.APPROVE.TOOLTIP.NO_DOWNLOAD');
@@ -331,12 +331,14 @@ export class ApproveComponent {
             messageParams: {
                 uniqId: translateType,
             },
+            titleParams: {
+                uniqId: translateType,
+            },
         });
         if (!confirmed) {
             return;
         }
         this.facade.download(this.formStore.downloadValue(uniqId));
-        this.facade.refreshWithLastFilterAndPage();
     }
     private readonly presenter = new ApprovePresenter(
         this.translate.instant.bind(this.translate)

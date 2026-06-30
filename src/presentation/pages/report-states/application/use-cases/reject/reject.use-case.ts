@@ -5,8 +5,8 @@ import { RejectRepository } from '@pages/report-states/domain/repositories/rejec
 import { rejectFilterVo } from '@pages/report-states/domain/value-objects/reject/reject-filter.vo';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { RejectDownloadContract } from '@presentation/pages/report-states/domain/contracts/reject/reject-download.contract';
@@ -30,9 +30,7 @@ export class RejectUseCase {
         return this.repository.execute(entity, page, options);
     }
 
-    download(
-        contract: RejectDownloadContract
-    ): Observable<SimpleResponseDto<void>> {
+    download(contract: RejectDownloadContract): Observable<MessageResponseDto> {
         const validated = rejectDownloadVo(contract);
         const entity = rejectDownloadFactory(validated);
         return this.repository.download(entity);

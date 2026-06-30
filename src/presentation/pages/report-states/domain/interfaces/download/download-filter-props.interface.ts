@@ -4,6 +4,7 @@ import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
 export interface DownloadFilterProps {
     search?: string;
+    date?: Date;
     initiatorPhoneNumber?: string;
     uniqId?: string;
     reportType?: ReportType;

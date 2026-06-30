@@ -5,8 +5,8 @@ import { CloseRepository } from '@pages/report-states/domain/repositories/close/
 import { closeFilterVo } from '@pages/report-states/domain/value-objects/close/close-filter.vo';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { CloseDownloadContract } from '@presentation/pages/report-states/domain/contracts/close/close-download.contract';
@@ -30,9 +30,7 @@ export class CloseUseCase {
         return this.repository.execute(entity, page, options);
     }
 
-    download(
-        contract: CloseDownloadContract
-    ): Observable<SimpleResponseDto<void>> {
+    download(contract: CloseDownloadContract): Observable<MessageResponseDto> {
         const validated = closeDownloadVo(contract);
         const entity = closeDownloadFactory(validated);
         return this.repository.download(entity);

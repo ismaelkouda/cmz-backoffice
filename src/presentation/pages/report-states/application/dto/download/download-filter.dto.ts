@@ -3,6 +3,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 export interface DownloadFilterDto {
     search?: string;
+    date?: Date;
     initiatorPhoneNumber?: string;
     uniqId?: string;
     reportType?: ReportType;

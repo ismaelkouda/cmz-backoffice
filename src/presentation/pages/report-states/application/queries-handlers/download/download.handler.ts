@@ -18,6 +18,7 @@ export class DownloadHandler {
         return this.useCase.execute(
             {
                 search: query.search,
+                date: query.date,
                 initiatorPhoneNumber: query.initiatorPhoneNumber,
                 uniqId: query.uniqId,
                 reportType: query.reportType,

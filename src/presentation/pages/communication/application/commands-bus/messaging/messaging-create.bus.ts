@@ -1,14 +1,14 @@
 import { Injectable, inject } from '@angular/core';
 import { MessagingCreateCommand } from '@pages/communication/application/commands/messaging/messaging-create.command';
 import { MessagingCreateHandler } from '@pages/communication/application/commands-handlers/messaging/messaging-create.handler';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MessagingCreateBus {
     private readonly createHandler = inject(MessagingCreateHandler);
 
-    dispatch<T>(command: T): Observable<SimpleResponseDto<void>> {
+    dispatch<T>(command: T): Observable<MessageResponseDto> {
         if (command instanceof MessagingCreateCommand) {
             return this.createHandler.execute(command);
         }

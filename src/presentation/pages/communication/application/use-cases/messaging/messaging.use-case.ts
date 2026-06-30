@@ -18,8 +18,8 @@ import { messagingFilterVo } from '@pages/communication/domain/value-objects/mes
 import { messagingUpdateVo } from '@pages/communication/domain/value-objects/messaging/messaging-update.vo';
 import { MessagingFilterContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-filter.contract';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
@@ -42,37 +42,33 @@ export class MessagingUseCase {
         return this.repository.readAll(entity, page, options);
     }
 
-    create(
-        contract: MessagingCreateContract
-    ): Observable<SimpleResponseDto<void>> {
+    create(contract: MessagingCreateContract): Observable<MessageResponseDto> {
         const validated = messagingCreateVo(contract);
         const entity = messagingCreateFactory(validated);
         // entity.ensureCanBeCreated();
         return this.repository.create(entity);
     }
 
-    update(
-        contract: MessagingUpdateContract
-    ): Observable<SimpleResponseDto<void>> {
+    update(contract: MessagingUpdateContract): Observable<MessageResponseDto> {
         const validated = messagingUpdateVo(contract);
         const entity = messagingUpdateFactory(validated);
         // entity.ensureCanBeUpdated();
         return this.repository.update(entity);
     }
 
-    enable(dto: MessagingEnableDto): Observable<SimpleResponseDto<void>> {
+    enable(dto: MessagingEnableDto): Observable<MessageResponseDto> {
         const vo = MessagingEnableVo.fromDto(dto);
         const entity = MessagingEnableEntity.fromVo(vo);
         return this.repository.enable(entity);
     }
 
-    disable(dto: MessagingDisableDto): Observable<SimpleResponseDto<void>> {
+    disable(dto: MessagingDisableDto): Observable<MessageResponseDto> {
         const vo = MessagingDisableVo.fromDto(dto);
         const entity = MessagingDisableEntity.fromVo(vo);
         return this.repository.disable(entity);
     }
 
-    delete(dto: MessagingDeleteDto): Observable<SimpleResponseDto<void>> {
+    delete(dto: MessagingDeleteDto): Observable<MessageResponseDto> {
         const vo = MessagingDeleteVo.fromDto(dto);
         const entity = MessagingDeleteEntity.fromVo(vo);
         return this.repository.delete(entity);

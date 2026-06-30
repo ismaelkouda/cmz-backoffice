@@ -6,8 +6,8 @@ import { MessagingFilterContract } from '@presentation/pages/communication/domai
 import { MessagingUpdateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-update.entity';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
@@ -20,17 +20,17 @@ export abstract class MessagingRepository {
     ): Observable<Paginate<MessagingEntity>>;
     abstract create(
         entity: MessagingCreateEntity
-    ): Observable<SimpleResponseDto<void>>;
+    ): Observable<MessageResponseDto>;
     abstract update(
         entity: MessagingUpdateEntity
-    ): Observable<SimpleResponseDto<void>>;
+    ): Observable<MessageResponseDto>;
     abstract delete(
         entity: MessagingDeleteEntity
-    ): Observable<SimpleResponseDto<void>>;
+    ): Observable<MessageResponseDto>;
     abstract enable(
         entity: MessagingEnableEntity
-    ): Observable<SimpleResponseDto<void>>;
+    ): Observable<MessageResponseDto>;
     abstract disable(
         entity: MessagingDisableEntity
-    ): Observable<SimpleResponseDto<void>>;
+    ): Observable<MessageResponseDto>;
 }

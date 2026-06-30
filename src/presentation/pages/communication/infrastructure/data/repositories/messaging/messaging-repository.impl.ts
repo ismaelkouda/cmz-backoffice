@@ -16,8 +16,8 @@ import { MessagingUpdateMapper } from '@pages/communication/infrastructure/data/
 import { MessagingMapper } from '@pages/communication/infrastructure/data/mappers/messaging/messaging.mapper';
 import { MessagingApi } from '@pages/communication/infrastructure/data/sources/messaging/messaging.api';
 import {
+    MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
@@ -42,29 +42,23 @@ export class MessagingRepositoryImpl implements MessagingRepository {
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(
-        payload: MessagingCreateEntity
-    ): Observable<SimpleResponseDto<void>> {
+    create(payload: MessagingCreateEntity): Observable<MessageResponseDto> {
         return this.api.create(this.createMapper.mapFromEntity(payload));
     }
 
-    update(
-        payload: MessagingUpdateEntity
-    ): Observable<SimpleResponseDto<void>> {
+    update(payload: MessagingUpdateEntity): Observable<MessageResponseDto> {
         return this.api.update(this.updateMapper.mapFromEntity(payload));
     }
 
-    delete(entity: MessagingDeleteEntity): Observable<SimpleResponseDto<void>> {
+    delete(entity: MessagingDeleteEntity): Observable<MessageResponseDto> {
         return this.api.delete(messagingDeleteMapper(entity));
     }
 
-    enable(entity: MessagingEnableEntity): Observable<SimpleResponseDto<void>> {
+    enable(entity: MessagingEnableEntity): Observable<MessageResponseDto> {
         return this.api.enable(messagingEnableMapper(entity));
     }
 
-    disable(
-        entity: MessagingDisableEntity
-    ): Observable<SimpleResponseDto<void>> {
+    disable(entity: MessagingDisableEntity): Observable<MessageResponseDto> {
         return this.api.disable(messagingDisableMapper(entity));
     }
 }
