@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, signal, inject } from '@angular/core';
 import {
     Bounds,
+    CoverageAreaFilters,
+    CoverageAreaGeoJson,
     InteractiveMapReport,
     ReportFilters,
     ReportOperator,
@@ -40,6 +42,16 @@ export class InteractiveMapReportsApi {
                 return reports;
             })
         );
+    }
+
+    getCoverageAreasGeoJson(
+        bounds: Bounds,
+        filters: CoverageAreaFilters
+    ): Observable<CoverageAreaGeoJson> {
+        const params = this.buildCoverageAreaParams(bounds, filters);
+        const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.COVERAGE_AREAS_GEOJSON}`;
+
+        return this.http.get<CoverageAreaGeoJson>(url, { params });
     }
 
     updateStatus(
@@ -88,6 +100,30 @@ export class InteractiveMapReportsApi {
         }
         if (filters.endDate) {
             params['end_date'] = filters.endDate;
+        }
+
+        return params;
+    }
+
+    private buildCoverageAreaParams(
+        bounds: Bounds,
+        filters: CoverageAreaFilters
+    ): Record<string, string> {
+        const params: Record<string, string> = {
+            min_lat: this.formatCoordinate(bounds.minLat),
+            max_lat: this.formatCoordinate(bounds.maxLat),
+            min_lng: this.formatCoordinate(bounds.minLng),
+            max_lng: this.formatCoordinate(bounds.maxLng),
+        };
+
+        if (filters.operator) {
+            params['operator'] = filters.operator;
+        }
+        if (filters.network_technology) {
+            params['network_technology'] = filters.network_technology;
+        }
+        if (filters.region) {
+            params['region'] = filters.region;
         }
 
         return params;

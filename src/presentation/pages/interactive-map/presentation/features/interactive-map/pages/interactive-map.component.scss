@@ -115,6 +115,13 @@
     }
 }
 
+.coverage-counter {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    margin-left: var(--space-sm);
+}
+
 .interactive-map-shell {
     display: grid;
     grid-template-columns: minmax(260px, 300px) minmax(460px, 1fr);
@@ -859,6 +866,14 @@
         box-shadow:
             0 0 0 1px #fff,
             0 0 0 2px #cbd5e1;
+
+        &.ring {
+            background: rgba(255, 255, 255, 0.72);
+            border: 4px solid currentColor;
+            box-shadow:
+                0 0 0 1px #fff,
+                0 0 0 2px #cbd5e1;
+        }
     }
 
     .legend-cluster {

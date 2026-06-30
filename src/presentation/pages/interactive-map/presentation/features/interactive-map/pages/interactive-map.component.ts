@@ -121,6 +121,9 @@ export class InteractiveMapComponent
     public readonly locationSearchResults = signal<LocationSearchResult[]>([]);
     public readonly locationSearchLoading = signal(false);
     public readonly locationSearchError = signal<string | null>(null);
+    public readonly coverageAreasVisible = signal(true);
+    public readonly coverageAreasLoading = signal(false);
+    public readonly coverageAreasCount = signal(0);
     public readonly draftFilters = signal<ReportFilters>(
         this.cloneFilters(EMPTY_REPORT_FILTERS)
     );
@@ -345,6 +348,14 @@ export class InteractiveMapComponent
         this.store.setHeatmapEnabled(!this.store.heatmapEnabled());
     }
 
+    public toggleCoverageAreas(visible: boolean): void {
+        this.coverageAreasVisible.set(visible);
+        if (!visible) {
+            this.coverageAreasCount.set(0);
+            this.mapAdapter.setCoverageAreasVisible(false);
+        }
+    }
+
     public focusReport(report: InteractiveMapReport): void {
         this.store.setSelectedReport(report);
         this.mapAdapter.focusReport(report);
@@ -484,6 +495,25 @@ export class InteractiveMapComponent
         });
 
         effect(() => {
+            const visible = this.coverageAreasVisible();
+            const bounds = this.store.viewportBounds();
+            const filters = this.store.filters();
+
+            if (!this.mapAdapter.isReady()) {
+                return;
+            }
+
+            if (!visible) {
+                this.mapAdapter.setCoverageAreasVisible(false);
+                return;
+            }
+
+            if (bounds) {
+                this.loadCoverageAreas(bounds, filters);
+            }
+        });
+
+        effect(() => {
             const bounds = this.store.viewportBounds();
             if (bounds && this.store.needsLoading()) {
                 this.loadReportsWithBuffer(bounds);
@@ -522,6 +552,44 @@ export class InteractiveMapComponent
                     this.toastr.error('Chargement des signalements impossible');
                     return EMPTY;
                 }),
+                takeUntilDestroyed(this.destroyRef)
+            )
+            .subscribe();
+    }
+
+    private loadCoverageAreas(
+        viewportBounds: NonNullable<ReturnType<MapStore['viewportBounds']>>,
+        filters: ReportFilters
+    ): void {
+        this.coverageAreasLoading.set(true);
+        this.reportsApi
+            .getCoverageAreasGeoJson(viewportBounds, {
+                operator: filters.operators.join(',') || undefined,
+                region: filters.region || undefined,
+            })
+            .pipe(
+                tap((geoJson) => {
+                    this.coverageAreasCount.set(
+                        geoJson.features?.length ?? 0
+                    );
+                    this.mapAdapter.renderCoverageAreas(
+                        geoJson,
+                        this.coverageAreasVisible()
+                    );
+                }),
+                catchError((error) => {
+                    console.error(
+                        'Erreur chargement zones de couverture',
+                        error
+                    );
+                    this.coverageAreasCount.set(0);
+                    this.mapAdapter.renderCoverageAreas(null, false);
+                    this.toastr.error(
+                        'Chargement des zones de couverture impossible'
+                    );
+                    return EMPTY;
+                }),
+                finalize(() => this.coverageAreasLoading.set(false)),
                 takeUntilDestroyed(this.destroyRef)
             )
             .subscribe();

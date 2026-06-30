@@ -2,6 +2,8 @@ import { NgZone, inject } from '@angular/core';
 import {
     Bounds,
     ClusterSummary,
+    CoverageAreaGeoJson,
+    CoverageAreaProperties,
     InteractiveMapReport,
     MapViewState,
     ReportOperator,
@@ -9,8 +11,11 @@ import {
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
 import { defaults as defaultControls } from 'ol/control';
 import { Coordinate } from 'ol/coordinate';
+import { Extent } from 'ol/extent';
 import Feature from 'ol/Feature';
 import { FeatureLike } from 'ol/Feature';
+import GeoJSON from 'ol/format/GeoJSON';
+import Geometry from 'ol/geom/Geometry';
 import Point from 'ol/geom/Point';
 import HeatmapLayer from 'ol/layer/Heatmap';
 import TileLayer from 'ol/layer/Tile';
@@ -76,6 +81,19 @@ export class MapAdapter {
             return this.clusterStyleFunction(feature);
         },
     });
+    private readonly coverageAreaSource = new VectorSource();
+    private readonly coverageAreaClusterSource = new Cluster({
+        distance: 48,
+        minDistance: 18,
+        source: this.coverageAreaSource,
+    });
+    private readonly coverageAreaLayer = new VectorLayer({
+        source: this.coverageAreaClusterSource,
+        style: (feature): Style | Style[] => {
+            return this.coverageAreaStyleFunction(feature);
+        },
+        visible: false,
+    });
     private readonly heatmapSource = new VectorSource();
     private readonly heatmapLayer = new HeatmapLayer({
         source: this.heatmapSource,
@@ -108,6 +126,7 @@ export class MapAdapter {
                         ],
                     }),
                 }),
+                this.coverageAreaLayer,
                 this.heatmapLayer,
                 this.clusterLayer,
             ],
@@ -197,6 +216,34 @@ export class MapAdapter {
         this.featureSource.addFeatures(markerFeatures);
         this.heatmapSource.addFeatures(heatmapFeatures);
         this.setHeatmapVisible(heatmapEnabled);
+    }
+
+    renderCoverageAreas(
+        geoJson: CoverageAreaGeoJson | null,
+        visible: boolean
+    ): void {
+        this.coverageAreaSource.clear();
+
+        if (!geoJson || !visible) {
+            this.coverageAreaLayer.setVisible(false);
+            return;
+        }
+
+        const format = new GeoJSON();
+        const geoJsonFeatures = format.readFeatures(geoJson, {
+            dataProjection: 'EPSG:4326',
+            featureProjection: 'EPSG:3857',
+        }) as Feature<Geometry>[];
+        const coverageFeatures = geoJsonFeatures
+            .map((feature) => this.createCoverageAreaFeature(feature))
+            .filter((feature): feature is Feature<Point> => !!feature);
+
+        this.coverageAreaSource.addFeatures(coverageFeatures);
+        this.coverageAreaLayer.setVisible(true);
+    }
+
+    setCoverageAreasVisible(visible: boolean): void {
+        this.coverageAreaLayer.setVisible(visible);
     }
 
     setHeatmapVisible(visible: boolean): void {
@@ -417,7 +464,10 @@ export class MapAdapter {
         this.map.on('singleclick', (event) => {
             const feature = this.map?.forEachFeatureAtPixel(
                 event.pixel,
-                (item) => item
+                (item) => item,
+                {
+                    layerFilter: (layer) => layer === this.clusterLayer,
+                }
             );
             const reports = this.getReportsFromFeature(feature);
 
@@ -466,7 +516,10 @@ export class MapAdapter {
         map.on('pointermove', (event) => {
             const feature = map.forEachFeatureAtPixel(
                 event.pixel,
-                (item) => item
+                (item) => item,
+                {
+                    layerFilter: (layer) => layer === this.clusterLayer,
+                }
             );
             const reports = this.getReportsFromFeature(feature);
 
@@ -516,6 +569,20 @@ export class MapAdapter {
         return this.createReportStyle(report);
     }
 
+    private coverageAreaStyleFunction(feature: FeatureLike): Style | Style[] {
+        const features = (feature.get('features') || []) as Feature<Point>[];
+        const count = features.length;
+
+        if (count > 1) {
+            return this.createCoverageAreaClusterStyle(features);
+        }
+
+        const coverageArea = features[0]?.get('coverageArea') as
+            | CoverageAreaProperties
+            | undefined;
+        return this.createCoverageAreaStyle(coverageArea);
+    }
+
     private createClusterStyle(count: number): Style {
         const radius = Math.min(18 + Math.floor(count / 8), 34);
 
@@ -529,6 +596,54 @@ export class MapAdapter {
                 text: String(count),
                 fill: new Fill({ color: '#ffffff' }),
                 font: '700 13px Lato, Arial, sans-serif',
+            }),
+        });
+    }
+
+    private createCoverageAreaClusterStyle(
+        features: Feature<Point>[]
+    ): Style {
+        const operators = features
+            .map((feature) => {
+                const coverageArea = feature.get(
+                    'coverageArea'
+                ) as CoverageAreaProperties;
+                return this.normalizeOperatorName(coverageArea?.operator);
+            })
+            .filter(Boolean);
+        const uniqueOperators = [...new Set(operators)];
+        const color =
+            uniqueOperators.length === 1
+                ? this.getCoverageAreaColor(uniqueOperators[0])
+                : '#111827';
+        const radius = Math.min(16 + Math.floor(features.length / 10), 32);
+
+        return new Style({
+            image: new CircleStyle({
+                radius,
+                fill: new Fill({ color }),
+                stroke: new Stroke({ color: '#ffffff', width: 3 }),
+            }),
+            text: new Text({
+                text: String(features.length),
+                fill: new Fill({ color: '#ffffff' }),
+                font: '700 13px Lato, Arial, sans-serif',
+            }),
+        });
+    }
+
+    private createCoverageAreaStyle(
+        coverageArea?: CoverageAreaProperties
+    ): Style {
+        const color = this.getCoverageAreaColor(
+            this.normalizeOperatorName(coverageArea?.operator)
+        );
+
+        return new Style({
+            image: new CircleStyle({
+                radius: 13,
+                fill: new Fill({ color: this.hexToRgba(color, 0.78) }),
+                stroke: new Stroke({ color, width: 4 }),
             }),
         });
     }
@@ -632,10 +747,10 @@ export class MapAdapter {
 
     private getMarkerColor(report: InteractiveMapReport): string {
         const colors: Record<ReportType, string> = {
-            zob: '#dc2626',
-            cpo: '#2563eb',
-            cps: '#f97316',
-            abi: '#eab308',
+            zob: '#7c3aed',
+            cpo: '#0f766e',
+            cps: '#be123c',
+            abi: '#475569',
         };
 
         return colors[report.report_type];
@@ -693,6 +808,74 @@ export class MapAdapter {
                 .map((item) => item.trim())
                 .filter(Boolean) as ReportOperator[];
         }
+    }
+
+    private createCoverageAreaFeature(
+        feature: Feature<Geometry>
+    ): Feature<Point> | null {
+        const geometry = feature.getGeometry();
+        if (!geometry) {
+            return null;
+        }
+
+        const coordinate =
+            geometry instanceof Point
+                ? geometry.getCoordinates()
+                : geometry.getClosestPoint(
+                      this.getExtentCenter(geometry.getExtent())
+                  );
+        const coverageFeature = new Feature({
+            geometry: new Point(coordinate),
+        });
+        const coverageArea = {
+            ...feature.getProperties(),
+        } as CoverageAreaProperties;
+        delete (coverageArea as { geometry?: unknown }).geometry;
+        coverageFeature.set('coverageArea', coverageArea);
+
+        return coverageFeature;
+    }
+
+    private getCoverageAreaColor(operator?: string): string {
+        const colors: Record<ReportOperator, string> = {
+            orange: '#ff7900',
+            mtn: '#ffcc00',
+            moov: '#005baa',
+        };
+
+        return operator && operator in colors
+            ? colors[operator as ReportOperator]
+            : '#6b7280';
+    }
+
+    private normalizeOperatorName(value: unknown): ReportOperator | undefined {
+        if (typeof value !== 'string') {
+            return undefined;
+        }
+
+        const normalized = value.trim().toLowerCase();
+        if (
+            normalized === 'orange' ||
+            normalized === 'mtn' ||
+            normalized === 'moov'
+        ) {
+            return normalized;
+        }
+
+        return undefined;
+    }
+
+    private hexToRgba(hex: string, alpha: number): string {
+        const value = hex.replace('#', '');
+        const red = parseInt(value.slice(0, 2), 16);
+        const green = parseInt(value.slice(2, 4), 16);
+        const blue = parseInt(value.slice(4, 6), 16);
+
+        return `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+    }
+
+    private getExtentCenter(extent: Extent): Coordinate {
+        return [(extent[0] + extent[2]) / 2, (extent[1] + extent[3]) / 2];
     }
 
     private intersectsBounds(bounds1: Bounds, bounds2: Bounds): boolean {
