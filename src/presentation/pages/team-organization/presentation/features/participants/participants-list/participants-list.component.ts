@@ -428,7 +428,7 @@ export class ParticipantsListComponent {
     protected onChangePageClicked(event: number): void {
         this.facade.changePage(JSON.stringify(event + 1));
     }
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const action = this.headerActions[actionId];
         if (!action) {
             console.warn('Unknown action:', actionId);

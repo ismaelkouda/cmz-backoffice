@@ -4,6 +4,8 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { EvaluateFilterDto } from '@pages/report-states/application/dto/evaluate/evaluate-filter.dto';
 import { EvaluateFacade } from '@pages/report-states/application/services/evaluate/evaluate.facade';
 import { EvaluateFilterControl } from '@pages/report-states/presentation/store/evaluate/evaluate-filter-control';
+import { EvaluateDownloadDto } from '@presentation/pages/report-states/application/dto/evaluate/evaluate-download.dto';
+import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
@@ -60,6 +62,21 @@ export class EvaluateFilterStore {
         const raw = this.form.getRawValue();
 
         return {
+            initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
+            uniqId: raw.uniqId || undefined,
+            startDate: raw.startDate || undefined,
+            endDate: raw.endDate || undefined,
+            reportType: raw.reportType || undefined,
+            source: raw.source || undefined,
+            operators: raw.operators?.length ? raw.operators : undefined,
+        };
+    }
+
+    downloadValue(format: DownloadType): EvaluateDownloadDto {
+        const raw = this.form.getRawValue();
+
+        return {
+            format,
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
             startDate: raw.startDate || undefined,

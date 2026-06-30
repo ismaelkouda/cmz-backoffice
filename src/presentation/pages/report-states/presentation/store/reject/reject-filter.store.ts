@@ -5,6 +5,8 @@ import { RejectFilterDto } from '@pages/report-states/application/dto/reject/rej
 import { RejectFacade } from '@pages/report-states/application/services/reject/reject.facade';
 import { Status } from '@pages/report-states/domain/enums/reject/reject-status.enum';
 import { RejectFilterControl } from '@pages/report-states/presentation/store/reject/reject-filter-control';
+import { RejectDownloadDto } from '@presentation/pages/report-states/application/dto/reject/reject-download.dto';
+import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 @Injectable()
@@ -64,6 +66,22 @@ export class RejectFilterStore {
         const raw = this.form.getRawValue();
 
         return {
+            initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
+            uniqId: raw.uniqId || undefined,
+            startDate: raw.startDate || undefined,
+            endDate: raw.endDate || undefined,
+            reportType: raw.reportType || undefined,
+            source: raw.source || undefined,
+            status: raw.status || undefined,
+            operators: raw.operators?.length ? raw.operators : undefined,
+        };
+    }
+
+    downloadValue(format: DownloadType): RejectDownloadDto {
+        const raw = this.form.getRawValue();
+
+        return {
+            format,
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
             startDate: raw.startDate || undefined,

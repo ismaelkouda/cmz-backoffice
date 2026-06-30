@@ -328,7 +328,7 @@ export class TasksComponent {
         export: () => this.exportData(),
         finalize: () => this.onTakeBulkClicked(),
     };
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const action = this.headerActions[actionId];
         if (!action) {
             console.warn('Unknown action:', actionId);

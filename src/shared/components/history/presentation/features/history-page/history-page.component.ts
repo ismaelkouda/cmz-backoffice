@@ -191,7 +191,7 @@ export class HistoryPageComponent {
         }
         this.facade.readAll({ typeModel, module }, '1');
     }
-    protected onHeaderButtonClicked(actionId: string): void {
+    protected onHeaderClicked(actionId: string): void {
         const action = this.headerActions[actionId];
         if (!action) {
             console.warn('Unknown action:', actionId);

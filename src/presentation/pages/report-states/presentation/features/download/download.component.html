@@ -1,0 +1,97 @@
+<main class="container-fluid download-container" role="main">
+    <section class="row download-row">
+        <article class="col-sm-12 download-article">
+            <app-breadcrumb />
+
+            <section class="card download-card">
+                <div class="card-body download-card-body">
+                    <header class="download-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'REPORT_STATES.DOWNLOAD.TITLE' | translate"
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="download-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="form"
+                            [fields]="filterFields()"
+                            (filter)="onFilterClicked()"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="4"
+                        ></app-filter>
+
+                        <hr class="download-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                dataKey="uniqId"
+                                [config]="tableConfig"
+                                [loading]="loading()"
+                                [headerButtons]="headerButtons()"
+                                [items]="itemsVM()"
+                                [pagination]="pagination()"
+                                (actionClicked)="onActionClicked($event)"
+                                (headerButtonClicked)="onHeaderClicked($event)"
+                                (badgeClicked)="onBadgeClicked($event)"
+                            ></app-table>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onChangePageClicked($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+
+    <p-dialog
+        [visible]="isVisibleDialog()"
+        (visibleChange)="onVisibleDialogClicked($event)"
+        [modal]="true"
+        [draggable]="false"
+        [resizable]="false"
+        [closable]="true"
+        [closeOnEscape]="true"
+        [style]="{ width: '100vw', height: '100vh' }"
+        [maximizable]="false"
+        styleClass="dialog"
+    >
+        <ng-template #header>
+            <div>
+                <div class="header-left">
+                            <span class="header-title">
+                                {{ 'REPORT_STATES.DOWNLOAD.DIALOG.TITLE' | translate }}
+                            </span>
+                </div>
+            </div>
+        </ng-template>
+
+        <div class="main-container command-layout">
+            <main class="content-main">
+                <div class="tab-content-area">
+                    <div class="changes-section">
+                            <app-table
+                                class="table-component history-diff-table"
+                                dataKey="name"
+                                [hiddenTableTitle]="true"
+                                [config]="tableDialogConfig"
+                                [items]="selectedItem()"
+                                [hiddenButtonExport]="true"
+                                [hiddenButtonRefresh]="false"
+                            ></app-table>
+                        </div>
+                </div>
+            </main>
+        </div>
+    </p-dialog>
+
+</main>

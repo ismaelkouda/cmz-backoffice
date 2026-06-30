@@ -3108,6 +3108,89 @@
                     "DOWNLOAD": "Voulez-vous vraiment télécharger toutes les signalements évalués au format <span class='color-primary fs-5'><b>uniqId</b></span> ?"
                 }
             }
+        },
+        "DIALOG": {
+            "TITLE": "Liste des filtres",
+            "TABLE": {
+                "NAME": "Nom du fichier",
+                "VALUE": "Valeur"
+            }
+        },
+        "DOWNLOAD": {
+            "TITLE": "téléchargements",
+            "LABEL": "Téléchargements",
+            "ROUTE": "downloads",
+            "BREADCRUMB": {
+                "LABEL": "Téléchargements",
+                "ROUTE": "downloads"
+            },
+            "TABLE": {
+                "DATE": "Date",
+                "NAME": "Nom du fichier",
+                "TYPE": "Type de fichier",
+                "SIZE": "Taille",
+                "STATUS": "Statut",
+                "FILTER": "Filtres",
+                "DOWNLOAD": "Télécharger",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Numero initiateur",
+                "UNIQ_ID": "Identifiant",
+                "REPORT_TYPE": "Types de demandes",
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Canal d'émission",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
+                    "WHITE_ZONE": "Aucun réseau",
+                    "NO_INTERNET": "Absence d'Internet"
+                },
+                "OPERATORS": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Réceptionné",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des téléchargements",
+                "EXPORT": "Exporter la liste de {nb} téléchargements",
+                "FILTER_REQUIRE": "Veuillez sélectionner au une données dans le filtre",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des téléchargements",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste",
+                "NO_DOWNLOAD": "Aucune données a télécharger",
+                "SEE_MORE": "Voir plus d'informations"
+            }
         }
     },
     "COMMUNICATION": {
