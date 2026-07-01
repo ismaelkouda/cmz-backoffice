@@ -9,7 +9,7 @@ export interface DownloadItemApiDto {
     file_size: number;
     format: DownloadTypeDto;
     status: ApiStatus;
-    filters: { key_label: string; key_value: string }[];
+    filters: { key_label: string; value_label: string }[];
     created_at: string;
 }
 

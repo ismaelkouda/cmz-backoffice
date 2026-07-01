@@ -25,7 +25,7 @@ export class DownloadMapper extends PaginatedMapper<
 
         const filters = dto.filters.map((item) => ({
             name: item.key_label,
-            value: item.key_value,
+            value: item.value_label,
         }));
 
         const props: DownloadProps = {
