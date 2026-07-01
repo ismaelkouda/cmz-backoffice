@@ -23,6 +23,11 @@ export class DownloadMapper extends PaginatedMapper<
             required: ['id'],
         });
 
+        const filters = dto.filters.map((item) => ({
+            name: item.key_label,
+            value: item.key_value,
+        }));
+
         const props: DownloadProps = {
             uniqId: dto.id,
             url: dto.download_url,
@@ -30,7 +35,7 @@ export class DownloadMapper extends PaginatedMapper<
             size: dto.file_size,
             type: this.typeDto.mapFromDto(dto.format),
             status: this.statusMapper.mapApiToStatus(dto.status),
-            filters: dto.filters,
+            filters,
             createdAt: dto.created_at,
         };
 

@@ -227,9 +227,8 @@ export class ApproveComponent {
             translateKey: 'COMMON.DOWNLOAD',
             items: this.buildDownloadMenuItems(),
             disabled:
-                !this.hasActiveFilter() ||
-                !this.canDownload() ||
-                this.itemsVM().length <= 0,
+                // !this.hasActiveFilter() ||
+                !this.canDownload() || this.itemsVM().length <= 0,
             tooltip: this.downloadTooltip(),
         },
         {
@@ -276,20 +275,20 @@ export class ApproveComponent {
     public closeAssignModal(): void {
         this.displayDownloadModal.set(false);
     }
-    private readonly hasActiveFilter = computed(() => {
-        const filter = this.currentFilter();
-        if (!filter) {
-            return false;
-        }
-        return Object.values(filter).some((v) => {
-            if (Array.isArray(v)) {
-                return v.length > 0;
-            }
-            return v !== null && v !== undefined && v !== '';
-        });
-    });
+    // private readonly hasActiveFilter = computed(() => {
+    //     const filter = this.currentFilter();
+    //     if (!filter) {
+    //         return false;
+    //     }
+    //     return Object.values(filter).some((v) => {
+    //         if (Array.isArray(v)) {
+    //             return v.length > 0;
+    //         }
+    //         return v !== null && v !== undefined && v !== '';
+    //     });
+    // });
     protected readonly downloadTooltip = computed(() => {
-        const noFilter = !this.hasActiveFilter();
+        // const noFilter = !this.hasActiveFilter();
         const permission = !this.canDownload();
         const noData = this.itemsVM().length < 1;
         if (permission) {
@@ -297,9 +296,9 @@ export class ApproveComponent {
                 'REPORT_STATES.APPROVE.TOOLTIP.NO_PERMISSION_DOWNLOAD'
             );
         }
-        if (noFilter) {
-            return this.t('REPORT_STATES.APPROVE.TOOLTIP.FILTER_REQUIRE');
-        }
+        // if (noFilter) {
+        //     return this.t('REPORT_STATES.APPROVE.TOOLTIP.FILTER_REQUIRE');
+        // }
         if (noData) {
             return this.t('REPORT_STATES.APPROVE.TOOLTIP.NO_DOWNLOAD');
         }
@@ -313,13 +312,13 @@ export class ApproveComponent {
             this.toast.error(this.downloadTooltip());
             return;
         }
-        if (!this.hasActiveFilter()) {
-            const message = this.t(
-                'REPORT_STATES.APPROVE.TOOLTIP.FILTER_REQUIRE'
-            );
-            this.toast.error(message);
-            return;
-        }
+        // if (!this.hasActiveFilter()) {
+        //     const message = this.t(
+        //         'REPORT_STATES.APPROVE.TOOLTIP.FILTER_REQUIRE'
+        //     );
+        //     this.toast.error(message);
+        //     return;
+        // }
         const uniqId = this.downloadType();
         if (!uniqId) {
             return;
