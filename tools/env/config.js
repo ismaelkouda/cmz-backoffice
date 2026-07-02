@@ -1,9 +1,9 @@
 const config = {
     dev: {
-        authenticationUrl: 'http://10.10.0.65:9010/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.0.65:9010/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.0.65:9010/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.0.65:9010/auth/backoffice/',
+        authenticationUrl: 'http://10.10.0.65:9015/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.0.65:9015/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.0.65:9015/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.0.65:9015/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
         appSettings: {

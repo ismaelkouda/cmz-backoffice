@@ -47,7 +47,7 @@
                                         ></span>
                                         <span>Absence d'internet</span>
                                     </div>
-                                    <div class="legend-item">
+                                    <!-- <div class="legend-item">
                                         <span
                                             class="legend-color ring"
                                             style="border-color: #ff7900"
@@ -67,7 +67,7 @@
                                             style="border-color: #005baa"
                                         ></span>
                                         <span>Couverture Moov</span>
-                                    </div>
+                                    </div> -->
                                     <div class="legend-item">
                                         <span
                                             class="legend-color"
@@ -87,19 +87,12 @@
                                 [value]="store.visibleReports().length"
                             />
                             signalement(s)
-                            @if (coverageAreasVisible()) {
+                            <!-- @if (coverageAreasVisible()) {
                                 <span class="coverage-counter">
-                                    <p-badge
-                                        badgeSize="large"
-                                        severity="success"
-                                        [value]="coverageAreasCount()"
-                                    />
-                                    zone(s)
-                                    @if (coverageAreasLoading()) {
-                                        <i class="pi pi-spin pi-spinner"></i>
-                                    }
+                                    <i class="pi pi-map"></i>
+                                    zones de couverture
                                 </span>
-                            }
+                            } -->
                         </p>
 
                         <button
@@ -174,22 +167,6 @@
                                     />
                                 }
                             </div>
-
-                            <section class="filter-group">
-                                <h3>Affichage</h3>
-                                <label>
-                                    <input
-                                        type="checkbox"
-                                        [checked]="coverageAreasVisible()"
-                                        (change)="
-                                            toggleCoverageAreas(
-                                                $any($event.target).checked
-                                            )
-                                        "
-                                    />
-                                    <span>Zones de couverture</span>
-                                </label>
-                            </section>
 
                             <section class="filter-group">
                                 <h3>Type de signalements</h3>

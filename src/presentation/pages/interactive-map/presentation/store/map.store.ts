@@ -45,7 +45,7 @@ const initialState: MapState = {
 
     view: {
         center: { lat: 7.5, lng: -5.5 },
-        zoom: 0,
+        zoom: 7,
     },
 
     reports: [],

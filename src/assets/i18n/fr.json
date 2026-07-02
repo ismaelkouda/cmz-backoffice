@@ -2831,7 +2831,7 @@
             "SWEET_ALERT": {
                 "TITLE": { "DOWNLOAD": "Télécharger les demandes au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
             }
         },
@@ -2914,7 +2914,7 @@
             "SWEET_ALERT": {
                 "TITLE": { "DOWNLOAD": "Télécharger les demandes au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
             }
         },
@@ -3007,7 +3007,7 @@
             "SWEET_ALERT": {
                 "TITLE": { "DOWNLOAD": "Télécharger les signalements au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
             }
         },
@@ -3116,7 +3116,7 @@
             "SWEET_ALERT": {
                 "TITLE": { "DOWNLOAD": "Télécharger les signalements au format [uniqId]" },
                 "MESSAGE": {
-                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu « Téléchargements"
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
             }
         },
