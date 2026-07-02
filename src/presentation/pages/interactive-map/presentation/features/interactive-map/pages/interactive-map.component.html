@@ -169,6 +169,22 @@
                             </div>
 
                             <section class="filter-group">
+                                <h3>Affichage</h3>
+                                <label>
+                                    <input
+                                        type="checkbox"
+                                        [checked]="coverageAreasVisible()"
+                                        (change)="
+                                            toggleCoverageAreas(
+                                                $any($event.target).checked
+                                            )
+                                        "
+                                    />
+                                    <span>Zones de couverture</span>
+                                </label>
+                            </section>
+
+                            <section class="filter-group">
                                 <h3>Type de signalements</h3>
                                 @for (
                                     option of reportTypeOptions;
@@ -405,6 +421,47 @@
                         </aside>
 
                         <main class="map-workspace">
+                            <div class="coverage-legend" [class.open]="coverageLegendOpen()">
+    <button class="coverage-legend-toggle" (click)="toggleCoverageLegend()">
+        <i class="pi pi-map"></i>
+    </button>
+    @if (coverageLegendOpen()) {
+        <div class="coverage-legend-panel">
+            <h4>Couches</h4>
+            <label>
+                <input type="radio" name="basemap" checked (change)="setBaseMap('osm')"> OpenStreetMap
+            </label>
+            <label>
+                <input type="radio" name="basemap" (change)="setBaseMap('satellite')"> Satellitaire
+            </label>
+            
+            <h4>Couverture</h4>
+            @for (op of ['orange', 'mtn', 'moov']; track op) {
+                <label>
+                    <input type="checkbox" 
+                           [checked]="coverageOperatorVisible(op)"
+                           (change)="toggleCoverageOperator(op, $any($event.target).checked)">
+                    <span class="legend-color ring" [style.borderColor]="getCoverageColor(op)"></span>
+                    {{ operatorLabel(op) }}
+                </label>
+            }
+
+            <h4>RNDH</h4>
+
+            <section class="filter-group">
+                                <select
+                [value]="coverageNetworkTechnology()"
+                (change)="setCoverageNetworkTechnology($any($event.target).value)"
+                                >
+                <option value="">Toutes les technologies</option>
+                @for (tech of networkTechnologyOptions; track tech.value) {
+                    <option [value]="tech.value">{{ tech.label }}</option>
+                }
+                                </select>
+                            </section>
+        </div>
+    }
+</div>
                             <div #mapContainer class="map"></div>
 
                             <!-- <section
@@ -745,6 +802,9 @@
                                     </article>
                                 }
                             </div>
+
+
+                            
                         </main>
                         @if (isVisibleDialog()) {
                             <app-management-dialog

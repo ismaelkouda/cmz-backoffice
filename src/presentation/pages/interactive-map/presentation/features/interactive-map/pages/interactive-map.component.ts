@@ -102,6 +102,15 @@ interface NominatimSearchResult {
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy
 {
+    public readonly coverageLegendOpen = signal(true);
+    public readonly coverageOperatorVisibility = signal<
+        Record<string, boolean>
+    >({
+        orange: true,
+        mtn: true,
+        moov: true,
+    });
+    public readonly currentBaseMap = signal<'osm' | 'satellite'>('osm');
     private readonly mapShell = viewChild<ElementRef<HTMLElement>>('mapShell');
     private readonly mapContainer =
         viewChild<ElementRef<HTMLElement>>('mapContainer');
@@ -568,8 +577,7 @@ export class InteractiveMapComponent
         const filters = this.store.filters();
         const tileUrl = this.reportsApi.getCoverageAreasTileUrl({
             operator: filters.operators.join(',') || undefined,
-            network_technology:
-                this.coverageNetworkTechnology() || undefined,
+            network_technology: this.coverageNetworkTechnology() || undefined,
             region: filters.region || undefined,
         });
 
@@ -869,5 +877,43 @@ export class InteractiveMapComponent
 
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
+    }
+
+    public toggleCoverageLegend(): void {
+        this.coverageLegendOpen.update((v) => !v);
+    }
+
+    public toggleCoverageOperator(operator: string, visible: boolean): void {
+        this.coverageOperatorVisibility.update((vis) => ({
+            ...vis,
+            [operator]: visible,
+        }));
+        this.mapAdapter.setCoverageOperatorVisible(operator, visible);
+    }
+
+    public coverageOperatorVisible(operator: string): boolean {
+        return this.coverageOperatorVisibility()[operator];
+    }
+
+    public getCoverageColor(operator: string): string {
+        const colors: Record<string, string> = {
+            orange: '#ff7900',
+            mtn: '#ffcc00',
+            moov: '#005baa',
+        };
+        return colors[operator] || '#6b7280';
+    }
+
+    public operatorLabel(operator: string): string {
+        const labels: Record<string, string> = {
+            orange: 'Orange',
+            mtn: 'MTN',
+            moov: 'Moov',
+        };
+        return labels[operator] || operator;
+    }
+
+    public setBaseMap(type: string): void {
+        this.mapAdapter.setBaseMap(type as 'osm' | 'satellite');
     }
 }

@@ -24,6 +24,7 @@ import VectorTileLayer from 'ol/layer/VectorTile';
 import Map from 'ol/Map';
 import Overlay from 'ol/Overlay';
 import { fromLonLat, toLonLat, transformExtent } from 'ol/proj';
+import { XYZ } from 'ol/source';
 import Cluster from 'ol/source/Cluster';
 import OSM from 'ol/source/OSM';
 import VectorSource from 'ol/source/Vector';
@@ -70,6 +71,14 @@ const IVORY_COAST_BOUNDS: Bounds = {
 };
 
 export class MapAdapter {
+    private osmLayer!: TileLayer; // Couche OSM (toujours présente)
+    private satelliteLayer!: TileLayer;
+    private coverageOperatorsVisible: Record<string, boolean> = {
+        orange: true,
+        mtn: true,
+        moov: true,
+    };
+
     private static readonly CLUSTER_MIN_RADIUS = 18;
     private static readonly CLUSTER_MAX_RADIUS = 34;
 
@@ -129,20 +138,32 @@ export class MapAdapter {
         if (this.map) {
             return;
         }
-
         const mergedOptions = { ...options };
+        this.osmLayer = new TileLayer({
+            source: new OSM({
+                attributions: [
+                    '© <a href="https://www.imako.digital" target="_blank">IMAKO</a>',
+                ],
+            }),
+            visible: true,
+            zIndex: 0,
+        });
+        this.satelliteLayer = new TileLayer({
+            source: new XYZ({
+                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                maxZoom: 19,
+                attributions: '...',
+            }),
+            visible: false,
+            zIndex: 0,
+        });
 
         this.map = new Map({
             target: container,
             controls: defaultControls({ zoom: true }),
             layers: [
-                new TileLayer({
-                    source: new OSM({
-                        attributions: [
-                            '© <a href="https://www.imako.digital" target="_blank">IMAKO</a>',
-                        ],
-                    }),
-                }),
+                this.osmLayer,
+                this.satelliteLayer,
                 this.coverageAreaLayer,
                 this.heatmapLayer,
                 this.clusterLayer,
@@ -169,6 +190,18 @@ export class MapAdapter {
         });
         this.setupClickListener();
         this.setupPointerMoveListener();
+    }
+    setBaseMap(type: 'osm' | 'satellite'): void {
+        if (!this.map) {
+            return;
+        }
+        if (type === 'osm') {
+            this.osmLayer.setVisible(true);
+            this.satelliteLayer.setVisible(false);
+        } else {
+            this.osmLayer.setVisible(false);
+            this.satelliteLayer.setVisible(true);
+        }
     }
     onMoveEnd(): Observable<Bounds> {
         return this.moveEndSubject.asObservable();
@@ -601,25 +634,29 @@ export class MapAdapter {
 
     private createCoverageAreaTileStyle(feature: FeatureLike): Style {
         const coverageArea = feature.getProperties() as CoverageAreaProperties;
-        const color = this.getCoverageAreaColor(
-            this.normalizeOperatorName(coverageArea?.operator)
-        );
-        const radiusInMeters = Number(coverageArea?.radius);
+        const operator =
+            this.normalizeOperatorName(coverageArea?.operator) || 'open';
 
-        // Conversion simplifiée : 1 pixel ≈ 1 mètre à certains niveaux de zoom
-        // Pour une conversion plus précise, utiliser la résolution de la carte
+        // Si l'opérateur n'est pas coché, on retourne un style vide (invisible)
+        if (!this.coverageOperatorsVisible[operator]) {
+            return new Style({}); // ou une image totalement transparente
+        }
+
+        // Sinon, style normal avec couleur
+        const color = this.getCoverageAreaColor(operator);
+        const radiusInMeters = Number(coverageArea?.radius);
         const markerRadius = Number.isFinite(radiusInMeters)
             ? this.metersToPixels(radiusInMeters)
-            : 15; // Taille par défaut si pas de rayon
+            : 15;
 
         return new Style({
             image: new CircleStyle({
                 radius: markerRadius,
-                fill: new Fill({ color: this.hexToRgba(color, 0.35) }), // Plus transparent
+                fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
                 stroke: new Stroke({
                     color: color,
                     width: 2.5,
-                    lineDash: [4, 4], // Optionnel : bordure en pointillés
+                    lineDash: [4, 4],
                 }),
             }),
         });
@@ -675,7 +712,6 @@ export class MapAdapter {
             });
         }
 
-        // Utiliser une icône SVG si disponible
         const iconPath = this.getReportIcon(report.report_type);
 
         if (iconPath) {
@@ -690,7 +726,6 @@ export class MapAdapter {
             });
         }
 
-        // Fallback : cercle coloré par opérateur
         const color = this.getMarkerColor(report);
         return new Style({
             image: new CircleStyle({
@@ -722,37 +757,6 @@ export class MapAdapter {
         const factor = Math.max(0, Math.min((zoom - 7) / (18 - 7), 1));
 
         return 0.05 + Math.pow(factor, 0.8) * 0.1;
-    }
-
-    private getDynamicMarkerRadius(): number {
-        if (!this.map) {
-            return 15;
-        }
-
-        const zoom = this.map.getView().getZoom() || 7;
-
-        // Échelle logarithmique pour une transition plus douce
-        // Zoom 7 → radius 8, Zoom 14 → radius 20, Zoom 18 → radius 28
-        const minRadius = 8;
-        const maxRadius = 32;
-        const minZoom = 7;
-        const maxZoom = 18;
-
-        // Interpolation exponentielle pour un effet plus naturel
-        const factor = (zoom - minZoom) / (maxZoom - minZoom);
-        const clampedFactor = Math.max(0, Math.min(1, factor));
-
-        return (
-            minRadius + (maxRadius - minRadius) * Math.pow(clampedFactor, 0.7)
-        );
-    }
-
-    private isSelectedReport(report?: InteractiveMapReport): boolean {
-        return (
-            !!report &&
-            this.selectedReportId !== null &&
-            String(report.uniq_id) === String(this.selectedReportId)
-        );
     }
 
     private getReportsFromFeature(
@@ -799,38 +803,23 @@ export class MapAdapter {
     }
 
     private getMarkerColor(report: InteractiveMapReport): string {
-        // Priorité 1 : Couleur basée sur l'opérateur
         const operators = this.normalizeOperators(report.operators);
         if (operators.length > 0) {
             const operatorColors: Record<ReportOperator, string> = {
-                orange: '#ff7900', // Orange vif
-                moov: '#005baa', // Bleu foncé
-                mtn: '#ffcc00', // Jaune doré
+                orange: '#ff7900',
+                moov: '#005baa',
+                mtn: '#ffcc00',
             };
             return operatorColors[operators[0]] || '#6b7280';
         }
-
-        // Priorité 2 : Couleur basée sur le type de signalement (fallback)
         const typeColors: Record<ReportType, string> = {
-            zob: '/src/assets/images/icones/report_zb.svg',
-            cpo: '/src/assets/images/icones/report_cpo.svg',
-            cps: '/src/assets/images/icones/report_cps.svg',
+            zob: '#7c3aed',
+            cpo: '#0f766e',
+            cps: '#be123c',
             abi: '#475569',
         };
-
         return typeColors[report.report_type] || '#6b7280';
     }
-
-    // private getReportIcon(type: ReportType): string {
-    //     const icons: Record<ReportType, string> = {
-    //         zob: 'X',
-    //         cpo: '!',
-    //         cps: '~',
-    //         abi: '@',
-    //     };
-
-    //     return icons[type];
-    // }
 
     private getHeatmapWeight(type: ReportType): number {
         const weights: Record<ReportType, number> = {
@@ -954,5 +943,10 @@ export class MapAdapter {
             bounds1.maxLng < bounds2.minLng ||
             bounds1.minLng > bounds2.maxLng
         );
+    }
+
+    setCoverageOperatorVisible(operator: string, visible: boolean): void {
+        this.coverageOperatorsVisible[operator] = visible;
+        this.coverageAreaLayer.changed();
     }
 }
