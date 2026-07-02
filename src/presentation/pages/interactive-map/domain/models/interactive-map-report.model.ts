@@ -11,6 +11,7 @@ export interface NamedPlace {
 
 export interface InteractiveMapReport {
     uniq_id: string | number;
+    radius?: number | null;
     lat: number | string;
     long: number | string;
     report_type: ReportType;
@@ -81,6 +82,7 @@ export interface CoverageAreaProperties {
     network_technology?: NetworkTechnology;
     region?: string | NamedPlace | null;
     [key: string]: unknown;
+    radius?: number | null;
 }
 
 export interface CoverageAreaFilters {

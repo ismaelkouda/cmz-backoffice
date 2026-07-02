@@ -122,8 +122,7 @@ export class InteractiveMapComponent
     public readonly locationSearchLoading = signal(false);
     public readonly locationSearchError = signal<string | null>(null);
     public readonly coverageAreasVisible = signal(true);
-    public readonly coverageAreasLoading = signal(false);
-    public readonly coverageAreasCount = signal(0);
+    public readonly coverageNetworkTechnology = signal('');
     public readonly draftFilters = signal<ReportFilters>(
         this.cloneFilters(EMPTY_REPORT_FILTERS)
     );
@@ -152,6 +151,12 @@ export class InteractiveMapComponent
     public readonly statusOptions: { value: ReportStatus; label: string }[] = [
         { value: 'in-progress', label: 'En cours' },
         { value: 'completed', label: 'Clôturé' },
+    ];
+    public readonly networkTechnologyOptions = [
+        { value: '2G', label: '2G' },
+        { value: '3G', label: '3G' },
+        { value: '4G', label: '4G' },
+        { value: '2G/3G/4G', label: '2G/3G/4G' },
     ];
 
     private readonly geolocationService = inject(GeolocationService);
@@ -206,6 +211,7 @@ export class InteractiveMapComponent
 
     ngAfterViewInit(): void {
         this.initMap();
+        this.updateCoverageAreaTileLayer();
         const hoverEl = this.hoverOverlay()?.nativeElement;
         const clickEl = this.clickOverlay()?.nativeElement;
         if (hoverEl) {
@@ -351,9 +357,12 @@ export class InteractiveMapComponent
     public toggleCoverageAreas(visible: boolean): void {
         this.coverageAreasVisible.set(visible);
         if (!visible) {
-            this.coverageAreasCount.set(0);
             this.mapAdapter.setCoverageAreasVisible(false);
         }
+    }
+
+    public setCoverageNetworkTechnology(value: string): void {
+        this.coverageNetworkTechnology.set(value);
     }
 
     public focusReport(report: InteractiveMapReport): void {
@@ -495,22 +504,10 @@ export class InteractiveMapComponent
         });
 
         effect(() => {
-            const visible = this.coverageAreasVisible();
-            const bounds = this.store.viewportBounds();
-            const filters = this.store.filters();
-
-            if (!this.mapAdapter.isReady()) {
-                return;
-            }
-
-            if (!visible) {
-                this.mapAdapter.setCoverageAreasVisible(false);
-                return;
-            }
-
-            if (bounds) {
-                this.loadCoverageAreas(bounds, filters);
-            }
+            this.coverageAreasVisible();
+            this.store.filters();
+            this.coverageNetworkTechnology();
+            this.updateCoverageAreaTileLayer();
         });
 
         effect(() => {
@@ -557,42 +554,26 @@ export class InteractiveMapComponent
             .subscribe();
     }
 
-    private loadCoverageAreas(
-        viewportBounds: NonNullable<ReturnType<MapStore['viewportBounds']>>,
-        filters: ReportFilters
-    ): void {
-        this.coverageAreasLoading.set(true);
-        this.reportsApi
-            .getCoverageAreasGeoJson(viewportBounds, {
-                operator: filters.operators.join(',') || undefined,
-                region: filters.region || undefined,
-            })
-            .pipe(
-                tap((geoJson) => {
-                    this.coverageAreasCount.set(
-                        geoJson.features?.length ?? 0
-                    );
-                    this.mapAdapter.renderCoverageAreas(
-                        geoJson,
-                        this.coverageAreasVisible()
-                    );
-                }),
-                catchError((error) => {
-                    console.error(
-                        'Erreur chargement zones de couverture',
-                        error
-                    );
-                    this.coverageAreasCount.set(0);
-                    this.mapAdapter.renderCoverageAreas(null, false);
-                    this.toastr.error(
-                        'Chargement des zones de couverture impossible'
-                    );
-                    return EMPTY;
-                }),
-                finalize(() => this.coverageAreasLoading.set(false)),
-                takeUntilDestroyed(this.destroyRef)
-            )
-            .subscribe();
+    private updateCoverageAreaTileLayer(): void {
+        if (!this.mapAdapter.isReady()) {
+            return;
+        }
+
+        const visible = this.coverageAreasVisible();
+        if (!visible) {
+            this.mapAdapter.setCoverageAreasVisible(false);
+            return;
+        }
+
+        const filters = this.store.filters();
+        const tileUrl = this.reportsApi.getCoverageAreasTileUrl({
+            operator: filters.operators.join(',') || undefined,
+            network_technology:
+                this.coverageNetworkTechnology() || undefined,
+            region: filters.region || undefined,
+        });
+
+        this.mapAdapter.renderCoverageAreaTiles(tileUrl, true);
     }
 
     private checkInitialPermission(): void {

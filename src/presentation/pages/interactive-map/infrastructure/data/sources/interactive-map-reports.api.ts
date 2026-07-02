@@ -54,6 +54,14 @@ export class InteractiveMapReportsApi {
         return this.http.get<CoverageAreaGeoJson>(url, { params });
     }
 
+    getCoverageAreasTileUrl(filters: CoverageAreaFilters): string {
+        const params = this.buildCoverageAreaTileParams(filters);
+        const query = new URLSearchParams(params).toString();
+        const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.COVERAGE_AREAS_TILES}`;
+
+        return query ? `${url}?${query}` : url;
+    }
+
     updateStatus(
         reportId: string | number,
         status: ReportStatus
@@ -115,6 +123,24 @@ export class InteractiveMapReportsApi {
             min_lng: this.formatCoordinate(bounds.minLng),
             max_lng: this.formatCoordinate(bounds.maxLng),
         };
+
+        if (filters.operator) {
+            params['operator'] = filters.operator;
+        }
+        if (filters.network_technology) {
+            params['network_technology'] = filters.network_technology;
+        }
+        if (filters.region) {
+            params['region'] = filters.region;
+        }
+
+        return params;
+    }
+
+    private buildCoverageAreaTileParams(
+        filters: CoverageAreaFilters
+    ): Record<string, string> {
+        const params: Record<string, string> = {};
 
         if (filters.operator) {
             params['operator'] = filters.operator;
