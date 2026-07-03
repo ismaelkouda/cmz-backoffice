@@ -20,33 +20,21 @@
                                 <h4>Legend des signalements</h4>
                                 <div class="legend-items">
                                     <div class="legend-item">
-                                        <span
-                                            class="legend-color"
-                                            style="background-color: #7c3aed"
-                                        ></span>
-                                        <span>Zone blanche</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <span
-                                            class="legend-color"
-                                            style="background-color: #0f766e"
-                                        ></span>
-                                        <span>Absence d'opérateur(s)</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <span
-                                            class="legend-color"
-                                            style="background-color: #be123c"
-                                        ></span>
-                                        <span>Mauvais signal</span>
-                                    </div>
-                                    <div class="legend-item">
-                                        <span
-                                            class="legend-color"
-                                            style="background-color: #475569"
-                                        ></span>
-                                        <span>Absence d'internet</span>
-                                    </div>
+    <img [src]="getReportIconPath('zob')" class="legend-icon" alt="Zone blanche" />
+    <span>Zone blanche</span>
+</div>
+<div class="legend-item">
+    <img [src]="getReportIconPath('cpo')" class="legend-icon" alt="Absence d'opérateur(s)" />
+    <span>Absence d'opérateur(s)</span>
+</div>
+<div class="legend-item">
+    <img [src]="getReportIconPath('cps')" class="legend-icon" alt="Mauvais signal" />
+    <span>Mauvais signal</span>
+</div>
+<div class="legend-item">
+    <img [src]="getReportIconPath('abi')" class="legend-icon" alt="Absence d'internet" />
+    <span>Absence d'internet</span>
+</div>
                                     <!-- <div class="legend-item">
                                         <span
                                             class="legend-color ring"
