@@ -102,14 +102,33 @@ interface NominatimSearchResult {
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy
 {
+    // Dans InteractiveMapComponent
+    public readonly allOperatorsVisible = computed(() => {
+        const visibility = this.coverageOperatorVisibility();
+        return Object.values(visibility).every((v) => v === true);
+    });
+    public readonly COVERAGE_OPERATORS: {
+        id: string;
+        label: string;
+        color: string;
+    }[] = [
+        { id: 'oci', label: 'OCI', color: '#ff7900' },
+        { id: 'cit', label: 'CIT', color: '#ff7900' },
+        { id: 'ihs (oci)', label: 'IHS (OCI)', color: '#ff7900' },
+        { id: 'mtn', label: 'MTN', color: '#ffcc00' },
+        { id: 'ihs (mtn)', label: 'IHS (MTN)', color: '#ffcc00' },
+        { id: 'moov', label: 'Moov', color: '#005baa' },
+        { id: 'moov (coloas)', label: 'Moov (Coloas)', color: '#005baa' },
+        { id: 'idt', label: 'IDT', color: '#e6194B' },
+        { id: 'ihs', label: 'IHS', color: '#bfef45' },
+        { id: 'presidence', label: 'Présidence', color: '#4363d8' },
+        { id: 'cafe mobile', label: 'Café Mobile', color: '#fabed4' },
+        { id: 'green', label: 'Green', color: '#469990' },
+    ];
     public readonly coverageLegendOpen = signal(true);
     public readonly coverageOperatorVisibility = signal<
         Record<string, boolean>
-    >({
-        orange: true,
-        mtn: true,
-        moov: true,
-    });
+    >(Object.fromEntries(this.COVERAGE_OPERATORS.map((op) => [op.id, true])));
     public readonly currentBaseMap = signal<'osm' | 'satellite'>('osm');
     private readonly mapShell = viewChild<ElementRef<HTMLElement>>('mapShell');
     private readonly mapContainer =
@@ -141,7 +160,41 @@ export class InteractiveMapComponent
         TypeReport.PROCESSING
     );
     protected readonly selectedReportId = signal<string>('');
+    public readonly regionSelectOptions = computed(() => [
+        ...this.regionOptions().map((r) => ({ label: r.name, value: r.value })),
+    ]);
 
+    public readonly departmentSelectOptions = computed(() => {
+        return [
+            ...this.departmentOptions().map((d) => ({
+                label: d.name,
+                value: d.value,
+            })),
+        ];
+    });
+
+    public readonly municipalitySelectOptions = computed(() => {
+        return [
+            ...this.municipalityOptions().map((m) => ({
+                label: m.name,
+                value: m.value,
+            })),
+        ];
+    });
+
+    public readonly statusSelectOptions = computed(() => [
+        ...this.statusOptions,
+    ]);
+
+    public readonly currentStatus = computed(
+        () => this.draftFilters().statuses[0] || ''
+    );
+
+    public setStatus(value: string): void {
+        this.updateDraftFilters({
+            statuses: value ? [value as ReportStatus] : [],
+        });
+    }
     public readonly reportTypeOptions: { value: ReportType; label: string }[] =
         [
             { value: 'zob', label: 'Zone blanche' },
@@ -162,10 +215,8 @@ export class InteractiveMapComponent
         { value: 'completed', label: 'Clôturé' },
     ];
     public readonly networkTechnologyOptions = [
-        { value: '2G', label: '2G' },
-        { value: '3G', label: '3G' },
-        { value: '4G', label: '4G' },
-        { value: '2G/3G/4G', label: '2G/3G/4G' },
+        { value: 'fo', label: 'Fibre optique' },
+        { value: 'fr', label: 'Faiseau radio' },
     ];
 
     private readonly geolocationService = inject(GeolocationService);
@@ -312,13 +363,6 @@ export class InteractiveMapComponent
             ? [...current, value]
             : current.filter((item) => item !== value);
         this.updateDraftFilters({ [key]: next } as Partial<ReportFilters>);
-    }
-
-    public setStatuses(statuses: HTMLSelectElement): void {
-        const values = Array.from(statuses.selectedOptions)
-            .map((option) => option.value)
-            .filter(Boolean) as ReportStatus[];
-        this.updateDraftFilters({ statuses: values });
     }
 
     public setRegion(value: string): void {
@@ -670,27 +714,28 @@ export class InteractiveMapComponent
             return;
         }
         if (info.kind === 'cluster') {
-            // Récupérer les coordonnées du cluster (projection 3857)
-            const [lng, lat] = toLonLat(info.coordinate);
-
-            // Nouveau zoom : augmenter de 2 niveaux ou au moins 14
             const currentZoom = this.mapAdapter.getViewState()?.zoom ?? 7;
+            console.log('currentZoom: ', currentZoom);
+
+            // 🆕 À fort zoom, ne plus zoomer/déplacer, afficher directement la liste
+            if (currentZoom >= 17) {
+                this.store.setSelectedReport(null);
+                this.selectedClusterReports.set(info.reports);
+                this.selectedClusterSummary.set(info.summary ?? null);
+                this.mapAdapter.showClickOverlay(info.coordinate);
+                return;
+            }
+
+            // Sinon, comportement normal : zoom sur le cluster
+            const [lng, lat] = toLonLat(info.coordinate);
             let newZoom = Math.min(currentZoom + 2, 18);
             if (newZoom < 14) {
                 newZoom = currentZoom + 3;
             }
-
-            // Centrer et zoomer sur le cluster
             this.mapAdapter.focusLocation(lat, lng, newZoom);
-
-            // Nettoyer les états liés à l'ancienne popup
             this.selectedClusterReports.set([]);
             this.selectedClusterSummary.set(null);
             this.mapAdapter.hideClickOverlay();
-
-            // this.store.setSelectedReport(null);
-            // this.selectedClusterReports.set(info.reports);
-            // this.selectedClusterSummary.set(info.summary ?? null);
             return;
         }
         if (info.report) {
@@ -892,28 +937,40 @@ export class InteractiveMapComponent
     }
 
     public coverageOperatorVisible(operator: string): boolean {
-        return this.coverageOperatorVisibility()[operator];
+        return this.coverageOperatorVisibility()[operator] ?? true;
     }
 
     public getCoverageColor(operator: string): string {
-        const colors: Record<string, string> = {
-            orange: '#ff7900',
-            mtn: '#ffcc00',
-            moov: '#005baa',
-        };
-        return colors[operator] || '#6b7280';
+        return (
+            this.COVERAGE_OPERATORS.find((op) => op.id === operator)?.color ||
+            '#6b7280'
+        );
     }
 
     public operatorLabel(operator: string): string {
-        const labels: Record<string, string> = {
-            orange: 'Orange',
-            mtn: 'MTN',
-            moov: 'Moov',
-        };
-        return labels[operator] || operator;
+        return (
+            this.COVERAGE_OPERATORS.find((op) => op.id === operator)?.label ||
+            operator
+        );
     }
 
     public setBaseMap(type: string): void {
         this.mapAdapter.setBaseMap(type as 'osm' | 'satellite');
+    }
+
+    public toggleAllOperators(visible: boolean): void {
+        // Mettre à jour le signal local
+        const newVisibility = Object.fromEntries(
+            Object.keys(this.coverageOperatorVisibility()).map((key) => [
+                key,
+                visible,
+            ])
+        );
+        this.coverageOperatorVisibility.set(newVisibility);
+
+        // Répercuter sur l'adaptateur
+        for (const operator of Object.keys(newVisibility)) {
+            this.mapAdapter.setCoverageOperatorVisible(operator, visible);
+        }
     }
 }

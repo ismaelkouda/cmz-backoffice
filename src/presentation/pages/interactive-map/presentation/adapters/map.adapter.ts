@@ -74,9 +74,18 @@ export class MapAdapter {
     private osmLayer!: TileLayer; // Couche OSM (toujours présente)
     private satelliteLayer!: TileLayer;
     private coverageOperatorsVisible: Record<string, boolean> = {
-        orange: true,
-        mtn: true,
+        idt: true,
+        'moov (coloas)': true,
+        'ihs (mtn)': true,
+        ihs: true,
+        cit: true,
         moov: true,
+        presidence: true,
+        oci: true,
+        mtn: true,
+        'ihs (oci)': true,
+        'cafe mobile': true,
+        green: true,
     };
 
     private static readonly CLUSTER_MIN_RADIUS = 18;
@@ -142,7 +151,7 @@ export class MapAdapter {
         this.osmLayer = new TileLayer({
             source: new OSM({
                 attributions: [
-                    '© <a href="https://www.imako.digital" target="_blank">IMAKO</a>',
+                    '© <a href="https://ansut.ci" target="_blank">ANSUT</a>',
                 ],
             }),
             visible: true,
@@ -850,32 +859,31 @@ export class MapAdapter {
     }
 
     private getCoverageAreaColor(operator?: string): string {
-        const colors: Record<ReportOperator, string> = {
-            orange: '#ff7900',
+        const colors: Record<string, string> = {
+            oci: '#ff7900',
+            'ihs (oci)': '#ff7900',
+            cit: '#ff7900',
             mtn: '#ffcc00',
+            'ihs (mtn)': '#ffcc00',
             moov: '#005baa',
+            'moov (coloas)': '#005baa',
+            idt: '#e6194B',
+            ihs: '#bfef45',
+            presidence: '#4363d8',
+            'cafe mobile': '#fabed4',
+            green: '#469990',
         };
-
-        return operator && operator in colors
-            ? colors[operator as ReportOperator]
-            : '#6b7280';
+        return operator ? colors[operator] || '#6b7280' : '#6b7280';
     }
 
-    private normalizeOperatorName(value: unknown): ReportOperator | undefined {
+    private normalizeOperatorName(value: unknown): string | undefined {
         if (typeof value !== 'string') {
             return undefined;
         }
-
         const normalized = value.trim().toLowerCase();
-        if (
-            normalized === 'orange' ||
-            normalized === 'mtn' ||
-            normalized === 'moov'
-        ) {
-            return normalized;
-        }
-
-        return undefined;
+        return normalized in this.coverageOperatorsVisible
+            ? normalized
+            : undefined;
     }
 
     private hexToRgba(hex: string, alpha: number): string {
