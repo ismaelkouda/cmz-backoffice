@@ -107,6 +107,16 @@ export class InteractiveMapComponent
         const visibility = this.coverageOperatorVisibility();
         return Object.values(visibility).every((v) => v === true);
     });
+    // Dans InteractiveMapComponent
+    public getReportIconPath(type: ReportType): string {
+        const icons: Record<ReportType, string> = {
+            zob: 'assets/images/icones/report_zb.svg',
+            cpo: 'assets/images/icones/report_cpo.svg',
+            cps: 'assets/images/icones/report_cps.svg',
+            abi: 'assets/images/icones/report_ai.svg',
+        };
+        return icons[type] || '';
+    }
     public readonly COVERAGE_OPERATORS: {
         id: string;
         label: string;
