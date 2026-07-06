@@ -661,6 +661,10 @@ export class InteractiveMapComponent
         this.mapAdapter.init(map, {
             center: view.center,
             zoom: view.zoom,
+            minZoom: 6.152954846305474, // ← zoom minimal bloqué à la valeur initiale
+            maxZoom: 18,
+            defaultCenter: { lat: 7.984430480342013, lng: -3.756106463052295 },
+            defaultZoom: 6.152954846305474,
         });
     }
 
@@ -728,7 +732,7 @@ export class InteractiveMapComponent
             console.log('currentZoom: ', currentZoom);
 
             // 🆕 À fort zoom, ne plus zoomer/déplacer, afficher directement la liste
-            if (currentZoom >= 17) {
+            if (currentZoom >= 16) {
                 this.store.setSelectedReport(null);
                 this.selectedClusterReports.set(info.reports);
                 this.selectedClusterSummary.set(info.summary ?? null);
@@ -833,15 +837,7 @@ export class InteractiveMapComponent
 
     private restoreStateFromUrl(): void {
         const query = this.route.snapshot.queryParamMap;
-        const lat = Number(query.get('lat'));
-        const lng = Number(query.get('lng'));
-        const zoom = Number(query.get('zoom'));
-        if (Number.isFinite(lat) && Number.isFinite(lng)) {
-            this.store.setView({
-                center: { lat, lng },
-                zoom: Number.isFinite(zoom) ? zoom : this.store.view().zoom,
-            });
-        }
+
         this.store.updateFilters({
             reportTypes: this.readArrayParam<ReportType>('types'),
             operators: this.readArrayParam<ReportOperator>('operators'),

@@ -382,13 +382,12 @@
                 <input type="radio" name="basemap" (change)="setBaseMap('satellite')"> Satellitaire
             </label>
             
-            <h4>Couverture reseau</h4>
-            <label>
-                <input type="checkbox"
+            <div class="d-flex gap-2">
+                <h4 class="mb-0">Couverture reseau</h4>
+            <input type="checkbox"
                     [checked]="allOperatorsVisible()"
                     (change)="toggleAllOperators($any($event.target).checked)" />
-                <span>Toutes les zones</span>
-            </label>
+            </div>
             @for (op of COVERAGE_OPERATORS; track op.id) {
                 <label>
                     <input type="checkbox"

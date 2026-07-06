@@ -38,28 +38,18 @@ export interface MapState {
 
 const initialState: MapState = {
     userPosition: null,
-
     viewportBounds: null,
-
     loadedBounds: null,
-
     view: {
-        center: { lat: 7.5, lng: -5.5 },
-        zoom: 7,
+        center: { lat: 7.984430480342013, lng: -3.756106463052295 },
+        zoom: 6.152954846305474,
     },
-
     reports: [],
-
     filters: { ...EMPTY_REPORT_FILTERS },
-
     heatmapEnabled: false,
-
     selectedReport: null,
-
     loading: false,
-
     permission: 'prompt',
-
     error: null,
 };
 
@@ -91,11 +81,9 @@ export class MapStore {
 
     public readonly visibleReports = computed(() => {
         const all = this.reports();
-        console.log('all reports count:', all.length);
         const filtered = all.filter((r) =>
             this.matchesFilters(r, this.filters())
         );
-        console.log('filtered count:', filtered.length);
         return filtered;
     });
 

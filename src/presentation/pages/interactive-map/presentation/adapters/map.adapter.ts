@@ -45,6 +45,8 @@ export interface MapOptions {
     center: { lat: number; lng: number };
     minZoom?: number;
     maxZoom?: number;
+    defaultCenter?: { lat: number; lng: number }; // pour le reset
+    defaultZoom?: number;
 }
 
 export interface ClusterTooltip {
@@ -64,13 +66,18 @@ export interface MapClickInfo {
 }
 
 const IVORY_COAST_BOUNDS: Bounds = {
-    minLat: 2.5, // Étendu vers le sud
-    maxLat: 12.0, // Étendu vers le nord
-    minLng: -11.0, // Étendu vers l'ouest
-    maxLng: 0.5, // Étendu vers l'est (inclut une petite marge)
+    minLat: 3.02355, // 0.5 + 0.25
+    maxLat: 13.85845, // 14.0 + 0.25
+    minLng: -12.98611, // -13.0 + 0.25
+    maxLng: 1.00542, // 2.5 + 0.25
 };
 
 export class MapAdapter {
+    private defaultCenter: { lat: number; lng: number } = {
+        lat: 7.984430480342013,
+        lng: -3.756106463052295,
+    };
+    private defaultZoom = 5;
     private osmLayer!: TileLayer; // Couche OSM (toujours présente)
     private satelliteLayer!: TileLayer;
     private coverageOperatorsVisible: Record<string, boolean> = {
@@ -185,21 +192,54 @@ export class MapAdapter {
                 zoom: mergedOptions.zoom,
                 minZoom: mergedOptions.minZoom,
                 maxZoom: mergedOptions.maxZoom,
-                extent: transformExtent(
-                    [
-                        IVORY_COAST_BOUNDS.minLng,
-                        IVORY_COAST_BOUNDS.minLat,
-                        IVORY_COAST_BOUNDS.maxLng,
-                        IVORY_COAST_BOUNDS.maxLat,
-                    ],
-                    'EPSG:4326',
-                    'EPSG:3857'
-                ),
+                // extent: transformExtent(
+                //     [
+                //         IVORY_COAST_BOUNDS.minLng,
+                //         IVORY_COAST_BOUNDS.minLat,
+                //         IVORY_COAST_BOUNDS.maxLng,
+                //         IVORY_COAST_BOUNDS.maxLat,
+                //     ],
+                //     'EPSG:4326',
+                //     'EPSG:3857'
+                // ),
             }),
         });
         this.setupClickListener();
         this.setupPointerMoveListener();
+
+        this.defaultCenter = options.defaultCenter || options.center;
+        this.defaultZoom = options.defaultZoom || options.zoom;
+
+        // Bouton de reset (ajouté au conteneur)
+        const resetContainer = document.createElement('div');
+        resetContainer.style.position = 'absolute';
+        resetContainer.style.bottom = '90px';
+        resetContainer.style.right = '12px';
+        resetContainer.style.zIndex = '1000';
+        resetContainer.style.pointerEvents = 'none';
+
+        const resetButton = document.createElement('button');
+        resetButton.innerHTML = '🎯';
+        resetButton.title = 'Réinitialiser la vue';
+        resetButton.style.pointerEvents = 'auto';
+        resetButton.style.width = '34px';
+        resetButton.style.height = '34px';
+        resetButton.style.borderRadius = '4px';
+        resetButton.style.border = '1px solid rgba(0,0,0,0.2)';
+        resetButton.style.background = '#fff';
+        resetButton.style.cursor = 'pointer';
+        resetButton.style.fontSize = '20px';
+        resetButton.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+        resetButton.style.display = 'flex';
+        resetButton.style.alignItems = 'center';
+        resetButton.style.justifyContent = 'center';
+
+        resetContainer.appendChild(resetButton);
+        container.appendChild(resetContainer);
+
+        resetButton.addEventListener('click', () => this.resetView());
     }
+
     setBaseMap(type: 'osm' | 'satellite'): void {
         if (!this.map) {
             return;
@@ -956,5 +996,19 @@ export class MapAdapter {
     setCoverageOperatorVisible(operator: string, visible: boolean): void {
         this.coverageOperatorsVisible[operator] = visible;
         this.coverageAreaLayer.changed();
+    }
+    resetView(): void {
+        if (!this.map) {
+            return;
+        }
+        const view = this.map.getView();
+        view.animate({
+            center: fromLonLat([
+                this.defaultCenter.lng,
+                this.defaultCenter.lat,
+            ]),
+            zoom: this.defaultZoom,
+            duration: 500,
+        });
     }
 }
