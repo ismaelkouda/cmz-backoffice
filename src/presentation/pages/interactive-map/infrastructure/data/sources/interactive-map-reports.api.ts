@@ -31,6 +31,7 @@ export class InteractiveMapReportsApi {
         perPage = 500
     ): Observable<InteractiveMapReport[]> {
         const params = this.buildQueryParams(bounds, filters, page, perPage);
+        console.log('filters: ', filters);
         const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.REPORTS}`;
 
         return this.http.get<ReportsResponse>(url, { params }).pipe(

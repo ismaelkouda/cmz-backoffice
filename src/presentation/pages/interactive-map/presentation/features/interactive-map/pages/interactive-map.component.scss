@@ -1128,3 +1128,10 @@ $dark-gray: var(--color-gray);
     object-fit: contain;
     vertical-align: middle;
 }
+
+.ol-zoom {
+    bottom: 10px;
+    right: 10px;
+    top: auto !important;
+    left: auto !important;
+}
