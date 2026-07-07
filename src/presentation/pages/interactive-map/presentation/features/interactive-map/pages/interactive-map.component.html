@@ -374,7 +374,7 @@
     </button>
     @if (coverageLegendOpen()) {
         <div class="coverage-legend-panel">
-            <h4>Couches {{currentBaseMap() }}</h4>
+            <h4>Couches</h4>
             <label>
     <input type="radio" name="basemap" [checked]="currentBaseMap() === 'osm'" (change)="setBaseMap('osm')"> OpenStreetMap
 </label>
@@ -398,15 +398,13 @@
                 </label>
             }
 
-            <h4>RNHD</h4>
-
             <section class="filter-group">
                                 
                 @for (op of networkTechnologyOptions; track op.value) {
                 <label>
                     <input type="checkbox"
                         [checked]="op.value" />
-                    {{ op.label }}
+                    RNHD : {{ op.label }}
                 </label>
             }
                             </section>
@@ -414,7 +412,7 @@
     <h4>Equipements</h4>
 <section class="filter-group">
     @for (eq of equipmentOptions; track eq.id) {
-        <label>
+        <label class="m-0">
             <input type="checkbox"
                    [checked]="equipmentsVisible()[eq.id]"
                    (change)="toggleEquipment(eq.id, $any($event.target).checked)" />
