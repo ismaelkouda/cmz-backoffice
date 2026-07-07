@@ -14,7 +14,7 @@ export const EMPTY_REPORT_FILTERS: ReportFilters = {
     reportTypes: [],
     operators: [],
     statuses: [],
-    region: '',
+    region: null,
     department: '',
     municipality: '',
     startDate: '',

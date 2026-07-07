@@ -146,14 +146,14 @@ export class MunicipalitiesListComponent {
         );
     });
     protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.CREATE',
-            actionId: 'create',
-            icon: 'pi pi-user-plus',
-            class: 'btn-primary',
-            disabled: !this.canCreate(),
-            tooltip: this.createTooltip(),
-        },
+        // {
+        //     label: 'COMMON.CREATE',
+        //     actionId: 'create',
+        //     icon: 'pi pi-user-plus',
+        //     class: 'btn-primary',
+        //     disabled: !this.canCreate(),
+        //     tooltip: this.createTooltip(),
+        // },
         {
             label: 'COMMON.REFRESH',
             actionId: 'refresh',
