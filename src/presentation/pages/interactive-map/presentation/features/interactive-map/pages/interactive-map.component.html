@@ -20,8 +20,8 @@
                                 <h4>Legend des signalements</h4>
                                 <div class="legend-items">
                                     <div class="legend-item">
-    <img [src]="getReportIconPath('zob')" class="legend-icon" alt="Zone blanche" />
-    <span>Zone blanche</span>
+    <img [src]="getReportIconPath('zob')" class="legend-icon" alt="Aucun réseau" />
+    <span>Aucun réseau</span>
 </div>
 <div class="legend-item">
     <img [src]="getReportIconPath('cpo')" class="legend-icon" alt="Absence d'opérateur(s)" />
@@ -29,11 +29,11 @@
 </div>
 <div class="legend-item">
     <img [src]="getReportIconPath('cps')" class="legend-icon" alt="Mauvais signal" />
-    <span>Mauvais signal</span>
+    <span>Mauvais signal d'Opérateur(s)</span>
 </div>
 <div class="legend-item">
-    <img [src]="getReportIconPath('abi')" class="legend-icon" alt="Absence d'internet" />
-    <span>Absence d'internet</span>
+    <img [src]="getReportIconPath('abi')" class="legend-icon" alt="Absence d'Internet" />
+    <span>Absence d'Internet</span>
 </div>
                                     <!-- <div class="legend-item">
                                         <span
@@ -374,13 +374,13 @@
     </button>
     @if (coverageLegendOpen()) {
         <div class="coverage-legend-panel">
-            <h4>Couches</h4>
+            <h4>Couches {{currentBaseMap() }}</h4>
             <label>
-                <input type="radio" name="basemap" checked (change)="setBaseMap('osm')"> OpenStreetMap
-            </label>
-            <label>
-                <input type="radio" name="basemap" (change)="setBaseMap('satellite')"> Satellitaire
-            </label>
+    <input type="radio" name="basemap" [checked]="currentBaseMap() === 'osm'" (change)="setBaseMap('osm')"> OpenStreetMap
+</label>
+<label>
+    <input type="radio" name="basemap" [checked]="currentBaseMap() === 'satellite'" (change)="setBaseMap('satellite')"> Satellitaire
+</label>
             
             <div class="d-flex gap-2">
                 <h4 class="mb-0">Couverture reseau</h4>
@@ -410,6 +410,18 @@
                 </label>
             }
                             </section>
+
+    <h4>Equipements</h4>
+<section class="filter-group">
+    @for (eq of equipmentOptions; track eq.id) {
+        <label>
+            <input type="checkbox"
+                   [checked]="equipmentsVisible()[eq.id]"
+                   (change)="toggleEquipment(eq.id, $any($event.target).checked)" />
+            {{ eq.label }}
+        </label>
+    }
+</section>
         </div>
     }
 </div>
@@ -626,6 +638,8 @@
                                         </header>
 
                                         <dl>
+                                            <dt>Identifiant</dt>
+                                            <dd><b>{{ report.uniq_id }}</b></dd>
                                             <dt>Statut</dt>
                                             <dd>
                                                 <span

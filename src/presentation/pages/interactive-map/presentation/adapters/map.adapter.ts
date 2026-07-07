@@ -128,6 +128,7 @@ export class MapAdapter {
         style: (feature): Style | Style[] => {
             return this.clusterStyleFunction(feature);
         },
+        zIndex: 2,
     });
     private readonly coverageAreaLayer = new VectorTileLayer({
         declutter: true,
@@ -213,8 +214,8 @@ export class MapAdapter {
         // Bouton de reset (ajouté au conteneur)
         const resetContainer = document.createElement('div');
         resetContainer.style.position = 'absolute';
-        resetContainer.style.bottom = '90px';
-        resetContainer.style.right = '12px';
+        resetContainer.style.bottom = '80px';
+        resetContainer.style.left = '10px';
         resetContainer.style.zIndex = '1000';
         resetContainer.style.pointerEvents = 'none';
 
@@ -787,10 +788,10 @@ export class MapAdapter {
 
     private getReportIcon(type: ReportType): string | null {
         const icons: Record<ReportType, string> = {
-            zob: 'assets/images/icones/report_zb.svg',
-            cpo: 'assets/images/icones/report_cpo.svg',
-            cps: 'assets/images/icones/report_cps.svg',
-            abi: 'assets/images/icones/report_ai.svg',
+            zob: 'assets/images/icones/marker-zb.svg',
+            cpo: 'assets/images/icones/marker-ao.svg',
+            cps: 'assets/images/icones/marker-ms.svg',
+            abi: 'assets/images/icones/marker-ai.svg',
         };
 
         return icons[type] || null;

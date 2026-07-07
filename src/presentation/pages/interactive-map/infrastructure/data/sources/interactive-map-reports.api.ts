@@ -96,13 +96,13 @@ export class InteractiveMapReportsApi {
             params['status'] = filters.statuses.join(',');
         }
         if (filters.region) {
-            params['region'] = filters.region;
+            params['region_id'] = filters.region;
         }
         if (filters.department) {
-            params['department'] = filters.department;
+            params['department_id'] = filters.department;
         }
         if (filters.municipality) {
-            params['municipality'] = filters.municipality;
+            params['municipality_id'] = filters.municipality;
         }
         if (filters.startDate) {
             params['start_date'] = filters.startDate;

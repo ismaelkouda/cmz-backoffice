@@ -110,10 +110,10 @@ export class InteractiveMapComponent
     // Dans InteractiveMapComponent
     public getReportIconPath(type: ReportType): string {
         const icons: Record<ReportType, string> = {
-            zob: 'assets/images/icones/report_zb.svg',
-            cpo: 'assets/images/icones/report_cpo.svg',
-            cps: 'assets/images/icones/report_cps.svg',
-            abi: 'assets/images/icones/report_ai.svg',
+            zob: 'assets/images/icones/marker-zb.svg',
+            cpo: 'assets/images/icones/marker-ao.svg',
+            cps: 'assets/images/icones/marker-ms.svg',
+            abi: 'assets/images/icones/marker-ai.svg',
         };
         return icons[type] || '';
     }
@@ -207,10 +207,10 @@ export class InteractiveMapComponent
     }
     public readonly reportTypeOptions: { value: ReportType; label: string }[] =
         [
-            { value: 'zob', label: 'Zone blanche' },
-            { value: 'cpo', label: "Absence d'operateur" },
-            { value: 'cps', label: 'Mauvais signal' },
-            { value: 'abi', label: "Absence d'internet" },
+            { value: 'zob', label: 'Aucun réseau' },
+            { value: 'cpo', label: "Absence d'Opérateur(s)" },
+            { value: 'cps', label: "Mauvais signal d'Opérateur(s)" },
+            { value: 'abi', label: "Absence d'Internet" },
         ];
     public readonly operatorOptions: {
         value: ReportOperator;
@@ -228,6 +228,34 @@ export class InteractiveMapComponent
         { value: 'fo', label: 'Fibre optique' },
         { value: 'fr', label: 'Faiseau radio' },
     ];
+    public readonly equipmentOptions: { id: string; label: string }[] = [
+        { id: 'formations', label: 'Formations' },
+        { id: 'sanitaires', label: 'Sanitaires' },
+        { id: 'securitaires', label: 'Sécuritaires' },
+        { id: 'administratifs', label: 'Administratifs' },
+    ];
+    public readonly equipmentsVisible = signal<Record<string, boolean>>(
+        Object.fromEntries(this.equipmentOptions.map((eq) => [eq.id, true]))
+    );
+
+    public readonly allEquipmentsVisible = computed(() => {
+        const vis = this.equipmentsVisible();
+        return Object.values(vis).every((v) => v === true);
+    });
+
+    public toggleEquipment(type: string, visible: boolean): void {
+        this.equipmentsVisible.update((vis) => ({
+            ...vis,
+            [type]: visible,
+        }));
+    }
+
+    public toggleAllEquipments(visible: boolean): void {
+        const newVisibility = Object.fromEntries(
+            this.equipmentOptions.map((eq) => [eq.id, visible])
+        );
+        this.equipmentsVisible.set(newVisibility);
+    }
 
     private readonly geolocationService = inject(GeolocationService);
     private readonly mapAdapter = inject(MapAdapter);
@@ -961,6 +989,7 @@ export class InteractiveMapComponent
     }
 
     public setBaseMap(type: string): void {
+        this.currentBaseMap.set(type as 'osm' | 'satellite');
         this.mapAdapter.setBaseMap(type as 'osm' | 'satellite');
     }
 

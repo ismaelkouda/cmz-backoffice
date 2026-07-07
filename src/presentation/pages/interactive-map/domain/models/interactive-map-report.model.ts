@@ -52,7 +52,7 @@ export interface ReportFilters {
     reportTypes: ReportType[];
     operators: ReportOperator[];
     statuses: ReportStatus[];
-    region: string;
+    region: string | null;
     department: string;
     municipality: string;
     startDate: string;

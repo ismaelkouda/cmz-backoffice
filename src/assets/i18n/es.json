@@ -365,7 +365,7 @@
                 },
                 "NO_INTERNET_PROCESSING": {
                     "LABEL": "Sin Internet",
-                    "SUBTITLE": "Reportes de falta de internet"
+                    "SUBTITLE": "Reportes de falta de Internet"
                 }
             },
             "TASK_STATUS": {

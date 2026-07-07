@@ -365,7 +365,7 @@
                 },
                 "NO_INTERNET_PROCESSING": {
                     "LABEL": "No Internet",
-                    "SUBTITLE": "No internet reports"
+                    "SUBTITLE": "No Internet reports"
                 }
             },
             "TASK_STATUS": {

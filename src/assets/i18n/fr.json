@@ -410,7 +410,7 @@
                 },
                 "WHITE_ZONE_PROCESSING": {
                     "LABEL": "Aucun réseau",
-                    "SUBTITLE": "Signalements de zone blanche"
+                    "SUBTITLE": "Signalements de réseau"
                 },
                 "PARTIAL_SIGNAL_PROCESSING": {
                     "LABEL": "Mauvais Signal d'opérateur",
@@ -418,7 +418,7 @@
                 },
                 "NO_INTERNET_PROCESSING": {
                     "LABEL": "Absence d'Internet",
-                    "SUBTITLE": "Signalements d'absence d'internet"
+                    "SUBTITLE": "Signalements d'absence d'Internet"
                 }
             },
             "TASK_STATUS": {
