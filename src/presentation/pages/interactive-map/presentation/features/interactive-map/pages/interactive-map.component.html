@@ -3,7 +3,7 @@
         <article class="col-sm-12 queues-article">
             <app-breadcrumb />
 
-            <section class="card queues-card">
+            <section #mapShell class="card queues-card">
                 <div class="card-body queues-card-body">
                     <!-- <header class="queues-header">
                         <app-page-title
@@ -20,21 +20,21 @@
                                 <h4>Legend des signalements</h4>
                                 <div class="legend-items">
                                     <div class="legend-item">
-    <img [src]="getReportIconPath('zob')" class="legend-icon" alt="Aucun réseau" />
-    <span>Aucun réseau</span>
-</div>
-<div class="legend-item">
-    <img [src]="getReportIconPath('cpo')" class="legend-icon" alt="Absence d'opérateur(s)" />
-    <span>Absence d'opérateur(s)</span>
-</div>
-<div class="legend-item">
-    <img [src]="getReportIconPath('cps')" class="legend-icon" alt="Mauvais signal" />
-    <span>Mauvais signal d'Opérateur(s)</span>
-</div>
-<div class="legend-item">
-    <img [src]="getReportIconPath('abi')" class="legend-icon" alt="Absence d'Internet" />
-    <span>Absence d'Internet</span>
-</div>
+                                        <img [src]="getReportIconPath('zob')" class="legend-icon" alt="Aucun réseau" />
+                                        <span>Aucun réseau</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <img [src]="getReportIconPath('cpo')" class="legend-icon" alt="Absence d'opérateur(s)" />
+                                        <span>Absence d'opérateur(s)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <img [src]="getReportIconPath('cps')" class="legend-icon" alt="Mauvais signal" />
+                                        <span>Mauvais signal d'Opérateur(s)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <img [src]="getReportIconPath('abi')" class="legend-icon" alt="Absence d'Internet" />
+                                        <span>Absence d'Internet</span>
+                                    </div>
                                     <!-- <div class="legend-item">
                                         <span
                                             class="legend-color ring"
@@ -114,7 +114,6 @@
                     }
 
                     <div
-                        #mapShell
                         class="interactive-map-shell mt-3"
                         [class.filters-collapsed]="!filtersPanelOpen()"
                     >
@@ -268,7 +267,7 @@
                                 ></p-select>
                             </section>
 
-                                                        <section class="filter-group">
+                            <section class="filter-group">
                                 <h3>Département</h3>
                                 <p-select
                                     class="form-p-select"
@@ -369,60 +368,60 @@
 
                         <main class="map-workspace">
                             <div class="coverage-legend" [class.open]="coverageLegendOpen()">
-    <button class="coverage-legend-toggle" (click)="toggleCoverageLegend()">
-        <i class="pi pi-map"></i>
-    </button>
-    @if (coverageLegendOpen()) {
-        <div class="coverage-legend-panel">
-            <h4>Couches</h4>
-            <label>
-    <input type="radio" name="basemap" [checked]="currentBaseMap() === 'osm'" (change)="setBaseMap('osm')"> OpenStreetMap
-</label>
-<label>
-    <input type="radio" name="basemap" [checked]="currentBaseMap() === 'satellite'" (change)="setBaseMap('satellite')"> Satellitaire
-</label>
-            
-            <div class="d-flex gap-2">
-                <h4 class="mb-0">Couverture reseau</h4>
-            <input type="checkbox"
-                    [checked]="allOperatorsVisible()"
-                    (change)="toggleAllOperators($any($event.target).checked)" />
-            </div>
-            @for (op of COVERAGE_OPERATORS; track op.id) {
-                <label>
-                    <input type="checkbox"
-                        [checked]="coverageOperatorVisible(op.id)"
-                        (change)="toggleCoverageOperator(op.id, $any($event.target).checked)" />
-                    <span class="legend-color ring" [style.borderColor]="op.color"></span>
-                    {{ op.label }}
-                </label>
-            }
+                                <button class="coverage-legend-toggle" (click)="toggleCoverageLegend()">
+                                    <i class="pi pi-map"></i>
+                                </button>
+                                @if (coverageLegendOpen()) {
+                                    <div class="coverage-legend-panel">
+                                        <h4>Couches</h4>
+                                        <label>
+                                            <input type="radio" name="basemap" [checked]="currentBaseMap() === 'osm'" (change)="setBaseMap('osm')"> OpenStreetMap
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="basemap" [checked]="currentBaseMap() === 'satellite'" (change)="setBaseMap('satellite')"> Satellitaire
+                                        </label>
+                                        
+                                        <div class="d-flex gap-2">
+                                            <h4 class="mb-0">Couverture reseau</h4>
+                                        <input type="checkbox"
+                                                [checked]="allOperatorsVisible()"
+                                                (change)="toggleAllOperators($any($event.target).checked)" />
+                                        </div>
+                                        @for (op of COVERAGE_OPERATORS; track op.id) {
+                                            <label>
+                                                <input type="checkbox"
+                                                    [checked]="coverageOperatorVisible(op.id)"
+                                                    (change)="toggleCoverageOperator(op.id, $any($event.target).checked)" />
+                                                <span class="legend-color ring" [style.borderColor]="op.color"></span>
+                                                {{ op.label }}
+                                            </label>
+                                        }
 
-            <section class="filter-group">
-                                
-                @for (op of networkTechnologyOptions; track op.value) {
-                <label>
-                    <input type="checkbox"
-                        [checked]="op.value" />
-                    RNHD : {{ op.label }}
-                </label>
-            }
+                                        <section class="filter-group">
+                                                            
+                                            @for (op of networkTechnologyOptions; track op.value) {
+                                            <label>
+                                                <input type="checkbox"
+                                                    [checked]="op.value" />
+                                                RNHD : {{ op.label }}
+                                            </label>
+                                        }
+                                                        </section>
+
+                                <h4>Equipements</h4>
+                            <section class="filter-group">
+                                @for (eq of equipmentOptions; track eq.id) {
+                                    <label class="m-0">
+                                        <input type="checkbox"
+                                            [checked]="equipmentsVisible()[eq.id]"
+                                            (change)="toggleEquipment(eq.id, $any($event.target).checked)" />
+                                        {{ eq.label }}
+                                    </label>
+                                }
                             </section>
-
-    <h4>Equipements</h4>
-<section class="filter-group">
-    @for (eq of equipmentOptions; track eq.id) {
-        <label class="m-0">
-            <input type="checkbox"
-                   [checked]="equipmentsVisible()[eq.id]"
-                   (change)="toggleEquipment(eq.id, $any($event.target).checked)" />
-            {{ eq.label }}
-        </label>
-    }
-</section>
-        </div>
-    }
-</div>
+                                    </div>
+                                }
+                            </div>
                             <div #mapContainer class="map"></div>
 
                             <!-- <section

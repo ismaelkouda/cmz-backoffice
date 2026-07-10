@@ -1,0 +1,276 @@
+<main class="container-fluid form-user-container" role="main">
+    <section class="row form-user-row">
+        <article class="col-sm-12 form-user">
+            <app-breadcrumb />
+
+            <section class="card form-user-card">
+                <div class="card-body form-user-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleMode()"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        @if (!isDetailsMode()) {
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                pButton
+                                type="submit"
+                                (click)="onSubmit()"
+                                [disabled]="form.invalid || loadingSubmit()"
+                            >
+                                @if (!loadingSubmit()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ 'COMMON.SAVE' | translate }}
+                            </button>
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
+                        }
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="name"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="name"
+                                                        type="text"
+                                                        formControlName="name"
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.NAME
+                                                                .MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.NAME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('name')
+                                                                ?.invalid &&
+                                                            form.get('name')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('name')
+                                                                ?.invalid &&
+                                                            form.get('name')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'name'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'name'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .NAME
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <label
+                                                        for="description"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="description"
+                                                        type="text"
+                                                        formControlName="description"
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.DESCRIPTION_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION
+                                                                .DESCRIPTION.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.DESCRIPTION'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get(
+                                                                'description'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'description'
+                                                            )?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get(
+                                                                'description'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'description'
+                                                            )?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'description'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'description'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .DESCRIPTION
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        @if (!isDetailsMode()) {
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.CLOSE' | translate
+                                                }}"
+                                                styleClass="p-button-text p-button-secondary"
+                                                (click)="navigateToBack()"
+                                                [attr.aria-label]="
+                                                    'COMMON.CLOSE' | translate
+                                                "
+                                            >
+                                            </p-button>
+
+                                            <button
+                                                pButton
+                                                type="submit"
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
+                                            >
+                                                @if (!loadingSubmit()) {
+                                                    <i class="pi pi-check"></i>
+                                                } @else {
+                                                    <span
+                                                        class="spinner-border spinner-border-sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    ></span>
+                                                }
+                                                {{ 'COMMON.SAVE' | translate }}
+                                            </button>
+                                        </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

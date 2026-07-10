@@ -18,6 +18,7 @@ export const COMMUNICATION_ROUTE = 'communication';
 export const MAP_ROUTE = 'map';
 export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
 export const ADMINISTRATIVE_BOUNDARY_ROUTE = 'territorial-structure';
+export const ADMINISTRATIVE_INFRASTRUCTURE_ROUTE = 'equipments';
 
 export const content: Routes = [
     {
@@ -167,6 +168,19 @@ export const content: Routes = [
             breadcrumb: {
                 label: 'SETTINGS_SECURITY.LABEL',
                 icon: 'pi-cog',
+            },
+        },
+    },
+    {
+        path: ADMINISTRATIVE_INFRASTRUCTURE_ROUTE,
+        loadChildren: () =>
+            import('@pages/administrative-infrastructure/administrative-infrastructure.routes').then(
+                (m) => m.routes
+            ),
+        data: {
+            breadcrumb: {
+                label: 'ADMINISTRATIVE_INFRASTRUCTURE.LABEL',
+                icon: 'pi-sitemap',
             },
         },
     },

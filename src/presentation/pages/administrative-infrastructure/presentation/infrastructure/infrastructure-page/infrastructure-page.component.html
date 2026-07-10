@@ -1,0 +1,38 @@
+<main class="container-fluid infrastructure-container" role="main">
+    <section class="row infrastructure-row">
+        <article class="col-sm-12 infrastructure-article">
+            <app-breadcrumb />
+
+            <section class="card infrastructure-card">
+                <div class="card-body infrastructure-card-body">
+                    <header class="infrastructure-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.TITLE' | translate
+                            "
+                        />
+                    </header>
+
+                    <p-tabs lazy [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.value) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

@@ -131,7 +131,7 @@ $dark-gray: var(--color-gray);
 .interactive-map-shell {
     display: grid;
     grid-template-columns: minmax(260px, 300px) minmax(460px, 1fr);
-    height: 75vh;
+    height: 100vh;
     overflow: hidden;
     background: var(--color-bg-page);
     border: 1px solid var(--color-border-light);
