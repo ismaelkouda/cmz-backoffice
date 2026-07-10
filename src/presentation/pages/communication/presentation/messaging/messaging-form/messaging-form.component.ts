@@ -108,7 +108,7 @@ export class MessagingFormComponent implements OnInit {
         )
     );
 
-    readonly VALIDATION = FormValidators;
+    protected readonly VALIDATION = FormValidators;
     protected readonly canCreate = this.permissionActions.can(
         '/communication/messaging',
         'create'

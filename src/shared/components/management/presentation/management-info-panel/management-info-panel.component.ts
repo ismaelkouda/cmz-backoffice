@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { LocationCoordinates } from '@shared/components/location-picker/models/location-coordinates.model';
-import { LocationPickerDialogComponent } from '@shared/components/location-picker/ui/location-picker-dialog.component';
+import { LocationPickerDialogComponent } from '@shared/components/location-picker/presentation/ui/location-picker-dialog.component';
 import { ManagementFormControl } from '@shared/components/management/domain/controls/management-form-control';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';

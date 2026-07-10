@@ -60,6 +60,7 @@ import { provideManagement } from '@shared/components/management/di/management.p
 import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 import { provideInteractiveMap } from './pages/interactive-map/di/interactive-map.providers';
+import { provideAdministrativeInfrastructure } from './pages/administrative-infrastructure/di/administrative-infrastructure.providers';
 
 const frenchLocale = {
     firstDayOfWeek: 1,
@@ -278,6 +279,8 @@ export const appConfig: ApplicationConfig = {
         ...provideAdministrativeBoundary(),
 
         ...provideSettingsSecurity(),
+
+        ...provideAdministrativeInfrastructure(),
 
         ...historyProviders(),
     ],

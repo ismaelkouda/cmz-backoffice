@@ -4088,6 +4088,311 @@
             }
         }
     },
+    "ADMINISTRATIVE_INFRASTRUCTURE": {
+        "BREADCRUMB": {
+            "LABEL": "Infrastructures",
+            "ROUTE": "infrastructures",
+            "ICON": "pi-cog"
+        },
+        "LABEL": "Infrastructures",
+        "ROUTE": "infrastructures",
+        "INFRASTRUCTURE_TYPE": {
+            "BREADCRUMB": {
+                "LABEL": "Type d'équipements",
+                "ROUTE": "equipment-types"
+            },
+            "TABS": {
+                "INFRASTRUCTURE_TYPE": {
+                    "LABEL": "Type d'équipements",
+                    "ROUTE": "equipment-types"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Type d'équipements",
+            "ROUTE": "equipment-types",
+            "TABLE": {
+                "NAME": "Nom",
+                "DESCRIPTION": "Description",
+                "STATUS": "Statut",
+                "CREATED_AT": "Créé le",
+                "CREATED_BY": "Créé par",
+                "UPDATED_AT": "Mise à jour le",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Statut"
+            },
+            "FORM": {
+                    "TITLE": "Informations Générales",
+                "CREATE_TITLE": "Ajouter un équipement",
+                "EDIT_TITLE": "Modifier un équipement",
+                "NAME": "Nom",
+                "DESCRIPTION": "Description",
+                "MATRICULE": "Matricule",
+                "EMAIL": "Email",
+                "NAME_REQUIRED": "Le nom est requis",
+                "DESCRIPTION_REQUIRED": "La description est requise",
+                "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipement",
+                "NAME_PLACEHOLDER": "Ex: Nom de l'équipement",
+                "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
+                "PROFILE_REQUIRED": "Le profil est requis",
+                "MATRICULE_REQUIRED": "Le matricule est requis",
+                "EMAIL_REQUIRED": "L'email est requis",
+                "EMAIL_INVALID": "L'email n'est pas valide",
+                "PHONE_REQUIRED": "Le téléphone est requis",
+                "TITLE_FORM_ADD": "Formulaire d'ajout d'équipement",
+                "TITLE_FORM_EDIT": "Formulaire de modification d'équipement",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Téléphone",
+                    "PROFILE": "Profil Utilisateur",
+                    "RESPONSIBILITY": "Responsabilité",
+                    "MATRICULE": "Matricule",
+                    "EMAIL": "Email",
+                    "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "PHONE_PLACEHOLDER": "Ex: 0612345678",
+                    "PROFILE_PLACEHOLDER": "Ex: Admin",
+                    "MATRICULE_PLACEHOLDER": "Ex: 123456",
+                    "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                }
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "DISABLE": "Désactiver"
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer cet équipement",
+                    "NOT_CREATE": "Impossible de créer cet équipement",
+                    "EDIT": "Editer cet équipement",
+                    "NOT_EDIT": "Impossible d'éditer cet équipement",
+                    "DELETE": "Supprimer cet équipement",
+                    "NOT_DELETE": "Impossible de supprimer cet équipement",
+                    "ENABLE": "Activer cet équipement",
+                    "NOT_ENABLE": "Impossible d'activer cet équipement",
+                    "DISABLE": "Désactiver cet équipement",
+                    "NOT_DISABLE": "Impossible de desactiver cet équipement"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cet équipement",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cet équipement",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cet équipement </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cet équipement",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet équipement",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cet équipement",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet équipement",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer cet équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cet équipement <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cet équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cet équipement <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des équipements",
+                "EXPORT": "Exporter la liste de {nb} équipements",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un équipement",
+                "EDIT": "Editer cet équipement",
+                "DELETE": "Supprimer cet équipement",
+                "ENABLE": "Activer cet équipement",
+                "DISABLE": "Désactiver cet équipement",
+                "NO_EXPORT": "Aucun équipement à exporter",
+                "NOT_DELETE": "Équipement actif, Impossible de supprimer cet équipement",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des équipements non permis",
+                "NO_PERMISSION_CREATE": "Création d'un équipement non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un équipement non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un équipement non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un équipement non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un équipement non permis",
+                "SEE_MORE": "Voir plus d'informations"
+            },
+            "OPTIONS": {
+                "PROFIL": {
+                    "ADMIN": "Administrateur",
+                    "USER": "Utilisateur"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "PROFIL": {
+                "NOT_ASSIGNED": "Non assigné"
+            }
+        },
+        "INFRASTRUCTURE": {
+            "BREADCRUMB": {
+                "LABEL": "Equipements",
+                "ROUTE": "list"
+            },
+            "TABS": {
+                "INFRASTRUCTURE": {
+                    "LABEL": "Equipements",
+                    "ROUTE": "list"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Equipements",
+            "ROUTE": "list",
+            "TABLE": {
+                "NAME": "Nom",
+                "TYPE": "Type d'equipement",
+                "DESCRIPTION": "Description",
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "MUNICIPALITY": "Commune / Sous-prefecture",
+                "POSITION": "Coordonnées GPS",
+                "CREATED_AT": "Créé le",
+                "CREATED_BY": "Créé par",
+                "UPDATED_AT": "Mise à jour le",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "TYPE": "Type d'equipement",
+                "REGION": "Région",
+                "DEPARTMENT": "Département",
+                "MUNICIPALITY": "Commune / Sous-prefecture",
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                },
+                "STATUS": "Statut"
+            },
+            "FORM": {
+                "TITLE": "Informations Générales",
+                "CREATE_TITLE": "Ajouter un équipement",
+                "EDIT_TITLE": "Modifier un équipement",
+                "NAME": "Nom",
+                "TYPE": "Type d'equipement",
+                "TYPE_PLACEHOLDER": "Selectionner le type d'équipement",
+                "POSITION":"Coordonnées GPS",
+                "DESCRIPTION": "Description",
+                "MATRICULE": "Matricule",
+                "EMAIL": "Email",
+                "NAME_REQUIRED": "Le nom est requis",
+                "DESCRIPTION_REQUIRED": "La description est requise",
+                "DESCRIPTION_PLACEHOLDER": "Description de l'équipement",
+                "NAME_PLACEHOLDER": "Nom de l'équipement",
+                "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
+                "PROFILE_REQUIRED": "Le profil est requis",
+                "MATRICULE_REQUIRED": "Le matricule est requis",
+                "EMAIL_REQUIRED": "L'email est requis",
+                "EMAIL_INVALID": "L'email n'est pas valide",
+                "PHONE_REQUIRED": "Le téléphone est requis",
+                "TITLE_FORM_ADD": "Formulaire d'ajout d'équipement",
+                "TITLE_FORM_EDIT": "Formulaire de modification d'équipement",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Informations Générales",
+                    "LAST_NAME": "Nom",
+                    "FIRST_NAME": "Prénoms",
+                    "PHONE": "Téléphone",
+                    "PROFILE": "Profil Utilisateur",
+                    "RESPONSIBILITY": "Responsabilité",
+                    "MATRICULE": "Matricule",
+                    "EMAIL": "Email",
+                    "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
+                    "PHONE_PLACEHOLDER": "Ex: 0612345678",
+                    "PROFILE_PLACEHOLDER": "Ex: Admin",
+                    "MATRICULE_PLACEHOLDER": "Ex: 123456",
+                    "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                }
+            },
+            "BUTTONS": {
+                "ADD": "Ajouter"
+            },
+            "ACTIONS": {
+                "VIEW": "Voir plus",
+                "EDIT": "Modifier",
+                "DELETE": "Supprimer",
+                "DISABLE": "Désactiver"
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer cet équipement",
+                    "NOT_CREATE": "Impossible de créer cet équipement",
+                    "EDIT": "Editer cet équipement",
+                    "NOT_EDIT": "Impossible d'éditer cet équipement",
+                    "DELETE": "Supprimer cet équipement",
+                    "NOT_DELETE": "Impossible de supprimer cet équipement",
+                    "ENABLE": "Activer cet équipement",
+                    "NOT_ENABLE": "Impossible d'activer cet équipement",
+                    "DISABLE": "Désactiver cet équipement",
+                    "NOT_DISABLE": "Impossible de desactiver cet équipement"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer cet équipement",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cet équipement",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cet équipement </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer cet équipement",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet équipement",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer cet équipement",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet équipement",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer cet équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cet équipement <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cet équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cet équipement <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des équipements",
+                "EXPORT": "Exporter la liste de {nb} équipements",
+                "CHOOSE": "Choisir une action",
+                "CREATE": "Créer un équipement",
+                "EDIT": "Editer cet équipement",
+                "DELETE": "Supprimer cet équipement",
+                "ENABLE": "Activer cet équipement",
+                "DISABLE": "Désactiver cet équipement",
+                "NO_EXPORT": "Aucun équipement à exporter",
+                "NOT_DELETE": "Équipement actif, Impossible de supprimer cet équipement",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des équipements non permis",
+                "NO_PERMISSION_CREATE": "Création d'un équipement non permis",
+                "NO_PERMISSION_EDIT": "Edition d'un équipement non permis",
+                "NO_PERMISSION_DELETE": "Suppression d'un équipement non permis",
+                "NO_PERMISSION_ENABLE": "Activation d'un équipement non permis",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un équipement non permis",
+                "SEE_MORE": "Voir plus d'informations"
+            },
+            "OPTIONS": {
+                "PROFIL": {
+                    "ADMIN": "Administrateur",
+                    "USER": "Utilisateur"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "ACTIVE": "Actif",
+                    "INACTIVE": "Inactif"
+                }
+            },
+            "PROFIL": {
+                "NOT_ASSIGNED": "Non assigné"
+            }
+        }
+    },
     "TEAM_ORGANIZATION": {
         "BREADCRUMB": {
             "LABEL": "Organisation des équipes",
