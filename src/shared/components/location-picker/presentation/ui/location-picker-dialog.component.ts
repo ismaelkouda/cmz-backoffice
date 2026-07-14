@@ -53,11 +53,12 @@ export class LocationPickerDialogComponent {
 
     protected readonly error = this.facade.error;
 
-    protected readonly currentLocationDisplay = computed(
-        () =>
-            this.facade.selectedLocation()?.displayName ??
-            'Aucune position sélectionnée'
-    );
+    protected readonly currentLocationDisplay = computed(() => {
+        const location = this.facade.selectedLocation();
+        return location
+            ? `${location.lat} ${location.lng}`
+            : 'Aucune position sélectionnée';
+    });
 
     constructor() {
         const data = this.config.data;
@@ -67,8 +68,9 @@ export class LocationPickerDialogComponent {
         }
     }
 
-    onSearchChange(): void {
-        this.facade.search(this.searchQuery());
+    onSearchQueryChange(query: string): void {
+        this.searchQuery.set(query);
+        this.facade.search(query);
     }
 
     onSelectSearchResult(location: GeoLocation): void {
@@ -77,7 +79,7 @@ export class LocationPickerDialogComponent {
     }
 
     onMapCoordinatesChange(coords: GeoLocation): void {
-        this.facade.select(coords);
+        this.facade.reverse(coords.lat, coords.lng);
     }
     onValidate(): void {
         this.ref.close(this.facade.selectedLocation());

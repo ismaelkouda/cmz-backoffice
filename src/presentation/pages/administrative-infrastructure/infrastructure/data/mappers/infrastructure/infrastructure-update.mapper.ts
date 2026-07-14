@@ -6,14 +6,21 @@ export function infrastructureUpdateMapper(
 ): InfrastructureUpdateApiDto {
     const params: InfrastructureUpdateApiDto = {} as InfrastructureUpdateApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (entity.data.uniqId) {
+        params.id = entity.data.uniqId;
     }
-    if (entity.name) {
-        params.name = entity.name;
+    if (entity.data.name) {
+        params.name = entity.data.name;
     }
-    if (entity.description) {
-        params.description = entity.description;
+    if (entity.data.type) {
+        params.infrastructure_type = entity.data.type;
+    }
+    if (entity.data.position) {
+        params.latitude = entity.data.position.latitude;
+        params.longitude = entity.data.position.longitude;
+    }
+    if (entity.data.description) {
+        params.description = entity.data.description;
     }
 
     return params;

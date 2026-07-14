@@ -102,12 +102,10 @@ interface NominatimSearchResult {
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy
 {
-    // Dans InteractiveMapComponent
     public readonly allOperatorsVisible = computed(() => {
         const visibility = this.coverageOperatorVisibility();
         return Object.values(visibility).every((v) => v === true);
     });
-    // Dans InteractiveMapComponent
     public getReportIconPath(type: ReportType): string {
         const icons: Record<ReportType, string> = {
             zob: 'assets/images/icones/marker-zb.svg',

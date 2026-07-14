@@ -5,6 +5,7 @@ export class InfrastructureQuery {
         public readonly region?: string,
         public readonly department?: string,
         public readonly municipality?: string,
-        public readonly position?: string
+        public readonly startDate?: Date,
+        public readonly endDate?: Date
     ) {}
 }

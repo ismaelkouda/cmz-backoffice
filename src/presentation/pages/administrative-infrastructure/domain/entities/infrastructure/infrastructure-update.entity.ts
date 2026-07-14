@@ -1,26 +1,11 @@
-import { InfrastructureUpdateVo } from '../../value-objects/infrastructure/infrastructure-update.vo';
+import { InfrastructureUpdateValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-update.validate-contract';
 
 export class InfrastructureUpdateEntity {
     constructor(
-        public readonly uniqId: string,
-        public readonly name: string,
-        public readonly type: string,
-        public readonly description: string,
-        public readonly region: string,
-        public readonly department: string,
-        public readonly municipality: string,
-        public readonly position: string
+        private readonly contract: InfrastructureUpdateValidateContract
     ) {}
-    static fromVo(vo: InfrastructureUpdateVo): InfrastructureUpdateEntity {
-        return new InfrastructureUpdateEntity(
-            vo.uniqId,
-            vo.name,
-            vo.type,
-            vo.description,
-            vo.region,
-            vo.region,
-            vo.department,
-            vo.municipality
-        );
+
+    get data(): InfrastructureUpdateValidateContract {
+        return this.contract;
     }
 }

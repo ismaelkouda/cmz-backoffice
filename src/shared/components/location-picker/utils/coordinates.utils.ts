@@ -19,13 +19,17 @@ export function isValidCoordinates(lat: number, lng: number): boolean {
 }
 
 export function isValidAndNonZeroCoordinates(
-    lat: number,
-    lng: number
+    lat: string,
+    lng: string
 ): boolean {
-    return isValidCoordinates(lat, lng) && !(lat === 0 && lng === 0);
+    const formatLat = Number(lat);
+    const formatLng = Number(lng);
+    return (
+        isValidCoordinates(formatLat, formatLng) &&
+        !(formatLat === 0 && formatLng === 0)
+    );
 }
 
-// Le reste du code reste identique...
 export function normalizeCoordinates(lat: number, lng: number): Coordinates {
     const factor = Math.pow(10, DECIMAL_PRECISION);
 
@@ -36,8 +40,8 @@ export function normalizeCoordinates(lat: number, lng: number): Coordinates {
 }
 
 export function formatCoordinatesString(
-    latitude: number,
-    longitude: number,
+    latitude: any,
+    longitude: any,
     precision: number = DECIMAL_PRECISION
 ): string {
     return `${latitude.toFixed(precision)}, ${longitude.toFixed(precision)}`;

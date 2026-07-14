@@ -19,6 +19,7 @@ import { FormValidators } from '@pages/administrative-infrastructure/domain/vali
 import { startWith } from 'rxjs';
 import { InfrastructureTypeSelectFacade } from '@presentation/pages/administrative-infrastructure/application/services/infrastructure-type/infrastructure-type-select.facade';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+import { GeoLocation } from '@shared/components/location-picker/domain/models/geo-location.model';
 type FormMode = 'create' | 'edit' | 'details';
 
 @Injectable()
@@ -30,6 +31,8 @@ export class InfrastructureFormStore {
     );
     readonly VALIDATION = FormValidators;
     readonly form = this.createForm();
+
+    private readonly item = this.findOneFacade.items;
 
     readonly mode = signal<FormMode>('create');
     readonly isValid = computed(() => this.status() === 'VALID');
@@ -48,22 +51,18 @@ export class InfrastructureFormStore {
         }
     );
 
-    private readonly item = this.findOneFacade.items;
-
     private readonly infrastructureType = toSignal(
         this.infrastructureTypeFacade.items$,
         {
             initialValue: [],
         }
     );
-
     private readonly infrastructureTypeLoading = toSignal(
         this.infrastructureTypeFacade.isLoading$,
         {
             initialValue: false,
         }
     );
-
     readonly position = toSignal(this.form.controls.position.valueChanges, {
         initialValue: this.form.controls.position.value,
     });
@@ -76,17 +75,12 @@ export class InfrastructureFormStore {
         return `${coords.latitude}, ${coords.longitude}`;
     });
 
-    public setCoordinates(position: Coordinates): void {
-        console.log('position: ', position);
+    public setCoordinates(position: GeoLocation): void {
         this.form.controls.position.setValue({
-            longitude: position.longitude,
-            latitude: position.latitude,
+            longitude: Number(position.lng),
+            latitude: Number(position.lat),
             what3words: undefined,
         });
-        console.log(
-            'this.form.controls.position',
-            this.form.controls.position.value
-        );
     }
 
     public readonly vm = computed(() => ({
@@ -100,7 +94,7 @@ export class InfrastructureFormStore {
         this.initializeDetailsModeEffect();
 
         effect(() => {
-            console.log('position signal', this.position());
+            console.log('position signal', this.infrastructureType());
         });
     }
 

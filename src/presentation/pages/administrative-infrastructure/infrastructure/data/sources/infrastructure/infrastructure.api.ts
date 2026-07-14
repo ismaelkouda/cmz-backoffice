@@ -8,7 +8,10 @@ import { InfrastructureResponseApiDto } from '@pages/administrative-infrastructu
 import { InfrastructureUpdateApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-update-api.dto';
 import { ADMINISTRATIVE_INFRASTRUCTURE_BASE_URL } from '@pages/administrative-infrastructure/infrastructure/api/administrative-infrastructure.base-url';
 import { ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS } from '@pages/administrative-infrastructure/infrastructure/api/administrative-infrastructure.endpoints';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import {
+    MessageResponseDto,
+    SimpleResponseDto,
+} from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -37,20 +40,16 @@ export class InfrastructureApi {
         });
     }
 
-    create(
-        apiDto: InfrastructureCreateApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    create(apiDto: InfrastructureCreateApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/store`;
         const payload = buildHttpPayload(apiDto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 
-    update(
-        apiDto: InfrastructureUpdateApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    update(apiDto: InfrastructureUpdateApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/${apiDto.id}/update`;
         const payload = buildHttpPayload(apiDto, ['id']);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 
     delete(

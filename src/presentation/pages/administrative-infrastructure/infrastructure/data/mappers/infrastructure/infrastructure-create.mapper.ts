@@ -6,11 +6,18 @@ export function infrastructureCreateMapper(
 ): InfrastructureCreateApiDto {
     const params: InfrastructureCreateApiDto = {} as InfrastructureCreateApiDto;
 
-    if (entity.name) {
-        params.name = entity.name;
+    if (entity.data.name) {
+        params.name = entity.data.name;
     }
-    if (entity.description) {
-        params.description = entity.description;
+    if (entity.data.type) {
+        params.infrastructure_type = entity.data.type;
+    }
+    if (entity.data.position) {
+        params.latitude = entity.data.position.latitude;
+        params.longitude = entity.data.position.longitude;
+    }
+    if (entity.data.description) {
+        params.description = entity.data.description;
     }
 
     return params;

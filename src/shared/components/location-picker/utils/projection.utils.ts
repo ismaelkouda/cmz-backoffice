@@ -7,10 +7,7 @@ import {
 } from './coordinates.utils';
 import { DEFAULT_CENTER_IVORY_COAST } from './lat-lng.utils';
 
-export function toOlCoordinate(
-    latitude: number,
-    longitude: number
-): Coordinate {
+export function toOlCoordinate(latitude: any, longitude: any): Coordinate {
     if (!isValidCoordinates(latitude, longitude)) {
         console.warn(
             `[Projection] Coordonnées invalides: ${formatCoordinatesString(latitude, longitude)}`

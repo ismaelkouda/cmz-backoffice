@@ -36,9 +36,9 @@ import { ToastrService } from 'ngx-toastr';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
-import { LocationCoordinates } from '@shared/components/location-picker/models/location-coordinates.model';
 import { LocationPickerDialogComponent } from '@shared/components/location-picker/presentation/ui/location-picker-dialog.component';
 import { DialogService } from 'primeng/dynamicdialog';
+import { GeoLocation } from '@shared/components/location-picker/domain/models/geo-location.model';
 
 @Component({
     selector: 'app-infrastructure-form',
@@ -87,10 +87,6 @@ export class InfrastructureFormComponent implements OnInit {
     protected readonly isEditMode = this.store.isEditMode;
     protected readonly isCreateMode = this.store.isCreateMode;
     protected readonly loading = this.store.loading;
-    protected readonly coordinates = this.store.vm().position;
-    protected readonly infrastructureType = this.store.vm().infrastructureType;
-    protected readonly infrastructureTypeLoading =
-        this.store.vm().infrastructureTypeLoading;
 
     protected readonly loadingSubmit = computed(() => {
         return this.submitFacade.actionState() === 'loading';
@@ -263,7 +259,8 @@ export class InfrastructureFormComponent implements OnInit {
             data: { initialCoords: this.initialCoords },
             styleClass: 'location-picker-dialog',
         });
-        ref?.onClose.subscribe((result: LocationCoordinates | null) => {
+        ref?.onClose.subscribe((result: GeoLocation | null) => {
+            console.log('result: ', result);
             if (result) {
                 this.store.setCoordinates(result);
             }

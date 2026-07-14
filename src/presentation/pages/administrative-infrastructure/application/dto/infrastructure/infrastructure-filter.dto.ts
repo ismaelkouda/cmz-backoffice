@@ -4,7 +4,6 @@ export interface InfrastructureFilterDto {
     region?: string;
     department?: string;
     municipality?: string;
-    position?: string;
-    startDate?: string;
-    endDate?: string;
+    startDate?: Date;
+    endDate?: Date;
 }

@@ -4,5 +4,6 @@ export interface InfrastructureFilterApiDto {
     region_id: string;
     department_id: string;
     municipality_id: string;
-    position: string;
+    start_date?: Date;
+    end_date?: Date;
 }

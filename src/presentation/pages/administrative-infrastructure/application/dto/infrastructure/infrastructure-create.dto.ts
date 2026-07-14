@@ -1,9 +1,8 @@
+import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+
 export interface InfrastructureCreateDto {
-    name: string;
-    type: string;
-    description: string;
-    region: string;
-    department: string;
-    municipality: string;
-    position: string;
+    name?: string;
+    type?: string;
+    position?: Coordinates;
+    description?: string;
 }
