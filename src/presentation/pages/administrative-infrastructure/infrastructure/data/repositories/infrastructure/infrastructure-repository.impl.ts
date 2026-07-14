@@ -1,7 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { InfrastructureCreateEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-create.entity';
 import { InfrastructureDeleteEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-delete.entity';
-import { InfrastructureFilterEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-filter.entity';
 import { InfrastructureUpdateEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-update.entity';
 import { InfrastructureEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure.entity';
 import { InfrastructureRepository } from '@pages/administrative-infrastructure/domain/repositories/infrastructure/infrastructure-repository';
@@ -11,7 +10,9 @@ import { infrastructureFilterMapper } from '@pages/administrative-infrastructure
 import { infrastructureUpdateMapper } from '@pages/administrative-infrastructure/infrastructure/data/mappers/infrastructure/infrastructure-update.mapper';
 import { InfrastructureMapper } from '@pages/administrative-infrastructure/infrastructure/data/mappers/infrastructure/infrastructure.mapper';
 import { InfrastructureApi } from '@pages/administrative-infrastructure/infrastructure/data/sources/infrastructure/infrastructure.api';
+import { InfrastructureFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-filter.contract';
 import {
+    MessageResponseDto,
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
@@ -25,25 +26,21 @@ export class InfrastructureRepositoryImpl implements InfrastructureRepository {
     private readonly api = inject(InfrastructureApi);
     private readonly mapper = inject(InfrastructureMapper);
 
-    readAll(
-        entity: InfrastructureFilterEntity,
+    execute(
+        contract: InfrastructureFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<InfrastructureEntity>> {
         return this.api
-            .readAll(infrastructureFilterMapper(entity), page, options)
+            .readAll(infrastructureFilterMapper(contract), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(
-        entity: InfrastructureCreateEntity
-    ): Observable<SimpleResponseDto<void>> {
+    create(entity: InfrastructureCreateEntity): Observable<MessageResponseDto> {
         return this.api.create(infrastructureCreateMapper(entity));
     }
 
-    update(
-        entity: InfrastructureUpdateEntity
-    ): Observable<SimpleResponseDto<void>> {
+    update(entity: InfrastructureUpdateEntity): Observable<MessageResponseDto> {
         return this.api.update(infrastructureUpdateMapper(entity));
     }
 

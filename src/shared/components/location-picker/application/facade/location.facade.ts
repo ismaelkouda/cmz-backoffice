@@ -25,25 +25,24 @@ export class LocationFacade {
 
     select(location: GeoLocation): void {
         this.geoLocation.set(location);
-
         this.searchResultsSignal.set([]);
     }
 
     clear(): void {
         this.geoLocation.set(null);
-
         this.searchResultsSignal.set([]);
-
         this.errorSignal.set(null);
     }
 
     async search(query: string): Promise<void> {
+        console.log('query: ', query);
         this.loadingSignal.set(true);
 
         this.errorSignal.set(null);
 
         try {
             const result = await this.geoService.geocode(query);
+            console.log('result: ', result);
 
             this.searchResultsSignal.set(result);
         } catch {

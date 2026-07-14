@@ -41,11 +41,11 @@ export class InfrastructureFilterStore {
                 nonNullable: true,
             }),
 
-            startDate: new FormControl<string | undefined>(undefined, {
+            startDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
 
-            endDate: new FormControl<string | undefined>(undefined, {
+            endDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
         });
@@ -156,7 +156,6 @@ export class InfrastructureFilterStore {
             region: raw.region || undefined,
             department: raw.department || undefined,
             municipality: raw.municipality || undefined,
-            position: raw.position || undefined,
             startDate: raw.startDate || undefined,
             endDate: raw.endDate || undefined,
         };

@@ -7,6 +7,6 @@ export interface InfrastructureFilterControl {
     department: FormControl<string | undefined>;
     municipality: FormControl<string | undefined>;
     position: FormControl<string | undefined>;
-    startDate: FormControl<string | undefined>;
-    endDate: FormControl<string | undefined>;
+    startDate: FormControl<Date | undefined>;
+    endDate: FormControl<Date | undefined>;
 }

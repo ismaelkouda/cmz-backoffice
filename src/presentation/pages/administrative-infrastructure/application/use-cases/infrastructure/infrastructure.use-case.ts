@@ -1,19 +1,20 @@
 import { inject, Injectable } from '@angular/core';
-import { InfrastructureCreateDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure/infrastructure-create.dto';
 import { InfrastructureDeleteDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure/infrastructure-delete.dto';
-import { InfrastructureFilterDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure/infrastructure-filter.dto';
-import { InfrastructureUpdateDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure/infrastructure-update.dto';
-import { InfrastructureCreateEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-create.entity';
+import { InfrastructureCreateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-create.contract';
+import { InfrastructureFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-filter.contract';
+import { InfrastructureUpdateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-update.contract';
 import { InfrastructureDeleteEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-delete.entity';
-import { InfrastructureFilterEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-filter.entity';
-import { InfrastructureUpdateEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-update.entity';
+import { infrastructureFilterEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-filter.entity';
 import { InfrastructureEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure.entity';
+import { infrastructureCreateFactory } from '@presentation/pages/administrative-infrastructure/domain/factories/infrastructure/infrastructure-create.factory';
+import { infrastructureUpdateFactory } from '@presentation/pages/administrative-infrastructure/domain/factories/infrastructure/infrastructure-update.factory';
 import { InfrastructureRepository } from '@presentation/pages/administrative-infrastructure/domain/repositories/infrastructure/infrastructure-repository';
-import { InfrastructureCreateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure/infrastructure-create.vo';
+import { infrastructureCreateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure/infrastructure-create.vo';
 import { InfrastructureDeleteVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure/infrastructure-delete.vo';
-import { InfrastructureFilterVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure/infrastructure-filter.vo';
-import { InfrastructureUpdateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure/infrastructure-update.vo';
+import { infrastructureFilterVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure/infrastructure-filter.vo';
+import { infrastructureUpdateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure/infrastructure-update.vo';
 import {
+    MessageResponseDto,
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
@@ -27,24 +28,24 @@ export class InfrastructureUseCase {
     private readonly repository = inject(InfrastructureRepository);
 
     execute(
-        dto: InfrastructureFilterDto | null,
+        contract: InfrastructureFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<InfrastructureEntity>> {
-        const vo = InfrastructureFilterVo.fromDto(dto);
-        const entity = InfrastructureFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page, options);
+        const vo = infrastructureFilterVo(contract);
+        const entity = infrastructureFilterEntity(vo);
+        return this.repository.execute(entity, page, options);
     }
 
-    create(dto: InfrastructureCreateDto): Observable<SimpleResponseDto<void>> {
-        const vo = InfrastructureCreateVo.fromDto(dto);
-        const entity = InfrastructureCreateEntity.fromVo(vo);
+    create(dto: InfrastructureCreateContract): Observable<MessageResponseDto> {
+        const vo = infrastructureCreateVo(dto);
+        const entity = infrastructureCreateFactory(vo);
         return this.repository.create(entity);
     }
 
-    update(dto: InfrastructureUpdateDto): Observable<SimpleResponseDto<void>> {
-        const vo = InfrastructureUpdateVo.fromDto(dto);
-        const entity = InfrastructureUpdateEntity.fromVo(vo);
+    update(dto: InfrastructureUpdateContract): Observable<MessageResponseDto> {
+        const vo = infrastructureUpdateVo(dto);
+        const entity = infrastructureUpdateFactory(vo);
         return this.repository.update(entity);
     }
 

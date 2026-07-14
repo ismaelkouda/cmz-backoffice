@@ -52,62 +52,21 @@ export class MessagingFacade extends BaseFacade<
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
 
-    private handleActionWithRefresh<T>(
-        observable: Observable<T>,
-        successKey: string
-    ): Observable<T> {
-        return handleObservableWithFeedback(
-            observable,
-            this.uiFeedback,
-            successKey,
-            () => this.refreshWithLastFilterAndPage()
-        );
-    }
-
     readAll(
         filter: MessagingFilterDto = {},
-        page: string = PAGINATION_CONST.DEFAULT_PAGE,
+        page = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        const command = new MessagingQuery(
-            filter?.search,
-            filter?.reportId,
-            filter?.targetType,
-            filter?.region,
-            filter?.department,
-            filter?.municipality,
-            filter?.channels,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-
+        this.executeQuery(filter, page, options);
         this.hasInitialized = true;
-        this.lastFetchTimestamp = Date.now();
     }
 
     refresh(): void {
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        const command = new MessagingQuery(
-            filter?.search,
-            filter?.reportId,
-            filter?.targetType,
-            filter?.region,
-            filter?.department,
-            filter?.municipality,
-            filter?.channels,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page, {
+        this.executeQuery(null, this.pageSubject.getValue(), {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
     }
 
     changePage(page: string): void {
@@ -115,28 +74,31 @@ export class MessagingFacade extends BaseFacade<
         if (!filter) {
             return;
         }
-        const command = new MessagingQuery(
-            filter?.reportId,
-            filter?.search,
-            filter?.targetType,
-            filter?.region,
-            filter?.department,
-            filter?.municipality,
-            filter?.channels,
-            filter?.startDate,
-            filter?.endDate
+        this.executeQuery(filter, page);
+    }
+
+    refreshWithLastFilterAndPage(): void {
+        this.executeQuery(
+            this.filterSubject.getValue(),
+            this.pageSubject.getValue()
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+    }
+
+    private executeQuery(
+        filter: MessagingFilterDto | null,
+        page: string,
+        options: FetchOptions = {}
+    ): void {
+        const query = this.buildQuery(filter ?? undefined);
+        const fetch$ = this.filterBus.dispatch(query, page, options);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        const command = new MessagingQuery(
-            filter?.reportId,
+    private buildQuery(filter?: MessagingFilterDto | null): MessagingQuery {
+        return new MessagingQuery(
             filter?.search,
+            filter?.reportId,
             filter?.targetType,
             filter?.region,
             filter?.department,
@@ -145,9 +107,6 @@ export class MessagingFacade extends BaseFacade<
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
     }
 
     resetMemory(): void {
@@ -252,6 +211,18 @@ export class MessagingFacade extends BaseFacade<
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
+        );
+    }
+
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedback,
+            successKey,
+            () => this.refreshWithLastFilterAndPage()
         );
     }
 }

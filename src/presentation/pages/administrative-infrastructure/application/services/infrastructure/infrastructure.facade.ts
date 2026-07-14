@@ -44,42 +44,21 @@ export class InfrastructureFacade extends BaseFacade<
     private hasInitialized = false;
     private lastFetchTimestamp = 0;
 
-    private handleActionWithRefresh<T>(
-        observable: Observable<T>,
-        successKey: string
-    ): Observable<T> {
-        return handleObservableWithFeedback(
-            observable,
-            this.uiFeedback,
-            successKey,
-            () => this.refresh()
-        );
-    }
-
     readAll(
         filter: InfrastructureFilterDto = {},
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        const command = new InfrastructureQuery(filter?.search);
-        const fetch$ = this.filterBus.dispatch(command, page, options);
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-
+        this.executeQuery(filter, page, options);
         this.hasInitialized = true;
-        this.lastFetchTimestamp = Date.now();
     }
 
     refresh(): void {
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        const command = new InfrastructureQuery(filter?.search);
-        const fetch$ = this.filterBus.dispatch(command, page, {
+        this.executeQuery(null, this.pageSubject.getValue(), {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
     }
 
     changePage(page: string): void {
@@ -87,19 +66,39 @@ export class InfrastructureFacade extends BaseFacade<
         if (!filter) {
             return;
         }
-        const command = new InfrastructureQuery(filter?.search);
-        const fetch$ = this.filterBus.dispatch(command, page);
+        this.executeQuery(filter, page);
+    }
+
+    refreshWithLastFilterAndPage(): void {
+        this.executeQuery(
+            this.filterSubject.getValue(),
+            this.pageSubject.getValue()
+        );
+    }
+
+    private executeQuery(
+        filter: InfrastructureFilterDto | null,
+        page: string,
+        options: FetchOptions = {}
+    ): void {
+        const query = this.buildQuery(filter ?? undefined);
+        const fetch$ = this.filterBus.dispatch(query, page, options);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        const command = new InfrastructureQuery(filter?.search);
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
+    private buildQuery(
+        filter?: InfrastructureFilterDto | null
+    ): InfrastructureQuery {
+        return new InfrastructureQuery(
+            filter?.search,
+            filter?.type,
+            filter?.region,
+            filter?.department,
+            filter?.municipality,
+            filter?.startDate,
+            filter?.endDate
+        );
     }
 
     resetMemory(): void {
@@ -120,17 +119,14 @@ export class InfrastructureFacade extends BaseFacade<
         };
     }
 
-    create(user: any): void {
+    create(infra: InfrastructureCreateDto): void {
         this._actionState.set('loading');
 
         const command = new InfrastructureCreateCommand(
-            user.name,
-            user.type,
-            user.description,
-            user.region,
-            user.region,
-            user.department,
-            user.municipality
+            infra?.name,
+            infra?.type,
+            infra?.position,
+            infra?.description
         );
 
         this.handleActionWithRefresh(
@@ -150,17 +146,14 @@ export class InfrastructureFacade extends BaseFacade<
             .subscribe();
     }
 
-    update(user: any): void {
+    update(infra: InfrastructureUpdateDto): void {
         this._actionState.set('loading');
         const command = new InfrastructureUpdateCommand(
-            user.uniqId,
-            user.name,
-            user.type,
-            user.description,
-            user.region,
-            user.region,
-            user.department,
-            user.municipality
+            infra?.uniqId,
+            infra?.name,
+            infra?.type,
+            infra?.position,
+            infra?.description
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -179,11 +172,23 @@ export class InfrastructureFacade extends BaseFacade<
             .subscribe();
     }
 
-    delete(user: InfrastructureDeleteDto): void {
-        const command = new InfrastructureDeleteCommand(user.uniqId);
+    delete(infra: InfrastructureDeleteDto): void {
+        const command = new InfrastructureDeleteCommand(infra.uniqId);
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
         ).subscribe();
+    }
+
+    private handleActionWithRefresh<T>(
+        observable: Observable<T>,
+        successKey: string
+    ): Observable<T> {
+        return handleObservableWithFeedback(
+            observable,
+            this.uiFeedback,
+            successKey,
+            () => this.refresh()
+        );
     }
 }

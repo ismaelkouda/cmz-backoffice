@@ -5,25 +5,19 @@ import { InfrastructureEntity } from '@presentation/pages/administrative-infrast
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
+import { infrastructureQueryMapper } from '@presentation/pages/administrative-infrastructure/application/queries-mappers/infrastructure/infrastructure.mapper';
 
 @Injectable({ providedIn: 'root' })
 export class InfrastructureHandler {
     private readonly useCase = inject(InfrastructureUseCase);
 
     execute(
-        command: InfrastructureQuery,
+        query: InfrastructureQuery,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<InfrastructureEntity>> {
         return this.useCase.execute(
-            {
-                search: command.search,
-                type: command.type,
-                region: command.region,
-                department: command.department,
-                municipality: command.municipality,
-                position: command.position,
-            },
+            infrastructureQueryMapper(query),
             page,
             options
         );

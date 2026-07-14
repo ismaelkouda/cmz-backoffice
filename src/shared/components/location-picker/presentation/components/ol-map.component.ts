@@ -29,11 +29,12 @@ import {
 } from '../../utils/coordinates.utils';
 import { fromOlCoordinate, toOlCoordinate } from '../../utils/projection.utils';
 import { Bounds } from '@presentation/pages/interactive-map/domain/models/interactive-map-report.model';
+import { GeoLocation } from '../../domain/models/geo-location.model';
 const IVORY_COAST_BOUNDS: Bounds = {
-    minLat: 4.223876, // Point le plus au sud (Latitude minimale)
-    maxLat: 10.873696, // Point le plus au nord (Latitude maximale)
-    minLng: -9.698757, // Point le plus à l'ouest (Longitude minimale)
-    maxLng: -1.656668, // Point le plus à l'est (Longitude maximale)
+    minLat: 4.223876,
+    maxLat: 10.873696,
+    minLng: -9.698757,
+    maxLng: -1.656668,
 };
 @Component({
     selector: 'app-ol-map',
@@ -43,7 +44,7 @@ const IVORY_COAST_BOUNDS: Bounds = {
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OlMapComponent implements OnDestroy {
-    readonly initialCoords = input<any | null>(null);
+    readonly initialCoords = input<GeoLocation | null>(null);
     readonly initialZoom = input<number>(15);
 
     readonly coordinatesChange = output<LocationCoordinates>();
@@ -64,44 +65,34 @@ export class OlMapComponent implements OnDestroy {
         effect(() => {
             const container = this.mapContainer();
             const coords = this.initialCoords();
-
-            // Utiliser la nouvelle fonction utilitaire
+            console.log('coords: ', coords);
             const hasValidNonZeroCoords =
-                coords &&
-                isValidAndNonZeroCoordinates(coords.latitude, coords.longitude);
+                coords && isValidAndNonZeroCoordinates(coords.lat, coords.lng);
 
             const isZeroCoords =
-                coords?.latitude === 0 && coords?.longitude === 0;
+                Number(coords?.lat) === 0 && Number(coords?.lng) === 0;
 
             if (container && !this.map) {
-                // Initialisation de la carte
                 let centerCoord: Coordinate;
                 let showMarker;
 
                 if (hasValidNonZeroCoords) {
-                    centerCoord = toOlCoordinate(
-                        coords.latitude,
-                        coords.longitude
-                    );
+                    centerCoord = toOlCoordinate(coords.lat, coords.lng);
                     showMarker = true;
                 } else if (isZeroCoords) {
-                    centerCoord = toOlCoordinate(7.539989, -5.54708); // Centre Côte d'Ivoire
-                    showMarker = false; // Ne pas montrer le marqueur pour (0,0)
+                    centerCoord = toOlCoordinate('7.539989', '-5.54708');
+                    showMarker = false;
                 } else {
-                    centerCoord = toOlCoordinate(7.539989, -5.54708); // Centre Côte d'Ivoire
+                    centerCoord = toOlCoordinate(7.539989, -5.54708);
                     showMarker = false;
                 }
 
                 this.initMap(container.nativeElement, centerCoord, showMarker);
             } else if (this.map) {
                 if (hasValidNonZeroCoords) {
-                    this.moveMapToCoordinates(
-                        coords.latitude,
-                        coords.longitude
-                    );
+                    this.moveMapToCoordinates(coords.lat, coords.lng);
                     this.updateMarkerVisibility(true);
                 } else if (isZeroCoords) {
-                    // Centrer sur Côte d'Ivoire pour (0,0)
                     const ivoryCoastCenter = toOlCoordinate(7.539989, -5.54708);
                     this.map.getView().animate({
                         center: ivoryCoastCenter,
@@ -109,12 +100,10 @@ export class OlMapComponent implements OnDestroy {
                         zoom: 20,
                     });
 
-                    // Supprimer ou cacher le marqueur
                     if (this.markerFeature) {
-                        this.markerFeature.setStyle([]); // Cacher le marqueur
+                        this.markerFeature.setStyle([]);
                     }
                 } else {
-                    // Autres coordonnées invalides
                     if (this.markerFeature) {
                         this.markerFeature.setStyle([]);
                     }
@@ -156,24 +145,24 @@ export class OlMapComponent implements OnDestroy {
         }
     }
 
-    private moveMapToCoordinates(lat: number, lng: number): void {
+    private moveMapToCoordinates(lat: any, lng: any): void {
         if (!this.map) {
             return;
         }
 
-        // Vérifier si les coordonnées sont (0,0)
-        if (lat === 0 && lng === 0) {
-            console.warn(
-                "Tentative de déplacement vers (0,0), centrage sur la Côte d'Ivoire"
-            );
-            const ivoryCoastCenter = toOlCoordinate(7.539989, -5.54708);
-            this.map.getView().animate({
-                center: ivoryCoastCenter,
-                duration: 500,
-                zoom: 20,
-            });
-            return;
-        }
+        // // Vérifier si les coordonnées sont (0,0)
+        // if (lat === 0 && lng === 0) {
+        //     console.warn(
+        //         "Tentative de déplacement vers (0,0), centrage sur la Côte d'Ivoire"
+        //     );
+        //     const ivoryCoastCenter = toOlCoordinate(7.539989, -5.54708);
+        //     this.map.getView().animate({
+        //         center: ivoryCoastCenter,
+        //         duration: 500,
+        //         zoom: 20,
+        //     });
+        //     return;
+        // }
 
         const olCoord = toOlCoordinate(lat, lng);
         this.moveMarkerTo(lat, lng);
@@ -325,7 +314,7 @@ export class OlMapComponent implements OnDestroy {
         });
     }
 
-    private moveMarkerTo(lat: number, lng: number): void {
+    private moveMarkerTo(lat: any, lng: any): void {
         if (!this.markerFeature) {
             return;
         }

@@ -10,7 +10,7 @@
                     class="form-input w-full"
                     [placeholder]="'COMMON.RESEARCH' | translate"
                     [ngModel]="searchQuery()"
-    (ngModelChange)="searchQuery.set($event)"
+                    (ngModelChange)="onSearchQueryChange($event)"
                 />
             </p-inputgroup>
         </div>
@@ -34,7 +34,7 @@
                 @for (result of searchResults(); track result.placeId) {
                     <div
                         class="search-result-item"
-                        (onClick)="onSelectSearchResult(result)"
+                        (click)="onSelectSearchResult(result)"
                     >
                         <i class="pi pi-map-marker"></i>
                         <span>{{ result.displayName }} [{{ result.lat }},{{ result.lng }}]</span>
@@ -43,7 +43,7 @@
             </div>
         }
 
-        @if (
+        <!-- @if (
             !isSearching() &&
             searchQuery().length >= 3 &&
             searchResults().length === 0 &&
@@ -53,7 +53,7 @@
                 <i class="pi pi-info-circle"></i>
                 <span>Aucun résultat trouvé</span>
             </div>
-        }
+        } -->
     </div>
 
     <div class="map-wrapper">
@@ -67,7 +67,7 @@
     <div class="footer">
         <div class="coordinates-preview">
             <i class="pi pi-crosshair"></i>
-            <span>{{ currentLocationDisplay() }}</span>
+            <span>{{ currentLocationDisplay() ?? '' }}</span>
         </div>
 
         <div class="actions">

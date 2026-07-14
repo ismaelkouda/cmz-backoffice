@@ -1,10 +1,11 @@
 export interface InfrastructureUpdateApiDto {
     id: string;
     name: string;
-    type: string;
+    infrastructure_type: string;
     description: string;
     region_id: string;
     department_id: string;
     municipality_id: string;
-    position: string;
+    latitude: number;
+    longitude: number;
 }

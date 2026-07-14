@@ -4,7 +4,7 @@ import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 export interface InfrastructureItemApiDto {
     id: string;
     name: string;
-    type: string;
+    infrastructure_type: string;
     description: string;
     region: AdministrativeBoundaryDto;
     department: AdministrativeBoundaryDto;

@@ -33,10 +33,14 @@ export class GeoProxyService implements GeoService {
                         q: query,
                         limit: '6',
                         countrycodes: 'ci',
+                        bounded: '1',
+                        viewbox: '-8.60,10.75,-2.45,4.35',
+                        addressdetails: '1',
                     },
                 }
             )
         );
+        console.log('dto: ', dto);
 
         const locations = this.locationMapper.fromGeocodeList(dto);
 

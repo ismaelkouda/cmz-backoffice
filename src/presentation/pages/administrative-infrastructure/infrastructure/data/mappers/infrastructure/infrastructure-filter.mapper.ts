@@ -1,28 +1,31 @@
-import { InfrastructureFilterEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-filter.entity';
 import { InfrastructureFilterApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-filter-api.dto';
+import { InfrastructureFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-filter.contract';
 
 export function infrastructureFilterMapper(
-    entity: InfrastructureFilterEntity
+    contract: InfrastructureFilterContract
 ): InfrastructureFilterApiDto {
     const params: InfrastructureFilterApiDto = {} as InfrastructureFilterApiDto;
 
-    if (entity.search) {
-        params.search = entity.search;
+    if (contract.search) {
+        params.search = contract.search;
     }
-    if (entity.type) {
-        params.type = entity.type;
+    if (contract.type) {
+        params.type = contract.type;
     }
-    if (entity.region) {
-        params.region_id = entity.region;
+    if (contract.region) {
+        params.region_id = contract.region;
     }
-    if (entity.department) {
-        params.department_id = entity.department;
+    if (contract.department) {
+        params.department_id = contract.department;
     }
-    if (entity.municipality) {
-        params.municipality_id = entity.municipality;
+    if (contract.municipality) {
+        params.municipality_id = contract.municipality;
     }
-    if (entity.position) {
-        params.position = entity.position;
+    if (contract.startDate) {
+        params.start_date = contract.startDate;
+    }
+    if (contract.endDate) {
+        params.end_date = contract.endDate;
     }
 
     return params;
