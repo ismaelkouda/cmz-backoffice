@@ -2,7 +2,7 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { TasksActionsTypeFilterApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-type-filter-api.dto';
-import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
 import { TasksActionsTypeResponseApiDto } from '@presentation/pages/processing/infrastructure/api/dto/tasks/tasks-actions-type-response-api.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class TasksActionsTypeApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(PROCESSING_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     readAll(
         dto: TasksActionsTypeFilterApiDto,

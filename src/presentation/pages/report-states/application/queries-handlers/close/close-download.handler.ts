@@ -1,7 +1,7 @@
+import { closeDownloadQueryMapper } from '@pages/report-states/application/queries-mappers/close/close-download.mapper';
 import { Injectable, inject } from '@angular/core';
 import { CloseDownloadQuery } from '@pages/report-states/application/queries/close/close-download.query';
 import { CloseUseCase } from '@pages/report-states/application/use-cases/close/close.use-case';
-import { DownloadSource } from '@presentation/pages/report-states/domain/enums/download-source.enum';
 import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -10,18 +10,6 @@ export class CloseDownloadHandler {
     private readonly useCase = inject(CloseUseCase);
 
     execute(query: CloseDownloadQuery): Observable<MessageResponseDto> {
-        return this.useCase.download({
-            metaData: {
-                source: DownloadSource.REPORT,
-            },
-            format: query.format,
-            initiatorPhoneNumber: query.initiatorPhoneNumber,
-            uniqId: query.uniqId,
-            reportType: query.reportType,
-            operators: query.operators,
-            source: query.source,
-            startDate: query.startDate,
-            endDate: query.endDate,
-        });
+        return this.useCase.download(closeDownloadQueryMapper(query));
     }
 }

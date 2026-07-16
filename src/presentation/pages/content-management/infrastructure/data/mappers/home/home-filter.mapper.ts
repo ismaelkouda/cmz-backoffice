@@ -1,24 +1,24 @@
-import { HomeFilterEntity } from '@pages/content-management/domain/entities/home/home-filter.entity';
 import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
+import { HomeFilterVo } from '@pages/content-management/domain/value-objects/home/home-filter.vo';
 import { HomeFilterApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-filter-api.dto';
 
-export function homeFilterMapper(entity: HomeFilterEntity): HomeFilterApiDto {
+export function homeFilterMapper(vo: HomeFilterVo): HomeFilterApiDto {
     const params: HomeFilterApiDto = {} as HomeFilterApiDto;
 
-    if (entity.search) {
-        params.search = entity.search;
+    if (vo.search) {
+        params.search = vo.search;
     }
-    if (entity.platforms) {
-        params.platforms = entity.platforms;
+    if (vo.platforms) {
+        params.platforms = vo.platforms;
     }
-    if (entity.status) {
-        params.is_active = entity.status === Status.ACTIVE;
+    if (vo.status) {
+        params.is_active = vo.status === Status.ACTIVE;
     }
-    if (entity.startDate) {
-        params.start_date = entity.startDate;
+    if (vo.startDate) {
+        params.start_date = vo.startDate;
     }
-    if (entity.endDate) {
-        params.end_date = entity.endDate;
+    if (vo.endDate) {
+        params.end_date = vo.endDate;
     }
 
     return params;

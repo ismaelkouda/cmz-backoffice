@@ -1,23 +1,13 @@
-import { InfrastructureTypeSelectItemApiDto } from '@presentation/pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-select-api.dto';
+import { InfrastructureTypeSelectProps } from '@presentation/pages/administrative-infrastructure/domain/interfaces/infrastructure-type/infrastructure-type-select-props.interface';
 
 export class InfrastructureTypeSelectEntity {
-    constructor(
-        public readonly value: string,
-        public readonly label: string
-    ) {}
+    constructor(private readonly props: InfrastructureTypeSelectProps) {}
 
-    static fromDto(
-        dto: InfrastructureTypeSelectItemApiDto
-    ): InfrastructureTypeSelectEntity {
-        return new InfrastructureTypeSelectEntity(dto.id, `${dto.name}`);
+    get label(): string {
+        return this.props.label;
     }
 
-    public with(
-        dto: InfrastructureTypeSelectItemApiDto
-    ): InfrastructureTypeSelectEntity {
-        if (this.value === dto.id && this.label === `${dto.name}`) {
-            return this;
-        }
-        return InfrastructureTypeSelectEntity.fromDto(dto);
+    get value(): string {
+        return this.props.value;
     }
 }

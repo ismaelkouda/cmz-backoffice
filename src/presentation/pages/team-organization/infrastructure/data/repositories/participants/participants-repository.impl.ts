@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { ParticipantsCreateEntity } from '@pages/team-organization/domain/entities/participants/participants-create.entity';
-import { ParticipantsDeleteEntity } from '@pages/team-organization/domain/entities/participants/participants-delete.entity';
-import { ParticipantsDisableEntity } from '@pages/team-organization/domain/entities/participants/participants-disable.entity';
-import { ParticipantsEnableEntity } from '@pages/team-organization/domain/entities/participants/participants-enable.entity';
-import { ParticipantsFilterEntity } from '@pages/team-organization/domain/entities/participants/participants-filter.entity';
-import { ParticipantsUpdateEntity } from '@pages/team-organization/domain/entities/participants/participants-update.entity';
+import { ParticipantsDeleteDto } from '@pages/team-organization/application/dto/participants/participants-delete.dto';
+import { ParticipantsDisableDto } from '@pages/team-organization/application/dto/participants/participants-disable.dto';
+import { ParticipantsEnableDto } from '@pages/team-organization/application/dto/participants/participants-enable.dto';
+import { ParticipantsCreateValidateContract } from '@pages/team-organization/domain/contracts/participants/participants-create.validate-contract';
+import { ParticipantsUpdateValidateContract } from '@pages/team-organization/domain/contracts/participants/participants-update.validate-contract';
 import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
 import { ParticipantsRepository } from '@pages/team-organization/domain/repositories/participants/participants-repository';
+import { ParticipantsFilterVo } from '@pages/team-organization/domain/value-objects/participants/participants-filter.vo';
 import { ParticipantsCreateMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-create.mapper';
 import { participantsDeleteMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-delete.mapper';
 import { participantsDisableMapper } from '@pages/team-organization/infrastructure/data/mappers/participants/participants-disable.mapper';
@@ -33,7 +33,7 @@ export class ParticipantsRepositoryImpl implements ParticipantsRepository {
     private readonly updateMapper = inject(ParticipantsUpdateMapper);
 
     readAll(
-        filter: ParticipantsFilterEntity,
+        filter: ParticipantsFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<ParticipantsEntity>> {
@@ -43,32 +43,26 @@ export class ParticipantsRepositoryImpl implements ParticipantsRepository {
     }
 
     create(
-        payload: ParticipantsCreateEntity
+        payload: ParticipantsCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.create(this.createMapper.mapEntityToApi(payload));
     }
 
     update(
-        payload: ParticipantsUpdateEntity
+        payload: ParticipantsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.update(this.updateMapper.mapEntityToApi(payload));
     }
 
-    delete(
-        entity: ParticipantsDeleteEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(participantsDeleteMapper(entity));
+    delete(dto: ParticipantsDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(participantsDeleteMapper(dto));
     }
 
-    enable(
-        entity: ParticipantsEnableEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.enable(participantsEnableMapper(entity));
+    enable(dto: ParticipantsEnableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.enable(participantsEnableMapper(dto));
     }
 
-    disable(
-        entity: ParticipantsDisableEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.disable(participantsDisableMapper(entity));
+    disable(dto: ParticipantsDisableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.disable(participantsDisableMapper(dto));
     }
 }

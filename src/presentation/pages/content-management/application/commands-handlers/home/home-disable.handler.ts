@@ -1,3 +1,4 @@
+import { homeDisableCommandMapper } from '@pages/content-management/application/commands-mappers/home/home-disable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { HomeDisableCommand } from '@pages/content-management/application/commands/home/home-disable.command';
 import { HomeUseCase } from '@pages/content-management/application/use-cases/home/home.use-case';
@@ -9,8 +10,6 @@ export class HomeDisableHandler {
     private readonly useCase = inject(HomeUseCase);
 
     execute(command: HomeDisableCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.disable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.disable(homeDisableCommandMapper(command));
     }
 }

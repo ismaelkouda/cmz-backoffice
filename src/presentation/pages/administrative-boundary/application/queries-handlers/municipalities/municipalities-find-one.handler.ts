@@ -1,3 +1,4 @@
+import { municipalitiesFindOneQueryMapper } from '@pages/administrative-boundary/application/queries-mappers/municipalities/municipalities-find-one.mapper';
 import { inject, Injectable } from '@angular/core';
 import { MunicipalitiesFindOneQuery } from '@pages/administrative-boundary/application/queries/municipalities/municipalities-find-one.query';
 import { MunicipalitiesFindOneUseCase } from '@pages/administrative-boundary/application/use-cases/municipalities/municipalities-find-one.use-case';
@@ -14,9 +15,7 @@ export class MunicipalitiesFindOneHandler {
         options?: FetchOptions
     ): Observable<MunicipalitiesFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            municipalitiesFindOneQueryMapper(command),
             options
         );
     }

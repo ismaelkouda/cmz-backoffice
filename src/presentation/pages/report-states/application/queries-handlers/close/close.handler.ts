@@ -1,3 +1,4 @@
+import { closeQueryMapper } from '@pages/report-states/application/queries-mappers/close/close.mapper';
 import { Injectable, inject } from '@angular/core';
 import { CloseQuery } from '@pages/report-states/application/queries/close/close.query';
 import { CloseUseCase } from '@pages/report-states/application/use-cases/close/close.use-case';
@@ -15,18 +16,6 @@ export class CloseHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<CloseEntity>> {
-        return this.useCase.execute(
-            {
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(closeQueryMapper(query), page, options);
     }
 }

@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { HomeCreateEntity } from '@pages/content-management/domain/entities/home/home-create.entity';
-import { HomeDeleteEntity } from '@pages/content-management/domain/entities/home/home-delete.entity';
-import { HomeDisableEntity } from '@pages/content-management/domain/entities/home/home-disable.entity';
-import { HomeEnableEntity } from '@pages/content-management/domain/entities/home/home-enable.entity';
-import { HomeFilterEntity } from '@pages/content-management/domain/entities/home/home-filter.entity';
-import { HomeUpdateEntity } from '@pages/content-management/domain/entities/home/home-update.entity';
+import { HomeDeleteDto } from '@pages/content-management/application/dto/home/home-delete.dto';
+import { HomeDisableDto } from '@pages/content-management/application/dto/home/home-disable.dto';
+import { HomeEnableDto } from '@pages/content-management/application/dto/home/home-enable.dto';
 import { HomeEntity } from '@pages/content-management/domain/entities/home/home.entity';
+import { HomeCreateProps } from '@pages/content-management/domain/interfaces/home/home-create-props.interface';
+import { HomeUpdateProps } from '@pages/content-management/domain/interfaces/home/home-update-props.interface';
 import { HomeRepository } from '@pages/content-management/domain/repositories/home/home-repository';
+import { HomeFilterVo } from '@pages/content-management/domain/value-objects/home/home-filter.vo';
 import { HomeCreateMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-create.mapper';
 import { homeDeleteMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-delete.mapper';
 import { homeDisableMapper } from '@pages/content-management/infrastructure/data/mappers/home/home-disable.mapper';
@@ -32,7 +32,7 @@ export class HomeRepositoryImpl implements HomeRepository {
     private readonly updateMapper = inject(HomeUpdateMapper);
 
     readAll(
-        filter: HomeFilterEntity,
+        filter: HomeFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<HomeEntity>> {
@@ -41,25 +41,25 @@ export class HomeRepositoryImpl implements HomeRepository {
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(payload: HomeCreateEntity): Observable<SimpleResponseDto<void>> {
+    create(payload: HomeCreateProps): Observable<SimpleResponseDto<void>> {
         const dto = this.createMapper.mapEntityToApi(payload);
         return this.api.create(dto);
     }
 
-    update(payload: HomeUpdateEntity): Observable<SimpleResponseDto<void>> {
+    update(payload: HomeUpdateProps): Observable<SimpleResponseDto<void>> {
         const dto = this.updateMapper.mapEntityToApi(payload);
         return this.api.update(dto);
     }
 
-    delete(entity: HomeDeleteEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(homeDeleteMapper(entity));
+    delete(dto: HomeDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(homeDeleteMapper(dto));
     }
 
-    enable(entity: HomeEnableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.enable(homeEnableMapper(entity));
+    enable(dto: HomeEnableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.enable(homeEnableMapper(dto));
     }
 
-    disable(entity: HomeDisableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.disable(homeDisableMapper(entity));
+    disable(dto: HomeDisableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.disable(homeDisableMapper(dto));
     }
 }

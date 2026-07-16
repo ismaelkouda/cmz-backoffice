@@ -1,12 +1,12 @@
-import { InfrastructureTypeDisableEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-disable.entity';
 import { InfrastructureTypeDisableApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-disable-api.dto';
+import { InfrastructureTypeDisableValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-disable.validate-contract';
 
 export function infrastructureTypeDisableMapper(
-    vo: InfrastructureTypeDisableEntity
+    contract: InfrastructureTypeDisableValidateContract
 ): InfrastructureTypeDisableApiDto {
     const prams = {} as InfrastructureTypeDisableApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (contract.uniqId) {
+        prams.uniq_id = contract.uniqId;
     }
     return prams;
 }

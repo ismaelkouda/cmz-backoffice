@@ -60,6 +60,7 @@ export class InfrastructureTypeFormStore {
         return this.fb.nonNullable.group<InfrastructureTypeFormControl>({
             name: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
+                validators: [Validators.required],
             }),
 
             description: new FormControl<string | undefined>(undefined, {

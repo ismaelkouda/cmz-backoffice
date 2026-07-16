@@ -1,14 +1,14 @@
-import { InfrastructureTypeFindOneFilterEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-find-one-filter.entity';
 import { InfrastructureTypeFindOneFilterApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-find-one-filter-api.dto';
+import { InfrastructureTypeFindOneFilterValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-find-one-filter.validate-contract';
 
 export function infrastructureTypeFindOneFilterMapper(
-    entity: InfrastructureTypeFindOneFilterEntity
+    contract: InfrastructureTypeFindOneFilterValidateContract
 ): InfrastructureTypeFindOneFilterApiDto {
     const params: InfrastructureTypeFindOneFilterApiDto =
         {} as InfrastructureTypeFindOneFilterApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (contract.uniqId) {
+        params.id = contract.uniqId;
     }
 
     return params;

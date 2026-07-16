@@ -1,4 +1,4 @@
-import { ProfilesPermissionsSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-api.dto';
+import { ProfilesPermissionsSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-response-api.dto';
 
 export class ProfilesPermissionsSelectEntity {
     constructor(

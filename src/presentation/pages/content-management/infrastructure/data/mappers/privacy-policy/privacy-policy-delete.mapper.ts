@@ -1,12 +1,12 @@
-import { PrivacyPolicyDeleteEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-delete.entity';
+import { PrivacyPolicyDeleteDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
 import { PrivacyPolicyDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-delete-api.dto';
 
 export function privacyPolicyDeleteMapper(
-    vo: PrivacyPolicyDeleteEntity
+    dto: PrivacyPolicyDeleteDto
 ): PrivacyPolicyDeleteApiDto {
     const prams = {} as PrivacyPolicyDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { infrastructureTypeCreateCommandMapper } from '@pages/administrative-infrastructure/application/commands-mappers/infrastructure-type/infrastructure-type-create.mapper';
 import { InfrastructureTypeCreateCommand } from '@presentation/pages/administrative-infrastructure/application/commands/infrastructure-type/infrastructure-type-create.command';
 import { InfrastructureTypeUseCase } from '@pages/administrative-infrastructure/application/use-cases/infrastructure-type/infrastructure-type.use-case';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -10,10 +11,9 @@ export class InfrastructureTypeCreateHandler {
 
     execute(
         command: InfrastructureTypeCreateCommand
-    ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            name: command.name as string,
-            description: command.description as string,
-        });
+    ): Observable<MessageResponseDto> {
+        return this.useCase.create(
+            infrastructureTypeCreateCommandMapper(command)
+        );
     }
 }

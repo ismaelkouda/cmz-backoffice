@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { SlideCreateEntity } from '@pages/content-management/domain/entities/slide/slide-create.entity';
-import { SlideDeleteEntity } from '@pages/content-management/domain/entities/slide/slide-delete.entity';
-import { SlideDisableEntity } from '@pages/content-management/domain/entities/slide/slide-disable.entity';
-import { SlideEnableEntity } from '@pages/content-management/domain/entities/slide/slide-enable.entity';
-import { SlideFilterEntity } from '@pages/content-management/domain/entities/slide/slide-filter.entity';
-import { SlideUpdateEntity } from '@pages/content-management/domain/entities/slide/slide-update.entity';
+import { SlideDeleteDto } from '@pages/content-management/application/dto/slide/slide-delete.dto';
+import { SlideDisableDto } from '@pages/content-management/application/dto/slide/slide-disable.dto';
+import { SlideEnableDto } from '@pages/content-management/application/dto/slide/slide-enable.dto';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
+import { SlideCreateProps } from '@pages/content-management/domain/interfaces/slide/slide-create-props.interface';
+import { SlideUpdateProps } from '@pages/content-management/domain/interfaces/slide/slide-update-props.interface';
 import { SlideRepository } from '@pages/content-management/domain/repositories/slide/slide-repository';
+import { SlideFilterVo } from '@pages/content-management/domain/value-objects/slide/slide-filter.vo';
 import { SlideCreateMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-create.mapper';
 import { slideDeleteMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-delete.mapper';
 import { slideDisableMapper } from '@pages/content-management/infrastructure/data/mappers/slide/slide-disable.mapper';
@@ -32,7 +32,7 @@ export class SlideRepositoryImpl implements SlideRepository {
     private readonly updateMapper = inject(SlideUpdateMapper);
 
     readAll(
-        filter: SlideFilterEntity,
+        filter: SlideFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<SlideEntity>> {
@@ -41,25 +41,25 @@ export class SlideRepositoryImpl implements SlideRepository {
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(payload: SlideCreateEntity): Observable<SimpleResponseDto<void>> {
+    create(payload: SlideCreateProps): Observable<SimpleResponseDto<void>> {
         const dto = this.createMapper.mapEntityToApi(payload);
         return this.api.create(dto);
     }
 
-    update(payload: SlideUpdateEntity): Observable<SimpleResponseDto<void>> {
+    update(payload: SlideUpdateProps): Observable<SimpleResponseDto<void>> {
         const dto = this.updateMapper.mapEntityToApi(payload);
         return this.api.update(dto);
     }
 
-    delete(entity: SlideDeleteEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(slideDeleteMapper(entity));
+    delete(dto: SlideDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(slideDeleteMapper(dto));
     }
 
-    enable(entity: SlideEnableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.enable(slideEnableMapper(entity));
+    enable(dto: SlideEnableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.enable(slideEnableMapper(dto));
     }
 
-    disable(entity: SlideDisableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.disable(slideDisableMapper(entity));
+    disable(dto: SlideDisableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.disable(slideDisableMapper(dto));
     }
 }

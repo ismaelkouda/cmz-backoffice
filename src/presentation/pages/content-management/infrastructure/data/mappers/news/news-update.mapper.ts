@@ -1,38 +1,38 @@
-import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
+import { NewsUpdateProps } from '@pages/content-management/domain/interfaces/news/news-update-props.interface';
 import { NewsUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-update-api.dto';
 
-export function newsUpdateMapper(entity: NewsUpdateEntity): NewsUpdateApiDto {
+export function newsUpdateMapper(props: NewsUpdateProps): NewsUpdateApiDto {
     const params: NewsUpdateApiDto = {} as NewsUpdateApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (props.uniqId) {
+        params.id = props.uniqId;
     }
-    if (entity.type) {
-        params.type = entity.type;
+    if (props.type) {
+        params.type = props.type;
     }
-    if (entity.image) {
-        params.image_file = entity.image;
+    if (props.image) {
+        params.image_file = props.image;
     }
-    if (entity.video) {
-        params.video_url = entity.video;
+    if (props.video) {
+        params.video_url = props.video;
     }
-    if (entity.category) {
-        params.category_id = entity.category;
+    if (props.category) {
+        params.category_id = props.category;
     }
-    if (entity.subCategory) {
-        params.sub_category_id = entity.subCategory;
+    if (props.subCategory) {
+        params.sub_category_id = props.subCategory;
     }
-    if (entity.hashtags.length > 0) {
-        params.hashtags = entity.hashtags;
+    if (props.hashtags.length > 0) {
+        params.hashtags = props.hashtags;
     }
-    if (entity.title) {
-        params.title = entity.title;
+    if (props.title) {
+        params.title = props.title;
     }
-    if (entity.resume) {
-        params.resume = entity.resume;
+    if (props.resume) {
+        params.resume = props.resume;
     }
-    if (entity.content) {
-        params.content = entity.content;
+    if (props.content) {
+        params.content = props.content;
     }
 
     return params;

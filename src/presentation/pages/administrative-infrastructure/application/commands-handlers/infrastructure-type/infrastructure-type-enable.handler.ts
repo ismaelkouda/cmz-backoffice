@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { infrastructureTypeEnableCommandMapper } from '@pages/administrative-infrastructure/application/commands-mappers/infrastructure-type/infrastructure-type-enable.mapper';
 import { InfrastructureTypeEnableCommand } from '@presentation/pages/administrative-infrastructure/application/commands/infrastructure-type/infrastructure-type-enable.command';
 import { InfrastructureTypeUseCase } from '@pages/administrative-infrastructure/application/use-cases/infrastructure-type/infrastructure-type.use-case';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -10,9 +11,9 @@ export class InfrastructureTypeEnableHandler {
 
     execute(
         command: InfrastructureTypeEnableCommand
-    ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.enable({
-            uniqId: command.uniqId,
-        });
+    ): Observable<MessageResponseDto> {
+        return this.useCase.enable(
+            infrastructureTypeEnableCommandMapper(command)
+        );
     }
 }

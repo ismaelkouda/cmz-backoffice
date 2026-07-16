@@ -1,3 +1,4 @@
+import { termsUseFindOneQueryMapper } from '@pages/content-management/application/queries-mappers/terms-use/terms-use-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TermsUseFindOneQuery } from '@pages/content-management/application/queries/terms-use/terms-use-find-one.query';
 import { TermsUseFindOneUseCase } from '@pages/content-management/application/use-cases/terms-use/terms-use-find-one.use-case';
@@ -14,9 +15,7 @@ export class TermsUseFindOneHandler {
         options?: FetchOptions
     ): Observable<TermsUseFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            termsUseFindOneQueryMapper(command),
             options
         );
     }

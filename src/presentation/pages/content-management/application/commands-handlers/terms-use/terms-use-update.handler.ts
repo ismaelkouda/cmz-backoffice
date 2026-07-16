@@ -1,3 +1,4 @@
+import { termsUseUpdateCommandMapper } from '@pages/content-management/application/commands-mappers/terms-use/terms-use-update.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TermsUseUpdateCommand } from '@pages/content-management/application/commands/terms-use/terms-use-update.command';
 import { TermsUseUseCase } from '@pages/content-management/application/use-cases/terms-use/terms-use.use-case';
@@ -11,10 +12,6 @@ export class TermsUseUpdateHandler {
     execute(
         command: TermsUseUpdateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            version: command.version,
-            content: command.content,
-        });
+        return this.useCase.update(termsUseUpdateCommandMapper(command));
     }
 }

@@ -1,3 +1,4 @@
+import { departmentsDeleteCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/departments/departments-delete.mapper';
 import { inject, Injectable } from '@angular/core';
 import { DepartmentsDeleteCommand } from '@pages/administrative-boundary/application/commands/departments/departments-delete.command';
 import { DepartmentsUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments.use-case';
@@ -11,8 +12,6 @@ export class DepartmentsDeleteHandler {
     execute(
         command: DepartmentsDeleteCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(departmentsDeleteCommandMapper(command));
     }
 }

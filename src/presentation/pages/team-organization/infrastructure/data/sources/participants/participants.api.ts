@@ -8,7 +8,7 @@ import { ParticipantsEnableApiDto } from '@pages/team-organization/infrastructur
 import { ParticipantsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-filter-api.dto';
 import { ParticipantsResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-response-api.dto';
 import { ParticipantsUpdateApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-update-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ParticipantsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     readAll(
         filter: ParticipantsFilterApiDto,

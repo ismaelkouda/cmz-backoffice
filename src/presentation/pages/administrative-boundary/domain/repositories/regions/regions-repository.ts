@@ -1,8 +1,8 @@
-import { RegionsCreateEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-create.entity';
 import { RegionsDeleteEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-delete.entity';
 import { RegionsFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
-import { RegionsUpdateEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-update.entity';
 import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
+import { RegionsCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-create.validate-contract';
+import { RegionsUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-update.validate-contract';
 import {
     Paginate,
     SimpleResponseDto,
@@ -17,10 +17,10 @@ export abstract class RegionsRepository {
         options?: FetchOptions
     ): Observable<Paginate<RegionsEntity>>;
     abstract create(
-        entity: RegionsCreateEntity
+        contract: RegionsCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: RegionsUpdateEntity
+        contract: RegionsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
         entity: RegionsDeleteEntity

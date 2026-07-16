@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { DepartmentsCreateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-create.entity';
 import { DepartmentsDeleteEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
 import { DepartmentsFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
-import { DepartmentsUpdateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-update.entity';
 import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { DepartmentsCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-create.validate-contract';
+import { DepartmentsUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-update.validate-contract';
 import { DepartmentsRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-repository';
 import { departmentsCreateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-create.mapper';
 import { departmentsDeleteMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-delete.mapper';
@@ -35,16 +35,16 @@ export class DepartmentsRepositoryImpl implements DepartmentsRepository {
     }
 
     create(
-        entity: DepartmentsCreateEntity
+        contract: DepartmentsCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = departmentsCreateMapper(entity);
+        const paramsDto = departmentsCreateMapper(contract);
         return this.api.create(paramsDto);
     }
 
     update(
-        entity: DepartmentsUpdateEntity
+        contract: DepartmentsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = departmentsUpdateMapper(entity);
+        const paramsDto = departmentsUpdateMapper(contract);
         return this.api.update(paramsDto);
     }
 

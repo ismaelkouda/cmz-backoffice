@@ -1,3 +1,4 @@
+import { termsUseUnpublishCommandMapper } from '@pages/content-management/application/commands-mappers/terms-use/terms-use-unpublish.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TermsUseUnpublishCommand } from '@pages/content-management/application/commands/terms-use/terms-use-unpublish.command';
 import { TermsUseUseCase } from '@pages/content-management/application/use-cases/terms-use/terms-use.use-case';
@@ -11,8 +12,6 @@ export class TermsUseUnpublishHandler {
     execute(
         command: TermsUseUnpublishCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.unpublish({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.unpublish(termsUseUnpublishCommandMapper(command));
     }
 }

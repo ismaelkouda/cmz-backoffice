@@ -1,12 +1,12 @@
-import { TermsUseDeleteEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
+import { TermsUseDeleteDto } from '@pages/content-management/application/dto/terms-use/terms-use-delete.dto';
 import { TermsUseDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-delete-api.dto';
 
 export function termsUseDeleteMapper(
-    vo: TermsUseDeleteEntity
+    dto: TermsUseDeleteDto
 ): TermsUseDeleteApiDto {
     const prams = {} as TermsUseDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

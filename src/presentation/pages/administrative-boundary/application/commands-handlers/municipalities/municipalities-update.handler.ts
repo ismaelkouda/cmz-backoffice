@@ -1,3 +1,4 @@
+import { municipalitiesUpdateCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/municipalities/municipalities-update.mapper';
 import { inject, Injectable } from '@angular/core';
 import { MunicipalitiesUpdateCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-update.command';
 import { MunicipalitiesUseCase } from '@pages/administrative-boundary/application/use-cases/municipalities/municipalities.use-case';
@@ -11,15 +12,6 @@ export class MunicipalitiesUpdateHandler {
     execute(
         command: MunicipalitiesUpdateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            code: command.code,
-            population: command.population,
-            infrastructure: command.infrastructure,
-            name: command.name,
-            region: command.region,
-            description: command.description,
-            department: command?.department,
-        });
+        return this.useCase.update(municipalitiesUpdateCommandMapper(command));
     }
 }

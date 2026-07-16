@@ -1,10 +1,10 @@
-import { TeamsDisableEntity } from '@pages/team-organization/domain/entities/teams/teams-disable.entity';
+import { TeamsDisableDto } from '@pages/team-organization/application/dto/teams/teams-disable.dto';
 import { TeamsDisableApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-disable-api.dto';
 
-export function teamsDisableMapper(vo: TeamsDisableEntity): TeamsDisableApiDto {
+export function teamsDisableMapper(dto: TeamsDisableDto): TeamsDisableApiDto {
     const prams = {} as TeamsDisableApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

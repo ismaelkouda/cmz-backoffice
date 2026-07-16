@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { SlideCreateEntity } from '@pages/content-management/domain/entities/slide/slide-create.entity';
-import { SlideDeleteEntity } from '@pages/content-management/domain/entities/slide/slide-delete.entity';
-import { SlideDisableEntity } from '@pages/content-management/domain/entities/slide/slide-disable.entity';
-import { SlideEnableEntity } from '@pages/content-management/domain/entities/slide/slide-enable.entity';
-import { SlideFilterEntity } from '@pages/content-management/domain/entities/slide/slide-filter.entity';
-import { SlideUpdateEntity } from '@pages/content-management/domain/entities/slide/slide-update.entity';
+import { SlideDeleteDto } from '@pages/content-management/application/dto/slide/slide-delete.dto';
+import { SlideDisableDto } from '@pages/content-management/application/dto/slide/slide-disable.dto';
+import { SlideEnableDto } from '@pages/content-management/application/dto/slide/slide-enable.dto';
 import { SlideEntity } from '@pages/content-management/domain/entities/slide/slide.entity';
+import { SlideCreateProps } from '@pages/content-management/domain/interfaces/slide/slide-create-props.interface';
+import { SlideUpdateProps } from '@pages/content-management/domain/interfaces/slide/slide-update-props.interface';
+import { SlideFilterVo } from '@pages/content-management/domain/value-objects/slide/slide-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -18,23 +18,17 @@ import { Observable } from 'rxjs';
 })
 export abstract class SlideRepository {
     abstract readAll(
-        entity: SlideFilterEntity | null,
+        filter: SlideFilterVo | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<SlideEntity>>;
     abstract create(
-        entity: SlideCreateEntity
+        props: SlideCreateProps
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: SlideUpdateEntity
+        props: SlideUpdateProps
     ): Observable<SimpleResponseDto<void>>;
-    abstract disable(
-        entity: SlideDisableEntity
-    ): Observable<SimpleResponseDto<void>>;
-    abstract enable(
-        entity: SlideEnableEntity
-    ): Observable<SimpleResponseDto<void>>;
-    abstract delete(
-        entity: SlideDeleteEntity
-    ): Observable<SimpleResponseDto<void>>;
+    abstract disable(dto: SlideDisableDto): Observable<SimpleResponseDto<void>>;
+    abstract enable(dto: SlideEnableDto): Observable<SimpleResponseDto<void>>;
+    abstract delete(dto: SlideDeleteDto): Observable<SimpleResponseDto<void>>;
 }

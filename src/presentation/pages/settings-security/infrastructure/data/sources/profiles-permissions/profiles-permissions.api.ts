@@ -5,7 +5,7 @@ import { ProfilesPermissionsCreateApiDto } from '@pages/settings-security/infras
 import { ProfilesPermissionsFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-filter-api.dto';
 import { ProfilesPermissionsResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-response-api.dto';
 import { ProfilesPermissionsUpdateApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-update-api.dto';
-import { SETTINGS_SECURITY_LOGS_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -20,7 +20,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(SETTINGS_SECURITY_LOGS_BASE_URL);
+    private readonly baseUrl = inject(SETTINGS_API_URL);
 
     readAll(
         filter: ProfilesPermissionsFilterApiDto,

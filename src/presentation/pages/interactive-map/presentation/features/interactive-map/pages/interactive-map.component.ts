@@ -136,7 +136,7 @@ export class InteractiveMapComponent
     public readonly coverageLegendOpen = signal(true);
     public readonly coverageOperatorVisibility = signal<
         Record<string, boolean>
-    >(Object.fromEntries(this.COVERAGE_OPERATORS.map((op) => [op.id, true])));
+    >(Object.fromEntries(this.COVERAGE_OPERATORS.map((op) => [op.id, false])));
     public readonly currentBaseMap = signal<'osm' | 'satellite'>('osm');
     private readonly mapShell = viewChild<ElementRef<HTMLElement>>('mapShell');
     private readonly mapContainer =
@@ -226,14 +226,30 @@ export class InteractiveMapComponent
         { value: 'fo', label: 'Fibre optique' },
         { value: 'fr', label: 'Faiseau radio' },
     ];
+    public readonly rnhdVisibility = signal<Record<string, boolean>>(
+        Object.fromEntries(
+            this.networkTechnologyOptions.map((op) => [op.value, false])
+        )
+    );
+
+    public rnhdVisible(value: string): boolean {
+        return this.rnhdVisibility()[value] ?? false;
+    }
+
+    public toggleRnhd(value: string, visible: boolean): void {
+        this.rnhdVisibility.update((vis) => ({
+            ...vis,
+            [value]: visible,
+        }));
+    }
     public readonly equipmentOptions: { id: string; label: string }[] = [
-        { id: 'formations', label: 'Formations' },
-        { id: 'sanitaires', label: 'Sanitaires' },
-        { id: 'securitaires', label: 'Sécuritaires' },
-        { id: 'administratifs', label: 'Administratifs' },
+        { id: 'education', label: 'Education' },
+        { id: 'sante', label: 'Santé' },
+        { id: 'administration', label: 'Administration' },
+        { id: 'securité', label: 'Sécurité' },
     ];
     public readonly equipmentsVisible = signal<Record<string, boolean>>(
-        Object.fromEntries(this.equipmentOptions.map((eq) => [eq.id, true]))
+        Object.fromEntries(this.equipmentOptions.map((eq) => [eq.id, false]))
     );
 
     public readonly allEquipmentsVisible = computed(() => {
@@ -246,6 +262,7 @@ export class InteractiveMapComponent
             ...vis,
             [type]: visible,
         }));
+        this.mapAdapter.setEquipmentTypeVisible(type, visible);
     }
 
     public toggleAllEquipments(visible: boolean): void {
@@ -253,6 +270,9 @@ export class InteractiveMapComponent
             this.equipmentOptions.map((eq) => [eq.id, visible])
         );
         this.equipmentsVisible.set(newVisibility);
+        for (const eq of this.equipmentOptions) {
+            this.mapAdapter.setEquipmentTypeVisible(eq.id, visible);
+        }
     }
 
     private readonly geolocationService = inject(GeolocationService);
@@ -285,6 +305,7 @@ export class InteractiveMapComponent
     private hoverHideTimer: ReturnType<typeof setTimeout> | null = null;
     private urlSyncReady = false;
     private ignoreNextMapMove = false;
+    private mapResizeObserver: ResizeObserver | null = null;
     private readonly handleFullscreenChange = (): void => {
         this.isFullscreen.set(
             document.fullscreenElement === this.mapShell()?.nativeElement
@@ -308,6 +329,7 @@ export class InteractiveMapComponent
     ngAfterViewInit(): void {
         this.initMap();
         this.updateCoverageAreaTileLayer();
+        this.updateEquipmentAreaTileLayer();
         const hoverEl = this.hoverOverlay()?.nativeElement;
         const clickEl = this.clickOverlay()?.nativeElement;
         if (hoverEl) {
@@ -324,6 +346,7 @@ export class InteractiveMapComponent
             'fullscreenchange',
             this.handleFullscreenChange
         );
+        this.setupMapResizeObserver();
     }
 
     ngOnDestroy(): void {
@@ -332,7 +355,28 @@ export class InteractiveMapComponent
             'fullscreenchange',
             this.handleFullscreenChange
         );
+        this.mapResizeObserver?.disconnect();
         this.mapAdapter.destroy();
+    }
+
+    /**
+     * Garde la carte OpenLayers synchronisée avec la taille réelle de son
+     * conteneur pendant toute animation CSS (ouverture/fermeture des
+     * panneaux). Sans cela, le canvas de la carte ne se met à jour qu'une
+     * seule fois (via un setTimeout), ce qui produit un "saut"/décalage
+     * visible de la carte le temps que la transition CSS se termine.
+     */
+    private setupMapResizeObserver(): void {
+        const target = this.mapContainer()?.nativeElement;
+        if (!target || typeof ResizeObserver === 'undefined') {
+            return;
+        }
+
+        this.mapResizeObserver = new ResizeObserver(() => {
+            this.ignoreNextMapMove = true;
+            this.mapAdapter.updateSize(true);
+        });
+        this.mapResizeObserver.observe(target);
     }
 
     public requestLocationPermission(): void {
@@ -366,7 +410,12 @@ export class InteractiveMapComponent
     public toggleFiltersPanel(): void {
         this.filtersPanelOpen.update((isOpen) => !isOpen);
         this.ignoreNextMapMove = true;
-        setTimeout(() => this.mapAdapter.updateSize(true), 260);
+        // Le ResizeObserver posé sur le conteneur de la carte (voir
+        // setupMapResizeObserver) se charge de réappeler updateSize()
+        // en continu pendant toute la transition CSS de la grille, ce
+        // qui évite le décalage visuel qu'un unique appel différé
+        // provoquait auparavant. On garde un appel immédiat en secours.
+        this.mapAdapter.updateSize(true);
     }
 
     public async toggleFullscreen(): Promise<void> {
@@ -596,7 +645,14 @@ export class InteractiveMapComponent
             this.coverageAreasVisible();
             this.store.filters();
             this.coverageNetworkTechnology();
+            this.coverageOperatorVisibility();
+            this.rnhdVisibility();
             this.updateCoverageAreaTileLayer();
+        });
+
+        effect(() => {
+            this.equipmentsVisible();
+            this.updateEquipmentAreaTileLayer();
         });
 
         effect(() => {
@@ -649,19 +705,50 @@ export class InteractiveMapComponent
         }
 
         const visible = this.coverageAreasVisible();
-        if (!visible) {
+        const selectedOperators = this.COVERAGE_OPERATORS.filter(
+            (op) => this.coverageOperatorVisibility()[op.id]
+        ).map((op) => op.id);
+        const selectedNetworkTechnologies = this.networkTechnologyOptions
+            .filter((op) => this.rnhdVisibility()[op.value])
+            .map((op) => op.value);
+
+        if (!visible || !selectedOperators.length) {
             this.mapAdapter.setCoverageAreasVisible(false);
             return;
         }
 
         const filters = this.store.filters();
         const tileUrl = this.reportsApi.getCoverageAreasTileUrl({
-            operator: filters.operators.join(',') || undefined,
-            network_technology: this.coverageNetworkTechnology() || undefined,
+            operator: selectedOperators.join(',') || undefined,
+            network_technology:
+                selectedNetworkTechnologies.join(',') ||
+                this.coverageNetworkTechnology() ||
+                undefined,
             region: filters.region || undefined,
         });
 
         this.mapAdapter.renderCoverageAreaTiles(tileUrl, true);
+    }
+
+    private updateEquipmentAreaTileLayer(): void {
+        if (!this.mapAdapter.isReady()) {
+            return;
+        }
+
+        const selectedEquipments = this.equipmentOptions
+            .filter((eq) => this.equipmentsVisible()[eq.id])
+            .map((eq) => eq.id);
+
+        if (!selectedEquipments.length) {
+            this.mapAdapter.setEquipmentAreasVisible(false);
+            return;
+        }
+
+        const tileUrl = this.reportsApi.getCoverageAreasTileUrl({
+            equipment: selectedEquipments.join(','),
+        });
+
+        this.mapAdapter.renderEquipmentAreaTiles(tileUrl, true);
     }
 
     private checkInitialPermission(): void {
@@ -958,6 +1045,10 @@ export class InteractiveMapComponent
 
     public toggleCoverageLegend(): void {
         this.coverageLegendOpen.update((v) => !v);
+        // Le panneau "Couches" est superposé à la carte (position absolute) :
+        // il ne modifie pas la grille, mais on force quand même un recalcul
+        // de taille pour rester cohérent avec le toggle du panneau de gauche.
+        this.mapAdapter.updateSize(true);
     }
 
     public toggleCoverageOperator(operator: string, visible: boolean): void {
@@ -969,7 +1060,7 @@ export class InteractiveMapComponent
     }
 
     public coverageOperatorVisible(operator: string): boolean {
-        return this.coverageOperatorVisibility()[operator] ?? true;
+        return this.coverageOperatorVisibility()[operator] ?? false;
     }
 
     public getCoverageColor(operator: string): string {

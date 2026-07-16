@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { RegionsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-create-api.dto';
 import { RegionsDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-delete-api.dto';
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 })
 export class RegionsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL);
+    private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
         paramsDto: RegionsFilterApiDto,

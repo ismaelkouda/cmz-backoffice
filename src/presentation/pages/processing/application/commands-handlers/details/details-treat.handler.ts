@@ -1,3 +1,4 @@
+import { detailsTreatCommandMapper } from '@pages/processing/application/commands-mappers/details/details-treat.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DetailsTreatCommand } from '@pages/processing/application/commands/details/details-treat.command';
 import { DetailsUseCase } from '@pages/processing/application/use-cases/details/details.use-case';
@@ -9,9 +10,6 @@ export class DetailsTreatHandler {
     private readonly useCase = inject(DetailsUseCase);
 
     execute(command: DetailsTreatCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.treat({
-            uniqId: command.uniqId,
-            comment: command.comment,
-        });
+        return this.useCase.treat(detailsTreatCommandMapper(command));
     }
 }

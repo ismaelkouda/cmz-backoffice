@@ -1,3 +1,4 @@
+import { departmentsQueryMapper } from '@pages/administrative-boundary/application/queries-mappers/departments/departments.mapper';
 import { inject, Injectable } from '@angular/core';
 import { DepartmentsQuery } from '@pages/administrative-boundary/application/queries/departments/departments.query';
 import { DepartmentsUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments.use-case';
@@ -16,12 +17,7 @@ export class DepartmentsHandler {
         options?: FetchOptions
     ): Observable<Paginate<DepartmentsEntity>> {
         return this.useCase.execute(
-            {
-                search: command.search,
-                region: command.region,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
+            departmentsQueryMapper(command),
             page,
             options
         );

@@ -1,12 +1,12 @@
-import { InfrastructureTypeDeleteEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-delete.entity';
 import { InfrastructureTypeDeleteApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-delete-api.dto';
+import { InfrastructureTypeDeleteValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-delete.validate-contract';
 
 export function infrastructureTypeDeleteMapper(
-    vo: InfrastructureTypeDeleteEntity
+    contract: InfrastructureTypeDeleteValidateContract
 ): InfrastructureTypeDeleteApiDto {
     const prams = {} as InfrastructureTypeDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (contract.uniqId) {
+        prams.uniq_id = contract.uniqId;
     }
     return prams;
 }

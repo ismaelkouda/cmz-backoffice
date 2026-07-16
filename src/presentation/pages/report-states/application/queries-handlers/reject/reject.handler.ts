@@ -1,3 +1,4 @@
+import { rejectQueryMapper } from '@pages/report-states/application/queries-mappers/reject/reject.mapper';
 import { Injectable, inject } from '@angular/core';
 import { RejectQuery } from '@pages/report-states/application/queries/reject/reject.query';
 import { RejectUseCase } from '@pages/report-states/application/use-cases/reject/reject.use-case';
@@ -15,19 +16,6 @@ export class RejectHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<RejectEntity>> {
-        return this.useCase.execute(
-            {
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                status: query.status,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(rejectQueryMapper(query), page, options);
     }
 }

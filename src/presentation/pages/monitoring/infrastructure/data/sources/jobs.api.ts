@@ -6,14 +6,14 @@ import { Observable } from 'rxjs';
 import { JobsResponseDto } from '../../api/dto/jobs/jobs-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { MONITORING_ENDPOINTS } from '../../api/monitoring.endpoints';
-import { MONITORING_API_BASE_URL } from '../../api/monitoring.config';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 
 @Injectable({
     providedIn: 'root',
 })
 export class JobsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(MONITORING_API_BASE_URL);
+    private readonly baseUrl = inject(SETTINGS_API_URL);
 
     getJobs(options?: FetchOptions): Observable<JobsResponseDto> {
         const url = `${this.baseUrl}${MONITORING_ENDPOINTS.JOBS}`;

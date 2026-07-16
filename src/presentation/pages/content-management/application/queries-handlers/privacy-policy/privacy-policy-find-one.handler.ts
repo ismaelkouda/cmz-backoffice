@@ -1,3 +1,4 @@
+import { privacyPolicyFindOneQueryMapper } from '@pages/content-management/application/queries-mappers/privacy-policy/privacy-policy-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { PrivacyPolicyFindOneQuery } from '@pages/content-management/application/queries/privacy-policy/privacy-policy-find-one.query';
 import { PrivacyPolicyFindOneUseCase } from '@pages/content-management/application/use-cases/privacy-policy/privacy-policy-find-one.use-case';
@@ -14,9 +15,7 @@ export class PrivacyPolicyFindOneHandler {
         options?: FetchOptions
     ): Observable<PrivacyPolicyFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            privacyPolicyFindOneQueryMapper(command),
             options
         );
     }

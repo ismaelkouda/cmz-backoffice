@@ -1,3 +1,4 @@
+import { tasksActionsUpdateCommandMapper } from '@pages/processing/application/commands-mappers/tasks/tasks-actions-update.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TasksActionsUpdateCommand } from '@pages/processing/application/commands/tasks/tasks-actions-update.command';
 import { TasksActionsUseCase } from '@pages/processing/application/use-cases/tasks/tasks-actions.use-case';
@@ -11,15 +12,6 @@ export class TasksUpdateHandler {
     execute(
         command: TasksActionsUpdateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            reportUniqId: command.reportUniqId,
-            date: command.date,
-            type: command.type,
-            operator: command.operator,
-            description: command.description,
-            shouldNotifyUser: command.shouldNotifyUser,
-            isConform: command.isConform,
-        });
+        return this.useCase.update(tasksActionsUpdateCommandMapper(command));
     }
 }

@@ -1,3 +1,4 @@
+import { legalNoticeQueryMapper } from '@pages/content-management/application/queries-mappers/legal-notice/legal-notice.mapper';
 import { Injectable, inject } from '@angular/core';
 import { LegalNoticeQuery } from '@pages/content-management/application/queries/legal-notice/legal-notice.query';
 import { LegalNoticeUseCase } from '@pages/content-management/application/use-cases/legal-notice/legal-notice.use-case';
@@ -16,13 +17,7 @@ export class LegalNoticeHandler {
         options?: FetchOptions
     ): Observable<Paginate<LegalNoticeEntity>> {
         return this.useCase.execute(
-            {
-                search: command.search,
-                version: command.version,
-                status: command.status,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
+            legalNoticeQueryMapper(command),
             page,
             options
         );

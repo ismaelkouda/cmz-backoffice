@@ -1,3 +1,4 @@
+import { profilesPermissionsFindOneQueryMapper } from '@pages/settings-security/application/queries-mappers/profiles-permissions/profiles-permissions-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsFindOneQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions-find-one.query';
 import { ProfilesPermissionsFindOneUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions-find-one.use-case';
@@ -14,9 +15,7 @@ export class ProfilesPermissionsFindOneHandler {
         options?: FetchOptions
     ): Observable<ProfilesPermissionsFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            profilesPermissionsFindOneQueryMapper(command),
             options
         );
     }

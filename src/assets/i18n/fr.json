@@ -387,7 +387,7 @@
                 "TITLE": "Par statut",
                 "APPROVED_PROCESSING": {
                     "LABEL": "Approuvés",
-                    "SUBTITLE": "Signalements approuvés"
+                    "SUBTITLE": "Signalements recevables"
                 },
                 "REJECTED_PROCESSING": {
                     "LABEL": "Rejetés",
@@ -399,7 +399,7 @@
                 }
             },
             "TYPE": {
-                "TITLE": "Signalements approuvés",
+                "TITLE": "Signalements recevables",
                 "TOTAL_PROCESSING": {
                     "LABEL": "Total des signalements",
                     "SUBTITLE": "Tous les signalements confondus"
@@ -422,7 +422,7 @@
                 }
             },
             "TASK_STATUS": {
-                "TITLE": "Etat des bacs de taches en attente",
+                "TITLE": "Etat de la prise en charge des signalements",
                 "PENDING": {
                     "LABEL": "En attente de qualification",
                     "SUBTITLE": "Signalements en attente de qualification"
@@ -432,7 +432,7 @@
                     "SUBTITLE": "Signalements en attente d'affectation"
                 },
                 "TREATED": {
-                    "LABEL": "Signalements en traitement",
+                    "LABEL": "Signalements prise en charge",
                     "SUBTITLE": "Signalements en cours de traitement"
                 },
                 "FINALIZED": {
@@ -570,6 +570,31 @@
                     "INVALID_IMAGE_TYPE": "Type d'image non supporté",
                     "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
                     "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
+                },
+                "ERROR": {
+                    "CREATE": {
+                        "TITLE_REQUIRE": "Le titre est requis",
+                        "RESUME_REQUIRE": "Le résumé est requis",
+                        "CONTENT_REQUIRE": "Le contenu est requis",
+                        "IMAGE_REQUIRE": "L'image est requise",
+                        "PLATFORMS_REQUIRE": "Au moins une plateforme est requise",
+                        "START_DATE_REQUIRE": "La date de début est requise",
+                        "END_DATE_REQUIRE": "La date de fin est requise",
+                        "BUTTON_URL_REQUIRE": "L'URL du bouton est requise lorsque le libellé est renseigné",
+                        "BUTTON_LABEL_REQUIRE": "Le libellé du bouton est requis lorsque une URL est renseignée"
+                    },
+                    "UPDATE": {
+                        "TITLE_REQUIRE": "Le titre est requis",
+                        "RESUME_REQUIRE": "Le résumé est requis",
+                        "CONTENT_REQUIRE": "Le contenu est requis",
+                        "IMAGE_REQUIRE": "L'image est requise",
+                        "PLATFORMS_REQUIRE": "Au moins une plateforme est requise",
+                        "START_DATE_REQUIRE": "La date de début est requise",
+                        "END_DATE_REQUIRE": "La date de fin est requise",
+                        "BUTTON_URL_REQUIRE": "L'URL du bouton est requise lorsque le libellé est renseigné",
+                        "BUTTON_LABEL_REQUIRE": "Le libellé du bouton est requis lorsque une URL est renseignée",
+                        "UNIQ_ID_REQUIRE": "Identifiant requis"
+                    }
                 }
             },
             "SWEET_ALERT": {
@@ -737,6 +762,27 @@
                     "INVALID_IMAGE_TYPE": "Type d'image non supporté",
                     "FILE_TOO_LARGE": "Fichier trop volumineux. Max. {maxSize}MB",
                     "IMAGE_DIMENSIONS_TOO_LARGE": "Image trop grande. Max. {maxWidth}x{maxHeight}px"
+                },
+                "ERROR": {
+                    "CREATE": {
+                        "TYPE_REQUIRE": "Le type de média est requis",
+                        "IMAGE_REQUIRE": "L'image est requise",
+                        "VIDEO_REQUIRE": "La vidéo est requise",
+                        "TITLE_REQUIRE": "Le titre est requis",
+                        "RESUME_REQUIRE": "Le résumé est requis",
+                        "CONTENT_REQUIRE": "Le contenu est requis",
+                        "CATEGORY_REQUIRE": "La catégorie est requise"
+                    },
+                    "UPDATE": {
+                        "TYPE_REQUIRE": "Le type de média est requis",
+                        "IMAGE_REQUIRE": "L'image est requise",
+                        "VIDEO_REQUIRE": "La vidéo est requise",
+                        "TITLE_REQUIRE": "Le titre est requis",
+                        "RESUME_REQUIRE": "Le résumé est requis",
+                        "CONTENT_REQUIRE": "Le contenu est requis",
+                        "CATEGORY_REQUIRE": "La catégorie est requise",
+                        "UNIQ_ID_REQUIRE": "Identifiant requis"
+                    }
                 }
             },
             "SWEET_ALERT": {
@@ -904,6 +950,35 @@
                     "FLIP_V": "Verticalement",
                     "RESET": "Réinitialiser",
                     "LOADING": "Chargement de l'image..."
+                },
+                "ERROR": {
+                    "CREATE": {
+                        "TIME_DURATION_REQUIRE": "La durée est requise",
+                        "TIME_DURATION_INVALID": "La durée doit être supérieure à 0",
+                        "TYPE_REQUIRE": "Le type de média est requis",
+                        "IMAGE_REQUIRE": "L'image est requise",
+                        "VIDEO_REQUIRE": "La vidéo est requise",
+                        "TITLE_REQUIRE": "Le titre est requis",
+                        "PLATFORMS_REQUIRE": "Au moins une plateforme est requise",
+                        "START_DATE_REQUIRE": "La date de début est requise",
+                        "END_DATE_REQUIRE": "La date de fin est requise",
+                        "BUTTON_URL_REQUIRE": "L'URL du bouton est requise lorsque le libellé est renseigné",
+                        "BUTTON_LABEL_REQUIRE": "Le libellé du bouton est requis lorsque une URL est renseignée"
+                    },
+                    "UPDATE": {
+                        "TIME_DURATION_REQUIRE": "La durée est requise",
+                        "TIME_DURATION_INVALID": "La durée doit être supérieure à 0",
+                        "TYPE_REQUIRE": "Le type de média est requis",
+                        "IMAGE_REQUIRE": "L'image est requise",
+                        "VIDEO_REQUIRE": "La vidéo est requise",
+                        "TITLE_REQUIRE": "Le titre est requis",
+                        "PLATFORMS_REQUIRE": "Au moins une plateforme est requise",
+                        "START_DATE_REQUIRE": "La date de début est requise",
+                        "END_DATE_REQUIRE": "La date de fin est requise",
+                        "BUTTON_URL_REQUIRE": "L'URL du bouton est requise lorsque le libellé est renseigné",
+                        "BUTTON_LABEL_REQUIRE": "Le libellé du bouton est requis lorsque une URL est renseignée",
+                        "UNIQ_ID_REQUIRE": "Identifiant requis"
+                    }
                 }
             },
             "SWEET_ALERT": {
@@ -1013,7 +1088,18 @@
                 "TITLE_FORM_ADD": "Formulaire d'ajout de politique de confidentialité",
                 "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
-                "CONFIG": "Configuration & Actions"
+                "CONFIG": "Configuration & Actions",
+                "ERROR": {
+                    "CREATE": {
+                        "VERSION_REQUIRE": "La version est requise",
+                        "CONTENT_REQUIRE": "Le contenu est requis"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant requis",
+                        "VERSION_REQUIRE": "La version est requise",
+                        "CONTENT_REQUIRE": "Le contenu est requis"
+                    }
+                }
             },
             "SWEET_ALERT": {
                 "TITLE": {
@@ -1123,7 +1209,18 @@
                 "TITLE_FORM_EDIT": "Formulaire d'édition de mentions légale",
                 "TITLE_FORM_ADD": "Formulaire d'ajout de mentions légale",
                 "GENERAL_INFO": "Informations Générales",
-                "CONFIG": "Configuration & Actions"
+                "CONFIG": "Configuration & Actions",
+                "ERROR": {
+                    "CREATE": {
+                        "VERSION_REQUIRE": "La version est requise",
+                        "CONTENT_REQUIRE": "Le contenu est requis"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant requis",
+                        "VERSION_REQUIRE": "La version est requise",
+                        "CONTENT_REQUIRE": "Le contenu est requis"
+                    }
+                }
             },
             "SWEET_ALERT": {
                 "TITLE": {
@@ -1230,7 +1327,18 @@
                 "TITLE_FORM_ADD": "Formulaire d'ajout de conditions d'utilisation",
                 "DESCRIPTION": "Contenu",
                 "GENERAL_INFO": "Informations Générales",
-                "CONFIG": "Configuration & Actions"
+                "CONFIG": "Configuration & Actions",
+                "ERROR": {
+                    "CREATE": {
+                        "VERSION_REQUIRE": "La version est requise",
+                        "CONTENT_REQUIRE": "Le contenu est requis"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant requis",
+                        "VERSION_REQUIRE": "La version est requise",
+                        "CONTENT_REQUIRE": "Le contenu est requis"
+                    }
+                }
             },
             "SWEET_ALERT": {
                 "TITLE": {
@@ -2358,6 +2466,27 @@
                             "OTHER": "Autre"
                         }
                     }
+                },
+                "FORM": {
+                    "ERROR": {
+                        "CREATE": {
+                            "REPORT_UNIQ_ID_REQUIRE": "L'identifiant du signalement est requis",
+                            "DATE_REQUIRE": "La date est requise",
+                            "TYPE_REQUIRE": "Le type d'action est requis",
+                            "OPERATOR_REQUIRE": "L'opérateur est requis",
+                            "DESCRIPTION_REQUIRE": "La description est requise",
+                            "IS_CONFORM_REQUIRE": "La conformité est requise"
+                        },
+                        "UPDATE": {
+                            "UNIQ_ID_REQUIRE": "L'identifiant de l'action est requis",
+                            "REPORT_UNIQ_ID_REQUIRE": "L'identifiant du signalement est requis",
+                            "DATE_REQUIRE": "La date est requise",
+                            "TYPE_REQUIRE": "Le type d'action est requis",
+                            "OPERATOR_REQUIRE": "L'opérateur est requis",
+                            "DESCRIPTION_REQUIRE": "La description est requise",
+                            "IS_CONFORM_REQUIRE": "La conformité est requise"
+                        }
+                    }
                 }
             },
             "SWEET_ALERT": {
@@ -2753,11 +2882,11 @@
         "LABEL": "Qualifications",
         "ROUTE": "report-status",
         "APPROVE": {
-            "TITLE": "demandes approuvées",
-            "LABEL": "Demandes approuvées",
+            "TITLE": "demandes recevables",
+            "LABEL": "Demandes recevables",
             "ROUTE": "approuved",
             "BREADCRUMB": {
-                "LABEL": "Demandes approuvées",
+                "LABEL": "Demandes recevables",
                 "ROUTE": "approuved"
             },
             "TABLE": {
@@ -2829,7 +2958,9 @@
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les demandes au format [uniqId]" },
+                "TITLE": {
+                    "DOWNLOAD": "Télécharger les demandes au format [uniqId]"
+                },
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
@@ -2912,7 +3043,9 @@
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les demandes au format [uniqId]" },
+                "TITLE": {
+                    "DOWNLOAD": "Télécharger les demandes au format [uniqId]"
+                },
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
@@ -3005,7 +3138,9 @@
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les signalements au format [uniqId]" },
+                "TITLE": {
+                    "DOWNLOAD": "Télécharger les signalements au format [uniqId]"
+                },
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
@@ -3114,7 +3249,9 @@
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
-                "TITLE": { "DOWNLOAD": "Télécharger les signalements au format [uniqId]" },
+                "TITLE": {
+                    "DOWNLOAD": "Télécharger les signalements au format [uniqId]"
+                },
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
@@ -3250,7 +3387,9 @@
                 "ACTION": "Action"
             },
             "SWEET_ALERT": {
-                "TITLE": { "READ_ALL": "Lire toute les notifications" },
+                "TITLE": {
+                    "READ_ALL": "Lire toute les notifications"
+                },
                 "MESSAGE": {
                     "READ_ALL": "Voulez-vous vraiment lire toutes les notifications ?"
                 }
@@ -3475,7 +3614,7 @@
             "CATEGORIES": {
                 "INFORMATION": "Informations",
                 "IMAGES": "Photos",
-                "GEOGRAPHIC_VIEW": "Vue géographique",
+                "GEOGRAPHIC_VIEW": "Vue Interactive",
                 "CHATBOT": "Messagerie",
                 "TREATMENT_LOGS": "Journal de traitement"
             },
@@ -3610,7 +3749,6 @@
                 "OBSERVATION_POINT": "Le point d'observation",
                 "NO_DATA": "Aucune photo disponible."
             },
-
             "FIELDS": {
                 "REPORT_ID": "ID Signalement",
                 "SOURCE": "Canal d'émission",
@@ -3816,6 +3954,21 @@
                     "PROFILE_PLACEHOLDER": "Ex: Admin",
                     "MATRICULE_PLACEHOLDER": "Ex: 123456",
                     "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                },
+                "ERROR": {
+                    "CREATE": {
+                        "FIRST_NAME_REQUIRE": "Les prénoms sont requis",
+                        "LAST_NAME_REQUIRE": "Le nom est requis",
+                        "EMAIL_REQUIRE": "L'email est requis",
+                        "PROFILE_REQUIRE": "Le profil est requis"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "FIRST_NAME_REQUIRE": "Les prénoms sont requis",
+                        "LAST_NAME_REQUIRE": "Le nom est requis",
+                        "EMAIL_REQUIRE": "L'email est requis",
+                        "PROFILE_REQUIRE": "Le profil est requis"
+                    }
                 }
             },
             "BUTTONS": {
@@ -3964,6 +4117,19 @@
                     "INVALID_FORMAT": "Format invalide",
                     "INVALID_INPUT": "Valeur invalide",
                     "REQUIRED": "Ce champ est obligatoire"
+                },
+                "ERROR": {
+                    "CREATE": {
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise",
+                        "PERMISSIONS_REQUIRE": "Au moins une permission est requise"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise",
+                        "PERMISSIONS_REQUIRE": "Au moins une permission est requise"
+                    }
                 }
             },
             "SWEET_ALERT": {
@@ -4125,10 +4291,15 @@
             "FILTER": {
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
-                "STATUS": "Statut"
+                "STATUS": "Statut",
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
             },
             "FORM": {
-                    "TITLE": "Informations Générales",
+                "TITLE": "Informations Générales",
                 "CREATE_TITLE": "Ajouter un équipement",
                 "EDIT_TITLE": "Modifier un équipement",
                 "NAME": "Nom",
@@ -4162,6 +4333,29 @@
                     "PROFILE_PLACEHOLDER": "Ex: Admin",
                     "MATRICULE_PLACEHOLDER": "Ex: 123456",
                     "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                },
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                    },
+                    "CREATE": {
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise"
+                    }
                 }
             },
             "BUTTONS": {
@@ -4287,7 +4481,7 @@
                 "NAME": "Nom",
                 "TYPE": "Type d'equipement",
                 "TYPE_PLACEHOLDER": "Selectionner le type d'équipement",
-                "POSITION":"Coordonnées GPS",
+                "POSITION": "Coordonnées GPS",
                 "DESCRIPTION": "Description",
                 "MATRICULE": "Matricule",
                 "EMAIL": "Email",
@@ -4318,6 +4512,27 @@
                     "PROFILE_PLACEHOLDER": "Ex: Admin",
                     "MATRICULE_PLACEHOLDER": "Ex: 123456",
                     "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                },
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                    },
+                    "CREATE": {
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "TYPE_REQUIRE": "Le type d'équipement est requis",
+                        "POSITION_REQUIRE": "Les coordonnées GPS sont requises",
+                        "DESCRIPTION_REQUIRE": "La description est requise"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "TYPE_REQUIRE": "Le type d'équipement est requis",
+                        "POSITION_REQUIRE": "Les coordonnées GPS sont requises",
+                        "DESCRIPTION_REQUIRE": "La description est requise"
+                    }
                 }
             },
             "BUTTONS": {
@@ -4472,6 +4687,21 @@
                     "ROLE_PLACEHOLDER": "Ex: Admin",
                     "MATRICULE_PLACEHOLDER": "Ex: 123456",
                     "EMAIL_PLACEHOLDER": "Ex: dupont@cmz.com"
+                },
+                "ERROR": {
+                    "CREATE": {
+                        "FIRST_NAME_REQUIRE": "Les prénoms sont requis",
+                        "LAST_NAME_REQUIRE": "Le nom est requis",
+                        "EMAIL_REQUIRE": "L'email est requis",
+                        "ROLE_REQUIRE": "Le rôle est requis lorsqu'une équipe est renseignée"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "FIRST_NAME_REQUIRE": "Les prénoms sont requis",
+                        "LAST_NAME_REQUIRE": "Le nom est requis",
+                        "EMAIL_REQUIRE": "L'email est requis",
+                        "ROLE_REQUIRE": "Le rôle est requis lorsqu'une équipe est renseignée"
+                    }
                 }
             },
             "SWEET_ALERT": {
@@ -4643,6 +4873,23 @@
                     "INVALID_FORMAT": "Format invalide",
                     "INVALID_INPUT": "Valeur invalide",
                     "REQUIRED": "Ce champ est obligatoire"
+                },
+                "ERROR": {
+                    "CREATE": {
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise",
+                        "REPORT_TYPES_REQUIRE": "Au moins un type de signalement est requis",
+                        "OPERATORS_REQUIRE": "Au moins un opérateur est requis",
+                        "PERMISSIONS_REQUIRE": "Au moins une permission est requise"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise",
+                        "REPORT_TYPES_REQUIRE": "Au moins un type de signalement est requis",
+                        "OPERATORS_REQUIRE": "Au moins un opérateur est requis",
+                        "PERMISSIONS_REQUIRE": "Au moins une permission est requise"
+                    }
                 }
             },
             "SWEET_ALERT": {
@@ -4944,11 +5191,11 @@
     },
     "INTERACTIVE_MAP": {
         "BREADCRUMB": {
-            "LABEL": "Vue géographique",
+            "LABEL": "Vue Interactive",
             "ROUTE": "map",
             "ICON": "pi pi-map"
         },
-        "LABEL": "Vue géographique",
+        "LABEL": "Vue Interactive",
         "MAP": {
             "BREADCRUMB": {
                 "LABEL": "Carte interactive",
@@ -4968,6 +5215,24 @@
             "LABEL": "Tableau de bord interactif",
             "LOADING_DESCRIPTION": "Suivi des performances en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord - Carte interactive. Veuillez recharger la page ou contacter le support."
+        }
+    },
+    "SEOS_REFERENCE": {
+        "RESOURCES": {
+            "FORM": {
+                "ERROR": {
+                    "CREATE": {
+                        "CODE_REQUIRE": "Le code est requis",
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise"
+                    },
+                    "UPDATE": {
+                        "CODE_REQUIRE": "Le code est requis",
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "DESCRIPTION_REQUIRE": "La description est requise"
+                    }
+                }
+            }
         }
     }
 }

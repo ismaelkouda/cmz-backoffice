@@ -1,3 +1,4 @@
+import { privacyPolicyUnpublishCommandMapper } from '@pages/content-management/application/commands-mappers/privacy-policy/privacy-policy-unpublish.mapper';
 import { Injectable, inject } from '@angular/core';
 import { PrivacyPolicyUnpublishCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-unpublish.command';
 import { PrivacyPolicyUseCase } from '@pages/content-management/application/use-cases/privacy-policy/privacy-policy.use-case';
@@ -11,8 +12,8 @@ export class PrivacyPolicyUnpublishHandler {
     execute(
         command: PrivacyPolicyUnpublishCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.unpublish({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.unpublish(
+            privacyPolicyUnpublishCommandMapper(command)
+        );
     }
 }

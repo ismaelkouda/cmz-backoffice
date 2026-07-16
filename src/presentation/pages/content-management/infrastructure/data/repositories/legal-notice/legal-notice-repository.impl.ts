@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { LegalNoticeCreateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-create.entity';
-import { LegalNoticeDeleteEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
-import { LegalNoticeFilterEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
-import { LegalNoticePublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
-import { LegalNoticeUnpublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
-import { LegalNoticeUpdateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-update.entity';
+import { LegalNoticeDeleteDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-delete.dto';
+import { LegalNoticePublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
+import { LegalNoticeUnpublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-unpublish.dto';
+import { LegalNoticeCreateValidateContract } from '@pages/content-management/domain/contracts/legal-notice/legal-notice-create.validate-contract';
+import { LegalNoticeUpdateValidateContract } from '@pages/content-management/domain/contracts/legal-notice/legal-notice-update.validate-contract';
 import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
 import { LegalNoticeRepository } from '@pages/content-management/domain/repositories/legal-notice/legal-notice-repository';
+import { LegalNoticeFilterVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-filter.vo';
 import { legalNoticeCreateMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-create.mapper';
 import { legalNoticeDeleteMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-delete.mapper';
 import { legalNoticeFilterMapper } from '@pages/content-management/infrastructure/data/mappers/legal-notice/legal-notice-filter.mapper';
@@ -30,7 +30,7 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
     private readonly mapper = inject(LegalNoticeMapper);
 
     readAll(
-        filter: LegalNoticeFilterEntity,
+        filter: LegalNoticeFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<LegalNoticeEntity>> {
@@ -40,32 +40,28 @@ export class LegalNoticeRepositoryImpl implements LegalNoticeRepository {
     }
 
     create(
-        payload: LegalNoticeCreateEntity
+        payload: LegalNoticeCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.create(legalNoticeCreateMapper(payload));
     }
 
     update(
-        payload: LegalNoticeUpdateEntity
+        payload: LegalNoticeUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.update(legalNoticeUpdateMapper(payload));
     }
 
-    delete(
-        entity: LegalNoticeDeleteEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(legalNoticeDeleteMapper(entity));
+    delete(dto: LegalNoticeDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(legalNoticeDeleteMapper(dto));
     }
 
-    publish(
-        entity: LegalNoticePublishEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.publish(legalNoticePublishMapper(entity));
+    publish(dto: LegalNoticePublishDto): Observable<SimpleResponseDto<void>> {
+        return this.api.publish(legalNoticePublishMapper(dto));
     }
 
     unpublish(
-        entity: LegalNoticeUnpublishEntity
+        dto: LegalNoticeUnpublishDto
     ): Observable<SimpleResponseDto<void>> {
-        return this.api.unpublish(legalNoticeUnpublishMapper(entity));
+        return this.api.unpublish(legalNoticeUnpublishMapper(dto));
     }
 }

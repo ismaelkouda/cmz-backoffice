@@ -3,17 +3,17 @@ import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsFreeUsersAssignApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-assign-api.dto';
 import { ProfilesPermissionsFreeUsersResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-free-users-response-api.dto';
-import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsFreeUsersApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(SETTINGS_SECURITY_BASE_URL);
+    private readonly baseUrl = inject(SETTINGS_API_URL);
 
     readAll(
         page: string,

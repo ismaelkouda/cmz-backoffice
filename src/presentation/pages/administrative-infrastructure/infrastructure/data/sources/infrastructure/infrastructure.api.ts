@@ -6,21 +6,18 @@ import { InfrastructureDeleteApiDto } from '@pages/administrative-infrastructure
 import { InfrastructureFilterApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-filter-api.dto';
 import { InfrastructureResponseApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-response-api.dto';
 import { InfrastructureUpdateApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-update-api.dto';
-import { ADMINISTRATIVE_INFRASTRUCTURE_BASE_URL } from '@pages/administrative-infrastructure/infrastructure/api/administrative-infrastructure.base-url';
 import { ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS } from '@pages/administrative-infrastructure/infrastructure/api/administrative-infrastructure.endpoints';
-import {
-    MessageResponseDto,
-    SimpleResponseDto,
-} from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 
 @Injectable({ providedIn: 'root' })
 export class InfrastructureApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(ADMINISTRATIVE_INFRASTRUCTURE_BASE_URL);
+    private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
         filter: InfrastructureFilterApiDto,
@@ -52,10 +49,8 @@ export class InfrastructureApi {
         return this.http.post<MessageResponseDto>(url, payload);
     }
 
-    delete(
-        apiDto: InfrastructureDeleteApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    delete(apiDto: InfrastructureDeleteApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/${apiDto.uniq_id}/delete`;
-        return this.http.delete<SimpleResponseDto<void>>(url);
+        return this.http.delete<MessageResponseDto>(url);
     }
 }

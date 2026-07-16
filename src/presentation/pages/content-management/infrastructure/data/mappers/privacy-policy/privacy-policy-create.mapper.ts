@@ -1,16 +1,16 @@
-import { PrivacyPolicyCreateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-create.entity';
+import { PrivacyPolicyCreateValidateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-create.validate-contract';
 import { PrivacyPolicyCreateApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-create-api.dto';
 
 export function privacyPolicyCreateMapper(
-    entity: PrivacyPolicyCreateEntity
+    contract: PrivacyPolicyCreateValidateContract
 ): PrivacyPolicyCreateApiDto {
     const params: PrivacyPolicyCreateApiDto = {} as PrivacyPolicyCreateApiDto;
 
-    if (entity.version) {
-        params.version = entity.version;
+    if (contract.version) {
+        params.version = contract.version;
     }
-    if (entity.content) {
-        params.content = entity.content;
+    if (contract.content) {
+        params.content = contract.content;
     }
 
     return params;

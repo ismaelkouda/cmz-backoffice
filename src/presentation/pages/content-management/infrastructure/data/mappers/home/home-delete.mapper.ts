@@ -1,10 +1,10 @@
-import { HomeDeleteEntity } from '@pages/content-management/domain/entities/home/home-delete.entity';
+import { HomeDeleteDto } from '@pages/content-management/application/dto/home/home-delete.dto';
 import { HomeDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-delete-api.dto';
 
-export function homeDeleteMapper(vo: HomeDeleteEntity): HomeDeleteApiDto {
+export function homeDeleteMapper(dto: HomeDeleteDto): HomeDeleteApiDto {
     const prams = {} as HomeDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

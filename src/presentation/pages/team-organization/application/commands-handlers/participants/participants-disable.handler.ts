@@ -1,3 +1,4 @@
+import { participantsDisableCommandMapper } from '@pages/team-organization/application/commands-mappers/participants/participants-disable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ParticipantsDisableCommand } from '@pages/team-organization/application/commands/participants/participants-disable.command';
 import { ParticipantsUseCase } from '@pages/team-organization/application/use-cases/participants/participants.use-case';
@@ -11,8 +12,6 @@ export class ParticipantsDisableHandler {
     execute(
         command: ParticipantsDisableCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.disable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.disable(participantsDisableCommandMapper(command));
     }
 }

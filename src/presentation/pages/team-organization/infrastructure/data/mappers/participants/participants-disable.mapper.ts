@@ -1,12 +1,12 @@
-import { ParticipantsDisableEntity } from '@pages/team-organization/domain/entities/participants/participants-disable.entity';
+import { ParticipantsDisableDto } from '@pages/team-organization/application/dto/participants/participants-disable.dto';
 import { ParticipantsDisableApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-disable-api.dto';
 
 export function participantsDisableMapper(
-    vo: ParticipantsDisableEntity
+    dto: ParticipantsDisableDto
 ): ParticipantsDisableApiDto {
     const prams = {} as ParticipantsDisableApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

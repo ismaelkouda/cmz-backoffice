@@ -1,12 +1,12 @@
-import { PrivacyPolicyPublishEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-publish.entity';
+import { PrivacyPolicyPublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-publish.dto';
 import { PrivacyPolicyPublishApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-publish-api.dto';
 
 export function privacyPolicyPublishMapper(
-    vo: PrivacyPolicyPublishEntity
+    dto: PrivacyPolicyPublishDto
 ): PrivacyPolicyPublishApiDto {
     const prams = {} as PrivacyPolicyPublishApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

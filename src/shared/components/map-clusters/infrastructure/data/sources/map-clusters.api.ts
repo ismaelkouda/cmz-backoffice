@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
-import { INTERACTIVE_MAP_BASE_URL } from '@pages/interactive-map/infrastructure/api/interactive-map.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
 import { MapClustersFilterApiDto } from '@shared/components/map-clusters/infrastructure/api/dto/map-clusters-filter-api.dto';
 import { MapClustersResponseApiDto } from '@shared/components/map-clusters/infrastructure/api/dto/map-clusters-response-api.dto';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class MapClustersApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(INTERACTIVE_MAP_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     execute(
         filter: MapClustersFilterApiDto,

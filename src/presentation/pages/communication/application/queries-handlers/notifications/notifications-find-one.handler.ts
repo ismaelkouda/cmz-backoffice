@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { notificationsFindOneQueryMapper } from '@pages/communication/application/queries-mappers/notifications/notifications-find-one.mapper';
 import { NotificationsFindOneQuery } from '@pages/communication/application/queries/notifications/notifications-find-one.query';
 import { NotificationsFindOneUseCase } from '@pages/communication/application/use-cases/notifications/notifications-find-one.use-case';
 import { NotificationsFindOneEntity } from '@pages/communication/domain/entities/notifications/notifications-find-one.entity';
@@ -16,9 +17,7 @@ export class NotificationsFindOneHandler {
         options?: FetchOptions
     ): Observable<Paginate<NotificationsFindOneEntity>> {
         return this.useCase.execute(
-            {
-                uniqId: query.uniqId,
-            },
+            notificationsFindOneQueryMapper(query),
             page,
             options
         );

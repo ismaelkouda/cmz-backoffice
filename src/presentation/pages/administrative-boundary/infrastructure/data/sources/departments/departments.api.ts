@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
 import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
 import { DepartmentsCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-create-api.dto';
 import { DepartmentsDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-delete-api.dto';
@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 })
 export class DepartmentsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL);
+    private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
         dto: DepartmentsFilterApiDto,

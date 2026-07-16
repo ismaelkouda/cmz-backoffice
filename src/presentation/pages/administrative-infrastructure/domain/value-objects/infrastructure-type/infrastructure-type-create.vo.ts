@@ -1,20 +1,13 @@
-import { InfrastructureTypeCreateDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-create.dto';
+import { InfrastructureTypeCreateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-create.contract';
+import { InfrastructureTypeCreateValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-create.validate-contract';
+import { validateInfrastructureTypeCreate } from '@presentation/pages/administrative-infrastructure/domain/validators/infrastructure-type/infrastructure-type-create.validator';
 
-export class InfrastructureTypeCreateVo {
-    public readonly name: string;
-    public readonly description: string;
-
-    constructor(props: { name: string; description: string }) {
-        this.name = props.name;
-        this.description = props.description;
-    }
-
-    static fromDto(
-        dto: InfrastructureTypeCreateDto
-    ): InfrastructureTypeCreateVo {
-        return new InfrastructureTypeCreateVo({
-            name: dto.name,
-            description: dto.description,
-        });
-    }
+export function infrastructureTypeCreateVo(
+    contract: InfrastructureTypeCreateContract
+): InfrastructureTypeCreateValidateContract {
+    validateInfrastructureTypeCreate(contract);
+    return {
+        name: contract.name,
+        description: contract.description,
+    };
 }

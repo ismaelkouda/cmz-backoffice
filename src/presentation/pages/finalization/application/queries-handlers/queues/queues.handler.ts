@@ -1,3 +1,4 @@
+import { queuesQueryMapper } from '@pages/finalization/application/queries-mappers/queues/queues.mapper';
 import { Injectable, inject } from '@angular/core';
 import { QueuesQuery } from '@pages/finalization/application/queries/queues/queues.query';
 import { QueuesUseCase } from '@pages/finalization/application/use-cases/queues/queues.use-case';
@@ -15,18 +16,6 @@ export class QueuesHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<QueuesEntity>> {
-        return this.useCase.execute(
-            {
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(queuesQueryMapper(query), page, options);
     }
 }

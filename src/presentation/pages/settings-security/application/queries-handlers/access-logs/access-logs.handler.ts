@@ -1,3 +1,4 @@
+import { accessLogsQueryMapper } from '@pages/settings-security/application/queries-mappers/access-logs/access-logs.mapper';
 import { Injectable, inject } from '@angular/core';
 import { AccessLogsQuery } from '@pages/settings-security/application/queries/access-logs/access-logs.query';
 import { AccessLogsUseCase } from '@pages/settings-security/application/use-cases/access-logs/access-logs.use-case';
@@ -16,12 +17,7 @@ export class AccessLogsHandler {
         options?: FetchOptions
     ): Observable<Paginate<AccessLogsEntity>> {
         return this.useCase.execute(
-            {
-                search: query.search,
-                action: query.action,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
+            accessLogsQueryMapper(query),
             page,
             options
         );

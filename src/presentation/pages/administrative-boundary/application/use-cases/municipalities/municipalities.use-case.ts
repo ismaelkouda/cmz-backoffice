@@ -1,24 +1,22 @@
 import { Injectable, inject } from '@angular/core';
-import { MunicipalitiesCreateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
 import { MunicipalitiesDeleteDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
 import { MunicipalitiesFilterDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-filter.dto';
-import { MunicipalitiesUpdateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-update.dto';
-import { MunicipalitiesCreateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
 import { MunicipalitiesDeleteEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
 import { MunicipalitiesFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
-import { MunicipalitiesUpdateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
 import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
 import { MunicipalitiesRepository } from '@pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
-import { MunicipalitiesCreateVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-create.vo';
 import { MunicipalitiesDeleteVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-delete.vo';
 import { MunicipalitiesFilterVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-filter.vo';
-import { MunicipalitiesUpdateVo } from '@pages/administrative-boundary/domain/value-objects/municipalities/municipalities-update.vo';
+import { municipalitiesCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-create.vo';
+import { municipalitiesUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/municipalities/municipalities-update.vo';
+import { MunicipalitiesCreateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-create.contract';
+import { MunicipalitiesUpdateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-update.contract';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
-import { Observable } from 'rxjs';
+import { Observable, defer } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -31,32 +29,36 @@ export class MunicipalitiesUseCase {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesEntity>> {
-        const vo = MunicipalitiesFilterVo.fromDto(dto);
-        const entity = MunicipalitiesFilterEntity.fromVo(vo);
-        return this.repository.execute(entity, page, options);
+        return defer(() => {
+            const vo = MunicipalitiesFilterVo.fromDto(dto);
+            const entity = MunicipalitiesFilterEntity.fromVo(vo);
+            return this.repository.execute(entity, page, options);
+        });
     }
 
     create(
-        createDto: MunicipalitiesCreateDto
+        createDto: MunicipalitiesCreateContract
     ): Observable<SimpleResponseDto<void>> {
-        const vo = MunicipalitiesCreateVo.fromDto(createDto);
-        const entity = MunicipalitiesCreateEntity.fromVo(vo);
-        return this.repository.create(entity);
+        return defer(() =>
+            this.repository.create(municipalitiesCreateVo(createDto))
+        );
     }
 
     update(
-        updateDto: MunicipalitiesUpdateDto
+        updateDto: MunicipalitiesUpdateContract
     ): Observable<SimpleResponseDto<void>> {
-        const vo = MunicipalitiesUpdateVo.fromDto(updateDto);
-        const entity = MunicipalitiesUpdateEntity.fromVo(vo);
-        return this.repository.update(entity);
+        return defer(() =>
+            this.repository.update(municipalitiesUpdateVo(updateDto))
+        );
     }
 
     delete(
         deleteDto: MunicipalitiesDeleteDto
     ): Observable<SimpleResponseDto<void>> {
-        const vo = MunicipalitiesDeleteVo.fromDto(deleteDto);
-        const entity = MunicipalitiesDeleteEntity.fromVo(vo);
-        return this.repository.delete(entity);
+        return defer(() => {
+            const vo = MunicipalitiesDeleteVo.fromDto(deleteDto);
+            const entity = MunicipalitiesDeleteEntity.fromVo(vo);
+            return this.repository.delete(entity);
+        });
     }
 }

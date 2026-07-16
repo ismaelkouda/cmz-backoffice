@@ -1,3 +1,4 @@
+import { detailsRejectCommandMapper } from '@pages/requests/application/commands-mappers/details/details-reject.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DetailsRejectCommand } from '@pages/requests/application/commands/details/details-reject.command';
 import { DetailsUseCase } from '@pages/requests/application/use-cases/details/details.use-case';
@@ -11,11 +12,6 @@ export class DetailsRejectHandler {
     execute(
         command: DetailsRejectCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.reject({
-            uniqId: command.uniqId,
-            comment: command.comment,
-            reason: command.reason,
-            callbackType: command.callbackType,
-        });
+        return this.useCase.reject(detailsRejectCommandMapper(command));
     }
 }

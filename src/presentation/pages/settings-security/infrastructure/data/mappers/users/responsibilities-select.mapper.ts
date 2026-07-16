@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ResponsibilitiesSelectEntity } from '@pages/settings-security/domain/entities/users/responsibilities-select.entity';
-import { ResponsibilitiesSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/responsibilities-select-api.dto';
+import { ResponsibilitiesSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/responsibilities-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

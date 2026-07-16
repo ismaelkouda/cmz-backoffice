@@ -1,10 +1,10 @@
-import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
+import { NewsPublishDto } from '@pages/content-management/application/dto/news/news-publish.dto';
 import { NewsPublishApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-enable-api.dto';
 
-export function newsPublishMapper(vo: NewsPublishEntity): NewsPublishApiDto {
+export function newsPublishMapper(dto: NewsPublishDto): NewsPublishApiDto {
     const prams = {} as NewsPublishApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

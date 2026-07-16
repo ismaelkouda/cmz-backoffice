@@ -1,44 +1,19 @@
-import { ParticipantsUpdateDto } from '@pages/team-organization/application/dto/participants/participants-update.dto';
-import { Roles } from '@shared/domain/enums/roles.enum';
+import { ParticipantsUpdateContract } from '@pages/team-organization/domain/contracts/participants/participants-update.contract';
+import { ParticipantsUpdateValidateContract } from '@pages/team-organization/domain/contracts/participants/participants-update.validate-contract';
+import { validateParticipantsUpdate } from '@pages/team-organization/domain/validators/participants/participants-update.validator';
 import { normalizePhoneNumber } from '@shared/domain/services/normalize-phone-number';
 
-export class ParticipantsUpdateVo {
-    public readonly uniqId: string;
-    public readonly firstName: string;
-    public readonly lastName: string;
-    public readonly email: string;
-    public readonly phone: string;
-    public readonly role?: Roles;
-    public readonly team?: string;
-
-    constructor(props: {
-        uniqId: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        phone: string;
-        role?: Roles;
-        team?: string;
-    }) {
-        this.uniqId = props.uniqId;
-        this.firstName = props.firstName;
-        this.lastName = props.lastName;
-        this.email = props.email;
-        this.phone = props.phone;
-        this.role = props.role;
-        this.team = props.team;
-    }
-
-    static fromDto(dto: ParticipantsUpdateDto): ParticipantsUpdateVo {
-        const phone = normalizePhoneNumber(dto.phone?.trim()) as string;
-        return new ParticipantsUpdateVo({
-            uniqId: dto.uniqId,
-            firstName: dto.firstName,
-            lastName: dto.lastName,
-            email: dto.email,
-            phone,
-            role: dto?.role,
-            team: dto?.team,
-        });
-    }
+export function participantsUpdateVo(
+    contract: ParticipantsUpdateContract
+): ParticipantsUpdateValidateContract {
+    validateParticipantsUpdate(contract);
+    return {
+        uniqId: contract.uniqId,
+        firstName: contract.firstName,
+        lastName: contract.lastName,
+        email: contract.email,
+        phone: normalizePhoneNumber(contract.phone?.trim()) as string,
+        role: contract.role,
+        team: contract.team,
+    };
 }

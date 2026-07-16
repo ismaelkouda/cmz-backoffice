@@ -1,4 +1,4 @@
-import { inject, Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 import { homeFindOneProviders } from '@pages/content-management/di/home/home-find-one.providers';
 import { homeProviders } from '@pages/content-management/di/home/home.providers';
 import { legalNoticeFindOneProviders } from '@pages/content-management/di/legal-notice/legal-notice-find-one.providers';
@@ -12,27 +12,8 @@ import { slideFindOneProviders } from '@pages/content-management/di/slide/slide-
 import { slideProviders } from '@pages/content-management/di/slide/slide.providers';
 import { termsUseFindOneProviders } from '@pages/content-management/di/terms-use/terms-use-find-one.providers';
 import { termsUseProviders } from '@pages/content-management/di/terms-use/terms-use.providers';
-import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
-
-import { EnvService } from '../../../../core/config/env.service';
-
-const getApiBaseUrl = () => {
-    const baseUrl = inject(EnvService).settingUrl;
-
-    if (!baseUrl) {
-        console.warn(
-            'ContentManagement Module: API Base URL is missing in environment configuration.'
-        );
-    }
-
-    return baseUrl;
-};
 
 export const provideContentManagement = (): Provider[] => [
-    {
-        provide: CONTENT_MANAGEMENT_BASE_URL,
-        useFactory: getApiBaseUrl,
-    },
     ...homeProviders,
     ...homeFindOneProviders,
 

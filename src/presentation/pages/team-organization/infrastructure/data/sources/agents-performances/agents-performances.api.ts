@@ -3,7 +3,7 @@ import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { AgentsPerformancesFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-filter-api.dto';
 import { AgentsPerformancesResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/agents-performances/agents-performances-response-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 @Injectable({ providedIn: 'root' })
 export class AgentsPerformancesApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     execute(
         filter: AgentsPerformancesFilterApiDto,

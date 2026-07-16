@@ -1,26 +1,26 @@
-import { PrivacyPolicyFilterEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-filter.entity';
 import { Status } from '@pages/content-management/domain/enums/privacy-policy/privacy-policy-status.enum';
+import { PrivacyPolicyFilterVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-filter.vo';
 import { PrivacyPolicyFilterApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-filter-api.dto';
 
 export function privacyPolicyFilterMapper(
-    entity: PrivacyPolicyFilterEntity
+    filter: PrivacyPolicyFilterVo
 ): PrivacyPolicyFilterApiDto {
     const params: PrivacyPolicyFilterApiDto = {} as PrivacyPolicyFilterApiDto;
 
-    if (entity.search) {
-        params.search = entity.search;
+    if (filter.search) {
+        params.search = filter.search;
     }
-    if (entity.version) {
-        params.version = entity.version;
+    if (filter.version) {
+        params.version = filter.version;
     }
-    if (entity.status) {
-        params.is_published = entity.status === Status.PUBLISH;
+    if (filter.status) {
+        params.is_published = filter.status === Status.PUBLISH;
     }
-    if (entity.startDate) {
-        params.start_date = entity.startDate;
+    if (filter.startDate) {
+        params.start_date = filter.startDate;
     }
-    if (entity.endDate) {
-        params.end_date = entity.endDate;
+    if (filter.endDate) {
+        params.end_date = filter.endDate;
     }
 
     return params;

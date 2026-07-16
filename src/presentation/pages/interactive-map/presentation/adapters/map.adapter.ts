@@ -137,6 +137,19 @@ export class MapAdapter {
         visible: false,
         zIndex: 1,
     });
+    private equipmentTypesVisible: Record<string, boolean> = {
+        education: true,
+        sante: true,
+        administration: true,
+        'securité': true,
+    };
+    private readonly equipmentAreaLayer = new VectorTileLayer({
+        declutter: true,
+        renderMode: 'hybrid',
+        style: (feature): Style => this.createEquipmentAreaTileStyle(feature),
+        visible: false,
+        zIndex: 1,
+    });
     private readonly heatmapSource = new VectorSource();
     private readonly heatmapLayer = new HeatmapLayer({
         source: this.heatmapSource,
@@ -182,6 +195,7 @@ export class MapAdapter {
                 this.osmLayer,
                 this.satelliteLayer,
                 this.coverageAreaLayer,
+                this.equipmentAreaLayer,
                 this.heatmapLayer,
                 this.clusterLayer,
             ],
@@ -342,6 +356,38 @@ export class MapAdapter {
 
     setCoverageAreasVisible(visible: boolean): void {
         this.coverageAreaLayer.setVisible(visible);
+    }
+
+    renderEquipmentAreaTiles(tileUrl: string | null, visible: boolean): void {
+        if (!tileUrl || !visible) {
+            this.equipmentAreaLayer.setSource(null);
+            this.equipmentAreaLayer.setVisible(false);
+            return;
+        }
+
+        this.equipmentAreaLayer.setSource(
+            new VectorTileSource({
+                format: new MVT({
+                    layers: ['coverage_areas'],
+                    idProperty: 'id',
+                }),
+                maxZoom: 22,
+                transition: 160,
+                url: tileUrl,
+                wrapX: false,
+                tileLoadFunction: this.createAuthenticatedTileLoadFunction(),
+            })
+        );
+        this.equipmentAreaLayer.setVisible(true);
+    }
+
+    setEquipmentAreasVisible(visible: boolean): void {
+        this.equipmentAreaLayer.setVisible(visible);
+    }
+
+    setEquipmentTypeVisible(type: string, visible: boolean): void {
+        this.equipmentTypesVisible[type] = visible;
+        this.equipmentAreaLayer.changed();
     }
 
     setHeatmapVisible(visible: boolean): void {
@@ -710,6 +756,59 @@ export class MapAdapter {
                 }),
             }),
         });
+    }
+
+    private createEquipmentAreaTileStyle(feature: FeatureLike): Style {
+        const properties = feature.getProperties() as {
+            type?: string;
+            equipment_type?: string;
+            radius?: number | string;
+        };
+        const type = this.normalizeEquipmentType(
+            properties?.equipment_type ?? properties?.type
+        );
+
+        if (!type || !this.equipmentTypesVisible[type]) {
+            return new Style({});
+        }
+
+        const color = this.getEquipmentAreaColor(type);
+        const radiusInMeters = Number(properties?.radius);
+        const markerRadius = Number.isFinite(radiusInMeters)
+            ? this.metersToPixels(radiusInMeters)
+            : 15;
+
+        return new Style({
+            image: new CircleStyle({
+                radius: markerRadius,
+                fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
+                stroke: new Stroke({
+                    color: color,
+                    width: 2.5,
+                    lineDash: [4, 4],
+                }),
+            }),
+        });
+    }
+
+    private getEquipmentAreaColor(type?: string): string {
+        const colors: Record<string, string> = {
+            education: '#1d4ed8',
+            sante: '#dc2626',
+            administration: '#7c3aed',
+            'securité': '#059669',
+        };
+        return type ? colors[type] || '#6b7280' : '#6b7280';
+    }
+
+    private normalizeEquipmentType(value: unknown): string | undefined {
+        if (typeof value !== 'string') {
+            return undefined;
+        }
+        const normalized = value.trim().toLowerCase();
+        return normalized in this.equipmentTypesVisible
+            ? normalized
+            : undefined;
     }
 
     // Nouvelle méthode pour convertir mètres en pixels

@@ -5,7 +5,7 @@ import { DetailsFilterApiDto } from '@pages/processing/infrastructure/api/dto/de
 import { DetailsResponseApiDto } from '@pages/processing/infrastructure/api/dto/details/details-response-api.dto';
 import { DetailsTakeApiDto } from '@pages/processing/infrastructure/api/dto/details/details-take-api.dto';
 import { DetailsTreatApiDto } from '@pages/processing/infrastructure/api/dto/details/details-treat-api.dto';
-import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(PROCESSING_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     execute(
         apiDto: DetailsFilterApiDto,

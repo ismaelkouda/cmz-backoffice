@@ -1,4 +1,4 @@
-import { ResponsibilitiesSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/responsibilities-select-api.dto';
+import { ResponsibilitiesSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/responsibilities-select-response-api.dto';
 
 export class ResponsibilitiesSelectEntity {
     constructor(

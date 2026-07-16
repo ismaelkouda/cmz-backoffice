@@ -1,3 +1,4 @@
+import { teamsParticipantsReassignCommandMapper } from '@pages/team-organization/application/commands-mappers/teams/teams-participants-reassign.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsParticipantsReassignCommand } from '@pages/team-organization/application/commands/teams/teams-participants-reassign.command';
 import { TeamsParticipantsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-participants.use-case';
@@ -11,9 +12,8 @@ export class TeamsParticipantsReassignHandler {
     execute(
         command: TeamsParticipantsReassignCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.reassign({
-            uniqId: command.uniqId,
-            participants: command.participants,
-        });
+        return this.useCase.reassign(
+            teamsParticipantsReassignCommandMapper(command)
+        );
     }
 }

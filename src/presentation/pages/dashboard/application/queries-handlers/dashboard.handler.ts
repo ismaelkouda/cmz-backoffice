@@ -1,3 +1,4 @@
+import { dashboardQueryMapper } from '@pages/dashboard/application/queries-mappers/queries-handlers/dashboard.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DashboardQuery } from '@pages/dashboard/application/queries/dashboard.query';
 import { DashboardUseCase } from '@pages/dashboard/application/use-cases/dashboard.use-case';
@@ -13,11 +14,6 @@ export class DashboardHandler {
         command: DashboardQuery,
         options?: FetchOptions
     ): Observable<DashboardEntity> {
-        return this.useCase.execute(
-            {
-                period: command.period,
-            },
-            options
-        );
+        return this.useCase.execute(dashboardQueryMapper(command), options);
     }
 }

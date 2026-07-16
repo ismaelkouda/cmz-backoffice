@@ -9,7 +9,6 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import {
     MessageResponseDto,
     Paginate,
-    SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { Observable, map } from 'rxjs';
 import { RejectDownloadEntity } from '@presentation/pages/report-states/domain/entities/reject/reject-download.entity';

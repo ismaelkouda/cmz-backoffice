@@ -5,7 +5,7 @@ import { DetailsFilterApiDto } from '@pages/finalization/infrastructure/api/dto/
 import { DetailsFinalizeApiDto } from '@pages/finalization/infrastructure/api/dto/details/details-finalize-api.dto';
 import { DetailsResponseApiDto } from '@pages/finalization/infrastructure/api/dto/details/details-response-api.dto';
 import { DetailsTakeApiDto } from '@pages/finalization/infrastructure/api/dto/details/details-take-api.dto';
-import { FINALIZATION_BASE_URL } from '@pages/finalization/infrastructure/api/finalization.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { FINALIZATION_ENDPOINTS } from '@pages/finalization/infrastructure/api/finalization.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
@@ -15,7 +15,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(FINALIZATION_BASE_URL);
+    private readonly baseUrl: string = inject(REPORT_API_URL);
 
     execute(
         apiDto: DetailsFilterApiDto,

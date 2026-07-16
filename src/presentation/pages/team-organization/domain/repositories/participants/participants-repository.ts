@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ParticipantsCreateEntity } from '@pages/team-organization/domain/entities/participants/participants-create.entity';
-import { ParticipantsDeleteEntity } from '@pages/team-organization/domain/entities/participants/participants-delete.entity';
-import { ParticipantsDisableEntity } from '@pages/team-organization/domain/entities/participants/participants-disable.entity';
-import { ParticipantsEnableEntity } from '@pages/team-organization/domain/entities/participants/participants-enable.entity';
-import { ParticipantsFilterEntity } from '@pages/team-organization/domain/entities/participants/participants-filter.entity';
-import { ParticipantsUpdateEntity } from '@pages/team-organization/domain/entities/participants/participants-update.entity';
+import { ParticipantsDeleteDto } from '@pages/team-organization/application/dto/participants/participants-delete.dto';
+import { ParticipantsDisableDto } from '@pages/team-organization/application/dto/participants/participants-disable.dto';
+import { ParticipantsEnableDto } from '@pages/team-organization/application/dto/participants/participants-enable.dto';
+import { ParticipantsCreateValidateContract } from '@pages/team-organization/domain/contracts/participants/participants-create.validate-contract';
+import { ParticipantsUpdateValidateContract } from '@pages/team-organization/domain/contracts/participants/participants-update.validate-contract';
 import { ParticipantsEntity } from '@pages/team-organization/domain/entities/participants/participants.entity';
+import { ParticipantsFilterVo } from '@pages/team-organization/domain/value-objects/participants/participants-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -18,23 +18,23 @@ import { Observable } from 'rxjs';
 })
 export abstract class ParticipantsRepository {
     abstract readAll(
-        entity: ParticipantsFilterEntity | null,
+        filter: ParticipantsFilterVo | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<ParticipantsEntity>>;
     abstract create(
-        entity: ParticipantsCreateEntity
+        props: ParticipantsCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: ParticipantsUpdateEntity
+        props: ParticipantsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
-        entity: ParticipantsDeleteEntity
+        dto: ParticipantsDeleteDto
     ): Observable<SimpleResponseDto<void>>;
     abstract enable(
-        entity: ParticipantsEnableEntity
+        dto: ParticipantsEnableDto
     ): Observable<SimpleResponseDto<void>>;
     abstract disable(
-        entity: ParticipantsDisableEntity
+        dto: ParticipantsDisableDto
     ): Observable<SimpleResponseDto<void>>;
 }

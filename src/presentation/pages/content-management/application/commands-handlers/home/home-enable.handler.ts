@@ -1,3 +1,4 @@
+import { homeEnableCommandMapper } from '@pages/content-management/application/commands-mappers/home/home-enable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { HomeEnableCommand } from '@pages/content-management/application/commands/home/home-enable.command';
 import { HomeUseCase } from '@pages/content-management/application/use-cases/home/home.use-case';
@@ -9,8 +10,6 @@ export class HomeEnableHandler {
     private readonly useCase = inject(HomeUseCase);
 
     execute(command: HomeEnableCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.enable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.enable(homeEnableCommandMapper(command));
     }
 }

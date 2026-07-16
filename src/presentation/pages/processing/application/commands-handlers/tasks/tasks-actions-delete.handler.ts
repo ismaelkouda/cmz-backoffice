@@ -1,3 +1,4 @@
+import { tasksActionsDeleteCommandMapper } from '@pages/processing/application/commands-mappers/tasks/tasks-actions-delete.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TasksActionsDeleteCommand } from '@pages/processing/application/commands/tasks/tasks-actions-delete.command';
 import { TasksActionsUseCase } from '@pages/processing/application/use-cases/tasks/tasks-actions.use-case';
@@ -11,8 +12,6 @@ export class TasksActionsDeleteHandler {
     execute(
         command: TasksActionsDeleteCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(tasksActionsDeleteCommandMapper(command));
     }
 }

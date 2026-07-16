@@ -1,3 +1,4 @@
+import { departmentsFindOneQueryMapper } from '@pages/administrative-boundary/application/queries-mappers/departments/departments-find-one.mapper';
 import { inject, Injectable } from '@angular/core';
 import { DepartmentsFindOneQuery } from '@pages/administrative-boundary/application/queries/departments/departments-find-one.query';
 import { DepartmentsFindOneUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments-find-one.use-case';
@@ -14,9 +15,7 @@ export class DepartmentsFindOneHandler {
         options?: FetchOptions
     ): Observable<DepartmentsFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            departmentsFindOneQueryMapper(command),
             options
         );
     }

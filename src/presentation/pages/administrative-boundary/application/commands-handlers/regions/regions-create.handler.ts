@@ -1,3 +1,4 @@
+import { regionsCreateCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/regions/regions-create.mapper';
 import { inject, Injectable } from '@angular/core';
 import { RegionsCreateCommand } from '@pages/administrative-boundary/application/commands/regions/regions-create.command';
 import { RegionsUseCase } from '@pages/administrative-boundary/application/use-cases/regions/regions.use-case';
@@ -11,12 +12,6 @@ export class RegionsCreateHandler {
     execute(
         command: RegionsCreateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            code: command.code,
-            population: command.population,
-            infrastructure: command.infrastructure,
-            name: command.name,
-            description: command.description,
-        });
+        return this.useCase.create(regionsCreateCommandMapper(command));
     }
 }

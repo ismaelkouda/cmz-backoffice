@@ -1,21 +1,14 @@
-import { TermsUseUpdateDto } from '@pages/content-management/application/dto/terms-use/terms-use-update.dto';
+import { TermsUseUpdateContract } from '@pages/content-management/domain/contracts/terms-use/terms-use-update.contract';
+import { TermsUseUpdateValidateContract } from '@pages/content-management/domain/contracts/terms-use/terms-use-update.validate-contract';
+import { validateTermsUseUpdate } from '@pages/content-management/domain/validators/terms-use/terms-use-update.validator';
 
-export class TermsUseUpdateVo {
-    public readonly uniqId: string;
-    public readonly version: string;
-    public readonly content: string;
-
-    constructor(props: { uniqId: string; version: string; content: string }) {
-        this.uniqId = props.uniqId;
-        this.version = props.version;
-        this.content = props.content;
-    }
-
-    static fromDto(dto: TermsUseUpdateDto): TermsUseUpdateVo {
-        return new TermsUseUpdateVo({
-            uniqId: dto.uniqId,
-            version: dto.version,
-            content: dto.content,
-        });
-    }
+export function termsUseUpdateVo(
+    contract: TermsUseUpdateContract
+): TermsUseUpdateValidateContract {
+    validateTermsUseUpdate(contract);
+    return {
+        uniqId: contract.uniqId,
+        version: contract.version,
+        content: contract.content,
+    };
 }

@@ -1,17 +1,10 @@
-import { InfrastructureTypeDisableDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-disable.dto';
+import { InfrastructureTypeDisableContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-disable.contract';
+import { validateInfrastructureTypeDisable } from '@presentation/pages/administrative-infrastructure/domain/validators/infrastructure-type/infrastructure-type-disable.validator';
+import { InfrastructureTypeDisableValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-disable.validate-contract';
 
-export class InfrastructureTypeDisableVo {
-    public readonly uniqId: string;
-
-    constructor(props: { uniqId: string }) {
-        this.uniqId = props.uniqId;
-    }
-
-    static fromDto(
-        dto: InfrastructureTypeDisableDto
-    ): InfrastructureTypeDisableVo {
-        return new InfrastructureTypeDisableVo({
-            uniqId: dto.uniqId,
-        });
-    }
+export function infrastructureTypeDisableVo(
+    contract: InfrastructureTypeDisableContract
+): InfrastructureTypeDisableValidateContract {
+    validateInfrastructureTypeDisable(contract);
+    return contract;
 }

@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
-import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
-import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
-import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
-import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
-import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
+import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
+import { NewsPublishDto } from '@pages/content-management/application/dto/news/news-publish.dto';
+import { NewsUnpublishDto } from '@pages/content-management/application/dto/news/news-unpublish.dto';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
+import { NewsCreateProps } from '@pages/content-management/domain/interfaces/news/news-create-props.interface';
+import { NewsUpdateProps } from '@pages/content-management/domain/interfaces/news/news-update-props.interface';
 import { NewsRepository } from '@pages/content-management/domain/repositories/news/news-repository';
+import { NewsFilterVo } from '@pages/content-management/domain/value-objects/news/news-filter.vo';
 import { newsCreateMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-create.mapper';
 import { newsDeleteMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-delete.mapper';
 import { newsFilterMapper } from '@pages/content-management/infrastructure/data/mappers/news/news-filter.mapper';
@@ -30,7 +30,7 @@ export class NewsRepositoryImpl implements NewsRepository {
     private readonly mapper = inject(NewsMapper);
 
     readAll(
-        filter: NewsFilterEntity,
+        filter: NewsFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<NewsEntity>> {
@@ -39,25 +39,23 @@ export class NewsRepositoryImpl implements NewsRepository {
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(payload: NewsCreateEntity): Observable<SimpleResponseDto<void>> {
+    create(payload: NewsCreateProps): Observable<SimpleResponseDto<void>> {
         return this.api.create(newsCreateMapper(payload));
     }
 
-    update(payload: NewsUpdateEntity): Observable<SimpleResponseDto<void>> {
+    update(payload: NewsUpdateProps): Observable<SimpleResponseDto<void>> {
         return this.api.update(newsUpdateMapper(payload));
     }
 
-    delete(entity: NewsDeleteEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(newsDeleteMapper(entity));
+    delete(dto: NewsDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(newsDeleteMapper(dto));
     }
 
-    publish(entity: NewsPublishEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.publish(newsPublishMapper(entity));
+    publish(dto: NewsPublishDto): Observable<SimpleResponseDto<void>> {
+        return this.api.publish(newsPublishMapper(dto));
     }
 
-    unpublish(
-        entity: NewsUnpublishEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.unpublish(newsUnpublishMapper(entity));
+    unpublish(dto: NewsUnpublishDto): Observable<SimpleResponseDto<void>> {
+        return this.api.unpublish(newsUnpublishMapper(dto));
     }
 }

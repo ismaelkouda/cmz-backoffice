@@ -1,41 +1,18 @@
-import { MunicipalitiesCreateDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-create.dto';
+import { MunicipalitiesCreateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-create.contract';
+import { MunicipalitiesCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-create.validate-contract';
+import { validateMunicipalitiesCreate } from '@presentation/pages/administrative-boundary/domain/validators/municipalities/municipalities-create.validator';
 
-export class MunicipalitiesCreateVo {
-    public readonly code: string;
-    public readonly population: number;
-    public readonly infrastructure: number;
-    public readonly name: string;
-    public readonly region: string;
-    public readonly description: string;
-    public readonly department: string | null;
-
-    constructor(props: {
-        code: string;
-        population: number;
-        infrastructure: number;
-        name: string;
-        region: string;
-        description: string;
-        department: string | null;
-    }) {
-        this.code = props.code;
-        this.population = props.population;
-        this.infrastructure = props.infrastructure;
-        this.name = props.name;
-        this.region = props.region;
-        this.description = props.description;
-        this.department = props.department;
-    }
-
-    static fromDto(dto: MunicipalitiesCreateDto): MunicipalitiesCreateVo {
-        return new MunicipalitiesCreateVo({
-            code: dto.code,
-            population: dto.population,
-            infrastructure: dto.infrastructure,
-            name: dto.name,
-            region: dto.region,
-            description: dto.description,
-            department: dto.department,
-        });
-    }
+export function municipalitiesCreateVo(
+    contract: MunicipalitiesCreateContract
+): MunicipalitiesCreateValidateContract {
+    validateMunicipalitiesCreate(contract);
+    return {
+        code: contract.code,
+        population: contract.population,
+        infrastructure: contract.infrastructure,
+        name: contract.name,
+        region: contract.region,
+        description: contract.description,
+        department: contract.department,
+    };
 }

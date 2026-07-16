@@ -1,3 +1,4 @@
+import { profilesPermissionsEnableCommandMapper } from '@pages/settings-security/application/commands-mappers/profiles-permissions/profiles-permissions-enable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsEnableCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-enable.command';
 import { ProfilesPermissionsUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions.use-case';
@@ -11,8 +12,8 @@ export class ProfilesPermissionsEnableHandler {
     execute(
         command: ProfilesPermissionsEnableCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.enable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.enable(
+            profilesPermissionsEnableCommandMapper(command)
+        );
     }
 }

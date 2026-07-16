@@ -1,17 +1,6 @@
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+import { InfrastructureFindOneProps } from '@presentation/pages/administrative-infrastructure/domain/interfaces/infrastructure/infrastructure-find-one-props.interface';
 
-export interface InfrastructureFindOneProps {
-    uniqId: string;
-    name: string;
-    type: string;
-    description: string;
-    region: string;
-    department: string;
-    municipality: string;
-    position: Coordinates;
-    createdAt: string;
-    updatedAt: string;
-}
 export class InfrastructureFindOneEntity {
     constructor(private readonly props: InfrastructureFindOneProps) {}
 

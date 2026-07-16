@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
-import { CONTENT_MANAGEMENT_BASE_URL } from '@pages/content-management/infrastructure/api/content-management.base-url';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 import { CONTENT_MANAGEMENT_ENDPOINTS } from '@pages/content-management/infrastructure/api/content-management.endpoints';
 import { LegalNoticeCreateApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-create-api.dto';
 import { LegalNoticeDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-delete-api.dto';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class LegalNoticeApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(CONTENT_MANAGEMENT_BASE_URL);
+    private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
         filter: LegalNoticeFilterApiDto,

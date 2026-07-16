@@ -1,3 +1,4 @@
+import { homeQueryMapper } from '@pages/content-management/application/queries-mappers/home/home.mapper';
 import { Injectable, inject } from '@angular/core';
 import { HomeQuery } from '@pages/content-management/application/queries/home/home.query';
 import { HomeUseCase } from '@pages/content-management/application/use-cases/home/home.use-case';
@@ -15,16 +16,6 @@ export class HomeHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<HomeEntity>> {
-        return this.useCase.execute(
-            {
-                search: command.search,
-                platforms: command.platforms,
-                status: command.status,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(homeQueryMapper(command), page, options);
     }
 }

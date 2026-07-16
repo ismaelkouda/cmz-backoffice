@@ -1,31 +1,19 @@
-import { MunicipalitiesCreateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
+import { MunicipalitiesCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-create.validate-contract';
 import { MunicipalitiesCreateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-create-api.dto';
 
 export function municipalitiesCreateMapper(
-    create: MunicipalitiesCreateEntity
+    create: MunicipalitiesCreateValidateContract
 ): MunicipalitiesCreateApiDto {
     const params: MunicipalitiesCreateApiDto = {} as MunicipalitiesCreateApiDto;
 
-    if (create.code) {
-        params['code'] = create.code;
-    }
-    if (create.population) {
-        params['population_size'] = create.population;
-    }
-    if (create.infrastructure) {
-        params['infrastructure_size'] = create.infrastructure;
-    }
-    if (create.name) {
-        params['name'] = create.name;
-    }
-    if (create.region) {
-        params['region_id'] = create.region;
-    }
+    params['code'] = create.code;
+    params['population_size'] = create.population;
+    params['infrastructure_size'] = create.infrastructure;
+    params['name'] = create.name;
+    params['region_id'] = create.region;
+    params['department_id'] = create.department;
     if (create.description) {
         params['description'] = create.description;
-    }
-    if (create.department) {
-        params['department_id'] = create.department;
     }
 
     return params;

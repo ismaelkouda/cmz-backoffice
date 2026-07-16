@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { MunicipalitiesCreateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
 import { MunicipalitiesDeleteEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
 import { MunicipalitiesFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
-import { MunicipalitiesUpdateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
 import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { MunicipalitiesCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-create.validate-contract';
+import { MunicipalitiesUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-update.validate-contract';
 import { MunicipalitiesRepository } from '@pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
 import { municipalitiesCreateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-create.mapper';
 import { municipalitiesDeleteMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-delete.mapper';
@@ -35,14 +35,14 @@ export class MunicipalitiesRepositoryImpl implements MunicipalitiesRepository {
     }
 
     create(
-        entity: MunicipalitiesCreateEntity
+        entity: MunicipalitiesCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         const paramsDto = municipalitiesCreateMapper(entity);
         return this.api.create(paramsDto);
     }
 
     update(
-        entity: MunicipalitiesUpdateEntity
+        entity: MunicipalitiesUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         const paramsDto = municipalitiesUpdateMapper(entity);
         return this.api.update(paramsDto);

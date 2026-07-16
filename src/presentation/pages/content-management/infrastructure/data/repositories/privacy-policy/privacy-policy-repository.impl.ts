@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { PrivacyPolicyCreateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-create.entity';
-import { PrivacyPolicyDeleteEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-delete.entity';
-import { PrivacyPolicyFilterEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-filter.entity';
-import { PrivacyPolicyPublishEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-publish.entity';
-import { PrivacyPolicyUnpublishEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-unpublish.entity';
-import { PrivacyPolicyUpdateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-update.entity';
+import { PrivacyPolicyDeleteDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-delete.dto';
+import { PrivacyPolicyPublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-publish.dto';
+import { PrivacyPolicyUnpublishDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-unpublish.dto';
+import { PrivacyPolicyCreateValidateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-create.validate-contract';
+import { PrivacyPolicyUpdateValidateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-update.validate-contract';
 import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
 import { PrivacyPolicyRepository } from '@pages/content-management/domain/repositories/privacy-policy/privacy-policy-repository';
+import { PrivacyPolicyFilterVo } from '@pages/content-management/domain/value-objects/privacy-policy/privacy-policy-filter.vo';
 import { privacyPolicyCreateMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-create.mapper';
 import { privacyPolicyDeleteMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-delete.mapper';
 import { privacyPolicyFilterMapper } from '@pages/content-management/infrastructure/data/mappers/privacy-policy/privacy-policy-filter.mapper';
@@ -30,7 +30,7 @@ export class PrivacyPolicyRepositoryImpl implements PrivacyPolicyRepository {
     private readonly mapper = inject(PrivacyPolicyMapper);
 
     readAll(
-        filter: PrivacyPolicyFilterEntity,
+        filter: PrivacyPolicyFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<PrivacyPolicyEntity>> {
@@ -40,32 +40,28 @@ export class PrivacyPolicyRepositoryImpl implements PrivacyPolicyRepository {
     }
 
     create(
-        payload: PrivacyPolicyCreateEntity
+        payload: PrivacyPolicyCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.create(privacyPolicyCreateMapper(payload));
     }
 
     update(
-        payload: PrivacyPolicyUpdateEntity
+        payload: PrivacyPolicyUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.update(privacyPolicyUpdateMapper(payload));
     }
 
-    delete(
-        entity: PrivacyPolicyDeleteEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(privacyPolicyDeleteMapper(entity));
+    delete(dto: PrivacyPolicyDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(privacyPolicyDeleteMapper(dto));
     }
 
-    publish(
-        entity: PrivacyPolicyPublishEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.publish(privacyPolicyPublishMapper(entity));
+    publish(dto: PrivacyPolicyPublishDto): Observable<SimpleResponseDto<void>> {
+        return this.api.publish(privacyPolicyPublishMapper(dto));
     }
 
     unpublish(
-        entity: PrivacyPolicyUnpublishEntity
+        dto: PrivacyPolicyUnpublishDto
     ): Observable<SimpleResponseDto<void>> {
-        return this.api.unpublish(privacyPolicyUnpublishMapper(entity));
+        return this.api.unpublish(privacyPolicyUnpublishMapper(dto));
     }
 }

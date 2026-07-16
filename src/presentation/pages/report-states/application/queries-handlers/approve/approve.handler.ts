@@ -1,3 +1,4 @@
+import { approveQueryMapper } from '@pages/report-states/application/queries-mappers/approve/approve.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ApproveQuery } from '@pages/report-states/application/queries/approve/approve.query';
 import { ApproveUseCase } from '@pages/report-states/application/use-cases/approve/approve.use-case';
@@ -15,18 +16,6 @@ export class ApproveHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<ApproveEntity>> {
-        return this.useCase.execute(
-            {
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(approveQueryMapper(query), page, options);
     }
 }

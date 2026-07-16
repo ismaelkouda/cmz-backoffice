@@ -14,7 +14,8 @@ export class ActorMapper {
             dtoValue.id,
             dtoValue.first_name,
             dtoValue.last_name,
-            dtoValue.phone
+            dtoValue.phone,
+            dtoValue.email
         );
     }
 
@@ -28,6 +29,7 @@ export class ActorMapper {
             first_name: entityValue.firstName,
             last_name: entityValue.lastName,
             phone: entityValue.phone,
+            email: entityValue.email,
         };
     }
 }

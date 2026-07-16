@@ -1,3 +1,4 @@
+import { forgotPasswordRequestCommandMapper } from '@presentation/pages/authentication/application/commands-mappers/forgot-password/forgot-password-request.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ForgotPasswordResponseEntity } from '@presentation/pages/authentication/domain/entities/forgot-password/forgot-password-response.entity';
 import { ForgotPasswordRequestCommand } from '@presentation/pages/authentication/application/commands/forgot-password/forgot-password-request.command';
@@ -11,8 +12,8 @@ export class ForgotPasswordRequestHandler {
     execute(
         command: ForgotPasswordRequestCommand
     ): Observable<ForgotPasswordResponseEntity> {
-        return this.useCase.execute({
-            email: command.email,
-        });
+        return this.useCase.execute(
+            forgotPasswordRequestCommandMapper(command)
+        );
     }
 }

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { INFRASTRUCTURE_TYPE_ROUTE } from '@pages/administrative-infrastructure/presentation/infrastructure-type/infrastructure-type-paths.constants';
-import { INFRASTRUCTURE_ROUTE } from '@pages/administrative-infrastructure/presentation/infrastructure/infrastructure-paths.constants';
+import { INFRASTRUCTURE_TYPE_ROUTE } from '@presentation/pages/administrative-infrastructure/presentation/features/infrastructure-type/infrastructure-type-paths.constants';
+import { INFRASTRUCTURE_ROUTE } from '@presentation/pages/administrative-infrastructure/presentation/features/infrastructure/infrastructure-paths.constants';
 
 export const routes: Routes = [
     {
@@ -15,7 +15,7 @@ export const routes: Routes = [
             {
                 path: '',
                 loadChildren: () =>
-                    import('@pages/administrative-infrastructure/presentation/infrastructure-type/infrastructure-type.routes').then(
+                    import('@presentation/pages/administrative-infrastructure/presentation/features/infrastructure-type/infrastructure-type.routes').then(
                         (m) => m.INFRASTRUCTURE_TYPE_ROUTES
                     ),
                 data: { breadcrumb: { hide: true } },
@@ -39,7 +39,7 @@ export const routes: Routes = [
             {
                 path: '',
                 loadChildren: () =>
-                    import('@pages/administrative-infrastructure/presentation/infrastructure/infrastructure.routes').then(
+                    import('@presentation/pages/administrative-infrastructure/presentation/features/infrastructure/infrastructure.routes').then(
                         (m) => m.INFRASTRUCTURE_ROUTES
                     ),
                 data: { breadcrumb: { hide: true } },

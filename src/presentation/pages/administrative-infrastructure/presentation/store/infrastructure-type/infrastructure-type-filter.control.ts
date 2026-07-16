@@ -3,5 +3,7 @@ import { Status } from '@presentation/pages/administrative-infrastructure/domain
 
 export interface InfrastructureTypeFilterControl {
     search: FormControl<string | undefined>;
-    isActive: FormControl<Status | undefined>;
+    status: FormControl<Status | undefined>;
+    startDate: FormControl<Date | undefined>;
+    endDate: FormControl<Date | undefined>;
 }

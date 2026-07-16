@@ -1,7 +1,7 @@
+import { evaluateDownloadQueryMapper } from '@pages/report-states/application/queries-mappers/evaluate/evaluate-download.mapper';
 import { Injectable, inject } from '@angular/core';
 import { EvaluateDownloadQuery } from '@pages/report-states/application/queries/evaluate/evaluate-download.query';
 import { EvaluateUseCase } from '@pages/report-states/application/use-cases/evaluate/evaluate.use-case';
-import { DownloadSource } from '@presentation/pages/report-states/domain/enums/download-source.enum';
 import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
@@ -10,18 +10,6 @@ export class EvaluateDownloadHandler {
     private readonly useCase = inject(EvaluateUseCase);
 
     execute(query: EvaluateDownloadQuery): Observable<MessageResponseDto> {
-        return this.useCase.download({
-            metaData: {
-                source: DownloadSource.REPORT,
-            },
-            format: query.format,
-            initiatorPhoneNumber: query.initiatorPhoneNumber,
-            uniqId: query.uniqId,
-            reportType: query.reportType,
-            operators: query.operators,
-            source: query.source,
-            startDate: query.startDate,
-            endDate: query.endDate,
-        });
+        return this.useCase.download(evaluateDownloadQueryMapper(query));
     }
 }

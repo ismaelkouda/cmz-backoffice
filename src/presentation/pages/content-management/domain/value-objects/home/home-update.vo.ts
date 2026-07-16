@@ -1,51 +1,20 @@
-import { HomeUpdateDto } from '@pages/content-management/application/dto/home/home-update.dto';
+import { HomeUpdateContract } from '@pages/content-management/domain/contracts/home/home-update.contract';
 import { HomeUpdateProps } from '@pages/content-management/domain/interfaces/home/home-update-props.interface';
+import { validateHomeUpdate } from '@pages/content-management/domain/validators/home/home-update.validator';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
-export class HomeUpdateVo {
-    constructor(private readonly props: HomeUpdateProps) {}
-
-    get uniqId(): string {
-        return this.props.uniqId;
-    }
-
-    get image(): File | null | string {
-        return this.props.image;
-    }
-
-    get platforms(): string[] {
-        return this.props.platforms;
-    }
-
-    get period(): DatePeriod {
-        return this.props.period;
-    }
-
-    get title(): string {
-        return this.props.title;
-    }
-
-    get resume(): string {
-        return this.props.resume;
-    }
-
-    get content(): string {
-        return this.props.content;
-    }
-
-    get buttonLabel(): string | undefined {
-        return this.props.buttonLabel;
-    }
-
-    get buttonUrl(): string | undefined {
-        return this.props.buttonUrl;
-    }
-
-    static fromDto(dto: HomeUpdateDto): HomeUpdateVo {
-        const period = DatePeriod.create(dto.startDate, dto.endDate);
-        return new HomeUpdateVo({
-            ...dto,
-            period,
-        });
-    }
+export function homeUpdateVo(contract: HomeUpdateContract): HomeUpdateProps {
+    validateHomeUpdate(contract);
+    const period = DatePeriod.create(contract.startDate, contract.endDate);
+    return {
+        uniqId: contract.uniqId,
+        title: contract.title,
+        resume: contract.resume,
+        content: contract.content,
+        image: contract.image,
+        platforms: contract.platforms,
+        period,
+        buttonLabel: contract.buttonLabel,
+        buttonUrl: contract.buttonUrl,
+    };
 }

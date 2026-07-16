@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { AUTH_API_URL } from '@core/config/config.tokens';
-import { AuthenticationEndpoint } from '@presentation/pages/authentication/infrastructure/constants/authentication-endpoints.constant';
+import { AUTHENTICATION_ENDPOINTS } from '@presentation/pages/authentication/infrastructure/constants/authentication-endpoints.constant';
 import { ForgotPasswordRequestApiDto } from '@presentation/pages/authentication/infrastructure/dto/forgot-password/forgot-password-request-api.dto';
 import { ForgotPasswordResponseDto } from '@presentation/pages/authentication/infrastructure/dto/forgot-password/forgot-password-response-api.dto';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ export class ForgotPasswordApi {
     execute(
         payload: ForgotPasswordRequestApiDto
     ): Observable<ForgotPasswordResponseDto> {
-        const url = `${this.baseUrl}${AuthenticationEndpoint.FORGOT_PASSWORD}`;
+        const url = `${this.baseUrl}${AUTHENTICATION_ENDPOINTS.FORGOT_PASSWORD}`;
         return this.http.post<ForgotPasswordResponseDto>(url, payload);
     }
 }

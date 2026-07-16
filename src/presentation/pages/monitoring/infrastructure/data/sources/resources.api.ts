@@ -4,7 +4,7 @@ import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { ResourcesResponseDto } from '../../api/dto/resources/resources-response.dto';
-import { MONITORING_API_BASE_URL } from '../../api/monitoring.config';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 import { MONITORING_ENDPOINTS } from '../../api/monitoring.endpoints';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
@@ -13,7 +13,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 })
 export class ResourcesApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(MONITORING_API_BASE_URL);
+    private readonly baseUrl = inject(SETTINGS_API_URL);
 
     getResources(options?: FetchOptions): Observable<ResourcesResponseDto> {
         const url = `${this.baseUrl}${MONITORING_ENDPOINTS.VARIABLES}`;

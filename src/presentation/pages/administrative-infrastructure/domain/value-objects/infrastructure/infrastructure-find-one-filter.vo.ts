@@ -1,17 +1,10 @@
-import { InfrastructureFindOneFilterDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure/infrastructure-find-one-filter.dto';
+import { InfrastructureFindOneFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-find-one-filter.contract';
+import { InfrastructureFindOneFilterValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-find-one-filter.validate-contract';
+import { validateInfrastructureFindOneFilter } from '@presentation/pages/administrative-infrastructure/domain/validators/infrastructure/infrastructure-find-one-filter.validator';
 
-export class InfrastructureFindOneFilterVo {
-    public readonly uniqId: string;
-
-    constructor(props: { uniqId: string }) {
-        this.uniqId = props.uniqId;
-    }
-
-    static fromDto(
-        dto: InfrastructureFindOneFilterDto
-    ): InfrastructureFindOneFilterVo {
-        return new InfrastructureFindOneFilterVo({
-            uniqId: dto.uniqId,
-        });
-    }
+export function infrastructureFindOneFilterVo(
+    contract: InfrastructureFindOneFilterContract
+): InfrastructureFindOneFilterValidateContract {
+    validateInfrastructureFindOneFilter(contract);
+    return contract;
 }

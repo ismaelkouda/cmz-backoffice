@@ -1,21 +1,14 @@
-import { PrivacyPolicyUpdateDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-update.dto';
+import { PrivacyPolicyUpdateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-update.contract';
+import { PrivacyPolicyUpdateValidateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-update.validate-contract';
+import { validatePrivacyPolicyUpdate } from '@pages/content-management/domain/validators/privacy-policy/privacy-policy-update.validator';
 
-export class PrivacyPolicyUpdateVo {
-    public readonly uniqId: string;
-    public readonly version: string;
-    public readonly content: string;
-
-    constructor(props: { uniqId: string; version: string; content: string }) {
-        this.uniqId = props.uniqId;
-        this.version = props.version;
-        this.content = props.content;
-    }
-
-    static fromDto(dto: PrivacyPolicyUpdateDto): PrivacyPolicyUpdateVo {
-        return new PrivacyPolicyUpdateVo({
-            uniqId: dto.uniqId,
-            version: dto.version,
-            content: dto.content,
-        });
-    }
+export function privacyPolicyUpdateVo(
+    contract: PrivacyPolicyUpdateContract
+): PrivacyPolicyUpdateValidateContract {
+    validatePrivacyPolicyUpdate(contract);
+    return {
+        uniqId: contract.uniqId,
+        version: contract.version,
+        content: contract.content,
+    };
 }

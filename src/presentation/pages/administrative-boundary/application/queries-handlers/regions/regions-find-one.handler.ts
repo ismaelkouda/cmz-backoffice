@@ -1,3 +1,4 @@
+import { regionsFindOneQueryMapper } from '@pages/administrative-boundary/application/queries-mappers/regions/regions-find-one.mapper';
 import { inject, Injectable } from '@angular/core';
 import { RegionsFindOneQuery } from '@pages/administrative-boundary/application/queries/regions/regions-find-one.query';
 import { RegionsFindOneUseCase } from '@pages/administrative-boundary/application/use-cases/regions/regions-find-one.use-case';
@@ -14,9 +15,7 @@ export class RegionsFindOneHandler {
         options?: FetchOptions
     ): Observable<RegionsFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            regionsFindOneQueryMapper(command),
             options
         );
     }

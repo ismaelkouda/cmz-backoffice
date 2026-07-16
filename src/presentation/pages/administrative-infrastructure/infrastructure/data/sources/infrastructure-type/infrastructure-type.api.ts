@@ -8,18 +8,18 @@ import { InfrastructureTypeEnableApiDto } from '@pages/administrative-infrastruc
 import { InfrastructureTypeFilterApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-filter-api.dto';
 import { InfrastructureTypeResponseApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-response-api.dto';
 import { InfrastructureTypeUpdateApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-update-api.dto';
-import { ADMINISTRATIVE_INFRASTRUCTURE_BASE_URL } from '@pages/administrative-infrastructure/infrastructure/api/administrative-infrastructure.base-url';
 import { ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS } from '@pages/administrative-infrastructure/infrastructure/api/administrative-infrastructure.endpoints';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 
 @Injectable({ providedIn: 'root' })
 export class InfrastructureTypeApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(ADMINISTRATIVE_INFRASTRUCTURE_BASE_URL);
+    private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
         filter: InfrastructureTypeFilterApiDto,
@@ -41,38 +41,38 @@ export class InfrastructureTypeApi {
 
     create(
         apiDto: InfrastructureTypeCreateApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    ): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/store`;
         const payload = buildHttpPayload(apiDto, []);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 
     update(
         apiDto: InfrastructureTypeUpdateApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    ): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.id}/update`;
         const payload = buildHttpPayload(apiDto, ['id']);
-        return this.http.post<SimpleResponseDto<void>>(url, payload);
+        return this.http.post<MessageResponseDto>(url, payload);
     }
 
     delete(
         apiDto: InfrastructureTypeDeleteApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    ): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.uniq_id}/delete`;
-        return this.http.delete<SimpleResponseDto<void>>(url);
+        return this.http.delete<MessageResponseDto>(url);
     }
 
     enable(
         apiDto: InfrastructureTypeEnableApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    ): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.uniq_id}/enable`;
-        return this.http.put<SimpleResponseDto<void>>(url, {});
+        return this.http.put<MessageResponseDto>(url, {});
     }
 
     disable(
         apiDto: InfrastructureTypeDisableApiDto
-    ): Observable<SimpleResponseDto<void>> {
+    ): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.uniq_id}/disable`;
-        return this.http.put<SimpleResponseDto<void>>(url, {});
+        return this.http.put<MessageResponseDto>(url, {});
     }
 }

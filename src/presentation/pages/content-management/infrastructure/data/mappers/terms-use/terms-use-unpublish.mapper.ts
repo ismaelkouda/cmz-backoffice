@@ -1,12 +1,12 @@
-import { TermsUseUnpublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-unpublish.entity';
+import { TermsUseUnpublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-unpublish.dto';
 import { TermsUseUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-unpublish-api.dto';
 
 export function termsUseUnpublishMapper(
-    vo: TermsUseUnpublishEntity
+    dto: TermsUseUnpublishDto
 ): TermsUseUnpublishApiDto {
     const prams = {} as TermsUseUnpublishApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

@@ -1,3 +1,4 @@
+import { slideEnableCommandMapper } from '@pages/content-management/application/commands-mappers/slide/slide-enable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { SlideEnableCommand } from '@pages/content-management/application/commands/slide/slide-enable.command';
 import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
@@ -9,8 +10,6 @@ export class SlideEnableHandler {
     private readonly useCase = inject(SlideUseCase);
 
     execute(command: SlideEnableCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.enable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.enable(slideEnableCommandMapper(command));
     }
 }

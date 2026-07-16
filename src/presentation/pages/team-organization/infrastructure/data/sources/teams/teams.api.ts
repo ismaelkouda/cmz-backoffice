@@ -8,7 +8,7 @@ import { TeamsEnableApiDto } from '@pages/team-organization/infrastructure/api/d
 import { TeamsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-filter-api.dto';
 import { TeamsResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-response-api.dto';
 import { TeamsUpdateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-update-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class TeamsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     readAll(
         dto: TeamsFilterApiDto,

@@ -1,10 +1,10 @@
-import { TeamsEnableEntity } from '@pages/team-organization/domain/entities/teams/teams-enable.entity';
+import { TeamsEnableDto } from '@pages/team-organization/application/dto/teams/teams-enable.dto';
 import { TeamsEnableApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-enable-api.dto';
 
-export function teamsEnableMapper(vo: TeamsEnableEntity): TeamsEnableApiDto {
+export function teamsEnableMapper(dto: TeamsEnableDto): TeamsEnableApiDto {
     const prams = {} as TeamsEnableApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

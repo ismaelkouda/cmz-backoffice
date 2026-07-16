@@ -3,7 +3,7 @@ import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { DailyGoalFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/daily-goal/daily-goal-filter-api.dto';
 import { DailyGoalResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/daily-goal/daily-goal-response-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DailyGoalApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     execute(
         filter: DailyGoalFilterApiDto,

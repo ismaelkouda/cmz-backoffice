@@ -1,3 +1,4 @@
+import { municipalitiesByDepartmentIdQueryMapper } from '@pages/administrative-boundary/application/queries-mappers/departments/municipalities-by-department-id.mapper';
 import { inject, Injectable } from '@angular/core';
 import { MunicipalitiesByDepartmentIdQuery } from '@pages/administrative-boundary/application/queries/departments/municipalities-by-department-id.query';
 import { MunicipalitiesByDepartmentIdUseCase } from '@pages/administrative-boundary/application/use-cases/departments/municipalities-by-department-id.use-case';
@@ -16,15 +17,7 @@ export class MunicipalitiesByDepartmentIdHandler {
         options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesByDepartmentIdEntity>> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-                search: command.search,
-                region: command.region,
-                department: command.department,
-                status: command.status,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
+            municipalitiesByDepartmentIdQueryMapper(command),
             page,
             options
         );

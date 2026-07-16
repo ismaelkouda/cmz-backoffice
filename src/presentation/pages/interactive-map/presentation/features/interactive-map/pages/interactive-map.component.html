@@ -113,10 +113,8 @@
                         </aside>
                     }
 
-                    <div
-                        class="interactive-map-shell mt-3"
-                        [class.filters-collapsed]="!filtersPanelOpen()"
-                    >
+                    <div class="interactive-map-shell mt-3">
+                        <main class="map-workspace">
                         @if (!filtersPanelOpen()) {
                             <button
                                 type="button"
@@ -124,35 +122,20 @@
                                 [attr.aria-expanded]="filtersPanelOpen()"
                                 (click)="toggleFiltersPanel()"
                             >
-                                Filtres
+                                Filtres sur les signalements
                             </button>
                         }
-                        <aside
-                            class="filters-panel"
-                            [class.is-collapsed]="!filtersPanelOpen()"
-                        >
+                        @if (filtersPanelOpen()) {
+                        <aside class="filters-panel">
                             <div class="panel-heading">
-                                <!-- <button
-                                    type="button"
-                                    class="icon-button"
-                                    (click)="toggleHeatmap()"
-                                >
-                                    {{
-                                        store.heatmapEnabled()
-                                            ? 'Marqueurs'
-                                            : 'Zone'
-                                    }}
-                                </button> -->
-                                @if (filtersPanelOpen()) {
-                                    <p-button
-                                        class="close-toggle-button"
-                                        icon="pi pi-times"
-                                        [rounded]="true"
-                                        [text]="true"
-                                        severity="danger"
-                                        (click)="toggleFiltersPanel()"
-                                    />
-                                }
+                                <p-button
+                                    class="close-toggle-button"
+                                    icon="pi pi-times"
+                                    [rounded]="true"
+                                    [text]="true"
+                                    severity="danger"
+                                    (click)="toggleFiltersPanel()"
+                                />
                             </div>
 
                             <section class="filter-group">
@@ -365,15 +348,32 @@
                                 />
                             </div>
                         </aside>
+                        }
 
-                        <main class="map-workspace">
                             <div class="coverage-legend" [class.open]="coverageLegendOpen()">
-                                <button class="coverage-legend-toggle" (click)="toggleCoverageLegend()">
-                                    <i class="pi pi-map"></i>
-                                </button>
+                                @if (!coverageLegendOpen()) {
+                                    <button
+                                        type="button"
+                                        class="coverage-legend-toggle"
+                                        [attr.aria-expanded]="coverageLegendOpen()"
+                                        (click)="toggleCoverageLegend()"
+                                    >
+                                        Filtres sur les couches
+                                    </button>
+                                }
                                 @if (coverageLegendOpen()) {
                                     <div class="coverage-legend-panel">
-                                        <h4>Couches</h4>
+                                        <div class="panel-heading">
+                                            <h4 class="mb-0">Couches</h4>
+                                            <p-button
+                                                class="close-toggle-button"
+                                                icon="pi pi-times"
+                                                [rounded]="true"
+                                                [text]="true"
+                                                severity="danger"
+                                                (click)="toggleCoverageLegend()"
+                                            />
+                                        </div>
                                         <label>
                                             <input type="radio" name="basemap" [checked]="currentBaseMap() === 'osm'" (change)="setBaseMap('osm')"> OpenStreetMap
                                         </label>
@@ -402,7 +402,8 @@
                                             @for (op of networkTechnologyOptions; track op.value) {
                                             <label>
                                                 <input type="checkbox"
-                                                    [checked]="op.value" />
+                                                    [checked]="rnhdVisible(op.value)"
+                                                    (change)="toggleRnhd(op.value, $any($event.target).checked)" />
                                                 RNHD : {{ op.label }}
                                             </label>
                                         }

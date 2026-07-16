@@ -1,3 +1,4 @@
+import { usersDeleteCommandMapper } from '@pages/settings-security/application/commands-mappers/users/users-delete.mapper';
 import { Injectable, inject } from '@angular/core';
 import { UsersDeleteCommand } from '@pages/settings-security/application/commands/users/users-delete.command';
 import { UsersUseCase } from '@pages/settings-security/application/use-cases/users/users.use-case';
@@ -9,8 +10,6 @@ export class UsersDeleteHandler {
     private readonly useCase = inject(UsersUseCase);
 
     execute(command: UsersDeleteCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(usersDeleteCommandMapper(command));
     }
 }

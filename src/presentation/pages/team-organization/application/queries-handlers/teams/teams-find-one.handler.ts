@@ -1,3 +1,4 @@
+import { teamsFindOneQueryMapper } from '@pages/team-organization/application/queries-mappers/teams/teams-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsFindOneQuery } from '@pages/team-organization/application/queries/teams/teams-find-one.query';
 import { TeamsFindOneUseCase } from '@pages/team-organization/application/use-cases/teams/teams-find-one.use-case';
@@ -13,11 +14,6 @@ export class TeamsFindOneHandler {
         command: TeamsFindOneQuery,
         options?: FetchOptions
     ): Observable<TeamsFindOneEntity> {
-        return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
-            options
-        );
+        return this.useCase.execute(teamsFindOneQueryMapper(command), options);
     }
 }

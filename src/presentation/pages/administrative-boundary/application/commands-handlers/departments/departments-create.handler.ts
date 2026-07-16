@@ -1,3 +1,4 @@
+import { departmentsCreateCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/departments/departments-create.mapper';
 import { inject, Injectable } from '@angular/core';
 import { DepartmentsCreateCommand } from '@pages/administrative-boundary/application/commands/departments/departments-create.command';
 import { DepartmentsUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments.use-case';
@@ -11,13 +12,6 @@ export class DepartmentsCreateHandler {
     execute(
         command: DepartmentsCreateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            code: command.code,
-            population: command.population,
-            infrastructure: command.infrastructure,
-            name: command.name,
-            region: command.region,
-            description: command.description,
-        });
+        return this.useCase.create(departmentsCreateCommandMapper(command));
     }
 }

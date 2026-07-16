@@ -92,19 +92,17 @@ export class InfrastructureFormStore {
 
     constructor() {
         this.initializeDetailsModeEffect();
-
-        effect(() => {
-            console.log('position signal', this.infrastructureType());
-        });
     }
 
     private createForm(): FormGroup<InfrastructureFormControl> {
         return this.fb.nonNullable.group<InfrastructureFormControl>({
             name: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
+                validators: [Validators.required],
             }),
             type: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
+                validators: [Validators.required],
             }),
             description: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,

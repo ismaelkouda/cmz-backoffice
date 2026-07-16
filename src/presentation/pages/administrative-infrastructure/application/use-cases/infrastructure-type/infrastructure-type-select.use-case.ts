@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { InfrastructureTypeSelectEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-select.entity';
-import { InfrastructureTypeSelectRepository } from '@presentation/pages/administrative-infrastructure/domain/repositories/infrastructure-type/infrastructure-type-select-repository';
+import { InfrastructureTypeSelectRepository } from '@presentation/pages/administrative-infrastructure/domain/repositories/infrastructure-type/infrastructure-type-select.repository';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -13,6 +13,6 @@ export class InfrastructureTypeSelectUseCase {
     readAll(
         options?: FetchOptions
     ): Observable<InfrastructureTypeSelectEntity[]> {
-        return this.repository.readAll(options);
+        return defer(() => this.repository.readAll(options));
     }
 }

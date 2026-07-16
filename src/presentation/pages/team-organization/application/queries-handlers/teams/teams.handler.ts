@@ -1,3 +1,4 @@
+import { teamsQueryMapper } from '@pages/team-organization/application/queries-mappers/teams/teams.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsQuery } from '@pages/team-organization/application/queries/teams/teams.query';
 import { TeamsUseCase } from '@pages/team-organization/application/use-cases/teams/teams.use-case';
@@ -15,14 +16,6 @@ export class TeamsHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TeamsEntity>> {
-        return this.useCase.execute(
-            {
-                search: command.search,
-                member: command.member,
-                status: command.status,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(teamsQueryMapper(command), page, options);
     }
 }

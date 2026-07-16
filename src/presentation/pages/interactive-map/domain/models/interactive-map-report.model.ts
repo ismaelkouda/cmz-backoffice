@@ -89,6 +89,7 @@ export interface CoverageAreaFilters {
     operator?: string;
     network_technology?: string;
     region?: string;
+    equipment?: string;
 }
 
 export interface ClusterSummary {

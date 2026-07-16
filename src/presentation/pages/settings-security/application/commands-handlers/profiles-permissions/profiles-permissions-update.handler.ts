@@ -1,3 +1,4 @@
+import { profilesPermissionsUpdateCommandMapper } from '@pages/settings-security/application/commands-mappers/profiles-permissions/profiles-permissions-update.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsUpdateCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-update.command';
 import { ProfilesPermissionsUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions.use-case';
@@ -11,11 +12,8 @@ export class ProfilesPermissionsUpdateHandler {
     execute(
         command: ProfilesPermissionsUpdateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            name: command.name,
-            description: command.description,
-            permissions: command.permissions,
-        });
+        return this.useCase.update(
+            profilesPermissionsUpdateCommandMapper(command)
+        );
     }
 }

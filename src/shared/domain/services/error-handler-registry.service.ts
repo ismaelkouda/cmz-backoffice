@@ -18,10 +18,7 @@ export class ErrorHandlerRegistry {
     }
 
     private getHandler(error: DomainError): ErrorHandler | undefined {
-        console.log('error', error);
         if (this.handlers.has(error.constructor as Type<DomainError>)) {
-            console.log('error111', error);
-            console.log('error.constructor', error.constructor);
             return this.handlers.get(error.constructor as Type<DomainError>);
         }
         if (error.code && this.handlers.has(error.code)) {

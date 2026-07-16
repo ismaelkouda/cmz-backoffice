@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { ApproveFilterApiDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-filter-api.dto';
 import { ApproveResponseApiDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
-import { REPORT_STATES_BASE_URL } from '@presentation/pages/report-states/infrastructure/api/report-states.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { REPORT_STATES_ENDPOINTS } from '@presentation/pages/report-states/infrastructure/api/report-states.endpoints';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -15,7 +15,7 @@ import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 @Injectable({ providedIn: 'root' })
 export class ApproveApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(REPORT_STATES_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     execute(
         filter: ApproveFilterApiDto,

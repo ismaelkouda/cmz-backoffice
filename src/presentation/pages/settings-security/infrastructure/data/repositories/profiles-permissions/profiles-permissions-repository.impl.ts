@@ -1,12 +1,12 @@
 import { Injectable, inject } from '@angular/core';
-import { ProfilesPermissionsCreateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-create.entity';
-import { ProfilesPermissionsDeleteEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
-import { ProfilesPermissionsDisableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
-import { ProfilesPermissionsEnableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
-import { ProfilesPermissionsFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
-import { ProfilesPermissionsUpdateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
+import { ProfilesPermissionsDeleteDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
+import { ProfilesPermissionsDisableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
+import { ProfilesPermissionsEnableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-enable.dto';
+import { ProfilesPermissionsCreateValidateContract } from '@pages/settings-security/domain/contracts/profiles-permissions/profiles-permissions-create.validate-contract';
+import { ProfilesPermissionsUpdateValidateContract } from '@pages/settings-security/domain/contracts/profiles-permissions/profiles-permissions-update.validate-contract';
 import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
 import { ProfilesPermissionsRepository } from '@pages/settings-security/domain/repositories/profiles-permissions/profiles-permissions-repository';
+import { ProfilesPermissionsFilterVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-filter.vo';
 import { profilesPermissionsCreateMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-create.mapper';
 import { profilesPermissionsDeleteMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-delete.mapper';
 import { profilesPermissionsDisableMapper } from '@pages/settings-security/infrastructure/data/mappers/profiles-permissions/profiles-permissions-disable.mapper';
@@ -31,48 +31,48 @@ export class ProfilesPermissionsRepositoryImpl implements ProfilesPermissionsRep
     private readonly mapperFilter = inject(ProfilesPermissionsFilterMapper);
 
     execute(
-        entity: ProfilesPermissionsFilterEntity,
+        filter: ProfilesPermissionsFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsEntity>> {
-        const paramsDto = this.mapperFilter.map(entity);
+        const paramsDto = this.mapperFilter.map(filter);
         return this.api
             .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
     create(
-        entity: ProfilesPermissionsCreateEntity
+        props: ProfilesPermissionsCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = profilesPermissionsCreateMapper(entity);
+        const paramsDto = profilesPermissionsCreateMapper(props);
         return this.api.create(paramsDto);
     }
 
     update(
-        entity: ProfilesPermissionsUpdateEntity
+        props: ProfilesPermissionsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = profilesPermissionsUpdateMapper(entity);
+        const paramsDto = profilesPermissionsUpdateMapper(props);
         return this.api.update(paramsDto);
     }
 
     delete(
-        entity: ProfilesPermissionsDeleteEntity
+        dto: ProfilesPermissionsDeleteDto
     ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = profilesPermissionsDeleteMapper(entity);
+        const paramsDto = profilesPermissionsDeleteMapper(dto);
         return this.api.delete(paramsDto);
     }
 
     enable(
-        entity: ProfilesPermissionsEnableEntity
+        dto: ProfilesPermissionsEnableDto
     ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = profilesPermissionsEnableMapper(entity);
+        const paramsDto = profilesPermissionsEnableMapper(dto);
         return this.api.enable(paramsDto);
     }
 
     disable(
-        entity: ProfilesPermissionsDisableEntity
+        dto: ProfilesPermissionsDisableDto
     ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = profilesPermissionsDisableMapper(entity);
+        const paramsDto = profilesPermissionsDisableMapper(dto);
         return this.api.disable(paramsDto);
     }
 }
