@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { RegionsDeleteEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-delete.entity';
-import { RegionsFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
+import { RegionsDeleteDto } from '@pages/administrative-boundary/application/dto/regions/regions-delete.dto';
+import { RegionsFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/regions-filter-props.interface';
 import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
 import { RegionsCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-create.validate-contract';
 import { RegionsUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-update.validate-contract';
@@ -24,7 +24,7 @@ export class RegionsRepositoryImpl implements RegionsRepository {
     private readonly mapper = inject(RegionsMapper);
 
     execute(
-        filter: RegionsFilterEntity,
+        filter: RegionsFilterProps,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<RegionsEntity>> {
@@ -48,8 +48,8 @@ export class RegionsRepositoryImpl implements RegionsRepository {
         return this.api.update(paramsDto);
     }
 
-    delete(vo: RegionsDeleteEntity): Observable<SimpleResponseDto<void>> {
-        const paramsDto = regionsDeleteMapper(vo);
+    delete(dto: RegionsDeleteDto): Observable<SimpleResponseDto<void>> {
+        const paramsDto = regionsDeleteMapper(dto);
         return this.api.delete(paramsDto);
     }
 }

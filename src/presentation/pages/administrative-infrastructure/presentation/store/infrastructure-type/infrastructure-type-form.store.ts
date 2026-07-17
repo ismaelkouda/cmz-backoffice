@@ -15,7 +15,8 @@ import {
 } from '@angular/forms';
 import { InfrastructureTypeFindOneFacade } from '@pages/administrative-infrastructure/application/services/infrastructure-type/infrastructure-type-find-one.facade';
 import { InfrastructureTypeFormControl } from '@presentation/pages/administrative-infrastructure/presentation/store/infrastructure-type/infrastructure-type-form.control';
-import { FormValidators } from '@pages/administrative-infrastructure/domain/validators/form-validators';
+import { FormValidators } from '@pages/administrative-infrastructure/presentation/constants/form-validators.constants';
+import { INFRASTRUCTURE_TYPE_FORM_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-form-keys.constant';
 import { startWith } from 'rxjs';
 type FormMode = 'create' | 'edit' | 'details';
 
@@ -58,12 +59,16 @@ export class InfrastructureTypeFormStore {
 
     private createForm(): FormGroup<InfrastructureTypeFormControl> {
         return this.fb.nonNullable.group<InfrastructureTypeFormControl>({
-            name: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_TYPE_FORM_KEYS.NAME]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
 
-            description: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_TYPE_FORM_KEYS.DESCRIPTION]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
@@ -112,8 +117,8 @@ export class InfrastructureTypeFormStore {
         this.form.enable({ emitEvent: false });
         this.form.reset(
             {
-                name: undefined,
-                description: undefined,
+                [INFRASTRUCTURE_TYPE_FORM_KEYS.NAME]: undefined,
+                [INFRASTRUCTURE_TYPE_FORM_KEYS.DESCRIPTION]: undefined,
             },
             {
                 emitEvent: true,

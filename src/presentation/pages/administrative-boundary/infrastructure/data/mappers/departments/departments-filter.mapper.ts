@@ -1,8 +1,8 @@
-import { DepartmentsFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
+import { DepartmentsFilterProps } from '@pages/administrative-boundary/domain/interfaces/departments/departments-filter-props.interface';
 import { DepartmentsFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-filter-api.dto';
 
 export function departmentsFilterMapper(
-    filter: DepartmentsFilterEntity
+    filter: DepartmentsFilterProps
 ): DepartmentsFilterApiDto {
     const params: DepartmentsFilterApiDto = {} as DepartmentsFilterApiDto;
     if (filter.search) {

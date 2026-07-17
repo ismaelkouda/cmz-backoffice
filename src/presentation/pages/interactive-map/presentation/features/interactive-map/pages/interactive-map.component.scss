@@ -931,8 +931,7 @@ $dark-gray: var(--color-gray);
 }
 
 .coverage-legend-panel {
-    display: none; // caché par défaut, affiché via .open
-    margin-top: 8px;
+    display: none;
     width: 220px;
     background: rgba(255, 255, 255, 0.98);
     border: 1px solid var(--color-border);

@@ -219,8 +219,8 @@ export class InteractiveMapComponent
         { value: 'mtn', label: 'MTN' },
     ];
     public readonly statusOptions: { value: ReportStatus; label: string }[] = [
-        { value: 'in-progress', label: 'En cours' },
-        { value: 'completed', label: 'Clôturé' },
+        { value: 'processing', label: 'En cours' },
+        { value: 'finalization', label: 'Clôturé' },
     ];
     public readonly networkTechnologyOptions = [
         { value: 'fo', label: 'Fibre optique' },

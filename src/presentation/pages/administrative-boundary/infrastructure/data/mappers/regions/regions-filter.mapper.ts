@@ -1,8 +1,8 @@
-import { RegionsFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
+import { RegionsFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/regions-filter-props.interface';
 import { RegionsFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-filter-api.dto';
 
 export function regionsFilterMapper(
-    filter: RegionsFilterEntity
+    filter: RegionsFilterProps
 ): RegionsFilterApiDto {
     const params: RegionsFilterApiDto = {} as RegionsFilterApiDto;
     if (filter.search) {

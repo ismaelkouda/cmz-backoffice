@@ -20,13 +20,13 @@ export class InfrastructureApi {
     private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
-        filter: InfrastructureFilterApiDto,
+        dto: InfrastructureFilterApiDto,
         page: string,
         options?: FetchOptions
     ): Observable<InfrastructureResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}?page=${page}`;
 
-        const params = buildHttpParams(filter);
+        const params = buildHttpParams(dto);
         const context = new HttpContext().set(
             BYPASS_CACHE,
             options?.forceRefresh ?? false
@@ -37,20 +37,20 @@ export class InfrastructureApi {
         });
     }
 
-    create(apiDto: InfrastructureCreateApiDto): Observable<MessageResponseDto> {
+    create(dto: InfrastructureCreateApiDto): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/store`;
-        const payload = buildHttpPayload(apiDto, []);
+        const payload = buildHttpPayload(dto, []);
         return this.http.post<MessageResponseDto>(url, payload);
     }
 
-    update(apiDto: InfrastructureUpdateApiDto): Observable<MessageResponseDto> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/${apiDto.id}/update`;
-        const payload = buildHttpPayload(apiDto, ['id']);
+    update(dto: InfrastructureUpdateApiDto): Observable<MessageResponseDto> {
+        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/${dto.id}/update`;
+        const payload = buildHttpPayload(dto, ['id']);
         return this.http.post<MessageResponseDto>(url, payload);
     }
 
-    delete(apiDto: InfrastructureDeleteApiDto): Observable<MessageResponseDto> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/${apiDto.uniq_id}/delete`;
+    delete(dto: InfrastructureDeleteApiDto): Observable<MessageResponseDto> {
+        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE}/${dto.uniq_id}/delete`;
         return this.http.delete<MessageResponseDto>(url);
     }
 }

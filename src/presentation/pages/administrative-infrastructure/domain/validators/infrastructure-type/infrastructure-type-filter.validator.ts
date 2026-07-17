@@ -1,15 +1,8 @@
 import { InfrastructureTypeFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-filter.contract';
-import { DateRangeInvalidError } from '@shared/domain/errors/validation/date-range-invalid.error';
+import { assertValidDateRange } from '@shared/domain/validators/assert-valid-date-range.validator';
 
 export function validateInfrastructureTypeFilter(
     contract: InfrastructureTypeFilterContract
 ): asserts contract is InfrastructureTypeFilterContract {
-    if (
-        contract &&
-        contract.startDate &&
-        contract.endDate &&
-        contract.startDate.getTime() > contract.endDate.getTime()
-    ) {
-        throw new DateRangeInvalidError();
-    }
+    assertValidDateRange(contract?.startDate, contract?.endDate);
 }

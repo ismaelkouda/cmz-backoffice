@@ -16,17 +16,17 @@ import { InfrastructureDeleteValidateContract } from '@presentation/pages/admini
 })
 export abstract class InfrastructureRepository {
     abstract execute(
-        contract: InfrastructureFilterContract,
+        validContract: InfrastructureFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<InfrastructureEntity>>;
     abstract create(
-        dto: InfrastructureCreateValidateContract
+        validContract: InfrastructureCreateValidateContract
     ): Observable<MessageResponseDto>;
     abstract update(
-        dto: InfrastructureUpdateValidateContract
+        validContract: InfrastructureUpdateValidateContract
     ): Observable<MessageResponseDto>;
     abstract delete(
-        entity: InfrastructureDeleteValidateContract
+        validContract: InfrastructureDeleteValidateContract
     ): Observable<MessageResponseDto>;
 }

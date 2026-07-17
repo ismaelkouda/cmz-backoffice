@@ -1,12 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { DepartmentsDeleteDto } from '@pages/administrative-boundary/application/dto/departments/departments-delete.dto';
 import { DepartmentsFilterDto } from '@pages/administrative-boundary/application/dto/departments/departments-filter.dto';
-import { DepartmentsDeleteEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
-import { DepartmentsFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
 import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
 import { DepartmentsRepository } from '@pages/administrative-boundary/domain/repositories/departments/departments-repository';
-import { DepartmentsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-delete.vo';
-import { DepartmentsFilterVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-filter.vo';
+import { departmentsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-delete.vo';
+import { departmentsFilterVo } from '@pages/administrative-boundary/domain/value-objects/departments/departments-filter.vo';
 import { departmentsCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-create.vo';
 import { departmentsUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/departments/departments-update.vo';
 import { DepartmentsCreateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-create.contract';
@@ -29,11 +27,9 @@ export class DepartmentsUseCase {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<DepartmentsEntity>> {
-        return defer(() => {
-            const vo = DepartmentsFilterVo.fromDto(dto);
-            const entity = DepartmentsFilterEntity.fromVo(vo);
-            return this.repository.execute(entity, page, options);
-        });
+        return defer(() =>
+            this.repository.execute(departmentsFilterVo(dto), page, options)
+        );
     }
 
     create(
@@ -55,10 +51,8 @@ export class DepartmentsUseCase {
     delete(
         deleteDto: DepartmentsDeleteDto
     ): Observable<SimpleResponseDto<void>> {
-        return defer(() => {
-            const vo = DepartmentsDeleteVo.fromDto(deleteDto);
-            const entity = DepartmentsDeleteEntity.fromVo(vo);
-            return this.repository.delete(entity);
-        });
+        return defer(() =>
+            this.repository.delete(departmentsDeleteVo(deleteDto))
+        );
     }
 }

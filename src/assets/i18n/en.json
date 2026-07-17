@@ -21,7 +21,7 @@
         "ERROR_GRAFANA_DASHBOARD": "Dashboard error",
         "REPORT": "Report",
         "OPERATORS": "Operators",
-        "CREATED_AT":"Created on",
+        "CREATED_AT": "Created on",
         "SOURCE": "Source [Num]",
         "AUTO": "AUTO",
         "MANUAL": "MANUAL",
@@ -76,7 +76,7 @@
         "ACTIVATED": "Activated",
         "PUBLISH": "Publish",
         "PUBLISH_STYLE": "success",
-        "PUBLISHED" : "Published",
+        "PUBLISHED": "Published",
         "UNPUBLISH": "Unpublish",
         "UNPUBLISH_STYLE": "danger",
         "UNPUBLISHED": "Unpublished",
@@ -89,8 +89,8 @@
         "DEACTIVATED": "Deactivated",
         "INVALID_DATE_RANGE": "Invalid date range",
         "FORM_INVALID": "Invalid form",
-        "START_DATE":"Start date",
-        "END_DATE":"End date",
+        "START_DATE": "Start date",
+        "END_DATE": "End date",
         "DATE_PLACEHOLDER": "YYYY-MM-DD",
         "PHONE_PLACEHOLDER": "Enter phone number",
         "REPORT_UNIQ_ID_PLACEHOLDER": "Enter request ID",
@@ -1299,9 +1299,9 @@
     },
     "LOGOUT": {
         "SWEET_ALERT_PARAMS": {
-        "CONFIRM": "Log out of account?",
-        "MESSAGES": "Are you sure you want to log out?",
-        "BUTTONS": "Log out"
+            "CONFIRM": "Log out of account?",
+            "MESSAGES": "Are you sure you want to log out?",
+            "BUTTONS": "Log out"
         }
     },
     "MY_ACCOUNT": {
@@ -1364,10 +1364,10 @@
     },
     "REQUESTS": {
         "BREADCRUMB": {
-                "LABEL": "Request Qualifications",
-                "ROUTE": "requests",
-                "ICON": "pi-list-check"
-            },
+            "LABEL": "Request Qualifications",
+            "ROUTE": "requests",
+            "ICON": "pi-list-check"
+        },
         "LABEL": "Qualifications",
         "ROUTE": "requests",
         "QUEUES": {
@@ -2383,316 +2383,316 @@
         }
     },
     "MANAGEMENT": {
-            "TITLE": "Report Processing",
-            "LABEL": "Report Processing",
-            "REPORT_ID": "Report ID",
-            "PLACEHOLDER": "Processing content to come...",
-            "STATUS": {
-                "SUBMISSION": "Submission",
-                "QUALIFICATION": "Qualification",
-                "TREATMENT": "Treatment",
-                "FINALIZATION": "Finalization",
-                "INFORMATION": "Information",
-                "CLOSURE": "Closure",
+        "TITLE": "Report Processing",
+        "LABEL": "Report Processing",
+        "REPORT_ID": "Report ID",
+        "PLACEHOLDER": "Processing content to come...",
+        "STATUS": {
+            "SUBMISSION": "Submission",
+            "QUALIFICATION": "Qualification",
+            "TREATMENT": "Treatment",
+            "FINALIZATION": "Finalization",
+            "INFORMATION": "Information",
+            "CLOSURE": "Closure",
+            "TAKE": "Add to cart",
+            "APPROBATION": "Approval"
+        },
+        "BUTTONS": {
+            "SUBMISSION": "Submit",
+            "QUALIFICATION": "Qualify",
+            "TREATMENT": "Process",
+            "FINALIZATION": "Finalize",
+            "INFORMATION": "Information",
+            "TAKE": "Take",
+            "APPROBATION": "Approve"
+        },
+        "HEADER": {
+            "DETAILS_REPORT": "of the report",
+            "DETAILS_DEMAND": "of the request",
+            "NUMBER_OF_CONFIRMATIONS": "Number of confirmations",
+            "REPORT_ID": "ID",
+            "STATUS": "Status",
+            "STATUS_PENDING": "Pending",
+            "TYPE": "Type",
+            "TYPE_PLACEHOLDER": "White Zone",
+            "DATE_PLACEHOLDER": "Date to come..."
+        },
+        "STEP_BAR": {
+            "PRISE_EN_CHARGE": "Added to cart on",
+            "APPROBATION": "Approved on",
+            "TREATMENT": "Processed on",
+            "FINALIZATION": "Finalized on",
+            "EVALUATION": "Evaluated on"
+        },
+        "SIDEBAR": {
+            "ACTIONS": {
                 "TAKE": "Add to cart",
-                "APPROBATION": "Approval"
+                "APPROVE": "Approve",
+                "TREAT": "Process"
             },
-            "BUTTONS": {
-                "SUBMISSION": "Submit",
-                "QUALIFICATION": "Qualify",
-                "TREATMENT": "Process",
-                "FINALIZATION": "Finalize",
+            "INITIATOR": {
+                "TITLE": "Initiator Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "APPROVER": {
+                "TITLE": "Approver Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "TOOK": {
+                "TITLE": "Manager Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "REFUSER": {
+                "TITLE": "Rejecter Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "PROCESSED": {
+                "TITLE": "Processor Information",
+                "LAST_NAME": "Last Name",
+                "FIRST_NAME": "First Name",
+                "PHONE": "Contact"
+            },
+            "LOCATION": {
+                "TITLE": "Location",
+                "PLACEHOLDER": "Location to come..."
+            }
+        },
+        "TABS": {
+            "CATEGORIES": {
                 "INFORMATION": "Information",
-                "TAKE": "Take",
-                "APPROBATION": "Approve"
+                "IMAGES": "Photos",
+                "GEOGRAPHIC_VIEW": "Geographic View",
+                "TREATMENT_LOGS": "Processing Log"
             },
-            "HEADER": {
-                "DETAILS_REPORT": "of the report",
-                "DETAILS_DEMAND": "of the request",
-                "NUMBER_OF_CONFIRMATIONS": "Number of confirmations",
-                "REPORT_ID": "ID",
-                "STATUS": "Status",
-                "STATUS_PENDING": "Pending",
-                "TYPE": "Type",
-                "TYPE_PLACEHOLDER": "White Zone",
-                "DATE_PLACEHOLDER": "Date to come..."
+            "SECTIONS": {
+                "INFO": "Information"
+            }
+        },
+        "CONTENT": {
+            "INFORMATION": {
+                "PLACEHOLDER": "Information content to come..."
             },
-            "STEP_BAR": {
-                "PRISE_EN_CHARGE": "Added to cart on",
-                "APPROBATION": "Approved on",
-                "TREATMENT": "Processed on",
-                "FINALIZATION": "Finalized on",
-                "EVALUATION": "Evaluated on"
+            "PHOTOS": {
+                "PLACEHOLDER": "Photo content to come..."
             },
-            "SIDEBAR": {
-                "ACTIONS": {
-                    "TAKE": "Add to cart",
-                    "APPROVE": "Approve",
-                    "TREAT": "Process"
-                },
-                "INITIATOR": {
-                    "TITLE": "Initiator Information",
-                    "LAST_NAME": "Last Name",
-                    "FIRST_NAME": "First Name",
-                    "PHONE": "Contact"
-                },
-                "APPROVER": {
-                    "TITLE": "Approver Information",
-                    "LAST_NAME": "Last Name",
-                    "FIRST_NAME": "First Name",
-                    "PHONE": "Contact"
-                },
-                "TOOK": {
-                    "TITLE": "Manager Information",
-                    "LAST_NAME": "Last Name",
-                    "FIRST_NAME": "First Name",
-                    "PHONE": "Contact"
-                },
-                "REFUSER": {
-                    "TITLE": "Rejecter Information",
-                    "LAST_NAME": "Last Name",
-                    "FIRST_NAME": "First Name",
-                    "PHONE": "Contact"
-                },
-                "PROCESSED": {
-                    "TITLE": "Processor Information",
-                    "LAST_NAME": "Last Name",
-                    "FIRST_NAME": "First Name",
-                    "PHONE": "Contact"
-                },
-                "LOCATION": {
-                    "TITLE": "Location",
-                    "PLACEHOLDER": "Location to come..."
-                }
-            },
-            "TABS": {
-                "CATEGORIES": {
-                    "INFORMATION": "Information",
-                    "IMAGES": "Photos",
-                    "GEOGRAPHIC_VIEW": "Geographic View",
-                    "TREATMENT_LOGS": "Processing Log"
-                },
-                "SECTIONS": {
-                    "INFO": "Information"
-                }
-            },
-            "CONTENT": {
-                "INFORMATION": {
-                    "PLACEHOLDER": "Information content to come..."
-                },
-                "PHOTOS": {
-                    "PLACEHOLDER": "Photo content to come..."
-                },
-                "GEOGRAPHIC_VIEW": {
-                    "PLACEHOLDER": "Geographic view content to come..."
-                }
-            },
-            "TREATMENT": {
-                "PANEL": "Treatment Panel",
-                "TAKE_ACTION": {
-                    "TITLE": "Add report to cart",
-                    "REQUIRED": "Required",
-                    "DECISION": "Decision",
-                    "COMMENT": "Comment",
-                    "COMMENT_PLACEHOLDER": "Enter your comment...",
-                    "MOTIF": "Reason",
-                    "CALLBACK_TYPE": "Callback type",
-                    "MOTIF_PLACEHOLDER": "Enter your comment...",
-                    "OPTIONS": {
-                        "APPROVE": {
-                            "LABEL": "Accept",
-                            "DESCRIPTION": "Add report to cart"
-                        },
-                        "REJECT": {
-                            "LABEL": "Reject",
-                            "DESCRIPTION": "Reject the report"
-                        }
-                    },
-                    "VALIDATION": {
-                        "MOTIF_REQUIRED": "Reason is required",
-                        "CALLBACK_TYPE_REQUIRED": "Callback type is required",
-                        "COMMENT_REQUIRED": "A comment is required"
-                    }
-                }
-            },
-            "FORM": {
-                "READ_ONLY": "Read only",
-                "NOT_SPECIFIED": "Not specified",
-                "NO_DESCRIPTION": "No description provided",
-                "STATUS": {
-                    "INVALID": "Invalid",
-                    "VALID": "Valid"
-                },
-                "REPORT_INFO": {
-                    "TITLE": "Report Information",
-                    "TRANSMISSION_CHANNEL": "Transmission Channel",
-                    "GEOLOCATION_SYSTEM": "Geolocation System",
-                    "OPERATORS": "Operators concerned",
-                    "DATE_TIME_ENTRY": "Entry Date Time",
-                    "DATE_TIME_RECEIPT": "Receipt Date Time",
-                    "NUMBER_OF_ACTIONS": "Number of actions taken",
-                    "REGION": "Region",
-                    "DEPARTMENT": "Department",
-                    "COMMUNE": "Municipality/Sub-prefecture",
-                    "TYPE": "Report Types",
-                    "STATUS": "Status",
-                    "DESCRIPTION": "Report Description",
-                    "COMMENT_APPROVER": "Approver Comment",
-                    "COMMENT_REJECT": "Rejecter Comment",
-                    "NO_COMMENT_APPROVER": "No approver comment provided",
-                    "COMMENT_TREATMENT": "Processor Comment",
-                    "COMMENT_FINALIZATION": "Finalizer Comment",
-                    "NO_COMMENT_FINALIZATION": "No finalizer comment provided",
-                    "NO_COMMENT_TREATMENT": "No processor comment provided",
-                    "COMMENT_TREAT": "Treatment Comment",
-                    "LOCATION_NAME": "Area Link",
-                    "NO_DESCRIPTION": "No location description provided"
-                },
-                "LOCATION_INFO": {
-                    "TITLE": "Location Information",
-                    "COORDINATES": "Coordinates",
-                    "LOCATION_METHOD": "Coordinate Reading",
-                    "LONGITUDE": "Longitude",
-                    "LATITUDE": "Latitude",
-                    "PLACE_DESCRIPTION": "Place Description",
-                    "NO_DESCRIPTION": "No location description provided"
-                },
-                "PICTURES_INFO": {
-                    "TITLE": "Place Description"
-                },
-                "PICTURES": {
-                    "TITLE": "Photos",
-                    "ACCESS_ROAD": "Access Road",
-                    "OBSERVATION_POINT": "Observation Point",
-                    "NO_DATA": "No photos available."
-                },
-                "FIELDS": {
-                    "REPORT_ID": "Report ID",
-                    "SOURCE": "Source",
-                    "INITIATOR": "Initiator",
-                    "OPERATORS": "Operators concerned",
-                    "LOCATION_NAME": "Place Name",
-                    "LOCATION_METHOD": "Method",
-                    "LOCATION_TYPE": "Location Type",
-                    "REGION": "Region",
-                    "DEPARTMENT": "Department",
-                    "COMMUNE": "Municipality/Sub-prefecture"
-                },
-                "VALUES": {
-                    "SOURCE": {
-                        "APP": "Mobile Application",
-                        "WEB": "Website",
-                        "ADMIN": "Administration"
-                    },
-                    "REPORT_TYPE": {
-                        "ABI": "No Internet",
-                        "ZOB": "White Zone",
-                        "CPS": "Partial Signal Coverage",
-                        "CPO": "Partial Operator Coverage",
-                        "OTHER": "Other"
-                    },
-                    "STATUS": {
-                        "PENDING": "Pending",
-                        "APPROVED": "Approved",
-                        "REJECTED": "Rejected",
-                        "ABANDONED": "Abandoned",
-                        "CONFIRM": "Confirm",
-                        "TERMINATED": "Terminated",
-                        "RECEIVED": "Received",
-                        "IN_PROGRESS": "In Progress",
-                        "SUBMISSION": "Submission",
-                        "PROCESSING": "Processing"
-                    },
-                    "OPERATORS": {
-                        "MTN": "MTN",
-                        "ORANGE": "Orange",
-                        "MOOV": "Moov"
-                    },
-                    "LOCATION": {
-                        "METHOD_AUTO": "Automatic",
-                        "METHOD_MANUAL": "Manual",
-                        "TYPE_GPS": "GPS",
-                        "TYPE_NETWORK": "Network",
-                        "TYPE_MANUAL": "Manual"
-                    }
-                },
-                "ACTIONS": {
-                    "VIEW_MAP": "View on map",
-                    "COPY_COORDINATES": "Copy coordinates",
-                    "OPEN_MAP": "Open map"
-                }
-            },
-            "FOOTER": {
-                "ACTIONS": {
-                    "TAKE_CHARGE": "Add to cart",
-                    "APPROVE": "Approve",
-                    "PROCESS": "Process",
-                    "FINALIZE": "Finalize",
-                    "EVALUATE": "Evaluate",
-                    "SAVE": "Save",
-                    "CANCEL": "Cancel"
-                }
-            },
-            "SWEET_ALERT_PARAMS": {
-                "CONFIRM": {
-                    "REJECT": {
-                        "TITLE": "Reject report"
-                    },
-                    "APPROVAL": {
-                        "TITLE": "Approve report"
-                    },
-                    "TREATMENT": {
-                        "TITLE": "Process report"
-                    },
-                    "FINALIZE": {
-                        "TITLE": "Finalize report"
-                    },
-                    "EVALUATE": {
-                        "TITLE": "Evaluate report"
-                    }
-                },
-                "MESSAGES": {
-                    "WAITING": {
-                        "TITLE": "Are you sure you want to add report <b class='text-primary'>uniqId</b> to cart?"
+            "GEOGRAPHIC_VIEW": {
+                "PLACEHOLDER": "Geographic view content to come..."
+            }
+        },
+        "TREATMENT": {
+            "PANEL": "Treatment Panel",
+            "TAKE_ACTION": {
+                "TITLE": "Add report to cart",
+                "REQUIRED": "Required",
+                "DECISION": "Decision",
+                "COMMENT": "Comment",
+                "COMMENT_PLACEHOLDER": "Enter your comment...",
+                "MOTIF": "Reason",
+                "CALLBACK_TYPE": "Callback type",
+                "MOTIF_PLACEHOLDER": "Enter your comment...",
+                "OPTIONS": {
+                    "APPROVE": {
+                        "LABEL": "Accept",
+                        "DESCRIPTION": "Add report to cart"
                     },
                     "REJECT": {
-                        "TITLE": "Are you sure you want to reject report <b class='text-primary'>uniqId</b>?"
-                    },
-                    "APPROVAL": {
-                        "TITLE": "Are you sure you want to approve report <b class='text-primary'>uniqId</b>?"
-                    },
-                    "TREATMENT": {
-                        "TITLE": "Are you sure you want to process report <b class='text-primary'>uniqId</b>?"
-                    },
-                    "FINALIZE": {
-                        "TITLE": "Are you sure you want to finalize report <b class='text-primary'>uniqId</b>?"
-                    },
-                    "EVALUATE": {
-                        "TITLE": "Are you sure you want to evaluate report <b class='text-primary'>uniqId</b>?"
+                        "LABEL": "Reject",
+                        "DESCRIPTION": "Reject the report"
                     }
                 },
-                "BUTTONS": {
-                    "WAITING": {
-                        "TITLE": "Take charge"
-                    },
-                    "REJECT": {
-                        "TITLE": "Reject"
-                    },
-                    "APPROVAL": {
-                        "TITLE": "Approve"
-                    },
-                    "TREATMENT": {
-                        "TITLE": "Process"
-                    },
-                    "FINALIZE": {
-                        "TITLE": "Finalize"
-                    },
-                    "EVALUATE": {
-                        "TITLE": "Evaluate"
-                    },
-                    "CONFIRM": "Confirm"
+                "VALIDATION": {
+                    "MOTIF_REQUIRED": "Reason is required",
+                    "CALLBACK_TYPE_REQUIRED": "Callback type is required",
+                    "COMMENT_REQUIRED": "A comment is required"
                 }
             }
+        },
+        "FORM": {
+            "READ_ONLY": "Read only",
+            "NOT_SPECIFIED": "Not specified",
+            "NO_DESCRIPTION": "No description provided",
+            "STATUS": {
+                "INVALID": "Invalid",
+                "VALID": "Valid"
+            },
+            "REPORT_INFO": {
+                "TITLE": "Report Information",
+                "TRANSMISSION_CHANNEL": "Transmission Channel",
+                "GEOLOCATION_SYSTEM": "Geolocation System",
+                "OPERATORS": "Operators concerned",
+                "DATE_TIME_ENTRY": "Entry Date Time",
+                "DATE_TIME_RECEIPT": "Receipt Date Time",
+                "NUMBER_OF_ACTIONS": "Number of actions taken",
+                "REGION": "Region",
+                "DEPARTMENT": "Department",
+                "COMMUNE": "Municipality/Sub-prefecture",
+                "TYPE": "Report Types",
+                "STATUS": "Status",
+                "DESCRIPTION": "Report Description",
+                "COMMENT_APPROVER": "Approver Comment",
+                "COMMENT_REJECT": "Rejecter Comment",
+                "NO_COMMENT_APPROVER": "No approver comment provided",
+                "COMMENT_TREATMENT": "Processor Comment",
+                "COMMENT_FINALIZATION": "Finalizer Comment",
+                "NO_COMMENT_FINALIZATION": "No finalizer comment provided",
+                "NO_COMMENT_TREATMENT": "No processor comment provided",
+                "COMMENT_TREAT": "Treatment Comment",
+                "LOCATION_NAME": "Area Link",
+                "NO_DESCRIPTION": "No location description provided"
+            },
+            "LOCATION_INFO": {
+                "TITLE": "Location Information",
+                "COORDINATES": "Coordinates",
+                "LOCATION_METHOD": "Coordinate Reading",
+                "LONGITUDE": "Longitude",
+                "LATITUDE": "Latitude",
+                "PLACE_DESCRIPTION": "Place Description",
+                "NO_DESCRIPTION": "No location description provided"
+            },
+            "PICTURES_INFO": {
+                "TITLE": "Place Description"
+            },
+            "PICTURES": {
+                "TITLE": "Photos",
+                "ACCESS_ROAD": "Access Road",
+                "OBSERVATION_POINT": "Observation Point",
+                "NO_DATA": "No photos available."
+            },
+            "FIELDS": {
+                "REPORT_ID": "Report ID",
+                "SOURCE": "Source",
+                "INITIATOR": "Initiator",
+                "OPERATORS": "Operators concerned",
+                "LOCATION_NAME": "Place Name",
+                "LOCATION_METHOD": "Method",
+                "LOCATION_TYPE": "Location Type",
+                "REGION": "Region",
+                "DEPARTMENT": "Department",
+                "COMMUNE": "Municipality/Sub-prefecture"
+            },
+            "VALUES": {
+                "SOURCE": {
+                    "APP": "Mobile Application",
+                    "WEB": "Website",
+                    "ADMIN": "Administration"
+                },
+                "REPORT_TYPE": {
+                    "ABI": "No Internet",
+                    "ZOB": "White Zone",
+                    "CPS": "Partial Signal Coverage",
+                    "CPO": "Partial Operator Coverage",
+                    "OTHER": "Other"
+                },
+                "STATUS": {
+                    "PENDING": "Pending",
+                    "APPROVED": "Approved",
+                    "REJECTED": "Rejected",
+                    "ABANDONED": "Abandoned",
+                    "CONFIRM": "Confirm",
+                    "TERMINATED": "Terminated",
+                    "RECEIVED": "Received",
+                    "IN_PROGRESS": "In Progress",
+                    "SUBMISSION": "Submission",
+                    "PROCESSING": "Processing"
+                },
+                "OPERATORS": {
+                    "MTN": "MTN",
+                    "ORANGE": "Orange",
+                    "MOOV": "Moov"
+                },
+                "LOCATION": {
+                    "METHOD_AUTO": "Automatic",
+                    "METHOD_MANUAL": "Manual",
+                    "TYPE_GPS": "GPS",
+                    "TYPE_NETWORK": "Network",
+                    "TYPE_MANUAL": "Manual"
+                }
+            },
+            "ACTIONS": {
+                "VIEW_MAP": "View on map",
+                "COPY_COORDINATES": "Copy coordinates",
+                "OPEN_MAP": "Open map"
+            }
+        },
+        "FOOTER": {
+            "ACTIONS": {
+                "TAKE_CHARGE": "Add to cart",
+                "APPROVE": "Approve",
+                "PROCESS": "Process",
+                "FINALIZE": "Finalize",
+                "EVALUATE": "Evaluate",
+                "SAVE": "Save",
+                "CANCEL": "Cancel"
+            }
+        },
+        "SWEET_ALERT_PARAMS": {
+            "CONFIRM": {
+                "REJECT": {
+                    "TITLE": "Reject report"
+                },
+                "APPROVAL": {
+                    "TITLE": "Approve report"
+                },
+                "TREATMENT": {
+                    "TITLE": "Process report"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finalize report"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluate report"
+                }
+            },
+            "MESSAGES": {
+                "WAITING": {
+                    "TITLE": "Are you sure you want to add report <b class='text-primary'>uniqId</b> to cart?"
+                },
+                "REJECT": {
+                    "TITLE": "Are you sure you want to reject report <b class='text-primary'>uniqId</b>?"
+                },
+                "APPROVAL": {
+                    "TITLE": "Are you sure you want to approve report <b class='text-primary'>uniqId</b>?"
+                },
+                "TREATMENT": {
+                    "TITLE": "Are you sure you want to process report <b class='text-primary'>uniqId</b>?"
+                },
+                "FINALIZE": {
+                    "TITLE": "Are you sure you want to finalize report <b class='text-primary'>uniqId</b>?"
+                },
+                "EVALUATE": {
+                    "TITLE": "Are you sure you want to evaluate report <b class='text-primary'>uniqId</b>?"
+                }
+            },
+            "BUTTONS": {
+                "WAITING": {
+                    "TITLE": "Take charge"
+                },
+                "REJECT": {
+                    "TITLE": "Reject"
+                },
+                "APPROVAL": {
+                    "TITLE": "Approve"
+                },
+                "TREATMENT": {
+                    "TITLE": "Process"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finalize"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluate"
+                },
+                "CONFIRM": "Confirm"
+            }
+        }
     },
     "SETTINGS_SECURITY": {
         "BREADCRUMB": {
@@ -2967,6 +2967,262 @@
                 "USED_AGENT": "User Agent",
                 "CREATED_AT": "Created On",
                 "ACTION": "Action"
+            }
+        }
+    },
+    "COVERAGE_AREAS": {
+        "BREADCRUMB": {
+            "LABEL": "Coverage",
+            "ROUTE": "coverage-areas",
+            "ICON": "pi-sitemap"
+        },
+        "LABEL": "Coverage",
+        "ROUTE": "coverage-areas",
+        "SITE_GROUP": {
+            "BREADCRUMB": {
+                "LABEL": "Site Groups",
+                "ROUTE": "site-groups",
+                "ICON": "pi-sitemap"
+            },
+            "TITLE": "Site Groups",
+            "ROUTE": "site-groups",
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Group Name",
+                "STATUS": "Status",
+                "UPDATED_AT": "Updated On",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "STATUS": "Status",
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "FORM": {
+                "TITLE": "General Information",
+                "CREATE_TITLE": "Add a site group",
+                "EDIT_TITLE": "Edit a site group",
+                "DETAILS_TITLE": "Site group details",
+                "CODE": "Code",
+                "CODE_PLACEHOLDER": "Ex: GRP-001",
+                "NAME": "Group Name",
+                "NAME_PLACEHOLDER": "Ex: Site group name",
+                "DESCRIPTION": "Description",
+                "DESCRIPTION_PLACEHOLDER": "Ex: Site group description",
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "CREATE": {
+                        "CODE_REQUIRE": "Code is required",
+                        "NAME_REQUIRE": "Group name is required"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required",
+                        "CODE_REQUIRE": "Code is required",
+                        "NAME_REQUIRE": "Group name is required"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Create this site group",
+                    "EDIT": "Edit this site group",
+                    "DELETE": "Delete this site group",
+                    "ENABLE": "Enable this site group",
+                    "DISABLE": "Disable this site group"
+                },
+                "MESSAGE": {
+                    "CREATE": "Are you sure you want to create this site group",
+                    "EDIT": "Are you sure you want to edit this site group",
+                    "DELETE": "Are you sure you want to delete this site group <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Are you sure you want to enable this site group <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Are you sure you want to disable this site group <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Refresh the site groups list",
+                "EXPORT": "Export the list of {nb} site groups",
+                "CHOOSE": "Choose an action",
+                "DETAILS": "View this site group's details",
+                "CREATE": "Create a site group",
+                "EDIT": "Edit this site group",
+                "DELETE": "Delete this site group",
+                "ENABLE": "Enable this site group",
+                "DISABLE": "Disable this site group",
+                "NO_EXPORT": "No site group to export",
+                "NOT_EDIT": "Edit not allowed",
+                "NOT_DELETE": "Active group, cannot delete this site group",
+                "NOT_ACTIVE": "Enable not allowed",
+                "NOT_DISABLE": "Disable not allowed",
+                "NOT_CHOOSE": "These actions are not allowed for you",
+                "NO_PERMISSION_CHOOSE": "These actions are not allowed for you",
+                "NO_PERMISSION_EXPORT": "Exporting site groups is not allowed",
+                "NO_PERMISSION_CREATE": "Creating a site group is not allowed",
+                "NO_PERMISSION_EDIT": "Editing a site group is not allowed",
+                "NO_PERMISSION_DELETE": "Deleting a site group is not allowed",
+                "NO_PERMISSION_ACTIVE": "Enabling a site group is not allowed",
+                "NO_PERMISSION_DISABLE": "Disabling a site group is not allowed"
+            },
+            "TABS": {
+                "SITE_GROUP": {
+                    "LABEL": "Site Groups",
+                    "ROUTE": "site-groups"
+                },
+                "HISTORY": {
+                    "LABEL": "History",
+                    "ROUTE": "history"
+                }
+            }
+        },
+        "MOBILE_NETWORK": {
+            "BREADCRUMB": {
+                "LABEL": "Mobile Networks",
+                "ROUTE": "mobile-networks",
+                "ICON": "pi-sitemap"
+            },
+            "TITLE": "Mobile Network Sites",
+            "ROUTE": "mobile-networks",
+            "TABLE": {
+                "SITE_ID": "Site ID",
+                "SITE_NAME": "Site Name",
+                "TOWER_TYPE": "Tower Type",
+                "TOWER_SIZE": "Tower Size (m)",
+                "TECHNOLOGY": "Technology",
+                "OPERATOR": "Operator",
+                "RADIUS": "Radius",
+                "STATUS": "Status",
+                "UPDATED_AT": "Updated On",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Search",
+                "TOWER_TYPE": "Tower Type",
+                "TOWER_SIZE": "Tower Size (m)",
+                "TOWER_SIZE_PLACEHOLDER": "Ex: 30",
+                "TECHNOLOGY": "Technology",
+                "OPERATOR": "Operator",
+                "RADIUS": "Radius",
+                "RADIUS_PLACEHOLDER": "Ex: 5",
+                "DATE": {
+                    "FROM": "Start Date",
+                    "TO": "End Date",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "FORM": {
+                "TITLE": "General Information",
+                "CREATE_TITLE": "Add a mobile network site",
+                "EDIT_TITLE": "Edit a mobile network site",
+                "DETAILS_TITLE": "Mobile network site details",
+                "SITE_ID": "Site ID",
+                "SITE_ID_PLACEHOLDER": "Ex: SITE-001",
+                "SITE_NAME": "Site Name",
+                "SITE_NAME_PLACEHOLDER": "Ex: Site name",
+                "TOWER_TYPE": "Tower Type",
+                "TOWER_TYPE_PLACEHOLDER": "Select a tower type",
+                "TOWER_SIZE": "Tower Size (m)",
+                "TOWER_SIZE_PLACEHOLDER": "Ex: 30",
+                "TECHNOLOGY": "Technology",
+                "OPERATOR": "Operator",
+                "RADIUS": "Radius",
+                "RADIUS_PLACEHOLDER": "Ex: 5",
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required"
+                    },
+                    "CREATE": {
+                        "SITE_ID_REQUIRE": "Site ID is required",
+                        "SITE_NAME_REQUIRE": "Site name is required",
+                        "TOWER_TYPE_REQUIRE": "Tower type is required",
+                        "TOWER_SIZE_REQUIRE": "Tower size is required",
+                        "TECHNOLOGY_REQUIRE": "Technology is required",
+                        "OPERATOR_REQUIRE": "Operator is required"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "Identifier is required",
+                        "SITE_ID_REQUIRE": "Site ID is required",
+                        "SITE_NAME_REQUIRE": "Site name is required",
+                        "TOWER_TYPE_REQUIRE": "Tower type is required",
+                        "TOWER_SIZE_REQUIRE": "Tower size is required",
+                        "TECHNOLOGY_REQUIRE": "Technology is required",
+                        "OPERATOR_REQUIRE": "Operator is required"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Create this mobile network site",
+                    "EDIT": "Edit this mobile network site",
+                    "DELETE": "Delete this mobile network site",
+                    "ENABLE": "Enable this mobile network site",
+                    "DISABLE": "Disable this mobile network site"
+                },
+                "MESSAGE": {
+                    "CREATE": "Are you sure you want to create this mobile network site",
+                    "EDIT": "Are you sure you want to edit this mobile network site",
+                    "DELETE": "Are you sure you want to delete this mobile network site <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Are you sure you want to enable this mobile network site <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Are you sure you want to disable this mobile network site <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Refresh the mobile network sites list",
+                "EXPORT": "Export the list of {nb} mobile network sites",
+                "CHOOSE": "Choose an action",
+                "DETAILS": "View this mobile network site's details",
+                "CREATE": "Create a mobile network site",
+                "EDIT": "Edit this mobile network site",
+                "DELETE": "Delete this mobile network site",
+                "ENABLE": "Enable this mobile network site",
+                "DISABLE": "Disable this mobile network site",
+                "NO_EXPORT": "No mobile network site to export",
+                "NOT_EDIT": "Edit not allowed",
+                "NOT_DELETE": "Active site, cannot delete this mobile network site",
+                "NOT_ACTIVE": "Enable not allowed",
+                "NOT_DISABLE": "Disable not allowed",
+                "NOT_CHOOSE": "These actions are not allowed for you",
+                "NO_PERMISSION_CHOOSE": "These actions are not allowed for you",
+                "NO_PERMISSION_EXPORT": "Exporting mobile network sites is not allowed",
+                "NO_PERMISSION_CREATE": "Creating a mobile network site is not allowed",
+                "NO_PERMISSION_EDIT": "Editing a mobile network site is not allowed",
+                "NO_PERMISSION_DELETE": "Deleting a mobile network site is not allowed",
+                "NO_PERMISSION_ACTIVE": "Enabling a mobile network site is not allowed",
+                "NO_PERMISSION_DISABLE": "Disabling a mobile network site is not allowed"
+            },
+            "TABS": {
+                "MOBILE_NETWORK": {
+                    "LABEL": "Mobile Networks",
+                    "ROUTE": "mobile-networks"
+                },
+                "HISTORY": {
+                    "LABEL": "History",
+                    "ROUTE": "history"
+                }
             }
         }
     },
@@ -3338,8 +3594,27 @@
             "LABEL": "Reports",
             "LOADING_DESCRIPTION": "Monitoring reports in progress...",
             "ERROR_DESCRIPTION": "An error occurred while loading the report dashboard. Please reload the page or contact support."
+        },
+        "REPORT_BY_CHANNEL": {
+            "BREADCRUMB": {
+                "LABEL": "Reports by Channel",
+                "ROUTE": "report-by-channel"
+            },
+            "TITLE": "Analytics Dashboard - Reports by Channel",
+            "LABEL": "Reports by Channel",
+            "LOADING_DESCRIPTION": "Monitoring reports by channel in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the reports by channel dashboard. Please reload the page or contact support."
+        },
+        "REPORT_BY_OPERATOR": {
+            "BREADCRUMB": {
+                "LABEL": "Reports by Operator",
+                "ROUTE": "report-by-operator"
+            },
+            "TITLE": "Analytics Dashboard - Reports by Operator",
+            "LABEL": "Reports by Operator",
+            "LOADING_DESCRIPTION": "Monitoring reports by operator in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the reports by operator dashboard. Please reload the page or contact support."
         }
-
     },
     "MONITORING": {
         "BREADCRUMB": {
@@ -3379,5 +3654,4 @@
             "ERROR_DESCRIPTION": "An error occurred while loading the Node Performance dashboard. Please reload the page or contact support."
         }
     }
-
 }

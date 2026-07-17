@@ -2,11 +2,11 @@ import { InfrastructureTypeDeleteApiDto } from '@pages/administrative-infrastruc
 import { InfrastructureTypeDeleteValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-delete.validate-contract';
 
 export function infrastructureTypeDeleteMapper(
-    contract: InfrastructureTypeDeleteValidateContract
+    validContract: InfrastructureTypeDeleteValidateContract
 ): InfrastructureTypeDeleteApiDto {
     const prams = {} as InfrastructureTypeDeleteApiDto;
-    if (contract.uniqId) {
-        prams.uniq_id = contract.uniqId;
+    if (validContract.uniqId) {
+        prams.uniq_id = validContract.uniqId;
     }
     return prams;
 }

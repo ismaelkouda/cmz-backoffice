@@ -1,9 +1,9 @@
 import { InfrastructureTypeEnableCommand } from '@presentation/pages/administrative-infrastructure/application/commands/infrastructure-type/infrastructure-type-enable.command';
-import { InfrastructureTypeEnableDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-enable.dto';
+import { InfrastructureTypeEnableContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-enable.contract';
 
 export function infrastructureTypeEnableCommandMapper(
     command: InfrastructureTypeEnableCommand
-): InfrastructureTypeEnableDto {
+): InfrastructureTypeEnableContract {
     return {
         uniqId: command.uniqId,
     };

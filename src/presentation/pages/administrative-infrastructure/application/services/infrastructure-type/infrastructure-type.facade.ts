@@ -101,7 +101,7 @@ export class InfrastructureTypeFacade extends BaseFacade<
         page: string,
         options: FetchOptions = {}
     ): void {
-        const query = this.buildQuery(filter ?? undefined);
+        const query = this.buildQuery(filter);
         const fetch$ = this.filterBus.dispatch(query, page, options);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
@@ -136,12 +136,12 @@ export class InfrastructureTypeFacade extends BaseFacade<
         };
     }
 
-    create(user: InfrastructureTypeCreateDto): void {
+    create(dto: InfrastructureTypeCreateDto): void {
         this._actionState.set('loading');
 
         const command = new InfrastructureTypeCreateCommand(
-            user.name,
-            user.description
+            dto.name,
+            dto.description
         );
 
         this.handleActionWithRefresh(
@@ -161,12 +161,12 @@ export class InfrastructureTypeFacade extends BaseFacade<
             .subscribe();
     }
 
-    update(user: InfrastructureTypeUpdateDto): void {
+    update(dto: InfrastructureTypeUpdateDto): void {
         this._actionState.set('loading');
         const command = new InfrastructureTypeUpdateCommand(
-            user.uniqId,
-            user.name,
-            user.description
+            dto.uniqId,
+            dto.name,
+            dto.description
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -185,24 +185,24 @@ export class InfrastructureTypeFacade extends BaseFacade<
             .subscribe();
     }
 
-    enable(user: InfrastructureTypeEnableDto): void {
-        const command = new InfrastructureTypeEnableCommand(user.uniqId);
+    enable(dto: InfrastructureTypeEnableDto): void {
+        const command = new InfrastructureTypeEnableCommand(dto.uniqId);
         this.handleActionWithRefresh(
             this.enableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         ).subscribe();
     }
 
-    disable(user: InfrastructureTypeDisableDto): void {
-        const command = new InfrastructureTypeDisableCommand(user.uniqId);
+    disable(dto: InfrastructureTypeDisableDto): void {
+        const command = new InfrastructureTypeDisableCommand(dto.uniqId);
         this.handleActionWithRefresh(
             this.disableBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         ).subscribe();
     }
 
-    delete(user: InfrastructureTypeDeleteDto): void {
-        const command = new InfrastructureTypeDeleteCommand(user.uniqId);
+    delete(dto: InfrastructureTypeDeleteDto): void {
+        const command = new InfrastructureTypeDeleteCommand(dto.uniqId);
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'

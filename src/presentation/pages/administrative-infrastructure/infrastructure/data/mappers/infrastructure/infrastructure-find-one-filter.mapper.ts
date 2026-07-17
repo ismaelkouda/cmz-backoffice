@@ -2,13 +2,13 @@ import { InfrastructureFindOneFilterApiDto } from '@pages/administrative-infrast
 import { InfrastructureFindOneFilterValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-find-one-filter.validate-contract';
 
 export function infrastructureFindOneFilterMapper(
-    contract: InfrastructureFindOneFilterValidateContract
+    validContract: InfrastructureFindOneFilterValidateContract
 ): InfrastructureFindOneFilterApiDto {
     const params: InfrastructureFindOneFilterApiDto =
         {} as InfrastructureFindOneFilterApiDto;
 
-    if (contract.uniqId) {
-        params.id = contract.uniqId;
+    if (validContract.uniqId) {
+        params.id = validContract.uniqId;
     }
 
     return params;

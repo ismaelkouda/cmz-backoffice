@@ -1,8 +1,8 @@
-import { MunicipalitiesFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
+import { MunicipalitiesFilterProps } from '@pages/administrative-boundary/domain/interfaces/municipalities/municipalities-filter-props.interface';
 import { MunicipalitiesFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-filter-api.dto';
 
 export function municipalitiesFilterMapper(
-    filter: MunicipalitiesFilterEntity
+    filter: MunicipalitiesFilterProps
 ): MunicipalitiesFilterApiDto {
     const params: MunicipalitiesFilterApiDto = {} as MunicipalitiesFilterApiDto;
     if (filter.search) {

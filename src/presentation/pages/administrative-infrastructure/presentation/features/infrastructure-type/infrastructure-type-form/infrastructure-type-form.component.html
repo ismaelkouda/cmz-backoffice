@@ -83,7 +83,9 @@
                                                         class="form-input"
                                                         id="name"
                                                         type="text"
-                                                        formControlName="name"
+                                                        [formControlName]="
+                                                            KEYS.NAME
+                                                        "
                                                         [placeholder]="
                                                             'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.NAME_PLACEHOLDER'
                                                                 | translate
@@ -97,20 +99,24 @@
                                                                 | translate
                                                         "
                                                         [attr.aria-invalid]="
-                                                            form.get('name')
-                                                                ?.invalid &&
-                                                            form.get('name')
-                                                                ?.touched
+                                                            form.get(
+                                                                KEYS.NAME
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                KEYS.NAME
+                                                            )?.touched
                                                         "
                                                     />
                                                     <div
                                                         class="d-flex justify-content-between mt-1"
                                                     >
                                                         @if (
-                                                            form.get('name')
-                                                                ?.invalid &&
-                                                            form.get('name')
-                                                                ?.touched
+                                                            form.get(
+                                                                KEYS.NAME
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                KEYS.NAME
+                                                            )?.touched
                                                         ) {
                                                             <small
                                                                 class="text-danger"
@@ -118,7 +124,7 @@
                                                             >
                                                                 {{
                                                                     getErrorMessage(
-                                                                        'name'
+                                                                        KEYS.NAME
                                                                     )
                                                                 }}
                                                             </small>
@@ -130,7 +136,7 @@
                                                             {{
                                                                 (
                                                                     form.get(
-                                                                        'name'
+                                                                        KEYS.NAME
                                                                     )?.value ||
                                                                     ''
                                                                 ).length
@@ -161,7 +167,9 @@
                                                         class="form-input"
                                                         id="description"
                                                         type="text"
-                                                        formControlName="description"
+                                                        [formControlName]="
+                                                            KEYS.DESCRIPTION
+                                                        "
                                                         [placeholder]="
                                                             'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.DESCRIPTION_PLACEHOLDER'
                                                                 | translate
@@ -176,10 +184,10 @@
                                                         "
                                                         [attr.aria-invalid]="
                                                             form.get(
-                                                                'description'
+                                                                KEYS.DESCRIPTION
                                                             )?.invalid &&
                                                             form.get(
-                                                                'description'
+                                                                KEYS.DESCRIPTION
                                                             )?.touched
                                                         "
                                                     />
@@ -188,10 +196,10 @@
                                                     >
                                                         @if (
                                                             form.get(
-                                                                'description'
+                                                                KEYS.DESCRIPTION
                                                             )?.invalid &&
                                                             form.get(
-                                                                'description'
+                                                                KEYS.DESCRIPTION
                                                             )?.touched
                                                         ) {
                                                             <small
@@ -200,7 +208,7 @@
                                                             >
                                                                 {{
                                                                     getErrorMessage(
-                                                                        'description'
+                                                                        KEYS.DESCRIPTION
                                                                     )
                                                                 }}
                                                             </small>
@@ -212,7 +220,7 @@
                                                             {{
                                                                 (
                                                                     form.get(
-                                                                        'description'
+                                                                        KEYS.DESCRIPTION
                                                                     )?.value ||
                                                                     ''
                                                                 ).length

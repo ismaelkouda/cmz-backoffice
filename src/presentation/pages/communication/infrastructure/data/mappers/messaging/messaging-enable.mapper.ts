@@ -1,12 +1,12 @@
-import { MessagingEnableEntity } from '@pages/communication/domain/entities/messaging/messaging-enable.entity';
+import { MessagingEnableDto } from '@pages/communication/application/dto/messaging/messaging-enable.dto';
 import { MessagingEnableApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-enable-api.dto';
 
 export function messagingEnableMapper(
-    vo: MessagingEnableEntity
+    dto: MessagingEnableDto
 ): MessagingEnableApiDto {
     const prams = {} as MessagingEnableApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

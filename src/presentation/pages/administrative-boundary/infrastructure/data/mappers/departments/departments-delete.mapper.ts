@@ -1,12 +1,12 @@
-import { DepartmentsDeleteEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
+import { DepartmentsDeleteDto } from '@pages/administrative-boundary/application/dto/departments/departments-delete.dto';
 import { DepartmentsDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-delete-api.dto';
 
 export function departmentsDeleteMapper(
-    vo: DepartmentsDeleteEntity
+    dto: DepartmentsDeleteDto
 ): DepartmentsDeleteApiDto {
     const prams = {} as DepartmentsDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

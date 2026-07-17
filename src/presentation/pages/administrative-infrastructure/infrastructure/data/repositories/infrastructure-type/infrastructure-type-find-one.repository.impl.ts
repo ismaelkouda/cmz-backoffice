@@ -14,12 +14,12 @@ export class InfrastructureTypeFindOneRepositoryImpl implements InfrastructureTy
     private readonly mapper = inject(InfrastructureTypeFindOneMapper);
 
     execute(
-        contract: InfrastructureTypeFindOneFilterValidateContract,
+        validContract: InfrastructureTypeFindOneFilterValidateContract,
         options?: FetchOptions
     ): Observable<InfrastructureTypeFindOneEntity> {
-        const paramsDto = infrastructureTypeFindOneFilterMapper(contract);
+        const dto = infrastructureTypeFindOneFilterMapper(validContract);
         return this.api
-            .execute(paramsDto, options)
+            .execute(dto, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }

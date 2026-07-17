@@ -2,25 +2,25 @@ import { InfrastructureUpdateValidateContract } from '@presentation/pages/admini
 import { InfrastructureUpdateApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-update-api.dto';
 
 export function infrastructureUpdateMapper(
-    entity: InfrastructureUpdateValidateContract
+    validContract: InfrastructureUpdateValidateContract
 ): InfrastructureUpdateApiDto {
     const params: InfrastructureUpdateApiDto = {} as InfrastructureUpdateApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (validContract.uniqId) {
+        params.id = validContract.uniqId;
     }
-    if (entity.name) {
-        params.name = entity.name;
+    if (validContract.name) {
+        params.name = validContract.name;
     }
-    if (entity.type) {
-        params.infrastructure_type = entity.type;
+    if (validContract.type) {
+        params.infrastructure_type = validContract.type;
     }
-    if (entity.position) {
-        params.latitude = entity.position.latitude;
-        params.longitude = entity.position.longitude;
+    if (validContract.position) {
+        params.latitude = validContract.position.latitude;
+        params.longitude = validContract.position.longitude;
     }
-    if (entity.description) {
-        params.description = entity.description;
+    if (validContract.description) {
+        params.description = validContract.description;
     }
 
     return params;

@@ -1,8 +1,8 @@
-import { MunicipalitiesByDepartmentIdFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/municipalities-by-department-id-filter.entity';
+import { MunicipalitiesByDepartmentIdFilterProps } from '@pages/administrative-boundary/domain/interfaces/departments/municipalities-by-department-id-filter-props.interface';
 import { MunicipalitiesByDepartmentIdFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/municipalities-by-department-id-filter-api.dto';
 
 export function municipalitiesByDepartmentIdFilterMapper(
-    filter: MunicipalitiesByDepartmentIdFilterEntity
+    filter: MunicipalitiesByDepartmentIdFilterProps
 ): MunicipalitiesByDepartmentIdFilterApiDto {
     const params: MunicipalitiesByDepartmentIdFilterApiDto =
         {} as MunicipalitiesByDepartmentIdFilterApiDto;

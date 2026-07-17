@@ -30,42 +30,46 @@ export class InfrastructureTypeRepositoryImpl implements InfrastructureTypeRepos
     private readonly mapper = inject(InfrastructureTypeMapper);
 
     readAll(
-        dto: InfrastructureTypeFilterContract,
+        validContract: InfrastructureTypeFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<InfrastructureTypeEntity>> {
         return this.api
-            .readAll(infrastructureTypeFilterMapper(dto), page, options)
+            .readAll(
+                infrastructureTypeFilterMapper(validContract),
+                page,
+                options
+            )
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
     create(
-        contract: InfrastructureTypeCreateValidateContract
+        validContract: InfrastructureTypeCreateValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.create(infrastructureTypeCreateMapper(contract));
+        return this.api.create(infrastructureTypeCreateMapper(validContract));
     }
 
     update(
-        contract: InfrastructureTypeUpdateValidateContract
+        validContract: InfrastructureTypeUpdateValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.update(infrastructureTypeUpdateMapper(contract));
+        return this.api.update(infrastructureTypeUpdateMapper(validContract));
     }
 
     delete(
-        contract: InfrastructureTypeDeleteValidateContract
+        validContract: InfrastructureTypeDeleteValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.delete(infrastructureTypeDeleteMapper(contract));
+        return this.api.delete(infrastructureTypeDeleteMapper(validContract));
     }
 
     enable(
-        contract: InfrastructureTypeEnableValidateContract
+        validContract: InfrastructureTypeEnableValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.enable(infrastructureTypeEnableMapper(contract));
+        return this.api.enable(infrastructureTypeEnableMapper(validContract));
     }
 
     disable(
-        contract: InfrastructureTypeDisableValidateContract
+        validContract: InfrastructureTypeDisableValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.disable(infrastructureTypeDisableMapper(contract));
+        return this.api.disable(infrastructureTypeDisableMapper(validContract));
     }
 }

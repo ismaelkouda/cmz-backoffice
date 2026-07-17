@@ -2,30 +2,30 @@ import { InfrastructureFilterApiDto } from '@pages/administrative-infrastructure
 import { InfrastructureFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-filter.contract';
 
 export function infrastructureFilterMapper(
-    contract: InfrastructureFilterContract
+    validContract: InfrastructureFilterContract
 ): InfrastructureFilterApiDto {
     const params: InfrastructureFilterApiDto = {} as InfrastructureFilterApiDto;
 
-    if (contract.search) {
-        params.search = contract.search;
+    if (validContract.search) {
+        params.search = validContract.search;
     }
-    if (contract.type) {
-        params.type = contract.type;
+    if (validContract.type) {
+        params.type = validContract.type;
     }
-    if (contract.region) {
-        params.region_id = contract.region;
+    if (validContract.region) {
+        params.region_id = validContract.region;
     }
-    if (contract.department) {
-        params.department_id = contract.department;
+    if (validContract.department) {
+        params.department_id = validContract.department;
     }
-    if (contract.municipality) {
-        params.municipality_id = contract.municipality;
+    if (validContract.municipality) {
+        params.municipality_id = validContract.municipality;
     }
-    if (contract.startDate) {
-        params.start_date = contract.startDate;
+    if (validContract.startDate) {
+        params.start_date = validContract.startDate;
     }
-    if (contract.endDate) {
-        params.end_date = contract.endDate;
+    if (validContract.endDate) {
+        params.end_date = validContract.endDate;
     }
 
     return params;

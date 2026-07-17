@@ -70,6 +70,12 @@ const Cap = 'Resources'; // PascalCase pour les classes
 const MODULE = 'seos-reference'; // nom du module (page) — non branche dans les routes de l'app
 const MODULE_UPPER = 'SEOS_REFERENCE';
 const ENTITY_UPPER = 'RESOURCES';
+// PascalCase de MODULE, pour le nom de la fonction d'aggregation DI racine du module
+// (provide{ModuleCap}, modele reel provideAdministrativeInfrastructure) — distinct de
+// Cap (PascalCase de l'entite E), voir di/{MODULE}.providers.ts plus bas.
+const ModuleCap = MODULE.split('-')
+    .map((s) => s[0].toUpperCase() + s.slice(1))
+    .join('');
 
 function w(relPath, content) {
     const abs = path.join(ROOT, relPath);
@@ -110,16 +116,6 @@ export interface ${Cap}FindOneProps {
     name: string;
     description: string;
     updatedAt: string;
-}
-`);
-
-// select-props.interface.ts : promu au coeur canonique en v14 (Experience 032), sur la
-// base du module de reference lui-meme (infrastructure ET infrastructure-type), pas d'un
-// comptage d'usage ailleurs dans l'app (n=2 fichiers a l'epoque de la promotion).
-w(`domain/interfaces/${E}/${E}-select-props.interface.ts`, `
-export interface ${Cap}SelectProps {
-    label: string;
-    value: string;
 }
 `);
 
@@ -198,25 +194,11 @@ export class ${Cap}FindOneEntity {
 }
 `);
 
-// select.entity.ts : classe simple sur Props dediee, PAS de .with() — verifie sur
-// infrastructure-select.entity.ts (simplifie recemment, Experience 033/034) : un
-// facade de select n'a pas besoin de referentialite d'update in-place, juste d'un objet
-// {label, value} immuable.
-w(`domain/entities/${E}/${E}-select.entity.ts`, `
-import { ${Cap}SelectProps } from '${BASE}/domain/interfaces/${E}/${E}-select-props.interface';
-
-export class ${Cap}SelectEntity {
-    constructor(private readonly props: ${Cap}SelectProps) {}
-
-    get label(): string {
-        return this.props.label;
-    }
-
-    get value(): string {
-        return this.props.value;
-    }
-}
-`);
+// select : PAS d'Entity dediee (v16) — {ENTITY}SelectEntity etait un wrapper
+// pass-through pur (constructeur + 2 getters recopiant Props sans transformation),
+// meme profil que les Entity create/update/delete/filter deja eliminees en v7.
+// Remplace par le type partage @shared/domain/interfaces/select-option.interface.ts
+// (SelectOption), utilise directement par repository/impl/use-case/facade/mapper.
 
 // filter "entity" : fonction (jamais une classe, Experience 007/010), conservee
 // uniquement parce qu'elle porte une vraie regle metier au-dela du passthrough — modele
@@ -224,15 +206,14 @@ export class ${Cap}SelectEntity {
 // fourni sans endDate.
 w(`domain/entities/${E}/${E}-filter.entity.ts`, `
 import { ${Cap}FilterContract } from '${BASE}/domain/contracts/${E}/${E}-filter.contract';
+import { resolveOpenEndedEndDate } from '@shared/domain/utils/resolve-open-ended-end-date.util';
 
 export function ${E}FilterEntity(
     contract: ${Cap}FilterContract
 ): ${Cap}FilterContract {
-    const endDateRule =
-        contract.startDate && !contract.endDate ? new Date() : contract.endDate;
     return {
         ...contract,
-        endDate: endDateRule,
+        endDate: resolveOpenEndedEndDate(contract.startDate, contract.endDate),
     };
 }
 `);
@@ -251,19 +232,12 @@ export interface ${Cap}FilterContract {
 
 w(`domain/validators/${E}/${E}-filter.validator.ts`, `
 import { ${Cap}FilterContract } from '${BASE}/domain/contracts/${E}/${E}-filter.contract';
-import { DateRangeInvalidError } from '@shared/domain/errors/validation/date-range-invalid.error';
+import { assertValidDateRange } from '@shared/domain/validators/assert-valid-date-range.validator';
 
 export function validate${Cap}Filter(
     contract: ${Cap}FilterContract
 ): asserts contract is ${Cap}FilterContract {
-    if (
-        contract &&
-        contract.startDate &&
-        contract.endDate &&
-        contract.startDate.getTime() > contract.endDate.getTime()
-    ) {
-        throw new DateRangeInvalidError();
-    }
+    assertValidDateRange(contract?.startDate, contract?.endDate);
 }
 `);
 
@@ -377,7 +351,7 @@ for (const { kind, fields } of crudOps) {
 
     w(`domain/contracts/${E}/${E}-${kind}.contract.ts`, `
 export interface ${Cap}${Kind}Contract {
-    ${kind === 'update' ? 'uniqId: string;\n    ' : ''}${required
+    ${kind === 'update' ? 'uniqId?: string;\n    ' : ''}${required
         .map((f) => `${f}?: string;`)
         .join('\n    ')}
 }
@@ -452,35 +426,23 @@ export interface ${Cap}FindOneFilterDto {
 }
 `);
 
-// domain/validators : partage a l'echelle du module (1 fichier, pas par entite).
-w(`domain/validators/form-validators.ts`, `
-import { AbstractControl, ValidationErrors } from '@angular/forms';
+// presentation/constants : regles de validation de formulaire (regex/longueurs),
+// partagees a l'echelle du module (1 fichier, pas par entite) — PAS un Validator au
+// sens Contract -> ValidateContract de ce projet (pas de throw, pas d'assertion
+// function), d'ou presentation/constants et pas domain/*. Verifie (Experience 047) :
+// aucun domain/validators/{ENTITY}/*.validator.ts ne reference FormValidators — seuls
+// presentation/store/*.store.ts et presentation/features/*.component.ts le consomment,
+// pour alimenter Validators.pattern/minLength/maxLength d'Angular Reactive Forms. C'est
+// une contrainte de couche presentation, pas un invariant de domaine. Convention reelle
+// deja existante confirmant ce choix : authentication/presentation/constants/{feature}/
+// {feature}-form-error-messages.constant.ts. Modele exact : le fichier reel
+// d'administrative-infrastructure ne fait que reexporter le socle commun partage
+// (voir @shared/presentation/constants/form-validators.constants.ts) sans ajouter de
+// cle propre — ce module synthetique suit le meme motif.
+w(`presentation/constants/form-validators.constants.ts`, `
+import { COMMON_FORM_VALIDATORS } from '@shared/presentation/constants/form-validators.constants';
 
-export function requiredTrimmed(control: AbstractControl): ValidationErrors | null {
-    const value = (control.value ?? '').toString().trim();
-    return value.length > 0 ? null : { required: true };
-}
-`);
-
-// presentation/store : controles de formulaire (interfaces pures, separees de l'etat
-// reactif qui vit sous presentation/store/{ENTITY}/{ENTITY}-{filter,form}.store.ts).
-w(`domain/controls/${E}/${E}-filter.control.ts`, `
-import { FormControl } from '@angular/forms';
-
-export interface ${Cap}FilterControl {
-    search: FormControl<string | null>;
-    startDate: FormControl<string | null>;
-    endDate: FormControl<string | null>;
-}
-`);
-w(`domain/controls/${E}/${E}-form.control.ts`, `
-import { FormControl } from '@angular/forms';
-
-export interface ${Cap}FormControl {
-    code: FormControl<string | null>;
-    name: FormControl<string | null>;
-    description: FormControl<string | null>;
-}
+export const FormValidators = COMMON_FORM_VALIDATORS;
 `);
 
 // ---------------------------------------------------------------------
@@ -506,18 +468,18 @@ import { Observable } from 'rxjs';
 })
 export abstract class ${Cap}Repository {
     abstract execute(
-        contract: ${Cap}FilterContract,
+        validContract: ${Cap}FilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<${Cap}Entity>>;
     abstract create(
-        contract: ${Cap}CreateValidateContract
+        validContract: ${Cap}CreateValidateContract
     ): Observable<MessageResponseDto>;
     abstract update(
-        contract: ${Cap}UpdateValidateContract
+        validContract: ${Cap}UpdateValidateContract
     ): Observable<MessageResponseDto>;
     abstract delete(
-        contract: ${Cap}DeleteValidateContract
+        validContract: ${Cap}DeleteValidateContract
     ): Observable<MessageResponseDto>;
 }
 `);
@@ -530,21 +492,19 @@ import { Observable } from 'rxjs';
 
 export abstract class ${Cap}FindOneRepository {
     abstract execute(
-        filter: ${Cap}FindOneFilterValidateContract,
+        validContract: ${Cap}FindOneFilterValidateContract,
         options?: FetchOptions
     ): Observable<${Cap}FindOneEntity>;
 }
 `);
 
 w(`domain/repositories/${E}/${E}-select.repository.ts`, `
-import { ${Cap}SelectEntity } from '${BASE}/domain/entities/${E}/${E}-select.entity';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 export abstract class ${Cap}SelectRepository {
-    abstract readAll(
-        options?: FetchOptions
-    ): Observable<${Cap}SelectEntity[]>;
+    abstract readAll(options?: FetchOptions): Observable<SelectOption[]>;
 }
 `);
 
@@ -561,10 +521,7 @@ for (const { kind, fields } of [
 export class ${Cap}${Kind}Command {
     constructor(
         ${fields
-            .map(
-                (f) =>
-                    `public readonly ${f}: ${f === 'uniqId' ? 'string' : 'string | undefined'}`
-            )
+            .map((f) => `public readonly ${f}: string | undefined`)
             .join(',\n        ')}
     ) {}
 }
@@ -635,7 +592,7 @@ export class ${Cap}Query {
 `);
 w(`application/queries/${E}/${E}-find-one.query.ts`, `
 export class ${Cap}FindOneQuery {
-    constructor(public readonly uniqId: string) {}
+    constructor(public readonly uniqId?: string) {}
 }
 `);
 
@@ -655,7 +612,7 @@ export class ${Cap}Bus {
     dispatch<T>(
         query: T,
         page: string,
-        options: FetchOptions = {}
+        options?: FetchOptions
     ): Observable<Paginate<${Cap}Entity>> {
         if (query instanceof ${Cap}Query) {
             return this.handler.execute(query, page, options);
@@ -671,13 +628,21 @@ import { ${Cap}FindOneQuery } from '${BASE}/application/queries/${E}/${E}-find-o
 import { ${Cap}FindOneHandler } from '${BASE}/application/queries-handlers/${E}/${E}-find-one.handler';
 import { ${Cap}FindOneEntity } from '${BASE}/domain/entities/${E}/${E}-find-one.entity';
 import { Observable } from 'rxjs';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({ providedIn: 'root' })
 export class ${Cap}FindOneBus {
-    private readonly handler = inject(${Cap}FindOneHandler);
+    private readonly filterHandler = inject(${Cap}FindOneHandler);
 
-    dispatch(command: ${Cap}FindOneQuery): Observable<${Cap}FindOneEntity> {
-        return this.handler.execute(command);
+    dispatch<T>(
+        query: T,
+        options?: FetchOptions
+    ): Observable<${Cap}FindOneEntity> {
+        if (query instanceof ${Cap}FindOneQuery) {
+            return this.filterHandler.execute(query, options);
+        }
+
+        throw new Error('No handler found for query');
     }
 }
 `);
@@ -688,9 +653,9 @@ import { ${Cap}FilterContract } from '${BASE}/domain/contracts/${E}/${E}-filter.
 
 export function ${E}QueryMapper(query: ${Cap}Query): ${Cap}FilterContract {
     return {
-        search: query.search ?? undefined,
-        startDate: query.startDate ?? undefined,
-        endDate: query.endDate ?? undefined,
+        search: query.search,
+        startDate: query.startDate,
+        endDate: query.endDate,
     };
 }
 `);
@@ -734,14 +699,21 @@ import { ${E}FindOneQueryMapper } from '${BASE}/application/queries-mappers/${E}
 import { ${Cap}FindOneQuery } from '${BASE}/application/queries/${E}/${E}-find-one.query';
 import { ${Cap}FindOneUseCase } from '${BASE}/application/use-cases/${E}/${E}-find-one.use-case';
 import { ${Cap}FindOneEntity } from '${BASE}/domain/entities/${E}/${E}-find-one.entity';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ${Cap}FindOneHandler {
     private readonly useCase = inject(${Cap}FindOneUseCase);
 
-    execute(query: ${Cap}FindOneQuery): Observable<${Cap}FindOneEntity> {
-        return this.useCase.execute(${E}FindOneQueryMapper(query));
+    execute(
+        command: ${Cap}FindOneQuery,
+        options?: FetchOptions
+    ): Observable<${Cap}FindOneEntity> {
+        return this.useCase.execute(
+            ${E}FindOneQueryMapper(command),
+            options
+        );
     }
 }
 `);
@@ -792,24 +764,30 @@ export class ${Cap}UseCase {
         });
     }
 
-    create(dto: ${Cap}CreateContract): Observable<MessageResponseDto> {
-        return defer(() => this.repository.create(${E}CreateVo(dto)));
+    create(
+        contract: ${Cap}CreateContract
+    ): Observable<MessageResponseDto> {
+        return defer(() => this.repository.create(${E}CreateVo(contract)));
     }
 
-    update(dto: ${Cap}UpdateContract): Observable<MessageResponseDto> {
-        return defer(() => this.repository.update(${E}UpdateVo(dto)));
+    update(
+        contract: ${Cap}UpdateContract
+    ): Observable<MessageResponseDto> {
+        return defer(() => this.repository.update(${E}UpdateVo(contract)));
     }
 
-    delete(dto: ${Cap}DeleteContract): Observable<MessageResponseDto> {
-        return defer(() => this.repository.delete(${E}DeleteVo(dto)));
+    delete(
+        contract: ${Cap}DeleteContract
+    ): Observable<MessageResponseDto> {
+        return defer(() => this.repository.delete(${E}DeleteVo(contract)));
     }
 }
 `);
 
 w(`application/use-cases/${E}/${E}-select.use-case.ts`, `
 import { Injectable, inject } from '@angular/core';
-import { ${Cap}SelectEntity } from '${BASE}/domain/entities/${E}/${E}-select.entity';
 import { ${Cap}SelectRepository } from '${BASE}/domain/repositories/${E}/${E}-select.repository';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { defer, Observable } from 'rxjs';
 
@@ -817,7 +795,7 @@ import { defer, Observable } from 'rxjs';
 export class ${Cap}SelectUseCase {
     private readonly repository = inject(${Cap}SelectRepository);
 
-    readAll(options?: FetchOptions): Observable<${Cap}SelectEntity[]> {
+    readAll(options?: FetchOptions): Observable<SelectOption[]> {
         return defer(() => this.repository.readAll(options));
     }
 }
@@ -871,7 +849,7 @@ import { handleObservableWithFeedback } from '@shared/application/services/facad
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
-import { Observable } from 'rxjs';
+import { catchError, finalize, Observable, tap, throwError } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -896,7 +874,7 @@ export class ${Cap}Facade extends BaseFacade<${Cap}Entity, ${Cap}FilterDto> {
     private lastFetchTimestamp = 0;
 
     readAll(
-        filter: ${Cap}FilterDto = {},
+        filter: ${Cap}FilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
@@ -923,7 +901,10 @@ export class ${Cap}Facade extends BaseFacade<${Cap}Entity, ${Cap}FilterDto> {
     refreshWithLastFilterAndPage(): void {
         this.executeQuery(
             this.filterSubject.getValue(),
-            this.pageSubject.getValue()
+            this.pageSubject.getValue(),
+            {
+                forceRefresh: true,
+            }
         );
     }
 
@@ -932,7 +913,7 @@ export class ${Cap}Facade extends BaseFacade<${Cap}Entity, ${Cap}FilterDto> {
         page: string,
         options: FetchOptions = {}
     ): void {
-        const query = this.buildQuery(filter ?? undefined);
+        const query = this.buildQuery(filter);
         const fetch$ = this.filterBus.dispatch(query, page, options);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
@@ -960,35 +941,53 @@ export class ${Cap}Facade extends BaseFacade<${Cap}Entity, ${Cap}FilterDto> {
         };
     }
 
-    create(item: ${Cap}CreateDto): void {
+    create(dto: ${Cap}CreateDto): void {
         this._actionState.set('loading');
-        const command = new ${Cap}CreateCommand(item?.code, item?.name, item?.description);
+        const command = new ${Cap}CreateCommand(dto?.code, dto?.name, dto?.description);
         this.handleActionWithRefresh(
             this.createBus.dispatch(command),
             'COMMON.SUCCESS.CREATE'
         )
-            .pipe()
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
             .subscribe();
     }
 
-    update(item: ${Cap}UpdateDto): void {
+    update(dto: ${Cap}UpdateDto): void {
         this._actionState.set('loading');
         const command = new ${Cap}UpdateCommand(
-            item?.uniqId,
-            item?.code,
-            item?.name,
-            item?.description
+            dto?.uniqId,
+            dto?.code,
+            dto?.name,
+            dto?.description
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
             'COMMON.SUCCESS.UPDATE'
         )
-            .pipe()
+            .pipe(
+                tap(() => {
+                    this._actionSuccess.update((v) => v + 1);
+                }),
+                catchError((err) => {
+                    this._actionError.set(err);
+                    return throwError(() => err);
+                }),
+                finalize(() => this._actionState.set('idle'))
+            )
             .subscribe();
     }
 
-    delete(item: ${Cap}DeleteDto): void {
-        const command = new ${Cap}DeleteCommand(item.uniqId);
+    delete(dto: ${Cap}DeleteDto): void {
+        const command = new ${Cap}DeleteCommand(dto.uniqId);
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'
@@ -1012,15 +1011,15 @@ export class ${Cap}Facade extends BaseFacade<${Cap}Entity, ${Cap}FilterDto> {
 w(`application/services/${E}/${E}-select.facade.ts`, `
 import { inject, Injectable } from '@angular/core';
 import { ${Cap}SelectUseCase } from '${BASE}/application/use-cases/${E}/${E}-select.use-case';
-import { ${Cap}SelectEntity } from '${BASE}/domain/entities/${E}/${E}-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ${Cap}SelectFacade extends ArrayBaseFacade<${Cap}SelectEntity, void> {
+export class ${Cap}SelectFacade extends ArrayBaseFacade<SelectOption, void> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly useCase = inject(${Cap}SelectUseCase);
 
@@ -1042,6 +1041,7 @@ import { ${Cap}FindOneBus } from '${BASE}/application/queries-bus/${E}/${E}-find
 import { ${Cap}FindOneEntity } from '${BASE}/domain/entities/${E}/${E}-find-one.entity';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 @Injectable({
     providedIn: 'root',
@@ -1050,9 +1050,9 @@ export class ${Cap}FindOneFacade extends ObjectBaseFacade<${Cap}FindOneEntity, $
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(${Cap}FindOneBus);
 
-    read(filter: ${Cap}FindOneFilterDto): void {
+    read(filter: ${Cap}FindOneFilterDto, options: FetchOptions = {}): void {
         const command = new ${Cap}FindOneQuery(filter.uniqId);
-        const fetch$ = this.bus.dispatch(command);
+        const fetch$ = this.bus.dispatch(command, options);
         this.fetch(filter, fetch$, this.ui);
     }
 }
@@ -1062,58 +1062,199 @@ export class ${Cap}FindOneFacade extends ObjectBaseFacade<${Cap}FindOneEntity, $
 // PRESENTATION — store (controles + etat reactif)
 // ---------------------------------------------------------------------
 
+// Les interfaces de controle vivent directement sous presentation/store (pas de
+// domain/controls — dossier absent du module de reference reel, verifie sur
+// infrastructure ET infrastructure-type). Le Store construit un vrai FormGroup
+// reactif (FormBuilder), pas un simple signal opaque : c'est ce qui permet a la
+// regle 4 de check-semantics.js (Validators.required du formulaire vs validator
+// du domaine) d'avoir reellement quelque chose a comparer sur un module genere.
 w(`presentation/store/${E}/${E}-filter.control.ts`, `
 import { FormControl } from '@angular/forms';
-import { ${Cap}FilterControl } from '${BASE}/domain/controls/${E}/${E}-filter.control';
 
-export function createFilterControls(): ${Cap}FilterControl {
-    return {
-        search: new FormControl<string | null>(null),
-        startDate: new FormControl<string | null>(null),
-        endDate: new FormControl<string | null>(null),
-    };
+export interface ${Cap}FilterControl {
+    search: FormControl<string | undefined>;
+    startDate: FormControl<Date | undefined>;
+    endDate: FormControl<Date | undefined>;
 }
 `);
 w(`presentation/store/${E}/${E}-filter.store.ts`, `
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ${Cap}FilterDto } from '${BASE}/application/dto/${E}/${E}-filter.dto';
+import { ${Cap}FilterControl } from '${BASE}/presentation/store/${E}/${E}-filter.control';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ${Cap}FilterStore {
-    private readonly _filter = signal<${Cap}FilterDto | null>(null);
-    readonly filter = this._filter.asReadonly();
+    private readonly fb = inject(FormBuilder);
 
-    set(filter: ${Cap}FilterDto | null): void {
-        this._filter.set(filter);
+    readonly form: FormGroup<${Cap}FilterControl> =
+        this.fb.group<${Cap}FilterControl>({
+            search: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+            }),
+            startDate: new FormControl<Date | undefined>(undefined, {
+                nonNullable: true,
+            }),
+            endDate: new FormControl<Date | undefined>(undefined, {
+                nonNullable: true,
+            }),
+        });
+
+    reset(): void {
+        this.form.reset();
+    }
+
+    get value(): ${Cap}FilterDto {
+        const raw = this.form.getRawValue();
+        return {
+            search: raw.search || undefined,
+            startDate: raw.startDate || undefined,
+            endDate: raw.endDate || undefined,
+        };
     }
 }
+`);
+w(`presentation/constants/${E}/${E}-form-keys.constant.ts`, `
+export const ${ENTITY_UPPER}_FORM_KEYS = {
+    CODE: 'code',
+    NAME: 'name',
+    DESCRIPTION: 'description',
+} as const;
 `);
 w(`presentation/store/${E}/${E}-form.control.ts`, `
 import { FormControl } from '@angular/forms';
-import { ${Cap}FormControl } from '${BASE}/domain/controls/${E}/${E}-form.control';
+import { ${ENTITY_UPPER}_FORM_KEYS } from '${BASE}/presentation/constants/${E}/${E}-form-keys.constant';
 
-export function createFormControls(): ${Cap}FormControl {
-    return {
-        code: new FormControl<string | null>(null),
-        name: new FormControl<string | null>(null),
-        description: new FormControl<string | null>(null),
-    };
+export interface ${Cap}FormControl {
+    [${ENTITY_UPPER}_FORM_KEYS.CODE]: FormControl<string | undefined>;
+    [${ENTITY_UPPER}_FORM_KEYS.NAME]: FormControl<string | undefined>;
+    [${ENTITY_UPPER}_FORM_KEYS.DESCRIPTION]: FormControl<string | undefined>;
 }
 `);
 w(`presentation/store/${E}/${E}-form.store.ts`, `
-import { Injectable, signal } from '@angular/core';
+import {
+    Injectable,
+    inject,
+    signal,
+    computed,
+    effect,
+    untracked,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    Validators,
+} from '@angular/forms';
+import { ${Cap}FindOneFacade } from '${BASE}/application/services/${E}/${E}-find-one.facade';
+import { ${Cap}FormControl } from '${BASE}/presentation/store/${E}/${E}-form.control';
+import { FormValidators } from '${BASE}/presentation/constants/form-validators.constants';
+import { ${ENTITY_UPPER}_FORM_KEYS } from '${BASE}/presentation/constants/${E}/${E}-form-keys.constant';
+import { startWith } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+type ${Cap}FormMode = 'create' | 'edit' | 'details';
+
+@Injectable()
 export class ${Cap}FormStore {
-    private readonly _editingId = signal<string | null>(null);
-    readonly editingId = this._editingId.asReadonly();
+    private readonly fb = inject(FormBuilder);
+    private readonly findOneFacade = inject(${Cap}FindOneFacade);
+    readonly VALIDATION = FormValidators;
 
-    startEdit(uniqId: string): void {
-        this._editingId.set(uniqId);
+    readonly form = this.createForm();
+    readonly mode = signal<${Cap}FormMode>('create');
+    readonly isCreateMode = computed(() => this.mode() === 'create');
+    readonly isEditMode = computed(() => this.mode() === 'edit');
+    readonly isDetailsMode = computed(() => this.mode() === 'details');
+
+    readonly loading = computed(() => this.findOneFacade.loading());
+
+    readonly status = toSignal(
+        this.form.statusChanges.pipe(startWith(this.form.status)),
+        {
+            initialValue: this.form.status,
+        }
+    );
+    readonly isValid = computed(() => this.status() === 'VALID');
+
+    private readonly item = this.findOneFacade.items;
+
+    constructor() {
+        this.initializeDetailsModeEffect();
     }
 
-    stopEdit(): void {
-        this._editingId.set(null);
+    private createForm(): FormGroup<${Cap}FormControl> {
+        return this.fb.nonNullable.group<${Cap}FormControl>({
+            [${ENTITY_UPPER}_FORM_KEYS.CODE]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            [${ENTITY_UPPER}_FORM_KEYS.NAME]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            [${ENTITY_UPPER}_FORM_KEYS.DESCRIPTION]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+        });
+    }
+
+    private initializeDetailsModeEffect(): void {
+        effect(() => {
+            const item = this.item();
+            if (this.isCreateMode() || !item) {
+                return;
+            }
+            const { code, name, description } = item;
+            const details = this.isDetailsMode();
+            untracked(() => {
+                queueMicrotask(() => {
+                    this.form.patchValue({ code, name, description });
+                    if (details) {
+                        this.form.disable({ emitEvent: false });
+                    }
+                });
+            });
+        });
+    }
+
+    private load(uniqId: string): void {
+        this.findOneFacade.read({ uniqId }, { forceRefresh: true });
+    }
+
+    setMode(uniqId: string | null, mode: ${Cap}FormMode): void {
+        this.mode.set(mode);
+        const handlers: Record<${Cap}FormMode, () => void> = {
+            create: () => {
+                this.reset();
+                this.findOneFacade.reset();
+            },
+            edit: () => uniqId && this.load(uniqId),
+            details: () => uniqId && this.load(uniqId),
+        };
+        handlers[mode]();
+    }
+
+    reset(): void {
+        this.form.enable({ emitEvent: false });
+        this.form.reset(
+            {
+                [${ENTITY_UPPER}_FORM_KEYS.CODE]: undefined,
+                [${ENTITY_UPPER}_FORM_KEYS.NAME]: undefined,
+                [${ENTITY_UPPER}_FORM_KEYS.DESCRIPTION]: undefined,
+            },
+            { emitEvent: true }
+        );
+        this.mode.set('create');
+        this.form.markAsPristine();
+        this.form.markAsUntouched();
     }
 }
 `);
@@ -1156,6 +1297,27 @@ export const ${E}FindOneProviders: Provider[] = [
         provide: ${Cap}FindOneRepository,
         useClass: ${Cap}FindOneRepositoryImpl,
     },
+];
+`);
+
+// di/{MODULE}.providers.ts — fichier RACINE du module (pas sous di/{ENTITY}/), qui
+// agregue les Providers de chaque entite en un seul export provide{Module}. Modele
+// exact : di/administrative-infrastructure.providers.ts -> provideAdministrativeInfrastructure,
+// cable dans src/presentation/app.config.ts (verifie non mort). Ce generateur ne
+// produit qu'une seule entite synthetique, donc l'agregat ne porte qu'un seul groupe de
+// 3 providers — fidele au PATRON (fichier racine qui agrege), pas a la cardinalite du
+// module reel (2 entites) que ce generateur n'a jamais pretendu reproduire par ailleurs.
+w(`di/${MODULE}.providers.ts`, `
+import { Provider } from '@angular/core';
+
+import { ${E}FindOneProviders } from '${BASE}/di/${E}/${E}-find-one.providers';
+import { ${E}SelectProviders } from '${BASE}/di/${E}/${E}-select.providers';
+import { ${E}Providers } from '${BASE}/di/${E}/${E}.providers';
+
+export const provide${ModuleCap} = (): Provider[] => [
+    ...${E}Providers,
+    ...${E}FindOneProviders,
+    ...${E}SelectProviders,
 ];
 `);
 
@@ -1235,11 +1397,11 @@ for (const { kind } of crudOps) {
 import { ${Cap}${Kind}ValidateContract } from '${BASE}/domain/contracts/${E}/${E}-${kind}.validate-contract';
 import { ${Cap}${Kind}ApiDto } from '${BASE}/infrastructure/api/dto/${E}/${E}-${kind}-api.dto';
 
-export function ${E}${Kind}Mapper(contract: ${Cap}${Kind}ValidateContract): ${Cap}${Kind}ApiDto {
+export function ${E}${Kind}Mapper(validContract: ${Cap}${Kind}ValidateContract): ${Cap}${Kind}ApiDto {
     return {
-        ${kind === 'update' ? 'id: contract.uniqId,\n        ' : ''}code: contract.code,
-        name: contract.name,
-        description: contract.description,
+        ${kind === 'update' ? 'id: validContract.uniqId,\n        ' : ''}code: validContract.code,
+        name: validContract.name,
+        description: validContract.description,
     };
 }
 `);
@@ -1249,8 +1411,8 @@ w(`infrastructure/data/mappers/${E}/${E}-delete.mapper.ts`, `
 import { ${Cap}DeleteValidateContract } from '${BASE}/domain/contracts/${E}/${E}-delete.validate-contract';
 import { ${Cap}DeleteApiDto } from '${BASE}/infrastructure/api/dto/${E}/${E}-delete-api.dto';
 
-export function ${E}DeleteMapper(contract: ${Cap}DeleteValidateContract): ${Cap}DeleteApiDto {
-    return { uniq_id: contract.uniqId };
+export function ${E}DeleteMapper(validContract: ${Cap}DeleteValidateContract): ${Cap}DeleteApiDto {
+    return { uniq_id: validContract.uniqId };
 }
 `);
 
@@ -1258,16 +1420,16 @@ w(`infrastructure/data/mappers/${E}/${E}-filter.mapper.ts`, `
 import { ${Cap}FilterContract } from '${BASE}/domain/contracts/${E}/${E}-filter.contract';
 import { ${Cap}FilterApiDto } from '${BASE}/infrastructure/api/dto/${E}/${E}-filter-api.dto';
 
-export function ${E}FilterMapper(contract: ${Cap}FilterContract): ${Cap}FilterApiDto {
+export function ${E}FilterMapper(validContract: ${Cap}FilterContract): ${Cap}FilterApiDto {
     const params: ${Cap}FilterApiDto = {};
-    if (contract.search) {
-        params.search = contract.search;
+    if (validContract.search) {
+        params.search = validContract.search;
     }
-    if (contract.startDate) {
-        params.start_date = contract.startDate;
+    if (validContract.startDate) {
+        params.start_date = validContract.startDate;
     }
-    if (contract.endDate) {
-        params.end_date = contract.endDate;
+    if (validContract.endDate) {
+        params.end_date = validContract.endDate;
     }
     return params;
 }
@@ -1277,8 +1439,8 @@ w(`infrastructure/data/mappers/${E}/${E}-find-one-filter.mapper.ts`, `
 import { ${Cap}FindOneFilterValidateContract } from '${BASE}/domain/contracts/${E}/${E}-find-one-filter.validate-contract';
 import { ${Cap}FindOneFilterApiDto } from '${BASE}/infrastructure/api/dto/${E}/${E}-find-one-filter-api.dto';
 
-export function ${E}FindOneFilterMapper(contract: ${Cap}FindOneFilterValidateContract): ${Cap}FindOneFilterApiDto {
-    return { id: contract.uniqId };
+export function ${E}FindOneFilterMapper(validContract: ${Cap}FindOneFilterValidateContract): ${Cap}FindOneFilterApiDto {
+    return { id: validContract.uniqId };
 }
 `);
 
@@ -1355,23 +1517,21 @@ export class ${Cap}FindOneMapper extends SimpleResponseMapper<${Cap}FindOneEntit
 // necessaire pour un select (pas de besoin de referentialite d'update in-place).
 w(`infrastructure/data/mappers/${E}/${E}-select.mapper.ts`, `
 import { Injectable } from '@angular/core';
-import { ${Cap}SelectEntity } from '${BASE}/domain/entities/${E}/${E}-select.entity';
-import { ${Cap}SelectProps } from '${BASE}/domain/interfaces/${E}/${E}-select-props.interface';
 import { ${Cap}SelectItemApiDto } from '${BASE}/infrastructure/api/dto/${E}/${E}-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({
     providedIn: 'root',
 })
-export class ${Cap}SelectMapper extends ArrayResponseMapper<${Cap}SelectEntity, ${Cap}SelectItemApiDto> {
-    protected mapItemFromDto(dto: ${Cap}SelectItemApiDto): ${Cap}SelectEntity {
+export class ${Cap}SelectMapper extends ArrayResponseMapper<SelectOption, ${Cap}SelectItemApiDto> {
+    protected mapItemFromDto(dto: ${Cap}SelectItemApiDto): SelectOption {
         MapperUtils.validateDto(dto, { required: ['id'] });
-        const props: ${Cap}SelectProps = {
+        return {
             label: dto.name,
             value: dto.id,
         };
-        return new ${Cap}SelectEntity(props);
     }
 }
 `);
@@ -1409,12 +1569,12 @@ export class ${Cap}Api {
     private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
-        filter: ${Cap}FilterApiDto,
+        dto: ${Cap}FilterApiDto,
         page: string,
         options?: FetchOptions
     ): Observable<${Cap}ResponseApiDto> {
         const url = \`\${this.baseUrl}\${${MODULE_UPPER.replace(/-/g, '_')}_ENDPOINTS.${ENTITY_UPPER}}?page=\${page}\`;
-        const params = buildHttpParams(filter);
+        const params = buildHttpParams(dto);
         const context = new HttpContext().set(BYPASS_CACHE, options?.forceRefresh ?? false);
         return this.http.get<${Cap}ResponseApiDto>(url, { params, context });
     }
@@ -1455,10 +1615,10 @@ export class ${Cap}FindOneApi {
     private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     execute(
-        filter?: ${Cap}FindOneFilterApiDto,
+        dto?: ${Cap}FindOneFilterApiDto,
         options?: FetchOptions
     ): Observable<${Cap}FindOneResponseApiDto> {
-        const params = filter?.id ? \`/\${filter.id}\` : '';
+        const params = dto?.id ? \`/\${dto.id}\` : '';
         const url = \`\${this.baseUrl}\${${MODULE_UPPER.replace(/-/g, '_')}_ENDPOINTS.${ENTITY_UPPER}}\${params}\`;
         const context = new HttpContext().set(BYPASS_CACHE, options?.forceRefresh ?? false);
         return this.http.get<${Cap}FindOneResponseApiDto>(url, { context });
@@ -1522,25 +1682,31 @@ export class ${Cap}RepositoryImpl implements ${Cap}Repository {
     private readonly mapper = inject(${Cap}Mapper);
 
     execute(
-        contract: ${Cap}FilterContract,
+        validContract: ${Cap}FilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<${Cap}Entity>> {
         return this.api
-            .readAll(${E}FilterMapper(contract), page, options)
+            .readAll(${E}FilterMapper(validContract), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(contract: ${Cap}CreateValidateContract): Observable<MessageResponseDto> {
-        return this.api.create(${E}CreateMapper(contract));
+    create(
+        validContract: ${Cap}CreateValidateContract
+    ): Observable<MessageResponseDto> {
+        return this.api.create(${E}CreateMapper(validContract));
     }
 
-    update(contract: ${Cap}UpdateValidateContract): Observable<MessageResponseDto> {
-        return this.api.update(${E}UpdateMapper(contract));
+    update(
+        validContract: ${Cap}UpdateValidateContract
+    ): Observable<MessageResponseDto> {
+        return this.api.update(${E}UpdateMapper(validContract));
     }
 
-    delete(contract: ${Cap}DeleteValidateContract): Observable<MessageResponseDto> {
-        return this.api.delete(${E}DeleteMapper(contract));
+    delete(
+        validContract: ${Cap}DeleteValidateContract
+    ): Observable<MessageResponseDto> {
+        return this.api.delete(${E}DeleteMapper(validContract));
     }
 }
 `);
@@ -1564,10 +1730,10 @@ export class ${Cap}FindOneRepositoryImpl implements ${Cap}FindOneRepository {
     private readonly mapper = inject(${Cap}FindOneMapper);
 
     execute(
-        contract: ${Cap}FindOneFilterValidateContract,
+        validContract: ${Cap}FindOneFilterValidateContract,
         options?: FetchOptions
     ): Observable<${Cap}FindOneEntity> {
-        const dto = ${E}FindOneFilterMapper(contract);
+        const dto = ${E}FindOneFilterMapper(validContract);
         return this.api.execute(dto, options).pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }
@@ -1575,10 +1741,10 @@ export class ${Cap}FindOneRepositoryImpl implements ${Cap}FindOneRepository {
 
 w(`infrastructure/data/repositories/${E}/${E}-select.repository.impl.ts`, `
 import { Injectable, inject } from '@angular/core';
-import { ${Cap}SelectEntity } from '${BASE}/domain/entities/${E}/${E}-select.entity';
 import { ${Cap}SelectRepository } from '${BASE}/domain/repositories/${E}/${E}-select.repository';
 import { ${Cap}SelectMapper } from '${BASE}/infrastructure/data/mappers/${E}/${E}-select.mapper';
 import { ${Cap}SelectApi } from '${BASE}/infrastructure/data/sources/${E}/${E}-select.api';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
@@ -1589,7 +1755,7 @@ export class ${Cap}SelectRepositoryImpl implements ${Cap}SelectRepository {
     private readonly api = inject(${Cap}SelectApi);
     private readonly mapper = inject(${Cap}SelectMapper);
 
-    readAll(options?: FetchOptions): Observable<${Cap}SelectEntity[]> {
+    readAll(options?: FetchOptions): Observable<SelectOption[]> {
         return this.api.readAll(options).pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 }
@@ -1658,6 +1824,43 @@ export const ${ENTITY_UPPER}_ROUTES: Routes = [
             import('${BASE}/presentation/features/${E}/${E}-form/${E}-form.component').then(
                 (m) => m.${Cap}FormComponent
             ),
+    },
+];
+`);
+
+// ${MODULE}.routes.ts — fichier RACINE du module (pas sous presentation/features/{ENTITY}/),
+// qui agrege les routes de chaque entite via loadChildren, cable dans src/shared/routes/routes.ts
+// (verifie non mort : import('@pages/administrative-infrastructure/administrative-infrastructure
+// .routes').then((m) => m.routes)). Meme motif que di/${MODULE}.providers.ts : ce generateur ne
+// produit qu'une seule entite synthetique, donc n'agrege qu'un seul bloc — fidele au PATRON
+// (fichier racine qui agrege via loadChildren), pas a la cardinalite du module reel (2 entites).
+w(`${MODULE}.routes.ts`, `
+import { Routes } from '@angular/router';
+import { ${ENTITY_UPPER}_ROUTE } from '${BASE}/presentation/features/${E}/${E}-paths.constants';
+
+export const routes: Routes = [
+    {
+        path: ${ENTITY_UPPER}_ROUTE,
+        data: {
+            breadcrumb: {
+                label: '${MODULE_UPPER}.${ENTITY_UPPER}.BREADCRUMB.LABEL',
+                icon: '${MODULE_UPPER}.${ENTITY_UPPER}.BREADCRUMB.ICON',
+            },
+        },
+        children: [
+            {
+                path: '',
+                loadChildren: () =>
+                    import('${BASE}/presentation/features/${E}/${E}.routes').then(
+                        (m) => m.${ENTITY_UPPER}_ROUTES
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
     },
 ];
 `);

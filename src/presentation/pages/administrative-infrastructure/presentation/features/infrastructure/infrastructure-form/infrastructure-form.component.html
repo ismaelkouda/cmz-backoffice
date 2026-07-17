@@ -83,7 +83,9 @@
                                                         class="form-input"
                                                         id="name"
                                                         type="text"
-                                                        formControlName="name"
+                                                        [formControlName]="
+                                                            KEYS.NAME
+                                                        "
                                                         [placeholder]="
                                                             'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.NAME_PLACEHOLDER'
                                                                 | translate
@@ -97,10 +99,12 @@
                                                                 | translate
                                                         "
                                                         [attr.aria-invalid]="
-                                                            form.get('name')
-                                                                ?.invalid &&
-                                                            form.get('name')
-                                                                ?.touched
+                                                            form.get(
+                                                                KEYS.NAME
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                KEYS.NAME
+                                                            )?.touched
                                                         "
                                                     />
                                                 </div>
@@ -123,7 +127,9 @@
                                                         class="form-p-select"
                                                         [options]="store.vm().infrastructureType"
                                                         [loading]="store.vm().infrastructureTypeLoading"
-                                                        formControlName="type"
+                                                        [formControlName]="
+                                                            KEYS.TYPE
+                                                        "
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         filter="true"
@@ -145,10 +151,10 @@
                                                     </p-select>
                                                     @if (
                                                         form.get(
-                                                            'type'
+                                                            KEYS.TYPE
                                                         )?.invalid &&
                                                         form.get(
-                                                            'type'
+                                                            KEYS.TYPE
                                                         )?.touched
                                                     ) {
                                                         <small
@@ -212,7 +218,9 @@
                                                         cols="30"
                                                         pTextarea
                                                         id="description"
-                                                        formControlName="description"
+                                                        [formControlName]="
+                                                            KEYS.DESCRIPTION
+                                                        "
                                                         class="w-100"
                                                         [attr.maxlength]="
                                                             VALIDATION

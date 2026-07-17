@@ -4336,16 +4336,16 @@
                 },
                 "ERROR": {
                     "DELETE": {
-                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
                     },
                     "DISABLE": {
-                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
                     },
                     "ENABLE": {
-                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
                     },
                     "FIND_ONE": {
-                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
                     },
                     "CREATE": {
                         "NAME_REQUIRE": "Le nom est requis",
@@ -4515,10 +4515,10 @@
                 },
                 "ERROR": {
                     "DELETE": {
-                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
                     },
                     "FIND_ONE": {
-                        "UNIQ_ID_REQUIRE":"L'identifiant est requis"
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
                     },
                     "CREATE": {
                         "NAME_REQUIRE": "Le nom est requis",
@@ -4605,6 +4605,262 @@
             },
             "PROFIL": {
                 "NOT_ASSIGNED": "Non assigné"
+            }
+        }
+    },
+    "COVERAGE_AREAS": {
+        "BREADCRUMB": {
+            "LABEL": "Couvertures",
+            "ROUTE": "coverage-areas",
+            "ICON": "pi-sitemap"
+        },
+        "LABEL": "Couvertures",
+        "ROUTE": "coverage-areas",
+        "SITE_GROUP": {
+            "BREADCRUMB": {
+                "LABEL": "Groupes de sites",
+                "ROUTE": "site-groups",
+                "ICON": "pi-sitemap"
+            },
+            "TABS": {
+                "SITE_GROUP": {
+                    "LABEL": "Groupes de sites",
+                    "ROUTE": "site-groups"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Groupes de sites",
+            "ROUTE": "site-groups",
+            "TABLE": {
+                "CODE": "Code",
+                "NAME": "Nom du groupe",
+                "STATUS": "Statut",
+                "UPDATED_AT": "Date MAJ",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "STATUS": "Statut",
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "FORM": {
+                "TITLE": "Informations Générales",
+                "CREATE_TITLE": "Ajouter un groupe de sites",
+                "EDIT_TITLE": "Modifier un groupe de sites",
+                "DETAILS_TITLE": "Détails du groupe de sites",
+                "CODE": "Code",
+                "CODE_PLACEHOLDER": "Ex: GRP-001",
+                "NAME": "Nom du groupe",
+                "NAME_PLACEHOLDER": "Ex: Nom du groupe de sites",
+                "DESCRIPTION": "Description",
+                "DESCRIPTION_PLACEHOLDER": "Ex: Description du groupe de sites",
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "CREATE": {
+                        "CODE_REQUIRE": "Le code est requis",
+                        "NAME_REQUIRE": "Le nom du groupe est requis"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "CODE_REQUIRE": "Le code est requis",
+                        "NAME_REQUIRE": "Le nom du groupe est requis"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer ce groupe de sites",
+                    "EDIT": "Modifier ce groupe de sites",
+                    "DELETE": "Supprimer ce groupe de sites",
+                    "ENABLE": "Activer ce groupe de sites",
+                    "DISABLE": "Désactiver ce groupe de sites"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce groupe de sites",
+                    "EDIT": "Êtes-vous sûr de vouloir modifier ce groupe de sites",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce groupe de sites <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce groupe de sites <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce groupe de sites <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des groupes de sites",
+                "EXPORT": "Exporter la liste de {nb} groupes de sites",
+                "CHOOSE": "Choisir une action",
+                "DETAILS": "Voir les détails de ce groupe de sites",
+                "CREATE": "Créer un groupe de sites",
+                "EDIT": "Modifier ce groupe de sites",
+                "DELETE": "Supprimer ce groupe de sites",
+                "ENABLE": "Activer ce groupe de sites",
+                "DISABLE": "Désactiver ce groupe de sites",
+                "NO_EXPORT": "Aucun groupe de sites à exporter",
+                "NOT_EDIT": "Modification non permise",
+                "NOT_DELETE": "Groupe actif, impossible de supprimer ce groupe de sites",
+                "NOT_ACTIVE": "Activation non permise",
+                "NOT_DISABLE": "Désactivation non permise",
+                "NOT_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des groupes de sites non permise",
+                "NO_PERMISSION_CREATE": "Création d'un groupe de sites non permise",
+                "NO_PERMISSION_EDIT": "Edition d'un groupe de sites non permise",
+                "NO_PERMISSION_DELETE": "Suppression d'un groupe de sites non permise",
+                "NO_PERMISSION_ACTIVE": "Activation d'un groupe de sites non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un groupe de sites non permise"
+            }
+        },
+        "MOBILE_NETWORK": {
+            "BREADCRUMB": {
+                "LABEL": "Réseaux mobiles",
+                "ROUTE": "mobile-networks",
+                "ICON": "pi-sitemap"
+            },
+            "TITLE": "Sites Réseaux mobiles",
+            "ROUTE": "mobile-networks",
+            "TABLE": {
+                "SITE_ID": "ID du site",
+                "SITE_NAME": "Nom du site",
+                "TOWER_TYPE": "Type pylone",
+                "TOWER_SIZE": "Taille du pylone (m)",
+                "TECHNOLOGY": "Technologie",
+                "OPERATOR": "Opérateur",
+                "RADIUS": "Rayon",
+                "STATUS": "Statut",
+                "UPDATED_AT": "Date MAJ",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "TOWER_TYPE": "Type pylone",
+                "TOWER_SIZE": "Taille du pylone (m)",
+                "TOWER_SIZE_PLACEHOLDER": "Ex: 30",
+                "TECHNOLOGY": "Technologie",
+                "OPERATOR": "Opérateur",
+                "RADIUS": "Rayon",
+                "RADIUS_PLACEHOLDER": "Ex: 5",
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "FORM": {
+                "TITLE": "Informations Générales",
+                "CREATE_TITLE": "Ajouter un site réseau mobile",
+                "EDIT_TITLE": "Modifier un site réseau mobile",
+                "DETAILS_TITLE": "Détails du site réseau mobile",
+                "SITE_ID": "ID du site",
+                "SITE_ID_PLACEHOLDER": "Ex: SITE-001",
+                "SITE_NAME": "Nom du site",
+                "SITE_NAME_PLACEHOLDER": "Ex: Nom du site",
+                "TOWER_TYPE": "Type pylone",
+                "TOWER_TYPE_PLACEHOLDER": "Sélectionner un type de pylone",
+                "TOWER_SIZE": "Taille du pylone (m)",
+                "TOWER_SIZE_PLACEHOLDER": "Ex: 30",
+                "TECHNOLOGY": "Technologie",
+                "OPERATOR": "Opérateur",
+                "RADIUS": "Rayon",
+                "RADIUS_PLACEHOLDER": "Ex: 5",
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "CREATE": {
+                        "SITE_ID_REQUIRE": "L'ID du site est requis",
+                        "SITE_NAME_REQUIRE": "Le nom du site est requis",
+                        "TOWER_TYPE_REQUIRE": "Le type de pylone est requis",
+                        "TOWER_SIZE_REQUIRE": "La taille du pylone est requise",
+                        "TECHNOLOGY_REQUIRE": "La technologie est requise",
+                        "OPERATOR_REQUIRE": "L'opérateur est requis"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "SITE_ID_REQUIRE": "L'ID du site est requis",
+                        "SITE_NAME_REQUIRE": "Le nom du site est requis",
+                        "TOWER_TYPE_REQUIRE": "Le type de pylone est requis",
+                        "TOWER_SIZE_REQUIRE": "La taille du pylone est requise",
+                        "TECHNOLOGY_REQUIRE": "La technologie est requise",
+                        "OPERATOR_REQUIRE": "L'opérateur est requis"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer ce site réseau mobile",
+                    "EDIT": "Modifier ce site réseau mobile",
+                    "DELETE": "Supprimer ce site réseau mobile",
+                    "ENABLE": "Activer ce site réseau mobile",
+                    "DISABLE": "Désactiver ce site réseau mobile"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce site réseau mobile",
+                    "EDIT": "Êtes-vous sûr de vouloir modifier ce site réseau mobile",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce site réseau mobile <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce site réseau mobile <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce site réseau mobile <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des sites réseaux mobiles",
+                "EXPORT": "Exporter la liste de {nb} sites réseaux mobiles",
+                "CHOOSE": "Choisir une action",
+                "DETAILS": "Voir les détails de ce site réseau mobile",
+                "CREATE": "Créer un site réseau mobile",
+                "EDIT": "Modifier ce site réseau mobile",
+                "DELETE": "Supprimer ce site réseau mobile",
+                "ENABLE": "Activer ce site réseau mobile",
+                "DISABLE": "Désactiver ce site réseau mobile",
+                "NO_EXPORT": "Aucun site réseau mobile à exporter",
+                "NOT_EDIT": "Modification non permise",
+                "NOT_DELETE": "Site actif, impossible de supprimer ce site réseau mobile",
+                "NOT_ACTIVE": "Activation non permise",
+                "NOT_DISABLE": "Désactivation non permise",
+                "NOT_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des sites réseaux mobiles non permise",
+                "NO_PERMISSION_CREATE": "Création d'un site réseau mobile non permise",
+                "NO_PERMISSION_EDIT": "Edition d'un site réseau mobile non permise",
+                "NO_PERMISSION_DELETE": "Suppression d'un site réseau mobile non permise",
+                "NO_PERMISSION_ACTIVE": "Activation d'un site réseau mobile non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un site réseau mobile non permise"
+            },
+            "TABS": {
+                "MOBILE_NETWORK": {
+                    "LABEL": "Réseaux mobiles",
+                    "ROUTE": "mobile-networks"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
             }
         }
     },
@@ -5149,6 +5405,26 @@
             "LABEL": "Signalement",
             "LOADING_DESCRIPTION": "Suivi des signalements en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_BY_CHANNEL": {
+            "BREADCRUMB": {
+                "LABEL": "Signalements par canal",
+                "ROUTE": "report-by-channel"
+            },
+            "TITLE": "Tableau de bord analytique des signalements par canal",
+            "LABEL": "Signalements par canal",
+            "LOADING_DESCRIPTION": "Suivi des signalements par canal en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements par canal. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_BY_OPERATOR": {
+            "BREADCRUMB": {
+                "LABEL": "Signalements par opérateur",
+                "ROUTE": "report-by-operator"
+            },
+            "TITLE": "Tableau de bord analytique des signalements par opérateur",
+            "LABEL": "Signalements par opérateur",
+            "LOADING_DESCRIPTION": "Suivi des signalements par opérateur en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements par opérateur. Veuillez recharger la page ou contacter le support."
         }
     },
     "MONITORING": {

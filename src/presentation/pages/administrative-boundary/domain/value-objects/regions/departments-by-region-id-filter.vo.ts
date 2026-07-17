@@ -1,31 +1,20 @@
 import { DepartmentsByRegionIdFilterDto } from '@pages/administrative-boundary/application/dto/regions/departments-by-region-id-filter.dto';
-import { Status } from '@pages/administrative-boundary/domain/enums/departments/departments-status.enum';
 import { DepartmentsByRegionIdFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/departments-by-region-id-filter-props.interface';
+import { validateDepartmentsByRegionIdFilter } from '@presentation/pages/administrative-boundary/domain/validators/regions/departments-by-region-id-filter.validator';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
-export class DepartmentsByRegionIdFilterVo {
-    constructor(private readonly props: DepartmentsByRegionIdFilterProps) {}
-    get uniqId(): string {
-        return this.props.uniqId;
-    }
-    get search(): string | undefined {
-        return this.props.search;
-    }
-    get region(): string | undefined {
-        return this.props.region;
-    }
-    get municipality(): string | undefined {
-        return this.props.municipality;
-    }
-    get status(): Status | undefined {
-        return this.props.status;
-    }
-    get period(): DatePeriod | undefined {
-        return this.props.period;
-    }
 
-    static fromDto(
-        dto: DepartmentsByRegionIdFilterDto
-    ): DepartmentsByRegionIdFilterVo {
-        return new DepartmentsByRegionIdFilterVo(dto);
-    }
+export function departmentsByRegionIdFilterVo(
+    dto: DepartmentsByRegionIdFilterDto
+): DepartmentsByRegionIdFilterProps {
+    validateDepartmentsByRegionIdFilter(dto);
+
+    const period = DatePeriod.createOptional(dto.startDate, dto.endDate);
+
+    return {
+        uniqId: dto.uniqId,
+        search: dto.search,
+        municipality: dto.municipality,
+        status: dto.status,
+        period,
+    };
 }

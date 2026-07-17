@@ -400,7 +400,7 @@
                                         <section class="filter-group">
                                                             
                                             @for (op of networkTechnologyOptions; track op.value) {
-                                            <label>
+                                            <label class="m-0">
                                                 <input type="checkbox"
                                                     [checked]="rnhdVisible(op.value)"
                                                     (change)="toggleRnhd(op.value, $any($event.target).checked)" />
@@ -409,7 +409,7 @@
                                         }
                                                         </section>
 
-                                <h4>Equipements</h4>
+                                <h4>Type d'équipements</h4>
                             <section class="filter-group">
                                 @for (eq of equipmentOptions; track eq.id) {
                                     <label class="m-0">

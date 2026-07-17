@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { InfrastructureDeleteDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure/infrastructure-delete.dto';
 import { InfrastructureCreateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-create.contract';
+import { InfrastructureDeleteContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-delete.contract';
 import { InfrastructureFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-filter.contract';
 import { InfrastructureUpdateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-update.contract';
 import { infrastructureFilterEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-filter.entity';
@@ -35,15 +35,27 @@ export class InfrastructureUseCase {
         });
     }
 
-    create(dto: InfrastructureCreateContract): Observable<MessageResponseDto> {
-        return defer(() => this.repository.create(infrastructureCreateVo(dto)));
+    create(
+        contract: InfrastructureCreateContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.create(infrastructureCreateVo(contract))
+        );
     }
 
-    update(dto: InfrastructureUpdateContract): Observable<MessageResponseDto> {
-        return defer(() => this.repository.update(infrastructureUpdateVo(dto)));
+    update(
+        contract: InfrastructureUpdateContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.update(infrastructureUpdateVo(contract))
+        );
     }
 
-    delete(dto: InfrastructureDeleteDto): Observable<MessageResponseDto> {
-        return defer(() => this.repository.delete(infrastructureDeleteVo(dto)));
+    delete(
+        contract: InfrastructureDeleteContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.delete(infrastructureDeleteVo(contract))
+        );
     }
 }

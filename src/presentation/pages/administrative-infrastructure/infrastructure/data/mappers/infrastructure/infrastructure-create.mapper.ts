@@ -2,22 +2,22 @@ import { InfrastructureCreateValidateContract } from '@presentation/pages/admini
 import { InfrastructureCreateApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-create-api.dto';
 
 export function infrastructureCreateMapper(
-    entity: InfrastructureCreateValidateContract
+    validContract: InfrastructureCreateValidateContract
 ): InfrastructureCreateApiDto {
     const params: InfrastructureCreateApiDto = {} as InfrastructureCreateApiDto;
 
-    if (entity.name) {
-        params.name = entity.name;
+    if (validContract.name) {
+        params.name = validContract.name;
     }
-    if (entity.type) {
-        params.infrastructure_type = entity.type;
+    if (validContract.type) {
+        params.infrastructure_type = validContract.type;
     }
-    if (entity.position) {
-        params.latitude = entity.position.latitude;
-        params.longitude = entity.position.longitude;
+    if (validContract.position) {
+        params.latitude = validContract.position.latitude;
+        params.longitude = validContract.position.longitude;
     }
-    if (entity.description) {
-        params.description = entity.description;
+    if (validContract.description) {
+        params.description = validContract.description;
     }
 
     return params;

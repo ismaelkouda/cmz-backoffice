@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { DepartmentsByRegionIdFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
+import { DepartmentsByRegionIdFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/departments-by-region-id-filter-props.interface';
 import { DepartmentsByRegionIdEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id.entity';
 import { DepartmentsByRegionIdRepository } from '@pages/administrative-boundary/domain/repositories/regions/departments-by-region-id-repository';
 import { DepartmentsByRegionIdFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/departments-by-region-id-filter.mapper';
@@ -15,7 +15,7 @@ export class DepartmentsByRegionIdRepositoryImpl implements DepartmentsByRegionI
     private readonly mapper = inject(DepartmentsByRegionIdMapper);
 
     execute(
-        filter: DepartmentsByRegionIdFilterEntity,
+        filter: DepartmentsByRegionIdFilterProps,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<DepartmentsByRegionIdEntity>> {

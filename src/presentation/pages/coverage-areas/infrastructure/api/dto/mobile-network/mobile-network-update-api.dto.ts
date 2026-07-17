@@ -1,0 +1,10 @@
+export interface MobileNetworkUpdateApiDto {
+    id: string;
+    site_id: string;
+    site_name: string;
+    tower_type_id: string;
+    tower_size: number;
+    technology: string;
+    operator: string;
+    radius?: number;
+}

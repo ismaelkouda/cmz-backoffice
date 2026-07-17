@@ -1,12 +1,12 @@
-import { MessagingDeleteEntity } from '@pages/communication/domain/entities/messaging/messaging-delete.entity';
+import { MessagingDeleteDto } from '@pages/communication/application/dto/messaging/messaging-delete.dto';
 import { MessagingDeleteApiDto } from '@pages/communication/infrastructure/api/dto/messaging/messaging-delete-api.dto';
 
 export function messagingDeleteMapper(
-    vo: MessagingDeleteEntity
+    dto: MessagingDeleteDto
 ): MessagingDeleteApiDto {
     const prams = {} as MessagingDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

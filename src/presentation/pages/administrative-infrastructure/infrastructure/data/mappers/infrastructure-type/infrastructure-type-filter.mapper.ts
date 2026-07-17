@@ -2,16 +2,16 @@ import { InfrastructureTypeFilterApiDto } from '@pages/administrative-infrastruc
 import { InfrastructureTypeFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-filter.contract';
 
 export function infrastructureTypeFilterMapper(
-    contract: InfrastructureTypeFilterContract
+    validContract: InfrastructureTypeFilterContract
 ): InfrastructureTypeFilterApiDto {
     const params: InfrastructureTypeFilterApiDto =
         {} as InfrastructureTypeFilterApiDto;
 
-    if (contract.search) {
-        params.search = contract.search;
+    if (validContract.search) {
+        params.search = validContract.search;
     }
-    if (contract.status !== undefined) {
-        params.is_active = !!contract.status;
+    if (validContract.status !== undefined) {
+        params.is_active = !!validContract.status;
     }
 
     return params;

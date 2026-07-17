@@ -5,7 +5,7 @@ import { InfrastructureFindOneFilterValidateContract } from '@presentation/pages
 
 export abstract class InfrastructureFindOneRepository {
     abstract execute(
-        filter: InfrastructureFindOneFilterValidateContract,
+        validContract: InfrastructureFindOneFilterValidateContract,
         options?: FetchOptions
     ): Observable<InfrastructureFindOneEntity>;
 }

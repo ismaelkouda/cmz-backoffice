@@ -1,3 +1,3 @@
 export interface RegionsFindOneFilterDto {
-    uniqId: string;
+    uniqId?: string;
 }

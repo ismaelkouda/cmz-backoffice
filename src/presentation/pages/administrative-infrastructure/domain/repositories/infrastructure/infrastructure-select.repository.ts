@@ -1,9 +1,7 @@
-import { InfrastructureSelectEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-select.entity';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 export abstract class InfrastructureSelectRepository {
-    abstract readAll(
-        options?: FetchOptions
-    ): Observable<InfrastructureSelectEntity[]>;
+    abstract readAll(options?: FetchOptions): Observable<SelectOption[]>;
 }

@@ -14,10 +14,10 @@ export class InfrastructureTypeFindOneApi {
     private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     execute(
-        filter?: InfrastructureTypeFindOneFilterApiDto,
+        dto?: InfrastructureTypeFindOneFilterApiDto,
         options?: FetchOptions
     ): Observable<InfrastructureTypeFindOneResponseApiDto> {
-        const params = filter?.id ? `/${filter.id}` : '';
+        const params = dto?.id ? `/${dto.id}` : '';
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}${params}`;
 
         const context = new HttpContext().set(

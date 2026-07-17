@@ -36,18 +36,7 @@ export class DepartmentsByRegionIdFacade extends BaseFacade<
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        const command = new DepartmentsByRegionIdQuery(
-            filter.uniqId,
-            filter?.search,
-            filter?.municipality,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page, options);
-
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-
+        this.executeQuery(filter, page, options);
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
     }
@@ -55,21 +44,9 @@ export class DepartmentsByRegionIdFacade extends BaseFacade<
     refresh(): void {
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        const command = new DepartmentsByRegionIdQuery(
-            filter?.uniqId ?? '',
-            filter?.search,
-            filter?.municipality,
-            filter?.status,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page, {
+        this.executeQuery(null, this.pageSubject.getValue(), {
             forceRefresh: true,
         });
-        this.fetchWithFilterAndPage(null, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
     }
 
     changePage(page: string): void {
@@ -77,17 +54,41 @@ export class DepartmentsByRegionIdFacade extends BaseFacade<
         if (!filter) {
             return;
         }
-        const command = new DepartmentsByRegionIdQuery(
-            filter?.uniqId ?? '',
+        this.executeQuery(filter, page);
+    }
+
+    refreshWithLastFilterAndPage(): void {
+        this.executeQuery(
+            this.filterSubject.getValue(),
+            this.pageSubject.getValue(),
+            {
+                forceRefresh: true,
+            }
+        );
+    }
+
+    private executeQuery(
+        filter: DepartmentsByRegionIdFilterDto | null,
+        page: string,
+        options: FetchOptions = {}
+    ): void {
+        const query = this.buildQuery(filter);
+        const fetch$ = this.filterBus.dispatch(query, page, options);
+        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
+        this.lastFetchTimestamp = Date.now();
+    }
+
+    private buildQuery(
+        filter?: DepartmentsByRegionIdFilterDto | null
+    ): DepartmentsByRegionIdQuery {
+        return new DepartmentsByRegionIdQuery(
+            filter?.uniqId,
             filter?.search,
             filter?.municipality,
             filter?.status,
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
     }
 
     resetMemory(): void {

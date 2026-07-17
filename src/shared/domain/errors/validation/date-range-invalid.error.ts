@@ -5,7 +5,6 @@ export class DateRangeInvalidError extends DomainError {
     readonly messageKey = 'COMMON.DATE_RANGE.INVALID';
     readonly statusCode = 422;
     constructor(message?: string) {
-        console.log('Invalid dates range');
         super(message || 'Date range is invalid');
     }
 }

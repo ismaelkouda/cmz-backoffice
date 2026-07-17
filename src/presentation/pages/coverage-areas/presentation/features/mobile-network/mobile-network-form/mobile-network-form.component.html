@@ -1,0 +1,423 @@
+<main class="container-fluid form-user-container" role="main">
+    <section class="row form-user-row">
+        <article class="col-sm-12 form-user">
+            <app-breadcrumb />
+
+            <section class="card form-user-card">
+                <div class="card-body form-user-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleMode()"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        @if (!isDetailsMode()) {
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                pButton
+                                type="submit"
+                                (click)="onSubmit()"
+                                [disabled]="form.invalid || loadingSubmit()"
+                            >
+                                @if (!loadingSubmit()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ 'COMMON.SAVE' | translate }}
+                            </button>
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
+                        }
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="siteId"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.SITE_ID'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="siteId"
+                                                        type="text"
+                                                        formControlName="siteId"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.SITE_ID_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('siteId')
+                                                                ?.invalid &&
+                                                            form.get('siteId')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('siteId')
+                                                            ?.invalid &&
+                                                        form.get('siteId')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'siteId'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <label
+                                                        for="siteName"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.SITE_NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="siteName"
+                                                        type="text"
+                                                        formControlName="siteName"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.SITE_NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get(
+                                                                'siteName'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'siteName'
+                                                            )?.touched
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('siteName')
+                                                            ?.invalid &&
+                                                        form.get('siteName')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'siteName'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="towerTypeId"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TOWER_TYPE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            towerTypeOptions()
+                                                        "
+                                                        [loading]="
+                                                            towerTypeLoading()
+                                                        "
+                                                        formControlName="towerTypeId"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        filter="true"
+                                                        filterBy="label"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TOWER_TYPE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get(
+                                                            'towerTypeId'
+                                                        )?.invalid &&
+                                                        form.get(
+                                                            'towerTypeId'
+                                                        )?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="towerSize"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TOWER_SIZE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-inputnumber
+                                                        id="towerSize"
+                                                        formControlName="towerSize"
+                                                        mode="decimal"
+                                                        [minFractionDigits]="0"
+                                                        [maxFractionDigits]="2"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TOWER_SIZE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('towerSize')
+                                                            ?.invalid &&
+                                                        form.get('towerSize')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="technology"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TECHNOLOGY'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            technologyOptions()
+                                                        "
+                                                        formControlName="technology"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('technology')
+                                                            ?.invalid &&
+                                                        form.get('technology')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="operator"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.OPERATOR'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            operatorOptions()
+                                                        "
+                                                        formControlName="operator"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('operator')
+                                                            ?.invalid &&
+                                                        form.get('operator')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="radius"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.RADIUS'
+                                                                | translate
+                                                        }}</label
+                                                    >
+                                                    <p-inputnumber
+                                                        id="radius"
+                                                        formControlName="radius"
+                                                        mode="decimal"
+                                                        [minFractionDigits]="0"
+                                                        [maxFractionDigits]="2"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.RADIUS_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        @if (!isDetailsMode()) {
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.CLOSE' | translate
+                                                }}"
+                                                styleClass="p-button-text p-button-secondary"
+                                                (click)="navigateToBack()"
+                                                [attr.aria-label]="
+                                                    'COMMON.CLOSE' | translate
+                                                "
+                                            >
+                                            </p-button>
+
+                                            <button
+                                                pButton
+                                                type="submit"
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
+                                            >
+                                                @if (!loadingSubmit()) {
+                                                    <i class="pi pi-check"></i>
+                                                } @else {
+                                                    <span
+                                                        class="spinner-border spinner-border-sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    ></span>
+                                                }
+                                                {{ 'COMMON.SAVE' | translate }}
+                                            </button>
+                                        </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

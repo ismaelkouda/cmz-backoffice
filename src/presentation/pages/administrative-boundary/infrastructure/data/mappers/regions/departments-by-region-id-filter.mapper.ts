@@ -1,8 +1,8 @@
-import { DepartmentsByRegionIdFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/departments-by-region-id-filter.entity';
+import { DepartmentsByRegionIdFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/departments-by-region-id-filter-props.interface';
 import { DepartmentsByRegionIdFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-filter-api.dto';
 
 export function DepartmentsByRegionIdFilterMapper(
-    filter: DepartmentsByRegionIdFilterEntity
+    filter: DepartmentsByRegionIdFilterProps
 ): DepartmentsByRegionIdFilterApiDto {
     const params: DepartmentsByRegionIdFilterApiDto =
         {} as DepartmentsByRegionIdFilterApiDto;

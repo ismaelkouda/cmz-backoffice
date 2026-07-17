@@ -1,3 +1,3 @@
 export class InfrastructureDeleteCommand {
-    constructor(public readonly uniqId: string) {}
+    constructor(public readonly uniqId?: string) {}
 }

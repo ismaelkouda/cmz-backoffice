@@ -1,9 +1,9 @@
 import { InfrastructureTypeDisableCommand } from '@presentation/pages/administrative-infrastructure/application/commands/infrastructure-type/infrastructure-type-disable.command';
-import { InfrastructureTypeDisableDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-disable.dto';
+import { InfrastructureTypeDisableContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-disable.contract';
 
 export function infrastructureTypeDisableCommandMapper(
     command: InfrastructureTypeDisableCommand
-): InfrastructureTypeDisableDto {
+): InfrastructureTypeDisableContract {
     return {
         uniqId: command.uniqId,
     };

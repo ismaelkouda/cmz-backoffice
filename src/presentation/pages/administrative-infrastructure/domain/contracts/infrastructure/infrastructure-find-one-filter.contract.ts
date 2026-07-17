@@ -1,3 +1,3 @@
 export interface InfrastructureFindOneFilterContract {
-    uniqId?: string;
+    uniqId: string;
 }

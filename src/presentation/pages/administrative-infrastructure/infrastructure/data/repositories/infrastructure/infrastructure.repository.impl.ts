@@ -26,30 +26,30 @@ export class InfrastructureRepositoryImpl implements InfrastructureRepository {
     private readonly mapper = inject(InfrastructureMapper);
 
     execute(
-        contract: InfrastructureFilterContract,
+        validContract: InfrastructureFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<InfrastructureEntity>> {
         return this.api
-            .readAll(infrastructureFilterMapper(contract), page, options)
+            .readAll(infrastructureFilterMapper(validContract), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
     create(
-        contract: InfrastructureCreateValidateContract
+        validContract: InfrastructureCreateValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.create(infrastructureCreateMapper(contract));
+        return this.api.create(infrastructureCreateMapper(validContract));
     }
 
     update(
-        contract: InfrastructureUpdateValidateContract
+        validContract: InfrastructureUpdateValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.update(infrastructureUpdateMapper(contract));
+        return this.api.update(infrastructureUpdateMapper(validContract));
     }
 
     delete(
-        contract: InfrastructureDeleteValidateContract
+        validContract: InfrastructureDeleteValidateContract
     ): Observable<MessageResponseDto> {
-        return this.api.delete(infrastructureDeleteMapper(contract));
+        return this.api.delete(infrastructureDeleteMapper(validContract));
     }
 }

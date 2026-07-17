@@ -1,7 +1,7 @@
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 export type ReportType = 'zob' | 'cpo' | 'cps' | 'abi';
 export type ReportOperator = 'orange' | 'moov' | 'mtn';
-export type ReportStatus = 'in-progress' | 'completed';
+export type ReportStatus = 'processing' | 'finalization';
 export type NetworkTechnology = '2G' | '3G' | '4G' | '2G/3G/4G' | string;
 
 export interface NamedPlace {

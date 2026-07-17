@@ -22,13 +22,13 @@ export class InfrastructureTypeApi {
     private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
     readAll(
-        filter: InfrastructureTypeFilterApiDto,
+        dto: InfrastructureTypeFilterApiDto,
         page: string,
         options?: FetchOptions
     ): Observable<InfrastructureTypeResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}?page=${page}`;
 
-        const params = buildHttpParams(filter);
+        const params = buildHttpParams(dto);
         const context = new HttpContext().set(
             BYPASS_CACHE,
             options?.forceRefresh ?? false
@@ -40,39 +40,39 @@ export class InfrastructureTypeApi {
     }
 
     create(
-        apiDto: InfrastructureTypeCreateApiDto
+        dto: InfrastructureTypeCreateApiDto
     ): Observable<MessageResponseDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/store`;
-        const payload = buildHttpPayload(apiDto, []);
+        const payload = buildHttpPayload(dto, []);
         return this.http.post<MessageResponseDto>(url, payload);
     }
 
     update(
-        apiDto: InfrastructureTypeUpdateApiDto
+        dto: InfrastructureTypeUpdateApiDto
     ): Observable<MessageResponseDto> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.id}/update`;
-        const payload = buildHttpPayload(apiDto, ['id']);
+        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${dto.id}/update`;
+        const payload = buildHttpPayload(dto, ['id']);
         return this.http.post<MessageResponseDto>(url, payload);
     }
 
     delete(
-        apiDto: InfrastructureTypeDeleteApiDto
+        dto: InfrastructureTypeDeleteApiDto
     ): Observable<MessageResponseDto> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.uniq_id}/delete`;
+        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${dto.uniq_id}/delete`;
         return this.http.delete<MessageResponseDto>(url);
     }
 
     enable(
-        apiDto: InfrastructureTypeEnableApiDto
+        dto: InfrastructureTypeEnableApiDto
     ): Observable<MessageResponseDto> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.uniq_id}/enable`;
+        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${dto.uniq_id}/enable`;
         return this.http.put<MessageResponseDto>(url, {});
     }
 
     disable(
-        apiDto: InfrastructureTypeDisableApiDto
+        dto: InfrastructureTypeDisableApiDto
     ): Observable<MessageResponseDto> {
-        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${apiDto.uniq_id}/disable`;
+        const url = `${this.baseUrl}${ADMINISTRATIVE_INFRASTRUCTURE_ENDPOINTS.INFRASTRUCTURE_TYPE}/${dto.uniq_id}/disable`;
         return this.http.put<MessageResponseDto>(url, {});
     }
 }

@@ -13,9 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { InfrastructureTypeFacade } from '@presentation/pages/administrative-infrastructure/application/services/infrastructure-type/infrastructure-type.facade';
-import { FormValidators } from '@pages/administrative-infrastructure/domain/validators/form-validators';
+import { FormValidators } from '@pages/administrative-infrastructure/presentation/constants/form-validators.constants';
 import { InfrastructureTypeFormStore } from '@pages/administrative-infrastructure/presentation/store/infrastructure-type/infrastructure-type-form.store';
 import { InfrastructureTypeFormHelperService } from '@presentation/pages/administrative-infrastructure/presentation/features/infrastructure-type/infrastructure-type-form/infrastructure-type-form-helper.service';
+import { INFRASTRUCTURE_TYPE_FORM_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-form-keys.constant';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -77,6 +78,7 @@ export class InfrastructureTypeFormComponent implements OnInit {
     protected readonly isEditMode = this.store.isEditMode;
     protected readonly isCreateMode = this.store.isCreateMode;
     protected readonly loading = this.store.loading;
+    protected readonly KEYS = INFRASTRUCTURE_TYPE_FORM_KEYS;
 
     protected readonly loadingSubmit = computed(() => {
         return this.submitFacade.actionState() === 'loading';

@@ -2,11 +2,11 @@ import { InfrastructureTypeEnableApiDto } from '@pages/administrative-infrastruc
 import { InfrastructureTypeEnableValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-enable.validate-contract';
 
 export function infrastructureTypeEnableMapper(
-    contract: InfrastructureTypeEnableValidateContract
+    validContract: InfrastructureTypeEnableValidateContract
 ): InfrastructureTypeEnableApiDto {
     const prams = {} as InfrastructureTypeEnableApiDto;
-    if (contract.uniqId) {
-        prams.uniq_id = contract.uniqId;
+    if (validContract.uniqId) {
+        prams.uniq_id = validContract.uniqId;
     }
     return prams;
 }

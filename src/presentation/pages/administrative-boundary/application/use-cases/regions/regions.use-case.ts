@@ -1,12 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { RegionsDeleteDto } from '@pages/administrative-boundary/application/dto/regions/regions-delete.dto';
 import { RegionsFilterDto } from '@pages/administrative-boundary/application/dto/regions/regions-filter.dto';
-import { RegionsDeleteEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-delete.entity';
-import { RegionsFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-filter.entity';
 import { RegionsEntity } from '@pages/administrative-boundary/domain/entities/regions/regions.entity';
 import { RegionsRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-repository';
-import { RegionsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-delete.vo';
-import { RegionsFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-filter.vo';
+import { regionsDeleteVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-delete.vo';
+import { regionsFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-filter.vo';
 import { regionsCreateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-create.vo';
 import { regionsUpdateVo } from '@presentation/pages/administrative-boundary/domain/value-objects/regions/regions-update.vo';
 import { RegionsCreateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-create.contract';
@@ -29,11 +27,9 @@ export class RegionsUseCase {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<RegionsEntity>> {
-        return defer(() => {
-            const vo = RegionsFilterVo.fromDto(dto);
-            const entity = RegionsFilterEntity.fromVo(vo);
-            return this.repository.execute(entity, page, options);
-        });
+        return defer(() =>
+            this.repository.execute(regionsFilterVo(dto), page, options)
+        );
     }
 
     create(
@@ -49,10 +45,6 @@ export class RegionsUseCase {
     }
 
     delete(deleteDto: RegionsDeleteDto): Observable<SimpleResponseDto<void>> {
-        return defer(() => {
-            const vo = RegionsDeleteVo.fromDto(deleteDto);
-            const entity = RegionsDeleteEntity.fromVo(vo);
-            return this.repository.delete(entity);
-        });
+        return defer(() => this.repository.delete(regionsDeleteVo(deleteDto)));
     }
 }

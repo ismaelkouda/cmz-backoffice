@@ -61,6 +61,7 @@ import { provideToastr } from 'ngx-toastr';
 import { providePrimeNG } from 'primeng/config';
 import { provideInteractiveMap } from './pages/interactive-map/di/interactive-map.providers';
 import { provideAdministrativeInfrastructure } from './pages/administrative-infrastructure/di/administrative-infrastructure.providers';
+import { provideCoverageAreas } from '@pages/coverage-areas/di/coverage-areas.providers';
 
 const frenchLocale = {
     firstDayOfWeek: 1,
@@ -281,6 +282,8 @@ export const appConfig: ApplicationConfig = {
         ...provideSettingsSecurity(),
 
         ...provideAdministrativeInfrastructure(),
+
+        ...provideCoverageAreas(),
 
         ...historyProviders(),
     ],

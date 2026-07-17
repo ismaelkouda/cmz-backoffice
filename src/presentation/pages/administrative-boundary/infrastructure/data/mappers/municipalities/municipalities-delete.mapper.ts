@@ -1,12 +1,12 @@
-import { MunicipalitiesDeleteEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
+import { MunicipalitiesDeleteDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
 import { MunicipalitiesDeleteApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/municipalities/municipalities-delete-api.dto';
 
 export function municipalitiesDeleteMapper(
-    vo: MunicipalitiesDeleteEntity
+    dto: MunicipalitiesDeleteDto
 ): MunicipalitiesDeleteApiDto {
     const prams = {} as MunicipalitiesDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

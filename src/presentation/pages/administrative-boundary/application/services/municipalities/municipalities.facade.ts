@@ -49,16 +49,14 @@ export class MunicipalitiesFacade extends BaseFacade<
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        this.performFetch(filter, page, options);
+        this.executeQuery(filter, page, options);
         this.hasInitialized = true;
     }
 
     refresh(): void {
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        this.performFetch(filter, page, {
+        this.executeQuery(null, this.pageSubject.getValue(), {
             forceRefresh: true,
         });
     }
@@ -68,26 +66,40 @@ export class MunicipalitiesFacade extends BaseFacade<
         if (!filter) {
             return;
         }
-        const command = new MunicipalitiesQuery(
-            filter?.search,
-            filter?.region,
-            filter?.department,
-            filter?.startDate,
-            filter?.endDate
+        this.executeQuery(filter, page);
+    }
+
+    refreshWithLastFilterAndPage(): void {
+        this.executeQuery(
+            this.filterSubject.getValue(),
+            this.pageSubject.getValue(),
+            {
+                forceRefresh: true,
+            }
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+    }
+
+    private executeQuery(
+        filter: MunicipalitiesFilterDto | null,
+        page: string,
+        options?: FetchOptions
+    ): void {
+        const query = this.buildQuery(filter);
+        const fetch$ = this.filterBus.dispatch(query, page, options);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }
 
-    refreshWithLastFilterAndPage(): void {
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        if (filter) {
-            this.performFetch(filter, page, {
-                forceRefresh: true,
-            });
-        }
+    private buildQuery(
+        filter?: MunicipalitiesFilterDto | null
+    ): MunicipalitiesQuery {
+        return new MunicipalitiesQuery(
+            filter?.search ?? null,
+            filter?.region ?? null,
+            filter?.department ?? null,
+            filter?.startDate ?? null,
+            filter?.endDate ?? null
+        );
     }
 
     resetMemory(): void {
@@ -106,28 +118,6 @@ export class MunicipalitiesFacade extends BaseFacade<
             lastFetch: this.lastFetchTimestamp,
             hasData: this.itemsSubject.getValue() !== null,
         };
-    }
-
-    private performFetch(
-        filter: MunicipalitiesFilterDto | null,
-        page: string,
-        options?: FetchOptions
-    ): void {
-        const query = this.buildQueryFromFilter(filter);
-        const fetch$ = this.filterBus.dispatch(query, page, options);
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
-    }
-    private buildQueryFromFilter(
-        filter: MunicipalitiesFilterDto | null
-    ): MunicipalitiesQuery {
-        return new MunicipalitiesQuery(
-            filter?.search ?? null,
-            filter?.region ?? null,
-            filter?.department ?? null,
-            filter?.startDate ?? null,
-            filter?.endDate ?? null
-        );
     }
 
     create(dto: MunicipalitiesCreateDto): void {

@@ -13,9 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { InfrastructureFacade } from '@presentation/pages/administrative-infrastructure/application/services/infrastructure/infrastructure.facade';
-import { FormValidators } from '@pages/administrative-infrastructure/domain/validators/form-validators';
+import { FormValidators } from '@pages/administrative-infrastructure/presentation/constants/form-validators.constants';
 import { InfrastructureFormStore } from '@pages/administrative-infrastructure/presentation/store/infrastructure/infrastructure-form.store';
 import { InfrastructureFormHelperService } from '@presentation/pages/administrative-infrastructure/presentation/features/infrastructure/infrastructure-form/infrastructure-form-helper.service';
+import { INFRASTRUCTURE_FORM_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure/infrastructure-form-keys.constant';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -87,6 +88,7 @@ export class InfrastructureFormComponent implements OnInit {
     protected readonly isEditMode = this.store.isEditMode;
     protected readonly isCreateMode = this.store.isCreateMode;
     protected readonly loading = this.store.loading;
+    protected readonly KEYS = INFRASTRUCTURE_FORM_KEYS;
 
     protected readonly loadingSubmit = computed(() => {
         return this.submitFacade.actionState() === 'loading';

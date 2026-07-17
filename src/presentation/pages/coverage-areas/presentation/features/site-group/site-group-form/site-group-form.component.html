@@ -1,0 +1,235 @@
+<main class="container-fluid form-user-container" role="main">
+    <section class="row form-user-row">
+        <article class="col-sm-12 form-user">
+            <app-breadcrumb />
+
+            <section class="card form-user-card">
+                <div class="card-body form-user-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleMode()"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        
+                        <div class="d-flex align-items-center gap-2">
+                            @if (!isDetailsMode()) {
+                            <button
+                                pButton
+                                type="submit"
+                                (click)="onSubmit()"
+                                [disabled]="form.invalid || loadingSubmit()"
+                            >
+                                @if (!loadingSubmit()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ 'COMMON.SAVE' | translate }}
+                            </button>
+                            }
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
+                        
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'COVERAGE_AREAS.SITE_GROUP.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'COVERAGE_AREAS.SITE_GROUP.FORM.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="code"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.SITE_GROUP.FORM.CODE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="code"
+                                                        type="text"
+                                                        formControlName="code"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.SITE_GROUP.FORM.CODE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('code')
+                                                                ?.invalid &&
+                                                            form.get('code')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('code')
+                                                            ?.invalid &&
+                                                        form.get('code')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'code'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <label
+                                                        for="name"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.SITE_GROUP.FORM.NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="name"
+                                                        type="text"
+                                                        formControlName="name"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.SITE_GROUP.FORM.NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('name')
+                                                                ?.invalid &&
+                                                            form.get('name')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('name')
+                                                            ?.invalid &&
+                                                        form.get('name')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'name'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label
+                                                        for="description"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.SITE_GROUP.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}</label
+                                                    >
+                                                    <textarea
+                                                        class="form-input"
+                                                        id="description"
+                                                        rows="3"
+                                                        formControlName="description"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.SITE_GROUP.FORM.DESCRIPTION_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    ></textarea>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        @if (!isDetailsMode()) {
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.CLOSE' | translate
+                                                }}"
+                                                styleClass="p-button-text p-button-secondary"
+                                                (click)="navigateToBack()"
+                                                [attr.aria-label]="
+                                                    'COMMON.CLOSE' | translate
+                                                "
+                                            >
+                                            </p-button>
+
+                                            <button
+                                                pButton
+                                                type="submit"
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
+                                            >
+                                                @if (!loadingSubmit()) {
+                                                    <i class="pi pi-check"></i>
+                                                } @else {
+                                                    <span
+                                                        class="spinner-border spinner-border-sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    ></span>
+                                                }
+                                                {{ 'COMMON.SAVE' | translate }}
+                                            </button>
+                                        </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

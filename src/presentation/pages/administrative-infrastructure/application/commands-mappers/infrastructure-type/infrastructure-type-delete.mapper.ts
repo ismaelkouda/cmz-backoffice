@@ -1,9 +1,9 @@
 import { InfrastructureTypeDeleteCommand } from '@presentation/pages/administrative-infrastructure/application/commands/infrastructure-type/infrastructure-type-delete.command';
-import { InfrastructureTypeDeleteDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-delete.dto';
+import { InfrastructureTypeDeleteContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-delete.contract';
 
 export function infrastructureTypeDeleteCommandMapper(
     command: InfrastructureTypeDeleteCommand
-): InfrastructureTypeDeleteDto {
+): InfrastructureTypeDeleteContract {
     return {
         uniqId: command.uniqId,
     };
