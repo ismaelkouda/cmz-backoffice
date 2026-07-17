@@ -8,7 +8,7 @@ import { ChatbotCreateApiDto } from '@shared/components/management/infrastructur
 import { ChatbotFilterApiDto } from '@shared/components/management/infrastructure/api/dto/chatbot/chatbot-filter-api.dto';
 import { ChatbotResponseApiDto } from '@shared/components/management/infrastructure/api/dto/chatbot/chatbot-response-api.dto';
 import { ChatbotUpdateApiDto } from '@shared/components/management/infrastructure/api/dto/chatbot/chatbot-update-api.dto';
-import { MANAGEMENT_BASE_URL } from '@shared/components/management/infrastructure/api/management.base-url';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { MANAGEMENT_ENDPOINTS } from '@shared/components/management/infrastructure/api/management.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ChatbotApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(MANAGEMENT_BASE_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     readAll(
         filter: ChatbotFilterApiDto,

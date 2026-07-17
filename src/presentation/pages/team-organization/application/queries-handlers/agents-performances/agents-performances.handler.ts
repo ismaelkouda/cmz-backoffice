@@ -1,3 +1,4 @@
+import { agentsPerformancesQueryMapper } from '@pages/team-organization/application/queries-mappers/agents-performances/agents-performances.mapper';
 import { Injectable, inject } from '@angular/core';
 import { AgentsPerformancesQuery } from '@pages/team-organization/application/queries/agents-performances/agents-performances.query';
 import { AgentsPerformancesUseCase } from '@pages/team-organization/application/use-cases/agents-performances/agents-performances.use-case';
@@ -16,13 +17,7 @@ export class AgentsPerformancesHandler {
         options?: FetchOptions
     ): Observable<Paginate<AgentsPerformancesEntity>> {
         return this.useCase.execute(
-            {
-                search: query.search,
-                member: query.member,
-                isAchieved: query.isAchieved,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
+            agentsPerformancesQueryMapper(query),
             page,
             options
         );

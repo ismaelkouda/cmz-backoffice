@@ -1,10 +1,10 @@
-import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
+import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
 import { NewsDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-delete-api.dto';
 
-export function newsDeleteMapper(vo: NewsDeleteEntity): NewsDeleteApiDto {
+export function newsDeleteMapper(dto: NewsDeleteDto): NewsDeleteApiDto {
     const prams = {} as NewsDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

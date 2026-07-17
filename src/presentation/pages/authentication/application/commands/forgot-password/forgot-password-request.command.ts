@@ -1,3 +1,3 @@
 export class ForgotPasswordRequestCommand {
-    constructor(public readonly email: string) {}
+    constructor(public readonly email: string | undefined) {}
 }

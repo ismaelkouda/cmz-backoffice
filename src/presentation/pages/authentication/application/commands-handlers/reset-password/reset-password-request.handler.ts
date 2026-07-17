@@ -1,3 +1,4 @@
+import { resetPasswordRequestCommandMapper } from '@presentation/pages/authentication/application/commands-mappers/reset-password/reset-password-request.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ResetPasswordResponseEntity } from '@presentation/pages/authentication/domain/entities/reset-password/reset-password-response.entity';
 import { ResetPasswordRequestCommand } from '@presentation/pages/authentication/application/commands/reset-password/reset-password-request.command';
@@ -11,9 +12,6 @@ export class ResetPasswordRequestHandler {
     execute(
         command: ResetPasswordRequestCommand
     ): Observable<ResetPasswordResponseEntity> {
-        return this.useCase.execute({
-            password: command.password,
-            confirmPassword: command.confirmPassword,
-        });
+        return this.useCase.execute(resetPasswordRequestCommandMapper(command));
     }
 }

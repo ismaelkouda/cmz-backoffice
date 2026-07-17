@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
-import { DASHBOARD_BASE_URL } from '@pages/dashboard/infrastructure/api/dashboard.base-url';
 import { DASHBOARD_ENDPOINTS } from '@pages/dashboard/infrastructure/api/dashboard.endpoints';
 import { DashboardFilterApiDto } from '@pages/dashboard/infrastructure/api/dto/dashboard-filter-api.dto';
 import { DashboardResponseApiDto } from '@pages/dashboard/infrastructure/api/dto/dashboard-response-api.dto';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DashboardApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(DASHBOARD_BASE_URL);
+    private readonly baseUrl: string = inject(REPORT_API_URL);
 
     execute(
         apiDto: DashboardFilterApiDto,

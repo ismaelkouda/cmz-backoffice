@@ -1,3 +1,4 @@
+import { newsUnpublishCommandMapper } from '@pages/content-management/application/commands-mappers/news/news-unpublish.mapper';
 import { Injectable, inject } from '@angular/core';
 import { NewsUnpublishCommand } from '@pages/content-management/application/commands/news/news-unpublish.command';
 import { NewsUseCase } from '@pages/content-management/application/use-cases/news/news.use-case';
@@ -11,8 +12,6 @@ export class NewsUnpublishHandler {
     execute(
         command: NewsUnpublishCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.unpublish({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.unpublish(newsUnpublishCommandMapper(command));
     }
 }

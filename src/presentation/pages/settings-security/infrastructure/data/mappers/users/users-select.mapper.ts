@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { UsersSelectEntity } from '@pages/settings-security/domain/entities/users/users-select.entity';
-import { UsersSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-select-api.dto';
+import { UsersSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

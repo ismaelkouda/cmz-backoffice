@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { TeamsCreateEntity } from '@pages/team-organization/domain/entities/teams/teams-create.entity';
-import { TeamsDeleteEntity } from '@pages/team-organization/domain/entities/teams/teams-delete.entity';
-import { TeamsDisableEntity } from '@pages/team-organization/domain/entities/teams/teams-disable.entity';
-import { TeamsEnableEntity } from '@pages/team-organization/domain/entities/teams/teams-enable.entity';
-import { TeamsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-filter.entity';
-import { TeamsUpdateEntity } from '@pages/team-organization/domain/entities/teams/teams-update.entity';
+import { TeamsDeleteDto } from '@pages/team-organization/application/dto/teams/teams-delete.dto';
+import { TeamsDisableDto } from '@pages/team-organization/application/dto/teams/teams-disable.dto';
+import { TeamsEnableDto } from '@pages/team-organization/application/dto/teams/teams-enable.dto';
+import { TeamsCreateValidateContract } from '@pages/team-organization/domain/contracts/teams/teams-create.validate-contract';
+import { TeamsUpdateValidateContract } from '@pages/team-organization/domain/contracts/teams/teams-update.validate-contract';
 import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
 import { TeamsRepository } from '@pages/team-organization/domain/repositories/teams/teams-repository';
+import { TeamsFilterVo } from '@pages/team-organization/domain/value-objects/teams/teams-filter.vo';
 import { TeamsCreateMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-create.mapper';
 import { teamsDeleteMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-delete.mapper';
 import { teamsDisableMapper } from '@pages/team-organization/infrastructure/data/mappers/teams/teams-disable.mapper';
@@ -31,35 +31,39 @@ export class TeamsRepositoryImpl implements TeamsRepository {
     private readonly mapperFilter = inject(TeamsFilterMapper);
 
     readAll(
-        entity: TeamsFilterEntity,
+        filter: TeamsFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TeamsEntity>> {
-        const paramsDto = this.mapperFilter.map(entity);
+        const paramsDto = this.mapperFilter.map(filter);
         return this.api
             .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(payload: TeamsCreateEntity): Observable<SimpleResponseDto<void>> {
+    create(
+        payload: TeamsCreateValidateContract
+    ): Observable<SimpleResponseDto<void>> {
         const paramsDto = TeamsCreateMapper(payload);
         return this.api.create(paramsDto);
     }
 
-    update(payload: TeamsUpdateEntity): Observable<SimpleResponseDto<void>> {
+    update(
+        payload: TeamsUpdateValidateContract
+    ): Observable<SimpleResponseDto<void>> {
         const paramsDto = teamsUpdateMapper(payload);
         return this.api.update(paramsDto);
     }
 
-    delete(entity: TeamsDeleteEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(teamsDeleteMapper(entity));
+    delete(dto: TeamsDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(teamsDeleteMapper(dto));
     }
 
-    enable(entity: TeamsEnableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.enable(teamsEnableMapper(entity));
+    enable(dto: TeamsEnableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.enable(teamsEnableMapper(dto));
     }
 
-    disable(entity: TeamsDisableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.disable(teamsDisableMapper(entity));
+    disable(dto: TeamsDisableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.disable(teamsDisableMapper(dto));
     }
 }

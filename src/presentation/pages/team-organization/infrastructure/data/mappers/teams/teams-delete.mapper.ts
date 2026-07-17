@@ -1,10 +1,10 @@
-import { TeamsDeleteEntity } from '@pages/team-organization/domain/entities/teams/teams-delete.entity';
+import { TeamsDeleteDto } from '@pages/team-organization/application/dto/teams/teams-delete.dto';
 import { TeamsDeleteApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-delete-api.dto';
 
-export function teamsDeleteMapper(vo: TeamsDeleteEntity): TeamsDeleteApiDto {
+export function teamsDeleteMapper(dto: TeamsDeleteDto): TeamsDeleteApiDto {
     const prams = {} as TeamsDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

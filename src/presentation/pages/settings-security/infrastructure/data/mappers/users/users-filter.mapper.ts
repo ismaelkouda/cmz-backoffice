@@ -1,22 +1,20 @@
-import { UsersFilterEntity } from '@pages/settings-security/domain/entities/users/users-filter.entity';
+import { UsersFilterVo } from '@pages/settings-security/domain/value-objects/users/users-filter.vo';
 import { UsersFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-filter-api.dto';
 
-export function usersFilterMapper(
-    entity: UsersFilterEntity
-): UsersFilterApiDto {
+export function usersFilterMapper(vo: UsersFilterVo): UsersFilterApiDto {
     const params: UsersFilterApiDto = {} as UsersFilterApiDto;
 
-    if (entity.search) {
-        params.search = entity.search;
+    if (vo.search) {
+        params.search = vo.search;
     }
-    if (entity.profile) {
-        params.profile = entity.profile;
+    if (vo.profile) {
+        params.profile = vo.profile;
     }
-    if (entity.role) {
-        params.role = entity.role;
+    if (vo.role) {
+        params.role = vo.role;
     }
-    if (entity.isActive !== undefined) {
-        params.is_active = !!entity.isActive;
+    if (vo.isActive !== undefined) {
+        params.is_active = !!vo.isActive;
     }
 
     return params;

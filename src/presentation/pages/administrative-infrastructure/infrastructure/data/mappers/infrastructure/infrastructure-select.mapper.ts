@@ -1,31 +1,22 @@
 import { Injectable } from '@angular/core';
-import { InfrastructureSelectEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-select.entity';
-import { InfrastructureSelectItemApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-select-api.dto';
+import { InfrastructureSelectItemApiDto } from '@presentation/pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
 export class InfrastructureSelectMapper extends ArrayResponseMapper<
-    InfrastructureSelectEntity,
+    SelectOption,
     InfrastructureSelectItemApiDto
 > {
-    private readonly entityCache = new Map<
-        string,
-        InfrastructureSelectEntity
-    >();
-
     protected mapItemFromDto(
         dto: InfrastructureSelectItemApiDto
-    ): InfrastructureSelectEntity {
+    ): SelectOption {
         MapperUtils.validateDto(dto, { required: ['id'] });
-        const cacheKey = `dto:${dto.id}`;
-        const cached = this.entityCache.get(cacheKey);
 
-        const entity = cached
-            ? cached.with(dto)
-            : InfrastructureSelectEntity.fromDto(dto);
-
-        this.entityCache.set(cacheKey, entity);
-        return entity;
+        return {
+            label: dto.name,
+            value: dto.id,
+        };
     }
 }

@@ -1,3 +1,4 @@
+import { homeFindOneQueryMapper } from '@pages/content-management/application/queries-mappers/home/home-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { HomeFindOneQuery } from '@pages/content-management/application/queries/home/home-find-one.query';
 import { HomeFindOneUseCase } from '@pages/content-management/application/use-cases/home/home-find-one.use-case';
@@ -13,11 +14,6 @@ export class HomeFindOneHandler {
         command: HomeFindOneQuery,
         options?: FetchOptions
     ): Observable<HomeFindOneEntity> {
-        return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
-            options
-        );
+        return this.useCase.execute(homeFindOneQueryMapper(command), options);
     }
 }

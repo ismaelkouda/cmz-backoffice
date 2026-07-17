@@ -1,41 +1,18 @@
-import { DepartmentsUpdateDto } from '@pages/administrative-boundary/application/dto/departments/departments-update.dto';
+import { DepartmentsUpdateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-update.contract';
+import { DepartmentsUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-update.validate-contract';
+import { validateDepartmentsUpdate } from '@presentation/pages/administrative-boundary/domain/validators/departments/departments-update.validator';
 
-export class DepartmentsUpdateVo {
-    public readonly uniqId: string;
-    public readonly code: string;
-    public readonly population: number;
-    public readonly infrastructure: number;
-    public readonly name: string;
-    public readonly region: string;
-    public readonly description: string;
-
-    constructor(props: {
-        uniqId: string;
-        code: string;
-        population: number;
-        infrastructure: number;
-        name: string;
-        region: string;
-        description: string;
-    }) {
-        this.uniqId = props.uniqId;
-        this.code = props.code;
-        this.population = props.population;
-        this.infrastructure = props.infrastructure;
-        this.name = props.name;
-        this.region = props.region;
-        this.description = props.description;
-    }
-
-    static fromDto(dto: DepartmentsUpdateDto): DepartmentsUpdateVo {
-        return new DepartmentsUpdateVo({
-            uniqId: dto.uniqId,
-            code: dto.code,
-            population: dto.population,
-            infrastructure: dto.infrastructure,
-            name: dto.name,
-            region: dto.region,
-            description: dto.description,
-        });
-    }
+export function departmentsUpdateVo(
+    contract: DepartmentsUpdateContract
+): DepartmentsUpdateValidateContract {
+    validateDepartmentsUpdate(contract);
+    return {
+        uniqId: contract.uniqId,
+        code: contract.code,
+        population: contract.population,
+        infrastructure: contract.infrastructure,
+        name: contract.name,
+        region: contract.region,
+        description: contract.description,
+    };
 }

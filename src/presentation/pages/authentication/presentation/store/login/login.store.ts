@@ -1,11 +1,12 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { LoginFacade } from '@presentation/pages/authentication/application/facade/login/login.facade';
+import { LoginFacade } from '@presentation/pages/authentication/application/services/login/login.facade';
 import { LoginFormControl } from '@presentation/pages/authentication/presentation/store/login/login-form.control';
 import { LoginFormValue } from '@presentation/pages/authentication/presentation/store/login/login-form.value';
 import { LOGIN_FORM_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/login/login-form-error-messages.constant';
 import { LOGIN_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/login/login-form-keys.constant';
+import { FormValidators } from '@presentation/pages/authentication/presentation/constants/form-validators.constants';
 import { getControlError } from '@presentation/pages/authentication/presentation/helpers/authentication-form-errors.helper';
 import { startWith } from 'rxjs';
 
@@ -16,12 +17,16 @@ export class LoginStore {
     public readonly loading = this.facade.loading;
     public readonly error = this.facade.error;
     public readonly session = this.facade.items;
+    public readonly VALIDATION = FormValidators;
 
     public readonly form: FormGroup<LoginFormControl> =
         this.fb.nonNullable.group({
             [LOGIN_FORM_KEYS.EMAIL]: [
                 '',
-                [Validators.required, Validators.email],
+                [
+                    Validators.required,
+                    Validators.pattern(FormValidators.EMAIL.PATTERN),
+                ],
             ],
             [LOGIN_FORM_KEYS.PASSWORD]: ['', [Validators.required]],
         });

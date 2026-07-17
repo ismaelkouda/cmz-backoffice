@@ -1,3 +1,4 @@
+import { slideFindOneQueryMapper } from '@pages/content-management/application/queries-mappers/slide/slide-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { SlideFindOneQuery } from '@pages/content-management/application/queries/slide/slide-find-one.query';
 import { SlideFindOneUseCase } from '@pages/content-management/application/use-cases/slide/slide-find-one.use-case';
@@ -13,11 +14,6 @@ export class SlideFindOneHandler {
         command: SlideFindOneQuery,
         options?: FetchOptions
     ): Observable<SlideFindOneEntity> {
-        return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
-            options
-        );
+        return this.useCase.execute(slideFindOneQueryMapper(command), options);
     }
 }

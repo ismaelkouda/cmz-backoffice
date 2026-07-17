@@ -1,18 +1,13 @@
-import { LegalNoticeCreateDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-create.dto';
+import { LegalNoticeCreateContract } from '@pages/content-management/domain/contracts/legal-notice/legal-notice-create.contract';
+import { LegalNoticeCreateValidateContract } from '@pages/content-management/domain/contracts/legal-notice/legal-notice-create.validate-contract';
+import { validateLegalNoticeCreate } from '@pages/content-management/domain/validators/legal-notice/legal-notice-create.validator';
 
-export class LegalNoticeCreateVo {
-    public readonly version: string;
-    public readonly content: string;
-
-    constructor(props: { version: string; content: string }) {
-        this.version = props.version;
-        this.content = props.content;
-    }
-
-    static fromDto(dto: LegalNoticeCreateDto): LegalNoticeCreateVo {
-        return new LegalNoticeCreateVo({
-            version: dto.version,
-            content: dto.content,
-        });
-    }
+export function legalNoticeCreateVo(
+    contract: LegalNoticeCreateContract
+): LegalNoticeCreateValidateContract {
+    validateLegalNoticeCreate(contract);
+    return {
+        version: contract.version,
+        content: contract.content,
+    };
 }

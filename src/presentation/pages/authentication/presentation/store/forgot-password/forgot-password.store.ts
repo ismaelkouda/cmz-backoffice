@@ -1,11 +1,12 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ForgotPasswordFacade } from '@presentation/pages/authentication/application/facade/forgot-password/forgot-password.facade';
+import { ForgotPasswordFacade } from '@presentation/pages/authentication/application/services/forgot-password/forgot-password.facade';
 import { ForgotPasswordFormControl } from '@presentation/pages/authentication/presentation/store/forgot-password/forgot-password-form.control';
 import { ForgotPasswordFormValue } from '@presentation/pages/authentication/presentation/store/forgot-password/forgot-password-form.value';
 import { FORGOT_PASSWORD_FORM_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form-error-messages.constant';
 import { FORGOT_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form-keys.constant';
+import { FormValidators } from '@presentation/pages/authentication/presentation/constants/form-validators.constants';
 import { getControlError } from '@presentation/pages/authentication/presentation/helpers/authentication-form-errors.helper';
 import { startWith } from 'rxjs';
 
@@ -17,12 +18,16 @@ export class ForgotPasswordStore {
     public readonly loading = this.facade.loading;
     public readonly error = this.facade.error;
     public readonly session = this.facade.items;
+    public readonly VALIDATION = FormValidators;
 
     public readonly form: FormGroup<ForgotPasswordFormControl> =
         this.fb.nonNullable.group({
             [FORGOT_PASSWORD_FORM_KEYS.EMAIL]: [
                 '',
-                [Validators.required, Validators.email],
+                [
+                    Validators.required,
+                    Validators.pattern(FormValidators.EMAIL.PATTERN),
+                ],
             ],
         });
 

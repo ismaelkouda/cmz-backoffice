@@ -1,3 +1,4 @@
+import { regionsDeleteCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/regions/regions-delete.mapper';
 import { inject, Injectable } from '@angular/core';
 import { RegionsDeleteCommand } from '@pages/administrative-boundary/application/commands/regions/regions-delete.command';
 import { RegionsUseCase } from '@pages/administrative-boundary/application/use-cases/regions/regions.use-case';
@@ -11,8 +12,6 @@ export class RegionsDeleteHandler {
     execute(
         command: RegionsDeleteCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(regionsDeleteCommandMapper(command));
     }
 }

@@ -1,16 +1,15 @@
-import { ResetPasswordRequestProps } from '@presentation/pages/authentication/domain/props/reset-password/reset-password-request.props';
-import { ResetPasswordRequestDto } from '@presentation/pages/authentication/application/dto/reset-password/reset-password-request.dto';
-import { validateResetPasswordRequest } from '@presentation/pages/authentication/application/validators/reset-password/reset-password-request.validator';
+import { ResetPasswordRequestContract } from '@presentation/pages/authentication/domain/contracts/reset-password/reset-password-request.contract';
+import { ResetPasswordRequestValidateContract } from '@presentation/pages/authentication/domain/contracts/reset-password/reset-password-request.validate-contract';
+import { validateResetPasswordRequest } from '@presentation/pages/authentication/domain/validators/reset-password/reset-password-request.validator';
 
-export class ResetPasswordRequestVo {
-    private constructor(public readonly props: ResetPasswordRequestProps) {}
-
-    static fromDto(dto: ResetPasswordRequestDto): ResetPasswordRequestVo {
-        validateResetPasswordRequest(dto.password, dto.confirmPassword);
-
-        return new ResetPasswordRequestVo({
-            password: dto.password,
-            confirmPassword: dto.confirmPassword,
-        });
-    }
+export function resetPasswordRequestVo(
+    contract: ResetPasswordRequestContract
+): ResetPasswordRequestValidateContract {
+    validateResetPasswordRequest(contract);
+    return {
+        token: contract.token,
+        email: contract.email,
+        password: contract.password,
+        confirmPassword: contract.confirmPassword,
+    };
 }

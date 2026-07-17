@@ -1,3 +1,4 @@
+import { profilesPermissionsUsersQueryMapper } from '@pages/settings-security/application/queries-mappers/profiles-permissions/profiles-permissions-users.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsUsersQuery } from '@pages/settings-security/application/queries/profiles-permissions/profiles-permissions-users.query';
 import { ProfilesPermissionsUsersUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions-users.use-case';
@@ -16,12 +17,7 @@ export class ProfilesPermissionsUsersHandler {
         options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsUsersEntity>> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-                search: command.search,
-                userEmail: command.userEmail,
-                phone: command.phone,
-            },
+            profilesPermissionsUsersQueryMapper(command),
             page,
             options
         );

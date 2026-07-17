@@ -1,21 +1,21 @@
-import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
 import { Status } from '@pages/content-management/domain/enums/news/news-status.enum';
+import { NewsFilterVo } from '@pages/content-management/domain/value-objects/news/news-filter.vo';
 import { NewsFilterApiDto } from '@pages/content-management/infrastructure/api/dto/news/news-filter-api.dto';
 
-export function newsFilterMapper(entity: NewsFilterEntity): NewsFilterApiDto {
+export function newsFilterMapper(vo: NewsFilterVo): NewsFilterApiDto {
     const params: NewsFilterApiDto = {} as NewsFilterApiDto;
 
-    if (entity.search) {
-        params.search = entity.search;
+    if (vo.search) {
+        params.search = vo.search;
     }
-    if (entity.status) {
-        params.is_published = entity.status === Status.PUBLISH;
+    if (vo.status) {
+        params.is_published = vo.status === Status.PUBLISH;
     }
-    if (entity.startDate) {
-        params.start_date = entity.startDate;
+    if (vo.startDate) {
+        params.start_date = vo.startDate;
     }
-    if (entity.endDate) {
-        params.end_date = entity.endDate;
+    if (vo.endDate) {
+        params.end_date = vo.endDate;
     }
 
     return params;

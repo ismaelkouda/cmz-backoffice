@@ -40,7 +40,6 @@ export class InfrastructureFilterStore {
             position: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
-
             startDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),

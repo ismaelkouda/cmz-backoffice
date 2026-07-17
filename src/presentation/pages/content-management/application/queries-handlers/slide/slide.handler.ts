@@ -1,3 +1,4 @@
+import { slideQueryMapper } from '@pages/content-management/application/queries-mappers/slide/slide.mapper';
 import { Injectable, inject } from '@angular/core';
 import { SlideQuery } from '@pages/content-management/application/queries/slide/slide.query';
 import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
@@ -15,16 +16,6 @@ export class SlideHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<SlideEntity>> {
-        return this.useCase.execute(
-            {
-                search: command.search,
-                platforms: command.platforms,
-                status: command.status,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(slideQueryMapper(command), page, options);
     }
 }

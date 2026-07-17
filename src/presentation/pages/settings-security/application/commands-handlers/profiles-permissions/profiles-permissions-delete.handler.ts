@@ -1,3 +1,4 @@
+import { profilesPermissionsDeleteCommandMapper } from '@pages/settings-security/application/commands-mappers/profiles-permissions/profiles-permissions-delete.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsDeleteCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-delete.command';
 import { ProfilesPermissionsUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions.use-case';
@@ -11,8 +12,8 @@ export class ProfilesPermissionsDeleteHandler {
     execute(
         command: ProfilesPermissionsDeleteCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(
+            profilesPermissionsDeleteCommandMapper(command)
+        );
     }
 }

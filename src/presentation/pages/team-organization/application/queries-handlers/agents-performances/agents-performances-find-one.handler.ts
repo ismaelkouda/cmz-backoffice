@@ -1,3 +1,4 @@
+import { agentsPerformancesFindOneQueryMapper } from '@pages/team-organization/application/queries-mappers/agents-performances/agents-performances-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { AgentsPerformancesFindOneQuery } from '@pages/team-organization/application/queries/agents-performances/agents-performances-find-one.query';
 import { AgentsPerformancesFindOneUseCase } from '@pages/team-organization/application/use-cases/agents-performances/agents-performances-find-one.use-case';
@@ -16,14 +17,7 @@ export class AgentsPerformancesFindOneHandler {
         options?: FetchOptions
     ): Observable<Paginate<AgentsPerformancesFindOneEntity>> {
         return this.useCase.execute(
-            {
-                uniqId: query.uniqId,
-                search: query.search,
-                reportType: query.reportType,
-                operators: query.operators,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
+            agentsPerformancesFindOneQueryMapper(query),
             page,
             options
         );

@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { AllFilterApiDto } from '@pages/processing/infrastructure/api/dto/all/all-filter-api.dto';
 import { AllResponseApiDto } from '@pages/processing/infrastructure/api/dto/all/all-response-api.dto';
-import { PROCESSING_BASE_URL } from '@pages/processing/infrastructure/api/processing.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { PROCESSING_ENDPOINTS } from '@pages/processing/infrastructure/api/processing.endpoints';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AllApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(PROCESSING_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     execute(
         filter: AllFilterApiDto,

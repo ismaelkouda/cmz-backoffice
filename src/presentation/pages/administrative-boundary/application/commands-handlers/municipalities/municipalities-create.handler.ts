@@ -1,3 +1,4 @@
+import { municipalitiesCreateCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/municipalities/municipalities-create.mapper';
 import { inject, Injectable } from '@angular/core';
 import { MunicipalitiesCreateCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-create.command';
 import { MunicipalitiesUseCase } from '@pages/administrative-boundary/application/use-cases/municipalities/municipalities.use-case';
@@ -11,14 +12,6 @@ export class MunicipalitiesCreateHandler {
     execute(
         command: MunicipalitiesCreateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            code: command.code,
-            population: command.population,
-            infrastructure: command.infrastructure,
-            name: command.name,
-            region: command.region,
-            description: command.description,
-            department: command?.department,
-        });
+        return this.useCase.create(municipalitiesCreateCommandMapper(command));
     }
 }

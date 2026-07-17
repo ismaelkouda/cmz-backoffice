@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HomeUpdateEntity } from '@pages/content-management/domain/entities/home/home-update.entity';
+import { HomeUpdateProps } from '@pages/content-management/domain/interfaces/home/home-update-props.interface';
 import { HomeUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-update-api.dto';
 import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 import { PlatformMapper } from '@shared/data/mappers/platform.mapper';
@@ -9,46 +9,46 @@ export class HomeUpdateMapper {
     private readonly platformMapper = inject(PlatformMapper);
     private readonly apiDateMapper = inject(ApiDateMapper);
 
-    mapEntityToApi(entity: HomeUpdateEntity): HomeUpdateApiDto {
+    mapEntityToApi(props: HomeUpdateProps): HomeUpdateApiDto {
         const params: HomeUpdateApiDto = {} as HomeUpdateApiDto;
 
-        if (entity.uniqId) {
-            params.uniq_id = entity.uniqId;
+        if (props.uniqId) {
+            params.uniq_id = props.uniqId;
         }
 
-        if (entity.image) {
-            params.image_file = entity.image;
+        if (props.image) {
+            params.image_file = props.image;
         }
-        if (entity.period.start) {
+        if (props.period.start) {
             params.start_date = this.apiDateMapper.toDateApi(
-                entity.period.start
+                props.period.start
             );
         }
-        if (entity.period.end) {
-            params.end_date = this.apiDateMapper.toDateApi(entity.period.end);
+        if (props.period.end) {
+            params.end_date = this.apiDateMapper.toDateApi(props.period.end);
         }
-        if (entity.title) {
-            params.title = entity.title;
+        if (props.title) {
+            params.title = props.title;
         }
-        if (entity.platforms.length > 0) {
-            params.platforms = entity.platforms.map((p) =>
+        if (props.platforms.length > 0) {
+            params.platforms = props.platforms.map((p) =>
                 this.platformMapper.mapStringToDto(p)
             );
         }
-        if (entity.title) {
-            params.title = entity.title;
+        if (props.title) {
+            params.title = props.title;
         }
-        if (entity.resume) {
-            params.resume = entity.resume;
+        if (props.resume) {
+            params.resume = props.resume;
         }
-        if (entity.content) {
-            params.content = entity.content;
+        if (props.content) {
+            params.content = props.content;
         }
-        if (entity.buttonLabel) {
-            params.button_label = entity.buttonLabel;
+        if (props.buttonLabel) {
+            params.button_label = props.buttonLabel;
         }
-        if (entity.buttonUrl) {
-            params.button_url = entity.buttonUrl;
+        if (props.buttonUrl) {
+            params.button_url = props.buttonUrl;
         }
 
         return params;

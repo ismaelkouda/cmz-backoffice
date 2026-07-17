@@ -1,30 +1,25 @@
 import { inject, Injectable } from '@angular/core';
-import { InfrastructureTypeCreateDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-create.dto';
-import { InfrastructureTypeDeleteDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-delete.dto';
-import { InfrastructureTypeDisableDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-disable.dto';
-import { InfrastructureTypeEnableDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-enable.dto';
-import { InfrastructureTypeFilterDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-filter.dto';
-import { InfrastructureTypeUpdateDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-update.dto';
-import { InfrastructureTypeCreateEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-create.entity';
-import { InfrastructureTypeDeleteEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-delete.entity';
-import { InfrastructureTypeDisableEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-disable.entity';
-import { InfrastructureTypeEnableEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-enable.entity';
-import { InfrastructureTypeFilterEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-filter.entity';
-import { InfrastructureTypeUpdateEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-update.entity';
 import { InfrastructureTypeEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type.entity';
-import { InfrastructureTypeRepository } from '@presentation/pages/administrative-infrastructure/domain/repositories/infrastructure-type/infrastructure-type-repository';
-import { InfrastructureTypeCreateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-create.vo';
-import { InfrastructureTypeDeleteVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-delete.vo';
-import { InfrastructureTypeDisableVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-disable.vo';
-import { InfrastructureTypeEnableVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-enable.vo';
-import { InfrastructureTypeFilterVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-filter.vo';
-import { InfrastructureTypeUpdateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-update.vo';
+import { InfrastructureTypeCreateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-create.contract';
+import { InfrastructureTypeUpdateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-update.contract';
+import { InfrastructureTypeRepository } from '@presentation/pages/administrative-infrastructure/domain/repositories/infrastructure-type/infrastructure-type.repository';
+import { infrastructureTypeCreateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-create.vo';
+import { infrastructureTypeDeleteVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-delete.vo';
+import { infrastructureTypeDisableVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-disable.vo';
+import { infrastructureTypeEnableVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-enable.vo';
+import { infrastructureTypeFilterVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-filter.vo';
+import { infrastructureTypeUpdateVo } from '@presentation/pages/administrative-infrastructure/domain/value-objects/infrastructure-type/infrastructure-type-update.vo';
+import { InfrastructureTypeFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-filter.contract';
 import {
     Paginate,
-    SimpleResponseDto,
+    MessageResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
+import { InfrastructureTypeDeleteContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-delete.contract';
+import { InfrastructureTypeEnableContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-enable.contract';
+import { InfrastructureTypeDisableContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-disable.contract';
+import { infrastructureTypeFilterEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-filter.entity';
 
 @Injectable({
     providedIn: 'root',
@@ -33,52 +28,54 @@ export class InfrastructureTypeUseCase {
     private readonly repository = inject(InfrastructureTypeRepository);
 
     execute(
-        dto: InfrastructureTypeFilterDto | null,
+        contract: InfrastructureTypeFilterContract,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<InfrastructureTypeEntity>> {
-        const vo = InfrastructureTypeFilterVo.fromDto(dto);
-        const entity = InfrastructureTypeFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page, options);
+        return defer(() => {
+            const vo = infrastructureTypeFilterVo(contract);
+            const entity = infrastructureTypeFilterEntity(vo);
+            return this.repository.readAll(entity, page, options);
+        });
     }
 
     create(
-        dto: InfrastructureTypeCreateDto
-    ): Observable<SimpleResponseDto<void>> {
-        const vo = InfrastructureTypeCreateVo.fromDto(dto);
-        const entity = InfrastructureTypeCreateEntity.fromVo(vo);
-        return this.repository.create(entity);
+        contract: InfrastructureTypeCreateContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.create(infrastructureTypeCreateVo(contract))
+        );
     }
 
     update(
-        dto: InfrastructureTypeUpdateDto
-    ): Observable<SimpleResponseDto<void>> {
-        const vo = InfrastructureTypeUpdateVo.fromDto(dto);
-        const entity = InfrastructureTypeUpdateEntity.fromVo(vo);
-        return this.repository.update(entity);
+        contract: InfrastructureTypeUpdateContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.update(infrastructureTypeUpdateVo(contract))
+        );
     }
 
     delete(
-        dto: InfrastructureTypeDeleteDto
-    ): Observable<SimpleResponseDto<void>> {
-        const vo = InfrastructureTypeDeleteVo.fromDto(dto);
-        const entity = InfrastructureTypeDeleteEntity.fromVo(vo);
-        return this.repository.delete(entity);
+        contract: InfrastructureTypeDeleteContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.delete(infrastructureTypeDeleteVo(contract))
+        );
     }
 
     enable(
-        dto: InfrastructureTypeEnableDto
-    ): Observable<SimpleResponseDto<void>> {
-        const vo = InfrastructureTypeEnableVo.fromDto(dto);
-        const entity = InfrastructureTypeEnableEntity.fromVo(vo);
-        return this.repository.enable(entity);
+        contract: InfrastructureTypeEnableContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.enable(infrastructureTypeEnableVo(contract))
+        );
     }
 
     disable(
-        dto: InfrastructureTypeDisableDto
-    ): Observable<SimpleResponseDto<void>> {
-        const vo = InfrastructureTypeDisableVo.fromDto(dto);
-        const entity = InfrastructureTypeDisableEntity.fromVo(vo);
-        return this.repository.disable(entity);
+        contract: InfrastructureTypeDisableContract
+    ): Observable<MessageResponseDto> {
+        return defer(() =>
+            this.repository.disable(infrastructureTypeDisableVo(contract))
+        );
     }
 }

@@ -1,3 +1,4 @@
+import { participantsQueryMapper } from '@pages/team-organization/application/queries-mappers/participants/participants.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ParticipantsQuery } from '@pages/team-organization/application/queries/participants/participants.query';
 import { ParticipantsUseCase } from '@pages/team-organization/application/use-cases/participants/participants.use-case';
@@ -16,12 +17,7 @@ export class ParticipantsHandler {
         options?: FetchOptions
     ): Observable<Paginate<ParticipantsEntity>> {
         return this.useCase.execute(
-            {
-                search: command?.search,
-                role: command?.role,
-                team: command?.team,
-                status: command?.status,
-            },
+            participantsQueryMapper(command),
             page,
             options
         );

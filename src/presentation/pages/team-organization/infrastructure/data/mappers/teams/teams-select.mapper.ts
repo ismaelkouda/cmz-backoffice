@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { TeamsSelectEntity } from '@pages/team-organization/domain/entities/teams/teams-select.entity';
-import { TeamsSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-select-api.dto';
+import { TeamsSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

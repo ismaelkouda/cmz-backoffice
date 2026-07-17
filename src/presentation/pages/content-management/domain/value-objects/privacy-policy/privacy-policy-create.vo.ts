@@ -1,18 +1,13 @@
-import { PrivacyPolicyCreateDto } from '@pages/content-management/application/dto/privacy-policy/privacy-policy-create.dto';
+import { PrivacyPolicyCreateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-create.contract';
+import { PrivacyPolicyCreateValidateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-create.validate-contract';
+import { validatePrivacyPolicyCreate } from '@pages/content-management/domain/validators/privacy-policy/privacy-policy-create.validator';
 
-export class PrivacyPolicyCreateVo {
-    public readonly version: string;
-    public readonly content: string;
-
-    constructor(props: { version: string; content: string }) {
-        this.version = props.version;
-        this.content = props.content;
-    }
-
-    static fromDto(dto: PrivacyPolicyCreateDto): PrivacyPolicyCreateVo {
-        return new PrivacyPolicyCreateVo({
-            version: dto.version,
-            content: dto.content,
-        });
-    }
+export function privacyPolicyCreateVo(
+    contract: PrivacyPolicyCreateContract
+): PrivacyPolicyCreateValidateContract {
+    validatePrivacyPolicyCreate(contract);
+    return {
+        version: contract.version,
+        content: contract.content,
+    };
 }

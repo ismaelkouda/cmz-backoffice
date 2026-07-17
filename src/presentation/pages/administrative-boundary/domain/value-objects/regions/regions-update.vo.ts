@@ -1,37 +1,17 @@
-import { RegionsUpdateDto } from '@pages/administrative-boundary/application/dto/regions/regions-update.dto';
+import { RegionsUpdateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-update.contract';
+import { RegionsUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-update.validate-contract';
+import { validateRegionsUpdate } from '@presentation/pages/administrative-boundary/domain/validators/regions/regions-update.validator';
 
-export class RegionsUpdateVo {
-    public readonly uniqId: string;
-    public readonly code: string;
-    public readonly population: number;
-    public readonly infrastructure: number;
-    public readonly name: string;
-    public readonly description: string;
-
-    constructor(props: {
-        uniqId: string;
-        code: string;
-        population: number;
-        infrastructure: number;
-        name: string;
-        description: string;
-    }) {
-        this.uniqId = props.uniqId;
-        this.code = props.code;
-        this.population = props.population;
-        this.infrastructure = props.infrastructure;
-        this.name = props.name;
-        this.description = props.description;
-    }
-
-    static fromDto(dto: RegionsUpdateDto): RegionsUpdateVo {
-        return new RegionsUpdateVo({
-            uniqId: dto.uniqId,
-            code: dto.code,
-            population: dto.population,
-            infrastructure: dto.infrastructure,
-            name: dto.name,
-            description: dto.description,
-        });
-    }
+export function regionsUpdateVo(
+    contract: RegionsUpdateContract
+): RegionsUpdateValidateContract {
+    validateRegionsUpdate(contract);
+    return {
+        uniqId: contract.uniqId,
+        code: contract.code,
+        population: contract.population,
+        infrastructure: contract.infrastructure,
+        name: contract.name,
+        description: contract.description,
+    };
 }

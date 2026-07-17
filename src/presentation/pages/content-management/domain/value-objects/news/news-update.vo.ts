@@ -1,50 +1,19 @@
-import { NewsUpdateDto } from '@pages/content-management/application/dto/news/news-update.dto';
+import { NewsUpdateContract } from '@pages/content-management/domain/contracts/news/news-update.contract';
 import { NewsUpdateProps } from '@pages/content-management/domain/interfaces/news/news-update-props.interface';
+import { validateNewsUpdate } from '@pages/content-management/domain/validators/news/news-update.validator';
 
-export class NewsUpdateVo {
-    constructor(private readonly props: NewsUpdateProps) {}
-
-    get uniqId(): string {
-        return this.props.uniqId;
-    }
-
-    get type(): string {
-        return this.props.type;
-    }
-
-    get image(): File | null | string {
-        return this.props.image;
-    }
-
-    get video(): string | null {
-        return this.props.video;
-    }
-
-    get category(): string {
-        return this.props.category;
-    }
-
-    get subCategory(): string {
-        return this.props.subCategory;
-    }
-
-    get hashtags(): string[] {
-        return this.props.hashtags;
-    }
-
-    get title(): string {
-        return this.props.title;
-    }
-
-    get resume(): string {
-        return this.props.resume;
-    }
-
-    get content(): string {
-        return this.props.content;
-    }
-
-    static fromDto(dto: NewsUpdateDto): NewsUpdateVo {
-        return new NewsUpdateVo(dto);
-    }
+export function newsUpdateVo(contract: NewsUpdateContract): NewsUpdateProps {
+    validateNewsUpdate(contract);
+    return {
+        uniqId: contract.uniqId,
+        type: contract.type,
+        image: contract.image,
+        video: contract.video,
+        category: contract.category,
+        subCategory: contract.subCategory ?? '',
+        hashtags: contract.hashtags ?? [],
+        title: contract.title,
+        resume: contract.resume,
+        content: contract.content,
+    };
 }

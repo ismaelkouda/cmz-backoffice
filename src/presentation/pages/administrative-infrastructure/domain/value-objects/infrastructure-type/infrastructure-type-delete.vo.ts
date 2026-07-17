@@ -1,17 +1,10 @@
-import { InfrastructureTypeDeleteDto } from '@presentation/pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-delete.dto';
+import { InfrastructureTypeDeleteValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-delete.validate-contract';
+import { InfrastructureTypeDeleteContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-delete.contract';
+import { validateInfrastructureTypeDelete } from '@presentation/pages/administrative-infrastructure/domain/validators/infrastructure-type/infrastructure-type-delete.validator';
 
-export class InfrastructureTypeDeleteVo {
-    public readonly uniqId: string;
-
-    constructor(props: { uniqId: string }) {
-        this.uniqId = props.uniqId;
-    }
-
-    static fromDto(
-        dto: InfrastructureTypeDeleteDto
-    ): InfrastructureTypeDeleteVo {
-        return new InfrastructureTypeDeleteVo({
-            uniqId: dto.uniqId,
-        });
-    }
+export function infrastructureTypeDeleteVo(
+    contract: InfrastructureTypeDeleteContract
+): InfrastructureTypeDeleteValidateContract {
+    validateInfrastructureTypeDelete(contract);
+    return contract;
 }

@@ -6,5 +6,5 @@ export interface DepartmentsByRegionIdFilterProps {
     region?: string;
     municipality?: string;
     status?: Status;
-    period?: DatePeriod;
+    period: DatePeriod | null;
 }

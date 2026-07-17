@@ -4,7 +4,7 @@ import { Injectable, inject } from '@angular/core';
 import { HistoryFindOneFilterApiDto } from '@shared/components/history/infrastructure/api/dto/history-find-one-filter-api.dto';
 import { HistoryFindOneResponseApiDto } from '@shared/components/history/infrastructure/api/dto/history-find-one-response-api.dto';
 import { HISTORY_ENDPOINTS } from '@shared/components/history/infrastructure/api/dto/history.endpoints';
-import { HISTORY_BASE_URL } from '@shared/components/history/infrastructure/api/history.base-url';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class HistoryFindOneApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(HISTORY_BASE_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     read(
         dto: HistoryFindOneFilterApiDto,

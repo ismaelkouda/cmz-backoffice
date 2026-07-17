@@ -1,11 +1,12 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ResetPasswordFacade } from '@presentation/pages/authentication/application/facade/reset-password/reset-password.facade';
+import { ResetPasswordFacade } from '@presentation/pages/authentication/application/services/reset-password/reset-password.facade';
 import { ResetPasswordFormControl } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password-form.control';
 import { ResetPasswordFormValue } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password-form.value';
-import { RESET_PASSWORD_FORM_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form.constant';
+import { RESET_PASSWORD_FORM_ERROR_MESSAGES } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form-error-messages.constant';
 import { RESET_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form-keys.constant';
+import { FormValidators } from '@presentation/pages/authentication/presentation/constants/form-validators.constants';
 import { getControlError } from '@presentation/pages/authentication/presentation/helpers/authentication-form-errors.helper';
 import { startWith } from 'rxjs';
 
@@ -17,12 +18,16 @@ export class ResetPasswordStore {
     public readonly loading = this.facade.loading;
     public readonly error = this.facade.error;
     public readonly session = this.facade.items;
+    public readonly VALIDATION = FormValidators;
 
     public readonly form: FormGroup<ResetPasswordFormControl> =
         this.fb.nonNullable.group({
             [RESET_PASSWORD_FORM_KEYS.PASSWORD]: [
                 '',
-                [Validators.required, Validators.minLength(8)],
+                [
+                    Validators.required,
+                    Validators.minLength(FormValidators.PASSWORD.MIN),
+                ],
             ],
             [RESET_PASSWORD_FORM_KEYS.CONFIRM_PASSWORD]: [
                 '',
@@ -40,12 +45,12 @@ export class ResetPasswordStore {
         return this.form.getRawValue();
     }
 
-    public submit(): void {
+    public submit(token: string, email: string): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
             return;
         }
-        this.facade.execute(this.value);
+        this.facade.execute({ token, email, ...this.value });
     }
 
     public isFieldInvalid(field: keyof ResetPasswordFormControl): boolean {

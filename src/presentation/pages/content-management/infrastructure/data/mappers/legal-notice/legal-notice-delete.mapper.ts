@@ -1,12 +1,12 @@
-import { LegalNoticeDeleteEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
+import { LegalNoticeDeleteDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-delete.dto';
 import { LegalNoticeDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-delete-api.dto';
 
 export function legalNoticeDeleteMapper(
-    vo: LegalNoticeDeleteEntity
+    dto: LegalNoticeDeleteDto
 ): LegalNoticeDeleteApiDto {
     const prams = {} as LegalNoticeDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

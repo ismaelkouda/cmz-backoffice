@@ -15,7 +15,8 @@ import {
 } from '@angular/forms';
 import { InfrastructureFindOneFacade } from '@pages/administrative-infrastructure/application/services/infrastructure/infrastructure-find-one.facade';
 import { InfrastructureFormControl } from '@presentation/pages/administrative-infrastructure/presentation/store/infrastructure/infrastructure-form.control';
-import { FormValidators } from '@pages/administrative-infrastructure/domain/validators/form-validators';
+import { FormValidators } from '@pages/administrative-infrastructure/presentation/constants/form-validators.constants';
+import { INFRASTRUCTURE_FORM_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure/infrastructure-form-keys.constant';
 import { startWith } from 'rxjs';
 import { InfrastructureTypeSelectFacade } from '@presentation/pages/administrative-infrastructure/application/services/infrastructure-type/infrastructure-type-select.facade';
 import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
@@ -92,25 +93,31 @@ export class InfrastructureFormStore {
 
     constructor() {
         this.initializeDetailsModeEffect();
-
-        effect(() => {
-            console.log('position signal', this.infrastructureType());
-        });
     }
 
     private createForm(): FormGroup<InfrastructureFormControl> {
         return this.fb.nonNullable.group<InfrastructureFormControl>({
-            name: new FormControl<string | undefined>(undefined, {
-                nonNullable: true,
-            }),
-            type: new FormControl<string | undefined>(undefined, {
-                nonNullable: true,
-            }),
-            description: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_FORM_KEYS.NAME]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
-            position: new FormControl<Coordinates | undefined>(undefined, {
+            [INFRASTRUCTURE_FORM_KEYS.TYPE]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            [INFRASTRUCTURE_FORM_KEYS.DESCRIPTION]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            [INFRASTRUCTURE_FORM_KEYS.POSITION]: new FormControl<
+                Coordinates | undefined
+            >(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),

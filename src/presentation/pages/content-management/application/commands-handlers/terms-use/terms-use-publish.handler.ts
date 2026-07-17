@@ -1,3 +1,4 @@
+import { termsUsePublishCommandMapper } from '@pages/content-management/application/commands-mappers/terms-use/terms-use-publish.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TermsUsePublishCommand } from '@pages/content-management/application/commands/terms-use/terms-use-publish.command';
 import { TermsUseUseCase } from '@pages/content-management/application/use-cases/terms-use/terms-use.use-case';
@@ -11,8 +12,6 @@ export class TermsUsePublishHandler {
     execute(
         command: TermsUsePublishCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.publish({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.publish(termsUsePublishCommandMapper(command));
     }
 }

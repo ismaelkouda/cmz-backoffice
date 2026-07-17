@@ -1,3 +1,4 @@
+import { termsUseQueryMapper } from '@pages/content-management/application/queries-mappers/terms-use/terms-use.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TermsUseQuery } from '@pages/content-management/application/queries/terms-use/terms-use.query';
 import { TermsUseUseCase } from '@pages/content-management/application/use-cases/terms-use/terms-use.use-case';
@@ -16,13 +17,7 @@ export class TermsUseHandler {
         options?: FetchOptions
     ): Observable<Paginate<TermsUseEntity>> {
         return this.useCase.execute(
-            {
-                search: command.search,
-                version: command.version,
-                status: command.status,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
+            termsUseQueryMapper(command),
             page,
             options
         );

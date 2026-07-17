@@ -1,3 +1,4 @@
+import { usersDisableCommandMapper } from '@pages/settings-security/application/commands-mappers/users/users-disable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { UsersDisableCommand } from '@pages/settings-security/application/commands/users/users-disable.command';
 import { UsersUseCase } from '@pages/settings-security/application/use-cases/users/users.use-case';
@@ -9,8 +10,6 @@ export class UsersDisableHandler {
     private readonly useCase = inject(UsersUseCase);
 
     execute(command: UsersDisableCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.disable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.disable(usersDisableCommandMapper(command));
     }
 }

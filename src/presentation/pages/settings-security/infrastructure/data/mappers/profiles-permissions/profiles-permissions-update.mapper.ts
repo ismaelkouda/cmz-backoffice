@@ -1,22 +1,22 @@
-import { ProfilesPermissionsUpdateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
+import { ProfilesPermissionsUpdateValidateContract } from '@pages/settings-security/domain/contracts/profiles-permissions/profiles-permissions-update.validate-contract';
 import { ProfilesPermissionsUpdateApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-update-api.dto';
 
 export function profilesPermissionsUpdateMapper(
-    entity: ProfilesPermissionsUpdateEntity
+    props: ProfilesPermissionsUpdateValidateContract
 ): ProfilesPermissionsUpdateApiDto {
     const params: ProfilesPermissionsUpdateApiDto =
         {} as ProfilesPermissionsUpdateApiDto;
 
-    params['id'] = entity.uniqId;
+    params['id'] = props.uniqId;
 
-    if (entity.name) {
-        params['name'] = entity.name;
+    if (props.name) {
+        params['name'] = props.name;
     }
-    if (entity.description) {
-        params['description'] = entity.description;
+    if (props.description) {
+        params['description'] = props.description;
     }
-    if (entity.permissions) {
-        params['permissions'] = entity.permissions;
+    if (props.permissions) {
+        params['permissions'] = props.permissions;
     }
 
     return params;

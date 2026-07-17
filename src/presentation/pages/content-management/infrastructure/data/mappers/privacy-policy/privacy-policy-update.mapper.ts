@@ -1,19 +1,19 @@
-import { PrivacyPolicyUpdateEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy-update.entity';
+import { PrivacyPolicyUpdateValidateContract } from '@pages/content-management/domain/contracts/privacy-policy/privacy-policy-update.validate-contract';
 import { PrivacyPolicyUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/privacy-policy/privacy-policy-update-api.dto';
 
 export function privacyPolicyUpdateMapper(
-    entity: PrivacyPolicyUpdateEntity
+    contract: PrivacyPolicyUpdateValidateContract
 ): PrivacyPolicyUpdateApiDto {
     const params: PrivacyPolicyUpdateApiDto = {} as PrivacyPolicyUpdateApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (contract.uniqId) {
+        params.id = contract.uniqId;
     }
-    if (entity.version) {
-        params.version = entity.version;
+    if (contract.version) {
+        params.version = contract.version;
     }
-    if (entity.content) {
-        params.content = entity.content;
+    if (contract.content) {
+        params.content = contract.content;
     }
 
     return params;

@@ -1,31 +1,31 @@
-import { TeamsUpdateEntity } from '@pages/team-organization/domain/entities/teams/teams-update.entity';
+import { TeamsUpdateValidateContract } from '@pages/team-organization/domain/contracts/teams/teams-update.validate-contract';
 import { TeamsUpdateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-update-api.dto';
 
 export function teamsUpdateMapper(
-    entity: TeamsUpdateEntity
+    props: TeamsUpdateValidateContract
 ): TeamsUpdateApiDto {
     const params: TeamsUpdateApiDto = {} as TeamsUpdateApiDto;
 
-    params['id'] = entity.uniqId;
+    params['id'] = props.uniqId;
 
-    // if (entity.code) {
-    //     params['code'] = entity.code;
+    // if (props.code) {
+    //     params['code'] = props.code;
     // }
 
-    if (entity.name) {
-        params['name'] = entity.name;
+    if (props.name) {
+        params['name'] = props.name;
     }
-    if (entity.description) {
-        params['description'] = entity.description;
+    if (props.description) {
+        params['description'] = props.description;
     }
-    if (entity.operators) {
-        params['operators'] = entity.operators;
+    if (props.operators) {
+        params['operators'] = props.operators;
     }
-    if (entity.reportTypes) {
-        params['report_types'] = entity.reportTypes;
+    if (props.reportTypes) {
+        params['report_types'] = props.reportTypes;
     }
-    if (entity.permissions) {
-        params['permissions'] = entity.permissions.map(Number);
+    if (props.permissions) {
+        params['permissions'] = props.permissions.map(Number);
     }
 
     return params;

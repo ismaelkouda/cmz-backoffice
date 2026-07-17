@@ -1,17 +1,17 @@
-import { InfrastructureTypeFilterEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-filter.entity';
 import { InfrastructureTypeFilterApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-filter-api.dto';
+import { InfrastructureTypeFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-filter.contract';
 
 export function infrastructureTypeFilterMapper(
-    entity: InfrastructureTypeFilterEntity
+    validContract: InfrastructureTypeFilterContract
 ): InfrastructureTypeFilterApiDto {
     const params: InfrastructureTypeFilterApiDto =
         {} as InfrastructureTypeFilterApiDto;
 
-    if (entity.search) {
-        params.search = entity.search;
+    if (validContract.search) {
+        params.search = validContract.search;
     }
-    if (entity.isActive !== undefined) {
-        params.is_active = !!entity.isActive;
+    if (validContract.status !== undefined) {
+        params.is_active = !!validContract.status;
     }
 
     return params;

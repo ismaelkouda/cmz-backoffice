@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-    InfrastructureTypeFindOneEntity,
-    InfrastructureTypeFindOneProps,
-} from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-find-one.entity';
+import { InfrastructureTypeFindOneEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-find-one.entity';
+import { InfrastructureTypeFindOneProps } from '@presentation/pages/administrative-infrastructure/domain/interfaces/infrastructure-type/infrastructure-type-find-one-props.interface';
 import { InfrastructureTypeFindOneItemApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';

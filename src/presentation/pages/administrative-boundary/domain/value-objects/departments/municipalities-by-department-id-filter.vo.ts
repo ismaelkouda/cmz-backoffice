@@ -1,35 +1,21 @@
 import { MunicipalitiesByDepartmentIdFilterDto } from '@pages/administrative-boundary/application/dto/departments/municipalities-by-department-id-filter.dto';
-import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
 import { MunicipalitiesByDepartmentIdFilterProps } from '@pages/administrative-boundary/domain/interfaces/departments/municipalities-by-department-id-filter-props.interface';
+import { validateMunicipalitiesByDepartmentIdFilter } from '@presentation/pages/administrative-boundary/domain/validators/departments/municipalities-by-department-id-filter.validator';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
-export class MunicipalitiesByDepartmentIdFilterVo {
-    constructor(
-        private readonly props: MunicipalitiesByDepartmentIdFilterProps
-    ) {}
+export function municipalitiesByDepartmentIdFilterVo(
+    dto: MunicipalitiesByDepartmentIdFilterDto
+): MunicipalitiesByDepartmentIdFilterProps {
+    validateMunicipalitiesByDepartmentIdFilter(dto);
 
-    get uniqId(): string {
-        return this.props.uniqId;
-    }
-    get search(): string | undefined {
-        return this.props.search;
-    }
-    get region(): string | undefined {
-        return this.props.region;
-    }
-    get department(): string | undefined {
-        return this.props.department;
-    }
-    get status(): Status | undefined {
-        return this.props.status;
-    }
-    get period(): DatePeriod | undefined {
-        return this.props.period;
-    }
+    const period = DatePeriod.createOptional(dto.startDate, dto.endDate);
 
-    static fromDto(
-        dto: MunicipalitiesByDepartmentIdFilterDto
-    ): MunicipalitiesByDepartmentIdFilterVo {
-        return new MunicipalitiesByDepartmentIdFilterVo(dto);
-    }
+    return {
+        uniqId: dto.uniqId,
+        search: dto.search,
+        region: dto.region,
+        department: dto.department,
+        status: dto.status,
+        period,
+    };
 }

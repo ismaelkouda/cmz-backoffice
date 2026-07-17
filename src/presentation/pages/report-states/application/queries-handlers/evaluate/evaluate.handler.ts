@@ -1,3 +1,4 @@
+import { evaluateQueryMapper } from '@pages/report-states/application/queries-mappers/evaluate/evaluate.mapper';
 import { Injectable, inject } from '@angular/core';
 import { EvaluateQuery } from '@pages/report-states/application/queries/evaluate/evaluate.query';
 import { EvaluateUseCase } from '@pages/report-states/application/use-cases/evaluate/evaluate.use-case';
@@ -15,18 +16,6 @@ export class EvaluateHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<EvaluateEntity>> {
-        return this.useCase.execute(
-            {
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(evaluateQueryMapper(query), page, options);
     }
 }

@@ -3,6 +3,7 @@ interface Actor {
     readonly firstName: string;
     readonly lastName: string;
     readonly phone: string;
+    readonly email: string;
 }
 
 export class ActorEntity implements Actor {
@@ -10,6 +11,7 @@ export class ActorEntity implements Actor {
         public readonly id: string,
         public readonly firstName: string,
         public readonly lastName: string,
-        public readonly phone: string
+        public readonly phone: string,
+        public readonly email: string
     ) {}
 }

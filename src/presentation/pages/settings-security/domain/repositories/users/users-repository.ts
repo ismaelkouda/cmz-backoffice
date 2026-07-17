@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { UsersCreateEntity } from '@pages/settings-security/domain/entities/users/users-create.entity';
-import { UsersDeleteEntity } from '@pages/settings-security/domain/entities/users/users-delete.entity';
-import { UsersDisableEntity } from '@pages/settings-security/domain/entities/users/users-disable.entity';
-import { UsersEnableEntity } from '@pages/settings-security/domain/entities/users/users-enable.entity';
-import { UsersFilterEntity } from '@pages/settings-security/domain/entities/users/users-filter.entity';
-import { UsersUpdateEntity } from '@pages/settings-security/domain/entities/users/users-update.entity';
+import { UsersDeleteDto } from '@pages/settings-security/application/dto/users/users-delete.dto';
+import { UsersDisableDto } from '@pages/settings-security/application/dto/users/users-disable.dto';
+import { UsersEnableDto } from '@pages/settings-security/application/dto/users/users-enable.dto';
+import { UsersCreateValidateContract } from '@pages/settings-security/domain/contracts/users/users-create.validate-contract';
+import { UsersUpdateValidateContract } from '@pages/settings-security/domain/contracts/users/users-update.validate-contract';
 import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
+import { UsersFilterVo } from '@pages/settings-security/domain/value-objects/users/users-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -18,23 +18,19 @@ import { Observable } from 'rxjs';
 })
 export abstract class UsersRepository {
     abstract readAll(
-        entity: UsersFilterEntity | null,
+        filter: UsersFilterVo | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<UsersEntity>>;
     abstract create(
-        entity: UsersCreateEntity
+        props: UsersCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: UsersUpdateEntity
+        props: UsersUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
-    abstract delete(
-        entity: UsersDeleteEntity
-    ): Observable<SimpleResponseDto<void>>;
-    abstract enable(
-        entity: UsersEnableEntity
-    ): Observable<SimpleResponseDto<void>>;
+    abstract delete(dto: UsersDeleteDto): Observable<SimpleResponseDto<void>>;
+    abstract enable(dto: UsersEnableDto): Observable<SimpleResponseDto<void>>;
     abstract disable(
-        entity: UsersDisableEntity
+        dto: UsersDisableDto
     ): Observable<SimpleResponseDto<void>>;
 }

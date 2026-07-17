@@ -1,4 +1,4 @@
-import { inject, Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 import { provideDepartmentsFindOne } from '@pages/administrative-boundary/di/departments/departments-find-one.providers';
 import { departmentsSelectProviders } from '@pages/administrative-boundary/di/departments/departments-select.providers';
 import { provideDepartments } from '@pages/administrative-boundary/di/departments/departments.providers';
@@ -10,27 +10,8 @@ import { departmentsByRegionIdProviders } from '@pages/administrative-boundary/d
 import { provideRegionsFindOne } from '@pages/administrative-boundary/di/regions/regions-find-one.providers';
 import { regionsSelectProviders } from '@pages/administrative-boundary/di/regions/regions-select.providers';
 import { provideRegions } from '@pages/administrative-boundary/di/regions/regions.providers';
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
-
-import { EnvService } from '../../../../core/config/env.service';
-
-const getApiBaseUrl = (): string => {
-    const baseUrl = inject(EnvService).settingUrl;
-
-    if (!baseUrl) {
-        console.warn(
-            'AdministrativeBoundary Module: API Base URL is missing in environment configuration.'
-        );
-    }
-
-    return baseUrl;
-};
 
 export const provideAdministrativeBoundary = (): Provider[] => [
-    {
-        provide: ADMINISTRATIVE_BOUNDARY_API_BASE_URL,
-        useFactory: getApiBaseUrl,
-    },
     ...provideDepartmentsFindOne,
     ...departmentsSelectProviders,
     ...provideDepartments,

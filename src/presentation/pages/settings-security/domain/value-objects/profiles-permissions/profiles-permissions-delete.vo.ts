@@ -1,17 +1,7 @@
 import { ProfilesPermissionsDeleteDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
 
-export class ProfilesPermissionsDeleteVo {
-    public readonly uniqId: string;
-
-    constructor(props: { uniqId: string }) {
-        this.uniqId = props.uniqId;
-    }
-
-    static fromDto(
-        dto: ProfilesPermissionsDeleteDto
-    ): ProfilesPermissionsDeleteVo {
-        return new ProfilesPermissionsDeleteVo({
-            uniqId: dto.uniqId,
-        });
-    }
+export function profilesPermissionsDeleteVo(
+    dto: ProfilesPermissionsDeleteDto
+): ProfilesPermissionsDeleteDto {
+    return dto;
 }

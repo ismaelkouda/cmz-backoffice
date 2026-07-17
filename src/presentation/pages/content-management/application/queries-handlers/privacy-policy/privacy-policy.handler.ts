@@ -1,3 +1,4 @@
+import { privacyPolicyQueryMapper } from '@pages/content-management/application/queries-mappers/privacy-policy/privacy-policy.mapper';
 import { Injectable, inject } from '@angular/core';
 import { PrivacyPolicyQuery } from '@pages/content-management/application/queries/privacy-policy/privacy-policy.query';
 import { PrivacyPolicyUseCase } from '@pages/content-management/application/use-cases/privacy-policy/privacy-policy.use-case';
@@ -16,13 +17,7 @@ export class PrivacyPolicyHandler {
         options?: FetchOptions
     ): Observable<Paginate<PrivacyPolicyEntity>> {
         return this.useCase.execute(
-            {
-                search: command.search,
-                version: command.version,
-                status: command.status,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
+            privacyPolicyQueryMapper(command),
             page,
             options
         );

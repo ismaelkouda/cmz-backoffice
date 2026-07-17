@@ -1,18 +1,13 @@
-import { TermsUseCreateDto } from '@pages/content-management/application/dto/terms-use/terms-use-create.dto';
+import { TermsUseCreateContract } from '@pages/content-management/domain/contracts/terms-use/terms-use-create.contract';
+import { TermsUseCreateValidateContract } from '@pages/content-management/domain/contracts/terms-use/terms-use-create.validate-contract';
+import { validateTermsUseCreate } from '@pages/content-management/domain/validators/terms-use/terms-use-create.validator';
 
-export class TermsUseCreateVo {
-    public readonly version: string;
-    public readonly content: string;
-
-    constructor(props: { version: string; content: string }) {
-        this.version = props.version;
-        this.content = props.content;
-    }
-
-    static fromDto(dto: TermsUseCreateDto): TermsUseCreateVo {
-        return new TermsUseCreateVo({
-            version: dto.version,
-            content: dto.content,
-        });
-    }
+export function termsUseCreateVo(
+    contract: TermsUseCreateContract
+): TermsUseCreateValidateContract {
+    validateTermsUseCreate(contract);
+    return {
+        version: contract.version,
+        content: contract.content,
+    };
 }

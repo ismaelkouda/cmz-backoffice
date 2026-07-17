@@ -1,3 +1,4 @@
+import { privacyPolicyDeleteCommandMapper } from '@pages/content-management/application/commands-mappers/privacy-policy/privacy-policy-delete.mapper';
 import { Injectable, inject } from '@angular/core';
 import { PrivacyPolicyDeleteCommand } from '@pages/content-management/application/commands/privacy-policy/privacy-policy-delete.command';
 import { PrivacyPolicyUseCase } from '@pages/content-management/application/use-cases/privacy-policy/privacy-policy.use-case';
@@ -11,8 +12,6 @@ export class PrivacyPolicyDeleteHandler {
     execute(
         command: PrivacyPolicyDeleteCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(privacyPolicyDeleteCommandMapper(command));
     }
 }

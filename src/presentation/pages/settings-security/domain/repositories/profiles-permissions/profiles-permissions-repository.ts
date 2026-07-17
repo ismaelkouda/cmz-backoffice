@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { ProfilesPermissionsCreateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-create.entity';
-import { ProfilesPermissionsDeleteEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-delete.entity';
-import { ProfilesPermissionsDisableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-disable.entity';
-import { ProfilesPermissionsEnableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
-import { ProfilesPermissionsFilterEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-filter.entity';
-import { ProfilesPermissionsUpdateEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-update.entity';
+import { ProfilesPermissionsDeleteDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-delete.dto';
+import { ProfilesPermissionsDisableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-disable.dto';
+import { ProfilesPermissionsEnableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-enable.dto';
+import { ProfilesPermissionsCreateValidateContract } from '@pages/settings-security/domain/contracts/profiles-permissions/profiles-permissions-create.validate-contract';
+import { ProfilesPermissionsUpdateValidateContract } from '@pages/settings-security/domain/contracts/profiles-permissions/profiles-permissions-update.validate-contract';
 import { ProfilesPermissionsEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions.entity';
+import { ProfilesPermissionsFilterVo } from '@pages/settings-security/domain/value-objects/profiles-permissions/profiles-permissions-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -18,23 +18,23 @@ import { Observable } from 'rxjs';
 })
 export abstract class ProfilesPermissionsRepository {
     abstract execute(
-        entity: ProfilesPermissionsFilterEntity | null,
+        filter: ProfilesPermissionsFilterVo | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<ProfilesPermissionsEntity>>;
     abstract create(
-        entity: ProfilesPermissionsCreateEntity
+        props: ProfilesPermissionsCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: ProfilesPermissionsUpdateEntity
+        props: ProfilesPermissionsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
-        entity: ProfilesPermissionsDeleteEntity
+        dto: ProfilesPermissionsDeleteDto
     ): Observable<SimpleResponseDto<void>>;
     abstract enable(
-        entity: ProfilesPermissionsEnableEntity
+        dto: ProfilesPermissionsEnableDto
     ): Observable<SimpleResponseDto<void>>;
     abstract disable(
-        entity: ProfilesPermissionsDisableEntity
+        dto: ProfilesPermissionsDisableDto
     ): Observable<SimpleResponseDto<void>>;
 }

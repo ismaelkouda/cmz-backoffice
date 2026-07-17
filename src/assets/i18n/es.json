@@ -21,7 +21,7 @@
         "ERROR_GRAFANA_DASHBOARD": "Error del panel de control",
         "REPORT": "Reporte",
         "OPERATORS": "Operadores",
-        "CREATED_AT":"Creado el",
+        "CREATED_AT": "Creado el",
         "SOURCE": "Fuente [Num]",
         "AUTO": "AUTOMÁTICO",
         "MANUAL": "MANUAL",
@@ -76,7 +76,7 @@
         "ACTIVATED": "Activado",
         "PUBLISH": "Publicar",
         "PUBLISH_STYLE": "success",
-        "PUBLISHED" : "Publicado",
+        "PUBLISHED": "Publicado",
         "UNPUBLISH": "Despublicar",
         "UNPUBLISH_STYLE": "danger",
         "UNPUBLISHED": "No Publicado",
@@ -89,8 +89,8 @@
         "DEACTIVATED": "Desactivado",
         "INVALID_DATE_RANGE": "Rango de fecha inválido",
         "FORM_INVALID": "Formulario inválido",
-        "START_DATE":"Fecha de inicio",
-        "END_DATE":"Fecha de fin",
+        "START_DATE": "Fecha de inicio",
+        "END_DATE": "Fecha de fin",
         "DATE_PLACEHOLDER": "AAAA-MM-DD",
         "PHONE_PLACEHOLDER": "Ingresar número de teléfono",
         "REPORT_UNIQ_ID_PLACEHOLDER": "Ingresar el ID de la solicitud",
@@ -932,329 +932,329 @@
         }
     },
     "ADMINISTRATIVE_BOUNDARY": {
-            "BREADCRUMB": {
-                "LABEL": "Estructura Territorial",
-                "ROUTE": "content-management",
-                "ICON": "pi-file"
-            },
-            "ROUTE": "content-management",
+        "BREADCRUMB": {
             "LABEL": "Estructura Territorial",
-            "DEPARTMENTS": {
-                "BREADCRUMB": {
+            "ROUTE": "content-management",
+            "ICON": "pi-file"
+        },
+        "ROUTE": "content-management",
+        "LABEL": "Estructura Territorial",
+        "DEPARTMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Departamentos",
+                "ROUTE": "departments"
+            },
+            "TABS": {
+                "DEPARTMENTS": {
                     "LABEL": "Departamentos",
                     "ROUTE": "departments"
                 },
-                "TABS": {
-                    "DEPARTMENTS": {
-                        "LABEL": "Departamentos",
-                        "ROUTE": "departments"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historial",
-                        "ROUTE": "history"
-                    }
+                "HISTORY": {
+                    "LABEL": "Historial",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Departamentos",
+            "LABEL": "Departamentos",
+            "ROUTE": "departments",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Fecha de inicio",
+                    "TO": "Fecha de fin",
+                    "PLACEHOLDER": "AAAA-MM-DD"
                 },
-                "TITLE": "Departamentos",
-                "LABEL": "Departamentos",
-                "ROUTE": "departments",
-                "FILTER": {
-                    "DATE": {
-                        "FROM": "Fecha de inicio",
-                        "TO": "Fecha de fin",
-                        "PLACEHOLDER": "AAAA-MM-DD"
-                    },
-                    "SEARCH": "Buscar",
-                    "SEARCH_PLACEHOLDER": "Buscar",
-                    "PLATFORM": "Plataforma",
-                    "REGION": "Región",
-                    "TYPE": "Tipo de contenido",
-                    "TYPE_PLACEHOLDER": "Tipo de contenido",
-                    "STATUS": "Estado",
-                    "STATUS_PLACEHOLDER": "Estado"
-                },
-                "TABLE": {
+                "SEARCH": "Buscar",
+                "SEARCH_PLACEHOLDER": "Buscar",
+                "PLATFORM": "Plataforma",
+                "REGION": "Región",
+                "TYPE": "Tipo de contenido",
+                "TYPE_PLACEHOLDER": "Tipo de contenido",
+                "STATUS": "Estado",
+                "STATUS_PLACEHOLDER": "Estado"
+            },
+            "TABLE": {
+                "CODE": "Código",
+                "NAME": "Nombre del departamento",
+                "REGION": "Región",
+                "DESCRIPTION": "Descripción",
+                "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
+                "POPULATION_SIZE": "# Población",
+                "CREATED_AT": "Creado el",
+                "ACTION": "Acción"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulario de edición de departamento",
+                "TITLE_FORM_ADD": "Formulario de agregar departamento",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Información General",
                     "CODE": "Código",
+                    "CODE_PLACEHOLDER": "Ej: 1",
                     "NAME": "Nombre del departamento",
+                    "NAME_PLACEHOLDER": "Ej: Nuevo departamento",
                     "REGION": "Región",
+                    "REGION_PLACEHOLDER": "Ej: Nueva región",
                     "DESCRIPTION": "Descripción",
+                    "DESCRIPTION_PLACEHOLDER": "Ej: Descripción del departamento",
                     "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ej: 100",
                     "POPULATION_SIZE": "# Población",
                     "CREATED_AT": "Creado el",
                     "ACTION": "Acción"
                 },
-                "FORM": {
-                    "TITLE_FORM_EDIT": "Formulario de edición de departamento",
-                    "TITLE_FORM_ADD": "Formulario de agregar departamento",
-                    "FIELDSET_GENERAL_INFO": {
-                        "TITLE": "Información General",
-                        "CODE": "Código",
-                        "CODE_PLACEHOLDER": "Ej: 1",
-                        "NAME": "Nombre del departamento",
-                        "NAME_PLACEHOLDER": "Ej: Nuevo departamento",
-                        "REGION": "Región",
-                        "REGION_PLACEHOLDER": "Ej: Nueva región",
-                        "DESCRIPTION": "Descripción",
-                        "DESCRIPTION_PLACEHOLDER": "Ej: Descripción del departamento",
-                        "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
-                        "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ej: 100",
-                        "POPULATION_SIZE": "# Población",
-                        "CREATED_AT": "Creado el",
-                        "ACTION": "Acción"
-                    },
-                    "VALIDATION": {
-                        "MIN_LENGTH": "Mínimo de caracteres requerido",
-                        "MAX_LENGTH": "Máximo de caracteres permitido",
-                        "MIN_VALUE": "Valor mínimo",
-                        "MAX_VALUE": "Valor máximo",
-                        "INVALID_FORMAT": "Formato inválido",
-                        "INVALID_INPUT": "Valor inválido",
-                        "REQUIRED": "Este campo es obligatorio"
-                    }
-                },
-                "DELETE": {
-                    "CONFIRM": "Confirmar",
-                    "CANCEL": "Cancelar"
-                },
-                "SWEET_ALERT": {
-                    "TITLE.EDIT": "Actualizar departamento",
-                    "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este departamento?",
-                    "TITLE_CREATE": "Crear departamento",
-                    "MESSAGE_CREATE": "¿Está seguro de que desea crear este departamento?",
-                    "TITLE_DELETE": "Eliminar departamento",
-                    "MESSAGE_DELETE": "¿Está seguro de que desea eliminar este departamento?"
+                "VALIDATION": {
+                    "MIN_LENGTH": "Mínimo de caracteres requerido",
+                    "MAX_LENGTH": "Máximo de caracteres permitido",
+                    "MIN_VALUE": "Valor mínimo",
+                    "MAX_VALUE": "Valor máximo",
+                    "INVALID_FORMAT": "Formato inválido",
+                    "INVALID_INPUT": "Valor inválido",
+                    "REQUIRED": "Este campo es obligatorio"
                 }
             },
-            "MUNICIPALITIES": {
-                "BREADCRUMB": {
+            "DELETE": {
+                "CONFIRM": "Confirmar",
+                "CANCEL": "Cancelar"
+            },
+            "SWEET_ALERT": {
+                "TITLE.EDIT": "Actualizar departamento",
+                "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este departamento?",
+                "TITLE_CREATE": "Crear departamento",
+                "MESSAGE_CREATE": "¿Está seguro de que desea crear este departamento?",
+                "TITLE_DELETE": "Eliminar departamento",
+                "MESSAGE_DELETE": "¿Está seguro de que desea eliminar este departamento?"
+            }
+        },
+        "MUNICIPALITIES": {
+            "BREADCRUMB": {
+                "LABEL": "Municipios/Subprefecturas",
+                "ROUTE": "municipalities"
+            },
+            "TABS": {
+                "MUNICIPALITIES": {
                     "LABEL": "Municipios/Subprefecturas",
                     "ROUTE": "municipalities"
                 },
-                "TABS": {
-                    "MUNICIPALITIES": {
-                        "LABEL": "Municipios/Subprefecturas",
-                        "ROUTE": "municipalities"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historial",
-                        "ROUTE": "history"
-                    }
+                "HISTORY": {
+                    "LABEL": "Historial",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Municipios/Subprefecturas",
+            "LABEL": "Municipios/Subprefecturas",
+            "ROUTE": "municipalities",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Fecha de inicio",
+                    "TO": "Fecha de fin",
+                    "PLACEHOLDER": "AAAA-MM-DD"
                 },
-                "TITLE": "Municipios/Subprefecturas",
-                "LABEL": "Municipios/Subprefecturas",
-                "ROUTE": "municipalities",
-                "FILTER": {
-                    "DATE": {
-                        "FROM": "Fecha de inicio",
-                        "TO": "Fecha de fin",
-                        "PLACEHOLDER": "AAAA-MM-DD"
-                    },
-                    "SEARCH": "Buscar",
-                    "SEARCH_PLACEHOLDER": "Buscar",
-                    "PLATFORM": "Plataforma",
-                    "REGION": "Región",
-                    "TYPE": "Tipo de contenido",
-                    "TYPE_PLACEHOLDER": "Tipo de contenido",
-                    "STATUS": "Estado",
-                    "STATUS_PLACEHOLDER": "Estado",
-                    "DEPARTMENT": "Departamento",
-                    "DEPARTMENT_PLACEHOLDER": "Departamento"
-                },
-                "TABLE": {
+                "SEARCH": "Buscar",
+                "SEARCH_PLACEHOLDER": "Buscar",
+                "PLATFORM": "Plataforma",
+                "REGION": "Región",
+                "TYPE": "Tipo de contenido",
+                "TYPE_PLACEHOLDER": "Tipo de contenido",
+                "STATUS": "Estado",
+                "STATUS_PLACEHOLDER": "Estado",
+                "DEPARTMENT": "Departamento",
+                "DEPARTMENT_PLACEHOLDER": "Departamento"
+            },
+            "TABLE": {
+                "CODE": "Código",
+                "NAME": "Municipio/Subprefectura",
+                "REGION": "Región",
+                "DEPARTMENT": "Departamento",
+                "DESCRIPTION": "Descripción",
+                "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
+                "POPULATION_SIZE": "# Población",
+                "CREATED_AT": "Creado el",
+                "ACTION": "Acción"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulario de edición de Municipio/Subprefectura",
+                "TITLE_FORM_ADD": "Formulario de agregar Municipio/Subprefectura",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Información General",
                     "CODE": "Código",
-                    "NAME": "Municipio/Subprefectura",
+                    "CODE_PLACEHOLDER": "Ej: 1",
+                    "NAME": "Nombre del Municipio / Subprefectura",
+                    "NAME_PLACEHOLDER": "Ej: Nuevo Municipio/Subprefectura",
                     "REGION": "Región",
+                    "REGION_PLACEHOLDER": "Ej: Nueva región",
                     "DEPARTMENT": "Departamento",
+                    "DEPARTMENT_PLACEHOLDER": "Ej: Nuevo departamento",
                     "DESCRIPTION": "Descripción",
+                    "DESCRIPTION_PLACEHOLDER": "Ej: Descripción del departamento",
                     "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ej: 100",
                     "POPULATION_SIZE": "# Población",
                     "CREATED_AT": "Creado el",
                     "ACTION": "Acción"
                 },
-                "FORM": {
-                    "TITLE_FORM_EDIT": "Formulario de edición de Municipio/Subprefectura",
-                    "TITLE_FORM_ADD": "Formulario de agregar Municipio/Subprefectura",
-                    "FIELDSET_GENERAL_INFO": {
-                        "TITLE": "Información General",
-                        "CODE": "Código",
-                        "CODE_PLACEHOLDER": "Ej: 1",
-                        "NAME": "Nombre del Municipio / Subprefectura",
-                        "NAME_PLACEHOLDER": "Ej: Nuevo Municipio/Subprefectura",
-                        "REGION": "Región",
-                        "REGION_PLACEHOLDER": "Ej: Nueva región",
-                        "DEPARTMENT": "Departamento",
-                        "DEPARTMENT_PLACEHOLDER": "Ej: Nuevo departamento",
-                        "DESCRIPTION": "Descripción",
-                        "DESCRIPTION_PLACEHOLDER": "Ej: Descripción del departamento",
-                        "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
-                        "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ej: 100",
-                        "POPULATION_SIZE": "# Población",
-                        "CREATED_AT": "Creado el",
-                        "ACTION": "Acción"
-                    },
-                    "VALIDATION": {
-                        "MIN_LENGTH": "Mínimo de caracteres requerido",
-                        "MAX_LENGTH": "Máximo de caracteres permitido",
-                        "MIN_VALUE": "Valor mínimo",
-                        "MAX_VALUE": "Valor máximo",
-                        "INVALID_FORMAT": "Formato inválido",
-                        "INVALID_INPUT": "Valor inválido",
-                        "REQUIRED": "Este campo es obligatorio"
-                    }
-                },
-                "DELETE": {
-                    "CONFIRM": "Confirmar",
-                    "CANCEL": "Cancelar"
-                },
-                "SWEET_ALERT": {
-                    "TITLE.EDIT": "Actualizar Municipio/Subprefectura",
-                    "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este Municipio/Subprefectura?",
-                    "TITLE_CREATE": "Crear Municipio/Subprefectura",
-                    "MESSAGE_CREATE": "¿Está seguro de que desea crear este Municipio/Subprefectura?",
-                    "TITLE_DELETE": "Eliminar Municipio/Subprefectura",
-                    "MESSAGE_DELETE": "¿Está seguro de que desea eliminar este Municipio/Subprefectura?"
+                "VALIDATION": {
+                    "MIN_LENGTH": "Mínimo de caracteres requerido",
+                    "MAX_LENGTH": "Máximo de caracteres permitido",
+                    "MIN_VALUE": "Valor mínimo",
+                    "MAX_VALUE": "Valor máximo",
+                    "INVALID_FORMAT": "Formato inválido",
+                    "INVALID_INPUT": "Valor inválido",
+                    "REQUIRED": "Este campo es obligatorio"
                 }
             },
-            "REGIONS": {
-                "BREADCRUMB": {
+            "DELETE": {
+                "CONFIRM": "Confirmar",
+                "CANCEL": "Cancelar"
+            },
+            "SWEET_ALERT": {
+                "TITLE.EDIT": "Actualizar Municipio/Subprefectura",
+                "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar este Municipio/Subprefectura?",
+                "TITLE_CREATE": "Crear Municipio/Subprefectura",
+                "MESSAGE_CREATE": "¿Está seguro de que desea crear este Municipio/Subprefectura?",
+                "TITLE_DELETE": "Eliminar Municipio/Subprefectura",
+                "MESSAGE_DELETE": "¿Está seguro de que desea eliminar este Municipio/Subprefectura?"
+            }
+        },
+        "REGIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Regiones",
+                "ROUTE": "regions"
+            },
+            "TABS": {
+                "REGIONS": {
                     "LABEL": "Regiones",
                     "ROUTE": "regions"
                 },
-                "TABS": {
-                    "REGIONS": {
-                        "LABEL": "Regiones",
-                        "ROUTE": "regions"
-                    },
-                    "HISTORY": {
-                        "LABEL": "Historial",
-                        "ROUTE": "history"
-                    }
+                "HISTORY": {
+                    "LABEL": "Historial",
+                    "ROUTE": "history"
+                }
+            },
+            "TITLE": "Regiones",
+            "LABEL": "Regiones",
+            "ROUTE": "regions",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Fecha de inicio",
+                    "TO": "Fecha de fin",
+                    "PLACEHOLDER": "AAAA-MM-DD"
                 },
-                "TITLE": "Regiones",
-                "LABEL": "Regiones",
-                "ROUTE": "regions",
-                "FILTER": {
-                    "DATE": {
-                        "FROM": "Fecha de inicio",
-                        "TO": "Fecha de fin",
-                        "PLACEHOLDER": "AAAA-MM-DD"
-                    },
-                    "SEARCH": "Buscar",
-                    "SEARCH_PLACEHOLDER": "Buscar",
-                    "PLATFORM": "Plataforma",
-                    "REGION": "Región",
-                    "TYPE": "Tipo de contenido",
-                    "TYPE_PLACEHOLDER": "Tipo de contenido",
-                    "STATUS": "Estado",
-                    "STATUS_PLACEHOLDER": "Estado"
-                },
-                "TABLE": {
+                "SEARCH": "Buscar",
+                "SEARCH_PLACEHOLDER": "Buscar",
+                "PLATFORM": "Plataforma",
+                "REGION": "Región",
+                "TYPE": "Tipo de contenido",
+                "TYPE_PLACEHOLDER": "Tipo de contenido",
+                "STATUS": "Estado",
+                "STATUS_PLACEHOLDER": "Estado"
+            },
+            "TABLE": {
+                "CODE": "Código",
+                "NAME": "Nombre de la región",
+                "REGION": "Región",
+                "DEPARTMENTS_COUNT": "# Departamentos",
+                "DESCRIPTION": "Descripción",
+                "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
+                "POPULATION_SIZE": "# Población",
+                "CREATED_AT": "Creado el",
+                "UPDATED_AT": "Modificado el",
+                "ACTION": "Acción"
+            },
+            "FORM": {
+                "TITLE_FORM_EDIT": "Formulario de edición de región",
+                "TITLE_FORM_ADD": "Formulario de agregar región",
+                "FIELDSET_GENERAL_INFO": {
+                    "TITLE": "Información General",
                     "CODE": "Código",
+                    "CODE_PLACEHOLDER": "Ej: 1",
                     "NAME": "Nombre de la región",
+                    "NAME_PLACEHOLDER": "Ej: Nueva región",
                     "REGION": "Región",
-                    "DEPARTMENTS_COUNT": "# Departamentos",
                     "DESCRIPTION": "Descripción",
+                    "DESCRIPTION_PLACEHOLDER": "Ej: Descripción del departamento",
                     "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
+                    "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ej: 100",
                     "POPULATION_SIZE": "# Población",
                     "CREATED_AT": "Creado el",
-                    "UPDATED_AT": "Modificado el",
                     "ACTION": "Acción"
                 },
-                "FORM": {
-                    "TITLE_FORM_EDIT": "Formulario de edición de región",
-                    "TITLE_FORM_ADD": "Formulario de agregar región",
-                    "FIELDSET_GENERAL_INFO": {
-                        "TITLE": "Información General",
-                        "CODE": "Código",
-                        "CODE_PLACEHOLDER": "Ej: 1",
-                        "NAME": "Nombre de la región",
-                        "NAME_PLACEHOLDER": "Ej: Nueva región",
-                        "REGION": "Región",
-                        "DESCRIPTION": "Descripción",
-                        "DESCRIPTION_PLACEHOLDER": "Ej: Descripción del departamento",
-                        "MUNICIPALITIES_COUNT": "# municipios/subprefecturas",
-                        "MUNICIPALITIES_COUNT_PLACEHOLDER": "Ej: 100",
-                        "POPULATION_SIZE": "# Población",
-                        "CREATED_AT": "Creado el",
-                        "ACTION": "Acción"
-                    },
-                    "VALIDATION": {
-                        "MIN_LENGTH": "Mínimo de caracteres requerido",
-                        "MAX_LENGTH": "Máximo de caracteres permitido",
-                        "MIN_VALUE": "Valor mínimo",
-                        "MAX_VALUE": "Valor máximo",
-                        "INVALID_FORMAT": "Formato inválido",
-                        "INVALID_INPUT": "Valor inválido",
-                        "REQUIRED": "Este campo es obligatorio"
-                    }
-                },
-                "DELETE": {
-                    "CONFIRM": "Confirmar",
-                    "CANCEL": "Cancelar"
-                },
-                "SWEET_ALERT": {
-                    "TITLE.EDIT": "Actualizar región",
-                    "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar esta región?",
-                    "TITLE_CREATE": "Crear región",
-                    "MESSAGE_CREATE": "¿Está seguro de que desea crear esta región?",
-                    "TITLE_DELETE": "Eliminar región",
-                    "MESSAGE_DELETE": "¿Está seguro de que desea eliminar esta región?"
+                "VALIDATION": {
+                    "MIN_LENGTH": "Mínimo de caracteres requerido",
+                    "MAX_LENGTH": "Máximo de caracteres permitido",
+                    "MIN_VALUE": "Valor mínimo",
+                    "MAX_VALUE": "Valor máximo",
+                    "INVALID_FORMAT": "Formato inválido",
+                    "INVALID_INPUT": "Valor inválido",
+                    "REQUIRED": "Este campo es obligatorio"
                 }
             },
-            "DEPARTMENTS_BY_REGION_ID": {
-                "BREADCRUMB": {
-                    "LABEL": "Departamentos",
-                    "ROUTE": "departments-by-region-id"
-                },
-                "TITLE": "Departamentos de la región",
-                "LABEL": "Departamentos",
-                "ROUTE": "departments-by-region-id",
-                "FILTER": {
-                    "DATE": {
-                        "FROM": "Fecha de inicio",
-                        "TO": "Fecha de fin",
-                        "PLACEHOLDER": "AAAA-MM-DD"
-                    },
-                    "SEARCH": "Buscar",
-                    "SEARCH_PLACEHOLDER": "Buscar"
-                },
-                "TABLE": {
-                    "CODE": "Código",
-                    "NAME": "Nombre del departamento",
-                    "MUNICIPALITIES_COUNT": "# Municipios/Subprefecturas",
-                    "DESCRIPTION": "Descripción",
-                    "POPULATION_SIZE": "# Población",
-                    "CREATED_AT": "Creado el",
-                    "ACTION": "Acción"
-                }
+            "DELETE": {
+                "CONFIRM": "Confirmar",
+                "CANCEL": "Cancelar"
             },
-            "MUNICIPALITIES_BY_DEPARTMENT_ID": {
-                "BREADCRUMB": {
-                    "LABEL": "Municipios/Subprefecturas",
-                    "ROUTE": "municipalities-by-department-id"
-                },
-                "TITLE": "Municipios/Subprefecturas del departamento",
-                "LABEL": "Municipios/Subprefecturas",
-                "ROUTE": "municipalities-by-department-id",
-                "FILTER": {
-                    "DATE": {
-                        "FROM": "Fecha de inicio",
-                        "TO": "Fecha de fin",
-                        "PLACEHOLDER": "AAAA-MM-DD"
-                    },
-                    "SEARCH": "Buscar",
-                    "SEARCH_PLACEHOLDER": "Buscar"
-                },
-                "TABLE": {
-                    "CODE": "Código",
-                    "NAME": "Nombre del Municipio/Subprefectura",
-                    "DESCRIPTION": "Descripción",
-                    "POPULATION_SIZE": "# Población",
-                    "CREATED_AT": "Creado el",
-                    "ACTION": "Acción"
-                }
+            "SWEET_ALERT": {
+                "TITLE.EDIT": "Actualizar región",
+                "MESSAGE_UPDATE": "¿Está seguro de que desea actualizar esta región?",
+                "TITLE_CREATE": "Crear región",
+                "MESSAGE_CREATE": "¿Está seguro de que desea crear esta región?",
+                "TITLE_DELETE": "Eliminar región",
+                "MESSAGE_DELETE": "¿Está seguro de que desea eliminar esta región?"
             }
         },
-        "PAGINATION": {
+        "DEPARTMENTS_BY_REGION_ID": {
+            "BREADCRUMB": {
+                "LABEL": "Departamentos",
+                "ROUTE": "departments-by-region-id"
+            },
+            "TITLE": "Departamentos de la región",
+            "LABEL": "Departamentos",
+            "ROUTE": "departments-by-region-id",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Fecha de inicio",
+                    "TO": "Fecha de fin",
+                    "PLACEHOLDER": "AAAA-MM-DD"
+                },
+                "SEARCH": "Buscar",
+                "SEARCH_PLACEHOLDER": "Buscar"
+            },
+            "TABLE": {
+                "CODE": "Código",
+                "NAME": "Nombre del departamento",
+                "MUNICIPALITIES_COUNT": "# Municipios/Subprefecturas",
+                "DESCRIPTION": "Descripción",
+                "POPULATION_SIZE": "# Población",
+                "CREATED_AT": "Creado el",
+                "ACTION": "Acción"
+            }
+        },
+        "MUNICIPALITIES_BY_DEPARTMENT_ID": {
+            "BREADCRUMB": {
+                "LABEL": "Municipios/Subprefecturas",
+                "ROUTE": "municipalities-by-department-id"
+            },
+            "TITLE": "Municipios/Subprefecturas del departamento",
+            "LABEL": "Municipios/Subprefecturas",
+            "ROUTE": "municipalities-by-department-id",
+            "FILTER": {
+                "DATE": {
+                    "FROM": "Fecha de inicio",
+                    "TO": "Fecha de fin",
+                    "PLACEHOLDER": "AAAA-MM-DD"
+                },
+                "SEARCH": "Buscar",
+                "SEARCH_PLACEHOLDER": "Buscar"
+            },
+            "TABLE": {
+                "CODE": "Código",
+                "NAME": "Nombre del Municipio/Subprefectura",
+                "DESCRIPTION": "Descripción",
+                "POPULATION_SIZE": "# Población",
+                "CREATED_AT": "Creado el",
+                "ACTION": "Acción"
+            }
+        }
+    },
+    "PAGINATION": {
         "TOTAL": "Total",
         "PER_PAGE": "Por página",
         "SHOWING": "Mostrando",
@@ -1264,9 +1264,9 @@
     },
     "LOGOUT": {
         "SWEET_ALERT_PARAMS": {
-        "CONFIRM": "¿Cerrar sesión de la cuenta?",
-        "MESSAGES": "¿Está seguro de que desea cerrar sesión?",
-        "BUTTONS": "Cerrar sesión"
+            "CONFIRM": "¿Cerrar sesión de la cuenta?",
+            "MESSAGES": "¿Está seguro de que desea cerrar sesión?",
+            "BUTTONS": "Cerrar sesión"
         }
     },
     "MY_ACCOUNT": {
@@ -1329,10 +1329,10 @@
     },
     "REQUESTS": {
         "BREADCRUMB": {
-                "LABEL": "Calificaciones de solicitudes",
-                "ROUTE": "requests",
-                "ICON": "pi-list-check"
-            },
+            "LABEL": "Calificaciones de solicitudes",
+            "ROUTE": "requests",
+            "ICON": "pi-list-check"
+        },
         "LABEL": "Calificaciones",
         "ROUTE": "requests",
         "QUEUES": {
@@ -2348,317 +2348,317 @@
         }
     },
     "MANAGEMENT": {
-            "TITLE": "Tratamiento del reporte",
-            "LABEL": "Tratamiento del reporte",
-            "REPORT_ID": "Identificador del reporte",
-            "PLACEHOLDER": "Contenido del tratamiento por venir...",
-            "STATUS": {
-                "SUBMISSION": "Envío",
-                "QUALIFICATION": "Calificación",
-                "TREATMENT": "Tratamiento",
-                "FINALIZATION": "Finalización",
-                "INFORMATION": "Información",
-                "CLOSURE": "Cierre",
+        "TITLE": "Tratamiento del reporte",
+        "LABEL": "Tratamiento del reporte",
+        "REPORT_ID": "Identificador del reporte",
+        "PLACEHOLDER": "Contenido del tratamiento por venir...",
+        "STATUS": {
+            "SUBMISSION": "Envío",
+            "QUALIFICATION": "Calificación",
+            "TREATMENT": "Tratamiento",
+            "FINALIZATION": "Finalización",
+            "INFORMATION": "Información",
+            "CLOSURE": "Cierre",
+            "TAKE": "Agregar al carrito",
+            "APPROBATION": "Aprobación"
+        },
+        "BUTTONS": {
+            "SUBMISSION": "Enviar",
+            "QUALIFICATION": "Calificar",
+            "TREATMENT": "Tratar",
+            "FINALIZATION": "Finalizar",
+            "INFORMATION": "Información",
+            "TAKE": "Tomar",
+            "APPROBATION": "Aprobar"
+        },
+        "HEADER": {
+            "DETAILS_REPORT": "del reporte",
+            "DETAILS_DEMAND": "de la solicitud",
+            "NUMBER_OF_CONFIRMATIONS": "Número de confirmaciones",
+            "REPORT_ID": "Identificador",
+            "STATUS": "Estado",
+            "STATUS_PENDING": "Pendiente",
+            "TYPE": "Tipo",
+            "TYPE_PLACEHOLDER": "Zona Blanca",
+            "DATE_PLACEHOLDER": "Fecha por venir..."
+        },
+        "STEP_BAR": {
+            "PRISE_EN_CHARGE": "Agregado al carrito el",
+            "APPROBATION": "Aprobado el",
+            "TREATMENT": "Tratado el",
+            "FINALIZATION": "Finalizado el",
+            "EVALUATION": "Evaluado el"
+        },
+        "SIDEBAR": {
+            "ACTIONS": {
                 "TAKE": "Agregar al carrito",
-                "APPROBATION": "Aprobación"
+                "APPROVE": "Aprobar",
+                "TREAT": "Tratar"
             },
-            "BUTTONS": {
-                "SUBMISSION": "Enviar",
-                "QUALIFICATION": "Calificar",
-                "TREATMENT": "Tratar",
-                "FINALIZATION": "Finalizar",
+            "INITIATOR": {
+                "TITLE": "Información del iniciador",
+                "LAST_NAME": "Apellido",
+                "FIRST_NAME": "Nombres",
+                "PHONE": "Contacto"
+            },
+            "APPROVER": {
+                "TITLE": "Información del aprobador",
+                "LAST_NAME": "Apellido",
+                "FIRST_NAME": "Nombres",
+                "PHONE": "Contacto"
+            },
+            "TOOK": {
+                "TITLE": "Información del gestor",
+                "LAST_NAME": "Apellido",
+                "FIRST_NAME": "Nombres",
+                "PHONE": "Contacto"
+            },
+            "REFUSER": {
+                "TITLE": "Información del rechazador",
+                "LAST_NAME": "Apellido",
+                "FIRST_NAME": "Nombres",
+                "PHONE": "Contacto"
+            },
+            "PROCESSED": {
+                "TITLE": "Información del tratante",
+                "LAST_NAME": "Apellido",
+                "FIRST_NAME": "Nombres",
+                "PHONE": "Contacto"
+            },
+            "LOCATION": {
+                "TITLE": "Ubicación",
+                "PLACEHOLDER": "Ubicación por venir..."
+            }
+        },
+        "TABS": {
+            "CATEGORIES": {
                 "INFORMATION": "Información",
-                "TAKE": "Tomar",
-                "APPROBATION": "Aprobar"
+                "IMAGES": "Fotos",
+                "GEOGRAPHIC_VIEW": "Vista geográfica",
+                "TREATMENT_LOGS": "Diario de tratamiento"
             },
-            "HEADER": {
-                "DETAILS_REPORT": "del reporte",
-                "DETAILS_DEMAND": "de la solicitud",
-                "NUMBER_OF_CONFIRMATIONS": "Número de confirmaciones",
-                "REPORT_ID": "Identificador",
-                "STATUS": "Estado",
-                "STATUS_PENDING": "Pendiente",
-                "TYPE": "Tipo",
-                "TYPE_PLACEHOLDER": "Zona Blanca",
-                "DATE_PLACEHOLDER": "Fecha por venir..."
+            "SECTIONS": {
+                "INFO": "Información"
+            }
+        },
+        "CONTENT": {
+            "INFORMATION": {
+                "PLACEHOLDER": "Contenido de información por venir..."
             },
-            "STEP_BAR": {
-                "PRISE_EN_CHARGE": "Agregado al carrito el",
-                "APPROBATION": "Aprobado el",
-                "TREATMENT": "Tratado el",
-                "FINALIZATION": "Finalizado el",
-                "EVALUATION": "Evaluado el"
+            "PHOTOS": {
+                "PLACEHOLDER": "Contenido de fotos por venir..."
             },
-            "SIDEBAR": {
-                "ACTIONS": {
-                    "TAKE": "Agregar al carrito",
-                    "APPROVE": "Aprobar",
-                    "TREAT": "Tratar"
-                },
-                "INITIATOR": {
-                    "TITLE": "Información del iniciador",
-                    "LAST_NAME": "Apellido",
-                    "FIRST_NAME": "Nombres",
-                    "PHONE": "Contacto"
-                },
-                "APPROVER": {
-                    "TITLE": "Información del aprobador",
-                    "LAST_NAME": "Apellido",
-                    "FIRST_NAME": "Nombres",
-                    "PHONE": "Contacto"
-                },
-                "TOOK": {
-                    "TITLE": "Información del gestor",
-                    "LAST_NAME": "Apellido",
-                    "FIRST_NAME": "Nombres",
-                    "PHONE": "Contacto"
-                },
-                "REFUSER": {
-                    "TITLE": "Información del rechazador",
-                    "LAST_NAME": "Apellido",
-                    "FIRST_NAME": "Nombres",
-                    "PHONE": "Contacto"
-                },
-                "PROCESSED": {
-                    "TITLE": "Información del tratante",
-                    "LAST_NAME": "Apellido",
-                    "FIRST_NAME": "Nombres",
-                    "PHONE": "Contacto"
-                },
-                "LOCATION": {
-                    "TITLE": "Ubicación",
-                    "PLACEHOLDER": "Ubicación por venir..."
-                }
-            },
-            "TABS": {
-                "CATEGORIES": {
-                    "INFORMATION": "Información",
-                    "IMAGES": "Fotos",
-                    "GEOGRAPHIC_VIEW": "Vista geográfica",
-                    "TREATMENT_LOGS": "Diario de tratamiento"
-                },
-                "SECTIONS": {
-                    "INFO": "Información"
-                }
-            },
-            "CONTENT": {
-                "INFORMATION": {
-                    "PLACEHOLDER": "Contenido de información por venir..."
-                },
-                "PHOTOS": {
-                    "PLACEHOLDER": "Contenido de fotos por venir..."
-                },
-                "GEOGRAPHIC_VIEW": {
-                    "PLACEHOLDER": "Contenido de vista geográfica por venir..."
-                }
-            },
-            "TREATMENT": {
-                "PANEL": "Panel de tratamiento",
-                "TAKE_ACTION": {
-                    "TITLE": "Agregar reporte al carrito",
-                    "REQUIRED": "Requerido",
-                    "DECISION": "Decisión",
-                    "COMMENT": "Comentario",
-                    "COMMENT_PLACEHOLDER": "Ingrese su comentario...",
-                    "MOTIF": "Motivo",
-                    "MOTIF_PLACEHOLDER": "Ingrese su comentario...",
-                    "OPTIONS": {
-                        "APPROVE": {
-                            "LABEL": "Aceptar",
-                            "DESCRIPTION": "Agregar reporte al carrito"
-                        },
-                        "REJECT": {
-                            "LABEL": "Rechazar",
-                            "DESCRIPTION": "Rechazar el reporte"
-                        }
-                    },
-                    "VALIDATION": {
-                        "MOTIF_REQUIRED": "El motivo es requerido",
-                        "COMMENT_REQUIRED": "Se requiere un comentario"
-                    }
-                }
-            },
-            "FORM": {
-                "READ_ONLY": "Solo lectura",
-                "NOT_SPECIFIED": "No especificado",
-                "NO_DESCRIPTION": "No se proporcionó descripción",
-                "STATUS": {
-                    "INVALID": "Inválido",
-                    "VALID": "Válido"
-                },
-                "REPORT_INFO": {
-                    "TITLE": "Información del reporte",
-                    "TRANSMISSION_CHANNEL": "Canal de Emisión",
-                    "GEOLOCATION_SYSTEM": "Sistema de Geolocalización",
-                    "OPERATORS": "Operadores involucrados",
-                    "DATE_TIME_ENTRY": "Fecha Hora de ingreso",
-                    "DATE_TIME_RECEIPT": "Fecha Hora de recepción",
-                    "NUMBER_OF_ACTIONS": "Número de acciones realizadas",
-                    "REGION": "Región",
-                    "DEPARTMENT": "Departamento",
-                    "COMMUNE": "Municipio/Subprefectura",
-                    "TYPE": "Tipos de reportes",
-                    "STATUS": "Estado",
-                    "DESCRIPTION": "Descripción del reporte",
-                    "COMMENT_APPROVER": "Comentario del aprobador",
-                    "COMMENT_REJECT": "Comentario del rechazador",
-                    "NO_COMMENT_APPROVER": "No se proporcionó comentario del aprobador",
-                    "COMMENT_TREATMENT": "Comentario del tratante",
-                    "COMMENT_FINALIZATION": "Comentario del finalizador",
-                    "NO_COMMENT_FINALIZATION": "No se proporcionó comentario del finalizador",
-                    "NO_COMMENT_TREATMENT": "No se proporcionó comentario del tratante",
-                    "COMMENT_TREAT": "Comentario del tratamiento",
-                    "LOCATION_NAME": "Vínculo con la zona",
-                    "NO_DESCRIPTION": "No se proporcionó descripción de ubicación"
-                },
-                "LOCATION_INFO": {
-                    "TITLE": "Información de la ubicación",
-                    "COORDINATES": "Coordenadas",
-                    "LOCATION_METHOD": "Lectura de Coordenadas",
-                    "LONGITUDE": "Longitud",
-                    "LATITUDE": "Latitud",
-                    "PLACE_DESCRIPTION": "Descripción del lugar",
-                    "NO_DESCRIPTION": "No se proporcionó descripción de ubicación"
-                },
-                "PICTURES_INFO": {
-                    "TITLE": "Descripción del lugar"
-                },
-                "PICTURES": {
-                    "TITLE": "Fotos",
-                    "ACCESS_ROAD": "Vía de acceso",
-                    "OBSERVATION_POINT": "Punto de observación",
-                    "NO_DATA": "No hay fotos disponibles."
-                },
-                "FIELDS": {
-                    "REPORT_ID": "ID del Reporte",
-                    "SOURCE": "Fuente",
-                    "INITIATOR": "Iniciador",
-                    "OPERATORS": "Operadores involucrados",
-                    "LOCATION_NAME": "Nombre del lugar",
-                    "LOCATION_METHOD": "Método",
-                    "LOCATION_TYPE": "Tipo de ubicación",
-                    "REGION": "Región",
-                    "DEPARTMENT": "Departamento",
-                    "COMMUNE": "Municipio/Subprefectura"
-                },
-                "VALUES": {
-                    "SOURCE": {
-                        "APP": "Aplicación Móvil",
-                        "WEB": "Sitio Web",
-                        "ADMIN": "Administración"
-                    },
-                    "REPORT_TYPE": {
-                        "ABI": "Sin Internet",
-                        "ZOB": "Zona Blanca",
-                        "CPS": "Cobertura Parcial de Señal",
-                        "CPO": "Cobertura Parcial de Operador",
-                        "OTHER": "Otro"
-                    },
-                    "STATUS": {
-                        "PENDING": "Pendiente",
-                        "APPROVED": "Aprobado",
-                        "REJECTED": "Rechazado",
-                        "ABANDONED": "Abandonado",
-                        "CONFIRM": "Confirmar",
-                        "TERMINATED": "Terminado",
-                        "RECEIVED": "Recibido",
-                        "IN_PROGRESS": "En curso",
-                        "SUBMISSION": "Envío",
-                        "PROCESSING": "Procesamiento"
-                    },
-                    "OPERATORS": {
-                        "MTN": "MTN",
-                        "ORANGE": "Orange",
-                        "MOOV": "Moov"
-                    },
-                    "LOCATION": {
-                        "METHOD_AUTO": "Automático",
-                        "METHOD_MANUAL": "Manual",
-                        "TYPE_GPS": "GPS",
-                        "TYPE_NETWORK": "Red",
-                        "TYPE_MANUAL": "Manual"
-                    }
-                },
-                "ACTIONS": {
-                    "VIEW_MAP": "Ver en el mapa",
-                    "COPY_COORDINATES": "Copiar coordenadas",
-                    "OPEN_MAP": "Abrir mapa"
-                }
-            },
-            "FOOTER": {
-                "ACTIONS": {
-                    "TAKE_CHARGE": "Agregar al carrito",
-                    "APPROVE": "Aprobar",
-                    "PROCESS": "Tratar",
-                    "FINALIZE": "Finalizar",
-                    "EVALUATE": "Evaluar",
-                    "SAVE": "Guardar",
-                    "CANCEL": "Cancelar"
-                }
-            },
-            "SWEET_ALERT_PARAMS": {
-                "CONFIRM": {
-                    "WAITING": {
-                        "TITLE": "Agregar reporte al carrito"
+            "GEOGRAPHIC_VIEW": {
+                "PLACEHOLDER": "Contenido de vista geográfica por venir..."
+            }
+        },
+        "TREATMENT": {
+            "PANEL": "Panel de tratamiento",
+            "TAKE_ACTION": {
+                "TITLE": "Agregar reporte al carrito",
+                "REQUIRED": "Requerido",
+                "DECISION": "Decisión",
+                "COMMENT": "Comentario",
+                "COMMENT_PLACEHOLDER": "Ingrese su comentario...",
+                "MOTIF": "Motivo",
+                "MOTIF_PLACEHOLDER": "Ingrese su comentario...",
+                "OPTIONS": {
+                    "APPROVE": {
+                        "LABEL": "Aceptar",
+                        "DESCRIPTION": "Agregar reporte al carrito"
                     },
                     "REJECT": {
-                        "TITLE": "Rechazar reporte"
-                    },
-                    "APPROVAL": {
-                        "TITLE": "Aprobar reporte"
-                    },
-                    "TREATMENT": {
-                        "TITLE": "Tratar reporte"
-                    },
-                    "FINALIZE": {
-                        "TITLE": "Finalizar reporte"
-                    },
-                    "EVALUATE": {
-                        "TITLE": "Evaluar reporte"
+                        "LABEL": "Rechazar",
+                        "DESCRIPTION": "Rechazar el reporte"
                     }
                 },
-                "MESSAGES": {
-                    "WAITING": {
-                        "TITLE": "¿Está seguro de que desea agregar el reporte <b class='text-primary'>uniqId</b> al carrito?"
-                    },
-                    "REJECT": {
-                        "TITLE": "¿Está seguro de que desea rechazar el reporte <b class='text-primary'>uniqId</b>?"
-                    },
-                    "APPROVAL": {
-                        "TITLE": "¿Está seguro de que desea aprobar el reporte <b class='text-primary'>uniqId</b>?"
-                    },
-                    "TREATMENT": {
-                        "TITLE": "¿Está seguro de que desea tratar el reporte <b class='text-primary'>uniqId</b>?"
-                    },
-                    "FINALIZE": {
-                        "TITLE": "¿Está seguro de que desea finalizar el reporte <b class='text-primary'>uniqId</b>?"
-                    },
-                    "EVALUATE": {
-                        "TITLE": "¿Está seguro de que desea evaluar el reporte <b class='text-primary'>uniqId</b>?"
-                    }
-                },
-                "BUTTONS": {
-                    "WAITING": {
-                        "TITLE": "Tomar a cargo"
-                    },
-                    "REJECT": {
-                        "TITLE": "Rechazar"
-                    },
-                    "APPROVAL": {
-                        "TITLE": "Aprobar"
-                    },
-                    "TREATMENT": {
-                        "TITLE": "Tratar"
-                    },
-                    "FINALIZE": {
-                        "TITLE": "Finalizar"
-                    },
-                    "EVALUATE": {
-                        "TITLE": "Evaluar"
-                    },
-                    "CONFIRM": "Confirmar"
+                "VALIDATION": {
+                    "MOTIF_REQUIRED": "El motivo es requerido",
+                    "COMMENT_REQUIRED": "Se requiere un comentario"
                 }
             }
+        },
+        "FORM": {
+            "READ_ONLY": "Solo lectura",
+            "NOT_SPECIFIED": "No especificado",
+            "NO_DESCRIPTION": "No se proporcionó descripción",
+            "STATUS": {
+                "INVALID": "Inválido",
+                "VALID": "Válido"
+            },
+            "REPORT_INFO": {
+                "TITLE": "Información del reporte",
+                "TRANSMISSION_CHANNEL": "Canal de Emisión",
+                "GEOLOCATION_SYSTEM": "Sistema de Geolocalización",
+                "OPERATORS": "Operadores involucrados",
+                "DATE_TIME_ENTRY": "Fecha Hora de ingreso",
+                "DATE_TIME_RECEIPT": "Fecha Hora de recepción",
+                "NUMBER_OF_ACTIONS": "Número de acciones realizadas",
+                "REGION": "Región",
+                "DEPARTMENT": "Departamento",
+                "COMMUNE": "Municipio/Subprefectura",
+                "TYPE": "Tipos de reportes",
+                "STATUS": "Estado",
+                "DESCRIPTION": "Descripción del reporte",
+                "COMMENT_APPROVER": "Comentario del aprobador",
+                "COMMENT_REJECT": "Comentario del rechazador",
+                "NO_COMMENT_APPROVER": "No se proporcionó comentario del aprobador",
+                "COMMENT_TREATMENT": "Comentario del tratante",
+                "COMMENT_FINALIZATION": "Comentario del finalizador",
+                "NO_COMMENT_FINALIZATION": "No se proporcionó comentario del finalizador",
+                "NO_COMMENT_TREATMENT": "No se proporcionó comentario del tratante",
+                "COMMENT_TREAT": "Comentario del tratamiento",
+                "LOCATION_NAME": "Vínculo con la zona",
+                "NO_DESCRIPTION": "No se proporcionó descripción de ubicación"
+            },
+            "LOCATION_INFO": {
+                "TITLE": "Información de la ubicación",
+                "COORDINATES": "Coordenadas",
+                "LOCATION_METHOD": "Lectura de Coordenadas",
+                "LONGITUDE": "Longitud",
+                "LATITUDE": "Latitud",
+                "PLACE_DESCRIPTION": "Descripción del lugar",
+                "NO_DESCRIPTION": "No se proporcionó descripción de ubicación"
+            },
+            "PICTURES_INFO": {
+                "TITLE": "Descripción del lugar"
+            },
+            "PICTURES": {
+                "TITLE": "Fotos",
+                "ACCESS_ROAD": "Vía de acceso",
+                "OBSERVATION_POINT": "Punto de observación",
+                "NO_DATA": "No hay fotos disponibles."
+            },
+            "FIELDS": {
+                "REPORT_ID": "ID del Reporte",
+                "SOURCE": "Fuente",
+                "INITIATOR": "Iniciador",
+                "OPERATORS": "Operadores involucrados",
+                "LOCATION_NAME": "Nombre del lugar",
+                "LOCATION_METHOD": "Método",
+                "LOCATION_TYPE": "Tipo de ubicación",
+                "REGION": "Región",
+                "DEPARTMENT": "Departamento",
+                "COMMUNE": "Municipio/Subprefectura"
+            },
+            "VALUES": {
+                "SOURCE": {
+                    "APP": "Aplicación Móvil",
+                    "WEB": "Sitio Web",
+                    "ADMIN": "Administración"
+                },
+                "REPORT_TYPE": {
+                    "ABI": "Sin Internet",
+                    "ZOB": "Zona Blanca",
+                    "CPS": "Cobertura Parcial de Señal",
+                    "CPO": "Cobertura Parcial de Operador",
+                    "OTHER": "Otro"
+                },
+                "STATUS": {
+                    "PENDING": "Pendiente",
+                    "APPROVED": "Aprobado",
+                    "REJECTED": "Rechazado",
+                    "ABANDONED": "Abandonado",
+                    "CONFIRM": "Confirmar",
+                    "TERMINATED": "Terminado",
+                    "RECEIVED": "Recibido",
+                    "IN_PROGRESS": "En curso",
+                    "SUBMISSION": "Envío",
+                    "PROCESSING": "Procesamiento"
+                },
+                "OPERATORS": {
+                    "MTN": "MTN",
+                    "ORANGE": "Orange",
+                    "MOOV": "Moov"
+                },
+                "LOCATION": {
+                    "METHOD_AUTO": "Automático",
+                    "METHOD_MANUAL": "Manual",
+                    "TYPE_GPS": "GPS",
+                    "TYPE_NETWORK": "Red",
+                    "TYPE_MANUAL": "Manual"
+                }
+            },
+            "ACTIONS": {
+                "VIEW_MAP": "Ver en el mapa",
+                "COPY_COORDINATES": "Copiar coordenadas",
+                "OPEN_MAP": "Abrir mapa"
+            }
+        },
+        "FOOTER": {
+            "ACTIONS": {
+                "TAKE_CHARGE": "Agregar al carrito",
+                "APPROVE": "Aprobar",
+                "PROCESS": "Tratar",
+                "FINALIZE": "Finalizar",
+                "EVALUATE": "Evaluar",
+                "SAVE": "Guardar",
+                "CANCEL": "Cancelar"
+            }
+        },
+        "SWEET_ALERT_PARAMS": {
+            "CONFIRM": {
+                "WAITING": {
+                    "TITLE": "Agregar reporte al carrito"
+                },
+                "REJECT": {
+                    "TITLE": "Rechazar reporte"
+                },
+                "APPROVAL": {
+                    "TITLE": "Aprobar reporte"
+                },
+                "TREATMENT": {
+                    "TITLE": "Tratar reporte"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finalizar reporte"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluar reporte"
+                }
+            },
+            "MESSAGES": {
+                "WAITING": {
+                    "TITLE": "¿Está seguro de que desea agregar el reporte <b class='text-primary'>uniqId</b> al carrito?"
+                },
+                "REJECT": {
+                    "TITLE": "¿Está seguro de que desea rechazar el reporte <b class='text-primary'>uniqId</b>?"
+                },
+                "APPROVAL": {
+                    "TITLE": "¿Está seguro de que desea aprobar el reporte <b class='text-primary'>uniqId</b>?"
+                },
+                "TREATMENT": {
+                    "TITLE": "¿Está seguro de que desea tratar el reporte <b class='text-primary'>uniqId</b>?"
+                },
+                "FINALIZE": {
+                    "TITLE": "¿Está seguro de que desea finalizar el reporte <b class='text-primary'>uniqId</b>?"
+                },
+                "EVALUATE": {
+                    "TITLE": "¿Está seguro de que desea evaluar el reporte <b class='text-primary'>uniqId</b>?"
+                }
+            },
+            "BUTTONS": {
+                "WAITING": {
+                    "TITLE": "Tomar a cargo"
+                },
+                "REJECT": {
+                    "TITLE": "Rechazar"
+                },
+                "APPROVAL": {
+                    "TITLE": "Aprobar"
+                },
+                "TREATMENT": {
+                    "TITLE": "Tratar"
+                },
+                "FINALIZE": {
+                    "TITLE": "Finalizar"
+                },
+                "EVALUATE": {
+                    "TITLE": "Evaluar"
+                },
+                "CONFIRM": "Confirmar"
+            }
+        }
     },
     "SETTINGS_SECURITY": {
         "BREADCRUMB": {
@@ -2933,6 +2933,262 @@
                 "USED_AGENT": "Agente utilizado",
                 "CREATED_AT": "Creado el",
                 "ACTION": "Acción"
+            }
+        }
+    },
+    "COVERAGE_AREAS": {
+        "BREADCRUMB": {
+            "LABEL": "Coberturas",
+            "ROUTE": "coverage-areas",
+            "ICON": "pi-sitemap"
+        },
+        "LABEL": "Coberturas",
+        "ROUTE": "coverage-areas",
+        "SITE_GROUP": {
+            "BREADCRUMB": {
+                "LABEL": "Grupos de sitios",
+                "ROUTE": "site-groups",
+                "ICON": "pi-sitemap"
+            },
+            "TITLE": "Grupos de sitios",
+            "ROUTE": "site-groups",
+            "TABLE": {
+                "CODE": "Código",
+                "NAME": "Nombre del grupo",
+                "STATUS": "Estado",
+                "UPDATED_AT": "Actualizado el",
+                "ACTION": "Acción"
+            },
+            "FILTER": {
+                "SEARCH": "Buscar",
+                "SEARCH_PLACEHOLDER": "Buscar",
+                "STATUS": "Estado",
+                "DATE": {
+                    "FROM": "Fecha de inicio",
+                    "TO": "Fecha de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "FORM": {
+                "TITLE": "Información General",
+                "CREATE_TITLE": "Agregar un grupo de sitios",
+                "EDIT_TITLE": "Modificar un grupo de sitios",
+                "DETAILS_TITLE": "Detalles del grupo de sitios",
+                "CODE": "Código",
+                "CODE_PLACEHOLDER": "Ej: GRP-001",
+                "NAME": "Nombre del grupo",
+                "NAME_PLACEHOLDER": "Ej: Nombre del grupo de sitios",
+                "DESCRIPTION": "Descripción",
+                "DESCRIPTION_PLACEHOLDER": "Ej: Descripción del grupo de sitios",
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "CREATE": {
+                        "CODE_REQUIRE": "El código es requerido",
+                        "NAME_REQUIRE": "El nombre del grupo es requerido"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido",
+                        "CODE_REQUIRE": "El código es requerido",
+                        "NAME_REQUIRE": "El nombre del grupo es requerido"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Crear este grupo de sitios",
+                    "EDIT": "Modificar este grupo de sitios",
+                    "DELETE": "Eliminar este grupo de sitios",
+                    "ENABLE": "Activar este grupo de sitios",
+                    "DISABLE": "Desactivar este grupo de sitios"
+                },
+                "MESSAGE": {
+                    "CREATE": "¿Está seguro de que desea crear este grupo de sitios",
+                    "EDIT": "¿Está seguro de que desea modificar este grupo de sitios",
+                    "DELETE": "¿Está seguro de que desea eliminar este grupo de sitios <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "¿Está seguro de que desea activar este grupo de sitios <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "¿Está seguro de que desea desactivar este grupo de sitios <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Actualizar la lista de grupos de sitios",
+                "EXPORT": "Exportar la lista de {nb} grupos de sitios",
+                "CHOOSE": "Elegir una acción",
+                "DETAILS": "Ver los detalles de este grupo de sitios",
+                "CREATE": "Crear un grupo de sitios",
+                "EDIT": "Modificar este grupo de sitios",
+                "DELETE": "Eliminar este grupo de sitios",
+                "ENABLE": "Activar este grupo de sitios",
+                "DISABLE": "Desactivar este grupo de sitios",
+                "NO_EXPORT": "Ningún grupo de sitios para exportar",
+                "NOT_EDIT": "Edición no permitida",
+                "NOT_DELETE": "Grupo activo, no se puede eliminar este grupo de sitios",
+                "NOT_ACTIVE": "Activación no permitida",
+                "NOT_DISABLE": "Desactivación no permitida",
+                "NOT_CHOOSE": "Estas acciones no le están permitidas",
+                "NO_PERMISSION_CHOOSE": "Estas acciones no le están permitidas",
+                "NO_PERMISSION_EXPORT": "Exportación de grupos de sitios no permitida",
+                "NO_PERMISSION_CREATE": "Creación de un grupo de sitios no permitida",
+                "NO_PERMISSION_EDIT": "Edición de un grupo de sitios no permitida",
+                "NO_PERMISSION_DELETE": "Eliminación de un grupo de sitios no permitida",
+                "NO_PERMISSION_ACTIVE": "Activación de un grupo de sitios no permitida",
+                "NO_PERMISSION_DISABLE": "Desactivación de un grupo de sitios no permitida"
+            },
+            "TABS": {
+                "SITE_GROUP": {
+                    "LABEL": "Grupos de sitios",
+                    "ROUTE": "site-groups"
+                },
+                "HISTORY": {
+                    "LABEL": "Historial",
+                    "ROUTE": "history"
+                }
+            }
+        },
+        "MOBILE_NETWORK": {
+            "BREADCRUMB": {
+                "LABEL": "Redes móviles",
+                "ROUTE": "mobile-networks",
+                "ICON": "pi-sitemap"
+            },
+            "TITLE": "Sitios de redes móviles",
+            "ROUTE": "mobile-networks",
+            "TABLE": {
+                "SITE_ID": "ID del sitio",
+                "SITE_NAME": "Nombre del sitio",
+                "TOWER_TYPE": "Tipo de torre",
+                "TOWER_SIZE": "Tamaño de la torre (m)",
+                "TECHNOLOGY": "Tecnología",
+                "OPERATOR": "Operador",
+                "RADIUS": "Radio",
+                "STATUS": "Estado",
+                "UPDATED_AT": "Actualizado el",
+                "ACTION": "Acción"
+            },
+            "FILTER": {
+                "SEARCH": "Buscar",
+                "SEARCH_PLACEHOLDER": "Buscar",
+                "TOWER_TYPE": "Tipo de torre",
+                "TOWER_SIZE": "Tamaño de la torre (m)",
+                "TOWER_SIZE_PLACEHOLDER": "Ej: 30",
+                "TECHNOLOGY": "Tecnología",
+                "OPERATOR": "Operador",
+                "RADIUS": "Radio",
+                "RADIUS_PLACEHOLDER": "Ej: 5",
+                "DATE": {
+                    "FROM": "Fecha de inicio",
+                    "TO": "Fecha de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "FORM": {
+                "TITLE": "Información General",
+                "CREATE_TITLE": "Agregar un sitio de red móvil",
+                "EDIT_TITLE": "Modificar un sitio de red móvil",
+                "DETAILS_TITLE": "Detalles del sitio de red móvil",
+                "SITE_ID": "ID del sitio",
+                "SITE_ID_PLACEHOLDER": "Ej: SITE-001",
+                "SITE_NAME": "Nombre del sitio",
+                "SITE_NAME_PLACEHOLDER": "Ej: Nombre del sitio",
+                "TOWER_TYPE": "Tipo de torre",
+                "TOWER_TYPE_PLACEHOLDER": "Seleccionar un tipo de torre",
+                "TOWER_SIZE": "Tamaño de la torre (m)",
+                "TOWER_SIZE_PLACEHOLDER": "Ej: 30",
+                "TECHNOLOGY": "Tecnología",
+                "OPERATOR": "Operador",
+                "RADIUS": "Radio",
+                "RADIUS_PLACEHOLDER": "Ej: 5",
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido"
+                    },
+                    "CREATE": {
+                        "SITE_ID_REQUIRE": "El ID del sitio es requerido",
+                        "SITE_NAME_REQUIRE": "El nombre del sitio es requerido",
+                        "TOWER_TYPE_REQUIRE": "El tipo de torre es requerido",
+                        "TOWER_SIZE_REQUIRE": "El tamaño de la torre es requerido",
+                        "TECHNOLOGY_REQUIRE": "La tecnología es requerida",
+                        "OPERATOR_REQUIRE": "El operador es requerido"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "El identificador es requerido",
+                        "SITE_ID_REQUIRE": "El ID del sitio es requerido",
+                        "SITE_NAME_REQUIRE": "El nombre del sitio es requerido",
+                        "TOWER_TYPE_REQUIRE": "El tipo de torre es requerido",
+                        "TOWER_SIZE_REQUIRE": "El tamaño de la torre es requerido",
+                        "TECHNOLOGY_REQUIRE": "La tecnología es requerida",
+                        "OPERATOR_REQUIRE": "El operador es requerido"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Crear este sitio de red móvil",
+                    "EDIT": "Modificar este sitio de red móvil",
+                    "DELETE": "Eliminar este sitio de red móvil",
+                    "ENABLE": "Activar este sitio de red móvil",
+                    "DISABLE": "Desactivar este sitio de red móvil"
+                },
+                "MESSAGE": {
+                    "CREATE": "¿Está seguro de que desea crear este sitio de red móvil",
+                    "EDIT": "¿Está seguro de que desea modificar este sitio de red móvil",
+                    "DELETE": "¿Está seguro de que desea eliminar este sitio de red móvil <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "¿Está seguro de que desea activar este sitio de red móvil <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "¿Está seguro de que desea desactivar este sitio de red móvil <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Actualizar la lista de sitios de redes móviles",
+                "EXPORT": "Exportar la lista de {nb} sitios de redes móviles",
+                "CHOOSE": "Elegir una acción",
+                "DETAILS": "Ver los detalles de este sitio de red móvil",
+                "CREATE": "Crear un sitio de red móvil",
+                "EDIT": "Modificar este sitio de red móvil",
+                "DELETE": "Eliminar este sitio de red móvil",
+                "ENABLE": "Activar este sitio de red móvil",
+                "DISABLE": "Desactivar este sitio de red móvil",
+                "NO_EXPORT": "Ningún sitio de red móvil para exportar",
+                "NOT_EDIT": "Edición no permitida",
+                "NOT_DELETE": "Sitio activo, no se puede eliminar este sitio de red móvil",
+                "NOT_ACTIVE": "Activación no permitida",
+                "NOT_DISABLE": "Desactivación no permitida",
+                "NOT_CHOOSE": "Estas acciones no le están permitidas",
+                "NO_PERMISSION_CHOOSE": "Estas acciones no le están permitidas",
+                "NO_PERMISSION_EXPORT": "Exportación de sitios de redes móviles no permitida",
+                "NO_PERMISSION_CREATE": "Creación de un sitio de red móvil no permitida",
+                "NO_PERMISSION_EDIT": "Edición de un sitio de red móvil no permitida",
+                "NO_PERMISSION_DELETE": "Eliminación de un sitio de red móvil no permitida",
+                "NO_PERMISSION_ACTIVE": "Activación de un sitio de red móvil no permitida",
+                "NO_PERMISSION_DISABLE": "Desactivación de un sitio de red móvil no permitida"
+            },
+            "TABS": {
+                "MOBILE_NETWORK": {
+                    "LABEL": "Redes móviles",
+                    "ROUTE": "mobile-networks"
+                },
+                "HISTORY": {
+                    "LABEL": "Historial",
+                    "ROUTE": "history"
+                }
             }
         }
     },
@@ -3278,71 +3534,90 @@
             }
         }
     },
-        "REPORTING": {
-            "BREADCRUMB": {
-                "LABEL": "Seguimiento y Reportes",
-                "ROUTE": "reporting",
-                "ICON": "pi pi-chart-bar"
-            },
-            "LABEL": "Seguimiento de solicitudes",
-            "REQUESTS": {
-                "BREADCRUMB": {
-                    "LABEL": "Seguimiento de solicitudes",
-                    "ROUTE": "requests"
-                },
-                "TITLE": "Panel de control analítico de solicitudes",
-                "LABEL": "Solicitudes",
-                "LOADING_DESCRIPTION": "Seguimiento de solicitudes en curso...",
-                "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de solicitudes. Por favor, recargue la página o contacte al soporte."
-            },
-            "REPORT": {
-                "BREADCRUMB": {
-                    "LABEL": "Seguimiento de reportes",
-                    "ROUTE": "reports"
-                },
-                "TITLE": "Panel de control analítico de reportes",
-                "LABEL": "Reporte",
-                "LOADING_DESCRIPTION": "Seguimiento de reportes en curso...",
-                "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de reportes. Por favor, recargue la página o contacte al soporte."
-            }
-
+    "REPORTING": {
+        "BREADCRUMB": {
+            "LABEL": "Seguimiento y Reportes",
+            "ROUTE": "reporting",
+            "ICON": "pi pi-chart-bar"
         },
-        "MONITORING": {
+        "LABEL": "Seguimiento de solicitudes",
+        "REQUESTS": {
             "BREADCRUMB": {
-                "LABEL": "Supervisión de sistemas",
-                "ROUTE": "system-supervision",
-                "ICON": "pi pi-sync"
+                "LABEL": "Seguimiento de solicitudes",
+                "ROUTE": "requests"
             },
-            "LABEL": "Supervisión de sistemas",
-            "RESOURCES": {
-                "BREADCRUMB": {
-                    "LABEL": "Estado de los recursos",
-                    "ROUTE": "resources-states"
-                },
-                "TITLE": "Panel de control analítico del estado de los recursos",
-                "LABEL": "Recursos",
-                "LOADING_DESCRIPTION": "Seguimiento de recursos en curso...",
-                "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control del estado de los recursos. Por favor, recargue la página o contacte al soporte."
+            "TITLE": "Panel de control analítico de solicitudes",
+            "LABEL": "Solicitudes",
+            "LOADING_DESCRIPTION": "Seguimiento de solicitudes en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de solicitudes. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT": {
+            "BREADCRUMB": {
+                "LABEL": "Seguimiento de reportes",
+                "ROUTE": "reports"
             },
-            "SERVICES": {
-                "BREADCRUMB": {
-                    "LABEL": "Estado de los servicios",
-                    "ROUTE": "services-states"
-                },
-                "TITLE": "Panel de control analítico del estado de los servicios",
-                "LABEL": "Rendimiento de nodos",
-                "LOADING_DESCRIPTION": "Seguimiento de servicios en curso...",
-                "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control del estado de los recursos. Por favor, recargue la página o contacte al soporte."
+            "TITLE": "Panel de control analítico de reportes",
+            "LABEL": "Reporte",
+            "LOADING_DESCRIPTION": "Seguimiento de reportes en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de reportes. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_BY_CHANNEL": {
+            "BREADCRUMB": {
+                "LABEL": "Reportes por canal",
+                "ROUTE": "report-by-channel"
             },
-            "NODE": {
-                "BREADCRUMB": {
-                    "LABEL": "Rendimiento de nodos",
-                    "ROUTE": "processing-status"
-                },
-                "TITLE": "Panel de control analítico - Rendimiento de nodos",
-                "LABEL": "Rendimiento de nodos",
-                "LOADING_DESCRIPTION": "Seguimiento de rendimiento en curso...",
-                "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control - Rendimiento de nodos. Por favor, recargue la página o contacte al soporte."
-            }
+            "TITLE": "Panel de control analítico de reportes por canal",
+            "LABEL": "Reportes por canal",
+            "LOADING_DESCRIPTION": "Seguimiento de reportes por canal en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de reportes por canal. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_BY_OPERATOR": {
+            "BREADCRUMB": {
+                "LABEL": "Reportes por operador",
+                "ROUTE": "report-by-operator"
+            },
+            "TITLE": "Panel de control analítico de reportes por operador",
+            "LABEL": "Reportes por operador",
+            "LOADING_DESCRIPTION": "Seguimiento de reportes por operador en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de reportes por operador. Por favor, recargue la página o contacte al soporte."
         }
+    },
+    "MONITORING": {
+        "BREADCRUMB": {
+            "LABEL": "Supervisión de sistemas",
+            "ROUTE": "system-supervision",
+            "ICON": "pi pi-sync"
+        },
+        "LABEL": "Supervisión de sistemas",
+        "RESOURCES": {
+            "BREADCRUMB": {
+                "LABEL": "Estado de los recursos",
+                "ROUTE": "resources-states"
+            },
+            "TITLE": "Panel de control analítico del estado de los recursos",
+            "LABEL": "Recursos",
+            "LOADING_DESCRIPTION": "Seguimiento de recursos en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control del estado de los recursos. Por favor, recargue la página o contacte al soporte."
+        },
+        "SERVICES": {
+            "BREADCRUMB": {
+                "LABEL": "Estado de los servicios",
+                "ROUTE": "services-states"
+            },
+            "TITLE": "Panel de control analítico del estado de los servicios",
+            "LABEL": "Rendimiento de nodos",
+            "LOADING_DESCRIPTION": "Seguimiento de servicios en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control del estado de los recursos. Por favor, recargue la página o contacte al soporte."
+        },
+        "NODE": {
+            "BREADCRUMB": {
+                "LABEL": "Rendimiento de nodos",
+                "ROUTE": "processing-status"
+            },
+            "TITLE": "Panel de control analítico - Rendimiento de nodos",
+            "LABEL": "Rendimiento de nodos",
+            "LOADING_DESCRIPTION": "Seguimiento de rendimiento en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control - Rendimiento de nodos. Por favor, recargue la página o contacte al soporte."
+        }
+    }
 }

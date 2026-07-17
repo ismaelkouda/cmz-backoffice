@@ -1,3 +1,4 @@
+import { participantsDeleteCommandMapper } from '@pages/team-organization/application/commands-mappers/participants/participants-delete.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ParticipantsDeleteCommand } from '@pages/team-organization/application/commands/participants/participants-delete.command';
 import { ParticipantsUseCase } from '@pages/team-organization/application/use-cases/participants/participants.use-case';
@@ -11,8 +12,6 @@ export class ParticipantsDeleteHandler {
     execute(
         command: ParticipantsDeleteCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(participantsDeleteCommandMapper(command));
     }
 }

@@ -1,3 +1,4 @@
+import { teamsEnableCommandMapper } from '@pages/team-organization/application/commands-mappers/teams/teams-enable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsEnableCommand } from '@pages/team-organization/application/commands/teams/teams-enable.command';
 import { TeamsUseCase } from '@pages/team-organization/application/use-cases/teams/teams.use-case';
@@ -9,8 +10,6 @@ export class TeamsEnableHandler {
     private readonly useCase = inject(TeamsUseCase);
 
     execute(command: TeamsEnableCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.enable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.enable(teamsEnableCommandMapper(command));
     }
 }

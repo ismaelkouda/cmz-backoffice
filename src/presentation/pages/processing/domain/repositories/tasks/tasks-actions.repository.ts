@@ -1,7 +1,7 @@
-import { TasksActionsCreateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-create.entity';
-import { TasksActionsDeleteEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-delete.entity';
-import { TasksActionsFilterEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-filter.entity';
-import { TasksActionsUpdateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-update.entity';
+import { TasksActionsDeleteDto } from '@pages/processing/application/dto/tasks/tasks-actions-delete.dto';
+import { TasksActionsFilterDto } from '@pages/processing/application/dto/tasks/tasks-actions-filter.dto';
+import { TasksActionsCreateValidateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-create.validate-contract';
+import { TasksActionsUpdateValidateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-update.validate-contract';
 import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import {
     Paginate,
@@ -12,17 +12,17 @@ import { Observable } from 'rxjs';
 
 export abstract class TasksActionsRepository {
     abstract execute(
-        entity: TasksActionsFilterEntity | null,
+        filter: TasksActionsFilterDto | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TasksActionsEntity>>;
     abstract create(
-        entity: TasksActionsCreateEntity
+        props: TasksActionsCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: TasksActionsUpdateEntity
+        props: TasksActionsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
-        entity: TasksActionsDeleteEntity
+        dto: TasksActionsDeleteDto
     ): Observable<SimpleResponseDto<void>>;
 }

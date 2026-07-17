@@ -1,3 +1,4 @@
+import { tasksActionsQueryMapper } from '@pages/processing/application/queries-mappers/tasks/tasks-actions.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TasksActionsQuery } from '@pages/processing/application/queries/tasks/tasks-actions.query';
 import { TasksActionsUseCase } from '@pages/processing/application/use-cases/tasks/tasks-actions.use-case';
@@ -16,9 +17,7 @@ export class TasksActionsHandler {
         options?: FetchOptions
     ): Observable<Paginate<TasksActionsEntity>> {
         return this.useCase.execute(
-            {
-                uniqId: query.uniqId,
-            },
+            tasksActionsQueryMapper(query),
             page,
             options
         );

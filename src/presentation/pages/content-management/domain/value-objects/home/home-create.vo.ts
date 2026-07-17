@@ -1,47 +1,19 @@
-import { HomeCreateDto } from '@pages/content-management/application/dto/home/home-create.dto';
+import { HomeCreateContract } from '@pages/content-management/domain/contracts/home/home-create.contract';
 import { HomeCreateProps } from '@pages/content-management/domain/interfaces/home/home-create-props.interface';
+import { validateHomeCreate } from '@pages/content-management/domain/validators/home/home-create.validator';
 import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 
-export class HomeCreateVo {
-    constructor(private readonly props: HomeCreateProps) {}
-
-    get image(): File | null | string {
-        return this.props.image;
-    }
-
-    get platforms(): string[] {
-        return this.props.platforms;
-    }
-
-    get period(): DatePeriod {
-        return this.props.period;
-    }
-
-    get title(): string {
-        return this.props.title;
-    }
-
-    get resume(): string {
-        return this.props.resume;
-    }
-
-    get content(): string {
-        return this.props.content;
-    }
-
-    get buttonLabel(): string | undefined {
-        return this.props.buttonLabel;
-    }
-
-    get buttonUrl(): string | undefined {
-        return this.props.buttonUrl;
-    }
-
-    static fromDto(dto: HomeCreateDto): HomeCreateVo {
-        const period = DatePeriod.create(dto.startDate, dto.endDate);
-        return new HomeCreateVo({
-            ...dto,
-            period,
-        });
-    }
+export function homeCreateVo(contract: HomeCreateContract): HomeCreateProps {
+    validateHomeCreate(contract);
+    const period = DatePeriod.create(contract.startDate, contract.endDate);
+    return {
+        title: contract.title,
+        resume: contract.resume,
+        content: contract.content,
+        image: contract.image,
+        platforms: contract.platforms,
+        period,
+        buttonLabel: contract.buttonLabel,
+        buttonUrl: contract.buttonUrl,
+    };
 }

@@ -1,3 +1,4 @@
+import { detailsQueryMapper } from '@pages/finalization/application/queries-mappers/details/details.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DetailsQuery } from '@pages/finalization/application/queries/details/details.query';
 import { DetailsUseCase } from '@pages/finalization/application/use-cases/details/details.use-case';
@@ -13,11 +14,6 @@ export class DetailsHandler {
         command: DetailsQuery,
         options?: FetchOptions
     ): Observable<DetailsEntity> {
-        return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
-            options
-        );
+        return this.useCase.execute(detailsQueryMapper(command), options);
     }
 }

@@ -4,14 +4,14 @@ import { Observable } from 'rxjs';
 
 import { MapResponseDto } from '../../api/dto/map/map-response.dto';
 import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
-import { DASHBOARD_MAP_BASE_URL } from '../../api/interactive-map.base-url';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 
 @Injectable({
     providedIn: 'root',
 })
 export class MapApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(DASHBOARD_MAP_BASE_URL);
+    private readonly baseUrl = inject(SETTINGS_API_URL);
 
     getMap(): Observable<MapResponseDto> {
         const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.MAP}`;

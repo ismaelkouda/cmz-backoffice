@@ -6,7 +6,7 @@ import { DetailsFilterApiDto } from '@pages/report-states/infrastructure/api/dto
 import { DetailsRejectApiDto } from '@pages/report-states/infrastructure/api/dto/details/details-reject-api.dto';
 import { DetailsResponseApiDto } from '@pages/report-states/infrastructure/api/dto/details/details-response-api.dto';
 import { DetailsTakeApiDto } from '@pages/report-states/infrastructure/api/dto/details/details-take-api.dto';
-import { REPORT_STATES_BASE_URL } from '@presentation/pages/report-states/infrastructure/api/report-states.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { REPORT_STATES_ENDPOINTS } from '@presentation/pages/report-states/infrastructure/api/report-states.endpoints';
 import { formDataBuilder } from '@shared/constants/formDataBuilder.constant';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DetailsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(REPORT_STATES_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     execute(
         apiDto: DetailsFilterApiDto,

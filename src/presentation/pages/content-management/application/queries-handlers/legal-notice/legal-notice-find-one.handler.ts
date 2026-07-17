@@ -1,3 +1,4 @@
+import { legalNoticeFindOneQueryMapper } from '@pages/content-management/application/queries-mappers/legal-notice/legal-notice-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { LegalNoticeFindOneQuery } from '@pages/content-management/application/queries/legal-notice/legal-notice-find-one.query';
 import { LegalNoticeFindOneUseCase } from '@pages/content-management/application/use-cases/legal-notice/legal-notice-find-one.use-case';
@@ -14,9 +15,7 @@ export class LegalNoticeFindOneHandler {
         options?: FetchOptions
     ): Observable<LegalNoticeFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            legalNoticeFindOneQueryMapper(command),
             options
         );
     }

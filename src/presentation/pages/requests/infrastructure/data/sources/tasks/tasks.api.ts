@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { TasksFilterApiDto } from '@pages/requests/infrastructure/api/dto/tasks/tasks-filter-api.dto';
 import { TasksResponseApiDto } from '@pages/requests/infrastructure/api/dto/tasks/tasks-response-api.dto';
-import { REQUESTS_BASE_URL } from '@presentation/pages/requests/infrastructure/api/requests.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { REQUESTS_ENDPOINTS } from '@presentation/pages/requests/infrastructure/api/requests.endpoints';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class TasksApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(REQUESTS_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     execute(
         filter: TasksFilterApiDto,

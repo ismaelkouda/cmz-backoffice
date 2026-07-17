@@ -1,3 +1,4 @@
+import { participantsFindOneQueryMapper } from '@pages/team-organization/application/queries-mappers/participants/participants-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ParticipantsFindOneQuery } from '@pages/team-organization/application/queries/participants/participants-find-one.query';
 import { ParticipantsFindOneUseCase } from '@pages/team-organization/application/use-cases/participants/participants-find-one.use-case';
@@ -14,9 +15,7 @@ export class ParticipantsFindOneHandler {
         options?: FetchOptions
     ): Observable<ParticipantsFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            participantsFindOneQueryMapper(command),
             options
         );
     }

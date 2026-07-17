@@ -1,20 +1,20 @@
-import { InfrastructureTypeUpdateEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-update.entity';
+import { InfrastructureTypeUpdateValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-update.validate-contract';
 import { InfrastructureTypeUpdateApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-update-api.dto';
 
 export function infrastructureTypeUpdateMapper(
-    entity: InfrastructureTypeUpdateEntity
+    validContract: InfrastructureTypeUpdateValidateContract
 ): InfrastructureTypeUpdateApiDto {
     const params: InfrastructureTypeUpdateApiDto =
         {} as InfrastructureTypeUpdateApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (validContract.uniqId) {
+        params.id = validContract.uniqId;
     }
-    if (entity.name) {
-        params.name = entity.name;
+    if (validContract.name) {
+        params.name = validContract.name;
     }
-    if (entity.description) {
-        params.description = entity.description;
+    if (validContract.description) {
+        params.description = validContract.description;
     }
 
     return params;

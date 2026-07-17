@@ -1,17 +1,17 @@
-import { InfrastructureTypeCreateEntity } from '@pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-create.entity';
+import { InfrastructureTypeCreateValidateContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-create.validate-contract';
 import { InfrastructureTypeCreateApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-create-api.dto';
 
 export function infrastructureTypeCreateMapper(
-    entity: InfrastructureTypeCreateEntity
+    validContract: InfrastructureTypeCreateValidateContract
 ): InfrastructureTypeCreateApiDto {
     const params: InfrastructureTypeCreateApiDto =
         {} as InfrastructureTypeCreateApiDto;
 
-    if (entity.name) {
-        params.name = entity.name;
+    if (validContract.name) {
+        params.name = validContract.name;
     }
-    if (entity.description) {
-        params.description = entity.description;
+    if (validContract.description) {
+        params.description = validContract.description;
     }
 
     return params;

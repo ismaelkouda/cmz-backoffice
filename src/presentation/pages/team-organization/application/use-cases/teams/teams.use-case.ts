@@ -1,30 +1,24 @@
 import { inject, Injectable } from '@angular/core';
-import { TeamsCreateDto } from '@pages/team-organization/application/dto/teams/teams-create.dto';
 import { TeamsDeleteDto } from '@pages/team-organization/application/dto/teams/teams-delete.dto';
 import { TeamsDisableDto } from '@pages/team-organization/application/dto/teams/teams-disable.dto';
 import { TeamsEnableDto } from '@pages/team-organization/application/dto/teams/teams-enable.dto';
 import { TeamsFilterDto } from '@pages/team-organization/application/dto/teams/teams-filter.dto';
-import { TeamsUpdateDto } from '@pages/team-organization/application/dto/teams/teams-update.dto';
-import { TeamsCreateEntity } from '@pages/team-organization/domain/entities/teams/teams-create.entity';
-import { TeamsDeleteEntity } from '@pages/team-organization/domain/entities/teams/teams-delete.entity';
-import { TeamsDisableEntity } from '@pages/team-organization/domain/entities/teams/teams-disable.entity';
-import { TeamsEnableEntity } from '@pages/team-organization/domain/entities/teams/teams-enable.entity';
-import { TeamsFilterEntity } from '@pages/team-organization/domain/entities/teams/teams-filter.entity';
-import { TeamsUpdateEntity } from '@pages/team-organization/domain/entities/teams/teams-update.entity';
+import { TeamsCreateContract } from '@pages/team-organization/domain/contracts/teams/teams-create.contract';
+import { TeamsUpdateContract } from '@pages/team-organization/domain/contracts/teams/teams-update.contract';
 import { TeamsEntity } from '@pages/team-organization/domain/entities/teams/teams.entity';
 import { TeamsRepository } from '@pages/team-organization/domain/repositories/teams/teams-repository';
-import { TeamsCreateVo } from '@pages/team-organization/domain/value-objects/teams/teams-create.vo';
-import { TeamsDeleteVo } from '@pages/team-organization/domain/value-objects/teams/teams-delete.vo';
-import { TeamsDisableVo } from '@pages/team-organization/domain/value-objects/teams/teams-disable.vo';
-import { TeamsEnableVo } from '@pages/team-organization/domain/value-objects/teams/teams-enable.vo';
-import { TeamsFilterVo } from '@pages/team-organization/domain/value-objects/teams/teams-filter.vo';
-import { TeamsUpdateVo } from '@pages/team-organization/domain/value-objects/teams/teams-update.vo';
+import { teamsCreateVo } from '@pages/team-organization/domain/value-objects/teams/teams-create.vo';
+import { teamsDeleteVo } from '@pages/team-organization/domain/value-objects/teams/teams-delete.vo';
+import { teamsDisableVo } from '@pages/team-organization/domain/value-objects/teams/teams-disable.vo';
+import { teamsEnableVo } from '@pages/team-organization/domain/value-objects/teams/teams-enable.vo';
+import { teamsFilterVo } from '@pages/team-organization/domain/value-objects/teams/teams-filter.vo';
+import { teamsUpdateVo } from '@pages/team-organization/domain/value-objects/teams/teams-update.vo';
 import {
     Paginate,
     SimpleResponseDto,
 } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -37,38 +31,34 @@ export class TeamsUseCase {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TeamsEntity>> {
-        const vo = TeamsFilterVo.fromDto(filterDto);
-        const entity = TeamsFilterEntity.fromVo(vo);
-        return this.repository.readAll(entity, page, options);
+        return this.repository.readAll(
+            teamsFilterVo(filterDto),
+            page,
+            options
+        );
     }
 
-    create(createDto: TeamsCreateDto): Observable<SimpleResponseDto<void>> {
-        const vo = TeamsCreateVo.fromDto(createDto);
-        const entity = TeamsCreateEntity.fromVo(vo);
-        return this.repository.create(entity);
+    create(
+        createDto: TeamsCreateContract
+    ): Observable<SimpleResponseDto<void>> {
+        return defer(() => this.repository.create(teamsCreateVo(createDto)));
     }
 
-    update(updateDto: TeamsUpdateDto): Observable<SimpleResponseDto<void>> {
-        const vo = TeamsUpdateVo.fromDto(updateDto);
-        const entity = TeamsUpdateEntity.fromVo(vo);
-        return this.repository.update(entity);
+    update(
+        updateDto: TeamsUpdateContract
+    ): Observable<SimpleResponseDto<void>> {
+        return defer(() => this.repository.update(teamsUpdateVo(updateDto)));
     }
 
     enable(enableDto: TeamsEnableDto): Observable<SimpleResponseDto<void>> {
-        const vo = TeamsEnableVo.fromDto(enableDto);
-        const entity = TeamsEnableEntity.fromVo(vo);
-        return this.repository.enable(entity);
+        return this.repository.enable(teamsEnableVo(enableDto));
     }
 
     disable(disableDto: TeamsDisableDto): Observable<SimpleResponseDto<void>> {
-        const vo = TeamsDisableVo.fromDto(disableDto);
-        const entity = TeamsDisableEntity.fromVo(vo);
-        return this.repository.disable(entity);
+        return this.repository.disable(teamsDisableVo(disableDto));
     }
 
     delete(deleteDto: TeamsDeleteDto): Observable<SimpleResponseDto<void>> {
-        const vo = TeamsDeleteVo.fromDto(deleteDto);
-        const entity = TeamsDeleteEntity.fromVo(vo);
-        return this.repository.delete(entity);
+        return this.repository.delete(teamsDeleteVo(deleteDto));
     }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RolesSelectEntity } from '@pages/team-organization/domain/entities/participants/roles-select.entity';
-import { RolesSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/roles-select-api.dto';
+import { RolesSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/roles-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

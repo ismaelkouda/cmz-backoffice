@@ -22,6 +22,8 @@ export interface FilterField {
     showToggleAll?: boolean;
     filter?: boolean;
     template?: TemplateRef<any>;
+    /** Native input type used for 'text' fields (defaults to 'text'). Use 'number' to restrict numeric/decimal fields. */
+    inputType?: 'text' | 'number';
 }
 
 export interface FilterOption {

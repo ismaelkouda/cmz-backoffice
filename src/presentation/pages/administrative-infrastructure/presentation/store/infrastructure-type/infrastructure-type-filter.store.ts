@@ -20,7 +20,14 @@ export class InfrastructureTypeFilterStore {
             search: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
-            isActive: new FormControl<Status | undefined>(undefined, {
+            status: new FormControl<Status | undefined>(undefined, {
+                nonNullable: true,
+            }),
+            startDate: new FormControl<Date | undefined>(undefined, {
+                nonNullable: true,
+            }),
+
+            endDate: new FormControl<Date | undefined>(undefined, {
                 nonNullable: true,
             }),
         });
@@ -46,7 +53,9 @@ export class InfrastructureTypeFilterStore {
 
         return {
             search: raw.search || undefined,
-            isActive: raw.isActive || undefined,
+            status: raw.status || undefined,
+            startDate: raw.startDate || undefined,
+            endDate: raw.endDate || undefined,
         };
     }
 }

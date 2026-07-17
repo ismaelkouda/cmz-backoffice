@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { RegionsFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
+import { RegionsFindOneFilterValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/regions/regions-find-one-filter.validate-contract';
 import { RegionsFindOneEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
 import { RegionsFindOneRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-find-one-repository';
 import { regionsFindOneFilterMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/regions/regions-find-one-filter.mapper';
@@ -14,7 +14,7 @@ export class RegionsFindOneRepositoryImpl implements RegionsFindOneRepository {
     private readonly mapper = inject(RegionsFindOneMapper);
 
     execute(
-        filter: RegionsFindOneFilterEntity,
+        filter: RegionsFindOneFilterValidateContract,
         options?: FetchOptions
     ): Observable<RegionsFindOneEntity> {
         const paramsDto = regionsFindOneFilterMapper(filter);

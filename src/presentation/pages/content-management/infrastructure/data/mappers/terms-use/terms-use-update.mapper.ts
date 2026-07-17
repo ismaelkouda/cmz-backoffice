@@ -1,19 +1,19 @@
-import { TermsUseUpdateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-update.entity';
+import { TermsUseUpdateValidateContract } from '@pages/content-management/domain/contracts/terms-use/terms-use-update.validate-contract';
 import { TermsUseUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-update-api.dto';
 
 export function termsUseUpdateMapper(
-    entity: TermsUseUpdateEntity
+    contract: TermsUseUpdateValidateContract
 ): TermsUseUpdateApiDto {
     const params: TermsUseUpdateApiDto = {} as TermsUseUpdateApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (contract.uniqId) {
+        params.id = contract.uniqId;
     }
-    if (entity.version) {
-        params.version = entity.version;
+    if (contract.version) {
+        params.version = contract.version;
     }
-    if (entity.content) {
-        params.content = entity.content;
+    if (contract.content) {
+        params.content = contract.content;
     }
 
     return params;

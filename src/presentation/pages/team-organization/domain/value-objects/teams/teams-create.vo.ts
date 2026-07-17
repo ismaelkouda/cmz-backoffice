@@ -1,37 +1,17 @@
-import { TeamsCreateDto } from '@pages/team-organization/application/dto/teams/teams-create.dto';
+import { TeamsCreateContract } from '@pages/team-organization/domain/contracts/teams/teams-create.contract';
+import { TeamsCreateValidateContract } from '@pages/team-organization/domain/contracts/teams/teams-create.validate-contract';
+import { validateTeamsCreate } from '@pages/team-organization/domain/validators/teams/teams-create.validator';
 
-export class TeamsCreateVo {
-    // readonly code: string;
-    readonly name: string;
-    readonly description: string;
-    readonly operators: string[];
-    readonly reportTypes: string[];
-    readonly permissions: string[];
-
-    private constructor(props: {
-        // code: string;
-        name: string;
-        description: string;
-        operators: string[];
-        reportTypes: string[];
-        permissions: string[];
-    }) {
-        // this.code = props.code;
-        this.name = props.name;
-        this.description = props.description;
-        this.operators = props.operators;
-        this.reportTypes = props.reportTypes;
-        this.permissions = props.permissions;
-    }
-
-    static fromDto(dto: TeamsCreateDto): TeamsCreateVo {
-        return new TeamsCreateVo({
-            // code: dto.code,
-            name: dto.name,
-            description: dto.description,
-            operators: dto.operators,
-            reportTypes: dto.reportTypes,
-            permissions: dto.permissions,
-        });
-    }
+export function teamsCreateVo(
+    contract: TeamsCreateContract
+): TeamsCreateValidateContract {
+    validateTeamsCreate(contract);
+    return {
+        // code: contract.code,
+        name: contract.name,
+        description: contract.description,
+        operators: contract.operators,
+        reportTypes: contract.reportTypes,
+        permissions: contract.permissions,
+    };
 }

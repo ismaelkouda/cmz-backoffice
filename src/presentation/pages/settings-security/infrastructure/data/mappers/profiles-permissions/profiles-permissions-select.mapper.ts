@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ProfilesPermissionsSelectEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-select.entity';
-import { ProfilesPermissionsSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-api.dto';
+import { ProfilesPermissionsSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 

@@ -1,3 +1,4 @@
+import { profilesPermissionsUsersReassignCommandMapper } from '@pages/settings-security/application/commands-mappers/profiles-permissions/profiles-permissions-users-reassign.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsUsersReassignCommand } from '@pages/settings-security/application/commands/profiles-permissions/profiles-permissions-users-reassign.command';
 import { ProfilesPermissionsUsersUseCase } from '@pages/settings-security/application/use-cases/profiles-permissions/profiles-permissions-users.use-case';
@@ -11,9 +12,8 @@ export class ProfilesPermissionsUsersReassignHandler {
     execute(
         command: ProfilesPermissionsUsersReassignCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.reassign({
-            uniqId: command.uniqId,
-            users: command.users,
-        });
+        return this.useCase.reassign(
+            profilesPermissionsUsersReassignCommandMapper(command)
+        );
     }
 }

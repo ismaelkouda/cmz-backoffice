@@ -1,3 +1,4 @@
+import { municipalitiesDeleteCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/municipalities/municipalities-delete.mapper';
 import { inject, Injectable } from '@angular/core';
 import { MunicipalitiesDeleteCommand } from '@pages/administrative-boundary/application/commands/municipalities/municipalities-delete.command';
 import { MunicipalitiesUseCase } from '@pages/administrative-boundary/application/use-cases/municipalities/municipalities.use-case';
@@ -11,8 +12,6 @@ export class MunicipalitiesDeleteHandler {
     execute(
         command: MunicipalitiesDeleteCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.delete(municipalitiesDeleteCommandMapper(command));
     }
 }

@@ -1,12 +1,12 @@
-import { TermsUsePublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-publish.entity';
+import { TermsUsePublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-publish.dto';
 import { TermsUsePublishApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-publish-api.dto';
 
 export function termsUsePublishMapper(
-    vo: TermsUsePublishEntity
+    dto: TermsUsePublishDto
 ): TermsUsePublishApiDto {
     const prams = {} as TermsUsePublishApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

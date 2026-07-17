@@ -1,3 +1,4 @@
+import { usersFindOneQueryMapper } from '@pages/settings-security/application/queries-mappers/users/users-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { UsersFindOneQuery } from '@pages/settings-security/application/queries/users/users-find-one.query';
 import { UsersFindOneUseCase } from '@pages/settings-security/application/use-cases/users/users-find-one.use-case';
@@ -13,11 +14,6 @@ export class UsersFindOneHandler {
         command: UsersFindOneQuery,
         options?: FetchOptions
     ): Observable<UsersFindOneEntity> {
-        return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
-            options
-        );
+        return this.useCase.execute(usersFindOneQueryMapper(command), options);
     }
 }

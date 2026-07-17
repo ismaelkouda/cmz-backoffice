@@ -1,8 +1,8 @@
-import { TasksActionsDeleteEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-delete.entity';
+import { TasksActionsDeleteDto } from '@pages/processing/application/dto/tasks/tasks-actions-delete.dto';
 import { TasksActionsDeleteApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-delete-api.dto';
 
 export function tasksActionsDeleteMapper(
-    entity: TasksActionsDeleteEntity
+    dto: TasksActionsDeleteDto
 ): TasksActionsDeleteApiDto {
-    return { uniq_id: entity.uniqId };
+    return { uniq_id: dto.uniqId };
 }

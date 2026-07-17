@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { TasksActionsCreateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-create.entity';
-import { TasksActionsDeleteEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-delete.entity';
-import { TasksActionsFilterEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-filter.entity';
-import { TasksActionsUpdateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-update.entity';
+import { TasksActionsDeleteDto } from '@pages/processing/application/dto/tasks/tasks-actions-delete.dto';
+import { TasksActionsFilterDto } from '@pages/processing/application/dto/tasks/tasks-actions-filter.dto';
+import { TasksActionsCreateValidateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-create.validate-contract';
+import { TasksActionsUpdateValidateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-update.validate-contract';
 import { TasksActionsEntity } from '@pages/processing/domain/entities/tasks/tasks-actions.entity';
 import { TasksActionsRepository } from '@pages/processing/domain/repositories/tasks/tasks-actions.repository';
 import { tasksActionsCreateMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions-create.mapper';
@@ -27,34 +27,32 @@ export class TasksActionsRepositoryImpl extends TasksActionsRepository {
     private readonly conformityMapper = inject(ConformityMapper);
 
     execute(
-        entity: TasksActionsFilterEntity,
+        filter: TasksActionsFilterDto,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TasksActionsEntity>> {
         return this.api
-            .execute(TasksActionsFilterMapper(entity), page, options)
+            .execute(TasksActionsFilterMapper(filter), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
     create(
-        entity: TasksActionsCreateEntity
+        props: TasksActionsCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.create(
-            tasksActionsCreateMapper(entity, this.conformityMapper)
+            tasksActionsCreateMapper(props, this.conformityMapper)
         );
     }
 
     update(
-        entity: TasksActionsUpdateEntity
+        props: TasksActionsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         return this.api.update(
-            tasksActionsUpdateMapper(entity, this.conformityMapper)
+            tasksActionsUpdateMapper(props, this.conformityMapper)
         );
     }
 
-    delete(
-        entity: TasksActionsDeleteEntity
-    ): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(tasksActionsDeleteMapper(entity));
+    delete(dto: TasksActionsDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(tasksActionsDeleteMapper(dto));
     }
 }

@@ -1,10 +1,10 @@
-import { UsersEnableEntity } from '@pages/settings-security/domain/entities/users/users-enable.entity';
+import { UsersEnableDto } from '@pages/settings-security/application/dto/users/users-enable.dto';
 import { UsersEnableApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-enable-api.dto';
 
-export function usersEnableMapper(vo: UsersEnableEntity): UsersEnableApiDto {
+export function usersEnableMapper(dto: UsersEnableDto): UsersEnableApiDto {
     const prams = {} as UsersEnableApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

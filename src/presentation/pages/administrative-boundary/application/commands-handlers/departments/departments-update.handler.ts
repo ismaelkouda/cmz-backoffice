@@ -1,3 +1,4 @@
+import { departmentsUpdateCommandMapper } from '@pages/administrative-boundary/application/commands-mappers/departments/departments-update.mapper';
 import { inject, Injectable } from '@angular/core';
 import { DepartmentsUpdateCommand } from '@pages/administrative-boundary/application/commands/departments/departments-update.command';
 import { DepartmentsUseCase } from '@pages/administrative-boundary/application/use-cases/departments/departments.use-case';
@@ -11,14 +12,6 @@ export class DepartmentsUpdateHandler {
     execute(
         command: DepartmentsUpdateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            code: command.code,
-            population: command.population,
-            infrastructure: command.infrastructure,
-            name: command.name,
-            region: command.region,
-            description: command.description,
-        });
+        return this.useCase.update(departmentsUpdateCommandMapper(command));
     }
 }

@@ -2,7 +2,7 @@ import {
     INFRASTRUCTURE_LIST,
     INFRASTRUCTURE_HISTORY,
     INFRASTRUCTURE_ROUTE,
-} from '@presentation/pages/administrative-infrastructure/presentation/infrastructure/infrastructure-paths.constants';
+} from '@presentation/pages/administrative-infrastructure/presentation/features/infrastructure/infrastructure-paths.constants';
 import { ADMINISTRATIVE_INFRASTRUCTURE_ROUTE } from '@shared/routes/routes';
 
 export const ADMINISTRATIVE_TABS = [

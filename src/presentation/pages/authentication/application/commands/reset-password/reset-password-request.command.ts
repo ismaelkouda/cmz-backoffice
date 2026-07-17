@@ -1,6 +1,8 @@
 export class ResetPasswordRequestCommand {
     constructor(
-        public readonly password: string,
-        public readonly confirmPassword: string
+        public readonly token: string | undefined,
+        public readonly email: string | undefined,
+        public readonly password: string | undefined,
+        public readonly confirmPassword: string | undefined
     ) {}
 }

@@ -1,3 +1,4 @@
+import { dailyGoalQueryMapper } from '@pages/team-organization/application/queries-mappers/daily-goal/daily-goal.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DailyGoalQuery } from '@pages/team-organization/application/queries/daily-goal/daily-goal.query';
 import { DailyGoalUseCase } from '@pages/team-organization/application/use-cases/daily-goal/daily-goal.use-case';
@@ -15,13 +16,6 @@ export class DailyGoalHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<DailyGoalEntity>> {
-        return this.useCase.execute(
-            {
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(dailyGoalQueryMapper(query), page, options);
     }
 }

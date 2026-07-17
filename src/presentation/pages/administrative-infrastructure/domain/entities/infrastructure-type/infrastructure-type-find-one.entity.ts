@@ -1,9 +1,5 @@
-export interface InfrastructureTypeFindOneProps {
-    uniqId: string;
-    name: string;
-    description: string;
-    updatedAt: string;
-}
+import { InfrastructureTypeFindOneProps } from '@presentation/pages/administrative-infrastructure/domain/interfaces/infrastructure-type/infrastructure-type-find-one-props.interface';
+
 export class InfrastructureTypeFindOneEntity {
     constructor(private readonly props: InfrastructureTypeFindOneProps) {}
 

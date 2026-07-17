@@ -1,26 +1,26 @@
-import { TermsUseFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
 import { Status } from '@pages/content-management/domain/enums/terms-use/terms-use-status.enum';
+import { TermsUseFilterVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-filter.vo';
 import { TermsUseFilterApiDto } from '@pages/content-management/infrastructure/api/dto/terms-use/terms-use-filter-api.dto';
 
 export function termsUseFilterMapper(
-    entity: TermsUseFilterEntity
+    filter: TermsUseFilterVo
 ): TermsUseFilterApiDto {
     const params: TermsUseFilterApiDto = {} as TermsUseFilterApiDto;
 
-    if (entity.search) {
-        params.search = entity.search;
+    if (filter.search) {
+        params.search = filter.search;
     }
-    if (entity.version) {
-        params.version = entity.version;
+    if (filter.version) {
+        params.version = filter.version;
     }
-    if (entity.status) {
-        params.is_published = entity.status === Status.PUBLISH;
+    if (filter.status) {
+        params.is_published = filter.status === Status.PUBLISH;
     }
-    if (entity.startDate) {
-        params.start_date = entity.startDate;
+    if (filter.startDate) {
+        params.start_date = filter.startDate;
     }
-    if (entity.endDate) {
-        params.end_date = entity.endDate;
+    if (filter.endDate) {
+        params.end_date = filter.endDate;
     }
 
     return params;

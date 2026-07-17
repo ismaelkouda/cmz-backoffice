@@ -1,3 +1,4 @@
+import { downloadQueryMapper } from '@pages/report-states/application/queries-mappers/download/download.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DownloadQuery } from '@pages/report-states/application/queries/download/download.query';
 import { DownloadUseCase } from '@pages/report-states/application/use-cases/download/download.use-case';
@@ -15,21 +16,6 @@ export class DownloadHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<DownloadEntity>> {
-        return this.useCase.execute(
-            {
-                search: query.search,
-                date: query.date,
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                status: query.status,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(downloadQueryMapper(query), page, options);
     }
 }

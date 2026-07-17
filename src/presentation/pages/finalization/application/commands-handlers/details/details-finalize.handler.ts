@@ -1,3 +1,4 @@
+import { detailsFinalizeCommandMapper } from '@pages/finalization/application/commands-mappers/details/details-finalize.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DetailsFinalizeCommand } from '@pages/finalization/application/commands/details/details-finalize.command';
 import { DetailsUseCase } from '@pages/finalization/application/use-cases/details/details.use-case';
@@ -11,9 +12,6 @@ export class DetailsFinalizeHandler {
     execute(
         command: DetailsFinalizeCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.finalize({
-            uniqId: command.uniqId,
-            comment: command.comment,
-        });
+        return this.useCase.finalize(detailsFinalizeCommandMapper(command));
     }
 }

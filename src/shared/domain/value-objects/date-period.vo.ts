@@ -30,4 +30,24 @@ export class DatePeriod {
 
         return new DatePeriod(startDate, endDate);
     }
+
+    /**
+     * Construit une periode uniquement si au moins une borne est fournie.
+     * Centralise ici la decision "y a-t-il un filtre de date ?" : les VO
+     * appelants n'ont pas a reimplementer cette regle (elle est identique
+     * partout ou une periode est optionnelle).
+     * @param start - Date de debut (optionnelle).
+     * @param end - Date de fin (optionnelle).
+     * @returns La periode construite, ou `null` si aucune des deux bornes n'est fournie.
+     */
+    static createOptional(
+        start?: string | null,
+        end?: string | null
+    ): DatePeriod | null {
+        if (!start && !end) {
+            return null;
+        }
+
+        return DatePeriod.create(start, end);
+    }
 }

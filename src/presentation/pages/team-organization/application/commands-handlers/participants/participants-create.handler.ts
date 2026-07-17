@@ -1,3 +1,4 @@
+import { participantsCreateCommandMapper } from '@pages/team-organization/application/commands-mappers/participants/participants-create.mapper';
 import { Injectable, inject } from '@angular/core';
 import { ParticipantsCreateCommand } from '@pages/team-organization/application/commands/participants/participants-create.command';
 import { ParticipantsUseCase } from '@pages/team-organization/application/use-cases/participants/participants.use-case';
@@ -11,13 +12,6 @@ export class ParticipantsCreateHandler {
     execute(
         command: ParticipantsCreateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            firstName: command.firstName,
-            lastName: command.lastName,
-            email: command.email,
-            phone: command.phone,
-            role: command?.role,
-            team: command?.team,
-        });
+        return this.useCase.create(participantsCreateCommandMapper(command));
     }
 }

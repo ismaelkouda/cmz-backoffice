@@ -8,18 +8,18 @@ import { UsersEnableApiDto } from '@pages/settings-security/infrastructure/api/d
 import { UsersFilterApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-filter-api.dto';
 import { UsersResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-response-api.dto';
 import { UsersUpdateApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-update-api.dto';
-import { SETTINGS_SECURITY_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 
 @Injectable({ providedIn: 'root' })
 export class UsersApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(SETTINGS_SECURITY_BASE_URL);
+    private readonly baseUrl = inject(SETTINGS_API_URL);
 
     readAll(
         filter: UsersFilterApiDto,

@@ -1,3 +1,4 @@
+import { teamsParticipantsAssignCommandMapper } from '@pages/team-organization/application/commands-mappers/teams/teams-participants-assign.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsParticipantsAssignCommand } from '@pages/team-organization/application/commands/teams/teams-participants-assign.command';
 import { TeamsParticipantsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-participants.use-case';
@@ -11,10 +12,8 @@ export class TeamsParticipantsAssignHandler {
     execute(
         command: TeamsParticipantsAssignCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.assign({
-            uniqId: command.uniqId,
-            role: command.role,
-            participants: command.participants,
-        });
+        return this.useCase.assign(
+            teamsParticipantsAssignCommandMapper(command)
+        );
     }
 }

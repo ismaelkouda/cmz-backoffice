@@ -1,3 +1,4 @@
+import { allQueryMapper } from '@pages/requests/application/queries-mappers/all/all.mapper';
 import { Injectable, inject } from '@angular/core';
 import { AllQuery } from '@pages/requests/application/queries/all/all.query';
 import { AllUseCase } from '@pages/requests/application/use-cases/all/all.use-case';
@@ -15,19 +16,6 @@ export class AllHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<AllEntity>> {
-        return this.useCase.execute(
-            {
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                status: query.status,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(allQueryMapper(query), page, options);
     }
 }

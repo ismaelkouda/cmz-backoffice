@@ -1,9 +1,8 @@
 import { Injectable, inject } from '@angular/core';
-import { RegionsFindOneFilterEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one-filter.entity';
 import { RegionsFindOneEntity } from '@pages/administrative-boundary/domain/entities/regions/regions-find-one.entity';
 import { RegionsFindOneRepository } from '@pages/administrative-boundary/domain/repositories/regions/regions-find-one-repository';
-import { RegionsFindOneFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-find-one-filter.vo';
-import { Observable } from 'rxjs';
+import { regionsFindOneFilterVo } from '@pages/administrative-boundary/domain/value-objects/regions/regions-find-one-filter.vo';
+import { defer, Observable } from 'rxjs';
 
 import { RegionsFindOneFilterDto } from '../../dto/regions/regions-find-one-filter.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -18,8 +17,8 @@ export class RegionsFindOneUseCase {
         filterDto: RegionsFindOneFilterDto,
         options?: FetchOptions
     ): Observable<RegionsFindOneEntity> {
-        const vo = RegionsFindOneFilterVo.fromDto(filterDto);
-        const filter = RegionsFindOneFilterEntity.fromVo(vo);
-        return this.repository.execute(filter, options);
+        return defer(() =>
+            this.repository.execute(regionsFindOneFilterVo(filterDto), options)
+        );
     }
 }

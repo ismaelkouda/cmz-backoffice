@@ -1,3 +1,4 @@
+import { teamsCreateCommandMapper } from '@pages/team-organization/application/commands-mappers/teams/teams-create.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsCreateCommand } from '@pages/team-organization/application/commands/teams/teams-create.command';
 import { TeamsUseCase } from '@pages/team-organization/application/use-cases/teams/teams.use-case';
@@ -9,13 +10,6 @@ export class TeamsCreateHandler {
     private readonly useCase = inject(TeamsUseCase);
 
     execute(command: TeamsCreateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            // code: command.code,
-            name: command.name,
-            description: command.description,
-            reportTypes: command.reportTypes,
-            operators: command.operators,
-            permissions: command.permissions,
-        });
+        return this.useCase.create(teamsCreateCommandMapper(command));
     }
 }

@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { LegalNoticeCreateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-create.entity';
-import { LegalNoticeDeleteEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-delete.entity';
-import { LegalNoticeFilterEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-filter.entity';
-import { LegalNoticePublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-publish.entity';
-import { LegalNoticeUnpublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
-import { LegalNoticeUpdateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-update.entity';
+import { LegalNoticeDeleteDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-delete.dto';
+import { LegalNoticePublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-publish.dto';
+import { LegalNoticeUnpublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-unpublish.dto';
+import { LegalNoticeCreateValidateContract } from '@pages/content-management/domain/contracts/legal-notice/legal-notice-create.validate-contract';
+import { LegalNoticeUpdateValidateContract } from '@pages/content-management/domain/contracts/legal-notice/legal-notice-update.validate-contract';
 import { LegalNoticeEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice.entity';
+import { LegalNoticeFilterVo } from '@pages/content-management/domain/value-objects/legal-notice/legal-notice-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -18,23 +18,23 @@ import { Observable } from 'rxjs';
 })
 export abstract class LegalNoticeRepository {
     abstract readAll(
-        entity: LegalNoticeFilterEntity | null,
+        filter: LegalNoticeFilterVo | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<LegalNoticeEntity>>;
     abstract create(
-        entity: LegalNoticeCreateEntity
+        contract: LegalNoticeCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: LegalNoticeUpdateEntity
+        contract: LegalNoticeUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
-        entity: LegalNoticeDeleteEntity
+        dto: LegalNoticeDeleteDto
     ): Observable<SimpleResponseDto<void>>;
     abstract publish(
-        entity: LegalNoticePublishEntity
+        dto: LegalNoticePublishDto
     ): Observable<SimpleResponseDto<void>>;
     abstract unpublish(
-        entity: LegalNoticeUnpublishEntity
+        dto: LegalNoticeUnpublishDto
     ): Observable<SimpleResponseDto<void>>;
 }

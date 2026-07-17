@@ -1,3 +1,4 @@
+import { newsCreateCommandMapper } from '@pages/content-management/application/commands-mappers/news/news-create.mapper';
 import { Injectable, inject } from '@angular/core';
 import { NewsCreateCommand } from '@pages/content-management/application/commands/news/news-create.command';
 import { NewsUseCase } from '@pages/content-management/application/use-cases/news/news.use-case';
@@ -9,6 +10,6 @@ export class NewsCreateHandler {
     private readonly useCase = inject(NewsUseCase);
 
     execute(command: NewsCreateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({ ...command });
+        return this.useCase.create(newsCreateCommandMapper(command));
     }
 }

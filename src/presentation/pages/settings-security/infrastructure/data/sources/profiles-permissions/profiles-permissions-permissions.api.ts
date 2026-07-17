@@ -2,7 +2,7 @@ import { HttpClient, HttpContext } from '@angular/common/http';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { Injectable, inject } from '@angular/core';
 import { ProfilesPermissionsPermissionsResponseApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-permissions-api.dto';
-import { SETTINGS_SECURITY_LOGS_BASE_URL } from '@pages/settings-security/infrastructure/api/settings-security.base-url';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
 import { SETTINGS_SECURITY_ENDPOINTS } from '@pages/settings-security/infrastructure/api/settings-security.endpoints';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class ProfilesPermissionsPermissionsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(SETTINGS_SECURITY_LOGS_BASE_URL);
+    private readonly baseUrl = inject(SETTINGS_API_URL);
 
     execute(
         options?: FetchOptions

@@ -1,3 +1,4 @@
+import { teamsParticipantsQueryMapper } from '@pages/team-organization/application/queries-mappers/teams/teams-participants.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsParticipantsQuery } from '@pages/team-organization/application/queries/teams/teams-participants.query';
 import { TeamsParticipantsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-participants.use-case';
@@ -16,10 +17,7 @@ export class TeamsParticipantsHandler {
         options?: FetchOptions
     ): Observable<Paginate<TeamsParticipantsEntity>> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-                search: command.search,
-            },
+            teamsParticipantsQueryMapper(command),
             page,
             options
         );

@@ -12,13 +12,13 @@ import {
     ReportsResponse,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
 import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
-import { INTERACTIVE_MAP_BASE_URL } from '../../api/interactive-map.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class InteractiveMapReportsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(INTERACTIVE_MAP_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     private readonly reportsSignal = signal<InteractiveMapReport[]>([]);
 
@@ -134,6 +134,9 @@ export class InteractiveMapReportsApi {
         if (filters.region) {
             params['region'] = filters.region;
         }
+        if (filters.equipment) {
+            params['equipment'] = filters.equipment;
+        }
 
         return params;
     }
@@ -151,6 +154,9 @@ export class InteractiveMapReportsApi {
         }
         if (filters.region) {
             params['region'] = filters.region;
+        }
+        if (filters.equipment) {
+            params['equipment'] = filters.equipment;
         }
 
         return params;

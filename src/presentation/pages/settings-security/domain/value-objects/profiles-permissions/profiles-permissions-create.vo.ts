@@ -1,27 +1,14 @@
-import { ProfilesPermissionsCreateDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-create.dto';
+import { ProfilesPermissionsCreateContract } from '@pages/settings-security/domain/contracts/profiles-permissions/profiles-permissions-create.contract';
+import { ProfilesPermissionsCreateValidateContract } from '@pages/settings-security/domain/contracts/profiles-permissions/profiles-permissions-create.validate-contract';
+import { validateProfilesPermissionsCreate } from '@pages/settings-security/domain/validators/profiles-permissions/profiles-permissions-create.validator';
 
-export class ProfilesPermissionsCreateVo {
-    readonly name: string;
-    readonly description: string;
-    readonly permissions: Record<string, string[]>;
-
-    private constructor(props: {
-        name: string;
-        description: string;
-        permissions: Record<string, string[]>;
-    }) {
-        this.name = props.name;
-        this.description = props.description;
-        this.permissions = props.permissions;
-    }
-
-    static fromDto(
-        dto: ProfilesPermissionsCreateDto
-    ): ProfilesPermissionsCreateVo {
-        return new ProfilesPermissionsCreateVo({
-            name: dto.name,
-            description: dto.description,
-            permissions: dto.permissions,
-        });
-    }
+export function profilesPermissionsCreateVo(
+    contract: ProfilesPermissionsCreateContract
+): ProfilesPermissionsCreateValidateContract {
+    validateProfilesPermissionsCreate(contract);
+    return {
+        name: contract.name,
+        description: contract.description,
+        permissions: contract.permissions,
+    };
 }

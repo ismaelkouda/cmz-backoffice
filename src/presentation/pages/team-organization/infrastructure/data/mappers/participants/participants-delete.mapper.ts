@@ -1,12 +1,12 @@
-import { ParticipantsDeleteEntity } from '@pages/team-organization/domain/entities/participants/participants-delete.entity';
+import { ParticipantsDeleteDto } from '@pages/team-organization/application/dto/participants/participants-delete.dto';
 import { ParticipantsDeleteApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-delete-api.dto';
 
 export function participantsDeleteMapper(
-    vo: ParticipantsDeleteEntity
+    dto: ParticipantsDeleteDto
 ): ParticipantsDeleteApiDto {
     const prams = {} as ParticipantsDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

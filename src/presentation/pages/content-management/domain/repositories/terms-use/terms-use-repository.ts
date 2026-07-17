@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TermsUseCreateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-create.entity';
-import { TermsUseDeleteEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-delete.entity';
-import { TermsUseFilterEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-filter.entity';
-import { TermsUsePublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-publish.entity';
-import { TermsUseUnpublishEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-unpublish.entity';
-import { TermsUseUpdateEntity } from '@pages/content-management/domain/entities/terms-use/terms-use-update.entity';
+import { TermsUseDeleteDto } from '@pages/content-management/application/dto/terms-use/terms-use-delete.dto';
+import { TermsUsePublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-publish.dto';
+import { TermsUseUnpublishDto } from '@pages/content-management/application/dto/terms-use/terms-use-unpublish.dto';
+import { TermsUseCreateValidateContract } from '@pages/content-management/domain/contracts/terms-use/terms-use-create.validate-contract';
+import { TermsUseUpdateValidateContract } from '@pages/content-management/domain/contracts/terms-use/terms-use-update.validate-contract';
 import { TermsUseEntity } from '@pages/content-management/domain/entities/terms-use/terms-use.entity';
+import { TermsUseFilterVo } from '@pages/content-management/domain/value-objects/terms-use/terms-use-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -18,23 +18,23 @@ import { Observable } from 'rxjs';
 })
 export abstract class TermsUseRepository {
     abstract readAll(
-        entity: TermsUseFilterEntity | null,
+        filter: TermsUseFilterVo | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TermsUseEntity>>;
     abstract create(
-        entity: TermsUseCreateEntity
+        contract: TermsUseCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: TermsUseUpdateEntity
+        contract: TermsUseUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
-        entity: TermsUseDeleteEntity
+        dto: TermsUseDeleteDto
     ): Observable<SimpleResponseDto<void>>;
     abstract publish(
-        entity: TermsUsePublishEntity
+        dto: TermsUsePublishDto
     ): Observable<SimpleResponseDto<void>>;
     abstract unpublish(
-        entity: TermsUseUnpublishEntity
+        dto: TermsUseUnpublishDto
     ): Observable<SimpleResponseDto<void>>;
 }

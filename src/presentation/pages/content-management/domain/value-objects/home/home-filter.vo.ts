@@ -1,37 +1,26 @@
 import { HomeFilterDto } from '@pages/content-management/application/dto/home/home-filter.dto';
+import { HomeFilterContract } from '@pages/content-management/domain/contracts/home/home-filter.contract';
 import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
+import { validateHomeFilter } from '@pages/content-management/domain/validators/home/home-filter.validator';
 import { Platform } from '@shared/domain/enums/platform.enum';
 
-export class HomeFilterVo {
-    public readonly search?: string;
-    public readonly platforms?: Platform[];
-    public readonly status?: Status;
-    public readonly startDate?: string;
-    public readonly endDate?: string;
+export interface HomeFilterVo {
+    search?: string;
+    platforms?: Platform[];
+    status?: Status;
+    startDate?: string;
+    endDate?: string;
+}
 
-    constructor(props: {
-        search?: string;
-        platforms?: Platform[];
-        status?: Status;
-        startDate?: string;
-        endDate?: string;
-    }) {
-        this.search = props.search;
-        this.platforms = props.platforms;
-        this.status = props.status;
-        this.startDate = props.startDate;
-        this.endDate = props.endDate;
-    }
-
-    static fromDto(
-        dto: HomeFilterDto | null = {} as HomeFilterDto
-    ): HomeFilterVo {
-        return new HomeFilterVo({
-            search: dto?.search?.trim() || undefined,
-            platforms: dto?.platforms,
-            status: dto?.status,
-            startDate: dto?.startDate,
-            endDate: dto?.endDate,
-        });
-    }
+export function homeFilterVo(
+    dto: HomeFilterDto | null = {} as HomeFilterDto
+): HomeFilterVo {
+    validateHomeFilter((dto ?? {}) as HomeFilterContract);
+    return {
+        search: dto?.search?.trim() || undefined,
+        platforms: dto?.platforms,
+        status: dto?.status,
+        startDate: dto?.startDate,
+        endDate: dto?.endDate,
+    };
 }

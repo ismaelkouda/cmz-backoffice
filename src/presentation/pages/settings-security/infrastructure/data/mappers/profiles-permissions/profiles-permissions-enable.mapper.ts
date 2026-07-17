@@ -1,12 +1,12 @@
-import { ProfilesPermissionsEnableEntity } from '@pages/settings-security/domain/entities/profiles-permissions/profiles-permissions-enable.entity';
+import { ProfilesPermissionsEnableDto } from '@pages/settings-security/application/dto/profiles-permissions/profiles-permissions-enable.dto';
 import { ProfilesPermissionsEnableApiDto } from '@pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-enable-api.dto';
 
 export function profilesPermissionsEnableMapper(
-    vo: ProfilesPermissionsEnableEntity
+    dto: ProfilesPermissionsEnableDto
 ): ProfilesPermissionsEnableApiDto {
     const prams = {} as ProfilesPermissionsEnableApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

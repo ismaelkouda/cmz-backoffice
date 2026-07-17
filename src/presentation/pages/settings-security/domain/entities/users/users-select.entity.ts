@@ -1,4 +1,4 @@
-import { UsersSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-select-api.dto';
+import { UsersSelectItemApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-select-response-api.dto';
 
 export class UsersSelectEntity {
     constructor(

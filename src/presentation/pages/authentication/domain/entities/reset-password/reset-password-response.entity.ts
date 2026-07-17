@@ -1,11 +1,11 @@
-import { ResetPasswordResponseProps } from '@presentation/pages/authentication/domain/props/reset-password/reset-password-response.props';
+import { ResetPasswordProps } from '@presentation/pages/authentication/domain/interfaces/reset-password/reset-password-props.interface';
 import {
     AuthToken,
     CurrentUser,
 } from '@shared/domain/interfaces/current-user.interface';
 
-export class ResetPasswordResponseEntity implements ResetPasswordResponseProps {
-    constructor(public readonly props: ResetPasswordResponseProps) {}
+export class ResetPasswordResponseEntity implements ResetPasswordProps {
+    constructor(public readonly props: ResetPasswordProps) {}
 
     get user(): CurrentUser {
         return this.props.user;

@@ -1,3 +1,4 @@
+import { teamsParticipantsRemoveCommandMapper } from '@pages/team-organization/application/commands-mappers/teams/teams-participants-remove.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsParticipantsRemoveCommand } from '@pages/team-organization/application/commands/teams/teams-participants-remove.command';
 import { TeamsParticipantsUseCase } from '@pages/team-organization/application/use-cases/teams/teams-participants.use-case';
@@ -11,9 +12,8 @@ export class TeamsParticipantsRemoveHandler {
     execute(
         command: TeamsParticipantsRemoveCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.remove({
-            uniqId: command.uniqId,
-            participants: command.participants,
-        });
+        return this.useCase.remove(
+            teamsParticipantsRemoveCommandMapper(command)
+        );
     }
 }

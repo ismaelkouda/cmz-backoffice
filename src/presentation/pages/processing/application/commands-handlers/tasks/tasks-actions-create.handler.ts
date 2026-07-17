@@ -1,3 +1,4 @@
+import { tasksActionsCreateCommandMapper } from '@pages/processing/application/commands-mappers/tasks/tasks-actions-create.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TasksActionsCreateCommand } from '@pages/processing/application/commands/tasks/tasks-actions-create.command';
 import { TasksActionsUseCase } from '@pages/processing/application/use-cases/tasks/tasks-actions.use-case';
@@ -11,14 +12,6 @@ export class TasksActionsCreateHandler {
     execute(
         command: TasksActionsCreateCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.create({
-            reportUniqId: command.reportUniqId,
-            date: command.date,
-            type: command.type,
-            operator: command.operator,
-            description: command.description,
-            shouldNotifyUser: command.shouldNotifyUser,
-            isConform: command.isConform,
-        });
+        return this.useCase.create(tasksActionsCreateCommandMapper(command));
     }
 }

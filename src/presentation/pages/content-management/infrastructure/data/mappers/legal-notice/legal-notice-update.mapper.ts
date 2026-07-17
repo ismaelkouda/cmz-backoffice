@@ -1,19 +1,19 @@
-import { LegalNoticeUpdateEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-update.entity';
+import { LegalNoticeUpdateValidateContract } from '@pages/content-management/domain/contracts/legal-notice/legal-notice-update.validate-contract';
 import { LegalNoticeUpdateApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-update-api.dto';
 
 export function legalNoticeUpdateMapper(
-    entity: LegalNoticeUpdateEntity
+    contract: LegalNoticeUpdateValidateContract
 ): LegalNoticeUpdateApiDto {
     const params: LegalNoticeUpdateApiDto = {} as LegalNoticeUpdateApiDto;
 
-    if (entity.uniqId) {
-        params.id = entity.uniqId;
+    if (contract.uniqId) {
+        params.id = contract.uniqId;
     }
-    if (entity.version) {
-        params.version = entity.version;
+    if (contract.version) {
+        params.version = contract.version;
     }
-    if (entity.content) {
-        params.content = entity.content;
+    if (contract.content) {
+        params.content = contract.content;
     }
 
     return params;

@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { MunicipalitiesCreateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-create.entity';
-import { MunicipalitiesDeleteEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-delete.entity';
-import { MunicipalitiesFilterEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-filter.entity';
-import { MunicipalitiesUpdateEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities-update.entity';
+import { MunicipalitiesDeleteDto } from '@pages/administrative-boundary/application/dto/municipalities/municipalities-delete.dto';
+import { MunicipalitiesFilterProps } from '@pages/administrative-boundary/domain/interfaces/municipalities/municipalities-filter-props.interface';
 import { MunicipalitiesEntity } from '@pages/administrative-boundary/domain/entities/municipalities/municipalities.entity';
+import { MunicipalitiesCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-create.validate-contract';
+import { MunicipalitiesUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/municipalities/municipalities-update.validate-contract';
 import { MunicipalitiesRepository } from '@pages/administrative-boundary/domain/repositories/municipalities/municipalities-repository';
 import { municipalitiesCreateMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-create.mapper';
 import { municipalitiesDeleteMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/municipalities/municipalities-delete.mapper';
@@ -24,34 +24,32 @@ export class MunicipalitiesRepositoryImpl implements MunicipalitiesRepository {
     private readonly mapper = inject(MunicipalitiesMapper);
 
     execute(
-        entity: MunicipalitiesFilterEntity,
+        filter: MunicipalitiesFilterProps,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<MunicipalitiesEntity>> {
-        const paramsDto = municipalitiesFilterMapper(entity);
+        const paramsDto = municipalitiesFilterMapper(filter);
         return this.api
             .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
     create(
-        entity: MunicipalitiesCreateEntity
+        entity: MunicipalitiesCreateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         const paramsDto = municipalitiesCreateMapper(entity);
         return this.api.create(paramsDto);
     }
 
     update(
-        entity: MunicipalitiesUpdateEntity
+        entity: MunicipalitiesUpdateValidateContract
     ): Observable<SimpleResponseDto<void>> {
         const paramsDto = municipalitiesUpdateMapper(entity);
         return this.api.update(paramsDto);
     }
 
-    delete(
-        entity: MunicipalitiesDeleteEntity
-    ): Observable<SimpleResponseDto<void>> {
-        const paramsDto = municipalitiesDeleteMapper(entity);
+    delete(dto: MunicipalitiesDeleteDto): Observable<SimpleResponseDto<void>> {
+        const paramsDto = municipalitiesDeleteMapper(dto);
         return this.api.delete(paramsDto);
     }
 }

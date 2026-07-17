@@ -1,10 +1,10 @@
-import { SlideDeleteEntity } from '@pages/content-management/domain/entities/slide/slide-delete.entity';
+import { SlideDeleteDto } from '@pages/content-management/application/dto/slide/slide-delete.dto';
 import { SlideDeleteApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-delete-api.dto';
 
-export function slideDeleteMapper(vo: SlideDeleteEntity): SlideDeleteApiDto {
+export function slideDeleteMapper(dto: SlideDeleteDto): SlideDeleteApiDto {
     const prams = {} as SlideDeleteApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

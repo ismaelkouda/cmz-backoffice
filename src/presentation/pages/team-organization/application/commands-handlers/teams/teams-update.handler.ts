@@ -1,3 +1,4 @@
+import { teamsUpdateCommandMapper } from '@pages/team-organization/application/commands-mappers/teams/teams-update.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TeamsUpdateCommand } from '@pages/team-organization/application/commands/teams/teams-update.command';
 import { TeamsUseCase } from '@pages/team-organization/application/use-cases/teams/teams.use-case';
@@ -9,14 +10,6 @@ export class TeamsUpdateHandler {
     private readonly useCase = inject(TeamsUseCase);
 
     execute(command: TeamsUpdateCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.update({
-            uniqId: command.uniqId,
-            // code: command.code,
-            name: command.name,
-            description: command.description,
-            reportTypes: command.reportTypes,
-            operators: command.operators,
-            permissions: command.permissions,
-        });
+        return this.useCase.update(teamsUpdateCommandMapper(command));
     }
 }

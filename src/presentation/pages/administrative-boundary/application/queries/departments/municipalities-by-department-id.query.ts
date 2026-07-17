@@ -2,7 +2,7 @@ import { Status } from '@pages/administrative-boundary/domain/enums/municipaliti
 
 export class MunicipalitiesByDepartmentIdQuery {
     constructor(
-        public readonly uniqId: string,
+        public readonly uniqId?: string,
         public readonly search?: string,
         public readonly region?: string,
         public readonly department?: string,

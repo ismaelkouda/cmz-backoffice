@@ -1,3 +1,4 @@
+import { newsQueryMapper } from '@pages/content-management/application/queries-mappers/news/news.mapper';
 import { Injectable, inject } from '@angular/core';
 import { NewsQuery } from '@pages/content-management/application/queries/news/news.query';
 import { NewsUseCase } from '@pages/content-management/application/use-cases/news/news.use-case';
@@ -15,15 +16,6 @@ export class NewsHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<NewsEntity>> {
-        return this.useCase.execute(
-            {
-                search: command.search,
-                status: command.status,
-                startDate: command.startDate,
-                endDate: command.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(newsQueryMapper(command), page, options);
     }
 }

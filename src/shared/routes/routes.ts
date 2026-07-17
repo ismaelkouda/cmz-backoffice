@@ -19,6 +19,7 @@ export const MAP_ROUTE = 'map';
 export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
 export const ADMINISTRATIVE_BOUNDARY_ROUTE = 'territorial-structure';
 export const ADMINISTRATIVE_INFRASTRUCTURE_ROUTE = 'equipments';
+export const COVERAGE_AREAS_ROUTE = 'coverage-areas';
 
 export const content: Routes = [
     {
@@ -180,6 +181,19 @@ export const content: Routes = [
         data: {
             breadcrumb: {
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.LABEL',
+                icon: 'pi-sitemap',
+            },
+        },
+    },
+    {
+        path: COVERAGE_AREAS_ROUTE,
+        loadChildren: () =>
+            import('@pages/coverage-areas/coverage-areas.routes').then(
+                (m) => m.routes
+            ),
+        data: {
+            breadcrumb: {
+                label: 'COVERAGE_AREAS.LABEL',
                 icon: 'pi-sitemap',
             },
         },

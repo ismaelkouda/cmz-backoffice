@@ -2,7 +2,7 @@ import { Status } from '@presentation/pages/administrative-infrastructure/domain
 
 export interface InfrastructureTypeFilterDto {
     search?: string;
-    profile?: string;
-    role?: string;
-    isActive?: Status;
+    status?: Status;
+    startDate?: Date;
+    endDate?: Date;
 }

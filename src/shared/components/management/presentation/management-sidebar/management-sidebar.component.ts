@@ -64,6 +64,10 @@ export class ManagementSidebarComponent {
         return this.item()?.initiatorPhone;
     });
 
+    protected readonly initiatorEmail = computed((): string | null => {
+        return this.item()?.initiator.email ?? '';
+    });
+
     protected readonly showApproverSection = computed((): boolean => {
         return !!(this.item()?.treater?.approvedAt || this.item()?.approvedBy);
     });

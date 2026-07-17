@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { InfrastructureTypeSelectUseCase } from '@presentation/pages/administrative-infrastructure/application/use-cases/infrastructure-type/infrastructure-type-select.use-case';
-import { InfrastructureTypeSelectEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure-type/infrastructure-type-select.entity';
 import { ArrayBaseFacade } from '@shared/application/services/array-base-facade';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -10,7 +10,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
     providedIn: 'root',
 })
 export class InfrastructureTypeSelectFacade extends ArrayBaseFacade<
-    InfrastructureTypeSelectEntity,
+    SelectOption,
     void
 > {
     private readonly uiFeedback = inject(UiFeedbackService);

@@ -1,3 +1,4 @@
+import { tasksQueryMapper } from '@pages/processing/application/queries-mappers/tasks/tasks.mapper';
 import { Injectable, inject } from '@angular/core';
 import { TasksQuery } from '@pages/processing/application/queries/tasks/tasks.query';
 import { TasksUseCase } from '@pages/processing/application/use-cases/tasks/tasks.use-case';
@@ -15,18 +16,6 @@ export class TasksHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TasksEntity>> {
-        return this.useCase.execute(
-            {
-                initiatorPhoneNumber: query.initiatorPhoneNumber,
-                uniqId: query.uniqId,
-                reportType: query.reportType,
-                operators: query.operators,
-                source: query.source,
-                startDate: query.startDate,
-                endDate: query.endDate,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(tasksQueryMapper(query), page, options);
     }
 }

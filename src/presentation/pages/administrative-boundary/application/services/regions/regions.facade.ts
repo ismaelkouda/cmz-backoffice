@@ -46,16 +46,14 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
-        this.performFetch(filter, page, options);
+        this.executeQuery(filter, page, options);
         this.hasInitialized = true;
     }
 
     refresh(): void {
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        this.performFetch(filter, page, {
+        this.executeQuery(null, this.pageSubject.getValue(), {
             forceRefresh: true,
         });
     }
@@ -65,24 +63,17 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         if (!filter) {
             return;
         }
-        const command = new RegionsQuery(
-            filter?.search,
-            filter?.startDate,
-            filter?.endDate
-        );
-        const fetch$ = this.filterBus.dispatch(command, page);
-        this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
-        this.lastFetchTimestamp = Date.now();
+        this.executeQuery(filter, page);
     }
 
     refreshWithLastFilterAndPage(): void {
-        const filter = this.filterSubject.getValue();
-        const page = this.pageSubject.getValue();
-        if (filter) {
-            this.performFetch(filter, page, {
+        this.executeQuery(
+            this.filterSubject.getValue(),
+            this.pageSubject.getValue(),
+            {
                 forceRefresh: true,
-            });
-        }
+            }
+        );
     }
 
     resetMemory(): void {
@@ -103,7 +94,7 @@ export class RegionsFacade extends BaseFacade<RegionsEntity, RegionsFilterDto> {
         };
     }
 
-    private performFetch(
+    private executeQuery(
         filter: RegionsFilterDto | null,
         page: string,
         options?: FetchOptions

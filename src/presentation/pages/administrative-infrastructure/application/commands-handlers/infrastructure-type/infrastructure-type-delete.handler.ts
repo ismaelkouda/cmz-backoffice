@@ -1,7 +1,8 @@
 import { Injectable, inject } from '@angular/core';
+import { infrastructureTypeDeleteCommandMapper } from '@pages/administrative-infrastructure/application/commands-mappers/infrastructure-type/infrastructure-type-delete.mapper';
 import { InfrastructureTypeDeleteCommand } from '@presentation/pages/administrative-infrastructure/application/commands/infrastructure-type/infrastructure-type-delete.command';
 import { InfrastructureTypeUseCase } from '@pages/administrative-infrastructure/application/use-cases/infrastructure-type/infrastructure-type.use-case';
-import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -10,9 +11,9 @@ export class InfrastructureTypeDeleteHandler {
 
     execute(
         command: InfrastructureTypeDeleteCommand
-    ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.delete({
-            uniqId: command.uniqId,
-        });
+    ): Observable<MessageResponseDto> {
+        return this.useCase.delete(
+            infrastructureTypeDeleteCommandMapper(command)
+        );
     }
 }

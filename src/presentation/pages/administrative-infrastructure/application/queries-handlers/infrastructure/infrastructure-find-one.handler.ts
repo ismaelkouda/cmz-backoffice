@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { infrastructureFindOneQueryMapper } from '@presentation/pages/administrative-infrastructure/application/queries-mappers/infrastructure/infrastructure-find-one.mapper';
 import { InfrastructureFindOneQuery } from '@presentation/pages/administrative-infrastructure/application/queries/infrastructure/infrastructure-find-one.query';
 import { InfrastructureFindOneUseCase } from '@presentation/pages/administrative-infrastructure/application/use-cases/infrastructure/infrastructure-find-one.use-case';
 import { InfrastructureFindOneEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-find-one.entity';
@@ -14,9 +15,7 @@ export class InfrastructureFindOneHandler {
         options?: FetchOptions
     ): Observable<InfrastructureFindOneEntity> {
         return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
+            infrastructureFindOneQueryMapper(command),
             options
         );
     }

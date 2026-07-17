@@ -1,12 +1,12 @@
-import { LegalNoticeUnpublishEntity } from '@pages/content-management/domain/entities/legal-notice/legal-notice-unpublish.entity';
+import { LegalNoticeUnpublishDto } from '@pages/content-management/application/dto/legal-notice/legal-notice-unpublish.dto';
 import { LegalNoticeUnpublishApiDto } from '@pages/content-management/infrastructure/api/dto/legal-notice/legal-notice-unpublish-api.dto';
 
 export function legalNoticeUnpublishMapper(
-    vo: LegalNoticeUnpublishEntity
+    dto: LegalNoticeUnpublishDto
 ): LegalNoticeUnpublishApiDto {
     const prams = {} as LegalNoticeUnpublishApiDto;
-    if (vo.uniqId) {
-        prams.uniq_id = vo.uniqId;
+    if (dto.uniqId) {
+        prams.uniq_id = dto.uniqId;
     }
     return prams;
 }

@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ParticipantsFilterEntity } from '@pages/team-organization/domain/entities/participants/participants-filter.entity';
+import { ParticipantsFilterVo } from '@pages/team-organization/domain/value-objects/participants/participants-filter.vo';
 import { ParticipantsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-filter-api.dto';
 import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 
@@ -8,20 +8,20 @@ import { RolesMapper } from '@shared/data/mappers/roles.mapper';
 })
 export class ParticipantsFilterMapper {
     private readonly rolesMapper = inject(RolesMapper);
-    mapEntityToApi(entity: ParticipantsFilterEntity): ParticipantsFilterApiDto {
+    mapEntityToApi(vo: ParticipantsFilterVo): ParticipantsFilterApiDto {
         const params: ParticipantsFilterApiDto = {} as ParticipantsFilterApiDto;
 
-        if (entity.search) {
-            params.search = entity.search;
+        if (vo.search) {
+            params.search = vo.search;
         }
-        if (entity.role) {
-            params.role = this.rolesMapper.mapToDto(entity.role);
+        if (vo.role) {
+            params.role = this.rolesMapper.mapToDto(vo.role);
         }
-        if (entity.team) {
-            params.team_uniq_id = entity.team;
+        if (vo.team) {
+            params.team_uniq_id = vo.team;
         }
-        if (entity.status) {
-            params.status = entity.status;
+        if (vo.status) {
+            params.status = vo.status;
         }
 
         return params;

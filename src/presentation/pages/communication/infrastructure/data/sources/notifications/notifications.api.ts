@@ -1,7 +1,7 @@
 import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
-import { COMMUNICATION_BASE_URL } from '@pages/communication/infrastructure/api/communication.base-url';
 import { COMMUNICATION_ENDPOINTS } from '@pages/communication/infrastructure/api/communication.endpoints';
 import { NotificationsFilterApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
 import { NotificationsReadOneApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-read-one-api.dto';
@@ -14,7 +14,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class NotificationsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(COMMUNICATION_BASE_URL);
+    private readonly baseUrl: string = inject(AUTH_API_URL);
 
     execute(
         filter: NotificationsFilterApiDto,

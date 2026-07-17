@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { NewsCreateEntity } from '@pages/content-management/domain/entities/news/news-create.entity';
-import { NewsDeleteEntity } from '@pages/content-management/domain/entities/news/news-delete.entity';
-import { NewsFilterEntity } from '@pages/content-management/domain/entities/news/news-filter.entity';
-import { NewsPublishEntity } from '@pages/content-management/domain/entities/news/news-publish.entity';
-import { NewsUnpublishEntity } from '@pages/content-management/domain/entities/news/news-unpublish.entity';
-import { NewsUpdateEntity } from '@pages/content-management/domain/entities/news/news-update.entity';
+import { NewsDeleteDto } from '@pages/content-management/application/dto/news/news-delete.dto';
+import { NewsPublishDto } from '@pages/content-management/application/dto/news/news-publish.dto';
+import { NewsUnpublishDto } from '@pages/content-management/application/dto/news/news-unpublish.dto';
 import { NewsEntity } from '@pages/content-management/domain/entities/news/news.entity';
+import { NewsCreateProps } from '@pages/content-management/domain/interfaces/news/news-create-props.interface';
+import { NewsUpdateProps } from '@pages/content-management/domain/interfaces/news/news-update-props.interface';
+import { NewsFilterVo } from '@pages/content-management/domain/value-objects/news/news-filter.vo';
 import {
     Paginate,
     SimpleResponseDto,
@@ -18,23 +18,19 @@ import { Observable } from 'rxjs';
 })
 export abstract class NewsRepository {
     abstract readAll(
-        entity: NewsFilterEntity | null,
+        filter: NewsFilterVo | null,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<NewsEntity>>;
     abstract create(
-        entity: NewsCreateEntity
+        props: NewsCreateProps
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: NewsUpdateEntity
+        props: NewsUpdateProps
     ): Observable<SimpleResponseDto<void>>;
-    abstract delete(
-        entity: NewsDeleteEntity
-    ): Observable<SimpleResponseDto<void>>;
-    abstract publish(
-        entity: NewsPublishEntity
-    ): Observable<SimpleResponseDto<void>>;
+    abstract delete(dto: NewsDeleteDto): Observable<SimpleResponseDto<void>>;
+    abstract publish(dto: NewsPublishDto): Observable<SimpleResponseDto<void>>;
     abstract unpublish(
-        entity: NewsUnpublishEntity
+        dto: NewsUnpublishDto
     ): Observable<SimpleResponseDto<void>>;
 }

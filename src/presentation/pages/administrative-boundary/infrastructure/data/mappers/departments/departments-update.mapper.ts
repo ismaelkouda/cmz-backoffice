@@ -1,27 +1,17 @@
-import { DepartmentsUpdateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-update.entity';
+import { DepartmentsUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-update.validate-contract';
 import { DepartmentsUpdateApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-update-api.dto';
 
 export function departmentsUpdateMapper(
-    update: DepartmentsUpdateEntity
+    update: DepartmentsUpdateValidateContract
 ): DepartmentsUpdateApiDto {
     const params: DepartmentsUpdateApiDto = {} as DepartmentsUpdateApiDto;
 
     params.id = update.uniqId;
-    if (update.code) {
-        params['code'] = update.code;
-    }
-    if (update.population) {
-        params['population_size'] = update.population;
-    }
-    if (update.infrastructure) {
-        params['infrastructure_size'] = update.infrastructure;
-    }
-    if (update.name) {
-        params['name'] = update.name;
-    }
-    if (update.region) {
-        params['region_id'] = update.region;
-    }
+    params['code'] = update.code;
+    params['population_size'] = update.population;
+    params['infrastructure_size'] = update.infrastructure;
+    params['name'] = update.name;
+    params['region_id'] = update.region;
     if (update.description) {
         params['description'] = update.description;
     }

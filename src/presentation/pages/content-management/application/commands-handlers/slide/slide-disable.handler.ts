@@ -1,3 +1,4 @@
+import { slideDisableCommandMapper } from '@pages/content-management/application/commands-mappers/slide/slide-disable.mapper';
 import { Injectable, inject } from '@angular/core';
 import { SlideDisableCommand } from '@pages/content-management/application/commands/slide/slide-disable.command';
 import { SlideUseCase } from '@pages/content-management/application/use-cases/slide/slide.use-case';
@@ -9,8 +10,6 @@ export class SlideDisableHandler {
     private readonly useCase = inject(SlideUseCase);
 
     execute(command: SlideDisableCommand): Observable<SimpleResponseDto<void>> {
-        return this.useCase.disable({
-            uniqId: command.uniqId,
-        });
+        return this.useCase.disable(slideDisableCommandMapper(command));
     }
 }

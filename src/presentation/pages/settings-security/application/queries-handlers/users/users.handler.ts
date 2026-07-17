@@ -1,3 +1,4 @@
+import { usersQueryMapper } from '@pages/settings-security/application/queries-mappers/users/users.mapper';
 import { Injectable, inject } from '@angular/core';
 import { UsersQuery } from '@pages/settings-security/application/queries/users/users.query';
 import { UsersUseCase } from '@pages/settings-security/application/use-cases/users/users.use-case';
@@ -15,15 +16,6 @@ export class UsersHandler {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<UsersEntity>> {
-        return this.useCase.execute(
-            {
-                search: command.search,
-                profile: command.profile,
-                role: command.role,
-                isActive: command.isActive,
-            },
-            page,
-            options
-        );
+        return this.useCase.execute(usersQueryMapper(command), page, options);
     }
 }

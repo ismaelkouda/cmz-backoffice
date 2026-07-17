@@ -1,12 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { UsersCreateEntity } from '@pages/settings-security/domain/entities/users/users-create.entity';
-import { UsersDeleteEntity } from '@pages/settings-security/domain/entities/users/users-delete.entity';
-import { UsersDisableEntity } from '@pages/settings-security/domain/entities/users/users-disable.entity';
-import { UsersEnableEntity } from '@pages/settings-security/domain/entities/users/users-enable.entity';
-import { UsersFilterEntity } from '@pages/settings-security/domain/entities/users/users-filter.entity';
-import { UsersUpdateEntity } from '@pages/settings-security/domain/entities/users/users-update.entity';
+import { UsersDeleteDto } from '@pages/settings-security/application/dto/users/users-delete.dto';
+import { UsersDisableDto } from '@pages/settings-security/application/dto/users/users-disable.dto';
+import { UsersEnableDto } from '@pages/settings-security/application/dto/users/users-enable.dto';
+import { UsersCreateValidateContract } from '@pages/settings-security/domain/contracts/users/users-create.validate-contract';
+import { UsersUpdateValidateContract } from '@pages/settings-security/domain/contracts/users/users-update.validate-contract';
 import { UsersEntity } from '@pages/settings-security/domain/entities/users/users.entity';
 import { UsersRepository } from '@pages/settings-security/domain/repositories/users/users-repository';
+import { UsersFilterVo } from '@pages/settings-security/domain/value-objects/users/users-filter.vo';
 import { usersCreateMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-create.mapper';
 import { usersDeleteMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-delete.mapper';
 import { usersDisableMapper } from '@pages/settings-security/infrastructure/data/mappers/users/users-disable.mapper';
@@ -30,32 +30,36 @@ export class UsersRepositoryImpl implements UsersRepository {
     private readonly mapper = inject(UsersMapper);
 
     readAll(
-        entity: UsersFilterEntity,
+        filter: UsersFilterVo,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<UsersEntity>> {
         return this.api
-            .readAll(usersFilterMapper(entity), page, options)
+            .readAll(usersFilterMapper(filter), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
-    create(entity: UsersCreateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.create(usersCreateMapper(entity));
+    create(
+        props: UsersCreateValidateContract
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.create(usersCreateMapper(props));
     }
 
-    update(entity: UsersUpdateEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.update(usersUpdateMapper(entity));
+    update(
+        props: UsersUpdateValidateContract
+    ): Observable<SimpleResponseDto<void>> {
+        return this.api.update(usersUpdateMapper(props));
     }
 
-    delete(entity: UsersDeleteEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.delete(usersDeleteMapper(entity));
+    delete(dto: UsersDeleteDto): Observable<SimpleResponseDto<void>> {
+        return this.api.delete(usersDeleteMapper(dto));
     }
 
-    enable(entity: UsersEnableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.enable(usersEnableMapper(entity));
+    enable(dto: UsersEnableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.enable(usersEnableMapper(dto));
     }
 
-    disable(entity: UsersDisableEntity): Observable<SimpleResponseDto<void>> {
-        return this.api.disable(usersDisableMapper(entity));
+    disable(dto: UsersDisableDto): Observable<SimpleResponseDto<void>> {
+        return this.api.disable(usersDisableMapper(dto));
     }
 }

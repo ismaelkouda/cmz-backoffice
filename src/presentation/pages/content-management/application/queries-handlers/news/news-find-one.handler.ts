@@ -1,3 +1,4 @@
+import { newsFindOneQueryMapper } from '@pages/content-management/application/queries-mappers/news/news-find-one.mapper';
 import { Injectable, inject } from '@angular/core';
 import { NewsFindOneQuery } from '@pages/content-management/application/queries/news/news-find-one.query';
 import { NewsFindOneUseCase } from '@pages/content-management/application/use-cases/news/news-find-one.use-case';
@@ -13,11 +14,6 @@ export class NewsFindOneHandler {
         command: NewsFindOneQuery,
         options?: FetchOptions
     ): Observable<NewsFindOneEntity> {
-        return this.useCase.execute(
-            {
-                uniqId: command.uniqId,
-            },
-            options
-        );
+        return this.useCase.execute(newsFindOneQueryMapper(command), options);
     }
 }

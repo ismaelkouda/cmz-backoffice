@@ -1,28 +1,28 @@
-import { UsersCreateEntity } from '@pages/settings-security/domain/entities/users/users-create.entity';
+import { UsersCreateValidateContract } from '@pages/settings-security/domain/contracts/users/users-create.validate-contract';
 import { UsersCreateApiDto } from '@pages/settings-security/infrastructure/api/dto/users/users-create-api.dto';
 
 export function usersCreateMapper(
-    entity: UsersCreateEntity
+    props: UsersCreateValidateContract
 ): UsersCreateApiDto {
     const params: UsersCreateApiDto = {} as UsersCreateApiDto;
 
-    if (entity.firstName) {
-        params.first_name = entity.firstName;
+    if (props.firstName) {
+        params.first_name = props.firstName;
     }
-    if (entity.lastName) {
-        params.last_name = entity.lastName;
+    if (props.lastName) {
+        params.last_name = props.lastName;
     }
-    if (entity.email) {
-        params.email = entity.email;
+    if (props.email) {
+        params.email = props.email;
     }
-    if (entity.phone) {
-        params.phone = entity.phone;
+    if (props.phone) {
+        params.phone = props.phone;
     }
-    if (entity.profile) {
-        params.profile_id = entity.profile;
+    if (props.profile) {
+        params.profile_id = props.profile;
     }
-    // if (entity.role) {
-    //     params.role = entity.role;
+    // if (props.role) {
+    //     params.role = props.role;
     // }
 
     return params;

@@ -1,11 +1,11 @@
-import { LoginResponseProps } from '@presentation/pages/authentication/domain/props/login/login-response.props';
+import { LoginProps } from '@presentation/pages/authentication/domain/interfaces/login/login-props.interface';
 import {
     AuthToken,
     CurrentUser,
 } from '@shared/domain/interfaces/current-user.interface';
 
-export class LoginResponseEntity implements LoginResponseProps {
-    constructor(public readonly props: LoginResponseProps) {}
+export class LoginResponseEntity implements LoginProps {
+    constructor(public readonly props: LoginProps) {}
 
     get user(): CurrentUser {
         return this.props.user;

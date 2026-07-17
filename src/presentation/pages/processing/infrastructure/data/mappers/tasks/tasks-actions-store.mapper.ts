@@ -1,23 +1,23 @@
-import { TasksActionsCreateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-create.entity';
-import { TasksActionsUpdateEntity } from '@pages/processing/domain/entities/tasks/tasks-actions-update.entity';
+import { TasksActionsCreateValidateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-create.validate-contract';
+import { TasksActionsUpdateValidateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-update.validate-contract';
 import { TasksActionsStoreApiDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-store-api.dto';
 import { ConformityMapper } from '@pages/processing/infrastructure/data/mappers/tasks/tasks-actions-conformity.mapper';
 
-type TasksActionFormEntity =
-    | TasksActionsCreateEntity
-    | TasksActionsUpdateEntity;
+type TasksActionFormProps =
+    | TasksActionsCreateValidateContract
+    | TasksActionsUpdateValidateContract;
 
 export function mapBaseTasksActionsDto(
-    entity: TasksActionFormEntity,
+    props: TasksActionFormProps,
     conformityMapper: ConformityMapper
 ): TasksActionsStoreApiDto {
     return {
-        report_uniq_id: entity.reportUniqId,
-        date: entity.date ?? new Date(),
-        operator: entity.operator.toLowerCase(),
-        type_code: entity.type,
-        description: entity.description,
-        should_notify_user: Boolean(entity.shouldNotifyUser),
-        result: conformityMapper.mapToDto(entity.isConform),
+        report_uniq_id: props.reportUniqId,
+        date: props.date ?? new Date(),
+        operator: props.operator.toLowerCase(),
+        type_code: props.type,
+        description: props.description,
+        should_notify_user: Boolean(props.shouldNotifyUser),
+        result: conformityMapper.mapToDto(props.isConform),
     };
 }

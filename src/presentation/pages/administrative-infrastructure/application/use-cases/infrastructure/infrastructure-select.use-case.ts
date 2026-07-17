@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { InfrastructureSelectEntity } from '@presentation/pages/administrative-infrastructure/domain/entities/infrastructure/infrastructure-select.entity';
-import { InfrastructureSelectRepository } from '@presentation/pages/administrative-infrastructure/domain/repositories/infrastructure/infrastructure-select-repository';
+import { InfrastructureSelectRepository } from '@presentation/pages/administrative-infrastructure/domain/repositories/infrastructure/infrastructure-select.repository';
+import { SelectOption } from '@shared/domain/interfaces/select-option.interface';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
-import { Observable } from 'rxjs';
+import { defer, Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class InfrastructureSelectUseCase {
     private readonly repository = inject(InfrastructureSelectRepository);
 
-    readAll(options?: FetchOptions): Observable<InfrastructureSelectEntity[]> {
-        return this.repository.readAll(options);
+    readAll(options?: FetchOptions): Observable<SelectOption[]> {
+        return defer(() => this.repository.readAll(options));
     }
 }

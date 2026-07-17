@@ -1,4 +1,4 @@
-import { ParticipantsSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-select-api.dto';
+import { ParticipantsSelectItemApiDto } from '@pages/team-organization/infrastructure/api/dto/participants/participants-select-response-api.dto';
 
 export class ParticipantsSelectEntity {
     constructor(

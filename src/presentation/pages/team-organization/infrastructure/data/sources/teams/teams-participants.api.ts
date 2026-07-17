@@ -6,7 +6,7 @@ import { TeamsParticipantsFilterApiDto } from '@pages/team-organization/infrastr
 import { TeamsParticipantsReassignApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-reassign-api.dto';
 import { TeamsParticipantsRemoveApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-remove-api.dto';
 import { TeamsParticipantsResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-participants-response-api.dto';
-import { TEAM_ORGANIZATION_BASE_URL } from '@pages/team-organization/infrastructure/api/team-organization.base-url';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
 import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
@@ -16,7 +16,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class TeamsParticipantsApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(TEAM_ORGANIZATION_BASE_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     readAll(
         dto: TeamsParticipantsFilterApiDto,

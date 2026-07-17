@@ -29,36 +29,4 @@ export class RegionsSelectFacade extends ArrayBaseFacade<
         this.hasInitialized = true;
         this.lastFetchTimestamp = Date.now();
     }
-
-    refresh(): void {
-        this.filterSubject.next(null);
-
-        this.fetchWithFilter(
-            null,
-            this.fetchUseCase.execute.bind(this.fetchUseCase, {
-                forceRefresh: true,
-            }),
-            this.uiFeedback
-        );
-
-        this.lastFetchTimestamp = Date.now();
-    }
-
-    resetMemory(): void {
-        this.hasInitialized = false;
-        this.lastFetchTimestamp = 0;
-        this.reset();
-    }
-
-    getMemoryStatus(): {
-        hasInitialized: boolean;
-        lastFetch: number;
-        hasData: boolean;
-    } {
-        return {
-            hasInitialized: this.hasInitialized,
-            lastFetch: this.lastFetchTimestamp,
-            hasData: this.itemsSubject.getValue() !== null,
-        };
-    }
 }

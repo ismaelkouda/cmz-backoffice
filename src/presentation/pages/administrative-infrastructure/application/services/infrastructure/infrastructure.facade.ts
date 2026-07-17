@@ -45,7 +45,7 @@ export class InfrastructureFacade extends BaseFacade<
     private lastFetchTimestamp = 0;
 
     readAll(
-        filter: InfrastructureFilterDto = {},
+        filter: InfrastructureFilterDto,
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
@@ -72,7 +72,10 @@ export class InfrastructureFacade extends BaseFacade<
     refreshWithLastFilterAndPage(): void {
         this.executeQuery(
             this.filterSubject.getValue(),
-            this.pageSubject.getValue()
+            this.pageSubject.getValue(),
+            {
+                forceRefresh: true,
+            }
         );
     }
 
@@ -81,7 +84,7 @@ export class InfrastructureFacade extends BaseFacade<
         page: string,
         options: FetchOptions = {}
     ): void {
-        const query = this.buildQuery(filter ?? undefined);
+        const query = this.buildQuery(filter);
         const fetch$ = this.filterBus.dispatch(query, page, options);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
@@ -119,14 +122,14 @@ export class InfrastructureFacade extends BaseFacade<
         };
     }
 
-    create(infra: InfrastructureCreateDto): void {
+    create(dto: InfrastructureCreateDto): void {
         this._actionState.set('loading');
 
         const command = new InfrastructureCreateCommand(
-            infra?.name,
-            infra?.type,
-            infra?.position,
-            infra?.description
+            dto?.name,
+            dto?.type,
+            dto?.position,
+            dto?.description
         );
 
         this.handleActionWithRefresh(
@@ -146,14 +149,14 @@ export class InfrastructureFacade extends BaseFacade<
             .subscribe();
     }
 
-    update(infra: InfrastructureUpdateDto): void {
+    update(dto: InfrastructureUpdateDto): void {
         this._actionState.set('loading');
         const command = new InfrastructureUpdateCommand(
-            infra?.uniqId,
-            infra?.name,
-            infra?.type,
-            infra?.position,
-            infra?.description
+            dto?.uniqId,
+            dto?.name,
+            dto?.type,
+            dto?.position,
+            dto?.description
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -172,8 +175,8 @@ export class InfrastructureFacade extends BaseFacade<
             .subscribe();
     }
 
-    delete(infra: InfrastructureDeleteDto): void {
-        const command = new InfrastructureDeleteCommand(infra.uniqId);
+    delete(dto: InfrastructureDeleteDto): void {
+        const command = new InfrastructureDeleteCommand(dto.uniqId);
         this.handleActionWithRefresh(
             this.deleteBus.dispatch(command),
             'COMMON.SUCCESS.DELETE'

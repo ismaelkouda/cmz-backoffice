@@ -1,7 +1,7 @@
 import { MessagingCreateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-create.entity';
-import { MessagingDeleteEntity } from '@pages/communication/domain/entities/messaging/messaging-delete.entity';
-import { MessagingDisableEntity } from '@pages/communication/domain/entities/messaging/messaging-disable.entity';
-import { MessagingEnableEntity } from '@pages/communication/domain/entities/messaging/messaging-enable.entity';
+import { MessagingDeleteDto } from '@pages/communication/application/dto/messaging/messaging-delete.dto';
+import { MessagingDisableDto } from '@pages/communication/application/dto/messaging/messaging-disable.dto';
+import { MessagingEnableDto } from '@pages/communication/application/dto/messaging/messaging-enable.dto';
 import { MessagingFilterContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-filter.contract';
 import { MessagingUpdateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-update.entity';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
@@ -24,13 +24,7 @@ export abstract class MessagingRepository {
     abstract update(
         entity: MessagingUpdateEntity
     ): Observable<MessageResponseDto>;
-    abstract delete(
-        entity: MessagingDeleteEntity
-    ): Observable<MessageResponseDto>;
-    abstract enable(
-        entity: MessagingEnableEntity
-    ): Observable<MessageResponseDto>;
-    abstract disable(
-        entity: MessagingDisableEntity
-    ): Observable<MessageResponseDto>;
+    abstract delete(dto: MessagingDeleteDto): Observable<MessageResponseDto>;
+    abstract enable(dto: MessagingEnableDto): Observable<MessageResponseDto>;
+    abstract disable(dto: MessagingDisableDto): Observable<MessageResponseDto>;
 }

@@ -1,8 +1,8 @@
-import { DepartmentsCreateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-create.entity';
-import { DepartmentsDeleteEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-delete.entity';
-import { DepartmentsFilterEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-filter.entity';
-import { DepartmentsUpdateEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-update.entity';
+import { DepartmentsDeleteDto } from '@pages/administrative-boundary/application/dto/departments/departments-delete.dto';
+import { DepartmentsFilterProps } from '@pages/administrative-boundary/domain/interfaces/departments/departments-filter-props.interface';
 import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { DepartmentsCreateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-create.validate-contract';
+import { DepartmentsUpdateValidateContract } from '@presentation/pages/administrative-boundary/domain/contracts/departments/departments-update.validate-contract';
 import {
     Paginate,
     SimpleResponseDto,
@@ -12,17 +12,17 @@ import { Observable } from 'rxjs';
 
 export abstract class DepartmentsRepository {
     abstract execute(
-        entity: DepartmentsFilterEntity,
+        filter: DepartmentsFilterProps,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<DepartmentsEntity>>;
     abstract create(
-        entity: DepartmentsCreateEntity
+        contract: DepartmentsCreateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract update(
-        entity: DepartmentsUpdateEntity
+        contract: DepartmentsUpdateValidateContract
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(
-        entity: DepartmentsDeleteEntity
+        dto: DepartmentsDeleteDto
     ): Observable<SimpleResponseDto<void>>;
 }

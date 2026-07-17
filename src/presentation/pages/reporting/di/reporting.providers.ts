@@ -1,29 +1,22 @@
-import { inject, Provider } from '@angular/core';
+import { Provider } from '@angular/core';
 import { ReportRepository } from '@pages/reporting/domain/repositories/report-repository.interface';
 import { RequestRepository } from '@pages/reporting/domain/repositories/request-repository.interface';
-import { REPORTING_API_BASE_URL } from '@pages/reporting/infrastructure/api/reporting.config';
+import { ReportByChannelRepository } from '@pages/reporting/domain/repositories/report-by-channel-repository.interface';
+import { ReportByOperatorRepository } from '@pages/reporting/domain/repositories/report-by-operator-repository.interface';
 import { ReportRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/reports.repository.impl';
 import { RequestRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/requests.repository.impl';
-
-import { EnvService } from '../../../../core/config/env.service';
-
-const getApiBaseUrl = (): string => {
-    const baseUrl = inject(EnvService).settingUrl;
-
-    if (!baseUrl) {
-        console.warn(
-            'Reporting Module: API Base URL is missing in environment configuration.'
-        );
-    }
-
-    return baseUrl;
-};
+import { ReportByChannelRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/report-by-channel.repository.impl';
+import { ReportByOperatorRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/report-by-operator.repository.impl';
 
 export const provideReporting = (): Provider[] => [
-    {
-        provide: REPORTING_API_BASE_URL,
-        useFactory: getApiBaseUrl,
-    },
     { provide: ReportRepository, useClass: ReportRepositoryImpl },
     { provide: RequestRepository, useClass: RequestRepositoryImpl },
+    {
+        provide: ReportByChannelRepository,
+        useClass: ReportByChannelRepositoryImpl,
+    },
+    {
+        provide: ReportByOperatorRepository,
+        useClass: ReportByOperatorRepositoryImpl,
+    },
 ];

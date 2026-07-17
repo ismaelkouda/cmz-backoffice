@@ -1,3 +1,4 @@
+import { detailsApproveCommandMapper } from '@pages/report-states/application/commands-mappers/details/details-approve.mapper';
 import { Injectable, inject } from '@angular/core';
 import { DetailsApproveCommand } from '@pages/report-states/application/commands/details/details-approve.command';
 import { DetailsUseCase } from '@pages/report-states/application/use-cases/details/details.use-case';
@@ -11,20 +12,6 @@ export class DetailsApproveHandler {
     execute(
         command: DetailsApproveCommand
     ): Observable<SimpleResponseDto<void>> {
-        return this.useCase.approve({
-            uniqId: command.uniqId,
-            comment: command.comment,
-            approvalType: command.approvalType,
-            callbackType: command.callbackType,
-            coordinates: command.coordinates,
-            locationName: command.locationName,
-            reportType: command.reportType,
-            operators: command.operators,
-            description: command.description,
-            decision: command.decision,
-            placeDescription: command.placeDescription,
-            reason: command.reason,
-            placePhoto: command.placePhoto,
-        });
+        return this.useCase.approve(detailsApproveCommandMapper(command));
     }
 }

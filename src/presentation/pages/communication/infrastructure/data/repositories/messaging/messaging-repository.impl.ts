@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { MessagingCreateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-create.entity';
-import { MessagingDeleteEntity } from '@pages/communication/domain/entities/messaging/messaging-delete.entity';
-import { MessagingDisableEntity } from '@pages/communication/domain/entities/messaging/messaging-disable.entity';
-import { MessagingEnableEntity } from '@pages/communication/domain/entities/messaging/messaging-enable.entity';
+import { MessagingDeleteDto } from '@pages/communication/application/dto/messaging/messaging-delete.dto';
+import { MessagingDisableDto } from '@pages/communication/application/dto/messaging/messaging-disable.dto';
+import { MessagingEnableDto } from '@pages/communication/application/dto/messaging/messaging-enable.dto';
 import { MessagingFilterContract } from '@presentation/pages/communication/domain/contracts/messaging/messaging-filter.contract';
 import { MessagingUpdateEntity } from '@presentation/pages/communication/domain/entities/messaging/messaging-update.entity';
 import { MessagingEntity } from '@pages/communication/domain/entities/messaging/messaging.entity';
@@ -50,15 +50,15 @@ export class MessagingRepositoryImpl implements MessagingRepository {
         return this.api.update(this.updateMapper.mapFromEntity(payload));
     }
 
-    delete(entity: MessagingDeleteEntity): Observable<MessageResponseDto> {
-        return this.api.delete(messagingDeleteMapper(entity));
+    delete(dto: MessagingDeleteDto): Observable<MessageResponseDto> {
+        return this.api.delete(messagingDeleteMapper(dto));
     }
 
-    enable(entity: MessagingEnableEntity): Observable<MessageResponseDto> {
-        return this.api.enable(messagingEnableMapper(entity));
+    enable(dto: MessagingEnableDto): Observable<MessageResponseDto> {
+        return this.api.enable(messagingEnableMapper(dto));
     }
 
-    disable(entity: MessagingDisableEntity): Observable<MessageResponseDto> {
-        return this.api.disable(messagingDisableMapper(entity));
+    disable(dto: MessagingDisableDto): Observable<MessageResponseDto> {
+        return this.api.disable(messagingDisableMapper(dto));
     }
 }

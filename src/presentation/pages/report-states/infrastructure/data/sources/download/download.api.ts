@@ -3,7 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import { DownloadFilterApiDto } from '@pages/report-states/infrastructure/api/dto/download/download-filter-api.dto';
 import { DownloadResponseApiDto } from '@pages/report-states/infrastructure/api/dto/download/download-response-api.dto';
-import { REPORT_STATES_BASE_URL } from '@presentation/pages/report-states/infrastructure/api/report-states.base-url';
+import { REPORT_API_URL } from '@core/config/config.tokens';
 import { REPORT_STATES_ENDPOINTS } from '@presentation/pages/report-states/infrastructure/api/report-states.endpoints';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class DownloadApi {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(REPORT_STATES_BASE_URL);
+    private readonly baseUrl = inject(REPORT_API_URL);
 
     execute(
         filter: DownloadFilterApiDto,

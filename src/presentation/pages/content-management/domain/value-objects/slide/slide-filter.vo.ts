@@ -1,37 +1,26 @@
 import { SlideFilterDto } from '@pages/content-management/application/dto/slide/slide-filter.dto';
+import { SlideFilterContract } from '@pages/content-management/domain/contracts/slide/slide-filter.contract';
 import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
+import { validateSlideFilter } from '@pages/content-management/domain/validators/slide/slide-filter.validator';
 import { Platform } from '@shared/domain/enums/platform.enum';
 
-export class SlideFilterVo {
-    public readonly search?: string;
-    public readonly platforms?: Platform[];
-    public readonly status?: Status;
-    public readonly startDate?: string;
-    public readonly endDate?: string;
+export interface SlideFilterVo {
+    search?: string;
+    platforms?: Platform[];
+    status?: Status;
+    startDate?: string;
+    endDate?: string;
+}
 
-    constructor(props: {
-        search?: string;
-        platforms?: Platform[];
-        status?: Status;
-        startDate?: string;
-        endDate?: string;
-    }) {
-        this.search = props.search;
-        this.platforms = props.platforms;
-        this.status = props.status;
-        this.startDate = props.startDate;
-        this.endDate = props.endDate;
-    }
-
-    static fromDto(
-        dto: SlideFilterDto | null = {} as SlideFilterDto
-    ): SlideFilterVo {
-        return new SlideFilterVo({
-            search: dto?.search?.trim() || undefined,
-            platforms: dto?.platforms,
-            status: dto?.status,
-            startDate: dto?.startDate,
-            endDate: dto?.endDate,
-        });
-    }
+export function slideFilterVo(
+    dto: SlideFilterDto | null = {} as SlideFilterDto
+): SlideFilterVo {
+    validateSlideFilter((dto ?? {}) as SlideFilterContract);
+    return {
+        search: dto?.search?.trim() || undefined,
+        platforms: dto?.platforms,
+        status: dto?.status,
+        startDate: dto?.startDate,
+        endDate: dto?.endDate,
+    };
 }
