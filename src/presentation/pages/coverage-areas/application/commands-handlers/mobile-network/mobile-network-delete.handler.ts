@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 export class MobileNetworkDeleteHandler {
     private readonly useCase = inject(MobileNetworkUseCase);
 
-    execute(command: MobileNetworkDeleteCommand): Observable<MessageResponseDto> {
+    execute(
+        command: MobileNetworkDeleteCommand
+    ): Observable<MessageResponseDto> {
         return this.useCase.delete(mobileNetworkDeleteCommandMapper(command));
     }
 }

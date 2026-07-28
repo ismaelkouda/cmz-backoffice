@@ -17,10 +17,7 @@ export class SiteGroupFindOneFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(SiteGroupFindOneBus);
 
-    read(
-        filter: SiteGroupFindOneFilterDto,
-        options: FetchOptions = {}
-    ): void {
+    read(filter: SiteGroupFindOneFilterDto, options: FetchOptions = {}): void {
         const command = new SiteGroupFindOneQuery(filter.uniqId);
         const fetch$ = this.bus.dispatch(command, options);
         this.fetch(filter, fetch$, this.ui);

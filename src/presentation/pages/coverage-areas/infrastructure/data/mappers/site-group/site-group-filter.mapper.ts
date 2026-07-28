@@ -13,6 +13,12 @@ export function siteGroupFilterMapper(
     if (validContract.status !== undefined) {
         params.is_active = validContract.status === Status.ACTIVE;
     }
+    if (validContract.startDate) {
+        params.start_date = validContract.startDate;
+    }
+    if (validContract.endDate) {
+        params.end_date = validContract.endDate;
+    }
 
     return params;
 }

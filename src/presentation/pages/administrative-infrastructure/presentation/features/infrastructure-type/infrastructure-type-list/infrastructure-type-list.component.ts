@@ -36,6 +36,7 @@ import {
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { Status } from '@presentation/pages/administrative-infrastructure/domain/enums/infrastructure-type/infrastructure-type-status.enum';
+import { INFRASTRUCTURE_TYPE_FILTER_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-filter-keys.constant';
 type TTableActions = 'details' | 'edit' | 'delete' | 'enable' | 'disable';
 
 @Component({
@@ -234,7 +235,7 @@ export class InfrastructureTypeListComponent {
         return [
             {
                 type: 'text',
-                name: 'search',
+                name: INFRASTRUCTURE_TYPE_FILTER_KEYS.SEARCH,
                 label: this.t(
                     'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.SEARCH'
                 ),
@@ -250,7 +251,7 @@ export class InfrastructureTypeListComponent {
             },
             {
                 type: 'select',
-                name: 'status',
+                name: INFRASTRUCTURE_TYPE_FILTER_KEYS.STATUS,
                 label: this.t(
                     'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.STATUS'
                 ),
@@ -266,14 +267,14 @@ export class InfrastructureTypeListComponent {
             },
             {
                 type: 'date',
-                name: 'startDate',
+                name: INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.DATE.FROM',
                 placeholder:
                     'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.DATE.PLACEHOLDER',
             },
             {
                 type: 'date',
-                name: 'endDate',
+                name: INFRASTRUCTURE_TYPE_FILTER_KEYS.END_DATE,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.DATE.TO',
                 placeholder:
                     'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.DATE.PLACEHOLDER',

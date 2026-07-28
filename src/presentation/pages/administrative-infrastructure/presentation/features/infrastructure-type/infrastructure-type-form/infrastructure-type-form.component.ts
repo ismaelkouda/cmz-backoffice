@@ -17,10 +17,12 @@ import { FormValidators } from '@pages/administrative-infrastructure/presentatio
 import { InfrastructureTypeFormStore } from '@pages/administrative-infrastructure/presentation/store/infrastructure-type/infrastructure-type-form.store';
 import { InfrastructureTypeFormHelperService } from '@presentation/pages/administrative-infrastructure/presentation/features/infrastructure-type/infrastructure-type-form/infrastructure-type-form-helper.service';
 import { INFRASTRUCTURE_TYPE_FORM_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-form-keys.constant';
+import { INFRASTRUCTURE_TYPE_FORM_ERROR_MESSAGES } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-form-error-messages.constant';
+import { InfrastructureTypeFormControl } from '@presentation/pages/administrative-infrastructure/presentation/store/infrastructure-type/infrastructure-type-form.control';
+import { getControlError } from '@presentation/pages/administrative-infrastructure/presentation/helpers/administrative-infrastructure-form-errors.helper';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -57,7 +59,6 @@ import { ToastrService } from 'ngx-toastr';
     providers: [
         MessageService,
         InfrastructureTypeFormStore,
-        FormValidationService,
         InfrastructureTypeFormHelperService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,7 +69,6 @@ export class InfrastructureTypeFormComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
     private readonly submitFacade = inject(InfrastructureTypeFacade);
-    private readonly validation = inject(FormValidationService);
     private readonly helper = inject(InfrastructureTypeFormHelperService);
     private readonly store = inject(InfrastructureTypeFormStore);
     private readonly toast = inject(ToastrService);
@@ -142,16 +142,17 @@ export class InfrastructureTypeFormComponent implements OnInit {
             .subscribe();
     }
 
-    getErrorMessage(fieldName: string): string {
-        const control = this.form.get(fieldName);
-        return this.validation.getErrorMessage(
-            fieldName,
-            control?.errors || null
+    getErrorMessage(
+        fieldName: keyof InfrastructureTypeFormControl
+    ): string | null {
+        return getControlError(
+            this.form.controls[fieldName],
+            INFRASTRUCTURE_TYPE_FORM_ERROR_MESSAGES[fieldName]
         );
     }
 
-    isFieldInvalid(fieldName: string): boolean {
-        const control = this.form.get(fieldName);
+    isFieldInvalid(fieldName: keyof InfrastructureTypeFormControl): boolean {
+        const control = this.form.controls[fieldName];
         return !!(control?.invalid && control?.touched);
     }
     private readonly createTooltip = computed(() => {

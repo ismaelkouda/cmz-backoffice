@@ -4,7 +4,5 @@ import { MobileNetworkDeleteContract } from '@pages/coverage-areas/domain/contra
 export function mobileNetworkDeleteCommandMapper(
     command: MobileNetworkDeleteCommand
 ): MobileNetworkDeleteContract {
-    return {
-        uniqId: command.uniqId,
-    };
+    return command;
 }

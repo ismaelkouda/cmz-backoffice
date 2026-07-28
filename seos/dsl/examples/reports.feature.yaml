@@ -1,0 +1,63 @@
+# SEOS DSL — Feature Reports (pattern crud-entity)
+# Compile: node seos/tools/compile-dsl.js seos/dsl/examples/reports.feature.yaml
+
+feature:
+  name: Reports
+  slug: reports
+  module: seos-dsl-reports
+  description: |
+    Gestion des rapports citoyens.
+
+actors:
+  - Operator
+
+capabilities:
+  - list
+  - details
+  - create
+  - edit
+  - delete
+
+fields:
+  - name: title
+    type: string
+    required: true
+  - name: content
+    type: text
+    required: true
+  - name: status
+    type: string
+    required: false
+  - name: operatorId
+    type: string
+    required: false
+
+search:
+  fullText: true
+
+filters:
+  - name: region
+    type: string
+  - name: municipality
+    type: string
+  - name: operator
+    type: string
+
+pagination: true
+sorting: true
+
+attachments:
+  upload: true
+
+location:
+  map: OpenLayers
+
+api:
+  base: /reports
+
+architecture:
+  style: ddd
+  pattern: auto # auto | crud-entity | action-request
+
+ui:
+  framework: primeng

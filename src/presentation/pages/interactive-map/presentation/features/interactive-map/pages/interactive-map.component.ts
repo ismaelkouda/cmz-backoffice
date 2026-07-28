@@ -102,6 +102,19 @@ interface NominatimSearchResult {
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy
 {
+    public readonly showCoverageZones = signal(false);
+    public readonly showCoverageCenters = signal(false);
+
+    // Méthodes appelées par les checkbox
+    public toggleCoverageZones(visible: boolean): void {
+        this.showCoverageZones.set(visible);
+        this.mapAdapter.setCoverageZonesVisible(visible);
+    }
+
+    public toggleCoverageCenters(visible: boolean): void {
+        this.showCoverageCenters.set(visible);
+        this.mapAdapter.setCoverageCentersVisible(visible);
+    }
     public readonly allOperatorsVisible = computed(() => {
         const visibility = this.coverageOperatorVisibility();
         return Object.values(visibility).every((v) => v === true);
@@ -713,7 +726,7 @@ export class InteractiveMapComponent
             .map((op) => op.value);
 
         if (!visible || !selectedOperators.length) {
-            this.mapAdapter.setCoverageAreasVisible(false);
+            this.mapAdapter.renderCoverageAreaTiles(null, false);
             return;
         }
 
@@ -728,6 +741,10 @@ export class InteractiveMapComponent
         });
 
         this.mapAdapter.renderCoverageAreaTiles(tileUrl, true);
+
+        // Appliquer les visibilités actuelles après le rendu
+        this.mapAdapter.setCoverageZonesVisible(this.showCoverageZones());
+        this.mapAdapter.setCoverageCentersVisible(this.showCoverageCenters());
     }
 
     private updateEquipmentAreaTileLayer(): void {

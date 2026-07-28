@@ -1,0 +1,16 @@
+import { INFRASTRUCTURE_FORM_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure/infrastructure-form-keys.constant';
+
+export const INFRASTRUCTURE_FORM_ERROR_MESSAGES = {
+    [INFRASTRUCTURE_FORM_KEYS.NAME]: {
+        required: 'COMMON.VALIDATION.REQUIRED',
+    },
+    [INFRASTRUCTURE_FORM_KEYS.DESCRIPTION]: {
+        required: 'COMMON.VALIDATION.REQUIRED',
+    },
+    [INFRASTRUCTURE_FORM_KEYS.TYPE]: {
+        required: 'COMMON.VALIDATION.REQUIRED',
+    },
+    [INFRASTRUCTURE_FORM_KEYS.POSITION]: {
+        required: 'COMMON.VALIDATION.REQUIRED',
+    },
+} as const;

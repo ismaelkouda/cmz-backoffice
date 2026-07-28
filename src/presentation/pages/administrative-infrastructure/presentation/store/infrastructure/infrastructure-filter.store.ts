@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { InfrastructureFilterDto } from '@pages/administrative-infrastructure/application/dto/infrastructure/infrastructure-filter.dto';
 import { InfrastructureFacade } from '@pages/administrative-infrastructure/application/services/infrastructure/infrastructure.facade';
 import { InfrastructureFilterControl } from '@pages/administrative-infrastructure/presentation/store/infrastructure/infrastructure-filter.control';
+import { INFRASTRUCTURE_FILTER_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure/infrastructure-filter-keys.constant';
 import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
 
 @Injectable()
@@ -22,29 +23,45 @@ export class InfrastructureFilterStore {
 
     readonly form: FormGroup<InfrastructureFilterControl> =
         this.fb.group<InfrastructureFilterControl>({
-            search: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.SEARCH]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            type: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.TYPE]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            region: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.REGION]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            department: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.DEPARTMENT]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            municipality: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.MUNICIPALITY]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            position: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.POSITION]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            startDate: new FormControl<Date | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.START_DATE]: new FormControl<
+                Date | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
 
-            endDate: new FormControl<Date | undefined>(undefined, {
+            [INFRASTRUCTURE_FILTER_KEYS.END_DATE]: new FormControl<
+                Date | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
         });
@@ -131,13 +148,16 @@ export class InfrastructureFilterStore {
     private initializeCascadeReset(): void {
         effect(() => {
             if (!this.selectedRegion()) {
-                this.resetControls('department', 'municipality');
+                this.resetControls(
+                    INFRASTRUCTURE_FILTER_KEYS.DEPARTMENT,
+                    INFRASTRUCTURE_FILTER_KEYS.MUNICIPALITY
+                );
             }
         });
 
         effect(() => {
             if (!this.selectedDepartment()) {
-                this.resetControls('municipality');
+                this.resetControls(INFRASTRUCTURE_FILTER_KEYS.MUNICIPALITY);
             }
         });
     }
@@ -150,13 +170,20 @@ export class InfrastructureFilterStore {
         const raw = this.form.getRawValue();
 
         return {
-            search: raw.search || undefined,
-            type: raw.type || undefined,
-            region: raw.region || undefined,
-            department: raw.department || undefined,
-            municipality: raw.municipality || undefined,
-            startDate: raw.startDate || undefined,
-            endDate: raw.endDate || undefined,
+            [INFRASTRUCTURE_FILTER_KEYS.SEARCH]:
+                raw[INFRASTRUCTURE_FILTER_KEYS.SEARCH] || undefined,
+            [INFRASTRUCTURE_FILTER_KEYS.TYPE]:
+                raw[INFRASTRUCTURE_FILTER_KEYS.TYPE] || undefined,
+            [INFRASTRUCTURE_FILTER_KEYS.REGION]:
+                raw[INFRASTRUCTURE_FILTER_KEYS.REGION] || undefined,
+            [INFRASTRUCTURE_FILTER_KEYS.DEPARTMENT]:
+                raw[INFRASTRUCTURE_FILTER_KEYS.DEPARTMENT] || undefined,
+            [INFRASTRUCTURE_FILTER_KEYS.MUNICIPALITY]:
+                raw[INFRASTRUCTURE_FILTER_KEYS.MUNICIPALITY] || undefined,
+            [INFRASTRUCTURE_FILTER_KEYS.START_DATE]:
+                raw[INFRASTRUCTURE_FILTER_KEYS.START_DATE] || undefined,
+            [INFRASTRUCTURE_FILTER_KEYS.END_DATE]:
+                raw[INFRASTRUCTURE_FILTER_KEYS.END_DATE] || undefined,
         };
     }
 }

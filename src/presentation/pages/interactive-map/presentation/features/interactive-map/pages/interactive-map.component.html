@@ -20,19 +20,37 @@
                                 <h4>Legend des signalements</h4>
                                 <div class="legend-items">
                                     <div class="legend-item">
-                                        <img [src]="getReportIconPath('zob')" class="legend-icon" alt="Aucun réseau" />
+                                        <img
+                                            [src]="getReportIconPath('zob')"
+                                            class="legend-icon"
+                                            alt="Aucun réseau"
+                                        />
                                         <span>Aucun réseau</span>
                                     </div>
                                     <div class="legend-item">
-                                        <img [src]="getReportIconPath('cpo')" class="legend-icon" alt="Absence d'opérateur(s)" />
+                                        <img
+                                            [src]="getReportIconPath('cpo')"
+                                            class="legend-icon"
+                                            alt="Absence d'opérateur(s)"
+                                        />
                                         <span>Absence d'opérateur(s)</span>
                                     </div>
                                     <div class="legend-item">
-                                        <img [src]="getReportIconPath('cps')" class="legend-icon" alt="Mauvais signal" />
-                                        <span>Mauvais signal d'Opérateur(s)</span>
+                                        <img
+                                            [src]="getReportIconPath('cps')"
+                                            class="legend-icon"
+                                            alt="Mauvais signal"
+                                        />
+                                        <span
+                                            >Mauvais signal d'Opérateur(s)</span
+                                        >
                                     </div>
                                     <div class="legend-item">
-                                        <img [src]="getReportIconPath('abi')" class="legend-icon" alt="Absence d'Internet" />
+                                        <img
+                                            [src]="getReportIconPath('abi')"
+                                            class="legend-icon"
+                                            alt="Absence d'Internet"
+                                        />
                                         <span>Absence d'Internet</span>
                                     </div>
                                     <!-- <div class="legend-item">
@@ -115,90 +133,95 @@
 
                     <div class="interactive-map-shell mt-3">
                         <main class="map-workspace">
-                        @if (!filtersPanelOpen()) {
-                            <button
-                                type="button"
-                                class="open-toggle-button"
-                                [attr.aria-expanded]="filtersPanelOpen()"
-                                (click)="toggleFiltersPanel()"
-                            >
-                                Filtres sur les signalements
-                            </button>
-                        }
-                        @if (filtersPanelOpen()) {
-                        <aside class="filters-panel">
-                            <div class="panel-heading">
-                                <p-button
-                                    class="close-toggle-button"
-                                    icon="pi pi-times"
-                                    [rounded]="true"
-                                    [text]="true"
-                                    severity="danger"
+                            @if (!filtersPanelOpen()) {
+                                <button
+                                    type="button"
+                                    class="open-toggle-button"
+                                    [attr.aria-expanded]="filtersPanelOpen()"
                                     (click)="toggleFiltersPanel()"
-                                />
-                            </div>
-
-                            <section class="filter-group">
-                                <h3>Type de signalements</h3>
-                                @for (
-                                    option of reportTypeOptions;
-                                    track option
-                                ) {
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            [checked]="
-                                                isSelected(
-                                                    draftFilters().reportTypes,
-                                                    option.value
-                                                )
-                                            "
-                                            (change)="
-                                                toggleFilter(
-                                                    'reportTypes',
-                                                    option.value,
-                                                    $any($event.target).checked
-                                                )
-                                            "
+                                >
+                                    Filtres sur les signalements
+                                </button>
+                            }
+                            @if (filtersPanelOpen()) {
+                                <aside class="filters-panel">
+                                    <div class="panel-heading">
+                                        <p-button
+                                            class="close-toggle-button"
+                                            icon="pi pi-times"
+                                            [rounded]="true"
+                                            [text]="true"
+                                            severity="danger"
+                                            (click)="toggleFiltersPanel()"
                                         />
-                                        <span>{{ option.label }}</span>
-                                    </label>
-                                }
-                            </section>
+                                    </div>
 
-                            <section class="filter-group">
-                                <h3>Operateurs consernés</h3>
-                                <div class="d-flex gap-10">
-                                    @for (
-                                        option of operatorOptions;
-                                        track option
-                                    ) {
-                                        <label>
-                                            <input
-                                                type="checkbox"
-                                                [checked]="
-                                                    isSelected(
-                                                        draftFilters()
-                                                            .operators,
-                                                        option.value
-                                                    )
-                                                "
-                                                (change)="
-                                                    toggleFilter(
-                                                        'operators',
-                                                        option.value,
-                                                        $any($event.target)
-                                                            .checked
-                                                    )
-                                                "
-                                            />
-                                            <span>{{ option.label }}</span>
-                                        </label>
-                                    }
-                                </div>
-                            </section>
+                                    <section class="filter-group">
+                                        <h3>Type de signalements</h3>
+                                        @for (
+                                            option of reportTypeOptions;
+                                            track option
+                                        ) {
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        isSelected(
+                                                            draftFilters()
+                                                                .reportTypes,
+                                                            option.value
+                                                        )
+                                                    "
+                                                    (change)="
+                                                        toggleFilter(
+                                                            'reportTypes',
+                                                            option.value,
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <span>{{ option.label }}</span>
+                                            </label>
+                                        }
+                                    </section>
 
-                            <!-- <section class="filter-group">
+                                    <section class="filter-group">
+                                        <h3>Operateurs consernés</h3>
+                                        <div class="d-flex gap-10">
+                                            @for (
+                                                option of operatorOptions;
+                                                track option
+                                            ) {
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        [checked]="
+                                                            isSelected(
+                                                                draftFilters()
+                                                                    .operators,
+                                                                option.value
+                                                            )
+                                                        "
+                                                        (change)="
+                                                            toggleFilter(
+                                                                'operators',
+                                                                option.value,
+                                                                $any(
+                                                                    $event.target
+                                                                ).checked
+                                                            )
+                                                        "
+                                                    />
+                                                    <span>{{
+                                                        option.label
+                                                    }}</span>
+                                                </label>
+                                            }
+                                        </div>
+                                    </section>
+
+                                    <!-- <section class="filter-group">
                                     <h3>Statut</h3>
                                     <select
                                     multiple
@@ -221,88 +244,100 @@
                                     </select>
                             </section> -->
 
-                            <section class="filter-group">
-                                <h3>Statut</h3>
-                                <p-select
-                                                                class="form-p-select"
-                                    [options]="statusSelectOptions()"
-                                    [ngModel]="currentStatus()"
-                                    (ngModelChange)="setStatus($event)"
-                                    optionLabel="label"
-                                    optionValue="value"
-                                    placeholder="Tous les statuts"
-                                    [showClear]="true"
-                                    styleClass="w-full"
-                                ></p-select>
-                            </section>
+                                    <section class="filter-group">
+                                        <h3>Statut</h3>
+                                        <p-select
+                                            class="form-p-select"
+                                            [options]="statusSelectOptions()"
+                                            [ngModel]="currentStatus()"
+                                            (ngModelChange)="setStatus($event)"
+                                            optionLabel="label"
+                                            optionValue="value"
+                                            placeholder="Tous les statuts"
+                                            [showClear]="true"
+                                            styleClass="w-full"
+                                        ></p-select>
+                                    </section>
 
-                            <section class="filter-group">
-                                <h3>Région</h3>
-                                <p-select
-                                    class="form-p-select"
-                                    [options]="regionSelectOptions()"
-                                    [ngModel]="draftFilters().region"
-                                    (ngModelChange)="setRegion($event)"
-                                    [filter]="true"
-                                    filterBy="label"
-                                    [showClear]="true"
-                                    styleClass="w-full"
-                                ></p-select>
-                            </section>
+                                    <section class="filter-group">
+                                        <h3>Région</h3>
+                                        <p-select
+                                            class="form-p-select"
+                                            [options]="regionSelectOptions()"
+                                            [ngModel]="draftFilters().region"
+                                            (ngModelChange)="setRegion($event)"
+                                            [filter]="true"
+                                            filterBy="label"
+                                            [showClear]="true"
+                                            styleClass="w-full"
+                                        ></p-select>
+                                    </section>
 
-                            <section class="filter-group">
-                                <h3>Département</h3>
-                                <p-select
-                                    class="form-p-select"
-                                    [options]="departmentSelectOptions()"
-                                    [ngModel]="draftFilters().department"
-                                    (ngModelChange)="setDepartment($event)"
-                                    [filter]="true"
-                                    filterBy="label"
-                                    [showClear]="true"
-                                    styleClass="w-full"
-                                    [disabled]="!draftFilters().region"
-                                ></p-select>
-                            </section>
+                                    <section class="filter-group">
+                                        <h3>Département</h3>
+                                        <p-select
+                                            class="form-p-select"
+                                            [options]="
+                                                departmentSelectOptions()
+                                            "
+                                            [ngModel]="
+                                                draftFilters().department
+                                            "
+                                            (ngModelChange)="
+                                                setDepartment($event)
+                                            "
+                                            [filter]="true"
+                                            filterBy="label"
+                                            [showClear]="true"
+                                            styleClass="w-full"
+                                            [disabled]="!draftFilters().region"
+                                        ></p-select>
+                                    </section>
 
-                            <section class="filter-group">
-                                <h3>Commune / Sous-préfecture</h3>
-                                <p-select
-                                    class="form-p-select"
-                                    [options]="municipalitySelectOptions()"
-                                    [ngModel]="draftFilters().municipality"
-                                    (ngModelChange)="setMunicipality($event)"
-                                    [filter]="true"
-                                    filterBy="label"
-                                    [showClear]="true"
-                                    styleClass="w-full"
-                                    [disabled]="!draftFilters().department"
-                                ></p-select>
-                            </section>
+                                    <section class="filter-group">
+                                        <h3>Commune / Sous-préfecture</h3>
+                                        <p-select
+                                            class="form-p-select"
+                                            [options]="
+                                                municipalitySelectOptions()
+                                            "
+                                            [ngModel]="
+                                                draftFilters().municipality
+                                            "
+                                            (ngModelChange)="
+                                                setMunicipality($event)
+                                            "
+                                            [filter]="true"
+                                            filterBy="label"
+                                            [showClear]="true"
+                                            styleClass="w-full"
+                                            [disabled]="
+                                                !draftFilters().department
+                                            "
+                                        ></p-select>
+                                    </section>
 
-                            
-
-                            <section class="filter-group dates">
-                                <h3>Du / Au</h3>
-                                <label>
-                                    <p-datepicker
-                                        [placeholder]="
-                                            'COMMON.DATE_PLACEHOLDER'
-                                                | translate
-                                        "
-                                        [showIcon]="true"
-                                        [dateFormat]="'yy-mm-dd'"
-                                        appendTo="body"
-                                        (onSelect)="
-                                            setDateFilter(
-                                                'startDate',
-                                                $event
-                                                    .toISOString()
-                                                    .split('T')[0]
-                                            )
-                                        "
-                                    />
-                                    <!-- <input
+                                    <section class="filter-group dates">
+                                        <h3>Du / Au</h3>
+                                        <label>
+                                            <p-datepicker
+                                                [placeholder]="
+                                                    'COMMON.DATE_PLACEHOLDER'
+                                                        | translate
+                                                "
+                                                [showIcon]="true"
+                                                [dateFormat]="'yy-mm-dd'"
+                                                appendTo="body"
+                                                (onSelect)="
+                                                    setDateFilter(
+                                                        'startDate',
+                                                        $event
+                                                            .toISOString()
+                                                            .split('T')[0]
+                                                    )
+                                                "
+                                            />
+                                            <!-- <input
                                         type="date"
                                         [value]="store.filters().startDate"
                                         (change)="
@@ -312,50 +347,57 @@
                                             )
                                         "
                                     /> -->
-                                </label>
-                                <label>
-                                    <p-datepicker
-                                        [placeholder]="
-                                            'COMMON.DATE_PLACEHOLDER'
-                                                | translate
-                                        "
-                                        [showIcon]="true"
-                                        [dateFormat]="'yy-mm-dd'"
-                                        appendTo="body"
-                                        (onSelect)="
-                                            setDateFilter(
-                                                'endDate',
-                                                $event
-                                                    .toISOString()
-                                                    .split('T')[0]
-                                            )
-                                        "
-                                    />
-                                </label>
-                            </section>
+                                        </label>
+                                        <label>
+                                            <p-datepicker
+                                                [placeholder]="
+                                                    'COMMON.DATE_PLACEHOLDER'
+                                                        | translate
+                                                "
+                                                [showIcon]="true"
+                                                [dateFormat]="'yy-mm-dd'"
+                                                appendTo="body"
+                                                (onSelect)="
+                                                    setDateFilter(
+                                                        'endDate',
+                                                        $event
+                                                            .toISOString()
+                                                            .split('T')[0]
+                                                    )
+                                                "
+                                            />
+                                        </label>
+                                    </section>
 
-                            <div class="d-flex justify-content-center gap-3">
-                                <p-button
-                                    (click)="resetFilters()"
-                                    label="Annuler"
-                                    icon="pi pi-times"
-                                    severity="danger"
-                                />
-                                <p-button
-                                    (click)="submitFilters()"
-                                    label="Appliquer"
-                                    icon="pi pi-check"
-                                />
-                            </div>
-                        </aside>
-                        }
+                                    <div
+                                        class="d-flex justify-content-center gap-3"
+                                    >
+                                        <p-button
+                                            (click)="resetFilters()"
+                                            label="Annuler"
+                                            icon="pi pi-times"
+                                            severity="danger"
+                                        />
+                                        <p-button
+                                            (click)="submitFilters()"
+                                            label="Appliquer"
+                                            icon="pi pi-check"
+                                        />
+                                    </div>
+                                </aside>
+                            }
 
-                            <div class="coverage-legend" [class.open]="coverageLegendOpen()">
+                            <div
+                                class="coverage-legend"
+                                [class.open]="coverageLegendOpen()"
+                            >
                                 @if (!coverageLegendOpen()) {
                                     <button
                                         type="button"
                                         class="coverage-legend-toggle"
-                                        [attr.aria-expanded]="coverageLegendOpen()"
+                                        [attr.aria-expanded]="
+                                            coverageLegendOpen()
+                                        "
                                         (click)="toggleCoverageLegend()"
                                     >
                                         Filtres sur les couches
@@ -375,51 +417,188 @@
                                             />
                                         </div>
                                         <label>
-                                            <input type="radio" name="basemap" [checked]="currentBaseMap() === 'osm'" (change)="setBaseMap('osm')"> OpenStreetMap
+                                            <input
+                                                type="radio"
+                                                name="basemap"
+                                                [checked]="
+                                                    currentBaseMap() === 'osm'
+                                                "
+                                                (change)="setBaseMap('osm')"
+                                            />
+                                            OpenStreetMap
                                         </label>
                                         <label>
-                                            <input type="radio" name="basemap" [checked]="currentBaseMap() === 'satellite'" (change)="setBaseMap('satellite')"> Satellitaire
+                                            <input
+                                                type="radio"
+                                                name="basemap"
+                                                [checked]="
+                                                    currentBaseMap() ===
+                                                    'satellite'
+                                                "
+                                                (change)="
+                                                    setBaseMap('satellite')
+                                                "
+                                            />
+                                            Satellitaire
                                         </label>
-                                        
-                                        <div class="d-flex gap-2">
-                                            <h4 class="mb-0">Couverture reseau</h4>
-                                        <input type="checkbox"
-                                                [checked]="allOperatorsVisible()"
-                                                (change)="toggleAllOperators($any($event.target).checked)" />
+
+                                        <div class="d-flex gap-2 mt-2">
+                                            <h4 class="mb-0">
+                                                Couverture reseau
+                                            </h4>
+                                            <input
+                                                type="checkbox"
+                                                [checked]="
+                                                    allOperatorsVisible()
+                                                "
+                                                (change)="
+                                                    toggleAllOperators(
+                                                        $any($event.target)
+                                                            .checked
+                                                    )
+                                                "
+                                            />
                                         </div>
-                                        @for (op of COVERAGE_OPERATORS; track op.id) {
+                                        <div
+                                            class="d-flex align-items-center mt-2"
+                                        >
                                             <label>
-                                                <input type="checkbox"
-                                                    [checked]="coverageOperatorVisible(op.id)"
-                                                    (change)="toggleCoverageOperator(op.id, $any($event.target).checked)" />
-                                                <span class="legend-color ring" [style.borderColor]="op.color"></span>
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        showCoverageZones()
+                                                    "
+                                                    (change)="
+                                                        toggleCoverageZones(
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <img
+                                                    src="assets/images/icones/radar.svg"
+                                                    class="legend-icon"
+                                                    alt="Zone de couverture"
+                                                />
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        showCoverageCenters()
+                                                    "
+                                                    (change)="
+                                                        toggleCoverageCenters(
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <img
+                                                    src="assets/images/icones/signal.svg"
+                                                    class="legend-icon"
+                                                    alt="Point central"
+                                                />
+                                            </label>
+                                        </div>
+                                        @for (
+                                            op of COVERAGE_OPERATORS;
+                                            track op.id
+                                        ) {
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        coverageOperatorVisible(
+                                                            op.id
+                                                        )
+                                                    "
+                                                    (change)="
+                                                        toggleCoverageOperator(
+                                                            op.id,
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <span
+                                                    class="legend-color ring"
+                                                    [style.borderColor]="
+                                                        op.color
+                                                    "
+                                                ></span>
                                                 {{ op.label }}
                                             </label>
                                         }
 
-                                        <section class="filter-group">
-                                                            
-                                            @for (op of networkTechnologyOptions; track op.value) {
+                                        @for (
+                                            op of networkTechnologyOptions;
+                                            track op.value
+                                        ) {
                                             <label class="m-0">
-                                                <input type="checkbox"
-                                                    [checked]="rnhdVisible(op.value)"
-                                                    (change)="toggleRnhd(op.value, $any($event.target).checked)" />
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        rnhdVisible(op.value)
+                                                    "
+                                                    (change)="
+                                                        toggleRnhd(
+                                                            op.value,
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <span
+                                                    class="legend-color"
+                                                ></span>
                                                 RNHD : {{ op.label }}
                                             </label>
                                         }
-                                                        </section>
 
-                                <h4>Type d'équipements</h4>
-                            <section class="filter-group">
-                                @for (eq of equipmentOptions; track eq.id) {
-                                    <label class="m-0">
-                                        <input type="checkbox"
-                                            [checked]="equipmentsVisible()[eq.id]"
-                                            (change)="toggleEquipment(eq.id, $any($event.target).checked)" />
-                                        {{ eq.label }}
-                                    </label>
-                                }
-                            </section>
+                                        <div class="d-flex gap-2 mt-2">
+                                            <h4 class="my-2">
+                                                Type d'équipements
+                                            </h4>
+                                            <input
+                                                type="checkbox"
+                                                [checked]="
+                                                    allEquipmentsVisible()
+                                                "
+                                                (change)="
+                                                    toggleAllEquipments(
+                                                        $any($event.target)
+                                                            .checked
+                                                    )
+                                                "
+                                            />
+                                        </div>
+                                        <section class="filter-group">
+                                            @for (
+                                                eq of equipmentOptions;
+                                                track eq.id
+                                            ) {
+                                                <label class="m-0">
+                                                    <input
+                                                        type="checkbox"
+                                                        [checked]="
+                                                            equipmentsVisible()[
+                                                                eq.id
+                                                            ]
+                                                        "
+                                                        (change)="
+                                                            toggleEquipment(
+                                                                eq.id,
+                                                                $any(
+                                                                    $event.target
+                                                                ).checked
+                                                            )
+                                                        "
+                                                    />
+                                                    {{ eq.label }}
+                                                </label>
+                                            }
+                                        </section>
                                     </div>
                                 }
                             </div>
@@ -610,7 +789,8 @@
                                 }
                             </div>
 
-                            <div #clickOverlay
+                            <div
+                                #clickOverlay
                                 class="map-click-overlay"
                                 [class.is-hidden]="
                                     !store.selectedReport() &&
@@ -637,7 +817,9 @@
 
                                         <dl>
                                             <dt>Identifiant</dt>
-                                            <dd><b>{{ report.uniq_id }}</b></dd>
+                                            <dd>
+                                                <b>{{ report.uniq_id }}</b>
+                                            </dd>
                                             <dt>Statut</dt>
                                             <dd>
                                                 <span
@@ -688,60 +870,147 @@
                                         </div>
                                     </article>
                                 } @else if (selectedClusterReports().length) {
-    <article class="report-popup cluster-popup">
-        <header>
-            <div>
-                <strong>
-                    {{ selectedClusterReports().length }} signalements superposés
-                </strong>
-                @if (selectedClusterSummary(); as summary) {
-                    <span>
-                        Orange: {{ summary.byOperator.orange }}
-                        · MTN: {{ summary.byOperator.mtn }}
-                        · Moov: {{ summary.byOperator.moov }}
-                    </span>
-                }
-            </div>
-            <button type="button" (click)="closePopup()">x</button>
-        </header>
+                                    <article class="report-popup cluster-popup">
+                                        <header>
+                                            <div>
+                                                <strong>
+                                                    {{
+                                                        selectedClusterReports()
+                                                            .length
+                                                    }}
+                                                    signalements superposés
+                                                </strong>
+                                                @if (
+                                                    selectedClusterSummary();
+                                                    as summary
+                                                ) {
+                                                    <span>
+                                                        Orange:
+                                                        {{
+                                                            summary.byOperator
+                                                                .orange
+                                                        }}
+                                                        · MTN:
+                                                        {{
+                                                            summary.byOperator
+                                                                .mtn
+                                                        }}
+                                                        · Moov:
+                                                        {{
+                                                            summary.byOperator
+                                                                .moov
+                                                        }}
+                                                    </span>
+                                                }
+                                            </div>
+                                            <button
+                                                type="button"
+                                                (click)="closePopup()"
+                                            >
+                                                x
+                                            </button>
+                                        </header>
 
-        <div class="cluster-accordion-list">
-            @for (report of selectedClusterReports(); track report.uniq_id; let idx = $index) {
-                <details class="cluster-report-accordion">
-                    <summary class="accordion-summary">
-                        <span class="summary-index">Signalement {{ idx + 1 }}</span>
-                        <span class="summary-id"> : {{ report.uniq_id }}</span>
-                    </summary>
-                    <div class="accordion-content">
-                        <dl class="report-details-list">
-                            <dt>Statut</dt>
-                            <dd>
-                                <p-tag [value]="getStatusLabel(report.state)" severity="info" />
-                            </dd>
-                            <dt>Opérateur(s)</dt>
-                            <dd>{{ getOperators(report) }}</dd>
-                            <dt>Signalé le</dt>
-                            <dd>{{ report.reported_at || '-' }}</dd>
-                            <dt>Tél. Émetteur</dt>
-                            <dd>{{ report.initiator_phone_number || '-' }}</dd>
-                            <dt>Confirmations</dt>
-                            <dd>{{ report.confirm_count || 0 }}</dd>
-                        </dl>
-                        <div class="popup-actions">
-                            <button type="button" (click)="onSeeMoreInfosClicked(report)">
-                                Voir les détails
-                            </button>
-                        </div>
-                    </div>
-                </details>
-            }
-        </div>
-    </article>
-}
+                                        <div class="cluster-accordion-list">
+                                            @for (
+                                                report of selectedClusterReports();
+                                                track report.uniq_id;
+                                                let idx = $index
+                                            ) {
+                                                <details
+                                                    class="cluster-report-accordion"
+                                                >
+                                                    <summary
+                                                        class="accordion-summary"
+                                                    >
+                                                        <span
+                                                            class="summary-index"
+                                                            >Signalement
+                                                            {{ idx + 1 }}</span
+                                                        >
+                                                        <span
+                                                            class="summary-id"
+                                                        >
+                                                            :
+                                                            {{
+                                                                report.uniq_id
+                                                            }}</span
+                                                        >
+                                                    </summary>
+                                                    <div
+                                                        class="accordion-content"
+                                                    >
+                                                        <dl
+                                                            class="report-details-list"
+                                                        >
+                                                            <dt>Statut</dt>
+                                                            <dd>
+                                                                <p-tag
+                                                                    [value]="
+                                                                        getStatusLabel(
+                                                                            report.state
+                                                                        )
+                                                                    "
+                                                                    severity="info"
+                                                                />
+                                                            </dd>
+                                                            <dt>
+                                                                Opérateur(s)
+                                                            </dt>
+                                                            <dd>
+                                                                {{
+                                                                    getOperators(
+                                                                        report
+                                                                    )
+                                                                }}
+                                                            </dd>
+                                                            <dt>Signalé le</dt>
+                                                            <dd>
+                                                                {{
+                                                                    report.reported_at ||
+                                                                        '-'
+                                                                }}
+                                                            </dd>
+                                                            <dt>
+                                                                Tél. Émetteur
+                                                            </dt>
+                                                            <dd>
+                                                                {{
+                                                                    report.initiator_phone_number ||
+                                                                        '-'
+                                                                }}
+                                                            </dd>
+                                                            <dt>
+                                                                Confirmations
+                                                            </dt>
+                                                            <dd>
+                                                                {{
+                                                                    report.confirm_count ||
+                                                                        0
+                                                                }}
+                                                            </dd>
+                                                        </dl>
+                                                        <div
+                                                            class="popup-actions"
+                                                        >
+                                                            <button
+                                                                type="button"
+                                                                (click)="
+                                                                    onSeeMoreInfosClicked(
+                                                                        report
+                                                                    )
+                                                                "
+                                                            >
+                                                                Voir les détails
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </details>
+                                            }
+                                        </div>
+                                    </article>
+                                }
                             </div>
-
-
-                            
                         </main>
                         @if (isVisibleDialog()) {
                             <app-management-dialog

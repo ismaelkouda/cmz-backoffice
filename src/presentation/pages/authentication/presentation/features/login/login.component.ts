@@ -8,7 +8,7 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { DASHBOARD } from '@shared/routes/routes';
 import { REINITIALIZATION } from '@presentation/app.routes';
-import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-routes.constant';
+import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-paths.constants';
 import { LOGIN_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/login/login-form-keys.constant';
 
 import {

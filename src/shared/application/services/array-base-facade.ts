@@ -99,18 +99,18 @@ export abstract class ArrayBaseFacade<TEntity, TFilter> {
         return !prevKeys.every((key) => prevDto[key] === newDto[key]);
     }
 
-    protected shouldFetch(
-        forceRefresh: boolean,
-        hasData: boolean,
-        lastFetch: number,
-        staleTime: number
-    ): boolean {
-        if (forceRefresh) {
-            return true;
-        }
-        const isStale = Date.now() - lastFetch > staleTime;
-        return !hasData || isStale;
-    }
+    // protected shouldFetch(
+    //     forceRefresh: boolean,
+    //     hasData: boolean,
+    //     lastFetch: number,
+    //     staleTime: number
+    // ): boolean {
+    //     if (forceRefresh) {
+    //         return true;
+    //     }
+    //     const isStale = Date.now() - lastFetch > staleTime;
+    //     return !hasData || isStale;
+    // }
 
     reset(): void {
         this.itemsSubject.next([]);

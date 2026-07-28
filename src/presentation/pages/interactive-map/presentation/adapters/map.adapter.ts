@@ -73,6 +73,7 @@ const IVORY_COAST_BOUNDS: Bounds = {
 };
 
 export class MapAdapter {
+    private coverageCenterLayer!: VectorTileLayer;
     private defaultCenter: { lat: number; lng: number } = {
         lat: 7.984430480342013,
         lng: -3.756106463052295,
@@ -131,7 +132,7 @@ export class MapAdapter {
         zIndex: 2,
     });
     private readonly coverageAreaLayer = new VectorTileLayer({
-        declutter: true,
+        declutter: false,
         renderMode: 'hybrid',
         style: (feature): Style => this.createCoverageAreaTileStyle(feature),
         visible: false,
@@ -141,7 +142,7 @@ export class MapAdapter {
         education: true,
         sante: true,
         administration: true,
-        'securité': true,
+        securité: true,
     };
     private readonly equipmentAreaLayer = new VectorTileLayer({
         declutter: true,
@@ -194,7 +195,7 @@ export class MapAdapter {
             layers: [
                 this.osmLayer,
                 this.satelliteLayer,
-                this.coverageAreaLayer,
+                // this.coverageAreaLayer,
                 this.equipmentAreaLayer,
                 this.heatmapLayer,
                 this.clusterLayer,
@@ -219,6 +220,26 @@ export class MapAdapter {
                 // ),
             }),
         });
+        this.coverageCenterLayer = new VectorTileLayer({
+            declutter: true,
+            renderMode: 'hybrid',
+            style: (feature): Style => {
+                console.log(feature);
+                return new Style({
+                    image: new Icon({
+                        src: 'assets/images/icones/signal.svg',
+                        scale: 0.5,
+                        anchor: [0.5, 0.5],
+                    }),
+                });
+            },
+            visible: false, // visible seulement si activé
+            zIndex: 3, // au-dessus des zones (zIndex 2)
+        });
+
+        // Ajouter à la carte (ordre : zones puis centres)
+        this.map.addLayer(this.coverageAreaLayer);
+        this.map.addLayer(this.coverageCenterLayer);
         this.setupClickListener();
         this.setupPointerMoveListener();
 
@@ -335,6 +356,8 @@ export class MapAdapter {
         if (!tileUrl || !visible) {
             this.coverageAreaLayer.setSource(null);
             this.coverageAreaLayer.setVisible(false);
+            this.coverageCenterLayer.setSource(null);
+            this.coverageCenterLayer.setVisible(false);
             return;
         }
 
@@ -351,7 +374,30 @@ export class MapAdapter {
                 tileLoadFunction: this.createAuthenticatedTileLoadFunction(),
             })
         );
-        this.coverageAreaLayer.setVisible(true);
+        const source = new VectorTileSource({
+            format: new MVT({
+                layers: ['coverage_areas'],
+                idProperty: 'id',
+            }),
+            maxZoom: 22,
+            transition: 160,
+            url: tileUrl,
+            wrapX: false,
+            tileLoadFunction: this.createAuthenticatedTileLoadFunction(),
+        });
+
+        this.coverageCenterLayer.setSource(source);
+        this.coverageCenterLayer.setVisible(true);
+    }
+
+    setCoverageZonesVisible(visible: boolean): void {
+        const hasSource = this.coverageAreaLayer.getSource() !== null;
+        this.coverageAreaLayer.setVisible(visible && hasSource);
+    }
+
+    setCoverageCentersVisible(visible: boolean): void {
+        const hasSource = this.coverageCenterLayer.getSource() !== null;
+        this.coverageCenterLayer.setVisible(visible && hasSource);
     }
 
     setCoverageAreasVisible(visible: boolean): void {
@@ -796,7 +842,7 @@ export class MapAdapter {
             education: '#1d4ed8',
             sante: '#dc2626',
             administration: '#7c3aed',
-            'securité': '#059669',
+            securité: '#059669',
         };
         return type ? colors[type] || '#6b7280' : '#6b7280';
     }

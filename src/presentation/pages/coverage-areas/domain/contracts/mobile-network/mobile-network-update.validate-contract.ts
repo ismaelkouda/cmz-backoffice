@@ -5,9 +5,10 @@ export interface MobileNetworkUpdateValidateContract {
     uniqId: string;
     siteId: string;
     siteName: string;
+    infrastructureType: string;
     towerTypeId: string;
     towerSize: number;
-    technology: Technology;
+    technology: Technology[];
     operator: Operator;
     radius?: number;
 }

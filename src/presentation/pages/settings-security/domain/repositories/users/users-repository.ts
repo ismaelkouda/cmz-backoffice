@@ -30,7 +30,5 @@ export abstract class UsersRepository {
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(dto: UsersDeleteDto): Observable<SimpleResponseDto<void>>;
     abstract enable(dto: UsersEnableDto): Observable<SimpleResponseDto<void>>;
-    abstract disable(
-        dto: UsersDisableDto
-    ): Observable<SimpleResponseDto<void>>;
+    abstract disable(dto: UsersDisableDto): Observable<SimpleResponseDto<void>>;
 }

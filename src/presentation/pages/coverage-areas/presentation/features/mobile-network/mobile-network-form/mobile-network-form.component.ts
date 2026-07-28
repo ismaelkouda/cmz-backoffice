@@ -21,13 +21,17 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
 import { FormValidationService } from '@shared/domain/services/form-validation.service';
-import { enumToFilterOptionsWithValue, FilterOption } from '@shared/components/filter/filter.types';
+import {
+    enumToFilterOptionsWithValue,
+    FilterOption,
+} from '@shared/components/filter/filter.types';
 import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
@@ -36,6 +40,7 @@ import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
+import { SiteGroupSelectFacade } from '@presentation/pages/coverage-areas/application/services/site-group/site-group-select.facade';
 
 const PERMISSION_PATH = '/coverage-areas/mobile-networks';
 
@@ -52,6 +57,7 @@ const PERMISSION_PATH = '/coverage-areas/mobile-networks';
         InputTextModule,
         InputNumberModule,
         SelectModule,
+        MultiSelectModule,
         ButtonModule,
         TagModule,
         ToastModule,
@@ -76,6 +82,7 @@ export class MobileNetworkFormComponent implements OnInit {
     private readonly helper = inject(MobileNetworkFormHelperService);
     private readonly store = inject(MobileNetworkFormStore);
     private readonly toast = inject(ToastrService);
+    private readonly siteGroupFacade = inject(SiteGroupSelectFacade);
 
     protected readonly form = this.store.form;
     protected readonly isDetailsMode = this.store.isDetailsMode;
@@ -91,6 +98,15 @@ export class MobileNetworkFormComponent implements OnInit {
         this.towerTypeFacade.isLoading$,
         { initialValue: false }
     );
+    protected readonly siteGroup = toSignal(this.siteGroupFacade.items$, {
+        initialValue: [],
+    });
+    protected readonly siteGroupLoading = toSignal(
+        this.siteGroupFacade.isLoading$,
+        {
+            initialValue: false,
+        }
+    );
 
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -98,10 +114,7 @@ export class MobileNetworkFormComponent implements OnInit {
     protected readonly technologyOptions: Signal<FilterOption[]> = computed(
         () => {
             this.currentLang();
-            return enumToFilterOptionsWithValue(
-                Technology,
-                this.t.bind(this)
-            );
+            return enumToFilterOptionsWithValue(Technology, this.t.bind(this));
         }
     );
     protected readonly operatorOptions: Signal<FilterOption[]> = computed(
@@ -161,7 +174,8 @@ export class MobileNetworkFormComponent implements OnInit {
     });
 
     constructor() {
-        this.towerTypeFacade.readAll();
+        this.towerTypeFacade.readAll({ forceRefresh: true });
+        this.siteGroupFacade.readAll({ forceRefresh: true });
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((event) => this.currentLang.set(event.lang));

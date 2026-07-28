@@ -12,9 +12,7 @@ export class TowerTypeSelectApi {
     private readonly http = inject(HttpClient);
     private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
-    readAll(
-        options?: FetchOptions
-    ): Observable<TowerTypeSelectResponseApiDto> {
+    readAll(options?: FetchOptions): Observable<TowerTypeSelectResponseApiDto> {
         const url = `${this.baseUrl}${COVERAGE_AREAS_ENDPOINTS.TOWER_TYPE}/select-field`;
 
         const context = new HttpContext().set(

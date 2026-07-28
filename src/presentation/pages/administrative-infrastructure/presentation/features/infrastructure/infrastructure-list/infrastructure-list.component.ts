@@ -30,6 +30,7 @@ import { ExcelExportService } from '@shared/domain/services/excel-export.service
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { formatDate } from '@shared/domain/functions/format-data.function';
 import { InfrastructureFilterStore } from '@presentation/pages/administrative-infrastructure/presentation/store/infrastructure/infrastructure-filter.store';
+import { INFRASTRUCTURE_FILTER_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure/infrastructure-filter-keys.constant';
 import { FilterField } from '@shared/components/filter/filter.types';
 import { RegionsSelectFacade } from '@presentation/pages/administrative-boundary/application/services/regions/regions-select.facade';
 import { InfrastructureTypeSelectFacade } from '@presentation/pages/administrative-infrastructure/application/services/infrastructure-type/infrastructure-type-select.facade';
@@ -219,7 +220,7 @@ export class InfrastructureListComponent {
         return [
             {
                 type: 'text',
-                name: 'search',
+                name: INFRASTRUCTURE_FILTER_KEYS.SEARCH,
                 label: this.t(
                     'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.SEARCH'
                 ),
@@ -235,7 +236,7 @@ export class InfrastructureListComponent {
             },
             {
                 type: 'select',
-                name: 'type',
+                name: INFRASTRUCTURE_FILTER_KEYS.TYPE,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.TYPE',
                 placeholder: 'COMMON.SELECT_PLACEHOLDER',
                 options: this.infrastructureType(),
@@ -246,7 +247,7 @@ export class InfrastructureListComponent {
             },
             {
                 type: 'select',
-                name: 'region',
+                name: INFRASTRUCTURE_FILTER_KEYS.REGION,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.REGION',
                 placeholder: 'COMMON.SELECT_PLACEHOLDER',
                 options: this.regions(),
@@ -257,7 +258,7 @@ export class InfrastructureListComponent {
             },
             {
                 type: 'select',
-                name: 'department',
+                name: INFRASTRUCTURE_FILTER_KEYS.DEPARTMENT,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.DEPARTMENT',
                 placeholder: 'COMMON.SELECT_PLACEHOLDER',
                 options: this.formStore.vm().departments,
@@ -269,7 +270,7 @@ export class InfrastructureListComponent {
             },
             {
                 type: 'select',
-                name: 'municipality',
+                name: INFRASTRUCTURE_FILTER_KEYS.MUNICIPALITY,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.MUNICIPALITY',
                 placeholder: 'COMMON.SELECT_PLACEHOLDER',
                 options: this.formStore.vm().municipalities,
@@ -281,14 +282,14 @@ export class InfrastructureListComponent {
             },
             {
                 type: 'date',
-                name: 'startDate',
+                name: INFRASTRUCTURE_FILTER_KEYS.START_DATE,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.DATE.FROM',
                 placeholder:
                     'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.DATE.PLACEHOLDER',
             },
             {
                 type: 'date',
-                name: 'endDate',
+                name: INFRASTRUCTURE_FILTER_KEYS.END_DATE,
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.DATE.TO',
                 placeholder:
                     'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.DATE.PLACEHOLDER',

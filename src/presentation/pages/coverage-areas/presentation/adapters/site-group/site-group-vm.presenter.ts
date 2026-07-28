@@ -62,9 +62,7 @@ export class SiteGroupPresenter {
                     tooltip:
                         permission.authorization.canDelete &&
                         item.status !== Status.ACTIVE
-                            ? this.t(
-                                  'COVERAGE_AREAS.SITE_GROUP.TOOLTIP.DELETE'
-                              )
+                            ? this.t('COVERAGE_AREAS.SITE_GROUP.TOOLTIP.DELETE')
                             : permission.tooltip.delete,
                 },
                 ...(item.status === Status.INACTIVE

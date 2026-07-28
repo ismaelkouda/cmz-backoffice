@@ -88,24 +88,23 @@
 }
 
 :host ::ng-deep.period-select-button.p-togglebutton {
-        font-size: 13px;
-        font-weight: 600;
-        border-radius: 8px;
-        transition: all 0.3s ease;
-        border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.3);
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.3);
 }
 
-:host ::ng-deep.period-select-button.p-togglebutton.p-togglebutton-checked .p-togglebutton-content {
-    background: linear-gradient(
-                135deg,
-                var(--theme-secondary),
-            );
-            color: var(--theme-tertiary, #ffffff);
+:host
+    ::ng-deep.period-select-button.p-togglebutton.p-togglebutton-checked
+    .p-togglebutton-content {
+    background: linear-gradient(135deg, var(--theme-secondary));
+    color: var(--theme-tertiary, #ffffff);
 }
 
 :host ::ng-deep.period-select-button.p-togglebutton :not(.p-highlight) :hover {
-                transform: translateY(-1px);
-            }
+    transform: translateY(-1px);
+}
 
 .period-select-button {
     .p-togglebutton {

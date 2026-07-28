@@ -9,10 +9,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 @Injectable({
     providedIn: 'root',
 })
-export class SiteGroupSelectFacade extends ArrayBaseFacade<
-    SelectOption,
-    void
-> {
+export class SiteGroupSelectFacade extends ArrayBaseFacade<SelectOption, void> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly useCase = inject(SiteGroupSelectUseCase);
 

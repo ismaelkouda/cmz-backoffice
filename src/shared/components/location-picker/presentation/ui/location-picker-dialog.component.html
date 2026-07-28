@@ -35,9 +35,16 @@
                     <div
                         class="search-result-item"
                         (click)="onSelectSearchResult(result)"
+                        (keydown)="onSelectSearchResult(result)"
+                        tabindex="0"
+                        role="button"
                     >
                         <i class="pi pi-map-marker"></i>
-                        <span>{{ result.displayName }} [{{ result.lat }},{{ result.lng }}]</span>
+                        <span
+                            >{{ result.displayName }} [{{ result.lat }},{{
+                                result.lng
+                            }}]</span
+                        >
                     </div>
                 }
             </div>
@@ -84,7 +91,7 @@
                 (click)="onValidate()"
                 [disabled]="!facade.selectedLocation()"
                 [loading]="isSearching()"
-                >
+            >
             </p-button>
         </div>
     </div>

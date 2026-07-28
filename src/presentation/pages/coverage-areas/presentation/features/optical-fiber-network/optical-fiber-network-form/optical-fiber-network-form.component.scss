@@ -1,0 +1,39 @@
+.form-user-container {
+    padding: 1.5rem;
+}
+.form-user-card {
+    border-radius: 1rem;
+}
+.actions-form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+.fieldset {
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 0.5rem;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    legend {
+        margin-bottom: 1rem;
+        color: #1e293b;
+    }
+}
+.form-input {
+    border-radius: 0.5rem;
+    border: 1px solid #cbd5e1;
+    padding: 0.5rem 0.75rem;
+    &:focus {
+        border-color: #3366ff;
+        box-shadow: 0 0 0 2px rgba(51, 102, 255, 0.1);
+    }
+}
+.form-p-select :deep(.p-dropdown) {
+    width: 100%;
+}
+::ng-deep .p-fileupload {
+    width: 100%;
+}

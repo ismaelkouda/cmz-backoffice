@@ -146,6 +146,7 @@ export class MobileNetworkFacade extends BaseFacade<
         const command = new MobileNetworkCreateCommand(
             dto.siteId,
             dto.siteName,
+            dto.infrastructureType,
             dto.towerTypeId,
             dto.towerSize,
             dto.technology,
@@ -176,6 +177,7 @@ export class MobileNetworkFacade extends BaseFacade<
             dto.uniqId,
             dto.siteId,
             dto.siteName,
+            dto.infrastructureType,
             dto.towerTypeId,
             dto.towerSize,
             dto.technology,

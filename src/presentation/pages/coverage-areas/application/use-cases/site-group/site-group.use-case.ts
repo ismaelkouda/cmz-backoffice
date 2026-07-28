@@ -40,27 +40,19 @@ export class SiteGroupUseCase {
     }
 
     create(contract: SiteGroupCreateContract): Observable<MessageResponseDto> {
-        return defer(() =>
-            this.repository.create(siteGroupCreateVo(contract))
-        );
+        return defer(() => this.repository.create(siteGroupCreateVo(contract)));
     }
 
     update(contract: SiteGroupUpdateContract): Observable<MessageResponseDto> {
-        return defer(() =>
-            this.repository.update(siteGroupUpdateVo(contract))
-        );
+        return defer(() => this.repository.update(siteGroupUpdateVo(contract)));
     }
 
     delete(contract: SiteGroupDeleteContract): Observable<MessageResponseDto> {
-        return defer(() =>
-            this.repository.delete(siteGroupDeleteVo(contract))
-        );
+        return defer(() => this.repository.delete(siteGroupDeleteVo(contract)));
     }
 
     enable(contract: SiteGroupEnableContract): Observable<MessageResponseDto> {
-        return defer(() =>
-            this.repository.enable(siteGroupEnableVo(contract))
-        );
+        return defer(() => this.repository.enable(siteGroupEnableVo(contract)));
     }
 
     disable(

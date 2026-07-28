@@ -123,9 +123,7 @@
                                 [items]="itemsVM()"
                                 [pagination]="pagination()"
                                 [headerButtons]="headerButtons()"
-                                (headerButtonClicked)="
-                                    onHeaderClicked($event)
-                                "
+                                (headerButtonClicked)="onHeaderClicked($event)"
                                 (actionClicked)="onActionClicked($event)"
                             ></app-table>
 

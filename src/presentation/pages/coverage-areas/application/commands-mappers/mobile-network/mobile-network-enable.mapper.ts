@@ -4,7 +4,5 @@ import { MobileNetworkEnableContract } from '@pages/coverage-areas/domain/contra
 export function mobileNetworkEnableCommandMapper(
     command: MobileNetworkEnableCommand
 ): MobileNetworkEnableContract {
-    return {
-        uniqId: command.uniqId,
-    };
+    return command;
 }

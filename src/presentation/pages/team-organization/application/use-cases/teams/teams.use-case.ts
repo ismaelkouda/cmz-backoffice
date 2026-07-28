@@ -31,11 +31,7 @@ export class TeamsUseCase {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<TeamsEntity>> {
-        return this.repository.readAll(
-            teamsFilterVo(filterDto),
-            page,
-            options
-        );
+        return this.repository.readAll(teamsFilterVo(filterDto), page, options);
     }
 
     create(

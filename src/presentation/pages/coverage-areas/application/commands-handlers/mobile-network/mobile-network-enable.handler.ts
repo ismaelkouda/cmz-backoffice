@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 export class MobileNetworkEnableHandler {
     private readonly useCase = inject(MobileNetworkUseCase);
 
-    execute(command: MobileNetworkEnableCommand): Observable<MessageResponseDto> {
+    execute(
+        command: MobileNetworkEnableCommand
+    ): Observable<MessageResponseDto> {
         return this.useCase.enable(mobileNetworkEnableCommandMapper(command));
     }
 }

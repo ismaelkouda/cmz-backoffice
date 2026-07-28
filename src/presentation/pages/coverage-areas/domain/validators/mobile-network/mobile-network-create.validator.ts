@@ -15,6 +15,11 @@ export function validateMobileNetworkCreate(
             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.SITE_NAME_REQUIRE'
         );
     }
+    if (!contract.infrastructureType) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.INFRASTRUCTURE_TYPE_REQUIRE'
+        );
+    }
     if (!contract.towerTypeId) {
         throw new GenericRequiredError(
             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.TOWER_TYPE_REQUIRE'
@@ -25,7 +30,7 @@ export function validateMobileNetworkCreate(
             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.TOWER_SIZE_REQUIRE'
         );
     }
-    if (!contract.technology) {
+    if (!contract.technology?.length) {
         throw new GenericRequiredError(
             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.TECHNOLOGY_REQUIRE'
         );

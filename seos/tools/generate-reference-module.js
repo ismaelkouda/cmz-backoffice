@@ -58,24 +58,78 @@
  */
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
-const ROOT = process.argv[2];
+/**
+ * Usage:
+ *   node generate-reference-module.js <dossier-destination>
+ *   node generate-reference-module.js <dossier-destination> --config <config.json>
+ *
+ * config.json (produit par seos/tools/compile-dsl.js) :
+ *   { entity, module, fields: string[], filters?: string[], apiBase?: string }
+ */
+const rawArgs = process.argv.slice(2);
+const ROOT = rawArgs.find((a) => a && !a.startsWith('--') && rawArgs[rawArgs.indexOf(a) - 1] !== '--config');
+const configFlagIdx = rawArgs.indexOf('--config');
+const configPath = configFlagIdx >= 0 ? rawArgs[configFlagIdx + 1] : null;
+
 if (!ROOT) {
-    console.error('Usage: node generate-reference-module.js <dossier-destination>');
+    console.error(
+        'Usage: node generate-reference-module.js <dossier-destination> [--config config.json]'
+    );
     process.exit(1);
 }
 
-const E = 'resources'; // slug pluriel kebab
-const Cap = 'Resources'; // PascalCase pour les classes
-const MODULE = 'seos-reference'; // nom du module (page) — non branche dans les routes de l'app
-const MODULE_UPPER = 'SEOS_REFERENCE';
-const ENTITY_UPPER = 'RESOURCES';
-// PascalCase de MODULE, pour le nom de la fonction d'aggregation DI racine du module
-// (provide{ModuleCap}, modele reel provideAdministrativeInfrastructure) — distinct de
-// Cap (PascalCase de l'entite E), voir di/{MODULE}.providers.ts plus bas.
-const ModuleCap = MODULE.split('-')
-    .map((s) => s[0].toUpperCase() + s.slice(1))
-    .join('');
+function pascalCase(kebab) {
+    return String(kebab)
+        .split('-')
+        .filter(Boolean)
+        .map((s) => s[0].toUpperCase() + s.slice(1))
+        .join('');
+}
+
+function upperSnake(kebab) {
+    return String(kebab).replace(/-/g, '_').toUpperCase();
+}
+
+function toSnake(name) {
+    return String(name)
+        .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+        .replace(/-/g, '_')
+        .toLowerCase();
+}
+
+const defaultConfig = {
+    entity: 'resources',
+    module: 'seos-reference',
+    fields: ['code', 'name', 'description'],
+    filters: [],
+    apiBase: null,
+    description: '',
+};
+
+const loaded = configPath
+    ? JSON.parse(fs.readFileSync(path.resolve(configPath), 'utf8'))
+    : {};
+const cfg = { ...defaultConfig, ...loaded };
+
+const E = cfg.entity;
+const Cap = cfg.entityCap || pascalCase(E);
+const MODULE = cfg.module;
+const MODULE_UPPER = cfg.moduleUpper || upperSnake(MODULE);
+const ENTITY_UPPER = cfg.entityUpper || upperSnake(E);
+const ModuleCap = cfg.moduleCap || pascalCase(MODULE);
+const FIELD_DEFS = (cfg.fields || defaultConfig.fields).map((f) =>
+    typeof f === 'string'
+        ? { name: f, required: true }
+        : { name: f.name, required: f.required !== false, type: f.type }
+);
+const FIELD_NAMES = FIELD_DEFS.map((f) => f.name);
+const REQUIRED_FIELDS = FIELD_DEFS.filter((f) => f.required).map((f) => f.name);
+const EXTRA_FILTERS = (cfg.filters || [])
+    .map((f) => (typeof f === 'string' ? f : f.name))
+    .filter((f) => f && f !== 'search' && f !== 'startDate' && f !== 'endDate');
+const API_BASE = cfg.apiBase || `/${E}`;
 
 function w(relPath, content) {
     const abs = path.join(ROOT, relPath);
@@ -90,9 +144,32 @@ const BASE = `@pages/${MODULE}`;
 // delete, find-one-filter suivent toutes ce modele (pas seulement create/update comme le
 // supposait l'ancienne version de ce generateur).
 const crudOps = [
-    { kind: 'create', fields: ['code', 'name', 'description'] },
-    { kind: 'update', fields: ['uniqId', 'code', 'name', 'description'] },
+    { kind: 'create', fields: [...FIELD_NAMES] },
+    { kind: 'update', fields: ['uniqId', ...FIELD_NAMES] },
 ];
+
+// Métadonnées DSL (si présentes)
+if (cfg.sourceDsl || cfg.extensions || cfg.description) {
+    w(
+        'seos.feature.meta.json',
+        JSON.stringify(
+            {
+                pattern: 'crud-entity',
+                entity: E,
+                module: MODULE,
+                fields: FIELD_NAMES,
+                filters: EXTRA_FILTERS,
+                apiBase: API_BASE,
+                description: cfg.description || '',
+                extensions: cfg.extensions || {},
+                sourceDsl: cfg.sourceDsl || null,
+                generatedAt: new Date().toISOString(),
+            },
+            null,
+            2
+        ) + '\n'
+    );
+}
 
 // ---------------------------------------------------------------------
 // DOMAIN — interfaces (props)
@@ -101,9 +178,7 @@ const crudOps = [
 w(`domain/interfaces/${E}/${E}-props.interface.ts`, `
 export interface ${Cap}Props {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+${FIELD_NAMES.map((f) => `    ${f}: string;`).join('\n')}
     createdAt: string;
     updatedAt: string;
 }
@@ -112,9 +187,7 @@ export interface ${Cap}Props {
 w(`domain/interfaces/${E}/${E}-find-one-props.interface.ts`, `
 export interface ${Cap}FindOneProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+${FIELD_NAMES.map((f) => `    ${f}: string;`).join('\n')}
     updatedAt: string;
 }
 `);
@@ -132,15 +205,11 @@ export class ${Cap}Entity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-    get code(): string {
-        return this.props.code;
-    }
-    get name(): string {
-        return this.props.name;
-    }
-    get description(): string {
-        return this.props.description;
-    }
+${FIELD_NAMES.map(
+    (f) => `    get ${f}(): string {
+        return this.props.${f};
+    }`
+).join('\n')}
     get createdAt(): string {
         return this.props.createdAt;
     }
@@ -169,15 +238,11 @@ export class ${Cap}FindOneEntity {
     get uniqId(): string {
         return this.props.uniqId;
     }
-    get code(): string {
-        return this.props.code;
-    }
-    get name(): string {
-        return this.props.name;
-    }
-    get description(): string {
-        return this.props.description;
-    }
+${FIELD_NAMES.map(
+    (f) => `    get ${f}(): string {
+        return this.props.${f};
+    }`
+).join('\n')}
     get updatedAt(): string {
         return this.props.updatedAt;
     }
@@ -225,6 +290,7 @@ export function ${E}FilterEntity(
 w(`domain/contracts/${E}/${E}-filter.contract.ts`, `
 export interface ${Cap}FilterContract {
     search?: string;
+${EXTRA_FILTERS.map((f) => `    ${f}?: string;`).join('\n')}
     startDate?: Date;
     endDate?: Date;
 }
@@ -347,19 +413,21 @@ export function ${E}DeleteVo(
 // infrastructureUpdateVo).
 for (const { kind, fields } of crudOps) {
     const Kind = kind[0].toUpperCase() + kind.slice(1);
-    const required = fields.filter((f) => f !== 'uniqId');
+    const allFormFields = fields.filter((f) => f !== 'uniqId');
+    const requiredForOp =
+        kind === 'update' ? ['uniqId', ...REQUIRED_FIELDS] : [...REQUIRED_FIELDS];
 
     w(`domain/contracts/${E}/${E}-${kind}.contract.ts`, `
 export interface ${Cap}${Kind}Contract {
-    ${kind === 'update' ? 'uniqId?: string;\n    ' : ''}${required
+    ${kind === 'update' ? 'uniqId?: string;\n    ' : ''}${allFormFields
         .map((f) => `${f}?: string;`)
         .join('\n    ')}
 }
 `);
     w(`domain/contracts/${E}/${E}-${kind}.validate-contract.ts`, `
 export interface ${Cap}${Kind}ValidateContract {
-    ${kind === 'update' ? 'uniqId: string;\n    ' : ''}${required
-        .map((f) => `${f}: string;`)
+    ${kind === 'update' ? 'uniqId: string;\n    ' : ''}${allFormFields
+        .map((f) => (REQUIRED_FIELDS.includes(f) ? `${f}: string;` : `${f}?: string;`))
         .join('\n    ')}
 }
 `);
@@ -371,11 +439,11 @@ import { GenericRequiredError } from '@shared/domain/errors/validation/generic.e
 export function validate${Cap}${Kind}(
     contract: ${Cap}${Kind}Contract
 ): asserts contract is ${Cap}${Kind}ValidateContract {
-${(kind === 'update' ? ['uniqId', ...required] : required)
+${requiredForOp
     .map(
         (f) => `    if (!contract.${f}) {
         throw new GenericRequiredError(
-            '${MODULE_UPPER}.${ENTITY_UPPER}.FORM.ERROR.${kind.toUpperCase()}.${f.toUpperCase()}_REQUIRE'
+            '${MODULE_UPPER}.${ENTITY_UPPER}.FORM.ERROR.${kind.toUpperCase()}.${f.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/-/g, '_').toUpperCase()}_REQUIRE'
         );
     }`
     )
@@ -392,7 +460,7 @@ export function ${E}${Kind}Vo(
 ): ${Cap}${Kind}ValidateContract {
     validate${Cap}${Kind}(contract);
     return {
-        ${kind === 'update' ? 'uniqId: contract.uniqId,\n        ' : ''}${required
+        ${kind === 'update' ? 'uniqId: contract.uniqId,\n        ' : ''}${allFormFields
         .map((f) => `${f}: contract.${f}`)
         .join(',\n        ')}
     };
@@ -401,7 +469,7 @@ export function ${E}${Kind}Vo(
 
     w(`application/dto/${E}/${E}-${kind}.dto.ts`, `
 export interface ${Cap}${Kind}Dto {
-    ${kind === 'update' ? 'uniqId: string;\n    ' : ''}${required
+    ${kind === 'update' ? 'uniqId: string;\n    ' : ''}${allFormFields
         .map((f) => `${f}?: string;`)
         .join('\n    ')}
 }
@@ -416,6 +484,7 @@ export interface ${Cap}DeleteDto {
 w(`application/dto/${E}/${E}-filter.dto.ts`, `
 export interface ${Cap}FilterDto {
     search?: string;
+${EXTRA_FILTERS.map((f) => `    ${f}?: string;`).join('\n')}
     startDate?: Date;
     endDate?: Date;
 }
@@ -943,7 +1012,7 @@ export class ${Cap}Facade extends BaseFacade<${Cap}Entity, ${Cap}FilterDto> {
 
     create(dto: ${Cap}CreateDto): void {
         this._actionState.set('loading');
-        const command = new ${Cap}CreateCommand(dto?.code, dto?.name, dto?.description);
+        const command = new ${Cap}CreateCommand(${FIELD_NAMES.map((f) => `dto?.${f}`).join(', ')});
         this.handleActionWithRefresh(
             this.createBus.dispatch(command),
             'COMMON.SUCCESS.CREATE'
@@ -965,9 +1034,7 @@ export class ${Cap}Facade extends BaseFacade<${Cap}Entity, ${Cap}FilterDto> {
         this._actionState.set('loading');
         const command = new ${Cap}UpdateCommand(
             dto?.uniqId,
-            dto?.code,
-            dto?.name,
-            dto?.description
+${FIELD_NAMES.map((f) => `            dto?.${f}`).join(',\n')}
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),
@@ -1068,13 +1135,23 @@ export class ${Cap}FindOneFacade extends ObjectBaseFacade<${Cap}FindOneEntity, $
 // reactif (FormBuilder), pas un simple signal opaque : c'est ce qui permet a la
 // regle 4 de check-semantics.js (Validators.required du formulaire vs validator
 // du domaine) d'avoir reellement quelque chose a comparer sur un module genere.
+w(`presentation/constants/${E}/${E}-filter-keys.constant.ts`, `
+export const ${ENTITY_UPPER}_FILTER_KEYS = {
+    SEARCH: 'search',
+${EXTRA_FILTERS.map((f) => `    ${toSnake(f).toUpperCase()}: '${f}',`).join('\n')}
+    START_DATE: 'startDate',
+    END_DATE: 'endDate',
+} as const;
+`);
 w(`presentation/store/${E}/${E}-filter.control.ts`, `
 import { FormControl } from '@angular/forms';
+import { ${ENTITY_UPPER}_FILTER_KEYS } from '${BASE}/presentation/constants/${E}/${E}-filter-keys.constant';
 
 export interface ${Cap}FilterControl {
-    search: FormControl<string | undefined>;
-    startDate: FormControl<Date | undefined>;
-    endDate: FormControl<Date | undefined>;
+    [${ENTITY_UPPER}_FILTER_KEYS.SEARCH]: FormControl<string | undefined>;
+${EXTRA_FILTERS.map((f) => `    [${ENTITY_UPPER}_FILTER_KEYS.${toSnake(f).toUpperCase()}]: FormControl<string | undefined>;`).join('\n')}
+    [${ENTITY_UPPER}_FILTER_KEYS.START_DATE]: FormControl<Date | undefined>;
+    [${ENTITY_UPPER}_FILTER_KEYS.END_DATE]: FormControl<Date | undefined>;
 }
 `);
 w(`presentation/store/${E}/${E}-filter.store.ts`, `
@@ -1082,6 +1159,7 @@ import { Injectable, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ${Cap}FilterDto } from '${BASE}/application/dto/${E}/${E}-filter.dto';
 import { ${Cap}FilterControl } from '${BASE}/presentation/store/${E}/${E}-filter.control';
+import { ${ENTITY_UPPER}_FILTER_KEYS } from '${BASE}/presentation/constants/${E}/${E}-filter-keys.constant';
 
 @Injectable()
 export class ${Cap}FilterStore {
@@ -1089,13 +1167,24 @@ export class ${Cap}FilterStore {
 
     readonly form: FormGroup<${Cap}FilterControl> =
         this.fb.group<${Cap}FilterControl>({
-            search: new FormControl<string | undefined>(undefined, {
+            [${ENTITY_UPPER}_FILTER_KEYS.SEARCH]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            startDate: new FormControl<Date | undefined>(undefined, {
+${EXTRA_FILTERS.map((f) => `            [${ENTITY_UPPER}_FILTER_KEYS.${toSnake(f).toUpperCase()}]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+            }),`).join('\n')}
+            [${ENTITY_UPPER}_FILTER_KEYS.START_DATE]: new FormControl<
+                Date | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            endDate: new FormControl<Date | undefined>(undefined, {
+            [${ENTITY_UPPER}_FILTER_KEYS.END_DATE]: new FormControl<
+                Date | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
         });
@@ -1107,18 +1196,43 @@ export class ${Cap}FilterStore {
     get value(): ${Cap}FilterDto {
         const raw = this.form.getRawValue();
         return {
-            search: raw.search || undefined,
-            startDate: raw.startDate || undefined,
-            endDate: raw.endDate || undefined,
+            [${ENTITY_UPPER}_FILTER_KEYS.SEARCH]:
+                raw[${ENTITY_UPPER}_FILTER_KEYS.SEARCH] || undefined,
+${EXTRA_FILTERS.map((f) => `            [${ENTITY_UPPER}_FILTER_KEYS.${toSnake(f).toUpperCase()}]:
+                raw[${ENTITY_UPPER}_FILTER_KEYS.${toSnake(f).toUpperCase()}] || undefined,`).join('\n')}
+            [${ENTITY_UPPER}_FILTER_KEYS.START_DATE]:
+                raw[${ENTITY_UPPER}_FILTER_KEYS.START_DATE] || undefined,
+            [${ENTITY_UPPER}_FILTER_KEYS.END_DATE]:
+                raw[${ENTITY_UPPER}_FILTER_KEYS.END_DATE] || undefined,
         };
     }
 }
 `);
 w(`presentation/constants/${E}/${E}-form-keys.constant.ts`, `
 export const ${ENTITY_UPPER}_FORM_KEYS = {
-    CODE: 'code',
-    NAME: 'name',
-    DESCRIPTION: 'description',
+${FIELD_NAMES.map((f) => `    ${f.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/-/g, '_').toUpperCase()}: '${f}',`).join('\n')}
+} as const;
+`);
+// presentation/constants/${E}/${E}-form-error-messages.constant.ts — parite STRUCTURELLE
+// uniquement avec action-request (design_decisions_v19.form_error_messages_pause) : le
+// module reel administrative-infrastructure/infrastructure a DEJA un mecanisme d'erreur
+// reel et fonctionnel (FormValidationService, generique par type d'erreur Angular), que
+// l'architecte a explicitement choisi de NE PAS toucher (decision : "ne rien changer sur
+// le reel, parite generateur/schema seulement"). Ce fichier n'est donc PAS reference par
+// ${Cap}FormStore ni ${Cap}FormComponent dans ce generateur (aucun cablage, contrairement
+// a action-request ou le mecanisme equivalent est reellement branche) — il existe
+// uniquement pour que ce module synthetique ait la meme silhouette de fichiers que
+// action-request lorsqu'on compare les deux schemas, jamais pour etre consomme.
+w(`presentation/constants/${E}/${E}-form-error-messages.constant.ts`, `
+import { ${ENTITY_UPPER}_FORM_KEYS } from '${BASE}/presentation/constants/${E}/${E}-form-keys.constant';
+
+export const ${ENTITY_UPPER}_FORM_ERROR_MESSAGES = {
+${REQUIRED_FIELDS.map((f) => {
+    const k = f.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/-/g, '_').toUpperCase();
+    return `    [${ENTITY_UPPER}_FORM_KEYS.${k}]: {
+        required: '${MODULE_UPPER}.${ENTITY_UPPER}.FORM.ERROR.${k}_REQUIRE',
+    },`;
+}).join('\n')}
 } as const;
 `);
 w(`presentation/store/${E}/${E}-form.control.ts`, `
@@ -1126,9 +1240,10 @@ import { FormControl } from '@angular/forms';
 import { ${ENTITY_UPPER}_FORM_KEYS } from '${BASE}/presentation/constants/${E}/${E}-form-keys.constant';
 
 export interface ${Cap}FormControl {
-    [${ENTITY_UPPER}_FORM_KEYS.CODE]: FormControl<string | undefined>;
-    [${ENTITY_UPPER}_FORM_KEYS.NAME]: FormControl<string | undefined>;
-    [${ENTITY_UPPER}_FORM_KEYS.DESCRIPTION]: FormControl<string | undefined>;
+${FIELD_NAMES.map((f) => {
+    const k = f.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/-/g, '_').toUpperCase();
+    return `    [${ENTITY_UPPER}_FORM_KEYS.${k}]: FormControl<string | undefined>;`;
+}).join('\n')}
 }
 `);
 w(`presentation/store/${E}/${E}-form.store.ts`, `
@@ -1185,24 +1300,16 @@ export class ${Cap}FormStore {
 
     private createForm(): FormGroup<${Cap}FormControl> {
         return this.fb.nonNullable.group<${Cap}FormControl>({
-            [${ENTITY_UPPER}_FORM_KEYS.CODE]: new FormControl<
+${FIELD_DEFS.map((f) => {
+    const k = f.name.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/-/g, '_').toUpperCase();
+    const validators = f.required ? '[Validators.required]' : '[]';
+    return `            [${ENTITY_UPPER}_FORM_KEYS.${k}]: new FormControl<
                 string | undefined
             >(undefined, {
                 nonNullable: true,
-                validators: [Validators.required],
-            }),
-            [${ENTITY_UPPER}_FORM_KEYS.NAME]: new FormControl<
-                string | undefined
-            >(undefined, {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-            [${ENTITY_UPPER}_FORM_KEYS.DESCRIPTION]: new FormControl<
-                string | undefined
-            >(undefined, {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
+                validators: ${validators},
+            }),`;
+}).join('\n')}
         });
     }
 
@@ -1212,11 +1319,13 @@ export class ${Cap}FormStore {
             if (this.isCreateMode() || !item) {
                 return;
             }
-            const { code, name, description } = item;
+            const patch = {
+${FIELD_NAMES.map((f) => `                ${f}: item.${f},`).join('\n')}
+            };
             const details = this.isDetailsMode();
             untracked(() => {
                 queueMicrotask(() => {
-                    this.form.patchValue({ code, name, description });
+                    this.form.patchValue(patch);
                     if (details) {
                         this.form.disable({ emitEvent: false });
                     }
@@ -1246,9 +1355,10 @@ export class ${Cap}FormStore {
         this.form.enable({ emitEvent: false });
         this.form.reset(
             {
-                [${ENTITY_UPPER}_FORM_KEYS.CODE]: undefined,
-                [${ENTITY_UPPER}_FORM_KEYS.NAME]: undefined,
-                [${ENTITY_UPPER}_FORM_KEYS.DESCRIPTION]: undefined,
+${FIELD_NAMES.map((f) => {
+    const k = f.replace(/([a-z0-9])([A-Z])/g, '$1_$2').replace(/-/g, '_').toUpperCase();
+    return `                [${ENTITY_UPPER}_FORM_KEYS.${k}]: undefined,`;
+}).join('\n')}
             },
             { emitEvent: true }
         );
@@ -1326,16 +1436,25 @@ export const provide${ModuleCap} = (): Provider[] => [
 // PaginatedResponseDto — pas de tableau nu, incompatible avec ArrayResponseMapper)
 // ---------------------------------------------------------------------
 
+const apiFieldLines = FIELD_DEFS.map((f) => {
+    const opt = f.required ? '' : '?';
+    return `    ${toSnake(f.name)}${opt}: string;`;
+}).join('\n');
+const apiFieldLinesAllRequired = FIELD_NAMES.map((f) => `    ${toSnake(f)}: string;`).join('\n');
+const apiFilterExtra = EXTRA_FILTERS.map((f) => `    ${toSnake(f)}?: string;`).join('\n');
 const apiKinds = ['create', 'update', 'delete', 'filter', 'find-one-filter'];
 for (const kind of apiKinds) {
     const Kind = kind.replace(/(^|-)([a-z])/g, (_, __, c) => c.toUpperCase());
+    let body = '';
+    if (kind === 'create') body = apiFieldLines;
+    if (kind === 'update') body = `    id: string;\n${apiFieldLines}`;
+    if (kind === 'delete') body = '    uniq_id: string;';
+    if (kind === 'filter')
+        body = `    search?: string;\n${apiFilterExtra ? apiFilterExtra + '\n' : ''}    start_date?: Date;\n    end_date?: Date;`;
+    if (kind === 'find-one-filter') body = '    id: string;';
     w(`infrastructure/api/dto/${E}/${E}-${kind}-api.dto.ts`, `
 export interface ${Cap}${Kind}ApiDto {
-    ${kind === 'create' ? 'code: string;\n    name: string;\n    description: string;' : ''}
-    ${kind === 'update' ? 'id: string;\n    code: string;\n    name: string;\n    description: string;' : ''}
-    ${kind === 'delete' ? 'uniq_id: string;' : ''}
-    ${kind === 'filter' ? 'search?: string;\n    start_date?: Date;\n    end_date?: Date;' : ''}
-    ${kind === 'find-one-filter' ? 'id: string;' : ''}
+${body}
 }
 `);
 }
@@ -1345,9 +1464,7 @@ import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface ${Cap}ItemApiDto {
     id: string;
-    code: string;
-    name: string;
-    description: string;
+${apiFieldLinesAllRequired}
     created_at: string;
     updated_at: string;
 }
@@ -1360,9 +1477,7 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface ${Cap}FindOneItemApiDto {
     id: string;
-    code: string;
-    name: string;
-    description: string;
+${apiFieldLinesAllRequired}
     updated_at: string;
 }
 
@@ -1399,9 +1514,7 @@ import { ${Cap}${Kind}ApiDto } from '${BASE}/infrastructure/api/dto/${E}/${E}-${
 
 export function ${E}${Kind}Mapper(validContract: ${Cap}${Kind}ValidateContract): ${Cap}${Kind}ApiDto {
     return {
-        ${kind === 'update' ? 'id: validContract.uniqId,\n        ' : ''}code: validContract.code,
-        name: validContract.name,
-        description: validContract.description,
+        ${kind === 'update' ? 'id: validContract.uniqId,\n        ' : ''}${FIELD_NAMES.map((f) => `${toSnake(f)}: validContract.${f}`).join(',\n        ')}
     };
 }
 `);
@@ -1425,6 +1538,11 @@ export function ${E}FilterMapper(validContract: ${Cap}FilterContract): ${Cap}Fil
     if (validContract.search) {
         params.search = validContract.search;
     }
+${EXTRA_FILTERS.map(
+    (f) => `    if (validContract.${f}) {
+        params.${toSnake(f)} = validContract.${f};
+    }`
+).join('\n')}
     if (validContract.startDate) {
         params.start_date = validContract.startDate;
     }
@@ -1462,9 +1580,7 @@ export class ${Cap}Mapper extends PaginatedMapper<${Cap}Entity, ${Cap}ItemApiDto
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: ${Cap}Props = {
             uniqId: dto.id,
-            code: dto.code,
-            name: dto.name,
-            description: dto.description,
+${FIELD_NAMES.map((f) => `            ${f}: dto.${toSnake(f)},`).join('\n')}
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };
@@ -1496,9 +1612,7 @@ export class ${Cap}FindOneMapper extends SimpleResponseMapper<${Cap}FindOneEntit
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: ${Cap}FindOneProps = {
             uniqId: dto.id,
-            code: dto.code,
-            name: dto.name,
-            description: dto.description,
+${FIELD_NAMES.map((f) => `            ${f}: dto.${toSnake(f)},`).join('\n')}
             updatedAt: dto.updated_at,
         };
 
@@ -1542,7 +1656,7 @@ export class ${Cap}SelectMapper extends ArrayResponseMapper<SelectOption, ${Cap}
 
 w(`infrastructure/api/${MODULE}.endpoints.ts`, `
 export const ${MODULE_UPPER.replace(/-/g, '_')}_ENDPOINTS = {
-    ${ENTITY_UPPER}: '${E}',
+    ${ENTITY_UPPER}: '${API_BASE.replace(/^\//, '')}',
 } as const;
 `);
 
@@ -1768,9 +1882,7 @@ export class ${Cap}SelectRepositoryImpl implements ${Cap}SelectRepository {
 w(`presentation/adapters/${E}/${E}-vm-props.interface.ts`, `
 export interface ${Cap}VmProps {
     uniqId: string;
-    code: string;
-    name: string;
-    description: string;
+${FIELD_NAMES.map((f) => `    ${f}: string;`).join('\n')}
     updatedAt: string;
 }
 `);
@@ -1783,9 +1895,7 @@ export class ${Cap}Presenter {
     map(item: ${Cap}Entity): ${Cap}VmProps {
         return {
             uniqId: item.uniqId,
-            code: item.code,
-            name: item.name,
-            description: item.description,
+${FIELD_NAMES.map((f) => `            ${f}: item.${f},`).join('\n')}
             updatedAt: item.updatedAt,
         };
     }
@@ -1873,7 +1983,8 @@ import { ${Cap}Facade } from '${BASE}/application/services/${E}/${E}.facade';
     selector: 'app-${E}-list',
     standalone: true,
     imports: [],
-    template: '<div>${Cap} list — reference template SEOS</div>',
+    templateUrl: './${E}-list.component.html',
+    styleUrls: ['./${E}-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ${Cap}ListComponent implements OnInit {
@@ -1884,6 +1995,12 @@ export class ${Cap}ListComponent implements OnInit {
     }
 }
 `);
+w(
+    `presentation/features/${E}/${E}-list/${E}-list.component.html`,
+    `<div>${Cap} list — reference template SEOS</div>
+`
+);
+w(`presentation/features/${E}/${E}-list/${E}-list.component.scss`, '');
 
 w(`presentation/features/${E}/${E}-form/${E}-form.component.ts`, `
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
@@ -1893,13 +2010,20 @@ import { ${Cap}Facade } from '${BASE}/application/services/${E}/${E}.facade';
     selector: 'app-${E}-form',
     standalone: true,
     imports: [],
-    template: '<div>${Cap} form — reference template SEOS</div>',
+    templateUrl: './${E}-form.component.html',
+    styleUrls: ['./${E}-form.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ${Cap}FormComponent {
     private readonly facade = inject(${Cap}Facade);
 }
 `);
+w(
+    `presentation/features/${E}/${E}-form/${E}-form.component.html`,
+    `<div>${Cap} form — reference template SEOS</div>
+`
+);
+w(`presentation/features/${E}/${E}-form/${E}-form.component.scss`, '');
 
 w(`presentation/features/${E}/${E}-page/${E}-page.component.ts`, `
 import { ChangeDetectionStrategy, Component } from '@angular/core';
@@ -1909,12 +2033,19 @@ import { RouterOutlet } from '@angular/router';
     selector: 'app-${E}-page',
     standalone: true,
     imports: [RouterOutlet],
-    template: '<router-outlet />',
+    templateUrl: './${E}-page.component.html',
+    styleUrls: ['./${E}-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ${Cap}PageComponent {
     protected readonly moduleName = '${E}';
 }
 `);
+w(
+    `presentation/features/${E}/${E}-page/${E}-page.component.html`,
+    `<router-outlet />
+`
+);
+w(`presentation/features/${E}/${E}-page/${E}-page.component.scss`, '');
 
-console.log('Reference module "resources" genere sous', ROOT);
+console.log(`Module crud-entity "${E}" (module=${MODULE}) genere sous`, ROOT);

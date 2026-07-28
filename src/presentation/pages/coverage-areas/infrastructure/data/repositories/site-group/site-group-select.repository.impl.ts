@@ -7,9 +7,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class SiteGroupSelectRepositoryImpl
-    implements SiteGroupSelectRepository
-{
+export class SiteGroupSelectRepositoryImpl implements SiteGroupSelectRepository {
     private readonly api = inject(SiteGroupSelectApi);
     private readonly mapper = inject(SiteGroupSelectMapper);
 

@@ -9,9 +9,7 @@ import { map, Observable } from 'rxjs';
 import { SiteGroupFindOneFilterValidateContract } from '@pages/coverage-areas/domain/contracts/site-group/site-group-find-one-filter.validate-contract';
 
 @Injectable({ providedIn: 'root' })
-export class SiteGroupFindOneRepositoryImpl
-    implements SiteGroupFindOneRepository
-{
+export class SiteGroupFindOneRepositoryImpl implements SiteGroupFindOneRepository {
     private readonly api = inject(SiteGroupFindOneApi);
     private readonly mapper = inject(SiteGroupFindOneMapper);
 

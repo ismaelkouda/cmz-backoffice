@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
 export class MobileNetworkCreateHandler {
     private readonly useCase = inject(MobileNetworkUseCase);
 
-    execute(command: MobileNetworkCreateCommand): Observable<MessageResponseDto> {
+    execute(
+        command: MobileNetworkCreateCommand
+    ): Observable<MessageResponseDto> {
         return this.useCase.create(mobileNetworkCreateCommandMapper(command));
     }
 }

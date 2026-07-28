@@ -10,6 +10,8 @@ export function mobileNetworkUpdateVo(
         uniqId: contract.uniqId,
         siteId: contract.siteId,
         siteName: contract.siteName,
+
+        infrastructureType: contract.infrastructureType,
         towerTypeId: contract.towerTypeId,
         towerSize: contract.towerSize,
         technology: contract.technology,

@@ -9,9 +9,7 @@ export class SiteGroupFormHelperService {
     private readonly router = inject(Router);
 
     navigateToSiteGroupList(): void {
-        this.router.navigate([
-            COVERAGE_AREAS_ROUTE + '/' + SITE_GROUP_ROUTE,
-        ]);
+        this.router.navigate([COVERAGE_AREAS_ROUTE + '/' + SITE_GROUP_ROUTE]);
     }
 
     getSweetAlertTitle(isEditMode: boolean): string {

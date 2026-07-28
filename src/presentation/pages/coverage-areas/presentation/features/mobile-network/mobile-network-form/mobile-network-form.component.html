@@ -17,30 +17,30 @@
                         </div>
 
                         @if (!isDetailsMode()) {
-                        <div class="d-flex align-items-center gap-2">
-                            <button
-                                pButton
-                                type="submit"
-                                (click)="onSubmit()"
-                                [disabled]="form.invalid || loadingSubmit()"
-                            >
-                                @if (!loadingSubmit()) {
-                                    <i class="pi pi-check"></i>
-                                } @else {
-                                    <span
-                                        class="spinner-border spinner-border-sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                    ></span>
-                                }
-                                {{ 'COMMON.SAVE' | translate }}
-                            </button>
-                            <p-button
-                                label="{{ 'COMMON.CLOSE' | translate }}"
-                                (onClick)="navigateToBack()"
-                                styleClass="p-button-danger"
-                            />
-                        </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button
+                                    pButton
+                                    type="submit"
+                                    (click)="onSubmit()"
+                                    [disabled]="form.invalid || loadingSubmit()"
+                                >
+                                    @if (!loadingSubmit()) {
+                                        <i class="pi pi-check"></i>
+                                    } @else {
+                                        <span
+                                            class="spinner-border spinner-border-sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        ></span>
+                                    }
+                                    {{ 'COMMON.SAVE' | translate }}
+                                </button>
+                                <p-button
+                                    label="{{ 'COMMON.CLOSE' | translate }}"
+                                    (onClick)="navigateToBack()"
+                                    styleClass="p-button-danger"
+                                />
+                            </div>
                         }
                     </header>
 
@@ -65,7 +65,7 @@
                                                 }}</b>
                                             </legend>
                                             <div class="row g-3">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="siteId"
                                                         class="form-label fw-bold"
@@ -113,7 +113,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-8">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="siteName"
                                                         class="form-label fw-bold"
@@ -137,12 +137,10 @@
                                                                 | translate
                                                         "
                                                         [attr.aria-invalid]="
-                                                            form.get(
-                                                                'siteName'
-                                                            )?.invalid &&
-                                                            form.get(
-                                                                'siteName'
-                                                            )?.touched
+                                                            form.get('siteName')
+                                                                ?.invalid &&
+                                                            form.get('siteName')
+                                                                ?.touched
                                                         "
                                                     />
                                                     @if (
@@ -163,7 +161,65 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
+                                                    <label
+                                                        for="type"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.INFRASTRUCTURE_TYPE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="siteGroup()"
+                                                        [loading]="
+                                                            siteGroupLoading()
+                                                        "
+                                                        formControlName="infrastructureType"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        filter="true"
+                                                        filterBy="label"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.INFRASTRUCTURE_TYPE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get(
+                                                            'infrastructureType'
+                                                        )?.invalid &&
+                                                        form.get(
+                                                            'infrastructureType'
+                                                        )?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3">
                                                     <label
                                                         for="towerTypeId"
                                                         class="form-label fw-bold"
@@ -205,12 +261,10 @@
                                                     >
                                                     </p-select>
                                                     @if (
-                                                        form.get(
-                                                            'towerTypeId'
-                                                        )?.invalid &&
-                                                        form.get(
-                                                            'towerTypeId'
-                                                        )?.touched
+                                                        form.get('towerTypeId')
+                                                            ?.invalid &&
+                                                        form.get('towerTypeId')
+                                                            ?.touched
                                                     ) {
                                                         <small
                                                             class="text-danger d-block mt-1"
@@ -222,7 +276,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="towerSize"
                                                         class="form-label fw-bold"
@@ -262,7 +316,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="technology"
                                                         class="form-label fw-bold"
@@ -275,7 +329,7 @@
                                                             >*</span
                                                         ></label
                                                     >
-                                                    <p-select
+                                                    <p-multiSelect
                                                         class="form-p-select"
                                                         [options]="
                                                             technologyOptions()
@@ -284,12 +338,19 @@
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         styleClass="w-100"
+                                                        display="chip"
+                                                        [maxSelectedLabels]="
+                                                            null
+                                                        "
                                                         [placeholder]="
                                                             'COMMON.SELECT_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                    >
-                                                    </p-select>
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                    />
                                                     @if (
                                                         form.get('technology')
                                                             ?.invalid &&
@@ -306,7 +367,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="operator"
                                                         class="form-label fw-bold"
@@ -350,7 +411,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="radius"
                                                         class="form-label fw-bold"
@@ -375,41 +436,48 @@
                                         </fieldset>
 
                                         @if (!isDetailsMode()) {
-                                        <div
-                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
-                                        >
-                                            <p-button
-                                                label="{{
-                                                    'COMMON.CLOSE' | translate
-                                                }}"
-                                                styleClass="p-button-text p-button-secondary"
-                                                (click)="navigateToBack()"
-                                                [attr.aria-label]="
-                                                    'COMMON.CLOSE' | translate
-                                                "
+                                            <div
+                                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
                                             >
-                                            </p-button>
+                                                <p-button
+                                                    label="{{
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    }}"
+                                                    styleClass="p-button-text p-button-secondary"
+                                                    (click)="navigateToBack()"
+                                                    [attr.aria-label]="
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    "
+                                                >
+                                                </p-button>
 
-                                            <button
-                                                pButton
-                                                type="submit"
-                                                [disabled]="
-                                                    form.invalid ||
-                                                    loadingSubmit()
-                                                "
-                                            >
-                                                @if (!loadingSubmit()) {
-                                                    <i class="pi pi-check"></i>
-                                                } @else {
-                                                    <span
-                                                        class="spinner-border spinner-border-sm"
-                                                        role="status"
-                                                        aria-hidden="true"
-                                                    ></span>
-                                                }
-                                                {{ 'COMMON.SAVE' | translate }}
-                                            </button>
-                                        </div>
+                                                <button
+                                                    pButton
+                                                    type="submit"
+                                                    [disabled]="
+                                                        form.invalid ||
+                                                        loadingSubmit()
+                                                    "
+                                                >
+                                                    @if (!loadingSubmit()) {
+                                                        <i
+                                                            class="pi pi-check"
+                                                        ></i>
+                                                    } @else {
+                                                        <span
+                                                            class="spinner-border spinner-border-sm"
+                                                            role="status"
+                                                            aria-hidden="true"
+                                                        ></span>
+                                                    }
+                                                    {{
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    }}
+                                                </button>
+                                            </div>
                                         }
                                     </form>
                                 </div>

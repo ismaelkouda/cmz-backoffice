@@ -4,9 +4,10 @@ import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobi
 export interface MobileNetworkCreateContract {
     siteId?: string;
     siteName?: string;
+    infrastructureType?: string;
     towerTypeId?: string;
     towerSize?: number;
-    technology?: Technology;
+    technology?: Technology[];
     operator?: Operator;
     radius?: number;
 }

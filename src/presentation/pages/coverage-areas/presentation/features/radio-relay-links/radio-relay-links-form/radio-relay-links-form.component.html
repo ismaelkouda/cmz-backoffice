@@ -1,0 +1,349 @@
+<main class="container-fluid form-user-container" role="main">
+    <section class="row form-user-row">
+        <article class="col-sm-12 form-user">
+            <app-breadcrumb />
+
+            <section class="card form-user-card">
+                <div class="card-body form-user-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleMode()"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        @if (!isDetailsMode()) {
+                            <div class="d-flex align-items-center gap-2">
+                                <button
+                                    pButton
+                                    type="submit"
+                                    (click)="onSubmit()"
+                                    [disabled]="form.invalid || loadingSubmit()"
+                                >
+                                    @if (!loadingSubmit()) {
+                                        <i class="pi pi-check"></i>
+                                    } @else {
+                                        <span
+                                            class="spinner-border spinner-border-sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        ></span>
+                                    }
+                                    {{ 'COMMON.SAVE' | translate }}
+                                </button>
+                                <p-button
+                                    label="{{ 'COMMON.CLOSE' | translate }}"
+                                    (onClick)="navigateToBack()"
+                                    styleClass="p-button-danger"
+                                />
+                            </div>
+                        }
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="name"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="name"
+                                                        type="text"
+                                                        formControlName="name"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('name')
+                                                                ?.invalid &&
+                                                            form.get('name')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('name')
+                                                            ?.invalid &&
+                                                        form.get('name')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'name'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="operator"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.OPERATOR'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            operatorOptions()
+                                                        "
+                                                        formControlName="operator"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('operator')
+                                                            ?.invalid &&
+                                                        form.get('operator')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'operator'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="frequency"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.FREQUENCY'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            frequencyOptions()
+                                                        "
+                                                        formControlName="frequency"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('frequency')
+                                                            ?.invalid &&
+                                                        form.get('frequency')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'frequency'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="startDate"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.START_DATE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-datepicker
+                                                        id="startDate"
+                                                        formControlName="startDate"
+                                                        [showIcon]="true"
+                                                        dateFormat="dd/mm/yy"
+                                                        [placeholder]="
+                                                            'COMMON.DATE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('startDate')
+                                                            ?.invalid &&
+                                                        form.get('startDate')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'startDate'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="endDate"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.END_DATE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-datepicker
+                                                        id="endDate"
+                                                        formControlName="endDate"
+                                                        [showIcon]="true"
+                                                        dateFormat="dd/mm/yy"
+                                                        [placeholder]="
+                                                            'COMMON.DATE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('endDate')
+                                                            ?.invalid &&
+                                                        form.get('endDate')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'endDate'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        @if (!isDetailsMode()) {
+                                            <div
+                                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                            >
+                                                <p-button
+                                                    label="{{
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    }}"
+                                                    styleClass="p-button-text p-button-secondary"
+                                                    (click)="navigateToBack()"
+                                                    [attr.aria-label]="
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    "
+                                                >
+                                                </p-button>
+
+                                                <button
+                                                    pButton
+                                                    type="submit"
+                                                    [disabled]="
+                                                        form.invalid ||
+                                                        loadingSubmit()
+                                                    "
+                                                >
+                                                    @if (!loadingSubmit()) {
+                                                        <i
+                                                            class="pi pi-check"
+                                                        ></i>
+                                                    } @else {
+                                                        <span
+                                                            class="spinner-border spinner-border-sm"
+                                                            role="status"
+                                                            aria-hidden="true"
+                                                        ></span>
+                                                    }
+                                                    {{
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    }}
+                                                </button>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

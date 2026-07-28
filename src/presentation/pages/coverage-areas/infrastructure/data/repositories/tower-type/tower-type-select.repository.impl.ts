@@ -7,9 +7,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { map, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class TowerTypeSelectRepositoryImpl
-    implements TowerTypeSelectRepository
-{
+export class TowerTypeSelectRepositoryImpl implements TowerTypeSelectRepository {
     private readonly api = inject(TowerTypeSelectApi);
     private readonly mapper = inject(TowerTypeSelectMapper);
 

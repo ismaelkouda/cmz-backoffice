@@ -11,11 +11,11 @@ export class InfrastructureFindOneHandler {
     private readonly useCase = inject(InfrastructureFindOneUseCase);
 
     execute(
-        command: InfrastructureFindOneQuery,
+        query: InfrastructureFindOneQuery,
         options?: FetchOptions
     ): Observable<InfrastructureFindOneEntity> {
         return this.useCase.execute(
-            infrastructureFindOneQueryMapper(command),
+            infrastructureFindOneQueryMapper(query),
             options
         );
     }

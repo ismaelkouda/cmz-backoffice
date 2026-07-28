@@ -8,6 +8,8 @@ import { DateRangeInvalidError } from '@shared/domain/errors/validation/date-ran
  * copie-colle) dans administrative-infrastructure (infrastructure, infrastructure-type),
  * report-states (download, reject, evaluate, close, approve) et communication
  * (messaging, notifications) — 9 occurrences au total avant centralisation.
+ * @param startDate
+ * @param endDate
  */
 export function assertValidDateRange(startDate?: Date, endDate?: Date): void {
     if (startDate && endDate && startDate.getTime() > endDate.getTime()) {

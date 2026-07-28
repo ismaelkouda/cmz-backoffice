@@ -33,22 +33,51 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..', '..');
 const PAGES_ROOT = path.join(REPO_ROOT, 'src', 'presentation', 'pages');
 
-const MODULE = 'seos-reference-action';
-const OPERATION = 'sample-action';
-
-const MODULE_ROOT = path.join(PAGES_ROOT, MODULE);
-
 function pascalCase(kebab) {
-    return kebab
+    return String(kebab)
         .split('-')
+        .filter(Boolean)
         .map((s) => s[0].toUpperCase() + s.slice(1))
         .join('');
 }
 
-const OpCap = pascalCase(OPERATION); // SampleAction
-const ModuleCap = pascalCase(MODULE); // SeosReferenceAction
-const OP_UPPER = OPERATION.replace(/-/g, '_').toUpperCase(); // SAMPLE_ACTION
-const MODULE_UPPER = MODULE.replace(/-/g, '_').toUpperCase(); // SEOS_REFERENCE_ACTION
+function upperSnake(kebab) {
+    return String(kebab).replace(/-/g, '_').toUpperCase();
+}
+
+function fieldKey(name) {
+    return String(name)
+        .replace(/([a-z0-9])([A-Z])/g, '$1_$2')
+        .replace(/-/g, '_')
+        .toUpperCase();
+}
+
+// CLI: --config <json> --out <dir> --clean
+const cliArgs = process.argv.slice(2);
+const configIdx = cliArgs.indexOf('--config');
+const outIdx = cliArgs.indexOf('--out');
+const loaded =
+    configIdx >= 0
+        ? JSON.parse(fs.readFileSync(path.resolve(cliArgs[configIdx + 1]), 'utf8'))
+        : {};
+
+const MODULE = loaded.module || 'seos-reference-action';
+const OPERATION = loaded.operation || 'sample-action';
+const FIELD_NAMES = (loaded.fields || ['identifier', 'secret']).map((f) =>
+    typeof f === 'string' ? f : f.name
+);
+const API_BASE = (loaded.apiBase || `/${OPERATION}`).replace(/^\//, '');
+
+const MODULE_ROOT =
+    outIdx >= 0
+        ? path.resolve(cliArgs[outIdx + 1])
+        : path.join(PAGES_ROOT, MODULE);
+
+const OpCap = loaded.operationCap || pascalCase(OPERATION);
+const ModuleCap = loaded.moduleCap || pascalCase(MODULE);
+const OP_UPPER = loaded.operationUpper || upperSnake(OPERATION);
+const MODULE_UPPER = loaded.moduleUpper || upperSnake(MODULE);
+const opCamel = OpCap[0].toLowerCase() + OpCap.slice(1);
 
 function write(relPath, content) {
     const abs = path.join(MODULE_ROOT, relPath);
@@ -76,7 +105,7 @@ function generate() {
     write(
         `${MODULE}.routes.ts`,
         `import { Routes } from '@angular/router';
-import { ${OP_UPPER}_ROUTE } from '@presentation/pages/${MODULE}/presentation/features/${OPERATION}/${OPERATION}-routes.constant';
+import { ${OP_UPPER}_ROUTE } from '@presentation/pages/${MODULE}/presentation/features/${OPERATION}/${OPERATION}-paths.constants';
 
 export const routes: Routes = [
     {
@@ -114,10 +143,30 @@ export const provide${ModuleCap} = (): Provider[] => [
     write(
         `infrastructure/api/${MODULE}.endpoints.ts`,
         `export const ${MODULE_UPPER}_ENDPOINTS = {
-    ${OP_UPPER}: '${OPERATION}',
+    ${OP_UPPER}: '${API_BASE}',
 } as const;
 `
     );
+
+    if (loaded.sourceDsl || loaded.description) {
+        write(
+            'seos.feature.meta.json',
+            JSON.stringify(
+                {
+                    pattern: 'action-request',
+                    operation: OPERATION,
+                    module: MODULE,
+                    fields: FIELD_NAMES,
+                    apiBase: '/' + API_BASE,
+                    description: loaded.description || '',
+                    sourceDsl: loaded.sourceDsl || null,
+                    generatedAt: new Date().toISOString(),
+                },
+                null,
+                2
+            ) + '\n'
+        );
+    }
 
     // ---------------------------------------------------------------
     // domain/contracts
@@ -125,8 +174,7 @@ export const provide${ModuleCap} = (): Provider[] => [
     write(
         `domain/contracts/${OPERATION}/${OPERATION}-request.contract.ts`,
         `export interface ${OpCap}RequestContract {
-    identifier?: string;
-    secret?: string;
+${FIELD_NAMES.map((f) => `    ${f}?: string;`).join('\n')}
 }
 `
     );
@@ -134,8 +182,7 @@ export const provide${ModuleCap} = (): Provider[] => [
     write(
         `domain/contracts/${OPERATION}/${OPERATION}-request.validate-contract.ts`,
         `export interface ${OpCap}RequestValidateContract {
-    identifier: string;
-    secret: string;
+${FIELD_NAMES.map((f) => `    ${f}: string;`).join('\n')}
 }
 `
     );
@@ -152,12 +199,11 @@ import { ${OpCap}RequestValidateContract } from '@presentation/pages/${MODULE}/d
 export function validate${OpCap}Request(
     contract: ${OpCap}RequestContract
 ): asserts contract is ${OpCap}RequestValidateContract {
-    if (!contract.identifier?.trim()) {
-        throw new GenericRequiredError('${MODULE_UPPER}.FORM.IDENTIFIER.REQUIRED');
-    }
-    if (!contract.secret) {
-        throw new GenericRequiredError('${MODULE_UPPER}.FORM.SECRET.REQUIRED');
-    }
+${FIELD_NAMES.map(
+    (f) => `    if (!contract.${f}${f === 'identifier' || f === 'title' || f === 'content' ? '?.trim()' : ''}) {
+        throw new GenericRequiredError('${MODULE_UPPER}.FORM.${fieldKey(f)}.REQUIRED');
+    }`
+).join('\n')}
 }
 `
     );
@@ -176,8 +222,7 @@ export function ${OPERATION.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}Requ
 ): ${OpCap}RequestValidateContract {
     validate${OpCap}Request(contract);
     return {
-        identifier: contract.identifier.trim(),
-        secret: contract.secret,
+${FIELD_NAMES.map((f) => `        ${f}: typeof contract.${f} === 'string' ? contract.${f}.trim() : contract.${f},`).join('\n')}
     };
 }
 `
@@ -231,8 +276,7 @@ export class ${OpCap}ResponseEntity implements ${OpCap}Props {
     write(
         `application/dto/${OPERATION}/${OPERATION}-request.dto.ts`,
         `export interface ${OpCap}RequestDto {
-    readonly identifier: string;
-    readonly secret: string;
+${FIELD_NAMES.map((f) => `    readonly ${f}: string;`).join('\n')}
 }
 `
     );
@@ -241,8 +285,7 @@ export class ${OpCap}ResponseEntity implements ${OpCap}Props {
         `application/commands/${OPERATION}/${OPERATION}-request.command.ts`,
         `export class ${OpCap}RequestCommand {
     constructor(
-        public readonly identifier: string | undefined,
-        public readonly secret: string | undefined
+${FIELD_NAMES.map((f) => `        public readonly ${f}: string | undefined`).join(',\n')}
     ) {}
 }
 `
@@ -257,8 +300,7 @@ export function ${OPERATION.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}Requ
     command: ${OpCap}RequestCommand
 ): ${OpCap}RequestContract {
     return {
-        identifier: command.identifier,
-        secret: command.secret,
+${FIELD_NAMES.map((f) => `        ${f}: command.${f},`).join('\n')}
     };
 }
 `
@@ -353,7 +395,7 @@ export class ${OpCap}Facade extends ObjectBaseFacade<
     private readonly bus = inject(${OpCap}RequestBus);
 
     execute(dto: ${OpCap}RequestDto): void {
-        const command = new ${OpCap}RequestCommand(dto.identifier, dto.secret);
+        const command = new ${OpCap}RequestCommand(${FIELD_NAMES.map((f) => `dto.${f}`).join(', ')});
         const fetch$ = this.bus.dispatch(command);
         this.fetch(dto, fetch$, this.ui);
     }
@@ -367,8 +409,7 @@ export class ${OpCap}Facade extends ObjectBaseFacade<
     write(
         `infrastructure/api/dto/${OPERATION}/${OPERATION}-request-api.dto.ts`,
         `export interface ${OpCap}RequestApiDto {
-    identifier: string;
-    secret: string;
+${FIELD_NAMES.map((f) => `    ${f}: string;`).join('\n')}
 }
 `
     );
@@ -397,8 +438,7 @@ export function ${OPERATION.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}Requ
     validContract: ${OpCap}RequestValidateContract
 ): ${OpCap}RequestApiDto {
     return {
-        identifier: validContract.identifier,
-        secret: validContract.secret,
+${FIELD_NAMES.map((f) => `        ${f}: validContract.${f},`).join('\n')}
     };
 }
 `
@@ -506,8 +546,7 @@ export const ${OPERATION.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}Provide
     write(
         `presentation/constants/${OPERATION}/${OPERATION}-form-keys.constant.ts`,
         `export const ${OP_UPPER}_FORM_KEYS = {
-    IDENTIFIER: 'identifier',
-    SECRET: 'secret',
+${FIELD_NAMES.map((f) => `    ${fieldKey(f)}: '${f}',`).join('\n')}
 } as const;
 `
     );
@@ -517,18 +556,17 @@ export const ${OPERATION.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}Provide
         `import { ${OP_UPPER}_FORM_KEYS } from '@presentation/pages/${MODULE}/presentation/constants/${OPERATION}/${OPERATION}-form-keys.constant';
 
 export const ${OP_UPPER}_FORM_ERROR_MESSAGES = {
-    [${OP_UPPER}_FORM_KEYS.IDENTIFIER]: {
-        required: '${MODULE_UPPER}.FORM.IDENTIFIER.REQUIRED',
-    },
-    [${OP_UPPER}_FORM_KEYS.SECRET]: {
-        required: '${MODULE_UPPER}.FORM.SECRET.REQUIRED',
-    },
+${FIELD_NAMES.map(
+    (f) => `    [${OP_UPPER}_FORM_KEYS.${fieldKey(f)}]: {
+        required: '${MODULE_UPPER}.FORM.${fieldKey(f)}.REQUIRED',
+    },`
+).join('\n')}
 } as const;
 `
     );
 
     write(
-        `presentation/features/${OPERATION}/${OPERATION}-routes.constant.ts`,
+        `presentation/features/${OPERATION}/${OPERATION}-paths.constants.ts`,
         `export const ${OP_UPPER}_ROUTE = '${OPERATION}' as const;
 `
     );
@@ -555,8 +593,7 @@ export const FormValidators = COMMON_FORM_VALIDATORS;
 import { ${OP_UPPER}_FORM_KEYS } from '@presentation/pages/${MODULE}/presentation/constants/${OPERATION}/${OPERATION}-form-keys.constant';
 
 export interface ${OpCap}FormControl {
-    [${OP_UPPER}_FORM_KEYS.IDENTIFIER]: FormControl<string>;
-    [${OP_UPPER}_FORM_KEYS.SECRET]: FormControl<string>;
+${FIELD_NAMES.map((f) => `    [${OP_UPPER}_FORM_KEYS.${fieldKey(f)}]: FormControl<string>;`).join('\n')}
 }
 `
     );
@@ -566,8 +603,7 @@ export interface ${OpCap}FormControl {
         `import { ${OP_UPPER}_FORM_KEYS } from '@presentation/pages/${MODULE}/presentation/constants/${OPERATION}/${OPERATION}-form-keys.constant';
 
 export interface ${OpCap}FormValue {
-    [${OP_UPPER}_FORM_KEYS.IDENTIFIER]: string;
-    [${OP_UPPER}_FORM_KEYS.SECRET]: string;
+${FIELD_NAMES.map((f) => `    [${OP_UPPER}_FORM_KEYS.${fieldKey(f)}]: string;`).join('\n')}
 }
 `
     );
@@ -598,8 +634,7 @@ export class ${OpCap}Store {
 
     public readonly form: FormGroup<${OpCap}FormControl> =
         this.fb.nonNullable.group({
-            [${OP_UPPER}_FORM_KEYS.IDENTIFIER]: ['', [Validators.required]],
-            [${OP_UPPER}_FORM_KEYS.SECRET]: ['', [Validators.required]],
+${FIELD_NAMES.map((f) => `            [${OP_UPPER}_FORM_KEYS.${fieldKey(f)}]: ['', [Validators.required]],`).join('\n')}
         });
 
     private readonly status = toSignal(
@@ -678,8 +713,7 @@ export class ${OpCap}Component {
     write(
         `presentation/features/${OPERATION}/${OPERATION}.component.html`,
         `<form [formGroup]="store.form" (ngSubmit)="onSubmit()">
-    <input type="text" [formControlName]="KEYS.IDENTIFIER" />
-    <input type="password" [formControlName]="KEYS.SECRET" />
+${FIELD_NAMES.map((f) => `    <input type="text" [formControlName]="KEYS.${fieldKey(f)}" placeholder="${f}" />`).join('\n')}
     <button type="submit" [disabled]="store.loading()">Submit</button>
 </form>
 `
@@ -690,8 +724,7 @@ export class ${OpCap}Component {
     console.log(`Genere : ${path.relative(REPO_ROOT, MODULE_ROOT)} (operation "${OPERATION}")`);
 }
 
-const args = process.argv.slice(2);
-if (args.includes('--clean')) {
+if (cliArgs.includes('--clean')) {
     clean();
 } else {
     generate();

@@ -26,7 +26,6 @@ export const routes: Routes = [
             },
         ],
     },
-
     {
         path: INFRASTRUCTURE_ROUTE,
         data: {

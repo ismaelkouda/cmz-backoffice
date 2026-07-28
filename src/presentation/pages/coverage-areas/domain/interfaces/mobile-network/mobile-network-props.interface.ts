@@ -9,7 +9,7 @@ export interface MobileNetworkProps {
     towerTypeId: string;
     towerTypeName: string;
     towerSize: number;
-    technology: Technology;
+    technology: Technology[];
     operator: Operator;
     radius?: number;
     status: Status;

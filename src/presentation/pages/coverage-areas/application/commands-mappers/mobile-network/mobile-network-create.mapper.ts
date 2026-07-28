@@ -4,13 +4,5 @@ import { MobileNetworkCreateContract } from '@pages/coverage-areas/domain/contra
 export function mobileNetworkCreateCommandMapper(
     command: MobileNetworkCreateCommand
 ): MobileNetworkCreateContract {
-    return {
-        siteId: command.siteId,
-        siteName: command.siteName,
-        towerTypeId: command.towerTypeId,
-        towerSize: command.towerSize,
-        technology: command.technology,
-        operator: command.operator,
-        radius: command.radius,
-    };
+    return command;
 }
