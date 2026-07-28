@@ -5,10 +5,11 @@ export interface MobileNetworkFindOneProps {
     uniqId: string;
     siteId: string;
     siteName: string;
+    infrastructureType: string;
     towerTypeId: string;
     towerTypeName: string;
     towerSize: number;
-    technology: Technology;
+    technology: Technology[];
     operator: Operator;
     radius?: number;
     updatedAt: string;

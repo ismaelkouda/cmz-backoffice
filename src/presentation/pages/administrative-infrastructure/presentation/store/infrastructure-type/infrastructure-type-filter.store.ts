@@ -5,6 +5,7 @@ import { Status } from '@presentation/pages/administrative-infrastructure/domain
 import { InfrastructureTypeFilterDto } from '@pages/administrative-infrastructure/application/dto/infrastructure-type/infrastructure-type-filter.dto';
 import { InfrastructureTypeFacade } from '@pages/administrative-infrastructure/application/services/infrastructure-type/infrastructure-type.facade';
 import { InfrastructureTypeFilterControl } from '@pages/administrative-infrastructure/presentation/store/infrastructure-type/infrastructure-type-filter.control';
+import { INFRASTRUCTURE_TYPE_FILTER_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-filter-keys.constant';
 
 @Injectable()
 export class InfrastructureTypeFilterStore {
@@ -17,17 +18,25 @@ export class InfrastructureTypeFilterStore {
 
     readonly form: FormGroup<InfrastructureTypeFilterControl> =
         this.fb.group<InfrastructureTypeFilterControl>({
-            search: new FormControl<string | undefined>(undefined, {
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.SEARCH]: new FormControl<
+                string | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            status: new FormControl<Status | undefined>(undefined, {
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.STATUS]: new FormControl<
+                Status | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
-            startDate: new FormControl<Date | undefined>(undefined, {
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE]: new FormControl<
+                Date | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
 
-            endDate: new FormControl<Date | undefined>(undefined, {
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.END_DATE]: new FormControl<
+                Date | undefined
+            >(undefined, {
                 nonNullable: true,
             }),
         });
@@ -52,10 +61,14 @@ export class InfrastructureTypeFilterStore {
         const raw = this.form.getRawValue();
 
         return {
-            search: raw.search || undefined,
-            status: raw.status || undefined,
-            startDate: raw.startDate || undefined,
-            endDate: raw.endDate || undefined,
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.SEARCH]:
+                raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.SEARCH] || undefined,
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.STATUS]:
+                raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.STATUS] || undefined,
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE]:
+                raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE] || undefined,
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.END_DATE]:
+                raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.END_DATE] || undefined,
         };
     }
 }

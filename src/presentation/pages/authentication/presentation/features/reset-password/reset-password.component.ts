@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-routes.constant';
+import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PasswordModule } from 'primeng/password';
 import { map } from 'rxjs/operators';

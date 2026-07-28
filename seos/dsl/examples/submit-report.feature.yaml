@@ -1,0 +1,36 @@
+# SEOS DSL — Operation SubmitReport (pattern action-request)
+# Compile: node seos/tools/compile-dsl.js seos/dsl/examples/submit-report.feature.yaml
+
+feature:
+  name: SubmitReport
+  slug: submit-report
+  module: seos-dsl-actions
+  description: |
+    Soumission d'un rapport citoyen (action unique, fire-and-forget).
+
+actors:
+  - Citizen
+
+capabilities:
+  - action
+
+fields:
+  - name: title
+    type: string
+    required: true
+  - name: content
+    type: text
+    required: true
+  - name: municipalityId
+    type: string
+    required: true
+
+api:
+  base: /reports/submit
+
+architecture:
+  style: ddd
+  pattern: action-request
+
+ui:
+  framework: primeng

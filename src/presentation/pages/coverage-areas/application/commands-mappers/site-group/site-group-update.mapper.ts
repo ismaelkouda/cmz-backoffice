@@ -4,10 +4,5 @@ import { SiteGroupUpdateContract } from '@pages/coverage-areas/domain/contracts/
 export function siteGroupUpdateCommandMapper(
     command: SiteGroupUpdateCommand
 ): SiteGroupUpdateContract {
-    return {
-        uniqId: command.uniqId,
-        code: command.code,
-        name: command.name,
-        description: command.description,
-    };
+    return command;
 }

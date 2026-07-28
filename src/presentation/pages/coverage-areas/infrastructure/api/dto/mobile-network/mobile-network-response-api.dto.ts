@@ -7,7 +7,7 @@ export interface MobileNetworkItemApiDto {
     tower_type_id: string;
     tower_type_name: string;
     tower_size: number;
-    technology: string;
+    technology: string[] | string;
     operator: string;
     radius?: number;
     is_active: boolean;

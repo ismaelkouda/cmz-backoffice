@@ -420,8 +420,7 @@ export class SiteGroupListComponent {
         }
         const confirmed = await this.sweetAlert.confirm({
             titleKey: 'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.TITLE.DELETE',
-            messageKey:
-                'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.MESSAGE.DELETE',
+            messageKey: 'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.MESSAGE.DELETE',
             messageParams: {
                 uniqId: item.actionsRef,
             },
@@ -438,8 +437,7 @@ export class SiteGroupListComponent {
         }
         const confirmed = await this.sweetAlert.confirm({
             titleKey: 'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.TITLE.ENABLE',
-            messageKey:
-                'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.MESSAGE.ENABLE',
+            messageKey: 'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.MESSAGE.ENABLE',
             messageParams: {
                 uniqId: item.actionsRef,
             },
@@ -456,8 +454,7 @@ export class SiteGroupListComponent {
         }
         const confirmed = await this.sweetAlert.confirm({
             titleKey: 'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.TITLE.DISABLE',
-            messageKey:
-                'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.MESSAGE.DISABLE',
+            messageKey: 'COVERAGE_AREAS.SITE_GROUP.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {
                 uniqId: item.actionsRef,
             },

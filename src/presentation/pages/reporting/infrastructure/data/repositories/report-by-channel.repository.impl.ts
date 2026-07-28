@@ -7,9 +7,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ReportByChannelRepositoryImpl
-    implements ReportByChannelRepository
-{
+export class ReportByChannelRepositoryImpl implements ReportByChannelRepository {
     private readonly api = inject(ReportByChannelApi);
     private readonly reportByChannelMapper = inject(ReportByChannelMapper);
 

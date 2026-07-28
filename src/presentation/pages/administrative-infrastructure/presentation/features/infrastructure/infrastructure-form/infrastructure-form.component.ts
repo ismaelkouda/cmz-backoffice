@@ -17,10 +17,12 @@ import { FormValidators } from '@pages/administrative-infrastructure/presentatio
 import { InfrastructureFormStore } from '@pages/administrative-infrastructure/presentation/store/infrastructure/infrastructure-form.store';
 import { InfrastructureFormHelperService } from '@presentation/pages/administrative-infrastructure/presentation/features/infrastructure/infrastructure-form/infrastructure-form-helper.service';
 import { INFRASTRUCTURE_FORM_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure/infrastructure-form-keys.constant';
+import { INFRASTRUCTURE_FORM_ERROR_MESSAGES } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure/infrastructure-form-error-messages.constant';
+import { InfrastructureFormControl } from '@presentation/pages/administrative-infrastructure/presentation/store/infrastructure/infrastructure-form.control';
+import { getControlError } from '@presentation/pages/administrative-infrastructure/presentation/helpers/administrative-infrastructure-form-errors.helper';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
-import { FormValidationService } from '@shared/domain/services/form-validation.service';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
@@ -66,7 +68,6 @@ import { GeoLocation } from '@shared/components/location-picker/domain/models/ge
         DialogService,
         MessageService,
         InfrastructureFormStore,
-        FormValidationService,
         InfrastructureFormHelperService,
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -78,7 +79,6 @@ export class InfrastructureFormComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
     private readonly submitFacade = inject(InfrastructureFacade);
-    private readonly validation = inject(FormValidationService);
     private readonly helper = inject(InfrastructureFormHelperService);
     protected readonly store = inject(InfrastructureFormStore);
     private readonly toast = inject(ToastrService);
@@ -152,16 +152,15 @@ export class InfrastructureFormComponent implements OnInit {
             .subscribe();
     }
 
-    getErrorMessage(fieldName: string): string {
-        const control = this.form.get(fieldName);
-        return this.validation.getErrorMessage(
-            fieldName,
-            control?.errors || null
+    getErrorMessage(fieldName: keyof InfrastructureFormControl): string | null {
+        return getControlError(
+            this.form.controls[fieldName],
+            INFRASTRUCTURE_FORM_ERROR_MESSAGES[fieldName]
         );
     }
 
-    isFieldInvalid(fieldName: string): boolean {
-        const control = this.form.get(fieldName);
+    isFieldInvalid(fieldName: keyof InfrastructureFormControl): boolean {
+        const control = this.form.controls[fieldName];
         return !!(control?.invalid && control?.touched);
     }
     private readonly createTooltip = computed(() => {

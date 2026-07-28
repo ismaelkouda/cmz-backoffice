@@ -67,6 +67,11 @@ export class MobileNetworkFormStore {
                 validators: [Validators.required],
             }),
 
+            infrastructureType: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+
             towerTypeId: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
@@ -77,7 +82,7 @@ export class MobileNetworkFormStore {
                 validators: [Validators.required],
             }),
 
-            technology: new FormControl<Technology | undefined>(undefined, {
+            technology: new FormControl<Technology[]>([], {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
@@ -103,6 +108,7 @@ export class MobileNetworkFormStore {
             const {
                 siteId,
                 siteName,
+                infrastructureType,
                 towerTypeId,
                 towerSize,
                 technology,
@@ -116,9 +122,10 @@ export class MobileNetworkFormStore {
                     this.form.patchValue({
                         siteId,
                         siteName,
+                        infrastructureType,
                         towerTypeId,
                         towerSize,
-                        technology,
+                        technology: technology ?? [],
                         operator,
                         radius,
                     });
@@ -153,9 +160,10 @@ export class MobileNetworkFormStore {
             {
                 siteId: undefined,
                 siteName: undefined,
+                infrastructureType: undefined,
                 towerTypeId: undefined,
                 towerSize: undefined,
-                technology: undefined,
+                technology: [],
                 operator: undefined,
                 radius: undefined,
             },

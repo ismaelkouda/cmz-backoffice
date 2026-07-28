@@ -37,7 +37,7 @@ export class MobileNetworkEntity {
         return this.props.towerSize;
     }
 
-    get technology(): Technology {
+    get technology(): Technology[] {
         return this.props.technology;
     }
 

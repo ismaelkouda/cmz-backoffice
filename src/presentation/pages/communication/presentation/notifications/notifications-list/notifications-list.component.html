@@ -37,9 +37,7 @@
                                 [pagination]="pagination()"
                                 [config]="tableConfig"
                                 [headerButtons]="headerButtons()"
-                                (headerButtonClicked)="
-                                    onHeaderClicked($event)
-                                "
+                                (headerButtonClicked)="onHeaderClicked($event)"
                                 (actionClicked)="onActionClicked($event)"
                             ></app-table>
 

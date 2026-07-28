@@ -8,6 +8,13 @@ import { mobileNetworkFindOneProviders } from '@pages/coverage-areas/di/mobile-n
 import { mobileNetworkProviders } from '@pages/coverage-areas/di/mobile-network/mobile-network.providers';
 import { towerTypeSelectProviders } from '@pages/coverage-areas/di/tower-type/tower-type-select.providers';
 
+import { opticalFiberNetworkFindOneProviders } from '@pages/coverage-areas/di/optical-fiber-network/optical-fiber-network-find-one.providers';
+import { opticalFiberNetworkProviders } from '@pages/coverage-areas/di/optical-fiber-network/optical-fiber-network.providers';
+import { fiberConstructorSelectProviders } from '@pages/coverage-areas/di/fiber-constructor/fiber-constructor-select.providers';
+
+import { radioRelayLinksProviders } from '@pages/coverage-areas/di/radio-relay-links/radio-relay-links.providers';
+import { radioRelayLinksFindOneProviders } from '@pages/coverage-areas/di/radio-relay-links/radio-relay-links-find-one.providers';
+
 export const provideCoverageAreas = (): Provider[] => [
     ...siteGroupProviders,
     ...siteGroupFindOneProviders,
@@ -17,4 +24,11 @@ export const provideCoverageAreas = (): Provider[] => [
     ...mobileNetworkFindOneProviders,
 
     ...towerTypeSelectProviders,
+
+    ...opticalFiberNetworkProviders,
+    ...opticalFiberNetworkFindOneProviders,
+    ...fiberConstructorSelectProviders,
+
+    ...radioRelayLinksProviders,
+    ...radioRelayLinksFindOneProviders,
 ];

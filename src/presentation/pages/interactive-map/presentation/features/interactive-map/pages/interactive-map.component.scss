@@ -978,7 +978,7 @@ $dark-gray: var(--color-gray);
             display: inline-block;
             border: 4px solid currentColor;
             background: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
         }
     }
@@ -992,14 +992,14 @@ $dark-gray: var(--color-gray);
     }
 }
 ::ng-deep .ol-zoom {
-        top: auto;
-        left: auto;
+    top: auto;
+    left: auto;
 
-        left: 10px;
-        bottom: 10px;
-    }
+    left: 10px;
+    bottom: 10px;
+}
 
-    .form-p-select,
+.form-p-select,
 .p-inputtext,
 .form-input {
     border: 2px solid $light-gray;
@@ -1048,7 +1048,7 @@ $dark-gray: var(--color-gray);
     cursor: pointer;
     font-size: var(--font-size-md);
     color: var(--color-text-soft);
-    list-style: none;               // supprime la puce par défaut
+    list-style: none; // supprime la puce par défaut
 
     &::-webkit-details-marker {
         display: none;
@@ -1056,7 +1056,7 @@ $dark-gray: var(--color-gray);
 
     // Chevron PrimeIcons
     &::before {
-        content: '\e932';         // pi-chevron-right
+        content: '\e932'; // pi-chevron-right
         font-family: 'primeicons';
         font-size: 14px;
         margin-right: 8px;
@@ -1066,7 +1066,7 @@ $dark-gray: var(--color-gray);
 
     // Quand le <details> est ouvert -> chevron-down
     details[open] &::before {
-        content: '\e930';           // pi-chevron-down
+        content: '\e930'; // pi-chevron-down
     }
 
     .summary-index {
@@ -1119,7 +1119,7 @@ $dark-gray: var(--color-gray);
     left: auto !important;
 }
 .coverage-legend-wrapper {
-    position: absolute;   // ou fixed, selon votre layout
+    position: absolute; // ou fixed, selon votre layout
     top: 10px;
     right: 10px;
     z-index: 10;
@@ -1152,7 +1152,7 @@ $dark-gray: var(--color-gray);
     border-radius: 4px;
     padding: 1rem;
     min-width: 220px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
     .panel-heading {
         display: flex;

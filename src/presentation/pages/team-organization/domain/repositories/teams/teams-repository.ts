@@ -30,7 +30,5 @@ export abstract class TeamsRepository {
     ): Observable<SimpleResponseDto<void>>;
     abstract delete(dto: TeamsDeleteDto): Observable<SimpleResponseDto<void>>;
     abstract enable(dto: TeamsEnableDto): Observable<SimpleResponseDto<void>>;
-    abstract disable(
-        dto: TeamsDisableDto
-    ): Observable<SimpleResponseDto<void>>;
+    abstract disable(dto: TeamsDisableDto): Observable<SimpleResponseDto<void>>;
 }

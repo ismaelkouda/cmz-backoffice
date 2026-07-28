@@ -14,10 +14,7 @@ export class SiteGroupFindOneUseCase {
         options?: FetchOptions
     ): Observable<SiteGroupFindOneEntity> {
         return defer(() =>
-            this.repository.execute(
-                siteGroupFindOneFilterVo(contract),
-                options
-            )
+            this.repository.execute(siteGroupFindOneFilterVo(contract), options)
         );
     }
 }

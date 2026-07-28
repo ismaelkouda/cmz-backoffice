@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { ForgotPasswordStore } from '@presentation/pages/authentication/presentation/store/forgot-password/forgot-password.store';
-import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-routes.constant';
+import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
 import { FORGOT_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form-keys.constant';
 
 @Component({

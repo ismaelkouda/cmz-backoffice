@@ -26,10 +26,15 @@ export class MobileNetworkFindOneMapper extends SimpleResponseMapper<
             uniqId: dto.id,
             siteId: dto.site_id,
             siteName: dto.site_name,
+            infrastructureType: dto.infrastructure_type,
             towerTypeId: dto.tower_type_id,
             towerTypeName: dto.tower_type_name,
             towerSize: dto.tower_size,
-            technology: dto.technology as Technology,
+            technology: (Array.isArray(dto.technology)
+                ? dto.technology
+                : dto.technology
+                  ? [dto.technology]
+                  : []) as Technology[],
             operator: dto.operator as Operator,
             radius: dto.radius,
             updatedAt: dto.updated_at,

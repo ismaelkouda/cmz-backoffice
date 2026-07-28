@@ -31,7 +31,7 @@ export class MobileNetworkPresenter {
             towerTypeId: item.towerTypeId,
             towerTypeName: item.towerTypeName,
             towerSize: item.towerSize,
-            technology: item.technology,
+            technology: item.technology.join(', '),
             operator: item.operator,
             radius: item.radius,
             status: item.status,

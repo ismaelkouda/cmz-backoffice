@@ -4,14 +4,5 @@ import { MobileNetworkUpdateContract } from '@pages/coverage-areas/domain/contra
 export function mobileNetworkUpdateCommandMapper(
     command: MobileNetworkUpdateCommand
 ): MobileNetworkUpdateContract {
-    return {
-        uniqId: command.uniqId,
-        siteId: command.siteId,
-        siteName: command.siteName,
-        towerTypeId: command.towerTypeId,
-        towerSize: command.towerSize,
-        technology: command.technology,
-        operator: command.operator,
-        radius: command.radius,
-    };
+    return command;
 }

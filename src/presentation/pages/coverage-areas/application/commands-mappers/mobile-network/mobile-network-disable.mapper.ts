@@ -4,7 +4,5 @@ import { MobileNetworkDisableContract } from '@pages/coverage-areas/domain/contr
 export function mobileNetworkDisableCommandMapper(
     command: MobileNetworkDisableCommand
 ): MobileNetworkDisableContract {
-    return {
-        uniqId: command.uniqId,
-    };
+    return command;
 }

@@ -295,9 +295,7 @@ export class MobileNetworkListComponent {
             {
                 type: 'select',
                 name: 'operator',
-                label: this.t(
-                    'COVERAGE_AREAS.MOBILE_NETWORK.FILTER.OPERATOR'
-                ),
+                label: this.t('COVERAGE_AREAS.MOBILE_NETWORK.FILTER.OPERATOR'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
                 options: operatorOpts,
                 optionLabel: 'label',
@@ -528,8 +526,7 @@ export class MobileNetworkListComponent {
             return;
         }
         const confirmed = await this.sweetAlert.confirm({
-            titleKey:
-                'COVERAGE_AREAS.MOBILE_NETWORK.SWEET_ALERT.TITLE.DISABLE',
+            titleKey: 'COVERAGE_AREAS.MOBILE_NETWORK.SWEET_ALERT.TITLE.DISABLE',
             messageKey:
                 'COVERAGE_AREAS.MOBILE_NETWORK.SWEET_ALERT.MESSAGE.DISABLE',
             messageParams: {

@@ -9,9 +9,7 @@ import { map, Observable } from 'rxjs';
 import { MobileNetworkFindOneFilterValidateContract } from '@pages/coverage-areas/domain/contracts/mobile-network/mobile-network-find-one-filter.validate-contract';
 
 @Injectable({ providedIn: 'root' })
-export class MobileNetworkFindOneRepositoryImpl
-    implements MobileNetworkFindOneRepository
-{
+export class MobileNetworkFindOneRepositoryImpl implements MobileNetworkFindOneRepository {
     private readonly api = inject(MobileNetworkFindOneApi);
     private readonly mapper = inject(MobileNetworkFindOneMapper);
 

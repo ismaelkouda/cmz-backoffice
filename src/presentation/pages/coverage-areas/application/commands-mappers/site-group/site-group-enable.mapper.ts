@@ -4,7 +4,5 @@ import { SiteGroupEnableContract } from '@pages/coverage-areas/domain/contracts/
 export function siteGroupEnableCommandMapper(
     command: SiteGroupEnableCommand
 ): SiteGroupEnableContract {
-    return {
-        uniqId: command.uniqId,
-    };
+    return command;
 }

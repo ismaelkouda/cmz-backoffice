@@ -24,6 +24,12 @@ export function mobileNetworkFilterMapper(
     if (validContract.radius !== undefined) {
         params.radius = validContract.radius;
     }
+    if (validContract.startDate) {
+        params.start_date = validContract.startDate;
+    }
+    if (validContract.endDate) {
+        params.end_date = validContract.endDate;
+    }
 
     return params;
 }

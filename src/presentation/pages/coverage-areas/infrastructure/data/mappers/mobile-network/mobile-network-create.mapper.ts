@@ -12,13 +12,16 @@ export function mobileNetworkCreateMapper(
     if (validContract.siteName) {
         params.site_name = validContract.siteName;
     }
+    if (validContract.infrastructureType) {
+        params.infrastructure_type = validContract.infrastructureType;
+    }
     if (validContract.towerTypeId) {
         params.tower_type_id = validContract.towerTypeId;
     }
     if (validContract.towerSize !== undefined) {
         params.tower_size = validContract.towerSize;
     }
-    if (validContract.technology) {
+    if (validContract.technology?.length) {
         params.technology = validContract.technology;
     }
     if (validContract.operator) {

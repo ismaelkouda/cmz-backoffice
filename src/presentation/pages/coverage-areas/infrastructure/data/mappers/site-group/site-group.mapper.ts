@@ -29,9 +29,7 @@ export class SiteGroupMapper extends PaginatedMapper<
         const cacheKey = `dto:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
-        const entity = cached
-            ? cached.with(props)
-            : new SiteGroupEntity(props);
+        const entity = cached ? cached.with(props) : new SiteGroupEntity(props);
 
         this.entityCache.set(cacheKey, entity);
         return entity;

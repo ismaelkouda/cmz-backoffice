@@ -97,6 +97,7 @@ $dark-gray: var(--color-gray);
             font-weight: 600;
         }
         input[pInputText].is-invalid,
+        .p-inputtext,
         .p-dropdown.p-invalid .p-dropdown-label {
             border-color: #dc3545 !important;
         }
@@ -164,6 +165,7 @@ $dark-gray: var(--color-gray);
 }
 
 .form-p-select,
+.p-inputnumber-input,
 .p-inputtext {
     padding: 7px;
     border: 2px solid $light-gray;

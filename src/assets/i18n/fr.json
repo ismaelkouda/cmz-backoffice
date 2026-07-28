@@ -432,16 +432,16 @@
                     "SUBTITLE": "Signalements en attente d'affectation"
                 },
                 "TREATED": {
-                    "LABEL": "Signalements prise en charge",
+                    "LABEL": "Signalements en attente de prise en charge",
                     "SUBTITLE": "Signalements en cours de traitement"
                 },
                 "FINALIZED": {
-                    "LABEL": "Signalements clôturés",
+                    "LABEL": "Signalements pris en charge",
                     "SUBTITLE": "Signalements en attente de finalisation"
                 },
                 "EVALUATED": {
-                    "LABEL": "Signalements évalués",
-                    "SUBTITLE": "Signalements en attente d'évaluation"
+                    "LABEL": "Signalements clôturés",
+                    "SUBTITLE": "Signalements en attente de finalisation"
                 }
             },
             "PERFORMANCE": {
@@ -4772,6 +4772,8 @@
                 "SITE_ID_PLACEHOLDER": "Ex: SITE-001",
                 "SITE_NAME": "Nom du site",
                 "SITE_NAME_PLACEHOLDER": "Ex: Nom du site",
+                "INFRASTRUCTURE_TYPE": "Type d'infrastructure",
+                "INFRASTRUCTURE_TYPE_PLACEHOLDER": "Type d'infrastructure",
                 "TOWER_TYPE": "Type pylone",
                 "TOWER_TYPE_PLACEHOLDER": "Sélectionner un type de pylone",
                 "TOWER_SIZE": "Taille du pylone (m)",
@@ -4856,6 +4858,248 @@
                 "MOBILE_NETWORK": {
                     "LABEL": "Réseaux mobiles",
                     "ROUTE": "mobile-networks"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "history"
+                }
+            }
+        },
+        "OPTICAL_FIBER_NETWORK": {
+            "BREADCRUMB": {
+                "LABEL": "Réseaux FO",
+                "ROUTE": "optical-fiber-networks",
+                "ICON": "pi pi-sitemap"
+            },
+            "TITLE": "Réseaux Fibres Optiques",
+            "ROUTE": "optical-fiber-networks",
+            "TABLE": {
+                "NAME": "Nom du tronçon",
+                "OPERATOR": "Opérateur",
+                "CONSTRUCTOR": "Constructeur",
+                "TYPE": "Type",
+                "STATUS": "Statut",
+                "UPDATED_AT": "Date MAJ",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher...",
+                "OPERATOR": "Opérateur",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin",
+                    "PLACEHOLDER": "Sélectionner"
+                }
+            },
+            "FORM": {
+                "TITLE": "Informations Générales",
+                "CREATE_TITLE": "Ajouter un réseau fibre optique",
+                "EDIT_TITLE": "Modifier un réseau fibre optique",
+                "DETAILS_TITLE": "Détails du réseau fibre optique",
+                "NAME": "Nom du tronçon",
+                "NAME_PLACEHOLDER": "Ex: Tronçon FO-001",
+                "OPERATOR": "Opérateur",
+                "CONSTRUCTOR": "Constructeur",
+                "CONSTRUCTOR_PLACEHOLDER": "Sélectionner un constructeur",
+                "TYPE": "Type de fibre",
+                "TYPE_PLACEHOLDER": "Sélectionner le type",
+                "GEOM_FILE": "Fichier GeoJSON (.geojson/.json)",
+                "GEOM_PLACEHOLDER": "Glisser-déposer ou cliquer",
+                "GEOM_EXISTING": "Fichier GeoJSON déjà associé",
+                "MAP_PREVIEW": "Aperçu carte",
+                "ERROR": {
+                    "CREATE": {
+                        "NAME_REQUIRE": "Le nom du tronçon est obligatoire",
+                        "OPERATOR_REQUIRE": "L'opérateur est obligatoire",
+                        "FIBER_CONSTRUCTOR_REQUIRE": "Le constructeur est obligatoire",
+                        "TYPE_REQUIRE": "Le type de fibre est obligatoire",
+                        "GEOM_FILE_REQUIRE": "Le fichier GeoJSON est obligatoire"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant unique requis",
+                        "NAME_REQUIRE": "Le nom du tronçon est obligatoire",
+                        "OPERATOR_REQUIRE": "L'opérateur est obligatoire",
+                        "FIBER_CONSTRUCTOR_REQUIRE": "Le constructeur est obligatoire",
+                        "TYPE_REQUIRE": "Le type de fibre est obligatoire"
+                    },
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant requis"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant requis"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant requis"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "Identifiant requis"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Ajouter un réseau fibre optique",
+                    "EDIT": "Modifier le réseau fibre optique",
+                    "DELETE": "Supprimer le réseau fibre optique",
+                    "ENABLE": "Activer le réseau fibre optique",
+                    "DISABLE": "Désactiver le réseau fibre optique"
+                },
+                "MESSAGE": {
+                    "CREATE": "Confirmez-vous la création de ce réseau fibre optique ?",
+                    "EDIT": "Confirmez-vous la modification de ce réseau fibre optique ?",
+                    "DELETE": "Confirmez-vous la suppression du réseau fibre optique {{uniqId}} ?",
+                    "ENABLE": "Confirmez-vous l'activation du réseau fibre optique {{uniqId}} ?",
+                    "DISABLE": "Confirmez-vous la désactivation du réseau fibre optique {{uniqId}} ?"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des réseaux fibres optiques",
+                "EXPORT": "Exporter la liste de {nb} réseaux fibres optiques",
+                "CHOOSE": "Choisir une action",
+                "DETAILS": "Voir les détails de ce réseau fibre optique",
+                "CREATE": "Créer un réseau fibre optique",
+                "EDIT": "Modifier ce réseau fibre optique",
+                "DELETE": "Supprimer ce réseau fibre optique",
+                "ENABLE": "Activer ce réseau fibre optique",
+                "DISABLE": "Désactiver ce réseau fibre optique",
+                "NO_EXPORT": "Aucun réseau fibre optique à exporter",
+                "NOT_EDIT": "Modification non permise",
+                "NOT_DELETE": "Réseau actif, impossible de supprimer",
+                "NOT_ACTIVE": "Activation non permise",
+                "NOT_DISABLE": "Désactivation non permise",
+                "NOT_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation non permise",
+                "NO_PERMISSION_CREATE": "Création non permise",
+                "NO_PERMISSION_EDIT": "Édition non permise",
+                "NO_PERMISSION_DELETE": "Suppression non permise",
+                "NO_PERMISSION_ACTIVE": "Activation non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation non permise"
+            },
+            "TABS": {
+                "OPTICAL_FIBER_NETWORK": {
+                    "LABEL": "Réseaux FO",
+                    "ROUTE": "/coverage-areas/optical-fiber-networks/list"
+                },
+                "HISTORY": {
+                    "LABEL": "Historique",
+                    "ROUTE": "/coverage-areas/optical-fiber-networks/history"
+                }
+            },
+            "TYPE": {
+                "SINGLE_MODE": "Monomode",
+                "MULTI_MODE": "Multimode"
+            }
+        },
+        "RADIO_RELAY_LINKS": {
+            "BREADCRUMB": {
+                "LABEL": "Faisceaux radio",
+                "ROUTE": "radio-relay-links",
+                "ICON": "pi-wifi"
+            },
+            "TITLE": "Faisceaux radio",
+            "ROUTE": "radio-relay-links",
+            "TABLE": {
+                "NAME": "Nom",
+                "OPERATOR": "Opérateur",
+                "FREQUENCY": "Fréquence",
+                "START_DATE": "Date de début",
+                "END_DATE": "Date de fin",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Rechercher",
+                "OPERATOR": "Opérateur",
+                "FREQUENCY": "Fréquence",
+                "DATE": {
+                    "FROM": "Date de début",
+                    "TO": "Date de fin",
+                    "PLACEHOLDER": "YYYY-MM-DD"
+                }
+            },
+            "FORM": {
+                "TITLE": "Informations Générales",
+                "CREATE_TITLE": "Ajouter un faisceau radio",
+                "EDIT_TITLE": "Modifier un faisceau radio",
+                "DETAILS_TITLE": "Détails du faisceau radio",
+                "NAME": "Nom",
+                "NAME_PLACEHOLDER": "Ex: Liaison Abidjan-Yamoussoukro",
+                "OPERATOR": "Opérateur",
+                "FREQUENCY": "Fréquence",
+                "START_DATE": "Date de début",
+                "END_DATE": "Date de fin",
+                "ERROR": {
+                    "DELETE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "DISABLE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "ENABLE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "FIND_ONE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis"
+                    },
+                    "CREATE": {
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "OPERATOR_REQUIRE": "L'opérateur est requis",
+                        "FREQUENCY_REQUIRE": "La fréquence est requise"
+                    },
+                    "UPDATE": {
+                        "UNIQ_ID_REQUIRE": "L'identifiant est requis",
+                        "NAME_REQUIRE": "Le nom est requis",
+                        "OPERATOR_REQUIRE": "L'opérateur est requis",
+                        "FREQUENCY_REQUIRE": "La fréquence est requise"
+                    }
+                }
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer ce faisceau radio",
+                    "EDIT": "Modifier ce faisceau radio",
+                    "DELETE": "Supprimer ce faisceau radio",
+                    "ENABLE": "Activer ce faisceau radio",
+                    "DISABLE": "Désactiver ce faisceau radio"
+                },
+                "MESSAGE": {
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce faisceau radio",
+                    "EDIT": "Êtes-vous sûr de vouloir modifier ce faisceau radio",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce faisceau radio <b class='text-primary'>uniqId</b>",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce faisceau radio <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce faisceau radio <b class='text-primary'>uniqId</b>"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des faisceaux radio",
+                "EXPORT": "Exporter la liste de {nb} faisceaux radio",
+                "CHOOSE": "Choisir une action",
+                "DETAILS": "Voir les détails de ce faisceau radio",
+                "CREATE": "Créer un faisceau radio",
+                "EDIT": "Modifier ce faisceau radio",
+                "DELETE": "Supprimer ce faisceau radio",
+                "ENABLE": "Activer ce faisceau radio",
+                "DISABLE": "Désactiver ce faisceau radio",
+                "NO_EXPORT": "Aucun faisceau radio à exporter",
+                "NOT_EDIT": "Modification non permise",
+                "NOT_DELETE": "Faisceau actif, impossible de supprimer ce faisceau radio",
+                "NOT_ACTIVE": "Activation non permise",
+                "NOT_DISABLE": "Désactivation non permise",
+                "NOT_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
+                "NO_PERMISSION_EXPORT": "Exportation des faisceaux radio non permise",
+                "NO_PERMISSION_CREATE": "Création d'un faisceau radio non permise",
+                "NO_PERMISSION_EDIT": "Edition d'un faisceau radio non permise",
+                "NO_PERMISSION_DELETE": "Suppression d'un faisceau radio non permise",
+                "NO_PERMISSION_ACTIVE": "Activation d'un faisceau radio non permise",
+                "NO_PERMISSION_DISABLE": "Désactivation d'un faisceau radio non permise"
+            },
+            "TABS": {
+                "RADIO_RELAY_LINKS": {
+                    "LABEL": "Faisceaux radio",
+                    "ROUTE": "radio-relay-links"
                 },
                 "HISTORY": {
                     "LABEL": "Historique",

@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-routes.constant';
-import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-routes.constant';
-import { RESET_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/reset-password/reset-password-routes.constant';
+import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
+import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-paths.constants';
+import { RESET_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/reset-password/reset-password-paths.constants';
 
 export const routes: Routes = [
     {

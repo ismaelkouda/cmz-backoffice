@@ -57,9 +57,7 @@
                                 selectionMode="multiple"
                                 [selection]="usersSelectedInTable()"
                                 (selectionChange)="onSelectionChange($event)"
-                                (headerButtonClicked)="
-                                    onHeaderClicked($event)
-                                "
+                                (headerButtonClicked)="onHeaderClicked($event)"
                             ></app-table>
                             <app-pagination
                                 class="pagination-component"

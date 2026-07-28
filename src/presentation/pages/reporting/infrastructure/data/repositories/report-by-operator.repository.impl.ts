@@ -7,9 +7,7 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class ReportByOperatorRepositoryImpl
-    implements ReportByOperatorRepository
-{
+export class ReportByOperatorRepositoryImpl implements ReportByOperatorRepository {
     private readonly api = inject(ReportByOperatorApi);
     private readonly reportByOperatorMapper = inject(ReportByOperatorMapper);
 

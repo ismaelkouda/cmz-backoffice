@@ -1,0 +1,19 @@
+<div class="geojson-line-map" [style.height]="height()">
+    @if (isLoading()) {
+        <div class="map-overlay">
+            <div class="spinner"></div>
+        </div>
+    }
+
+    @if (errorMessage()) {
+        <div class="map-error">
+            {{ errorMessage() }}
+        </div>
+    }
+
+    <div
+        #mapContainer
+        class="map-container"
+        [class.map-container--ready]="isMapInitialized()"
+    ></div>
+</div>

@@ -28,7 +28,11 @@ export class MobileNetworkMapper extends PaginatedMapper<
             towerTypeId: dto.tower_type_id,
             towerTypeName: dto.tower_type_name,
             towerSize: dto.tower_size,
-            technology: dto.technology as Technology,
+            technology: (Array.isArray(dto.technology)
+                ? dto.technology
+                : dto.technology
+                  ? [dto.technology]
+                  : []) as Technology[],
             operator: dto.operator as Operator,
             radius: dto.radius,
             status: dto.is_active ? Status.ACTIVE : Status.INACTIVE,

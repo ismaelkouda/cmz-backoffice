@@ -17,6 +17,10 @@ export class MobileNetworkFindOneEntity {
         return this.props.siteName;
     }
 
+    get infrastructureType(): string {
+        return this.props.infrastructureType;
+    }
+
     get towerTypeId(): string {
         return this.props.towerTypeId;
     }
@@ -29,7 +33,7 @@ export class MobileNetworkFindOneEntity {
         return this.props.towerSize;
     }
 
-    get technology(): Technology {
+    get technology(): Technology[] {
         return this.props.technology;
     }
 
