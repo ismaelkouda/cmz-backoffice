@@ -19,6 +19,10 @@ export class SiteGroupFindOneEntity {
         return this.props.description;
     }
 
+    get color(): string {
+        return this.props.color;
+    }
+
     get updatedAt(): string {
         return this.props.updatedAt;
     }

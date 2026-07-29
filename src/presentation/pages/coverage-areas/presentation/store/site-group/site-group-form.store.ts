@@ -72,6 +72,10 @@ export class SiteGroupFormStore {
             description: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
+
+            color: new FormControl<string | undefined>('#3B82F6', {
+                nonNullable: true,
+            }),
         });
     }
 
@@ -82,7 +86,7 @@ export class SiteGroupFormStore {
                 return;
             }
 
-            const { code, name, description } = item;
+            const { code, name, description, color } = item;
             const details = this.isDetailsMode();
 
             untracked(() => {
@@ -91,6 +95,7 @@ export class SiteGroupFormStore {
                         code,
                         name,
                         description,
+                        color,
                     });
                     if (details) {
                         this.form.disable({ emitEvent: false });
@@ -124,6 +129,7 @@ export class SiteGroupFormStore {
                 code: undefined,
                 name: undefined,
                 description: undefined,
+                color: '#3B82F6',
             },
             {
                 emitEvent: true,

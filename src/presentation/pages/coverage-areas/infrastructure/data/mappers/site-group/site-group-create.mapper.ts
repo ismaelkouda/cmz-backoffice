@@ -15,6 +15,9 @@ export function siteGroupCreateMapper(
     if (validContract.description) {
         params.description = validContract.description;
     }
+    if (validContract.color) {
+        params.color = validContract.color;
+    }
 
     return params;
 }

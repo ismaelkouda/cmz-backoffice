@@ -140,7 +140,8 @@ export class SiteGroupFacade extends BaseFacade<
         const command = new SiteGroupCreateCommand(
             dto.code,
             dto.name,
-            dto.description
+            dto.description,
+            dto.color
         );
 
         this.handleActionWithRefresh(
@@ -166,7 +167,8 @@ export class SiteGroupFacade extends BaseFacade<
             dto.uniqId,
             dto.code,
             dto.name,
-            dto.description
+            dto.description,
+            dto.color
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

@@ -1,3 +1,4 @@
+import { Injectable, inject } from '@angular/core';
 import { defer, Observable } from 'rxjs';
 import { RadioRelayLinksRepository } from '@pages/coverage-areas/domain/repositories/radio-relay-links/radio-relay-links.repository';
 import { RadioRelayLinksCreateContract } from '@pages/coverage-areas/domain/contracts/radio-relay-links/radio-relay-links-create.contract';
@@ -19,13 +20,12 @@ import { radioRelayLinksDisableVo } from '@pages/coverage-areas/domain/value-obj
 import { radioRelayLinksFilterVo } from '@pages/coverage-areas/domain/value-objects/radio-relay-links/radio-relay-links-filter.vo';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { RadioRelayLinksFilterEntity } from '@presentation/pages/coverage-areas/domain/entities/radio-relay-links/radio-relay-links-filter.entity';
-import { Injectable } from '@angular/core';
 
 @Injectable({
     providedIn: 'root',
 })
 export class RadioRelayLinksUseCase {
-    constructor(private readonly repository: RadioRelayLinksRepository) {}
+    private readonly repository = inject(RadioRelayLinksRepository);
 
     execute(
         contract: RadioRelayLinksFilterContract,

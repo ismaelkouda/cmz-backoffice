@@ -96,12 +96,12 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
     protected readonly existingGeom = this.store.existingGeom;
 
     protected readonly operatorOptions = [
+        { label: 'Moov', value: Operator.MOOV },
         { label: 'MTN', value: Operator.MTN },
         { label: 'Orange', value: Operator.ORANGE },
-        { label: 'Moov', value: Operator.MOOV },
     ];
     protected readonly typeOptions = [
-        { label: 'Single Mode', value: FiberType.SINGLE_MODE },
+        { label: 'Mono Mode', value: FiberType.SINGLE_MODE },
         { label: 'Multi Mode', value: FiberType.MULTI_MODE },
     ];
 

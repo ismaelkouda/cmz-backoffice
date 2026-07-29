@@ -6,8 +6,6 @@ export class RadioRelayLinksUpdateCommand {
         public readonly uniqId?: string,
         public readonly name?: string,
         public readonly operator?: RadioRelayLinksOperator,
-        public readonly frequency?: RadioRelayLinksFrequency,
-        public readonly startDate?: Date,
-        public readonly endDate?: Date
+        public readonly frequency?: RadioRelayLinksFrequency
     ) {}
 }

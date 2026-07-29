@@ -2,7 +2,8 @@ export const FormValidators = {
     CODE: {
         MIN: 2,
         MAX: 50,
-        PATTERN: /^\S+$/,
+        // Allow alphanumeric and hyphen only (e.g., grp-001)
+        PATTERN: /^[a-zA-Z0-9-]+$/,
     },
     NAME: {
         MIN: 3,

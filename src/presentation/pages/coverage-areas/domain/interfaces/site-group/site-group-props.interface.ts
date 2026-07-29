@@ -5,6 +5,17 @@ export interface SiteGroupProps {
     code: string;
     name: string;
     description: string;
+    color: string;
+    status: Status;
+    updatedAt: string;
+}
+
+export interface SiteGroupFindOneProps {
+    uniqId: string;
+    code: string;
+    name: string;
+    description: string;
+    color: string;
     status: Status;
     updatedAt: string;
 }

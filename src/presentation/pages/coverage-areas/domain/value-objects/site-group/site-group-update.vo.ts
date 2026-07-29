@@ -11,5 +11,6 @@ export function siteGroupUpdateVo(
         code: contract.code,
         name: contract.name,
         description: contract.description,
+        color: contract.color,
     };
 }

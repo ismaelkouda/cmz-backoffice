@@ -11,6 +11,7 @@ export interface RadioRelayLinksVmProps {
     startDate: Date;
     endDate: Date;
     status: RadioRelayLinksStatus;
+    statusLabel: string;
     statusStyle: string;
     updatedAt: Date;
     actionsRef: string;

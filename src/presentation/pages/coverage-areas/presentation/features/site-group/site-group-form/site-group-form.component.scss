@@ -67,3 +67,35 @@ $light-gray: var(--color-gray-light);
     width: 100%;
     display: block;
 }
+
+/* Color picker styles */
+.color-picker-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.color-picker-input {
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 2px;
+}
+
+.color-picker-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker-input::-webkit-color-swatch {
+    border: 2px solid var(--surface-border);
+    border-radius: 6px;
+}
+
+.color-picker-text {
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    font-size: 1rem;
+    text-align: center;
+    width: 70%;
+}

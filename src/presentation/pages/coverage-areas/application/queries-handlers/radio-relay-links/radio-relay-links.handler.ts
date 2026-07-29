@@ -1,3 +1,4 @@
+import { Injectable, inject } from '@angular/core';
 import { RadioRelayLinksQuery } from '@pages/coverage-areas/application/queries/radio-relay-links/radio-relay-links.query';
 import { radioRelayLinksQueryMapper } from '@pages/coverage-areas/application/queries-mappers/radio-relay-links/radio-relay-links.mapper';
 import { RadioRelayLinksUseCase } from '@pages/coverage-areas/application/use-cases/radio-relay-links/radio-relay-links.use-case';
@@ -6,8 +7,9 @@ import { Observable } from 'rxjs';
 import { RadioRelayLinksEntity } from '@presentation/pages/coverage-areas/domain/entities/radio-relay-links/radio-relay-links.entity';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 
+@Injectable({ providedIn: 'root' })
 export class RadioRelayLinksHandler {
-    constructor(private readonly useCase: RadioRelayLinksUseCase) {}
+    private readonly useCase = inject(RadioRelayLinksUseCase);
 
     execute(
         query: RadioRelayLinksQuery,

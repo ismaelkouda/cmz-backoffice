@@ -8,6 +8,7 @@ export function radioRelayLinksQueryMapper(
     return {
         search: query.search,
         operator: query.operator as RadioRelayLinksOperator,
+        frequency: query.frequency,
         startDate: query.startDate ? new Date(query.startDate) : undefined,
         endDate: query.endDate ? new Date(query.endDate) : undefined,
     };

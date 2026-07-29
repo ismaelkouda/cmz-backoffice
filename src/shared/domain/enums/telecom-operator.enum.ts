@@ -1,11 +1,11 @@
 export enum TelecomOperator {
+    MOOV = 'COMMON.MOOV',
     MTN = 'COMMON.MTN',
     ORANGE = 'COMMON.ORANGE',
-    MOOV = 'COMMON.MOOV',
 }
 
 export enum TelecomOperatorStyle {
+    MOOV = 'COMMON.MOOV_STYLE',
     MTN = 'COMMON.MTN_STYLE',
     ORANGE = 'COMMON.ORANGE_STYLE',
-    MOOV = 'COMMON.MOOV_STYLE',
 }

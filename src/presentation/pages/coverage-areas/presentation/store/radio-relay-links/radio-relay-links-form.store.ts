@@ -14,15 +14,9 @@ import { FormValidators } from '@presentation/pages/coverage-areas/domain/valida
 import { startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RadioRelayLinksFindOneFacade } from '@presentation/pages/coverage-areas/application/services/radio-relay-links/radio-relay-links-find-one.facade';
-type FormMode = 'create' | 'edit' | 'details';
+import { RadioRelayLinksFormControl } from './radio-relay-links-form.control';
 
-export interface RadioRelayLinksFormControl {
-    name?: FormControl<string | null>;
-    operator?: FormControl<RadioRelayLinksOperator | null>;
-    frequency?: FormControl<RadioRelayLinksFrequency | null>;
-    startDate?: FormControl<Date | null>;
-    endDate?: FormControl<Date | null>;
-}
+type FormMode = 'create' | 'edit' | 'details';
 
 @Injectable()
 export class RadioRelayLinksFormStore {
@@ -85,7 +79,14 @@ export class RadioRelayLinksFormStore {
 
     reset(): void {
         this.form.enable({ emitEvent: false });
-        this.form.reset();
+        this.form.reset(
+            {
+                name: undefined,
+                operator: undefined,
+                frequency: undefined,
+            },
+            { emitEvent: true }
+        );
         this.mode.set('create');
         this.form.markAsPristine();
         this.form.markAsUntouched();
@@ -98,7 +99,7 @@ export class RadioRelayLinksFormStore {
                 return;
             }
 
-            const { name, operator, frequency, startDate, endDate } = item;
+            const { name, operator, frequency } = item;
             const details = this.isDetailsMode();
 
             untracked(() => {
@@ -107,8 +108,6 @@ export class RadioRelayLinksFormStore {
                         name,
                         operator,
                         frequency,
-                        startDate,
-                        endDate,
                     });
                     if (details) {
                         this.form.disable({ emitEvent: false });
@@ -119,21 +118,25 @@ export class RadioRelayLinksFormStore {
     }
 
     private createForm(): FormGroup<RadioRelayLinksFormControl> {
-        return this.fb.group<RadioRelayLinksFormControl>({
-            name: new FormControl<string | null>(
-                null,
-                RadioRelayLinksFormValidatorsService.NAME
+        return this.fb.nonNullable.group<RadioRelayLinksFormControl>({
+            name: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: RadioRelayLinksFormValidatorsService.NAME,
+            }),
+            operator: new FormControl<RadioRelayLinksOperator | undefined>(
+                undefined,
+                {
+                    nonNullable: true,
+                    validators: RadioRelayLinksFormValidatorsService.OPERATOR,
+                }
             ),
-            operator: new FormControl<RadioRelayLinksOperator | null>(
-                null,
-                RadioRelayLinksFormValidatorsService.OPERATOR
+            frequency: new FormControl<RadioRelayLinksFrequency | undefined>(
+                undefined,
+                {
+                    nonNullable: true,
+                    validators: RadioRelayLinksFormValidatorsService.FREQUENCY,
+                }
             ),
-            frequency: new FormControl<RadioRelayLinksFrequency | null>(
-                null,
-                RadioRelayLinksFormValidatorsService.FREQUENCY
-            ),
-            startDate: new FormControl<Date | null>(null),
-            endDate: new FormControl<Date | null>(null),
         });
     }
 }

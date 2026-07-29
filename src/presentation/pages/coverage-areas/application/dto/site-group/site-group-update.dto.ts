@@ -3,4 +3,5 @@ export interface SiteGroupUpdateDto {
     code?: string;
     name?: string;
     description?: string;
+    color?: string;
 }

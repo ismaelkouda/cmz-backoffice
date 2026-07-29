@@ -11,8 +11,6 @@ export class RadioRelayLinksCreateMapper {
             name: contract.name,
             operator: contract.operator,
             frequency: contract.frequency,
-            start_date: contract.startDate.toISOString(),
-            end_date: contract.endDate.toISOString(),
         };
     }
 }

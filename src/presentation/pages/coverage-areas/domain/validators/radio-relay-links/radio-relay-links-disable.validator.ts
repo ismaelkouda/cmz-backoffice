@@ -7,7 +7,7 @@ export function radioRelayLinksDisableValidator(
 ): asserts contract is RadioRelayLinksDisableValidateContract {
     if (!contract.uniqId) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.DISABLE.UNIQ_ID_REQUIRE'
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.DISABLE.UNIQ_ID_REQUIRE'
         );
     }
 }

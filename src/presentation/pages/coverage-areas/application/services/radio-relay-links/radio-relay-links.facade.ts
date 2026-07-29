@@ -113,6 +113,7 @@ export class RadioRelayLinksFacade extends BaseFacade<
         return new RadioRelayLinksQuery(
             filter?.search,
             filter?.operator,
+            filter?.frequency,
             filter?.startDate,
             filter?.endDate
         );
@@ -142,9 +143,7 @@ export class RadioRelayLinksFacade extends BaseFacade<
         const command = new RadioRelayLinksCreateCommand(
             dto.name,
             dto.operator,
-            dto.frequency,
-            dto.startDate,
-            dto.endDate
+            dto.frequency
         );
 
         this.handleActionWithRefresh(
@@ -170,9 +169,7 @@ export class RadioRelayLinksFacade extends BaseFacade<
             dto.uniqId,
             dto.name,
             dto.operator,
-            dto.frequency,
-            dto.startDate,
-            dto.endDate
+            dto.frequency
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

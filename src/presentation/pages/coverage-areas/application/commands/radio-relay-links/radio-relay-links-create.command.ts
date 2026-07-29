@@ -5,8 +5,6 @@ export class RadioRelayLinksCreateCommand {
     constructor(
         public readonly name: string | undefined,
         public readonly operator: RadioRelayLinksOperator | undefined,
-        public readonly frequency: RadioRelayLinksFrequency | undefined,
-        public readonly startDate: Date | undefined,
-        public readonly endDate: Date | undefined
+        public readonly frequency: RadioRelayLinksFrequency | undefined
     ) {}
 }

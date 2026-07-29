@@ -98,6 +98,7 @@ export class RadioRelayLinksPresenter {
             startDate: entity.startDate,
             endDate: entity.endDate,
             status: entity.status,
+            statusLabel: this.t(entity.status),
             statusStyle: entity.statusStyle(),
             updatedAt: entity.updatedAt,
             actionsRef: entity.actionsRef,
