@@ -65,6 +65,74 @@
                                                 }}</b>
                                             </legend>
                                             <div class="row g-3">
+                                                <div class="col-md-2">
+                                                    <label
+                                                        for="color"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.SITE_GROUP.FORM.COLOR'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <div
+                                                        class="color-picker-wrapper"
+                                                    >
+                                                        <input
+                                                            class="color-picker-input"
+                                                            id="color"
+                                                            type="color"
+                                                            formControlName="color"
+                                                            [attr.aria-invalid]="
+                                                                form.get(
+                                                                    'color'
+                                                                )?.invalid &&
+                                                                form.get(
+                                                                    'color'
+                                                                )?.touched
+                                                            "
+                                                        />
+                                                        <input
+                                                            class="color-picker-text"
+                                                            type="text"
+                                                            [value]="
+                                                                form.get(
+                                                                    'color'
+                                                                )?.value
+                                                            "
+                                                            readonly
+                                                            [attr.aria-invalid]="
+                                                                form.get(
+                                                                    'color'
+                                                                )?.invalid &&
+                                                                form.get(
+                                                                    'color'
+                                                                )?.touched
+                                                            "
+                                                        />
+                                                    </div>
+                                                    @if (
+                                                        form.get('color')
+                                                            ?.invalid &&
+                                                        form.get('color')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'color'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
                                                 <div class="col-md-4">
                                                     <label
                                                         for="code"
@@ -113,7 +181,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-8">
+                                                <div class="col-md-6">
                                                     <label
                                                         for="name"
                                                         class="form-label fw-bold"

@@ -7,7 +7,7 @@ export function radioRelayLinksUpdateValidator(
 ): asserts contract is RadioRelayLinksUpdateValidateContract {
     if (!contract.uniqId) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.UPDATE.UNIQ_ID_REQUIRE'
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.UPDATE.UNIQ_ID_REQUIRE'
         );
     }
     if (
@@ -16,17 +16,17 @@ export function radioRelayLinksUpdateValidator(
         !contract.name.trim()
     ) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.UPDATE.NAME_REQUIRE'
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.UPDATE.NAME_REQUIRE'
         );
     }
     if (!contract.operator) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.UPDATE.OPERATOR_REQUIRE'
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.UPDATE.OPERATOR_REQUIRE'
         );
     }
     if (!contract.frequency) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.UPDATE.FREQUENCY_REQUIRE'
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.UPDATE.FREQUENCY_REQUIRE'
         );
     }
 }

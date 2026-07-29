@@ -9,6 +9,7 @@
         "INDEX": "#",
         "SELECTION": "Selección",
         "SELECT_PLACEHOLDER": "Seleccionar...",
+        "CHOOSE_FILE": "Elegir archivo",
         "CANCEL": "Cancelar",
         "CONFIRM": "Confirmar",
         "DELETE": "Eliminar",

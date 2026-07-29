@@ -7,7 +7,7 @@ export function radioRelayLinksDeleteValidator(
 ): asserts contract is RadioRelayLinksDeleteValidateContract {
     if (!contract.uniqId) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.DELETE.UNIQ_ID_REQUIRE'
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.DELETE.UNIQ_ID_REQUIRE'
         );
     }
 }

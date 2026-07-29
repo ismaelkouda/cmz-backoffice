@@ -18,8 +18,6 @@ export interface RadioRelayLinksFindOneProps {
     name: string;
     operator: RadioRelayLinksOperator;
     frequency: RadioRelayLinksFrequency;
-    startDate: Date;
-    endDate: Date;
     status: RadioRelayLinksStatus;
     updatedAt: Date;
     geomUrl?: string;

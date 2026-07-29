@@ -3,4 +3,5 @@ export interface SiteGroupUpdateApiDto {
     code: string;
     name: string;
     description?: string;
+    color?: string;
 }

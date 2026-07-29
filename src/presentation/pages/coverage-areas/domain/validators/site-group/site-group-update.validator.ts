@@ -20,4 +20,9 @@ export function validateSiteGroupUpdate(
             'COVERAGE_AREAS.SITE_GROUP.FORM.ERROR.UPDATE.NAME_REQUIRE'
         );
     }
+    if (!contract.color) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.SITE_GROUP.FORM.ERROR.UPDATE.COLOR_REQUIRE'
+        );
+    }
 }

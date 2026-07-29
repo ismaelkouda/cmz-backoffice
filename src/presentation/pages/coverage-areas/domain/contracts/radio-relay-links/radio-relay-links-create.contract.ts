@@ -5,6 +5,4 @@ export interface RadioRelayLinksCreateContract {
     name?: string;
     operator?: RadioRelayLinksOperator;
     frequency?: RadioRelayLinksFrequency;
-    startDate?: Date;
-    endDate?: Date;
 }

@@ -22,14 +22,6 @@ export class RadioRelayLinksFindOneEntity {
         return this.props.frequency;
     }
 
-    get startDate(): Date {
-        return this.props.startDate;
-    }
-
-    get endDate(): Date {
-        return this.props.endDate;
-    }
-
     get status(): RadioRelayLinksStatus {
         return this.props.status;
     }

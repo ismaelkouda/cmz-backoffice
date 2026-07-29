@@ -3,4 +3,5 @@ export interface SiteGroupUpdateValidateContract {
     code: string;
     name: string;
     description?: string;
+    color: string;
 }

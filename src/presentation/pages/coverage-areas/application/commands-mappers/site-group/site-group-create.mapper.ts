@@ -8,5 +8,6 @@ export function siteGroupCreateCommandMapper(
         code: command.code,
         name: command.name,
         description: command.description,
+        color: command.color,
     };
 }

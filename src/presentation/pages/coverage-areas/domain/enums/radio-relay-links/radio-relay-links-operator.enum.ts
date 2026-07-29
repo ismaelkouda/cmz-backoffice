@@ -1,5 +1,5 @@
 export enum RadioRelayLinksOperator {
-    MTN = 'MTN',
     MOOV = 'MOOV',
+    MTN = 'MTN',
     ORANGE = 'ORANGE',
 }

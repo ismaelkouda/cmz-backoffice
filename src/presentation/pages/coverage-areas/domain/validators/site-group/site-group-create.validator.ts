@@ -15,4 +15,9 @@ export function validateSiteGroupCreate(
             'COVERAGE_AREAS.SITE_GROUP.FORM.ERROR.CREATE.NAME_REQUIRE'
         );
     }
+    if (!contract.color) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.SITE_GROUP.FORM.ERROR.CREATE.COLOR_REQUIRE'
+        );
+    }
 }

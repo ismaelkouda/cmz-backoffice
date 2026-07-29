@@ -22,6 +22,7 @@ export class SiteGroupMapper extends PaginatedMapper<
             code: dto.code,
             name: dto.name,
             description: dto.description,
+            color: dto.color,
             status: dto.is_active ? Status.ACTIVE : Status.INACTIVE,
             updatedAt: dto.updated_at,
         };

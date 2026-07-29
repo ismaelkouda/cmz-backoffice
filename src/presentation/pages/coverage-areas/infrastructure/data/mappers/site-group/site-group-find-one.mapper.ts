@@ -22,6 +22,7 @@ export class SiteGroupFindOneMapper extends SimpleResponseMapper<
             code: dto.code,
             name: dto.name,
             description: dto.description,
+            color: dto.color,
             updatedAt: dto.updated_at,
         };
 

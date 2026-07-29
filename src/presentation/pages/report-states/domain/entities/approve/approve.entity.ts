@@ -32,9 +32,9 @@ export class ApproveEntity implements ApproveProps {
 
     operatorsStyle(operator: TelecomOperator): TelecomOperatorStyle {
         const methodMap: Record<TelecomOperator, TelecomOperatorStyle> = {
+            [TelecomOperator.MOOV]: TelecomOperatorStyle.MOOV,
             [TelecomOperator.MTN]: TelecomOperatorStyle.MTN,
             [TelecomOperator.ORANGE]: TelecomOperatorStyle.ORANGE,
-            [TelecomOperator.MOOV]: TelecomOperatorStyle.MOOV,
         };
         return methodMap[operator];
     }

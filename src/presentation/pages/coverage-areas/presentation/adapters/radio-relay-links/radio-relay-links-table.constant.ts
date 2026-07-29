@@ -2,38 +2,66 @@ import { TableConfig } from '@shared/domain/services/table-export-excel-file.ser
 
 export const RADIO_RELAY_LINKS_TABLE: TableConfig = {
     cols: [
-        { field: '__index', header: '#', width: '50px' },
+        {
+            field: '__index',
+            header: 'COMMON.INDEX',
+            class: 'text-center',
+            width: '2rem',
+        },
         {
             field: 'name',
             header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.NAME',
-            width: '200px',
+            width: '12rem',
         },
         {
             field: 'operator',
             header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.OPERATOR',
-            width: '120px',
+            class: 'text-center',
+            width: '6rem',
         },
         {
             field: 'frequency',
             header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.FREQUENCY',
-            width: '120px',
+            class: 'text-center',
+            width: '6rem',
         },
         {
             field: 'startDate',
             header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.START_DATE',
-            width: '120px',
+            class: 'text-center',
+            width: '8rem',
         },
         {
             field: 'endDate',
             header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.END_DATE',
-            width: '120px',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
+            field: 'statusLabel',
+            header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.STATUS',
+            class: 'text-center',
+            width: '5rem',
+        },
+        {
+            field: 'updatedAt',
+            header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.UPDATED_AT',
+            class: 'text-center',
+            width: '8rem',
         },
         {
             field: '__actionDropdown',
             header: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABLE.ACTION',
-            width: '120px',
+            class: 'text-center',
+            width: '4rem',
             type: 'action-dropdown',
         },
     ],
-    globalFilterFields: ['name', 'operator', 'frequency'],
+    globalFilterFields: [
+        'name',
+        'operator',
+        'frequency',
+        'statusLabel',
+        'updatedAt',
+    ],
 };

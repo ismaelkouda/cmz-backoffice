@@ -29,8 +29,6 @@ export class RadioRelayLinksFindOneMapper extends SimpleResponseMapper<
             name: dto.name,
             operator: dto.operator as RadioRelayLinksOperator,
             frequency: dto.frequency as RadioRelayLinksFrequency,
-            startDate: new Date(dto.start_date),
-            endDate: new Date(dto.end_date),
             status: dto.is_active
                 ? RadioRelayLinksStatus.ACTIVE
                 : RadioRelayLinksStatus.INACTIVE,

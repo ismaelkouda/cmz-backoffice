@@ -220,19 +220,14 @@ export class RadioRelayLinksFormComponent implements OnInit {
             name: formValue.name ?? undefined,
             operator: formValue.operator ?? undefined,
             frequency: formValue.frequency ?? undefined,
-            startDate: formValue.startDate ?? undefined,
-            endDate: formValue.endDate ?? undefined,
         };
 
         if (this.isEditMode()) {
-            this.activatedRoute.queryParams
-                .pipe(takeUntilDestroyed(this.destroyRef))
-                .subscribe((params) => {
-                    this.submitFacade.update({
-                        uniqId: params['uniqId'],
-                        ...payload,
-                    });
-                });
+            const uniqId = this.activatedRoute.snapshot.queryParams['uniqId'];
+            this.submitFacade.update({
+                uniqId,
+                ...payload,
+            });
         } else {
             this.submitFacade.create(payload);
         }

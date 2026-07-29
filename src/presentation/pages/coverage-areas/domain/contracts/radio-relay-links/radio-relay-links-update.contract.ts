@@ -6,6 +6,4 @@ export interface RadioRelayLinksUpdateContract {
     name?: string;
     operator?: RadioRelayLinksOperator;
     frequency?: RadioRelayLinksFrequency;
-    startDate?: Date;
-    endDate?: Date;
 }
