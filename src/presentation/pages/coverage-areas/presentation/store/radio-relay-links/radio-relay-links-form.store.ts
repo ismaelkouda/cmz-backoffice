@@ -8,12 +8,12 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RadioRelayLinksOperator } from '@pages/coverage-areas/domain/enums/radio-relay-links/radio-relay-links-operator.enum';
-import { RadioRelayLinksFrequency } from '@pages/coverage-areas/domain/enums/radio-relay-links/radio-relay-links-frequency.enum';
 import { RadioRelayLinksFormValidatorsService } from '@pages/coverage-areas/presentation/constants/radio-relay-links-form-validators.constants';
 import { FormValidators } from '@presentation/pages/coverage-areas/domain/validators/form-validators';
 import { startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { RadioRelayLinksFindOneFacade } from '@presentation/pages/coverage-areas/application/services/radio-relay-links/radio-relay-links-find-one.facade';
+import { RadioRelayLinksFormHelperService } from '@pages/coverage-areas/presentation/features/radio-relay-links/radio-relay-links-form/radio-relay-links-form-helper.service';
 import { RadioRelayLinksFormControl } from './radio-relay-links-form.control';
 
 type FormMode = 'create' | 'edit' | 'details';
@@ -22,6 +22,7 @@ type FormMode = 'create' | 'edit' | 'details';
 export class RadioRelayLinksFormStore {
     private readonly fb = inject(FormBuilder);
     private readonly findOneFacade = inject(RadioRelayLinksFindOneFacade);
+    private readonly helper = inject(RadioRelayLinksFormHelperService);
     readonly VALIDATION = FormValidators;
     readonly form = this.createForm();
 
@@ -107,7 +108,7 @@ export class RadioRelayLinksFormStore {
                     this.form.patchValue({
                         name,
                         operator,
-                        frequency,
+                        frequency: this.helper.parseFrequency(frequency),
                     });
                     if (details) {
                         this.form.disable({ emitEvent: false });
@@ -130,13 +131,10 @@ export class RadioRelayLinksFormStore {
                     validators: RadioRelayLinksFormValidatorsService.OPERATOR,
                 }
             ),
-            frequency: new FormControl<RadioRelayLinksFrequency | undefined>(
-                undefined,
-                {
-                    nonNullable: true,
-                    validators: RadioRelayLinksFormValidatorsService.FREQUENCY,
-                }
-            ),
+            frequency: new FormControl<number | undefined>(undefined, {
+                nonNullable: true,
+                validators: RadioRelayLinksFormValidatorsService.FREQUENCY,
+            }),
         });
     }
 }

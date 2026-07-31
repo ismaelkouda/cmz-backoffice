@@ -5044,6 +5044,7 @@
                 "NAME_PLACEHOLDER": "Ex: Liaison Abidjan-Yamoussoukro",
                 "OPERATOR": "Opérateur",
                 "FREQUENCY": "Fréquence",
+                "FREQUENCY_PLACEHOLDER": "Ex: 900",
                 "START_DATE": "Date de début",
                 "END_DATE": "Date de fin",
                 "ERROR": {

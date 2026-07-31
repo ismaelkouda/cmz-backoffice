@@ -3355,6 +3355,7 @@
                 "NAME_PLACEHOLDER": "Ej: Enlace Abidjan-Yamoussoukro",
                 "OPERATOR": "Operador",
                 "FREQUENCY": "Frecuencia",
+                "FREQUENCY_PLACEHOLDER": "Ej: 900",
                 "START_DATE": "Fecha de inicio",
                 "END_DATE": "Fecha de fin",
                 "ERROR": {
