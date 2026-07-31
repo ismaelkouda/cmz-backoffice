@@ -53,11 +53,32 @@
 
 .coordinates-preview {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 0.5rem;
     font-family: monospace;
     font-size: 0.875rem;
     color: #475569;
+
+    &__details {
+        display: flex;
+        flex-direction: column;
+        gap: 0.125rem;
+    }
+
+    &__address {
+        font-family: inherit;
+        color: #64748b;
+        max-width: 28rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    &__empty {
+        font-family: inherit;
+        color: #94a3b8;
+        font-style: italic;
+    }
 }
 
 .address-preview {

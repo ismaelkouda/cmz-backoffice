@@ -107,6 +107,14 @@ export class MapAdapter {
 
     private static readonly CLUSTER_DISTANCE = 42;
     private static readonly CLUSTER_MIN_DISTANCE = 18;
+    /** Zones visibles uniquement au-delà de ce zoom ; centres toujours visibles si cochés. */
+    private static readonly COVERAGE_ZONES_MIN_ZOOM = 9;
+    private static readonly MAP_ICON_MIN_ZOOM = 7;
+    private static readonly MAP_ICON_MAX_ZOOM = 18;
+    private static readonly REPORT_ICON_MIN_SCALE = 0.05;
+    private static readonly REPORT_ICON_MAX_SCALE = 0.15;
+    private static readonly SIGNAL_ICON_MIN_SCALE = 0.35;
+    private static readonly SIGNAL_ICON_MAX_SCALE = 0.65;
 
     private readonly ngZone = inject(NgZone);
     private readonly encodingService = inject(EncodingDataService);
@@ -118,25 +126,48 @@ export class MapAdapter {
     private selectedReportId: string | number | null = null;
     private suppressMoveEndUntil = 0;
     private lastBounds: Bounds | null = null;
+    private coverageZonesUserVisible = false;
+    private coverageCentersUserVisible = false;
+    private coverageTilesActive = false;
+    private coverageZonesDisplayMode = false;
+    private lastMapIconZoomBucket: number | null = null;
+    private lastCoverageLayerVisibility: {
+        areaTiles: boolean;
+        centerTiles: boolean;
+    } | null = null;
     private readonly featureSource = new VectorSource();
     private readonly clusterSource = new Cluster({
         distance: MapAdapter.CLUSTER_DISTANCE,
         minDistance: MapAdapter.CLUSTER_MIN_DISTANCE,
         source: this.featureSource,
     });
+    private readonly coverageAreaClusterSource = new VectorSource();
+    private readonly coverageAreaClusterSourceClustered = new Cluster({
+        distance: 40,
+        minDistance: 20,
+        source: this.coverageAreaClusterSource,
+    });
     private readonly clusterLayer = new VectorLayer({
         source: this.clusterSource,
         style: (feature): Style | Style[] => {
             return this.clusterStyleFunction(feature);
         },
-        zIndex: 2,
+        zIndex: 10,
+    });
+    private readonly coverageAreaClusterLayer = new VectorLayer({
+        source: this.coverageAreaClusterSourceClustered,
+        style: (feature): Style | Style[] => {
+            return this.coverageAreaClusterStyleFunction(feature);
+        },
+        zIndex: 3,
+        visible: false,
     });
     private readonly coverageAreaLayer = new VectorTileLayer({
         declutter: false,
         renderMode: 'hybrid',
         style: (feature): Style => this.createCoverageAreaTileStyle(feature),
         visible: false,
-        zIndex: 1,
+        zIndex: 3,
     });
     private equipmentTypesVisible: Record<string, boolean> = {
         education: true,
@@ -223,57 +254,24 @@ export class MapAdapter {
         this.coverageCenterLayer = new VectorTileLayer({
             declutter: true,
             renderMode: 'hybrid',
-            style: (feature): Style => {
-                console.log(feature);
-                return new Style({
-                    image: new Icon({
-                        src: 'assets/images/icones/signal.svg',
-                        scale: 0.5,
-                        anchor: [0.5, 0.5],
-                    }),
-                });
-            },
-            visible: false, // visible seulement si activé
-            zIndex: 3, // au-dessus des zones (zIndex 2)
+            style: (feature): Style =>
+                this.createCoverageCenterTileStyle(feature),
+            visible: false,
+            zIndex: 4,
         });
 
-        // Ajouter à la carte (ordre : zones puis centres)
         this.map.addLayer(this.coverageAreaLayer);
         this.map.addLayer(this.coverageCenterLayer);
+        this.map.addLayer(this.coverageAreaClusterLayer);
+        this.setupMapViewListeners();
         this.setupClickListener();
         this.setupPointerMoveListener();
 
+        const initialZoom = this.map.getView().getZoom() ?? 0;
+        this.coverageZonesDisplayMode = this.shouldShowCoverageZones(initialZoom);
+
         this.defaultCenter = options.defaultCenter || options.center;
         this.defaultZoom = options.defaultZoom || options.zoom;
-
-        // Bouton de reset (ajouté au conteneur)
-        const resetContainer = document.createElement('div');
-        resetContainer.style.position = 'absolute';
-        resetContainer.style.bottom = '80px';
-        resetContainer.style.left = '10px';
-        resetContainer.style.zIndex = '1000';
-        resetContainer.style.pointerEvents = 'none';
-
-        const resetButton = document.createElement('button');
-        resetButton.innerHTML = '🎯';
-        resetButton.title = 'Réinitialiser la vue';
-        resetButton.style.pointerEvents = 'auto';
-        resetButton.style.width = '34px';
-        resetButton.style.height = '34px';
-        resetButton.style.borderRadius = '4px';
-        resetButton.style.border = '1px solid rgba(0,0,0,0.2)';
-        resetButton.style.background = '#fff';
-        resetButton.style.cursor = 'pointer';
-        resetButton.style.fontSize = '20px';
-        resetButton.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
-        resetButton.style.display = 'flex';
-        resetButton.style.alignItems = 'center';
-        resetButton.style.justifyContent = 'center';
-
-        resetContainer.appendChild(resetButton);
-        container.appendChild(resetContainer);
-
-        resetButton.addEventListener('click', () => this.resetView());
     }
 
     setBaseMap(type: 'osm' | 'satellite'): void {
@@ -358,8 +356,14 @@ export class MapAdapter {
             this.coverageAreaLayer.setVisible(false);
             this.coverageCenterLayer.setSource(null);
             this.coverageCenterLayer.setVisible(false);
+            this.coverageAreaClusterSource.clear();
+            this.coverageAreaClusterLayer.setVisible(false);
+            this.coverageTilesActive = false;
+            this.lastCoverageLayerVisibility = null;
             return;
         }
+
+        this.coverageTilesActive = true;
 
         this.coverageAreaLayer.setSource(
             new VectorTileSource({
@@ -387,17 +391,20 @@ export class MapAdapter {
         });
 
         this.coverageCenterLayer.setSource(source);
-        this.coverageCenterLayer.setVisible(true);
+        this.lastCoverageLayerVisibility = null;
+        this.updateCoverageLayersVisibility();
     }
 
     setCoverageZonesVisible(visible: boolean): void {
-        const hasSource = this.coverageAreaLayer.getSource() !== null;
-        this.coverageAreaLayer.setVisible(visible && hasSource);
+        this.coverageZonesUserVisible = visible;
+        this.lastCoverageLayerVisibility = null;
+        this.updateCoverageLayersVisibility();
     }
 
     setCoverageCentersVisible(visible: boolean): void {
-        const hasSource = this.coverageCenterLayer.getSource() !== null;
-        this.coverageCenterLayer.setVisible(visible && hasSource);
+        this.coverageCentersUserVisible = visible;
+        this.lastCoverageLayerVisibility = null;
+        this.updateCoverageLayersVisibility();
     }
 
     setCoverageAreasVisible(visible: boolean): void {
@@ -429,6 +436,93 @@ export class MapAdapter {
 
     setEquipmentAreasVisible(visible: boolean): void {
         this.equipmentAreaLayer.setVisible(visible);
+    }
+
+    private setupMapViewListeners(): void {
+        if (!this.map) {
+            return;
+        }
+
+        this.map.getView().on('change:resolution', () => {
+            const zoom = this.map?.getView().getZoom() ?? 0;
+            const showZones = this.shouldShowCoverageZones(zoom);
+
+            if (showZones !== this.coverageZonesDisplayMode) {
+                this.coverageZonesDisplayMode = showZones;
+            }
+
+            this.updateCoverageLayersVisibility();
+            this.refreshMapIconLayersForZoom(zoom);
+        });
+
+        this.map.on('moveend', () => {
+            if (Date.now() < this.suppressMoveEndUntil) {
+                return;
+            }
+
+            const bounds = this.getConstrainedBounds();
+            if (bounds) {
+                this.lastBounds = bounds;
+                this.moveEndSubject.next(bounds);
+            }
+
+            this.updateCoverageLayersVisibility();
+        });
+    }
+
+    private shouldShowCoverageZones(zoom: number): boolean {
+        return zoom > MapAdapter.COVERAGE_ZONES_MIN_ZOOM;
+    }
+
+    private getCoverageRadiusMeters(
+        properties: CoverageAreaProperties
+    ): number | null {
+        const raw =
+            properties?.radius ??
+            properties?.['coverage_radius'] ??
+            properties?.['rayon'];
+        const value = Number(raw);
+        return Number.isFinite(value) && value > 0 ? value : null;
+    }
+
+    private updateCoverageLayersVisibility(): void {
+        if (!this.map || !this.coverageTilesActive) {
+            return;
+        }
+
+        const zoom = this.map.getView().getZoom() ?? 0;
+        const showZones = this.shouldShowCoverageZones(zoom);
+        const hasTileSource = this.coverageAreaLayer.getSource() !== null;
+
+        const nextVisibility = {
+            areaTiles:
+                showZones &&
+                this.coverageZonesUserVisible &&
+                hasTileSource,
+            centerTiles: this.coverageCentersUserVisible && hasTileSource,
+        };
+
+        const prev = this.lastCoverageLayerVisibility;
+        const changed =
+            !prev ||
+            prev.areaTiles !== nextVisibility.areaTiles ||
+            prev.centerTiles !== nextVisibility.centerTiles;
+
+        if (!changed) {
+            return;
+        }
+
+        this.lastCoverageLayerVisibility = nextVisibility;
+        this.coverageAreaClusterLayer.setVisible(false);
+        this.coverageAreaLayer.setVisible(nextVisibility.areaTiles);
+        this.coverageCenterLayer.setVisible(nextVisibility.centerTiles);
+
+        if (nextVisibility.areaTiles) {
+            this.coverageAreaLayer.changed();
+        }
+        if (nextVisibility.centerTiles) {
+            this.coverageCenterLayer.changed();
+        }
     }
 
     setEquipmentTypeVisible(type: string, visible: boolean): void {
@@ -776,30 +870,52 @@ export class MapAdapter {
 
     private createCoverageAreaTileStyle(feature: FeatureLike): Style {
         const coverageArea = feature.getProperties() as CoverageAreaProperties;
-        const operator =
-            this.normalizeOperatorName(coverageArea?.operator) || 'open';
+        const operator = this.normalizeOperatorName(coverageArea?.operator);
 
-        // Si l'opérateur n'est pas coché, on retourne un style vide (invisible)
-        if (!this.coverageOperatorsVisible[operator]) {
-            return new Style({}); // ou une image totalement transparente
+        if (!operator || !this.coverageOperatorsVisible[operator]) {
+            return new Style({});
         }
 
-        // Sinon, style normal avec couleur
-        const color = this.getCoverageAreaColor(operator);
-        const radiusInMeters = Number(coverageArea?.radius);
-        const markerRadius = Number.isFinite(radiusInMeters)
-            ? this.metersToPixels(radiusInMeters)
-            : 15;
+        const radiusInMeters = this.getCoverageRadiusMeters(coverageArea);
+        if (radiusInMeters !== null) {
+            const color = this.getCoverageAreaColor(operator);
+            const markerRadius = this.metersToPixels(radiusInMeters);
+
+            return new Style({
+                image: new CircleStyle({
+                    radius: markerRadius,
+                    fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
+                    stroke: new Stroke({
+                        color: color,
+                        width: 2.5,
+                        lineDash: [4, 4],
+                    }),
+                }),
+            });
+        }
 
         return new Style({
-            image: new CircleStyle({
-                radius: markerRadius,
-                fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
-                stroke: new Stroke({
-                    color: color,
-                    width: 2.5,
-                    lineDash: [4, 4],
-                }),
+            image: new Icon({
+                src: 'assets/images/icones/radar.svg',
+                scale: 0.5,
+                anchor: [0.5, 0.5],
+            }),
+        });
+    }
+
+    private createCoverageCenterTileStyle(feature: FeatureLike): Style {
+        const properties = feature.getProperties() as CoverageAreaProperties;
+        const operator = this.normalizeOperatorName(properties?.operator);
+
+        if (!operator || !this.coverageOperatorsVisible[operator]) {
+            return new Style({});
+        }
+
+        return new Style({
+            image: new Icon({
+                src: 'assets/images/icones/signal.svg',
+                scale: this.getSignalIconScale(),
+                anchor: [0.5, 0.5],
             }),
         });
     }
@@ -819,6 +935,36 @@ export class MapAdapter {
         }
 
         const color = this.getEquipmentAreaColor(type);
+        const radiusInMeters = Number(properties?.radius);
+        const markerRadius = Number.isFinite(radiusInMeters)
+            ? this.metersToPixels(radiusInMeters)
+            : 15;
+
+        return new Style({
+            image: new CircleStyle({
+                radius: markerRadius,
+                fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
+                stroke: new Stroke({
+                    color: color,
+                    width: 2.5,
+                    lineDash: [4, 4],
+                }),
+            }),
+        });
+    }
+
+    private coverageAreaClusterStyleFunction(
+        _feature: FeatureLike
+    ): Style | Style[] {
+        return new Style({});
+    }
+
+    private createSingleCoverageAreaStyle(
+        properties: CoverageAreaProperties
+    ): Style {
+        const operator =
+            this.normalizeOperatorName(properties?.operator) || 'open';
+        const color = this.getCoverageAreaColor(operator);
         const radiusInMeters = Number(properties?.radius);
         const markerRadius = Number.isFinite(radiusInMeters)
             ? this.metersToPixels(radiusInMeters)
@@ -913,7 +1059,7 @@ export class MapAdapter {
             return new Style({
                 image: new Icon({
                     src: iconPath,
-                    scale: this.getDynamicMarkerScale(),
+                    scale: this.getReportMarkerIconScale(),
                     anchor: [0.5, 0.5],
                     anchorXUnits: 'fraction',
                     anchorYUnits: 'fraction',
@@ -942,16 +1088,48 @@ export class MapAdapter {
         return icons[type] || null;
     }
 
-    private getDynamicMarkerScale(): number {
+    private refreshMapIconLayersForZoom(zoom: number): void {
+        const zoomBucket = Math.floor(zoom);
+
+        if (zoomBucket === this.lastMapIconZoomBucket) {
+            return;
+        }
+
+        this.lastMapIconZoomBucket = zoomBucket;
+        this.clusterLayer.changed();
+        this.coverageCenterLayer.changed();
+    }
+
+    private getZoomIconScale(minScale: number, maxScale: number): number {
         if (!this.map) {
-            return 0.3;
+            return (minScale + maxScale) / 2;
         }
 
         const zoom = this.map.getView().getZoom() ?? 10;
+        const t = Math.min(
+            Math.max(
+                (zoom - MapAdapter.MAP_ICON_MIN_ZOOM) /
+                    (MapAdapter.MAP_ICON_MAX_ZOOM - MapAdapter.MAP_ICON_MIN_ZOOM),
+                0
+            ),
+            1
+        );
 
-        const factor = Math.max(0, Math.min((zoom - 7) / (18 - 7), 1));
+        return minScale + Math.pow(t, 0.8) * (maxScale - minScale);
+    }
 
-        return 0.05 + Math.pow(factor, 0.8) * 0.1;
+    private getReportMarkerIconScale(): number {
+        return this.getZoomIconScale(
+            MapAdapter.REPORT_ICON_MIN_SCALE,
+            MapAdapter.REPORT_ICON_MAX_SCALE
+        );
+    }
+
+    private getSignalIconScale(): number {
+        return this.getZoomIconScale(
+            MapAdapter.SIGNAL_ICON_MIN_SCALE,
+            MapAdapter.SIGNAL_ICON_MAX_SCALE
+        );
     }
 
     private getReportsFromFeature(
@@ -975,6 +1153,30 @@ export class MapAdapter {
             | InteractiveMapReport
             | undefined;
         return report ? [report] : [];
+    }
+
+    private getCoverageAreaReportsFromFeature(
+        feature: FeatureLike | undefined
+    ): InteractiveMapReport[] {
+        if (!feature) {
+            return [];
+        }
+
+        const clusterFeatures = feature.get('features') as
+            | Feature<Point>[]
+            | undefined;
+
+        if (clusterFeatures) {
+            return clusterFeatures
+                .filter((item) => item.get('coverageArea'))
+                .map((item) => item.get('report') as InteractiveMapReport)
+                .filter(Boolean);
+        }
+
+        const report = feature.get('report') as
+            | InteractiveMapReport
+            | undefined;
+        return report && feature.get('coverageArea') ? [report] : [];
     }
 
     private buildClusterSummary(
@@ -1141,7 +1343,9 @@ export class MapAdapter {
 
     setCoverageOperatorVisible(operator: string, visible: boolean): void {
         this.coverageOperatorsVisible[operator] = visible;
+        this.lastCoverageLayerVisibility = null;
         this.coverageAreaLayer.changed();
+        this.coverageCenterLayer.changed();
     }
     resetView(): void {
         if (!this.map) {

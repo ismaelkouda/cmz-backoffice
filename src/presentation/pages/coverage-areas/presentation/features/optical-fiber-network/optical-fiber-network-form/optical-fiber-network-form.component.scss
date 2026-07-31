@@ -22,6 +22,18 @@ $dark-gray: var(--color-gray);
     margin-bottom: 1.5rem;
 }
 
+:host ::ng-deep.p-fileupload-content {
+    padding: 0;
+}
+
+:host ::ng-deep.p-fileupload-advanced {
+    border: none;
+}
+
+:host ::ng-deep.p-fileupload-header {
+    padding: 15px;
+}
+
 .actions-form-header {
     display: flex;
     justify-content: space-between;

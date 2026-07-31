@@ -1,6 +1,6 @@
-import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
+import { GeoLocation } from '../domain/models/geo-location.model';
 
 export interface LocationPickerData {
-    initialCoordinates?: Coordinates;
+    initialCoords?: GeoLocation;
     initialZoom?: number;
 }
