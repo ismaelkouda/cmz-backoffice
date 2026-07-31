@@ -16,8 +16,9 @@
                             </app-page-title>
                         </div>
 
-                        @if (!isDetailsMode()) {
+                        
                             <div class="d-flex align-items-center gap-2">
+                                @if (!isDetailsMode()) {
                                 <button
                                     pButton
                                     type="submit"
@@ -35,13 +36,13 @@
                                     }
                                     {{ 'COMMON.SAVE' | translate }}
                                 </button>
+                        }
                                 <p-button
                                     label="{{ 'COMMON.CLOSE' | translate }}"
                                     (onClick)="navigateToBack()"
                                     styleClass="p-button-danger"
                                 />
                             </div>
-                        }
                     </header>
 
                     <div class="row">

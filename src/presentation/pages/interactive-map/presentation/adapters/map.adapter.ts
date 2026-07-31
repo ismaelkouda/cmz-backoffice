@@ -108,7 +108,7 @@ export class MapAdapter {
     private static readonly CLUSTER_DISTANCE = 42;
     private static readonly CLUSTER_MIN_DISTANCE = 18;
     /** Zones visibles uniquement au-delà de ce zoom ; centres toujours visibles si cochés. */
-    private static readonly COVERAGE_ZONES_MIN_ZOOM = 9;
+    private static readonly COVERAGE_ZONES_MIN_ZOOM = 11.35;
     private static readonly MAP_ICON_MIN_ZOOM = 7;
     private static readonly MAP_ICON_MAX_ZOOM = 18;
     private static readonly REPORT_ICON_MIN_SCALE = 0.05;
@@ -268,7 +268,8 @@ export class MapAdapter {
         this.setupPointerMoveListener();
 
         const initialZoom = this.map.getView().getZoom() ?? 0;
-        this.coverageZonesDisplayMode = this.shouldShowCoverageZones(initialZoom);
+        this.coverageZonesDisplayMode =
+            this.shouldShowCoverageZones(initialZoom);
 
         this.defaultCenter = options.defaultCenter || options.center;
         this.defaultZoom = options.defaultZoom || options.zoom;
@@ -496,9 +497,7 @@ export class MapAdapter {
 
         const nextVisibility = {
             areaTiles:
-                showZones &&
-                this.coverageZonesUserVisible &&
-                hasTileSource,
+                showZones && this.coverageZonesUserVisible && hasTileSource,
             centerTiles: this.coverageCentersUserVisible && hasTileSource,
         };
 
@@ -1109,7 +1108,8 @@ export class MapAdapter {
         const t = Math.min(
             Math.max(
                 (zoom - MapAdapter.MAP_ICON_MIN_ZOOM) /
-                    (MapAdapter.MAP_ICON_MAX_ZOOM - MapAdapter.MAP_ICON_MIN_ZOOM),
+                    (MapAdapter.MAP_ICON_MAX_ZOOM -
+                        MapAdapter.MAP_ICON_MIN_ZOOM),
                 0
             ),
             1

@@ -20,11 +20,11 @@ export const RadioRelayLinksFormValidatorsService = {
         Validators.maxLength(RadioRelayLinksFormValidators.NAME.MAX_LENGTH),
     ],
     OPERATOR: [Validators.required],
-    FREQUENCY: [Validators.required],
+    FREQUENCY: [Validators.required, Validators.min(1)],
 };
 
 export const RadioRelayLinksFormValidatorsStream = {
     NAME: [Validators.required],
     OPERATOR: [Validators.required],
-    FREQUENCY: [Validators.required],
+    FREQUENCY: [Validators.required, Validators.min(1)],
 };

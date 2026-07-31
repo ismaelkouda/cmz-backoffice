@@ -16,8 +16,9 @@
                             </app-page-title>
                         </div>
 
-                        @if (!isDetailsMode()) {
+                        
                             <div class="d-flex align-items-center gap-2">
+                                @if (!isDetailsMode()) {
                                 <button
                                     pButton
                                     type="submit"
@@ -35,13 +36,14 @@
                                     }
                                     {{ 'COMMON.SAVE' | translate }}
                                 </button>
+                                }
                                 <p-button
                                     label="{{ 'COMMON.CLOSE' | translate }}"
                                     (onClick)="navigateToBack()"
                                     styleClass="p-button-danger"
                                 />
                             </div>
-                        }
+                        
                     </header>
 
                     <div class="row">
@@ -174,21 +176,32 @@
                                                             >*</span
                                                         ></label
                                                     >
-                                                    <p-select
-                                                        class="form-p-select"
-                                                        [options]="
-                                                            frequencyOptions()
-                                                        "
-                                                        formControlName="frequency"
-                                                        optionLabel="label"
-                                                        optionValue="value"
-                                                        styleClass="w-100"
-                                                        [placeholder]="
-                                                            'COMMON.SELECT_PLACEHOLDER'
-                                                                | translate
-                                                        "
-                                                    >
-                                                    </p-select>
+                                                    <p-inputgroup class="w-100">
+                                                        <p-inputnumber
+                                                            id="frequency"
+                                                            formControlName="frequency"
+                                                            [minFractionDigits]="0"
+                                                            [maxFractionDigits]="0"
+                                                            [useGrouping]="false"
+                                                            [min]="1"
+                                                            styleClass="w-100"
+                                                            [placeholder]="
+                                                                'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.FREQUENCY_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                form.get(
+                                                                    'frequency'
+                                                                )?.invalid &&
+                                                                form.get(
+                                                                    'frequency'
+                                                                )?.touched
+                                                            "
+                                                        />
+                                                        <p-inputgroup-addon>
+                                                            MHZ
+                                                        </p-inputgroup-addon>
+                                                    </p-inputgroup>
                                                     @if (
                                                         form.get('frequency')
                                                             ?.invalid &&

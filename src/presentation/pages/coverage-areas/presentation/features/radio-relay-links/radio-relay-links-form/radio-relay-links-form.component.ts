@@ -25,9 +25,10 @@ import {
     FilterOption,
 } from '@shared/components/filter/filter.types';
 import { RadioRelayLinksOperator } from '@pages/coverage-areas/domain/enums/radio-relay-links/radio-relay-links-operator.enum';
-import { RadioRelayLinksFrequency } from '@pages/coverage-areas/domain/enums/radio-relay-links/radio-relay-links-frequency.enum';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -54,6 +55,8 @@ const I18N = 'COVERAGE_AREAS.RADIO_RELAY_LINKS';
         ReactiveFormsModule,
         InputTextModule,
         InputNumberModule,
+        InputGroupModule,
+        InputGroupAddonModule,
         SelectModule,
         ButtonModule,
         TagModule,
@@ -95,15 +98,6 @@ export class RadioRelayLinksFormComponent implements OnInit {
             this.currentLang();
             return enumToFilterOptionsWithValue(
                 RadioRelayLinksOperator,
-                this.t.bind(this)
-            );
-        }
-    );
-    protected readonly frequencyOptions: Signal<FilterOption[]> = computed(
-        () => {
-            this.currentLang();
-            return enumToFilterOptionsWithValue(
-                RadioRelayLinksFrequency,
                 this.t.bind(this)
             );
         }
@@ -219,7 +213,7 @@ export class RadioRelayLinksFormComponent implements OnInit {
         const payload = {
             name: formValue.name ?? undefined,
             operator: formValue.operator ?? undefined,
-            frequency: formValue.frequency ?? undefined,
+            frequency: this.helper.formatFrequency(formValue.frequency),
         };
 
         if (this.isEditMode()) {
