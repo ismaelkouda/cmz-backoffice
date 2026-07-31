@@ -40,7 +40,6 @@ export class GeoProxyService implements GeoService {
                 }
             )
         );
-        console.log('dto: ', dto);
 
         const locations = this.locationMapper.fromGeocodeList(dto);
 

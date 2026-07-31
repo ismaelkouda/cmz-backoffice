@@ -19,6 +19,8 @@ import { LocationPickerData } from '../../models/location-picker-data.model';
 import { GeoProxyService } from '../../infrastructure/services/geo-proxy.service';
 import { GEO_SERVICE } from '../../infrastructure/services/geo.service';
 import { GeoLocation } from '../../domain/models/geo-location.model';
+import { LocationCoordinates } from '../../models/location-coordinates.model';
+import { formatCoordinatesString } from '../../utils/coordinates.utils';
 
 @Component({
     selector: 'app-location-picker-dialog',
@@ -55,9 +57,18 @@ export class LocationPickerDialogComponent {
 
     protected readonly currentLocationDisplay = computed(() => {
         const location = this.facade.selectedLocation();
-        return location
-            ? `${location.lat} ${location.lng}`
-            : 'Aucune position sélectionnée';
+        if (!location) {
+            return '';
+        }
+
+        return formatCoordinatesString(
+            Number(location.lat),
+            Number(location.lng)
+        );
+    });
+
+    protected readonly currentAddressDisplay = computed(() => {
+        return this.facade.selectedLocation()?.displayName ?? '';
     });
 
     constructor() {
@@ -65,6 +76,7 @@ export class LocationPickerDialogComponent {
 
         if (data?.initialCoords) {
             this.facade.select(data.initialCoords);
+            this.searchQuery.set(data.initialCoords.displayName);
         }
     }
 
@@ -78,8 +90,8 @@ export class LocationPickerDialogComponent {
         this.searchQuery.set(location.displayName);
     }
 
-    onMapCoordinatesChange(coords: GeoLocation): void {
-        this.facade.reverse(coords.lat, coords.lng);
+    onMapCoordinatesChange(coords: LocationCoordinates): void {
+        this.facade.reverse(String(coords.latitude), String(coords.longitude));
     }
     onValidate(): void {
         this.ref.close(this.facade.selectedLocation());

@@ -77,11 +77,15 @@ export class InfrastructureFormStore {
     });
 
     public setCoordinates(position: GeoLocation): void {
-        this.form.controls.position.setValue({
-            longitude: Number(position.lng),
+        const coords: Coordinates = {
             latitude: Number(position.lat),
-            what3words: undefined,
-        });
+            longitude: Number(position.lng),
+            what3words: position.name || position.displayName,
+        };
+        const control = this.form.controls.position;
+        control.setValue(coords);
+        control.markAsTouched();
+        control.updateValueAndValidity();
     }
 
     public readonly vm = computed(() => ({

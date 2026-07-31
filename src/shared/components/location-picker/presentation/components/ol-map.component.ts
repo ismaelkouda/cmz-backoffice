@@ -65,7 +65,6 @@ export class OlMapComponent implements OnDestroy {
         effect(() => {
             const container = this.mapContainer();
             const coords = this.initialCoords();
-            console.log('coords: ', coords);
             const hasValidNonZeroCoords =
                 coords && isValidAndNonZeroCoordinates(coords.lat, coords.lng);
 
@@ -305,6 +304,7 @@ export class OlMapComponent implements OnDestroy {
     private syncPosition(coord: [number, number]): void {
         const { latitude, longitude } = fromOlCoordinate(coord);
 
+        this.updateMarkerVisibility(true);
         this.moveMarkerTo(latitude, longitude);
         this.emitCoordinates(latitude, longitude);
 

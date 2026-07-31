@@ -431,6 +431,10 @@ export class InteractiveMapComponent
         this.mapAdapter.updateSize(true);
     }
 
+    public resetMapView(): void {
+        this.mapAdapter.resetView();
+    }
+
     public async toggleFullscreen(): Promise<void> {
         const shell = this.mapShell()?.nativeElement;
         if (!shell) {
@@ -742,7 +746,6 @@ export class InteractiveMapComponent
 
         this.mapAdapter.renderCoverageAreaTiles(tileUrl, true);
 
-        // Appliquer les visibilités actuelles après le rendu
         this.mapAdapter.setCoverageZonesVisible(this.showCoverageZones());
         this.mapAdapter.setCoverageCentersVisible(this.showCoverageCenters());
     }
@@ -812,13 +815,12 @@ export class InteractiveMapComponent
     private listenToMapMoves(): void {
         this.mapAdapter
             .onMoveEnd()
-            .pipe(debounceTime(1000), takeUntilDestroyed(this.destroyRef))
+            .pipe(debounceTime(400), takeUntilDestroyed(this.destroyRef))
             .subscribe((bounds) => {
                 if (this.ignoreNextMapMove) {
                     this.ignoreNextMapMove = false;
                     return;
                 }
-                console.log('Nouveaux bounds après mouvement:', bounds);
                 this.store.setViewportBounds(bounds);
                 const view = this.mapAdapter.getViewState();
                 if (view) {

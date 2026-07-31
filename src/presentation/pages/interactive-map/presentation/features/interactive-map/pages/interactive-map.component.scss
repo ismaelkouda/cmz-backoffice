@@ -153,14 +153,32 @@ $dark-gray: var(--color-gray);
 // Panneau de filtres flottant au-dessus de la carte (même logique que
 // .coverage-legend-panel à droite) : il ne fait plus partie de la grille
 // et ne redimensionne donc plus la carte quand on l'ouvre/le ferme.
-.filters-panel {
+.filters-panel-stack {
     position: absolute;
     top: 10px;
     left: 10px;
-    z-index: 1;
-    width: 300px;
+    z-index: 7;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: stretch;
     max-width: calc(100% - 20px);
     max-height: calc(100% - 20px);
+    pointer-events: none;
+
+    > * {
+        pointer-events: auto;
+    }
+}
+
+.filters-panel {
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: auto;
+    width: 300px;
+    max-width: 100%;
+    max-height: calc(100% - 42px);
     overflow: auto;
     background: var(--color-bg-surface);
     border: 1px solid var(--color-border-light);
@@ -218,10 +236,11 @@ $dark-gray: var(--color-gray);
 }
 
 .open-toggle-button {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    z-index: 7;
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: auto;
+    align-self: flex-start;
     @include button-base;
     color: var(--color-text);
     background: var(--color-bg-surface);
@@ -231,6 +250,30 @@ $dark-gray: var(--color-gray);
     &:hover {
         background: var(--color-bg-hover);
         border-color: var(--color-primary);
+    }
+}
+
+.reset-view-button {
+    align-self: flex-end;
+        position: absolute;
+    top: 70px;
+    left: 20rem;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &:hover {
+        background: var(--color-bg-hover);
     }
 }
 
@@ -763,11 +806,16 @@ $dark-gray: var(--color-gray);
         border-bottom: 1px solid var(--color-border-light);
     }
 
-    .filters-panel {
+    .filters-panel-stack {
         left: 10px;
         right: 10px;
         width: auto;
         max-width: calc(100% - 20px);
+    }
+
+    .filters-panel {
+        width: 100%;
+        max-width: none;
     }
 
     .map-workspace {
@@ -992,11 +1040,10 @@ $dark-gray: var(--color-gray);
     }
 }
 ::ng-deep .ol-zoom {
-    top: auto;
+    bottom: auto;
     left: auto;
 
-    left: 10px;
-    bottom: 10px;
+    left: 20rem;
 }
 
 .form-p-select,

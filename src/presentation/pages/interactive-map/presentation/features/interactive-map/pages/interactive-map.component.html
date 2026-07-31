@@ -133,6 +133,7 @@
 
                     <div class="interactive-map-shell mt-3">
                         <main class="map-workspace">
+                            <div class="filters-panel-stack">
                             @if (!filtersPanelOpen()) {
                                 <button
                                     type="button"
@@ -386,6 +387,7 @@
                                     </div>
                                 </aside>
                             }
+                            </div>
 
                             <div
                                 class="coverage-legend"
@@ -603,6 +605,15 @@
                                 }
                             </div>
                             <div #mapContainer class="map"></div>
+
+                            <button
+                                type="button"
+                                class="reset-view-button"
+                                title="Réinitialiser la vue"
+                                (click)="resetMapView()"
+                            >
+                                🎯
+                            </button>
 
                             <!-- <section
                                 class="map-search-bar"

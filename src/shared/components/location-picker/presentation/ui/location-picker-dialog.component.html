@@ -74,7 +74,20 @@
     <div class="footer">
         <div class="coordinates-preview">
             <i class="pi pi-crosshair"></i>
-            <span>{{ currentLocationDisplay() ?? '' }}</span>
+            @if (facade.selectedLocation()) {
+                <div class="coordinates-preview__details">
+                    <span>{{ currentLocationDisplay() }}</span>
+                    @if (currentAddressDisplay()) {
+                        <small class="coordinates-preview__address">{{
+                            currentAddressDisplay()
+                        }}</small>
+                    }
+                </div>
+            } @else {
+                <span class="coordinates-preview__empty">{{
+                    'COMMON.NO_COORDINATES' | translate
+                }}</span>
+            }
         </div>
 
         <div class="actions">
@@ -89,7 +102,7 @@
                 [label]="'COMMON.VALIDATE' | translate"
                 icon="pi pi-check"
                 (click)="onValidate()"
-                [disabled]="!facade.selectedLocation()"
+                [disabled]="!facade.selectedLocation() || isSearching()"
                 [loading]="isSearching()"
             >
             </p-button>

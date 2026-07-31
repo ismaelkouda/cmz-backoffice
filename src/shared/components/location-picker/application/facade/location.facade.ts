@@ -35,15 +35,18 @@ export class LocationFacade {
     }
 
     async search(query: string): Promise<void> {
-        console.log('query: ', query);
-        this.loadingSignal.set(true);
+        const trimmed = query.trim();
+        if (trimmed.length < 3) {
+            this.searchResultsSignal.set([]);
+            this.errorSignal.set(null);
+            return;
+        }
 
+        this.loadingSignal.set(true);
         this.errorSignal.set(null);
 
         try {
-            const result = await this.geoService.geocode(query);
-            console.log('result: ', result);
-
+            const result = await this.geoService.geocode(trimmed);
             this.searchResultsSignal.set(result);
         } catch {
             this.errorSignal.set('Erreur de recherche');
@@ -53,10 +56,25 @@ export class LocationFacade {
     }
 
     async reverse(lat: string, lng: string): Promise<GeoLocation> {
-        const location = await this.geoService.reverseGeocode(lat, lng);
+        const interim: GeoLocation = {
+            lat,
+            lng,
+            displayName: `${lat}, ${lng}`,
+        };
 
-        this.geoLocation.set(location);
+        this.geoLocation.set(interim);
+        this.loadingSignal.set(true);
+        this.errorSignal.set(null);
 
-        return location;
+        try {
+            const location = await this.geoService.reverseGeocode(lat, lng);
+            this.geoLocation.set(location);
+            return location;
+        } catch {
+            this.errorSignal.set("Impossible de récupérer l'adresse");
+            return interim;
+        } finally {
+            this.loadingSignal.set(false);
+        }
     }
 }

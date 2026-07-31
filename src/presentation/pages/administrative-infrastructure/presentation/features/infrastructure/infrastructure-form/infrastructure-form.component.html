@@ -182,30 +182,81 @@
                                                             >*</span
                                                         ></label
                                                     >
-                                                    <p-inputgroup>
-                                                        <input
-                                                            class="form-input"
-                                                            pInputText
-                                                            type="text"
-                                                            [value]="
-                                                                this.store.vm()
-                                                                    .position
+                                                    <div
+                                                        class="position-display-wrapper"
+                                                    >
+                                                        <!-- <div
+                                                            class="position-coordinates"
+                                                            [class.has-coordinates]="
+                                                                store.vm()
+                                                                    .position !==
+                                                                ''
                                                             "
-                                                            readonly
-                                                            placeholder="Lat, Lng"
-                                                        />
-                                                        <p-inputgroup-addon>
-                                                            <p-button
-                                                                icon="pi pi-map"
-                                                                severity="secondary"
-                                                                (click)="
-                                                                    openLocationPicker()
-                                                                "
-                                                                [text]="true"
+                                                        >
+                                                            <i
+                                                                class="pi pi-map-marker-alt"
+                                                            ></i>
+                                                            <span
+                                                                class="coords-text"
                                                             >
-                                                            </p-button>
-                                                        </p-inputgroup-addon>
-                                                    </p-inputgroup>
+                                                                {{
+                                                                    store.vm()
+                                                                        .position ||
+                                                                        ('COMMON.NO_COORDINATES'
+                                                                            | translate)
+                                                                }}
+                                                            </span>
+                                                        </div> -->
+                                                        <p-inputgroup>
+                                                            <input
+                                                                class="form-input"
+                                                                pInputText
+                                                                type="text"
+                                                                [value]="
+                                                                    store.vm()
+                                                                        .position
+                                                                "
+                                                                readonly
+                                                                placeholder="Lat, Lng"
+                                                            />
+                                                            <p-inputgroup-addon>
+                                                                @if (
+                                                                    !isDetailsMode()
+                                                                ) {
+                                                                    <p-button
+                                                                        icon="pi pi-map"
+                                                                        severity="secondary"
+                                                                        (click)="
+                                                                            openLocationPicker()
+                                                                        "
+                                                                        [text]="
+                                                                            true
+                                                                        "
+                                                                        [attr.aria-label]="
+                                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.OPEN_MAP'
+                                                                                | translate
+                                                                        "
+                                                                    >
+                                                                    </p-button>
+                                                                }
+                                                            </p-inputgroup-addon>
+                                                        </p-inputgroup>
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                KEYS.POSITION
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                >{{
+                                                                    getErrorMessage(
+                                                                        KEYS.POSITION
+                                                                    )
+                                                                        | translate
+                                                                }}</small
+                                                            >
+                                                        }
+                                                    </div>
                                                 </div>
 
                                                 <div class="col-md-12">

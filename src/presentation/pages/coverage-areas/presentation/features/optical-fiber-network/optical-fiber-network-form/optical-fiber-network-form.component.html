@@ -65,7 +65,7 @@
                                                 }}</b>
                                             </legend>
                                             <div class="row g-3">
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label
                                                         for="name"
                                                         class="form-label fw-bold"
@@ -111,7 +111,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label
                                                         for="operator"
                                                         class="form-label fw-bold"
@@ -130,6 +130,7 @@
                                                         [options]="
                                                             operatorOptions
                                                         "
+                                                        [editable]="true"
                                                         formControlName="operator"
                                                         optionLabel="label"
                                                         optionValue="value"
@@ -170,34 +171,24 @@
                                                             >*</span
                                                         >
                                                     </label>
-                                                    <p-select
-                                                        class="form-p-select"
-                                                        [options]="
-                                                            fiberConstructorOptions()
-                                                        "
-                                                        [loading]="
-                                                            fiberConstructorLoading()
-                                                        "
+                                                    <input
+                                                        class="form-input"
+                                                        id="fiberConstructorId"
+                                                        type="text"
                                                         formControlName="fiberConstructorId"
-                                                        optionLabel="label"
-                                                        optionValue="value"
-                                                        filter="true"
-                                                        filterBy="label"
-                                                        styleClass="w-100"
                                                         [placeholder]="
                                                             'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.CONSTRUCTOR_PLACEHOLDER'
                                                                 | translate
                                                         "
-                                                        [emptyMessage]="
-                                                            'COMMON.SELECT_EMPTY_MESSAGE'
-                                                                | translate
+                                                        [attr.aria-invalid]="
+                                                            form.get(
+                                                                'fiberConstructorId'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'fiberConstructorId'
+                                                            )?.touched
                                                         "
-                                                        [emptyFilterMessage]="
-                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
-                                                                | translate
-                                                        "
-                                                    >
-                                                    </p-select>
+                                                    />
                                                     @if (
                                                         form.get(
                                                             'fiberConstructorId'
@@ -216,7 +207,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-3">
+                                                <div class="col-md-2">
                                                     <label
                                                         for="type"
                                                         class="form-label fw-bold"
@@ -259,10 +250,10 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="geomFile"
-                                                        class="form-label fw-bold"
+                                                        class="form-label mb-0 fw-bold"
                                                     >
                                                         {{
                                                             'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_FILE'
@@ -335,7 +326,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-6">
+                                                <div class="col-md-12">
                                                     <label
                                                         for="mapPreview"
                                                         class="form-label fw-bold"
@@ -352,7 +343,7 @@
                                                                 ?.value ||
                                                             existingGeom()
                                                         "
-                                                        height="320px"
+                                                        height="450px"
                                                         [strokeColor]="'#e11d48'"
                                                         [strokeWidth]="3"
                                                     />
@@ -361,36 +352,41 @@
                                         </fieldset>
                                     </form>
                                 </div>
+                                @if (!isDetailsMode()) {
+                                    <div
+                                        class="d-flex justify-content-end gap-2 my-2"
+                                    >
+                                        <button
+                                            pButton
+                                            type="submit"
+                                            (click)="onSubmit()"
+                                            [disabled]="
+                                                form.invalid || loadingSubmit()
+                                            "
+                                        >
+                                            @if (!loadingSubmit()) {
+                                                <i class="pi pi-check"></i>
+                                            } @else {
+                                                <span
+                                                    class="spinner-border spinner-border-sm"
+                                                    role="status"
+                                                    aria-hidden="true"
+                                                ></span>
+                                            }
+                                            {{ 'COMMON.SAVE' | translate }}
+                                        </button>
+                                        <p-button
+                                            label="{{
+                                                'COMMON.CLOSE' | translate
+                                            }}"
+                                            (onClick)="navigateToBack()"
+                                            styleClass="p-button-danger"
+                                        />
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
-
-                    @if (!isDetailsMode()) {
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <button
-                                pButton
-                                type="submit"
-                                (click)="onSubmit()"
-                                [disabled]="form.invalid || loadingSubmit()"
-                            >
-                                @if (!loadingSubmit()) {
-                                    <i class="pi pi-check"></i>
-                                } @else {
-                                    <span
-                                        class="spinner-border spinner-border-sm"
-                                        role="status"
-                                        aria-hidden="true"
-                                    ></span>
-                                }
-                                {{ 'COMMON.SAVE' | translate }}
-                            </button>
-                            <p-button
-                                label="{{ 'COMMON.CLOSE' | translate }}"
-                                (onClick)="navigateToBack()"
-                                styleClass="p-button-danger"
-                            />
-                        </div>
-                    }
                 </div>
             </section>
         </article>

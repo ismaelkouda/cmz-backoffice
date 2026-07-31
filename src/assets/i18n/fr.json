@@ -39,6 +39,7 @@
         "INDEX": "#",
         "SELECTION": "Selection",
         "SELECT_PLACEHOLDER": "Sélectionner...",
+        "NO_COORDINATES": "Aucune coordonnée sélectionnée",
         "CHOOSE_FILE": "Choisir un fichier",
         "CANCEL": "Annuler",
         "CONFIRM": "Confirmer",
@@ -4484,6 +4485,9 @@
                 "TITLE": "Informations Générales",
                 "CREATE_TITLE": "Ajouter un équipement",
                 "EDIT_TITLE": "Modifier un équipement",
+                "DETAILS_TITLE": "Détails de l'équipement",
+                "OPEN_MAP": "Ouvrir la carte",
+                "LOCATION_PICKER_TITLE": "Sélectionner une position sur la carte",
                 "NAME": "Nom",
                 "TYPE": "Type d'equipement",
                 "TYPE_PLACEHOLDER": "Selectionner le type d'équipement",
@@ -4549,6 +4553,9 @@
                 "EDIT": "Modifier",
                 "DELETE": "Supprimer",
                 "DISABLE": "Désactiver"
+            },
+            "TOAST": {
+                "POSITION_SELECTED": "Position enregistrée avec succès"
             },
             "SWEET_ALERT": {
                 "TITLE": {
@@ -4662,7 +4669,7 @@
                 "CREATE_TITLE": "Ajouter un groupe de sites",
                 "EDIT_TITLE": "Modifier un groupe de sites",
                 "DETAILS_TITLE": "Détails du groupe de sites",
-                "COLOR": "Couleur",
+                "COLOR": "Couleur de la legende",
                 "CODE": "Code (Nom affiché)",
                 "CODE_PLACEHOLDER": "Ex: GRP-001",
                 "NAME": "Nom du groupe",
@@ -4911,7 +4918,7 @@
                 "CONSTRUCTOR_PLACEHOLDER": "Sélectionner un constructeur",
                 "TYPE": "Type de fibre",
                 "TYPE_PLACEHOLDER": "Sélectionner le type",
-                "GEOM_FILE": "Fichier GeoJSON (.geojson/.json)",
+                "GEOM_FILE": "Tableau de coordonnées de troncon",
                 "GEOM_PLACEHOLDER": "Glisser-déposer ou cliquer",
                 "GEOM_EXISTING": "Fichier GeoJSON déjà associé",
                 "MAP_PREVIEW": "Aperçu carte",

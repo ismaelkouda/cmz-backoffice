@@ -729,6 +729,10 @@ select:focus,
     color: #dee2e6 !important;
 }
 
+input.p-select-label.p-placeholder {
+    color: #000 !important;
+}
+
 input.form-control:focus,
 input.form-control:active {
     border-color: #6c757d !important;

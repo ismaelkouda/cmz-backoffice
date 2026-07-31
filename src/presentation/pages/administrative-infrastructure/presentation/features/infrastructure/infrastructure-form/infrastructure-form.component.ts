@@ -42,6 +42,7 @@ import { Coordinates } from '@shared/domain/interfaces/coordinates.interface';
 import { LocationPickerDialogComponent } from '@shared/components/location-picker/presentation/ui/location-picker-dialog.component';
 import { DialogService } from 'primeng/dynamicdialog';
 import { GeoLocation } from '@shared/components/location-picker/domain/models/geo-location.model';
+import { coordinatesToGeoLocation } from '@shared/components/location-picker/utils/geo-location.utils';
 
 @Component({
     selector: 'app-infrastructure-form',
@@ -194,7 +195,7 @@ export class InfrastructureFormComponent implements OnInit {
             return;
         }
 
-        if (!this.isEditMode() && this.isEditMode()) {
+        if (!this.canEdit() && this.isEditMode()) {
             this.toast.error(this.editTooltip());
             return;
         }
@@ -247,24 +248,39 @@ export class InfrastructureFormComponent implements OnInit {
     }
 
     public openLocationPicker(): void {
-        if (!this.dialogService) {
+        if (this.isDetailsMode()) {
             return;
         }
+
         const ref = this.dialogService.open(LocationPickerDialogComponent, {
-            header: 'Sélectionner une position sur la carte',
-            width: '90vw',
-            height: 'auto',
+            header: this.t(
+                'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.LOCATION_PICKER_TITLE'
+            ),
+            width: window.innerWidth <= 992 ? '100vw' : '80vw',
+            height: window.innerWidth <= 992 ? '100vh' : '80vh',
             maximizable: true,
             draggable: false,
             closable: true,
-            data: { initialCoords: this.initialCoords },
+            data: {
+                initialCoords: this.initialCoords
+                    ? coordinatesToGeoLocation(this.initialCoords)
+                    : undefined,
+            },
             styleClass: 'location-picker-dialog',
         });
-        ref?.onClose.subscribe((result: GeoLocation | null) => {
-            if (result) {
-                this.store.setCoordinates(result);
-            }
-        });
+
+        ref?.onClose
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((result: GeoLocation | null) => {
+                if (result) {
+                    this.store.setCoordinates(result);
+                    this.toast.success(
+                        this.t(
+                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.TOAST.POSITION_SELECTED'
+                        )
+                    );
+                }
+            });
     }
     private get initialCoords(): Coordinates | undefined {
         const coordinatesControl = this.form.controls.position;
