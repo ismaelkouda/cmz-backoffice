@@ -16,18 +16,25 @@ export class GeoLocationMapper {
     }
 
     fromReverse(dto: ReverseGeocodeResult): GeoLocation {
+        // Si name est vide, prendre le premier segment de display_name
+        const name = dto.name?.trim() || dto.display_name.split(',')[0].trim();
+
+        // Extraire municipality ou utiliser un autre champ du address
+        const address = dto.address || {};
+        const municipality =
+            address.municipality ||
+            address.village ||
+            address.town ||
+            address.city ||
+            address.county;
+
         return {
             lat: dto.lat,
-
             lng: dto.lon,
-
             displayName: dto.display_name,
-
-            name: dto.name,
-
+            name,
             placeId: dto.place_id,
-
-            municipality: dto.address.municipality,
+            municipality,
         };
     }
 

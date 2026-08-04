@@ -17,6 +17,8 @@ import Feature from 'ol/Feature';
 import { FeatureLike } from 'ol/Feature';
 import MVT from 'ol/format/MVT';
 import Point from 'ol/geom/Point';
+import LineString from 'ol/geom/LineString';
+import Polygon from 'ol/geom/Polygon';
 import HeatmapLayer from 'ol/layer/Heatmap';
 import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
@@ -141,26 +143,12 @@ export class MapAdapter {
         minDistance: MapAdapter.CLUSTER_MIN_DISTANCE,
         source: this.featureSource,
     });
-    private readonly coverageAreaClusterSource = new VectorSource();
-    private readonly coverageAreaClusterSourceClustered = new Cluster({
-        distance: 40,
-        minDistance: 20,
-        source: this.coverageAreaClusterSource,
-    });
     private readonly clusterLayer = new VectorLayer({
         source: this.clusterSource,
         style: (feature): Style | Style[] => {
             return this.clusterStyleFunction(feature);
         },
         zIndex: 10,
-    });
-    private readonly coverageAreaClusterLayer = new VectorLayer({
-        source: this.coverageAreaClusterSourceClustered,
-        style: (feature): Style | Style[] => {
-            return this.coverageAreaClusterStyleFunction(feature);
-        },
-        zIndex: 3,
-        visible: false,
     });
     private readonly coverageAreaLayer = new VectorTileLayer({
         declutter: false,
@@ -262,7 +250,6 @@ export class MapAdapter {
 
         this.map.addLayer(this.coverageAreaLayer);
         this.map.addLayer(this.coverageCenterLayer);
-        this.map.addLayer(this.coverageAreaClusterLayer);
         this.setupMapViewListeners();
         this.setupClickListener();
         this.setupPointerMoveListener();
@@ -357,8 +344,6 @@ export class MapAdapter {
             this.coverageAreaLayer.setVisible(false);
             this.coverageCenterLayer.setSource(null);
             this.coverageCenterLayer.setVisible(false);
-            this.coverageAreaClusterSource.clear();
-            this.coverageAreaClusterLayer.setVisible(false);
             this.coverageTilesActive = false;
             this.lastCoverageLayerVisibility = null;
             return;
@@ -512,7 +497,6 @@ export class MapAdapter {
         }
 
         this.lastCoverageLayerVisibility = nextVisibility;
-        this.coverageAreaClusterLayer.setVisible(false);
         this.coverageAreaLayer.setVisible(nextVisibility.areaTiles);
         this.coverageCenterLayer.setVisible(nextVisibility.centerTiles);
 
@@ -869,42 +853,44 @@ export class MapAdapter {
 
     private createCoverageAreaTileStyle(feature: FeatureLike): Style {
         const coverageArea = feature.getProperties() as CoverageAreaProperties;
-        const operator = this.normalizeOperatorName(coverageArea?.operator);
+        const operator = this.normalizeOperatorName(
+            this.getFeatureOperatorValue(coverageArea)
+        );
 
         if (!operator || !this.coverageOperatorsVisible[operator]) {
             return new Style({});
         }
 
         const radiusInMeters = this.getCoverageRadiusMeters(coverageArea);
-        if (radiusInMeters !== null) {
-            const color = this.getCoverageAreaColor(operator);
-            const markerRadius = this.metersToPixels(radiusInMeters);
-
-            return new Style({
-                image: new CircleStyle({
-                    radius: markerRadius,
-                    fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
-                    stroke: new Stroke({
-                        color: color,
-                        width: 2.5,
-                        lineDash: [4, 4],
-                    }),
-                }),
-            });
+        if (radiusInMeters === null) {
+            // Pas de rayon fourni par le backend (point encore agrégé en
+            // cluster à ce niveau de zoom) : on n'affiche rien plutôt
+            // qu'une icône de repère symbolique. Seul le cercle réel,
+            // fourni automatiquement par le backend, doit apparaître.
+            return new Style({});
         }
 
+        const color = this.getCoverageAreaColor(operator);
+        const markerRadius = this.metersToPixels(radiusInMeters);
+
         return new Style({
-            image: new Icon({
-                src: 'assets/images/icones/radar.svg',
-                scale: 0.5,
-                anchor: [0.5, 0.5],
+            image: new CircleStyle({
+                radius: markerRadius,
+                fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
+                stroke: new Stroke({
+                    color: color,
+                    width: 2.5,
+                    lineDash: [4, 4],
+                }),
             }),
         });
     }
 
     private createCoverageCenterTileStyle(feature: FeatureLike): Style {
         const properties = feature.getProperties() as CoverageAreaProperties;
-        const operator = this.normalizeOperatorName(properties?.operator);
+        const operator = this.normalizeOperatorName(
+            this.getFeatureOperatorValue(properties)
+        );
 
         if (!operator || !this.coverageOperatorsVisible[operator]) {
             return new Style({});
@@ -955,6 +941,7 @@ export class MapAdapter {
     private coverageAreaClusterStyleFunction(
         _feature: FeatureLike
     ): Style | Style[] {
+        console.log(_feature);
         return new Style({});
     }
 
@@ -962,7 +949,9 @@ export class MapAdapter {
         properties: CoverageAreaProperties
     ): Style {
         const operator =
-            this.normalizeOperatorName(properties?.operator) || 'open';
+            this.normalizeOperatorName(
+                this.getFeatureOperatorValue(properties)
+            ) || 'open';
         const color = this.getCoverageAreaColor(operator);
         const radiusInMeters = Number(properties?.radius);
         const markerRadius = Number.isFinite(radiusInMeters)
@@ -1264,11 +1253,30 @@ export class MapAdapter {
         return operator ? colors[operator] || '#6b7280' : '#6b7280';
     }
 
+    /**
+     * Depuis l'optimisation clustering côté backend, les tuiles
+     * `coverage_areas` renvoient un champ `operators` (pluriel, ex: "oci"
+     * ou "oci,mtn" pour un cluster mêlant plusieurs opérateurs) au lieu du
+     * champ `operator` (singulier) utilisé auparavant sur les points
+     * individuels. On garde la compatibilité avec les deux noms de champ.
+     */
+    private getFeatureOperatorValue(
+        properties: CoverageAreaProperties | Record<string, unknown>
+    ): unknown {
+        return (
+            (properties as Record<string, unknown>)?.['operator'] ??
+            (properties as Record<string, unknown>)?.['operators']
+        );
+    }
+
     private normalizeOperatorName(value: unknown): string | undefined {
         if (typeof value !== 'string') {
             return undefined;
         }
-        const normalized = value.trim().toLowerCase();
+        // Un cluster peut regrouper plusieurs opérateurs séparés par une
+        // virgule (ex: "oci,mtn") : on ne garde que le premier pour le
+        // rendu du style (couleur/icône).
+        const normalized = value.split(',')[0].trim().toLowerCase();
         return normalized in this.coverageOperatorsVisible
             ? normalized
             : undefined;
@@ -1302,19 +1310,172 @@ export class MapAdapter {
                         }
 
                         const data = await response.arrayBuffer();
-                        const format = tile.getFormat();
-                        const features = format.readFeatures(data, {
+
+                        // Utiliser le décodage PBF
+                        const features = await this.decodePbfTile(
+                            data,
                             extent,
-                            featureProjection: projection,
-                        });
+                            projection
+                        );
 
                         tile.setFeatures(features);
-                    } catch {
+                    } catch (error) {
+                        console.error('Erreur décodage tuile:', error);
                         tile.setFeatures([]);
                     }
                 }
             );
         };
+    }
+
+    private async decodePbfTile(
+        buf: ArrayBuffer,
+        extent: unknown,
+        projection: unknown
+    ): Promise<Feature[]> {
+        try {
+            // Ne pas restreindre à un nom de layer précis ('coverage_areas') :
+            // l'optimisation clustering côté backend a pu renommer/réorganiser
+            // les layers du tuilage MVT. Lire tous les layers présents évite
+            // de dépendre d'un nom qui peut changer côté serveur.
+            const format = new MVT({ idProperty: 'id' });
+
+            const features = format.readFeatures(buf, {
+                extent: extent as number[],
+                featureProjection: projection as string,
+            });
+
+            return features as any as Feature[];
+        } catch (error) {
+            console.error('Erreur décodage MVT:', error);
+
+            // Fallback: décodage manuel via Pbf/VectorTile (comme la
+            // référence Leaflet) si le format MVT d'OpenLayers échoue.
+            try {
+                return await this.decodePbfManually(buf, extent, projection);
+            } catch (fallbackError) {
+                console.error('Erreur fallback Pbf:', fallbackError);
+                return [];
+            }
+        }
+    }
+
+    private async decodePbfManually(
+        buf: ArrayBuffer,
+        extent: unknown,
+        projection: unknown
+    ): Promise<Feature[]> {
+        // Charger les scripts Pbf et VectorTile depuis CDN
+        await this.loadPbfLibraries();
+
+        const VectorTile = (window as any).VectorTile;
+        const Pbf = (window as any).Pbf;
+
+        if (!VectorTile || !Pbf) {
+            throw new Error('Pbf libraries non chargées');
+        }
+
+        const pbf = new Pbf(new Uint8Array(buf));
+        const tile = new VectorTile(pbf);
+        const features: Feature[] = [];
+
+        for (const layerName of Object.keys(tile.layers)) {
+            const layer = tile.layers[layerName];
+            for (let i = 0; i < layer.length; i++) {
+                const feat = layer.feature(i);
+                const geom = feat.loadGeometry();
+                const props = feat.properties || {};
+                const extent_val = layer.extent || 4096;
+
+                if (feat.type === 1) {
+                    // Points
+                    for (const ring of (geom as any[])) {
+                        for (const pt of (ring as any[])) {
+                            const coord = fromLonLat([
+                                (pt.x / extent_val) * 360 - 180,
+                                (180 / Math.PI) * Math.atan(Math.sinh(Math.PI * (1 - 2 * pt.y / extent_val)))
+                            ]);
+                            const feature = new Feature({
+                                geometry: new Point(coord),
+                            });
+                            Object.entries(props).forEach(([key, value]) => {
+                                feature.set(key, value);
+                            });
+                            features.push(feature);
+                        }
+                    }
+                } else if (feat.type === 2) {
+                    // LineStrings
+                    const coords = (geom as any[]).map((ring: any) =>
+                        ring.map((pt: any) =>
+                            fromLonLat([
+                                (pt.x / extent_val) * 360 - 180,
+                                (180 / Math.PI) * Math.atan(Math.sinh(Math.PI * (1 - 2 * pt.y / extent_val)))
+                            ])
+                        )
+                    );
+                    const feature = new Feature({
+                        geometry: new LineString(coords[0] || []),
+                    });
+                    Object.entries(props).forEach(([key, value]) => {
+                        feature.set(key, value);
+                    });
+                    features.push(feature);
+                } else if (feat.type === 3) {
+                    // Polygons
+                    const coords = (geom as any[]).map((ring: any) =>
+                        ring.map((pt: any) =>
+                            fromLonLat([
+                                (pt.x / extent_val) * 360 - 180,
+                                (180 / Math.PI) * Math.atan(Math.sinh(Math.PI * (1 - 2 * pt.y / extent_val)))
+                            ])
+                        )
+                    );
+                    const feature = new Feature({
+                        geometry: new Polygon(coords),
+                    });
+                    Object.entries(props).forEach(([key, value]) => {
+                        feature.set(key, value);
+                    });
+                    features.push(feature);
+                }
+            }
+        }
+
+        return features;
+    }
+
+    private loadPbfLibraries(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            if ((window as any).VectorTile && (window as any).Pbf) {
+                resolve();
+                return;
+            }
+
+            // Charger Pbf
+            const pbfScript = document.createElement('script');
+            pbfScript.src = 'https://esm.sh/pbf@3.2.1';
+            pbfScript.type = 'module';
+            pbfScript.onerror = () => reject(new Error('Pbf script chargement échoué'));
+
+            // Charger VectorTile
+            const vectorTileScript = document.createElement('script');
+            vectorTileScript.src = 'https://esm.sh/@mapbox/vector-tile@1.3.1';
+            vectorTileScript.type = 'module';
+            vectorTileScript.onerror = () => reject(new Error('VectorTile script chargement échoué'));
+
+            document.head.appendChild(pbfScript);
+            document.head.appendChild(vectorTileScript);
+
+            // Attendre un peu pour que les scripts se chargent
+            setTimeout(() => {
+                if ((window as any).VectorTile && (window as any).Pbf) {
+                    resolve();
+                } else {
+                    reject(new Error('Pbf libraries timeout'));
+                }
+            }, 3000);
+        });
     }
 
     private buildTileRequestHeaders(): HeadersInit {

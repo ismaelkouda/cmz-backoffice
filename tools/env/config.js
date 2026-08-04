@@ -1,9 +1,9 @@
 const config = {
     dev: {
-        authenticationUrl: 'http://10.10.0.65:9015/auth/v1.0/backoffice/',
-        reportUrl: 'http://10.10.0.65:9015/reports/v1.0/backoffice/',
-        settingUrl: 'http://10.10.0.65:9015/base-settings/v1.0/backoffice/',
-        fileUrl: 'http://10.10.0.65:9015/auth/backoffice/',
+        authenticationUrl: 'https://api-services.mazone-test.ansut.ci/auth/v1.0/backoffice/',
+        reportUrl: 'https://api-services.mazone-test.ansut.ci/reports/v1.0/backoffice/',
+        settingUrl: 'https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/',
+        fileUrl: 'https://api-services.mazone-test.ansut.ci/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
         appSettings: {

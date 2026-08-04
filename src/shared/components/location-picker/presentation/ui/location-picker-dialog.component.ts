@@ -90,8 +90,15 @@ export class LocationPickerDialogComponent {
         this.searchQuery.set(location.displayName);
     }
 
-    onMapCoordinatesChange(coords: LocationCoordinates): void {
-        this.facade.reverse(String(coords.latitude), String(coords.longitude));
+    async onMapCoordinatesChange(coords: LocationCoordinates): Promise<void> {
+        const location = await this.facade.reverse(
+            String(coords.latitude),
+            String(coords.longitude)
+        );
+
+        this.searchQuery.set(
+            location.name ?? location.municipality ?? location.displayName
+        );
     }
     onValidate(): void {
         this.ref.close(this.facade.selectedLocation());

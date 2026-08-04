@@ -58,9 +58,12 @@ export class InteractiveMapReportsApi {
     getCoverageAreasTileUrl(filters: CoverageAreaFilters): string {
         const params = this.buildCoverageAreaTileParams(filters);
         const query = new URLSearchParams(params).toString();
-        const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.COVERAGE_AREAS_TILES}`;
-
-        return query ? `${url}?${query}` : url;
+        const baseUrl = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.COVERAGE_AREAS_TILES}`;
+        
+        // Preserve {z}/{x}/{y} placeholders for OpenLayers VectorTileSource
+        const url = query ? `${baseUrl}?${query}` : baseUrl;
+        
+        return url;
     }
 
     updateStatus(

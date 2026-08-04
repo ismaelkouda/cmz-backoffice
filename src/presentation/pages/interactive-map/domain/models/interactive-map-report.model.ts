@@ -78,7 +78,17 @@ export interface CoverageAreaProperties {
     id?: string | number;
     uniq_id?: string | number;
     name?: string;
+    /** Ancien nom de champ (points individuels, avant clustering backend). */
     operator?: ReportOperator | string;
+    /**
+     * Nom de champ renvoyé depuis l'optimisation clustering côté backend.
+     * Peut contenir plusieurs opérateurs séparés par une virgule pour un
+     * point qui regroupe un cluster (ex: "oci,mtn").
+     */
+    operators?: string;
+    /** Nombre de points regroupés sous ce marqueur (clustering backend). */
+    point_count?: number;
+    layer?: string;
     network_technology?: NetworkTechnology;
     region?: string | NamedPlace | null;
     [key: string]: unknown;
