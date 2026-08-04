@@ -63,12 +63,15 @@ export class LocationFacade {
         };
 
         this.geoLocation.set(interim);
+        this.searchResultsSignal.set([]);
         this.loadingSignal.set(true);
         this.errorSignal.set(null);
 
         try {
             const location = await this.geoService.reverseGeocode(lat, lng);
             this.geoLocation.set(location);
+            // Afficher le résultat dans la liste (comme une recherche textuelle)
+            this.searchResultsSignal.set([location]);
             return location;
         } catch {
             this.errorSignal.set("Impossible de récupérer l'adresse");

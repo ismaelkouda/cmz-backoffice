@@ -35,10 +35,7 @@ export class RadioRelayLinksFormHelperService {
             return undefined;
         }
 
-        const numeric = parseInt(
-            String(frequency).replace(/MHZ$/i, ''),
-            10
-        );
+        const numeric = parseInt(String(frequency).replace(/MHZ$/i, ''), 10);
 
         return Number.isNaN(numeric) ? undefined : numeric;
     }
@@ -46,7 +43,7 @@ export class RadioRelayLinksFormHelperService {
     formatFrequency(
         value: number | undefined
     ): RadioRelayLinksFrequency | undefined {
-        if (value == null || Number.isNaN(value)) {
+        if (value === null || Number.isNaN(value)) {
             return undefined;
         }
 

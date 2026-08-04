@@ -134,64 +134,35 @@
                     <div class="interactive-map-shell mt-3">
                         <main class="map-workspace">
                             <div class="filters-panel-stack">
-                            @if (!filtersPanelOpen()) {
-                                <button
-                                    type="button"
-                                    class="open-toggle-button"
-                                    [attr.aria-expanded]="filtersPanelOpen()"
-                                    (click)="toggleFiltersPanel()"
-                                >
-                                    Filtres sur les signalements
-                                </button>
-                            }
-                            @if (filtersPanelOpen()) {
-                                <aside class="filters-panel">
-                                    <div class="panel-heading">
-                                        <p-button
-                                            class="close-toggle-button"
-                                            icon="pi pi-times"
-                                            [rounded]="true"
-                                            [text]="true"
-                                            severity="danger"
-                                            (click)="toggleFiltersPanel()"
-                                        />
-                                    </div>
+                                @if (!filtersPanelOpen()) {
+                                    <button
+                                        type="button"
+                                        class="open-toggle-button"
+                                        [attr.aria-expanded]="
+                                            filtersPanelOpen()
+                                        "
+                                        (click)="toggleFiltersPanel()"
+                                    >
+                                        Filtres sur les signalements
+                                    </button>
+                                }
+                                @if (filtersPanelOpen()) {
+                                    <aside class="filters-panel">
+                                        <div class="panel-heading">
+                                            <p-button
+                                                class="close-toggle-button"
+                                                icon="pi pi-times"
+                                                [rounded]="true"
+                                                [text]="true"
+                                                severity="danger"
+                                                (click)="toggleFiltersPanel()"
+                                            />
+                                        </div>
 
-                                    <section class="filter-group">
-                                        <h3>Type de signalements</h3>
-                                        @for (
-                                            option of reportTypeOptions;
-                                            track option
-                                        ) {
-                                            <label>
-                                                <input
-                                                    type="checkbox"
-                                                    [checked]="
-                                                        isSelected(
-                                                            draftFilters()
-                                                                .reportTypes,
-                                                            option.value
-                                                        )
-                                                    "
-                                                    (change)="
-                                                        toggleFilter(
-                                                            'reportTypes',
-                                                            option.value,
-                                                            $any($event.target)
-                                                                .checked
-                                                        )
-                                                    "
-                                                />
-                                                <span>{{ option.label }}</span>
-                                            </label>
-                                        }
-                                    </section>
-
-                                    <section class="filter-group">
-                                        <h3>Operateurs consernés</h3>
-                                        <div class="d-flex gap-10">
+                                        <section class="filter-group">
+                                            <h3>Type de signalements</h3>
                                             @for (
-                                                option of operatorOptions;
+                                                option of reportTypeOptions;
                                                 track option
                                             ) {
                                                 <label>
@@ -200,13 +171,13 @@
                                                         [checked]="
                                                             isSelected(
                                                                 draftFilters()
-                                                                    .operators,
+                                                                    .reportTypes,
                                                                 option.value
                                                             )
                                                         "
                                                         (change)="
                                                             toggleFilter(
-                                                                'operators',
+                                                                'reportTypes',
                                                                 option.value,
                                                                 $any(
                                                                     $event.target
@@ -219,10 +190,44 @@
                                                     }}</span>
                                                 </label>
                                             }
-                                        </div>
-                                    </section>
+                                        </section>
 
-                                    <!-- <section class="filter-group">
+                                        <section class="filter-group">
+                                            <h3>Operateurs consernés</h3>
+                                            <div class="d-flex gap-10">
+                                                @for (
+                                                    option of operatorOptions;
+                                                    track option
+                                                ) {
+                                                    <label>
+                                                        <input
+                                                            type="checkbox"
+                                                            [checked]="
+                                                                isSelected(
+                                                                    draftFilters()
+                                                                        .operators,
+                                                                    option.value
+                                                                )
+                                                            "
+                                                            (change)="
+                                                                toggleFilter(
+                                                                    'operators',
+                                                                    option.value,
+                                                                    $any(
+                                                                        $event.target
+                                                                    ).checked
+                                                                )
+                                                            "
+                                                        />
+                                                        <span>{{
+                                                            option.label
+                                                        }}</span>
+                                                    </label>
+                                                }
+                                            </div>
+                                        </section>
+
+                                        <!-- <section class="filter-group">
                                     <h3>Statut</h3>
                                     <select
                                     multiple
@@ -245,100 +250,112 @@
                                     </select>
                             </section> -->
 
-                                    <section class="filter-group">
-                                        <h3>Statut</h3>
-                                        <p-select
-                                            class="form-p-select"
-                                            [options]="statusSelectOptions()"
-                                            [ngModel]="currentStatus()"
-                                            (ngModelChange)="setStatus($event)"
-                                            optionLabel="label"
-                                            optionValue="value"
-                                            placeholder="Tous les statuts"
-                                            [showClear]="true"
-                                            styleClass="w-full"
-                                        ></p-select>
-                                    </section>
-
-                                    <section class="filter-group">
-                                        <h3>Région</h3>
-                                        <p-select
-                                            class="form-p-select"
-                                            [options]="regionSelectOptions()"
-                                            [ngModel]="draftFilters().region"
-                                            (ngModelChange)="setRegion($event)"
-                                            [filter]="true"
-                                            filterBy="label"
-                                            [showClear]="true"
-                                            styleClass="w-full"
-                                        ></p-select>
-                                    </section>
-
-                                    <section class="filter-group">
-                                        <h3>Département</h3>
-                                        <p-select
-                                            class="form-p-select"
-                                            [options]="
-                                                departmentSelectOptions()
-                                            "
-                                            [ngModel]="
-                                                draftFilters().department
-                                            "
-                                            (ngModelChange)="
-                                                setDepartment($event)
-                                            "
-                                            [filter]="true"
-                                            filterBy="label"
-                                            [showClear]="true"
-                                            styleClass="w-full"
-                                            [disabled]="!draftFilters().region"
-                                        ></p-select>
-                                    </section>
-
-                                    <section class="filter-group">
-                                        <h3>Commune / Sous-préfecture</h3>
-                                        <p-select
-                                            class="form-p-select"
-                                            [options]="
-                                                municipalitySelectOptions()
-                                            "
-                                            [ngModel]="
-                                                draftFilters().municipality
-                                            "
-                                            (ngModelChange)="
-                                                setMunicipality($event)
-                                            "
-                                            [filter]="true"
-                                            filterBy="label"
-                                            [showClear]="true"
-                                            styleClass="w-full"
-                                            [disabled]="
-                                                !draftFilters().department
-                                            "
-                                        ></p-select>
-                                    </section>
-
-                                    <section class="filter-group dates">
-                                        <h3>Du / Au</h3>
-                                        <label>
-                                            <p-datepicker
-                                                [placeholder]="
-                                                    'COMMON.DATE_PLACEHOLDER'
-                                                        | translate
+                                        <section class="filter-group">
+                                            <h3>Statut</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    statusSelectOptions()
                                                 "
-                                                [showIcon]="true"
-                                                [dateFormat]="'yy-mm-dd'"
-                                                appendTo="body"
-                                                (onSelect)="
-                                                    setDateFilter(
-                                                        'startDate',
-                                                        $event
-                                                            .toISOString()
-                                                            .split('T')[0]
-                                                    )
+                                                [ngModel]="currentStatus()"
+                                                (ngModelChange)="
+                                                    setStatus($event)
                                                 "
-                                            />
-                                            <!-- <input
+                                                optionLabel="label"
+                                                optionValue="value"
+                                                placeholder="Tous les statuts"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group">
+                                            <h3>Région</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    regionSelectOptions()
+                                                "
+                                                [ngModel]="
+                                                    draftFilters().region
+                                                "
+                                                (ngModelChange)="
+                                                    setRegion($event)
+                                                "
+                                                [filter]="true"
+                                                filterBy="label"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group">
+                                            <h3>Département</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    departmentSelectOptions()
+                                                "
+                                                [ngModel]="
+                                                    draftFilters().department
+                                                "
+                                                (ngModelChange)="
+                                                    setDepartment($event)
+                                                "
+                                                [filter]="true"
+                                                filterBy="label"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                                [disabled]="
+                                                    !draftFilters().region
+                                                "
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group">
+                                            <h3>Commune / Sous-préfecture</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    municipalitySelectOptions()
+                                                "
+                                                [ngModel]="
+                                                    draftFilters().municipality
+                                                "
+                                                (ngModelChange)="
+                                                    setMunicipality($event)
+                                                "
+                                                [filter]="true"
+                                                filterBy="label"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                                [disabled]="
+                                                    !draftFilters().department
+                                                "
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group dates">
+                                            <h3>Du / Au</h3>
+                                            <label>
+                                                <p-datepicker
+                                                    [placeholder]="
+                                                        'COMMON.DATE_PLACEHOLDER'
+                                                            | translate
+                                                    "
+                                                    [showIcon]="true"
+                                                    [dateFormat]="'yy-mm-dd'"
+                                                    appendTo="body"
+                                                    (onSelect)="
+                                                        setDateFilter(
+                                                            'startDate',
+                                                            $event
+                                                                .toISOString()
+                                                                .split('T')[0]
+                                                        )
+                                                    "
+                                                />
+                                                <!-- <input
                                         type="date"
                                         [value]="store.filters().startDate"
                                         (change)="
@@ -348,45 +365,45 @@
                                             )
                                         "
                                     /> -->
-                                        </label>
-                                        <label>
-                                            <p-datepicker
-                                                [placeholder]="
-                                                    'COMMON.DATE_PLACEHOLDER'
-                                                        | translate
-                                                "
-                                                [showIcon]="true"
-                                                [dateFormat]="'yy-mm-dd'"
-                                                appendTo="body"
-                                                (onSelect)="
-                                                    setDateFilter(
-                                                        'endDate',
-                                                        $event
-                                                            .toISOString()
-                                                            .split('T')[0]
-                                                    )
-                                                "
-                                            />
-                                        </label>
-                                    </section>
+                                            </label>
+                                            <label>
+                                                <p-datepicker
+                                                    [placeholder]="
+                                                        'COMMON.DATE_PLACEHOLDER'
+                                                            | translate
+                                                    "
+                                                    [showIcon]="true"
+                                                    [dateFormat]="'yy-mm-dd'"
+                                                    appendTo="body"
+                                                    (onSelect)="
+                                                        setDateFilter(
+                                                            'endDate',
+                                                            $event
+                                                                .toISOString()
+                                                                .split('T')[0]
+                                                        )
+                                                    "
+                                                />
+                                            </label>
+                                        </section>
 
-                                    <div
-                                        class="d-flex justify-content-center gap-3"
-                                    >
-                                        <p-button
-                                            (click)="resetFilters()"
-                                            label="Annuler"
-                                            icon="pi pi-times"
-                                            severity="danger"
-                                        />
-                                        <p-button
-                                            (click)="submitFilters()"
-                                            label="Appliquer"
-                                            icon="pi pi-check"
-                                        />
-                                    </div>
-                                </aside>
-                            }
+                                        <div
+                                            class="d-flex justify-content-center gap-3"
+                                        >
+                                            <p-button
+                                                (click)="resetFilters()"
+                                                label="Annuler"
+                                                icon="pi pi-times"
+                                                severity="danger"
+                                            />
+                                            <p-button
+                                                (click)="submitFilters()"
+                                                label="Appliquer"
+                                                icon="pi pi-check"
+                                            />
+                                        </div>
+                                    </aside>
+                                }
                             </div>
 
                             <div

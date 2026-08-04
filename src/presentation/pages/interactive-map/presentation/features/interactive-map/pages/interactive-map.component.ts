@@ -102,8 +102,12 @@ interface NominatimSearchResult {
 export class InteractiveMapComponent
     implements OnInit, AfterViewInit, OnDestroy
 {
-    public readonly showCoverageZones = signal(false);
-    public readonly showCoverageCenters = signal(false);
+    // Par défaut visibles: sans ça, cocher un opérateur ne montre rien tant
+    // que l'utilisateur ne coche pas AUSSI une de ces deux checkboxes,
+    // comportement incohérent avec la référence Leaflet où les points
+    // s'affichent dès qu'un opérateur est sélectionné.
+    public readonly showCoverageZones = signal(true);
+    public readonly showCoverageCenters = signal(true);
 
     // Méthodes appelées par les checkbox
     public toggleCoverageZones(visible: boolean): void {

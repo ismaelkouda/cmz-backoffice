@@ -56,10 +56,17 @@ export class GeoProxyService implements GeoService {
         }
 
         const dto = await lastValueFrom(
-            this.http.post<ReverseGeocodeResult>('/api/geo/reverse', {
-                lat,
-                lng,
-            })
+            this.http.get<ReverseGeocodeResult>(
+                'https://nominatim.openstreetmap.org/reverse',
+                {
+                    params: {
+                        format: 'jsonv2',
+                        lat,
+                        lon: lng,
+                        addressdetails: '1',
+                    },
+                }
+            )
         );
 
         const location = this.locationMapper.fromReverse(dto);

@@ -1,10 +1,10 @@
 (function (window) {
             window.__env = {
-    "authenticationUrl": "https://cmz-service-api.paas.imako.digital/auth/v1.0/backoffice/",
-    "reportUrl": "https://cmz-service-api.paas.imako.digital/reports/v1.0/backoffice/",
-    "settingUrl": "https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://cmz-service-api.paas.imako.digital/auth/backoffice/",
-    "environmentDeployment": "CLOUD",
+    "authenticationUrl": "https://api-services.mazone-test.ansut.ci/auth/v1.0/backoffice/",
+    "reportUrl": "https://api-services.mazone-test.ansut.ci/reports/v1.0/backoffice/",
+    "settingUrl": "https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/",
+    "fileUrl": "https://api-services.mazone-test.ansut.ci/auth/backoffice/",
+    "environmentDeployment": "DEV",
     "enableDebug": true,
     "appSettings": {
         "app": {
@@ -86,7 +86,7 @@
 };
 
             window.__env.buildInfo = {
-                environment: 'cloud',
+                environment: 'dev',
                 version: '1.1.0',
                 commitHash: 'local'
             };

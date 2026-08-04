@@ -1,5 +1,6 @@
 import { InfrastructureFilterApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure/infrastructure-filter-api.dto';
 import { InfrastructureFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure/infrastructure-filter.contract';
+import { toApiDateOnly } from '@shared/domain/utils/api-date.util';
 
 export function infrastructureFilterMapper(
     validContract: InfrastructureFilterContract
@@ -22,10 +23,10 @@ export function infrastructureFilterMapper(
         params.municipality_id = validContract.municipality;
     }
     if (validContract.startDate) {
-        params.start_date = validContract.startDate;
+        params.start_date = toApiDateOnly(validContract.startDate);
     }
     if (validContract.endDate) {
-        params.end_date = validContract.endDate;
+        params.end_date = toApiDateOnly(validContract.endDate);
     }
 
     return params;
