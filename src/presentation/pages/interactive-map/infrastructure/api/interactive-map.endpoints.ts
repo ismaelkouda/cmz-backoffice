@@ -10,6 +10,6 @@ export const INTERACTIVE_MAP_ENDPOINTS = {
      * (management-map) — placeholders {reportUniqId} et {z}/{x}/{y}.
      */
     REPORT_INFRASTRUCTURE_TILES:
-        'infrastructure/{reportUniqId}/tiles/{z}/{x}/{y}',
+        'impacts/infrastructures/{reportUniqId}/tiles/{z}/{x}/{y}',
     MAP: 'variables',
 } as const;

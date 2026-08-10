@@ -394,6 +394,23 @@ $dark-gray: var(--color-gray);
     }
 }
 
+// Badge de zoom compact, utilisé dans les labels de checkbox du panneau
+// "Filtres sur les couches" (fond clair — ne pas réutiliser
+// .zoom-indicator-label, prévu pour l'overlay sombre au centre de la carte).
+.zoom-level-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 7px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-primary-bg);
+    font-size: 11px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-primary);
+    letter-spacing: 0.02em;
+}
+
 .map-search-bar {
     position: absolute;
     top: var(--space-lg);
@@ -1257,7 +1274,7 @@ $dark-gray: var(--color-gray);
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 1rem;
+        margin-bottom: 10px;
 
         h4 {
             margin: 0;

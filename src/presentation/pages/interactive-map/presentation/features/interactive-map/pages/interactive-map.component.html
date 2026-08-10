@@ -481,7 +481,7 @@
                                         <div
                                             class="d-flex align-items-center mt-2"
                                         >
-                                            <label>
+                                            <label class="d-flex gap-1">
                                                 <input
                                                     type="checkbox"
                                                     [checked]="
@@ -499,6 +499,13 @@
                                                     class="legend-icon"
                                                     alt="Zone de couverture"
                                                 />
+                                                <span
+                                                    class="zoom-level-badge"
+                                                    title="Niveau de zoom actuel"
+                                                    >×{{
+                                                        zoomIndicatorValue()
+                                                    }}</span
+                                                >
                                             </label>
                                             <label>
                                                 <input
@@ -627,10 +634,10 @@
                                 class="zoom-indicator"
                                 [class.visible]="zoomIndicatorVisible()"
                             >
+                                <span class="zoom-indicator-label">X</span>
                                 <span class="zoom-indicator-value">{{
                                     zoomIndicatorValue()
                                 }}</span>
-                                <span class="zoom-indicator-label">X</span>
                             </div>
 
                             <button
