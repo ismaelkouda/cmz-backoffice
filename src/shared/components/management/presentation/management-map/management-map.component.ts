@@ -17,11 +17,15 @@ import {
 import { ConfigurationService } from '@core/services/configuration.service';
 import { Bounds } from '@presentation/pages/interactive-map/domain/models/interactive-map-report.model';
 import { InteractiveMapReportsApi } from '@presentation/pages/interactive-map/infrastructure/data/sources/interactive-map-reports.api';
-import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
+import {
+    getReportTypeColor,
+    getReportTypeIconPath,
+} from '@shared/domain/constants/report-icon';
 import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { OpenLayersLoaderService } from '@shared/domain/services/openlayers-loader.service';
 import { createAuthenticatedVectorTileLoader } from '@shared/domain/utils/authenticated-vector-tile-loader.util';
+import { hexToRgba } from '@shared/domain/utils/hex-to-rgba.util';
 import { transformExtent } from 'ol/proj';
 import { Subject } from 'rxjs';
 
@@ -121,7 +125,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     public readonly radiusMeters = input<number>(500);
     public readonly showRadiusCircle = input<boolean>(true);
 
-    public readonly coverageLegendOpen = signal(false);
+    public readonly coverageLegendOpen = signal(true);
     public readonly currentBaseMap = signal<'osm' | 'satellite'>('osm');
     public readonly equipmentOptions: { id: string; label: string }[] = [
         { id: 'education', label: 'Education' },
@@ -183,7 +187,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 this.addMarker();
                 this.addRadiusCircle();
                 this.setupPopup();
-                this.setupMapEvents();
+                // this.setupMapEvents();
             });
 
             this.isMapInitialized.set(true);
@@ -285,14 +289,28 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         this.clearEquipmentLayers();
 
         if (!this.map || !this.olModules) {
+            console.warn(
+                '[management-map] Carte non initialisée, impossible de charger les tuiles d’équipements.'
+            );
             return;
         }
 
         const selected = this.equipmentOptions.filter(
             (eq) => this.equipmentsVisible()[eq.id]
         );
+        if (!selected.length) {
+            // Aucun type coché : état normal, pas d'appel à faire.
+            return;
+        }
+
         const reportUniqId = this.reportUniqId();
-        if (!selected.length || !reportUniqId) {
+        if (!reportUniqId) {
+            console.warn(
+                '[management-map] reportUniqId manquant : la tuile ' +
+                    "d'équipements ne peut pas être appelée (voir " +
+                    'input [reportUniqId] sur <app-management-map> et ' +
+                    'items().reportUniqId côté management-dialog).'
+            );
             return;
         }
 
@@ -302,8 +320,14 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             tags
         );
         if (!url) {
+            console.warn(
+                '[management-map] URL de tuiles vide malgré reportUniqId et ' +
+                    'types sélectionnés — vérifier getReportInfrastructureTilesUrl.'
+            );
             return;
         }
+
+        console.debug('[management-map] Chargement tuiles équipements:', url);
 
         const { VectorTileLayer, VectorTileSource, MVT } = this.olModules;
         const layer = new VectorTileLayer({
@@ -542,14 +566,18 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             this.latitude(),
         ]);
 
+        // Même couleur que l'icône du signalement affichée sur le
+        // marqueur ; repli sur le bleu générique si aucun type connu.
+        const color = getReportTypeColor(this.reportType()) ?? '#2563eb';
+
         const circleFeature = new Feature({
             geometry: new CircleGeom(center, this.radiusMeters()),
         });
         circleFeature.setStyle(
             new Style({
-                fill: new Fill({ color: 'rgba(37, 99, 235, 0.08)' }),
+                fill: new Fill({ color: hexToRgba(color, 0.08) }),
                 stroke: new Stroke({
-                    color: '#2563eb',
+                    color,
                     width: 2,
                     lineDash: [6, 6],
                 }),

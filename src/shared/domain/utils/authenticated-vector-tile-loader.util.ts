@@ -7,6 +7,7 @@ import MVT from 'ol/format/MVT';
  * d'afficher des tuiles vectorielles protégées (ex: infrastructures).
  *
  * Basé sur le pattern déjà utilisé dans interactive-map's MapAdapter.
+ * @param getHeaders
  */
 export function createAuthenticatedVectorTileLoader(
     getHeaders: () => HeadersInit
@@ -24,6 +25,14 @@ export function createAuthenticatedVectorTileLoader(
                     });
 
                     if (!response.ok) {
+                        // Log explicite du statut : sans ça, une tuile en
+                        // erreur (401/403/404/500 côté backend) échoue
+                        // silencieusement et ressemble à "l'API n'est
+                        // jamais appelée" alors qu'elle l'est bien.
+                        console.warn(
+                            `[vector-tile-loader] Réponse non-OK (${response.status}) pour`,
+                            url
+                        );
                         tile.setFeatures([]);
                         return;
                     }
@@ -37,7 +46,11 @@ export function createAuthenticatedVectorTileLoader(
 
                     tile.setFeatures(features as unknown as any[]);
                 } catch (error) {
-                    console.error('Erreur décodage tuile:', error);
+                    console.error(
+                        '[vector-tile-loader] Erreur décodage tuile:',
+                        url,
+                        error
+                    );
                     tile.setFeatures([]);
                 }
             }
