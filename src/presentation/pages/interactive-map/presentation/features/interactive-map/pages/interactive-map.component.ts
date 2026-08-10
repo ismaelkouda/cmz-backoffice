@@ -175,8 +175,15 @@ export class InteractiveMapComponent
         this.cloneFilters(EMPTY_REPORT_FILTERS)
     );
     public readonly isFullscreen = signal(false);
-    /** Niveau de zoom courant, affiché en grand pendant les changements de zoom. */
-    public readonly zoomIndicatorValue = signal(0);
+    /**
+     * Niveau de zoom courant, affiché en grand pendant les changements de
+     * zoom. Initialisé depuis la vue par défaut du store (pas 0, qui ne
+     * correspond à aucun zoom réel) pour rester correct avant même le
+     * premier événement `change:resolution`.
+     */
+    public readonly zoomIndicatorValue = signal(
+        Math.round(this.store.view().zoom)
+    );
     public readonly zoomIndicatorVisible = signal(false);
     protected readonly isVisibleDialog = signal<boolean>(false);
     protected readonly selectedManagementType = signal<TypeReport | null>(
