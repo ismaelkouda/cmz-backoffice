@@ -10,12 +10,11 @@ export function mobileNetworkUpdateVo(
         uniqId: contract.uniqId,
         siteId: contract.siteId,
         siteName: contract.siteName,
-
-        infrastructureType: contract.infrastructureType,
+        siteGroupId: contract.siteGroupId,
         towerTypeId: contract.towerTypeId,
-        towerSize: contract.towerSize,
-        technology: contract.technology,
+        towerHeight: contract.towerHeight,
+        networkTechnology: contract.networkTechnology,
         operator: contract.operator,
-        radius: contract.radius,
+        coverageRadius: contract.coverageRadius,
     };
 }

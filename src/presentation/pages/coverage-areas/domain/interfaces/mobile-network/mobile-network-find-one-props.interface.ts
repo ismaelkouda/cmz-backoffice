@@ -1,16 +1,16 @@
-import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 
 export interface MobileNetworkFindOneProps {
     uniqId: string;
     siteId: string;
     siteName: string;
-    infrastructureType: string;
-    towerTypeId: string;
+    siteGroupId: string | number;
+    siteGroupName: string;
+    towerTypeId: string | number;
     towerTypeName: string;
-    towerSize: number;
-    technology: Technology[];
+    towerHeight: string;
+    networkTechnology: string;
     operator: Operator;
-    radius?: number;
+    coverageRadius?: number;
     updatedAt: string;
 }

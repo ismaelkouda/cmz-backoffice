@@ -2,7 +2,6 @@ import {
     Status,
     StatusStyle,
 } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-status.enum';
-import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 import { MobileNetworkProps } from '@pages/coverage-areas/domain/interfaces/mobile-network/mobile-network-props.interface';
 
@@ -25,7 +24,15 @@ export class MobileNetworkEntity {
         return this.props.siteName;
     }
 
-    get towerTypeId(): string {
+    get siteGroupId(): string | number {
+        return this.props.siteGroupId;
+    }
+
+    get siteGroupName(): string {
+        return this.props.siteGroupName;
+    }
+
+    get towerTypeId(): string | number {
         return this.props.towerTypeId;
     }
 
@@ -33,20 +40,20 @@ export class MobileNetworkEntity {
         return this.props.towerTypeName;
     }
 
-    get towerSize(): number {
-        return this.props.towerSize;
+    get towerHeight(): string {
+        return this.props.towerHeight;
     }
 
-    get technology(): Technology[] {
-        return this.props.technology;
+    get networkTechnology(): string {
+        return this.props.networkTechnology;
     }
 
     get operator(): Operator {
         return this.props.operator;
     }
 
-    get radius(): number | undefined {
-        return this.props.radius;
+    get coverageRadius(): number | undefined {
+        return this.props.coverageRadius;
     }
 
     get status(): Status {

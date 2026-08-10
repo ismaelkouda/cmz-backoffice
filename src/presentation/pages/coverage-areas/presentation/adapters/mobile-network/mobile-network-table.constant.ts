@@ -40,12 +40,6 @@ export const MOBILE_NETWORK_TABLE = {
             width: '6rem',
         },
         {
-            field: 'radius',
-            header: 'COVERAGE_AREAS.MOBILE_NETWORK.TABLE.RADIUS',
-            class: 'text-center',
-            width: '5rem',
-        },
-        {
             field: 'statusLabel',
             header: 'COVERAGE_AREAS.MOBILE_NETWORK.TABLE.STATUS',
             class: 'text-center',
@@ -68,6 +62,7 @@ export const MOBILE_NETWORK_TABLE = {
         'siteId',
         'siteName',
         'towerTypeName',
+        'towerSize',
         'technology',
         'operator',
         'statusLabel',

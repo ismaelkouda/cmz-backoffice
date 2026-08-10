@@ -4,7 +4,6 @@ import { MobileNetworkFindOneProps } from '@pages/coverage-areas/domain/interfac
 import { MobileNetworkFindOneItemApiDto } from '@pages/coverage-areas/infrastructure/api/dto/mobile-network/mobile-network-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
-import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 
 @Injectable({ providedIn: 'root' })
@@ -26,17 +25,14 @@ export class MobileNetworkFindOneMapper extends SimpleResponseMapper<
             uniqId: dto.id,
             siteId: dto.site_id,
             siteName: dto.site_name,
-            infrastructureType: dto.infrastructure_type,
-            towerTypeId: dto.tower_type_id,
-            towerTypeName: dto.tower_type_name,
-            towerSize: dto.tower_size,
-            technology: (Array.isArray(dto.technology)
-                ? dto.technology
-                : dto.technology
-                  ? [dto.technology]
-                  : []) as Technology[],
+            siteGroupId: dto.site_group.id,
+            siteGroupName: dto.site_group.name,
+            towerTypeId: dto.tower_type.id,
+            towerTypeName: dto.tower_type.name,
+            towerHeight: dto.tower_height,
+            networkTechnology: dto.network_technology,
             operator: dto.operator as Operator,
-            radius: dto.radius,
+            coverageRadius: dto.coverage_radius,
             updatedAt: dto.updated_at,
         };
 

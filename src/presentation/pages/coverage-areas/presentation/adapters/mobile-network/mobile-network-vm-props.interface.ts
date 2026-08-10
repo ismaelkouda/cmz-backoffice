@@ -10,12 +10,13 @@ export interface MobileNetworkVmProps {
 
     siteId: string;
     siteName: string;
-    towerTypeId: string;
+    siteGroupName: string;
+    towerTypeId: string | number;
     towerTypeName: string;
-    towerSize: number;
-    technology: string;
+    towerHeight: string;
+    networkTechnology: string;
     operator: Operator;
-    radius?: number;
+    coverageRadius?: number;
 
     status: Status;
     statusLabel: string;

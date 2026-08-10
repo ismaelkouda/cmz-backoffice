@@ -15,9 +15,9 @@ export function validateMobileNetworkCreate(
             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.SITE_NAME_REQUIRE'
         );
     }
-    if (!contract.infrastructureType) {
+    if (!contract.siteGroupId) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.INFRASTRUCTURE_TYPE_REQUIRE'
+            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.SITE_GROUP_REQUIRE'
         );
     }
     if (!contract.towerTypeId) {
@@ -25,14 +25,14 @@ export function validateMobileNetworkCreate(
             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.TOWER_TYPE_REQUIRE'
         );
     }
-    if (contract.towerSize === undefined || contract.towerSize === null) {
+    if (!contract.towerHeight) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.TOWER_SIZE_REQUIRE'
+            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.TOWER_HEIGHT_REQUIRE'
         );
     }
-    if (!contract.technology?.length) {
+    if (!contract.networkTechnology) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.TECHNOLOGY_REQUIRE'
+            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.CREATE.NETWORK_TECHNOLOGY_REQUIRE'
         );
     }
     if (!contract.operator) {

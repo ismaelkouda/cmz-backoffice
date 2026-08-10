@@ -15,23 +15,23 @@ export function mobileNetworkUpdateMapper(
     if (validContract.siteName) {
         params.site_name = validContract.siteName;
     }
-    if (validContract.infrastructureType) {
-        params.infrastructure_type = validContract.infrastructureType;
+    if (validContract.siteGroupId) {
+        params.site_group_id = validContract.siteGroupId;
     }
     if (validContract.towerTypeId) {
         params.tower_type_id = validContract.towerTypeId;
     }
-    if (validContract.towerSize !== undefined) {
-        params.tower_size = validContract.towerSize;
+    if (validContract.towerHeight) {
+        params.tower_height = validContract.towerHeight;
     }
-    if (validContract.technology?.length) {
-        params.technology = validContract.technology;
+    if (validContract.networkTechnology) {
+        params.network_technology = validContract.networkTechnology;
     }
     if (validContract.operator) {
         params.operator = validContract.operator;
     }
-    if (validContract.radius !== undefined) {
-        params.radius = validContract.radius;
+    if (validContract.coverageRadius !== undefined) {
+        params.coverage_radius = validContract.coverageRadius;
     }
 
     return params;

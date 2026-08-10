@@ -81,7 +81,7 @@ export class MapAdapter {
         lng: -3.756106463052295,
     };
     private defaultZoom = 5;
-    private osmLayer!: TileLayer; // Couche OSM (toujours présente)
+    private osmLayer!: TileLayer;
     private satelliteLayer!: TileLayer;
     private coverageOperatorsVisible: Record<string, boolean> = {
         idt: true,
@@ -101,8 +101,8 @@ export class MapAdapter {
     private static readonly CLUSTER_MIN_RADIUS = 18;
     private static readonly CLUSTER_MAX_RADIUS = 34;
 
-    private static readonly MARKER_MIN_RADIUS = 7;
-    private static readonly MARKER_MAX_RADIUS = 11;
+    private static readonly MARKER_MIN_RADIUS = 5;
+    private static readonly MARKER_MAX_RADIUS = 9;
 
     private static readonly COVERAGE_MARKER_MIN_RADIUS = 6;
     private static readonly COVERAGE_MARKER_MAX_RADIUS = 14;
@@ -113,10 +113,15 @@ export class MapAdapter {
     private static readonly COVERAGE_ZONES_MIN_ZOOM = 11.35;
     private static readonly MAP_ICON_MIN_ZOOM = 7;
     private static readonly MAP_ICON_MAX_ZOOM = 18;
-    private static readonly REPORT_ICON_MIN_SCALE = 0.05;
-    private static readonly REPORT_ICON_MAX_SCALE = 0.15;
-    private static readonly SIGNAL_ICON_MIN_SCALE = 0.35;
-    private static readonly SIGNAL_ICON_MAX_SCALE = 0.65;
+    /**
+     * Tailles écran (px) des icônes — style Google Maps :
+     * plus petites à faible zoom, légèrement plus grandes en zoomant.
+     * (Les SVG report font intrinsèquement 800px : on force width/height.)
+     */
+    private static readonly REPORT_ICON_MIN_PX = 12;
+    private static readonly REPORT_ICON_MAX_PX = 50;
+    private static readonly SIGNAL_ICON_MIN_PX = 20;
+    private static readonly SIGNAL_ICON_MAX_PX = 20;
 
     private readonly ngZone = inject(NgZone);
     private readonly encodingService = inject(EncodingDataService);
@@ -163,8 +168,14 @@ export class MapAdapter {
         administration: true,
         securité: true,
     };
+    /** Une couche VectorTile par sélection d'équipements (API ?tag=). */
+    private readonly equipmentAreaLayers = new globalThis.Map<
+        string,
+        VectorTileLayer
+    >();
     private readonly equipmentAreaLayer = new VectorTileLayer({
-        declutter: true,
+        // Pas de declutter OL : le clustering est côté backend sur les tuiles.
+        declutter: false,
         renderMode: 'hybrid',
         style: (feature): Style => this.createEquipmentAreaTileStyle(feature),
         visible: false,
@@ -397,31 +408,87 @@ export class MapAdapter {
         this.coverageAreaLayer.setVisible(visible);
     }
 
-    renderEquipmentAreaTiles(tileUrl: string | null, visible: boolean): void {
-        if (!tileUrl || !visible) {
-            this.equipmentAreaLayer.setSource(null);
-            this.equipmentAreaLayer.setVisible(false);
+    renderEquipmentAreaTiles(
+        tileLayers:
+            | {
+                  type: string;
+                  url: string;
+                  selectedTypes?: string[];
+              }[]
+            | null
+    ): void {
+        this.clearEquipmentAreaLayers();
+
+        if (!this.map || !tileLayers?.length) {
             return;
         }
 
-        this.equipmentAreaLayer.setSource(
-            new VectorTileSource({
-                format: new MVT({
-                    layers: ['coverage_areas'],
-                    idProperty: 'id',
-                }),
-                maxZoom: 22,
-                transition: 160,
-                url: tileUrl,
-                wrapX: false,
-                tileLoadFunction: this.createAuthenticatedTileLoadFunction(),
-            })
-        );
-        this.equipmentAreaLayer.setVisible(true);
+        for (const { type, url, selectedTypes } of tileLayers) {
+            if (!url) {
+                continue;
+            }
+
+            if (selectedTypes?.length) {
+                for (const key of Object.keys(this.equipmentTypesVisible)) {
+                    this.equipmentTypesVisible[key] = false;
+                }
+                for (const selected of selectedTypes) {
+                    this.equipmentTypesVisible[selected] = true;
+                }
+            } else {
+                this.equipmentTypesVisible[type] = true;
+            }
+
+            const layer = new VectorTileLayer({
+                // Clustering géré par le backend (MVT + point_count).
+                // Pas de Cluster OL ni declutter côté front sur ces tuiles.
+                declutter: false,
+                renderMode: 'hybrid',
+                style: (feature): Style =>
+                    this.createEquipmentAreaTileStyle(
+                        feature,
+                        selectedTypes?.length ? undefined : type
+                    ),
+                visible: true,
+                zIndex: 1,
+            });
+
+            layer.setSource(
+                new VectorTileSource({
+                    // Pas de restriction de layer MVT : le clustering backend
+                    // peut exposer des noms de layers différents.
+                    format: new MVT({
+                        idProperty: 'id',
+                    }),
+                    maxZoom: 22,
+                    transition: 160,
+                    url,
+                    wrapX: false,
+                    tileLoadFunction:
+                        this.createAuthenticatedTileLoadFunction(),
+                })
+            );
+
+            this.equipmentAreaLayers.set(type, layer);
+            this.map.addLayer(layer);
+        }
     }
 
     setEquipmentAreasVisible(visible: boolean): void {
         this.equipmentAreaLayer.setVisible(visible);
+        for (const layer of this.equipmentAreaLayers.values()) {
+            layer.setVisible(visible);
+        }
+    }
+
+    private clearEquipmentAreaLayers(): void {
+        for (const [type, layer] of this.equipmentAreaLayers) {
+            layer.setSource(null);
+            this.map?.removeLayer(layer);
+            this.equipmentAreaLayers.delete(type);
+        }
+        this.equipmentAreaLayer.setSource(null);
+        this.equipmentAreaLayer.setVisible(false);
     }
 
     private setupMapViewListeners(): void {
@@ -511,6 +578,14 @@ export class MapAdapter {
     setEquipmentTypeVisible(type: string, visible: boolean): void {
         this.equipmentTypesVisible[type] = visible;
         this.equipmentAreaLayer.changed();
+        const layer = this.equipmentAreaLayers.get(type);
+        if (layer) {
+            layer.setVisible(visible);
+            layer.changed();
+        }
+        for (const equipmentLayer of this.equipmentAreaLayers.values()) {
+            equipmentLayer.changed();
+        }
     }
 
     setHeatmapVisible(visible: boolean): void {
@@ -899,41 +974,98 @@ export class MapAdapter {
         return new Style({
             image: new Icon({
                 src: 'assets/images/icones/signal.svg',
-                scale: this.getSignalIconScale(),
+                width: this.getSignalIconPixelSize(),
+                height: this.getSignalIconPixelSize(),
                 anchor: [0.5, 0.5],
             }),
         });
     }
 
-    private createEquipmentAreaTileStyle(feature: FeatureLike): Style {
+    /**
+     * Style des tuiles équipements.
+     * Le backend clusterise déjà (point_count / count) : on affiche tel quel,
+     * sans re-cluster OpenLayers.
+     * @param feature
+     * @param forcedType
+     */
+    private createEquipmentAreaTileStyle(
+        feature: FeatureLike,
+        forcedType?: string
+    ): Style {
         const properties = feature.getProperties() as {
             type?: string;
             equipment_type?: string;
-            radius?: number | string;
+            tag?: string;
+            point_count?: number | string;
+            cluster_count?: number | string;
+            count?: number | string;
         };
-        const type = this.normalizeEquipmentType(
-            properties?.equipment_type ?? properties?.type
-        );
 
-        if (!type || !this.equipmentTypesVisible[type]) {
+        const type =
+            forcedType ||
+            this.normalizeEquipmentType(
+                properties?.equipment_type ??
+                    properties?.type ??
+                    properties?.tag
+            );
+
+        const anySelected = Object.values(this.equipmentTypesVisible).some(
+            Boolean
+        );
+        if (type && this.equipmentTypesVisible[type] === false) {
+            return new Style({});
+        }
+        if (!type && !anySelected && !forcedType) {
             return new Style({});
         }
 
-        const color = this.getEquipmentAreaColor(type);
-        const radiusInMeters = Number(properties?.radius);
-        const markerRadius = Number.isFinite(radiusInMeters)
-            ? this.metersToPixels(radiusInMeters)
-            : 15;
+        const clusterCount = this.getBackendClusterCount(properties);
+        const color = this.getEquipmentAreaColor(type || forcedType);
+
+        // Agrégat backend → pastille avec le nombre fourni par l'API.
+        if (clusterCount > 1) {
+            return this.createEquipmentBackendClusterStyle(clusterCount, color);
+        }
+
+        // Point individuel : marqueur simple (pas de rayon / faux cluster).
+        return new Style({
+            image: new CircleStyle({
+                radius: 7,
+                fill: new Fill({ color }),
+                stroke: new Stroke({ color: '#ffffff', width: 2 }),
+            }),
+        });
+    }
+
+    private getBackendClusterCount(properties: {
+        point_count?: number | string;
+        cluster_count?: number | string;
+        count?: number | string;
+    }): number {
+        const raw =
+            properties?.point_count ??
+            properties?.cluster_count ??
+            properties?.count;
+        const value = Number(raw);
+        return Number.isFinite(value) && value > 1 ? value : 0;
+    }
+
+    private createEquipmentBackendClusterStyle(
+        count: number,
+        color: string
+    ): Style {
+        const radius = Math.min(16 + Math.floor(count / 10), 32);
 
         return new Style({
             image: new CircleStyle({
-                radius: markerRadius,
-                fill: new Fill({ color: this.hexToRgba(color, 0.35) }),
-                stroke: new Stroke({
-                    color: color,
-                    width: 2.5,
-                    lineDash: [4, 4],
-                }),
+                radius,
+                fill: new Fill({ color }),
+                stroke: new Stroke({ color: '#ffffff', width: 2.5 }),
+            }),
+            text: new Text({
+                text: String(count),
+                fill: new Fill({ color: '#ffffff' }),
+                font: '700 12px Lato, Arial, sans-serif',
             }),
         });
     }
@@ -985,10 +1117,22 @@ export class MapAdapter {
         if (typeof value !== 'string') {
             return undefined;
         }
-        const normalized = value.trim().toLowerCase();
-        return normalized in this.equipmentTypesVisible
-            ? normalized
-            : undefined;
+        const normalized = value
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .trim()
+            .toLowerCase();
+
+        for (const key of Object.keys(this.equipmentTypesVisible)) {
+            const keyNorm = key
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
+            if (keyNorm === normalized) {
+                return key;
+            }
+        }
+        return undefined;
     }
 
     // Nouvelle méthode pour convertir mètres en pixels
@@ -1044,10 +1188,12 @@ export class MapAdapter {
         const iconPath = this.getReportIcon(report.report_type);
 
         if (iconPath) {
+            const size = this.getReportIconPixelSize();
             return new Style({
                 image: new Icon({
                     src: iconPath,
-                    scale: this.getReportMarkerIconScale(),
+                    width: size,
+                    height: size,
                     anchor: [0.5, 0.5],
                     anchorXUnits: 'fraction',
                     anchorYUnits: 'fraction',
@@ -1077,7 +1223,8 @@ export class MapAdapter {
     }
 
     private refreshMapIconLayersForZoom(zoom: number): void {
-        const zoomBucket = Math.floor(zoom);
+        // Buckets de 0.25 de zoom pour un redimensionnement fluide type Maps.
+        const zoomBucket = Math.round(zoom * 4);
 
         if (zoomBucket === this.lastMapIconZoomBucket) {
             return;
@@ -1088,9 +1235,16 @@ export class MapAdapter {
         this.coverageCenterLayer.changed();
     }
 
-    private getZoomIconScale(minScale: number, maxScale: number): number {
+    /**
+     * Interpolation douce de taille d'icône selon le zoom (écran px).
+     * Courbe sub-linéaire : la taille croît un peu plus vite en bas du
+     * range, comme les POI Google Maps.
+     * @param minPx
+     * @param maxPx
+     */
+    private getZoomIconPixelSize(minPx: number, maxPx: number): number {
         if (!this.map) {
-            return (minScale + maxScale) / 2;
+            return Math.round((minPx + maxPx) / 2);
         }
 
         const zoom = this.map.getView().getZoom() ?? 10;
@@ -1104,20 +1258,21 @@ export class MapAdapter {
             1
         );
 
-        return minScale + Math.pow(t, 0.8) * (maxScale - minScale);
+        const eased = Math.pow(t, 0.75);
+        return Math.round(minPx + eased * (maxPx - minPx));
     }
 
-    private getReportMarkerIconScale(): number {
-        return this.getZoomIconScale(
-            MapAdapter.REPORT_ICON_MIN_SCALE,
-            MapAdapter.REPORT_ICON_MAX_SCALE
+    private getReportIconPixelSize(): number {
+        return this.getZoomIconPixelSize(
+            MapAdapter.REPORT_ICON_MIN_PX,
+            MapAdapter.REPORT_ICON_MAX_PX
         );
     }
 
-    private getSignalIconScale(): number {
-        return this.getZoomIconScale(
-            MapAdapter.SIGNAL_ICON_MIN_SCALE,
-            MapAdapter.SIGNAL_ICON_MAX_SCALE
+    private getSignalIconPixelSize(): number {
+        return this.getZoomIconPixelSize(
+            MapAdapter.SIGNAL_ICON_MIN_PX,
+            MapAdapter.SIGNAL_ICON_MAX_PX
         );
     }
 
@@ -1237,7 +1392,7 @@ export class MapAdapter {
 
     private getCoverageAreaColor(operator?: string): string {
         const colors: Record<string, string> = {
-            oci: '#ff7900',
+            oci: '#bfef45',
             'ihs (oci)': '#ff7900',
             cit: '#ff7900',
             mtn: '#ffcc00',
@@ -1259,6 +1414,7 @@ export class MapAdapter {
      * ou "oci,mtn" pour un cluster mêlant plusieurs opérateurs) au lieu du
      * champ `operator` (singulier) utilisé auparavant sur les points
      * individuels. On garde la compatibilité avec les deux noms de champ.
+     * @param properties
      */
     private getFeatureOperatorValue(
         properties: CoverageAreaProperties | Record<string, unknown>
@@ -1389,11 +1545,17 @@ export class MapAdapter {
 
                 if (feat.type === 1) {
                     // Points
-                    for (const ring of (geom as any[])) {
-                        for (const pt of (ring as any[])) {
+                    for (const ring of geom as any[]) {
+                        for (const pt of ring as any[]) {
                             const coord = fromLonLat([
                                 (pt.x / extent_val) * 360 - 180,
-                                (180 / Math.PI) * Math.atan(Math.sinh(Math.PI * (1 - 2 * pt.y / extent_val)))
+                                (180 / Math.PI) *
+                                    Math.atan(
+                                        Math.sinh(
+                                            Math.PI *
+                                                (1 - (2 * pt.y) / extent_val)
+                                        )
+                                    ),
                             ]);
                             const feature = new Feature({
                                 geometry: new Point(coord),
@@ -1410,7 +1572,13 @@ export class MapAdapter {
                         ring.map((pt: any) =>
                             fromLonLat([
                                 (pt.x / extent_val) * 360 - 180,
-                                (180 / Math.PI) * Math.atan(Math.sinh(Math.PI * (1 - 2 * pt.y / extent_val)))
+                                (180 / Math.PI) *
+                                    Math.atan(
+                                        Math.sinh(
+                                            Math.PI *
+                                                (1 - (2 * pt.y) / extent_val)
+                                        )
+                                    ),
                             ])
                         )
                     );
@@ -1427,7 +1595,13 @@ export class MapAdapter {
                         ring.map((pt: any) =>
                             fromLonLat([
                                 (pt.x / extent_val) * 360 - 180,
-                                (180 / Math.PI) * Math.atan(Math.sinh(Math.PI * (1 - 2 * pt.y / extent_val)))
+                                (180 / Math.PI) *
+                                    Math.atan(
+                                        Math.sinh(
+                                            Math.PI *
+                                                (1 - (2 * pt.y) / extent_val)
+                                        )
+                                    ),
                             ])
                         )
                     );
@@ -1456,13 +1630,15 @@ export class MapAdapter {
             const pbfScript = document.createElement('script');
             pbfScript.src = 'https://esm.sh/pbf@3.2.1';
             pbfScript.type = 'module';
-            pbfScript.onerror = () => reject(new Error('Pbf script chargement échoué'));
+            pbfScript.onerror = () =>
+                reject(new Error('Pbf script chargement échoué'));
 
             // Charger VectorTile
             const vectorTileScript = document.createElement('script');
             vectorTileScript.src = 'https://esm.sh/@mapbox/vector-tile@1.3.1';
             vectorTileScript.type = 'module';
-            vectorTileScript.onerror = () => reject(new Error('VectorTile script chargement échoué'));
+            vectorTileScript.onerror = () =>
+                reject(new Error('VectorTile script chargement échoué'));
 
             document.head.appendChild(pbfScript);
             document.head.appendChild(vectorTileScript);

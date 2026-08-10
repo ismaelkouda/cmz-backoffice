@@ -12,13 +12,14 @@ import {
     ReportsResponse,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
 import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
-import { REPORT_API_URL } from '@core/config/config.tokens';
+import { REPORT_API_URL, SETTINGS_API_URL } from '@core/config/config.tokens';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class InteractiveMapReportsApi {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = inject(REPORT_API_URL);
+    private readonly settingsBaseUrl = inject(SETTINGS_API_URL);
 
     private readonly reportsSignal = signal<InteractiveMapReport[]>([]);
 
@@ -59,11 +60,34 @@ export class InteractiveMapReportsApi {
         const params = this.buildCoverageAreaTileParams(filters);
         const query = new URLSearchParams(params).toString();
         const baseUrl = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.COVERAGE_AREAS_TILES}`;
-        
+
         // Preserve {z}/{x}/{y} placeholders for OpenLayers VectorTileSource
         const url = query ? `${baseUrl}?${query}` : baseUrl;
-        
+
         return url;
+    }
+
+    /**
+     * Tuiles équipements / infrastructures (base-settings).
+     * Clustering géré côté backend sur ces tuiles — pas de re-cluster front.
+     * Choix multiple : `tag=ADMINISTRATION,EDUCATION` (virgules).
+     */
+    getInfrastructureTilesUrl(typeEquipment: string | string[]): string {
+        const types = (
+            Array.isArray(typeEquipment) ? typeEquipment : [typeEquipment]
+        )
+            .map((value) => value?.trim())
+            .filter((value): value is string => !!value);
+
+        if (!types.length) {
+            return '';
+        }
+
+        const baseUrl = `${this.settingsBaseUrl}${INTERACTIVE_MAP_ENDPOINTS.INFRASTRUCTURES_TILES}`;
+        const query = new URLSearchParams({
+            tag: types.join(','),
+        }).toString();
+        return `${baseUrl}?${query}`;
     }
 
     updateStatus(
