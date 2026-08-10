@@ -103,6 +103,7 @@ export class InteractiveMapReportsApi {
         reportUniqId: string,
         typeEquipment: string | string[]
     ): string {
+        console.log('reportUniqId', reportUniqId);
         const types = (
             Array.isArray(typeEquipment) ? typeEquipment : [typeEquipment]
         )
