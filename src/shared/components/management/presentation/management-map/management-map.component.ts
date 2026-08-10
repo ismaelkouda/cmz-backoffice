@@ -304,6 +304,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         }
 
         const reportUniqId = this.reportUniqId();
+        console.log('reportUniqId: ', reportUniqId);
         if (!reportUniqId) {
             console.warn(
                 '[management-map] reportUniqId manquant : la tuile ' +

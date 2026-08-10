@@ -623,6 +623,16 @@
                             </div>
                             <div #mapContainer class="map"></div>
 
+                            <div
+                                class="zoom-indicator"
+                                [class.visible]="zoomIndicatorVisible()"
+                            >
+                                <span class="zoom-indicator-value">{{
+                                    zoomIndicatorValue()
+                                }}</span>
+                                <span class="zoom-indicator-label">X</span>
+                            </div>
+
                             <button
                                 type="button"
                                 class="reset-view-button"

@@ -195,6 +195,7 @@ export class MapAdapter {
     private readonly mapClickSubject = new Subject<MapClickInfo>();
     private readonly clusterTooltipSubject =
         new Subject<ClusterTooltip | null>();
+    private readonly zoomChangeSubject = new Subject<number>();
 
     init(container: HTMLElement, options: MapOptions): void {
         if (this.map) {
@@ -296,6 +297,11 @@ export class MapAdapter {
 
     onClusterTooltip(): Observable<ClusterTooltip | null> {
         return this.clusterTooltipSubject.asObservable();
+    }
+
+    /** Émet le niveau de zoom courant à chaque changement (pinch/molette/+/-). */
+    onZoomChange(): Observable<number> {
+        return this.zoomChangeSubject.asObservable();
     }
 
     updateSize(silent = false): void {
@@ -507,6 +513,7 @@ export class MapAdapter {
 
             this.updateCoverageLayersVisibility();
             this.refreshMapIconLayersForZoom(zoom);
+            this.zoomChangeSubject.next(zoom);
         });
 
         this.map.on('moveend', () => {
@@ -795,6 +802,7 @@ export class MapAdapter {
         this.moveEndSubject.complete();
         this.mapClickSubject.complete();
         this.clusterTooltipSubject.complete();
+        this.zoomChangeSubject.complete();
     }
 
     private setupClickListener(): void {

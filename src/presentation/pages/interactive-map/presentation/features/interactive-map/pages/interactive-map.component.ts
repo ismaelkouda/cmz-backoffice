@@ -175,6 +175,9 @@ export class InteractiveMapComponent
         this.cloneFilters(EMPTY_REPORT_FILTERS)
     );
     public readonly isFullscreen = signal(false);
+    /** Niveau de zoom courant, affiché en grand pendant les changements de zoom. */
+    public readonly zoomIndicatorValue = signal(0);
+    public readonly zoomIndicatorVisible = signal(false);
     protected readonly isVisibleDialog = signal<boolean>(false);
     protected readonly selectedManagementType = signal<TypeReport | null>(
         TypeReport.PROCESSING
@@ -316,6 +319,7 @@ export class InteractiveMapComponent
     private readonly locationSearchSubject = new Subject<string>();
     private hoverTooltipLocked = false;
     private hoverHideTimer: ReturnType<typeof setTimeout> | null = null;
+    private zoomIndicatorHideTimer: ReturnType<typeof setTimeout> | null = null;
     private urlSyncReady = false;
     private ignoreNextMapMove = false;
     private mapResizeObserver: ResizeObserver | null = null;
@@ -353,6 +357,7 @@ export class InteractiveMapComponent
         }
         this.listenToMapMoves();
         this.listenToMapSelections();
+        this.listenToZoomChanges();
         this.initializeBoundsFromMap();
         this.urlSyncReady = true;
         document.addEventListener(
@@ -364,6 +369,7 @@ export class InteractiveMapComponent
 
     ngOnDestroy(): void {
         this.clearHoverHideTimer();
+        this.clearZoomIndicatorHideTimer();
         document.removeEventListener(
             'fullscreenchange',
             this.handleFullscreenChange
@@ -871,6 +877,36 @@ export class InteractiveMapComponent
                 this.clearHoverHideTimer();
                 this.clusterTooltip.set(tooltip);
             });
+    }
+
+    /**
+     * Affiche le niveau de zoom en grand au centre de la carte pendant que
+     * l'utilisateur zoome (molette, pinch, boutons +/-), puis le masque
+     * automatiquement après une courte pause sans changement de zoom.
+     */
+    private listenToZoomChanges(): void {
+        this.mapAdapter
+            .onZoomChange()
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((zoom) => {
+                this.zoomIndicatorValue.set(Math.round(zoom));
+                this.zoomIndicatorVisible.set(true);
+                this.scheduleZoomIndicatorHide();
+            });
+    }
+
+    private scheduleZoomIndicatorHide(): void {
+        this.clearZoomIndicatorHideTimer();
+        this.zoomIndicatorHideTimer = setTimeout(() => {
+            this.zoomIndicatorVisible.set(false);
+        }, 800);
+    }
+
+    private clearZoomIndicatorHideTimer(): void {
+        if (this.zoomIndicatorHideTimer) {
+            clearTimeout(this.zoomIndicatorHideTimer);
+            this.zoomIndicatorHideTimer = null;
+        }
     }
 
     private handleMapClick(info: MapClickInfo): void {
