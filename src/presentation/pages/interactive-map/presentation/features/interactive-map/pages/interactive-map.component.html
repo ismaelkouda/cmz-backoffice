@@ -404,6 +404,29 @@
                                         </div>
                                     </aside>
                                 }
+
+                                <!--
+                                    Enfant direct de filters-panel-stack :
+                                    `left: 100%` (voir scss) suit toujours le
+                                    bord droit réel de ce bloc, qu'il soit
+                                    replié (bouton toggle) ou ouvert (panneau
+                                    300px) — même distance dans les deux cas,
+                                    sans valeur magique à recalculer.
+                                -->
+                                <div class="map-side-controls">
+                                    <button
+                                        type="button"
+                                        class="reset-view-button"
+                                        title="Réinitialiser la vue"
+                                        (click)="resetMapView()"
+                                    >
+                                        🎯
+                                    </button>
+                                    <div
+                                        #zoomControlsAnchor
+                                        class="zoom-controls-anchor"
+                                    ></div>
+                                </div>
                             </div>
 
                             <div
@@ -637,15 +660,6 @@
                                     zoomIndicatorValue()
                                 }}</span>
                             </div>
-
-                            <button
-                                type="button"
-                                class="reset-view-button"
-                                title="Réinitialiser la vue"
-                                (click)="resetMapView()"
-                            >
-                                🎯
-                            </button>
 
                             <!-- <section
                                 class="map-search-bar"

@@ -157,6 +157,13 @@ export class InteractiveMapComponent
         viewChild<ElementRef<HTMLElement>>('hoverOverlay');
     private readonly clickOverlay =
         viewChild<ElementRef<HTMLElement>>('clickOverlay');
+    /**
+     * Ancre des boutons de zoom OL, placée à l'intérieur de
+     * filters-panel-stack pour que reset-view-button et les boutons +/-
+     * gardent la même distance avec ce bloc, ouvert ou replié.
+     */
+    private readonly zoomControlsAnchor =
+        viewChild<ElementRef<HTMLElement>>('zoomControlsAnchor');
 
     public readonly store = inject(MapStore);
     public readonly clusterTooltip = signal<ClusterTooltip | null>(null);
@@ -833,6 +840,7 @@ export class InteractiveMapComponent
             maxZoom: 18,
             defaultCenter: { lat: 7.984430480342013, lng: -3.756106463052295 },
             defaultZoom: 6.152954846305474,
+            zoomControlsTarget: this.zoomControlsAnchor()?.nativeElement,
         });
     }
 
