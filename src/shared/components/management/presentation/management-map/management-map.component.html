@@ -15,6 +15,81 @@
         tabindex="0"
     ></div>
 
+    @if (isMapInitialized()) {
+        <div class="coverage-legend" [class.open]="coverageLegendOpen()">
+            @if (!coverageLegendOpen()) {
+                <button
+                    type="button"
+                    class="coverage-legend-toggle"
+                    [attr.aria-expanded]="coverageLegendOpen()"
+                    (click)="toggleCoverageLegend()"
+                >
+                    Filtres sur les couches
+                </button>
+            }
+            @if (coverageLegendOpen()) {
+                <div class="coverage-legend-panel">
+                    <div class="panel-heading">
+                        <h4>Couches</h4>
+                        <button
+                            type="button"
+                            (click)="toggleCoverageLegend()"
+                            aria-label="Fermer"
+                        >
+                            ×
+                        </button>
+                    </div>
+                    <label>
+                        <input
+                            type="radio"
+                            name="management-basemap"
+                            [checked]="currentBaseMap() === 'osm'"
+                            (change)="setBaseMap('osm')"
+                        />
+                        OpenStreetMap
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="management-basemap"
+                            [checked]="currentBaseMap() === 'satellite'"
+                            (change)="setBaseMap('satellite')"
+                        />
+                        Satellitaire
+                    </label>
+
+                    <div class="d-flex gap-2 mt-2">
+                        <h4>Type d'équipements</h4>
+                        <input
+                            type="checkbox"
+                            [checked]="allEquipmentsVisible()"
+                            (change)="
+                                toggleAllEquipments(
+                                    $any($event.target).checked
+                                )
+                            "
+                        />
+                    </div>
+                    @for (eq of equipmentOptions; track eq.id) {
+                        <label class="m-0">
+                            <input
+                                type="checkbox"
+                                [checked]="equipmentsVisible()[eq.id]"
+                                (change)="
+                                    toggleEquipment(
+                                        eq.id,
+                                        $any($event.target).checked
+                                    )
+                                "
+                            />
+                            {{ eq.label }}
+                        </label>
+                    }
+                </div>
+            }
+        </div>
+    }
+
     @if (enablePopup()) {
         <div class="map-popup" [class.show]="showPopup()">
             <div class="popup-content">
@@ -60,6 +135,14 @@
             <div class="badge-content">
                 📍 {{ latitude() | number: '1.6-6' }},
                 {{ longitude() | number: '1.6-6' }}
+            </div>
+        </div>
+    }
+
+    @if (isMapInitialized() && showPerformance() && showRadiusCircle()) {
+        <div class="radius-badge">
+            <div class="badge-content">
+                🎯 Rayon d'impact : {{ radiusMeters() }} m
             </div>
         </div>
     }

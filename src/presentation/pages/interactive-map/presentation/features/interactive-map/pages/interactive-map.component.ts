@@ -39,6 +39,7 @@ import {
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { parseCoordinates } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
+import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { ToastrService } from 'ngx-toastr';
 import { Coordinate } from 'ol/coordinate';
@@ -124,13 +125,7 @@ export class InteractiveMapComponent
         return Object.values(visibility).every((v) => v === true);
     });
     public getReportIconPath(type: ReportType): string {
-        const icons: Record<ReportType, string> = {
-            zob: 'assets/images/icones/marker-zb.svg',
-            cpo: 'assets/images/icones/marker-ao.svg',
-            cps: 'assets/images/icones/marker-ms.svg',
-            abi: 'assets/images/icones/marker-ai.svg',
-        };
-        return icons[type] || '';
+        return getReportTypeIconPath(type) || '';
     }
     public readonly COVERAGE_OPERATORS: {
         id: string;
@@ -789,6 +784,7 @@ export class InteractiveMapComponent
 
     /**
      * Mappe l'id UI (ex. education) vers le param API `tag` (ex. EDUCATION).
+     * @param equipmentId
      */
     private toInfrastructureTileTag(equipmentId: string): string {
         return equipmentId

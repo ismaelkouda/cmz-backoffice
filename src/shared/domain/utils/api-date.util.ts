@@ -3,6 +3,7 @@
  *
  * Utilise les composantes locales (et non `toISOString()`) afin d'éviter
  * tout décalage de jour lié au fuseau horaire.
+ * @param value
  */
 export function toApiDateOnly(value: Date | string): string {
     const date = value instanceof Date ? value : new Date(value);

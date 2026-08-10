@@ -9,6 +9,7 @@ import {
     ReportOperator,
     ReportType,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
+import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
 import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { defaults as defaultControls } from 'ol/control';
@@ -118,7 +119,7 @@ export class MapAdapter {
      * plus petites à faible zoom, légèrement plus grandes en zoomant.
      * (Les SVG report font intrinsèquement 800px : on force width/height.)
      */
-    private static readonly REPORT_ICON_MIN_PX = 12;
+    private static readonly REPORT_ICON_MIN_PX = 20;
     private static readonly REPORT_ICON_MAX_PX = 50;
     private static readonly SIGNAL_ICON_MIN_PX = 20;
     private static readonly SIGNAL_ICON_MAX_PX = 20;
@@ -1212,14 +1213,7 @@ export class MapAdapter {
     }
 
     private getReportIcon(type: ReportType): string | null {
-        const icons: Record<ReportType, string> = {
-            zob: 'assets/images/icones/marker-zb.svg',
-            cpo: 'assets/images/icones/marker-ao.svg',
-            cps: 'assets/images/icones/marker-ms.svg',
-            abi: 'assets/images/icones/marker-ai.svg',
-        };
-
-        return icons[type] || null;
+        return getReportTypeIconPath(type);
     }
 
     private refreshMapIconLayersForZoom(zoom: number): void {
@@ -1521,6 +1515,7 @@ export class MapAdapter {
         extent: unknown,
         projection: unknown
     ): Promise<Feature[]> {
+        console.log(extent, projection);
         // Charger les scripts Pbf et VectorTile depuis CDN
         await this.loadPbfLibraries();
 

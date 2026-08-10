@@ -15,6 +15,13 @@ $dark-gray: var(--color-gray);
     flex-grow: 1;
 }
 
+::ng-deep .ol-zoom {
+    bottom: auto;
+    left: auto;
+
+    left: 15px;
+}
+
 .report-treatment-dialog {
     .p-dialog-header {
         background-color: #091624;

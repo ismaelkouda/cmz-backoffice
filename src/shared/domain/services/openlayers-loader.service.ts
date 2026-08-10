@@ -7,17 +7,23 @@ export interface OpenLayersModules {
     View: typeof import('ol/View').default;
     TileLayer: typeof import('ol/layer/Tile').default;
     OSM: typeof import('ol/source/OSM').default;
+    XYZ: typeof import('ol/source/XYZ').default;
     fromLonLat: typeof import('ol/proj').fromLonLat;
     toLonLat: typeof import('ol/proj').toLonLat;
     Geolocation: typeof import('ol/Geolocation').default;
     Feature: typeof import('ol/Feature').default;
     Point: typeof import('ol/geom/Point').default;
+    CircleGeom: typeof import('ol/geom/Circle').default;
     VectorLayer: typeof import('ol/layer/Vector').default;
     VectorSource: typeof import('ol/source/Vector').default;
+    VectorTileLayer: typeof import('ol/layer/VectorTile').default;
+    VectorTileSource: typeof import('ol/source/VectorTile').default;
+    MVT: typeof import('ol/format/MVT').default;
     Style: typeof import('ol/style/Style').default;
     Circle: typeof import('ol/style/Circle').default;
     Fill: typeof import('ol/style/Fill').default;
     Stroke: typeof import('ol/style/Stroke').default;
+    Text: typeof import('ol/style/Text').default;
     defaults: typeof import('ol/control').defaults;
     Overlay: typeof import('ol/Overlay').default;
     Icon: typeof import('ol/style/Icon').default;
@@ -68,16 +74,24 @@ export class OpenLayersLoaderService {
                 const viewModule = await import('ol/View');
                 const tileLayerModule = await import('ol/layer/Tile');
                 const osmSourceModule = await import('ol/source/OSM');
+                const xyzSourceModule = await import('ol/source/XYZ');
                 const projModule = await import('ol/proj');
                 const geolocationModule = await import('ol/Geolocation');
                 const featureModule = await import('ol/Feature');
                 const pointModule = await import('ol/geom/Point');
+                const circleGeomModule = await import('ol/geom/Circle');
                 const vectorLayerModule = await import('ol/layer/Vector');
                 const vectorSourceModule = await import('ol/source/Vector');
+                const vectorTileLayerModule =
+                    await import('ol/layer/VectorTile');
+                const vectorTileSourceModule =
+                    await import('ol/source/VectorTile');
+                const mvtModule = await import('ol/format/MVT');
                 const styleModule = await import('ol/style/Style');
                 const circleModule = await import('ol/style/Circle');
                 const fillModule = await import('ol/style/Fill');
                 const strokeModule = await import('ol/style/Stroke');
+                const textModule = await import('ol/style/Text');
                 const controlModule = await import('ol/control');
                 const overlayModule = await import('ol/Overlay');
                 const iconModule = await import('ol/style/Icon');
@@ -89,17 +103,23 @@ export class OpenLayersLoaderService {
                     View: viewModule.default,
                     TileLayer: tileLayerModule.default,
                     OSM: osmSourceModule.default,
+                    XYZ: xyzSourceModule.default,
                     fromLonLat: projModule.fromLonLat,
                     toLonLat: projModule.toLonLat,
                     Geolocation: geolocationModule.default,
                     Feature: featureModule.default,
                     Point: pointModule.default,
+                    CircleGeom: circleGeomModule.default,
                     VectorLayer: vectorLayerModule.default,
                     VectorSource: vectorSourceModule.default,
+                    VectorTileLayer: vectorTileLayerModule.default,
+                    VectorTileSource: vectorTileSourceModule.default,
+                    MVT: mvtModule.default,
                     Style: styleModule.default,
                     Circle: circleModule.default,
                     Fill: fillModule.default,
                     Stroke: strokeModule.default,
+                    Text: textModule.default,
                     defaults: controlModule.defaults,
                     Overlay: overlayModule.default,
                     Icon: iconModule.default,
