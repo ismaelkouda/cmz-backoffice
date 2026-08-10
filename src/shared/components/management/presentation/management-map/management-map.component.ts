@@ -20,6 +20,7 @@ import { InteractiveMapReportsApi } from '@presentation/pages/interactive-map/in
 import {
     getReportTypeColor,
     getReportTypeIconPath,
+    getReportTypeLabel,
 } from '@shared/domain/constants/report-icon';
 import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
@@ -89,6 +90,14 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     private readonly elementRef = inject(ElementRef);
     private readonly mapContainer =
         viewChild.required<ElementRef<HTMLDivElement>>('mapContainer');
+    /**
+     * Ancre DOM dans laquelle les contrôles de zoom natifs d'OpenLayers
+     * sont reparentés (voir createMap) : même technique que
+     * interactive-map, pour garder une distance constante avec
+     * `.right-panel-stack` peu importe son état déroulé/replié.
+     */
+    private readonly zoomControlsAnchor =
+        viewChild<ElementRef<HTMLElement>>('zoomControlsAnchor');
     readonly isMapInitialized = signal(false);
     readonly isLoading = signal(true);
     readonly mapViewState = signal({
@@ -141,6 +150,20 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         const vis = this.equipmentsVisible();
         return Object.values(vis).every((v) => v === true);
     });
+
+    /** Libellé humain du type de signalement, affiché dans le panneau infos. */
+    public readonly reportTypeLabel = computed(() =>
+        getReportTypeLabel(this.reportType())
+    );
+    /** Couleur associée au type de signalement, réutilisée pour le badge du panneau infos. */
+    public readonly reportTypeColor = computed(
+        () => getReportTypeColor(this.reportType()) ?? '#2563eb'
+    );
+    public readonly signalementInfoOpen = signal(true);
+
+    public toggleSignalementInfo(): void {
+        this.signalementInfoOpen.update((v) => !v);
+    }
 
     private map: any = null;
     private markerLayer: any = null;
@@ -200,7 +223,16 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     }
 
     private createMap(container: HTMLElement): void {
-        const { Map, View, fromLonLat, TileLayer, OSM, XYZ } = this.olModules;
+        const {
+            Map,
+            View,
+            fromLonLat,
+            TileLayer,
+            OSM,
+            XYZ,
+            defaults: defaultControls,
+            Zoom,
+        } = this.olModules;
 
         if (!this.mapContainer()) {
             throw new Error('Container de carte non trouvé');
@@ -226,9 +258,23 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             zIndex: 0,
         });
 
+        // Reparente les contrôles +/- natifs d'OpenLayers dans
+        // #zoomControlsAnchor (voir .map-side-controls dans le template) :
+        // même technique que interactive-map's MapAdapter, pour que ces
+        // contrôles gardent une distance constante avec `.right-panel-stack`
+        // peu importe son état ouvert/replié, plutôt que d'être positionnés
+        // en absolu par rapport à la carte.
+        const zoomTarget = this.zoomControlsAnchor()?.nativeElement;
+        const controls = zoomTarget
+            ? defaultControls({ zoom: false }).extend([
+                  new Zoom({ target: zoomTarget }),
+              ])
+            : defaultControls({ zoom: true });
+
         this.map = new Map({
             target: container,
             layers: [this.osmLayer, this.satelliteLayer],
+            controls,
             view: new View({
                 center: fromLonLat([this.longitude(), this.latitude()]),
                 zoom: this.zoom(),

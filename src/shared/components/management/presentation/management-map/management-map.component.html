@@ -15,6 +15,70 @@
         tabindex="0"
     ></div>
 
+    <!--
+        Bloc gauche : panneau infos signalement. Les deux boutons (recentrer
+        + zoom OL) sont des enfants DOM de ce conteneur, positionnés en
+        absolu (left:100%) afin de garder une distance constante avec lui,
+        peu importe l'état déroulé/replié — même technique que
+        interactive-map (.filters-panel-stack / .map-side-controls).
+    -->
+    <div class="signalement-info-stack">
+        @if (isMapInitialized()) {
+            <div
+                class="signalement-info-panel"
+                [class.open]="signalementInfoOpen()"
+            >
+                @if (!signalementInfoOpen()) {
+                    <button
+                        type="button"
+                        class="signalement-info-toggle"
+                        [attr.aria-expanded]="signalementInfoOpen()"
+                        (click)="toggleSignalementInfo()"
+                    >
+                        Infos signalement
+                    </button>
+                }
+                @if (signalementInfoOpen()) {
+                    <div class="signalement-info-panel-content">
+                        <div class="panel-heading">
+                            <h4>Signalement</h4>
+                            <button
+                                type="button"
+                                (click)="toggleSignalementInfo()"
+                                aria-label="Fermer"
+                            >
+                                ×
+                            </button>
+                        </div>
+                        <div class="signalement-info-row">
+                            <span class="signalement-info-label"
+                                >Type de signalement</span
+                            >
+                            <span
+                                class="signalement-type-badge"
+                                [style.background]="reportTypeColor()"
+                            >
+                                {{ reportTypeLabel() ?? 'Non renseigné' }}
+                            </span>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="map-side-controls">
+            <button
+                class="control-btn"
+                (click)="recenterMap()"
+                title="Recenter"
+            >
+                🎯
+            </button>
+            <div #zoomControlsAnchor class="zoom-controls-anchor"></div>
+        </div>
+    </div>
+
+    <!-- Bloc droit : panneau "Filtres sur les couches", indépendant. -->
     @if (isMapInitialized()) {
         <div class="coverage-legend" [class.open]="coverageLegendOpen()">
             @if (!coverageLegendOpen()) {
@@ -59,7 +123,7 @@
                     </label>
 
                     <div class="d-flex gap-2 mt-2">
-                        <h4>Type d'équipements</h4>
+                        <h4>Equipements impactés</h4>
                         <input class="mb-2"
                             type="checkbox"
                             [checked]="allEquipmentsVisible()"
@@ -115,18 +179,6 @@
                     </button>
                 </div>
             </div>
-        </div>
-    }
-
-    @if (isMapInitialized()) {
-        <div class="map-controls">
-            <button
-                class="control-btn"
-                (click)="recenterMap()"
-                title="Recenter"
-            >
-                🎯
-            </button>
         </div>
     }
 

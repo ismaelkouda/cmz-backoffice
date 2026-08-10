@@ -314,19 +314,19 @@ $dark-gray: var(--color-gray);
     }
 }
 
-.filter-group {
-    display: grid;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-xl);
-    line-height: 5px;
-
-    h3 {
+h3 {
         margin: 0 0 2px;
         color: var(--color-text-muted);
         font-size: var(--font-size-sm);
         font-weight: 800;
         text-transform: uppercase;
     }
+
+.filter-group {
+    display: grid;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    line-height: 5px;
 
     label {
         display: flex;
@@ -441,11 +441,15 @@ $dark-gray: var(--color-gray);
     border-radius: var(--radius-sm);
     background: var(--color-primary-light);
     border: 1px solid var(--color-primary-bg);
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
     color: var(--color-primary);
     letter-spacing: 0.02em;
+
+    &.size-xl {
+        font-size: 16px !important;
+    }
 }
 
 .map-search-bar {
@@ -1146,6 +1150,33 @@ $dark-gray: var(--color-gray);
             background: rgba(255, 255, 255, 0.6);
             box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
             flex-shrink: 0;
+        }
+
+        // Pictogramme "ligne" du réseau RNHD : une barre pour la fibre
+        // optique, deux barres superposées pour un faisceau radio — plus
+        // parlant qu'un simple rond de couleur pour représenter un lien
+        // linéaire entre deux points.
+        .legend-color.legend-line-icon {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: stretch;
+            gap: 3px;
+            width: 16px;
+            height: 16px;
+            border-radius: 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            flex-shrink: 0;
+        }
+
+        .legend-line-bar {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: currentColor;
+            border-radius: 1px;
         }
     }
 
