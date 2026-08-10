@@ -1,9 +1,9 @@
 (function (window) {
             window.__env = {
-    "authenticationUrl": "https://api-services.mazone-test.ansut.ci/auth/v1.0/backoffice/",
-    "reportUrl": "https://api-services.mazone-test.ansut.ci/reports/v1.0/backoffice/",
-    "settingUrl": "https://api-services.mazone-test.ansut.ci/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://api-services.mazone-test.ansut.ci/auth/backoffice/",
+    "authenticationUrl": "https://api-services.connecte-ma-zone.ansut.ci/auth/v1.0/backoffice/",
+    "reportUrl": "https://api-services.connecte-ma-zone.ansut.ci/reports/v1.0/backoffice/",
+    "settingUrl": "https://api-services.connecte-ma-zone.ansut.ci/base-settings/v1.0/backoffice/",
+    "fileUrl": "https://api-services.connecte-ma-zone.ansut.ci/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "appSettings": {

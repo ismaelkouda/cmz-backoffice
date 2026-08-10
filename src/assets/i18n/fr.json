@@ -3621,7 +3621,7 @@
             "CATEGORIES": {
                 "INFORMATION": "Informations",
                 "IMAGES": "Photos",
-                "GEOGRAPHIC_VIEW": "Vue Interactive",
+                "GEOGRAPHIC_VIEW": "Vue Géographique",
                 "CHATBOT": "Messagerie",
                 "TREATMENT_LOGS": "Journal de traitement"
             },

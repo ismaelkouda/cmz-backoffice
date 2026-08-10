@@ -71,6 +71,7 @@ export class InteractiveMapReportsApi {
      * Tuiles équipements / infrastructures (base-settings).
      * Clustering géré côté backend sur ces tuiles — pas de re-cluster front.
      * Choix multiple : `tag=ADMINISTRATION,EDUCATION` (virgules).
+     * @param typeEquipment
      */
     getInfrastructureTilesUrl(typeEquipment: string | string[]): string {
         const types = (
@@ -87,6 +88,41 @@ export class InteractiveMapReportsApi {
         const query = new URLSearchParams({
             tag: types.join(','),
         }).toString();
+        return `${baseUrl}?${query}`;
+    }
+
+    /**
+     * Tuiles équipements/infrastructures scopées à un signalement précis
+     * (management-map). Endpoint `reports`, pas `base-settings` : la liste
+     * d'équipements renvoyée est propre au signalement `reportUniqId`.
+     * Choix multiple : `tag=ADMINISTRATION,EDUCATION` (virgules).
+     * @param reportUniqId
+     * @param typeEquipment
+     */
+    getReportInfrastructureTilesUrl(
+        reportUniqId: string,
+        typeEquipment: string | string[]
+    ): string {
+        const types = (
+            Array.isArray(typeEquipment) ? typeEquipment : [typeEquipment]
+        )
+            .map((value) => value?.trim())
+            .filter((value): value is string => !!value);
+
+        if (!types.length || !reportUniqId) {
+            return '';
+        }
+
+        const path =
+            INTERACTIVE_MAP_ENDPOINTS.REPORT_INFRASTRUCTURE_TILES.replace(
+                '{reportUniqId}',
+                reportUniqId
+            );
+        const baseUrl = `${this.baseUrl}${path}`;
+        const query = new URLSearchParams({
+            tag: types.join(','),
+        }).toString();
+
         return `${baseUrl}?${query}`;
     }
 
