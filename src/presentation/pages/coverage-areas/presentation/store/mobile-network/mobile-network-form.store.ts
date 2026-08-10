@@ -15,7 +15,6 @@ import {
 } from '@angular/forms';
 import { MobileNetworkFindOneFacade } from '@pages/coverage-areas/application/services/mobile-network/mobile-network-find-one.facade';
 import { MobileNetworkFormControl } from '@pages/coverage-areas/presentation/store/mobile-network/mobile-network-form.control';
-import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 import { startWith } from 'rxjs';
 type FormMode = 'create' | 'edit' | 'details';
@@ -67,22 +66,28 @@ export class MobileNetworkFormStore {
                 validators: [Validators.required],
             }),
 
-            infrastructureType: new FormControl<string | undefined>(undefined, {
+            siteGroupId: new FormControl<string | number | undefined>(
+                undefined,
+                {
+                    nonNullable: true,
+                    validators: [Validators.required],
+                }
+            ),
+
+            towerTypeId: new FormControl<string | number | undefined>(
+                undefined,
+                {
+                    nonNullable: true,
+                    validators: [Validators.required],
+                }
+            ),
+
+            towerHeight: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
 
-            towerTypeId: new FormControl<string | undefined>(undefined, {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-
-            towerSize: new FormControl<number | undefined>(undefined, {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
-
-            technology: new FormControl<Technology[]>([], {
+            networkTechnology: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
@@ -92,7 +97,7 @@ export class MobileNetworkFormStore {
                 validators: [Validators.required],
             }),
 
-            radius: new FormControl<number | undefined>(undefined, {
+            coverageRadius: new FormControl<number | undefined>(undefined, {
                 nonNullable: true,
             }),
         });
@@ -108,12 +113,12 @@ export class MobileNetworkFormStore {
             const {
                 siteId,
                 siteName,
-                infrastructureType,
+                siteGroupId,
                 towerTypeId,
-                towerSize,
-                technology,
+                towerHeight,
+                networkTechnology,
                 operator,
-                radius,
+                coverageRadius,
             } = item;
             const details = this.isDetailsMode();
 
@@ -122,12 +127,12 @@ export class MobileNetworkFormStore {
                     this.form.patchValue({
                         siteId,
                         siteName,
-                        infrastructureType,
+                        siteGroupId,
                         towerTypeId,
-                        towerSize,
-                        technology: technology ?? [],
+                        towerHeight,
+                        networkTechnology,
                         operator,
-                        radius,
+                        coverageRadius,
                     });
                     if (details) {
                         this.form.disable({ emitEvent: false });
@@ -160,12 +165,12 @@ export class MobileNetworkFormStore {
             {
                 siteId: undefined,
                 siteName: undefined,
-                infrastructureType: undefined,
+                siteGroupId: undefined,
                 towerTypeId: undefined,
-                towerSize: undefined,
-                technology: [],
+                towerHeight: undefined,
+                networkTechnology: undefined,
                 operator: undefined,
-                radius: undefined,
+                coverageRadius: undefined,
             },
             {
                 emitEvent: true,

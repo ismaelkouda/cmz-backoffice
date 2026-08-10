@@ -1,17 +1,18 @@
 import { Status } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-status.enum';
-import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 
 export interface MobileNetworkProps {
     uniqId: string;
     siteId: string;
     siteName: string;
-    towerTypeId: string;
+    siteGroupId: string | number;
+    siteGroupName: string;
+    towerTypeId: string | number;
     towerTypeName: string;
-    towerSize: number;
-    technology: Technology[];
+    towerHeight: string;
+    networkTechnology: string;
     operator: Operator;
-    radius?: number;
+    coverageRadius?: number;
     status: Status;
     updatedAt: string;
 }

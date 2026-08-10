@@ -264,6 +264,7 @@ export class InteractiveMapComponent
         { id: 'sante', label: 'Santé' },
         { id: 'administration', label: 'Administration' },
         { id: 'securité', label: 'Sécurité' },
+        { id: 'autre', label: 'Autre' },
     ];
     public readonly equipmentsVisible = signal<Record<string, boolean>>(
         Object.fromEntries(this.equipmentOptions.map((eq) => [eq.id, false]))
@@ -759,20 +760,41 @@ export class InteractiveMapComponent
             return;
         }
 
-        const selectedEquipments = this.equipmentOptions
-            .filter((eq) => this.equipmentsVisible()[eq.id])
-            .map((eq) => eq.id);
+        const selectedEquipments = this.equipmentOptions.filter(
+            (eq) => this.equipmentsVisible()[eq.id]
+        );
 
         if (!selectedEquipments.length) {
-            this.mapAdapter.setEquipmentAreasVisible(false);
+            this.mapAdapter.renderEquipmentAreaTiles(null);
             return;
         }
 
-        const tileUrl = this.reportsApi.getCoverageAreasTileUrl({
-            equipment: selectedEquipments.join(','),
-        });
+        const selectedApiTypes = selectedEquipments.map((eq) =>
+            this.toInfrastructureTileTag(eq.id)
+        );
 
-        this.mapAdapter.renderEquipmentAreaTiles(tileUrl, true);
+        // Choix multiple → ?tag=ADMINISTRATION,EDUCATION,...
+        // Clustering fourni par le backend sur ces tuiles MVT.
+        const tileUrl =
+            this.reportsApi.getInfrastructureTilesUrl(selectedApiTypes);
+
+        this.mapAdapter.renderEquipmentAreaTiles([
+            {
+                type: selectedApiTypes.join(','),
+                url: tileUrl,
+                selectedTypes: selectedEquipments.map((eq) => eq.id),
+            },
+        ]);
+    }
+
+    /**
+     * Mappe l'id UI (ex. education) vers le param API `tag` (ex. EDUCATION).
+     */
+    private toInfrastructureTileTag(equipmentId: string): string {
+        return equipmentId
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toUpperCase();
     }
 
     private checkInitialPermission(): void {

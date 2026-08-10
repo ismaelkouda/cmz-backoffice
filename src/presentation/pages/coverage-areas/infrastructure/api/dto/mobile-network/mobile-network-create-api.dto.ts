@@ -1,10 +1,10 @@
 export interface MobileNetworkCreateApiDto {
     site_id: string;
     site_name: string;
-    infrastructure_type: string;
-    tower_type_id: string;
-    tower_size: number;
-    technology: string[];
+    site_group_id: string | number;
+    tower_type_id: string | number;
+    tower_height: string;
+    network_technology: string;
     operator: string;
-    radius?: number;
+    coverage_radius?: number;
 }

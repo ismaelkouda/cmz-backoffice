@@ -146,12 +146,12 @@ export class MobileNetworkFacade extends BaseFacade<
         const command = new MobileNetworkCreateCommand(
             dto.siteId,
             dto.siteName,
-            dto.infrastructureType,
+            dto.siteGroupId,
             dto.towerTypeId,
-            dto.towerSize,
-            dto.technology,
+            dto.towerHeight,
+            dto.networkTechnology,
             dto.operator,
-            dto.radius
+            dto.coverageRadius
         );
 
         this.handleActionWithRefresh(
@@ -177,12 +177,12 @@ export class MobileNetworkFacade extends BaseFacade<
             dto.uniqId,
             dto.siteId,
             dto.siteName,
-            dto.infrastructureType,
+            dto.siteGroupId,
             dto.towerTypeId,
-            dto.towerSize,
-            dto.technology,
+            dto.towerHeight,
+            dto.networkTechnology,
             dto.operator,
-            dto.radius
+            dto.coverageRadius
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

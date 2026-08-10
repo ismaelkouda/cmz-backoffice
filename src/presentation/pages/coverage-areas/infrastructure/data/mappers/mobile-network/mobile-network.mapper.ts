@@ -5,7 +5,6 @@ import { MobileNetworkProps } from '@pages/coverage-areas/domain/interfaces/mobi
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 import { Status } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-status.enum';
-import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 
 @Injectable({
@@ -25,16 +24,14 @@ export class MobileNetworkMapper extends PaginatedMapper<
             uniqId: dto.id,
             siteId: dto.site_id,
             siteName: dto.site_name,
-            towerTypeId: dto.tower_type_id,
-            towerTypeName: dto.tower_type_name,
-            towerSize: dto.tower_size,
-            technology: (Array.isArray(dto.technology)
-                ? dto.technology
-                : dto.technology
-                  ? [dto.technology]
-                  : []) as Technology[],
+            siteGroupId: dto.site_group.id,
+            siteGroupName: dto.site_group.name,
+            towerTypeId: dto.tower_type.id,
+            towerTypeName: dto.tower_type.name,
+            towerHeight: dto.tower_height,
+            networkTechnology: dto.network_technology,
             operator: dto.operator as Operator,
-            radius: dto.radius,
+            coverageRadius: dto.coverage_radius,
             status: dto.is_active ? Status.ACTIVE : Status.INACTIVE,
             updatedAt: dto.updated_at,
         };
