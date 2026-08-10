@@ -253,11 +253,23 @@ $dark-gray: var(--color-gray);
     }
 }
 
-.reset-view-button {
-    align-self: flex-end;
+// Conteneur des contrôles (reset + zoom OL), enfant direct de
+// filters-panel-stack : `left: 100%` colle toujours au bord droit réel de
+// ce bloc (replié ou ouvert), donc distance constante dans les deux états,
+// sans valeur magique à recalculer au toggle.
+.map-side-controls {
     position: absolute;
-    top: 70px;
-    left: 20rem;
+    top: 0;
+    left: 100%;
+    margin-left: var(--space-sm);
+    z-index: 7;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+}
+
+.reset-view-button {
     width: 34px;
     height: 34px;
     padding: 0;
@@ -274,6 +286,31 @@ $dark-gray: var(--color-gray);
 
     &:hover {
         background: var(--color-bg-hover);
+    }
+}
+
+// Ancre des boutons de zoom OL (voir map.adapter.ts `zoomControlsTarget`) :
+// on neutralise le positionnement absolu par défaut d'OpenLayers pour que
+// les boutons +/- s'insèrent normalement dans le flux de ce conteneur.
+.zoom-controls-anchor {
+    display: flex;
+
+    ::ng-deep .ol-zoom {
+        position: static;
+        top: auto;
+        left: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    ::ng-deep .ol-zoom .ol-zoom-in,
+    ::ng-deep .ol-zoom .ol-zoom-out {
+        width: 34px;
+        height: 34px;
+        margin: 0;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
     }
 }
 
@@ -887,6 +924,18 @@ $dark-gray: var(--color-gray);
         max-width: none;
     }
 
+    // filters-panel-stack prend (quasi) toute la largeur en mobile :
+    // `left: 100%` collerait les contrôles hors écran. On les repasse en
+    // coin fixe, comme avant, plutôt que relatifs au bloc de filtres.
+    .map-side-controls {
+        position: absolute;
+        top: auto;
+        bottom: 10px;
+        left: auto;
+        right: 10px;
+        margin-left: 0;
+    }
+
     .map-workspace {
         height: 620px;
     }
@@ -1108,13 +1157,6 @@ $dark-gray: var(--color-gray);
         gap: 2px;
     }
 }
-::ng-deep .ol-zoom {
-    bottom: auto;
-    left: auto;
-
-    left: 20rem;
-}
-
 .form-p-select,
 .p-inputtext,
 .form-input {
@@ -1228,12 +1270,6 @@ $dark-gray: var(--color-gray);
     vertical-align: middle;
 }
 
-.ol-zoom {
-    bottom: 10px;
-    right: 10px;
-    top: auto !important;
-    left: auto !important;
-}
 .coverage-legend-wrapper {
     position: absolute; // ou fixed, selon votre layout
     top: 10px;

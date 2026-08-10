@@ -12,7 +12,7 @@ import {
 import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
 import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
-import { defaults as defaultControls } from 'ol/control';
+import { defaults as defaultControls, Zoom } from 'ol/control';
 import { Coordinate } from 'ol/coordinate';
 import Feature from 'ol/Feature';
 import { FeatureLike } from 'ol/Feature';
@@ -50,6 +50,13 @@ export interface MapOptions {
     maxZoom?: number;
     defaultCenter?: { lat: number; lng: number }; // pour le reset
     defaultZoom?: number;
+    /**
+     * Élément DOM cible pour les boutons de zoom OpenLayers (+/-). Permet de
+     * les rendre ailleurs que dans le viewport OL par défaut — ici, collés
+     * au conteneur "filters-panel-stack" pour qu'ils gardent toujours la
+     * même distance avec ce bloc, peu importe son état ouvert/replié.
+     */
+    zoomControlsTarget?: HTMLElement;
 }
 
 export interface ClusterTooltip {
@@ -221,9 +228,18 @@ export class MapAdapter {
             zIndex: 0,
         });
 
+        // Boutons +/- rendus dans notre propre conteneur (collé à
+        // filters-panel-stack) plutôt que dans le viewport OL par défaut,
+        // pour qu'ils gardent une distance constante avec ce bloc.
+        const controls = mergedOptions.zoomControlsTarget
+            ? defaultControls({ zoom: false }).extend([
+                  new Zoom({ target: mergedOptions.zoomControlsTarget }),
+              ])
+            : defaultControls({ zoom: true });
+
         this.map = new Map({
             target: container,
-            controls: defaultControls({ zoom: true }),
+            controls,
             layers: [
                 this.osmLayer,
                 this.satelliteLayer,
