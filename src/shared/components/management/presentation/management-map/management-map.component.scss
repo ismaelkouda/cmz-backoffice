@@ -94,25 +94,15 @@
         }
     }
 
-    .map-controls {
-        position: absolute;
-        top: 4rem;
-        left: 15px;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        z-index: 10;
-
-        .control-btn {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border: none;
-            border-radius: 4px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            font-size: 16px;
-        }
+    .control-btn {
+        width: 40px;
+        height: 40px;
+        background: white;
+        border: none;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        font-size: 16px;
     }
 
     .coordinates-badge {
@@ -141,9 +131,160 @@
     }
 
     // ========================================================
-    // Panneau "Filtres sur les couches" (repris d'interactive-map,
-    // sans le sous-bloc "Couverture reseau")
+    // Bloc gauche : panneau infos signalement (analogue à
+    // `.filters-panel-stack` d'interactive-map). Les deux boutons
+    // (recentrer + zoom OL) sont des enfants DOM de ce conteneur,
+    // positionnés en absolu avec `left: 100%` : ils gardent ainsi une
+    // distance constante avec le bloc peu importe son état ouvert/replié,
+    // sans mesure JS ni valeurs magiques — même technique que
+    // `.filters-panel-stack` / `.map-side-controls` dans interactive-map.
     // ========================================================
+    .signalement-info-stack {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 20;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .signalement-info-panel {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    // Enfant DOM du stack : `left: 100%` colle toujours au bord droit réel
+    // du bloc (replié ou ouvert), donc distance constante dans les deux
+    // états — même technique que `.map-side-controls` dans interactive-map.
+    .map-side-controls {
+        position: absolute;
+        top: 0;
+        left: 100%;
+        margin-left: 8px;
+        z-index: 7;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .zoom-controls-anchor {
+        ::ng-deep .ol-zoom {
+            position: static;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+
+            .ol-zoom-in,
+            .ol-zoom-out {
+                width: 34px;
+                height: 34px;
+                background: white;
+                color: #1f2937;
+                border-radius: 4px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                font-size: 16px;
+                margin: 0;
+
+                &:hover {
+                    background: #f8fafc;
+                }
+            }
+        }
+    }
+
+    // ------------------------------------------------------
+    // Panneau infos signalement ("Type de signalement", etc.)
+    // ------------------------------------------------------
+    .signalement-info-toggle {
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+
+        &:hover {
+            background: #f8fafc;
+            border-color: #2563eb;
+        }
+    }
+
+    .signalement-info-panel-content {
+        width: 220px;
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+        padding: 12px 14px;
+        font-size: 13px;
+        color: #0f172a;
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+
+            h4 {
+                margin: 0;
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                color: #334155;
+            }
+
+            button {
+                background: transparent;
+                border: none;
+                font-size: 18px;
+                line-height: 1;
+                cursor: pointer;
+                color: #64748b;
+
+                &:hover {
+                    color: #0f172a;
+                }
+            }
+        }
+    }
+
+    .signalement-info-row {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        margin: 8px 0;
+
+        &:first-of-type {
+            margin-top: 0;
+        }
+    }
+
+    .signalement-info-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #64748b;
+    }
+
+    .signalement-type-badge {
+        align-self: flex-start;
+        color: #ffffff;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    // ------------------------------------------------------
+    // Bloc droit : panneau "Filtres sur les couches", indépendant du
+    // bloc gauche (pas de boutons attachés).
+    // ------------------------------------------------------
     .coverage-legend {
         position: absolute;
         top: 16px;
@@ -171,7 +312,6 @@
     }
 
     .coverage-legend-panel {
-        width: 200px;
         background: rgba(255, 255, 255, 0.98);
         border: 1px solid #d1d5db;
         border-radius: 8px;
@@ -251,6 +391,22 @@
             &.mt-2 {
                 margin-top: 8px;
             }
+        }
+    }
+
+    // Sur écran étroit, `.signalement-info-stack` peut occuper une large
+    // part de la largeur de la carte (dialog en plein écran mobile) :
+    // `left: 100%` pousserait alors les boutons hors champ. On les repasse
+    // en absolu classique, ancrés en bas à droite — même repli que
+    // `.map-side-controls` dans interactive-map.
+    @media (max-width: 480px) {
+        .map-side-controls {
+            position: absolute;
+            top: auto;
+            bottom: 16px;
+            left: auto;
+            right: 15px;
+            margin-left: 0;
         }
     }
 }

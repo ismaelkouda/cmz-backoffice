@@ -251,9 +251,18 @@ export class InteractiveMapComponent
         { value: 'processing', label: 'En cours' },
         { value: 'finalization', label: 'Clôturé' },
     ];
-    public readonly networkTechnologyOptions = [
-        { value: 'fo', label: 'Fibre optique' },
-        { value: 'fr', label: 'Faiseau radio' },
+    // `lineCount` pilote le rendu du pictogramme de légende : une seule
+    // ligne pour la fibre optique, deux lignes superposées pour un
+    // faisceau radio (paire émission/réception), au lieu d'un simple
+    // rond de couleur.
+    public readonly networkTechnologyOptions: {
+        value: string;
+        label: string;
+        color: string;
+        lineCount: 1 | 2;
+    }[] = [
+        { value: 'fo', label: 'Fibre optique', color: '#000000', lineCount: 1 },
+        { value: 'fr', label: 'Faiseau radio', color: '#3b82f6', lineCount: 2 },
     ];
     public readonly rnhdVisibility = signal<Record<string, boolean>>(
         Object.fromEntries(

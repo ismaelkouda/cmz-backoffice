@@ -69,3 +69,34 @@ export function getReportTypeColor(
     }
     return REPORT_TYPE_COLORS[normalized] ?? null;
 }
+
+/**
+ * Libellé humain associé à chaque type de signalement, identique aux
+ * options affichées dans le filtre "Type de signalement" d'interactive-map.
+ */
+export const REPORT_TYPE_LABELS: Record<ReportIconType, string> = {
+    zob: 'Aucun réseau',
+    cpo: "Absence d'Opérateur(s)",
+    cps: "Mauvais signal d'Opérateur(s)",
+    abi: "Absence d'Internet",
+};
+
+/**
+ * Résout le libellé humain d'un type de signalement, en acceptant les
+ * mêmes formats que `getReportTypeIconPath` ('zob' ou 'COMMON.ZOB').
+ * @param type
+ */
+export function getReportTypeLabel(
+    type: string | null | undefined
+): string | null {
+    if (!type) {
+        return null;
+    }
+    const normalized = type.split('.').pop()?.toLowerCase() as
+        | ReportIconType
+        | undefined;
+    if (!normalized) {
+        return null;
+    }
+    return REPORT_TYPE_LABELS[normalized] ?? null;
+}

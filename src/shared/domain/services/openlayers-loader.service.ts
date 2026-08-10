@@ -25,6 +25,7 @@ export interface OpenLayersModules {
     Stroke: typeof import('ol/style/Stroke').default;
     Text: typeof import('ol/style/Text').default;
     defaults: typeof import('ol/control').defaults;
+    Zoom: typeof import('ol/control/Zoom').default;
     Overlay: typeof import('ol/Overlay').default;
     Icon: typeof import('ol/style/Icon').default;
     Interactions: typeof import('ol/interaction').defaults;
@@ -93,6 +94,7 @@ export class OpenLayersLoaderService {
                 const strokeModule = await import('ol/style/Stroke');
                 const textModule = await import('ol/style/Text');
                 const controlModule = await import('ol/control');
+                const zoomModule = await import('ol/control/Zoom');
                 const overlayModule = await import('ol/Overlay');
                 const iconModule = await import('ol/style/Icon');
                 const interactionsModule = await import('ol/interaction');
@@ -121,6 +123,7 @@ export class OpenLayersLoaderService {
                     Stroke: strokeModule.default,
                     Text: textModule.default,
                     defaults: controlModule.defaults,
+                    Zoom: zoomModule.default,
                     Overlay: overlayModule.default,
                     Icon: iconModule.default,
                     Interactions: interactionsModule.defaults,
