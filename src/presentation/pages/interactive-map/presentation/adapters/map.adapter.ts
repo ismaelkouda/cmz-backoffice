@@ -119,10 +119,10 @@ export class MapAdapter {
      * plus petites à faible zoom, légèrement plus grandes en zoomant.
      * (Les SVG report font intrinsèquement 800px : on force width/height.)
      */
-    private static readonly REPORT_ICON_MIN_PX = 20;
-    private static readonly REPORT_ICON_MAX_PX = 50;
+    private static readonly REPORT_ICON_MIN_PX = 50;
+    private static readonly REPORT_ICON_MAX_PX = 70;
     private static readonly SIGNAL_ICON_MIN_PX = 20;
-    private static readonly SIGNAL_ICON_MAX_PX = 20;
+    private static readonly SIGNAL_ICON_MAX_PX = 40;
 
     private readonly ngZone = inject(NgZone);
     private readonly encodingService = inject(EncodingDataService);

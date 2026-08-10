@@ -896,7 +896,7 @@ export class InteractiveMapComponent
             .onZoomChange()
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe((zoom) => {
-                this.zoomIndicatorValue.set(Math.round(zoom));
+                this.zoomIndicatorValue.set(Math.floor(zoom));
                 this.zoomIndicatorVisible.set(true);
                 this.scheduleZoomIndicatorHide();
             });
