@@ -20,6 +20,7 @@ export const REPORT_TYPE_ICON_PATHS: Record<ReportIconType, string> = {
  * soit la forme courte ('zob', 'cpo', ...) utilisée par interactive-map,
  * soit la forme "clé de traduction" ('COMMON.ZOB', ...) utilisée par
  * l'enum partagé `ReportType` (@shared/domain/enums/report-type.enum.ts).
+ * @param type
  */
 export function getReportTypeIconPath(
     type: string | null | undefined
@@ -34,4 +35,37 @@ export function getReportTypeIconPath(
         return null;
     }
     return REPORT_TYPE_ICON_PATHS[normalized] ?? null;
+}
+
+/**
+ * Couleur associée à chaque type de signalement (même palette que le
+ * marqueur de repli `getMarkerColor()` de map.adapter.ts), réutilisée pour
+ * teinter des éléments annexes (ex: cercle de rayon d'impact autour du
+ * signalement dans management-map) selon le type d'icône affiché.
+ */
+export const REPORT_TYPE_COLORS: Record<ReportIconType, string> = {
+    zob: '#7c3aed',
+    cpo: '#0f766e',
+    cps: '#be123c',
+    abi: '#475569',
+};
+
+/**
+ * Résout la couleur associée à un type de signalement, en acceptant les
+ * mêmes formats que `getReportTypeIconPath` ('zob' ou 'COMMON.ZOB').
+ * @param type
+ */
+export function getReportTypeColor(
+    type: string | null | undefined
+): string | null {
+    if (!type) {
+        return null;
+    }
+    const normalized = type.split('.').pop()?.toLowerCase() as
+        | ReportIconType
+        | undefined;
+    if (!normalized) {
+        return null;
+    }
+    return REPORT_TYPE_COLORS[normalized] ?? null;
 }
