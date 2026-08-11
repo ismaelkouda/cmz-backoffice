@@ -3073,6 +3073,7 @@
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
                 "QUALIFY": "Qualifier",
+                "TASKS_LIST": "Liste des actions",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -3142,6 +3143,7 @@
                 "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements clôturés",
                 "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements clôturés",
                 "NO_DOWNLOAD": "Aucune données a télécharger",
+                "TASKS_LIST": "Voir la liste des actions",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
@@ -3187,6 +3189,7 @@
                 "STEP": "Étape",
                 "STATUS": "Statut",
                 "SEE_MORE": "Voir plus",
+                "TASKS_LIST": "Liste des actions",
                 "ACTION": "Action"
             },
             "FILTER": {
@@ -3253,6 +3256,7 @@
                 "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements évalués",
                 "NO_DOWNLOAD": "Aucune données a télécharger",
                 "NO_FILTER": "Veuillez filtrer avant de télécharger",
+                "TASKS_LIST": "Voir la liste des actions",
                 "SEE_MORE": "Voir plus d'informations"
             },
             "SWEET_ALERT": {
@@ -4313,8 +4317,17 @@
                 "DESCRIPTION": "Description",
                 "MATRICULE": "Matricule",
                 "EMAIL": "Email",
+                "TAG": "Tag",
+                "TAG_OPTIONS": {
+                    "EDUCATION": "Education",
+                    "SANTE": "Santé",
+                    "ADMINISTRATION": "Administration",
+                    "SECURITE": "Sécurité",
+                    "AUTRE": "Autre"
+                },
                 "NAME_REQUIRED": "Le nom est requis",
                 "DESCRIPTION_REQUIRED": "La description est requise",
+                "TAG_REQUIRED": "Le tag est requis",
                 "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'équipement",
                 "NAME_PLACEHOLDER": "Ex: Nom de l'équipement",
                 "FIRST_NAME_REQUIRED": "Les prénoms sont requis",
@@ -4356,12 +4369,14 @@
                     },
                     "CREATE": {
                         "NAME_REQUIRE": "Le nom est requis",
-                        "DESCRIPTION_REQUIRE": "La description est requise"
+                        "DESCRIPTION_REQUIRE": "La description est requise",
+                        "TAG_REQUIRE": "Le tag est requis"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "L'identifiant est requis",
                         "NAME_REQUIRE": "Le nom est requis",
-                        "DESCRIPTION_REQUIRE": "La description est requise"
+                        "DESCRIPTION_REQUIRE": "La description est requise",
+                        "TAG_REQUIRE": "Le tag est requis"
                     }
                 }
             },

@@ -24,6 +24,7 @@ export class InfrastructureTypeFindOneMapper extends SimpleResponseMapper<
             uniqId: dto.id,
             name: dto.name,
             description: dto.description,
+            tag: dto.tag,
             updatedAt: dto.updated_at,
         };
 

@@ -524,6 +524,7 @@ export class InteractiveMapComponent
     }
 
     public submitFilters(): void {
+        this.mapAdapter.hideClickOverlay();
         this.store.updateFilters(this.cloneFilters(this.draftFilters()));
         this.store.clearLoadedReports();
     }

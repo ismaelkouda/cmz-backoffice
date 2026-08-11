@@ -253,6 +253,108 @@ $dark-gray: var(--color-gray);
     gap: 8px;
 }
 
+// ========================================================
+// Champ "tag" du formulaire de type d'équipement : cartes
+// sélectionnables (une seule à la fois) plutôt que des boutons radio nus.
+// ========================================================
+.tag-option-group {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.25rem;
+    border-radius: 14px;
+    overflow-x: auto;
+    transition: box-shadow 0.2s ease;
+
+    &.is-invalid {
+        box-shadow: 0 0 0 1.5px var(--color-error, #dc3545) inset;
+        padding: 0.6rem;
+    }
+
+    @media (max-width: 640px) {
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+}
+
+.tag-option {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.6rem;
+    width: auto;
+    white-space: nowrap;
+    padding: 0.6rem 1.1rem 0.6rem 0.6rem;
+    border: 2px solid var(--color-gray-light, #e2e8f0);
+    border-radius: 999px;
+    background: #fff;
+    cursor: pointer;
+    user-select: none;
+    transition:
+        border-color 0.2s ease,
+        background-color 0.2s ease,
+        box-shadow 0.2s ease,
+        transform 0.15s ease;
+
+    &:hover {
+        border-color: var(--theme-default);
+        background: color-mix(in srgb, var(--theme-default) 6%, white);
+        transform: translateY(-1px);
+    }
+
+    &--selected {
+        border-color: var(--theme-default);
+        background: color-mix(in srgb, var(--theme-default) 10%, white);
+        box-shadow: 0 4px 12px
+            color-mix(in srgb, var(--theme-default) 25%, transparent);
+
+        .tag-option-icon {
+            background: var(--theme-default);
+            color: #fff;
+        }
+
+        .tag-option-label {
+            color: var(--theme-default);
+        }
+    }
+}
+
+.tag-option-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--color-gray-light, #eef1f4);
+    color: #64748b;
+    font-size: 0.85rem;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.tag-option-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #334155;
+    white-space: nowrap;
+    transition: color 0.2s ease;
+}
+
+.tag-option-input {
+    position: absolute;
+    right: 10px;
+
+    ::ng-deep .p-radiobutton-box {
+        width: 16px;
+        height: 16px;
+    }
+}
+
 .form-input,
 :host ::ng-deep.p-inputtext {
     width: 100%;

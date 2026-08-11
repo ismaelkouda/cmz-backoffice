@@ -6,4 +6,5 @@ export interface InfrastructureTypeFormControl {
     [INFRASTRUCTURE_TYPE_FORM_KEYS.DESCRIPTION]: FormControl<
         string | undefined
     >;
+    [INFRASTRUCTURE_TYPE_FORM_KEYS.TAG]: FormControl<string | undefined>;
 }

@@ -6,6 +6,12 @@ export function calculateActionColumnWidth(actionCount: number): string {
 export const CLOSE_TABLE = {
     actions: [
         {
+            id: 'tasks-list',
+            icon: 'pi pi-eye',
+            tooltip: 'REPORT_STATES.CLOSE.TABLE.TASKS_LIST',
+            severity: 'contrast',
+        },
+        {
             id: 'qualify',
             icon: 'pi pi-window-maximize',
             tooltip: 'REPORT_STATES.CLOSE.TABLE.QUALIFY',
@@ -50,7 +56,7 @@ export const CLOSE_TABLE = {
             field: '__action',
             header: 'REPORT_STATES.CLOSE.TABLE.ACTION',
             class: 'text-center',
-            width: calculateActionColumnWidth(1),
+            width: calculateActionColumnWidth(2),
         },
     ],
     globalFilterFields: [

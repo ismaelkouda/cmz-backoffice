@@ -35,13 +35,17 @@
                         [attr.aria-expanded]="signalementInfoOpen()"
                         (click)="toggleSignalementInfo()"
                     >
-                        Infos signalement
+                        Informations du signalement
                     </button>
                 }
                 @if (signalementInfoOpen()) {
                     <div class="signalement-info-panel-content">
-                        <div class="panel-heading">
-                            <h4>Signalement</h4>
+                        <div class="panel-heading"><span
+                                class="signalement-type-badge"
+                                [style.background]="reportTypeColor()"
+                            >
+                                {{ reportTypeLabel() ?? 'Non renseigné' }}
+                            </span>
                             <button
                                 type="button"
                                 (click)="toggleSignalementInfo()"
@@ -50,17 +54,34 @@
                                 ×
                             </button>
                         </div>
-                        <div class="signalement-info-row">
-                            <span class="signalement-info-label"
-                                >Type de signalement</span
-                            >
-                            <span
-                                class="signalement-type-badge"
-                                [style.background]="reportTypeColor()"
-                            >
-                                {{ reportTypeLabel() ?? 'Non renseigné' }}
-                            </span>
-                        </div>
+
+                        <dl class="signalement-info-dl">
+                            <dt>Identifiant</dt>
+                            <dd>
+                                <b>{{ reportUniqId() || '-' }}</b>
+                            </dd>
+
+                            <dt>Statut</dt>
+                            <dd>
+                                @if (status()) {
+                                    <p-tag
+                                        [value]="status() | translate"
+                                        [severity]="statusStyle() | translate"
+                                    />
+                                } @else {
+                                    -
+                                }
+                            </dd>
+
+                            <dt>Signalé le</dt>
+                            <dd>{{ createdAt() || '-' }}</dd>
+
+                            <dt>Tél. Émetteur</dt>
+                            <dd>{{ initiatorPhone() || '-' }}</dd>
+
+                            <dt>Confirmations</dt>
+                            <dd>{{ confirmCount() || 0 }}</dd>
+                        </dl>
                     </div>
                 }
             </div>
@@ -124,13 +145,12 @@
 
                     <div class="d-flex gap-2 mt-2">
                         <h4>Equipements impactés</h4>
-                        <input class="mb-2"
+                        <input
+                            class="mb-2"
                             type="checkbox"
                             [checked]="allEquipmentsVisible()"
                             (change)="
-                                toggleAllEquipments(
-                                    $any($event.target).checked
-                                )
+                                toggleAllEquipments($any($event.target).checked)
                             "
                         />
                     </div>
@@ -194,7 +214,7 @@
     @if (isMapInitialized() && showPerformance() && showRadiusCircle()) {
         <div class="radius-badge">
             <div class="badge-content">
-                🎯 Rayon d'impact : {{ radiusMeters() }} m
+                🎯 Rayon d'impact : {{ radiusMeters() | separatorThousandsPipe }} m
             </div>
         </div>
     }

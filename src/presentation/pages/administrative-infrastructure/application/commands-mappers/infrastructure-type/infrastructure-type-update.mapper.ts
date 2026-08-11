@@ -8,5 +8,6 @@ export function infrastructureTypeUpdateCommandMapper(
         uniqId: command.uniqId,
         name: command.name,
         description: command.description,
+        tag: command.tag,
     };
 }

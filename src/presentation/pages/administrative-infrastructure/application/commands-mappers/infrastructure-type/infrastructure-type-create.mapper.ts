@@ -7,5 +7,6 @@ export function infrastructureTypeCreateCommandMapper(
     return {
         name: command.name,
         description: command.description,
+        tag: command.tag,
     };
 }

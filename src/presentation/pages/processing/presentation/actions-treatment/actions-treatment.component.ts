@@ -36,7 +36,7 @@ import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { PROCESSING_ROUTE } from '@shared/routes/routes';
+import { PROCESSING_ROUTE, REPORT_STATES_ROUTE } from '@shared/routes/routes';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { ButtonModule } from 'primeng/button';
@@ -55,6 +55,10 @@ import { distinctUntilChanged, filter, map, switchMap } from 'rxjs';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
+import {
+    CLOSE_ROUTE,
+    EVALUATE_ROUTE,
+} from '@presentation/pages/report-states/report-states.routes';
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -531,7 +535,23 @@ export class ActionsTreatmentComponent {
         this.toast.success(this.t('COMMON.COPIED_TO_CLIPBOARD'));
     }
     protected navigateBack(): void {
-        this.router.navigate([PROCESSING_ROUTE, TASKS_ROUTE]);
+        const parentRoute = this.route.parent;
+
+        if (!parentRoute) {
+            return;
+        }
+
+        const parentUrl = parentRoute.snapshot.url.map(
+            (segment) => segment.path
+        );
+
+        if (parentUrl.includes(CLOSE_ROUTE)) {
+            this.router.navigate([REPORT_STATES_ROUTE, CLOSE_ROUTE]);
+        } else if (parentUrl.includes(EVALUATE_ROUTE)) {
+            this.router.navigate([REPORT_STATES_ROUTE, EVALUATE_ROUTE]);
+        } else if (parentUrl.includes(TASKS_ROUTE)) {
+            this.router.navigate([PROCESSING_ROUTE, TASKS_ROUTE]);
+        }
     }
     protected getFormatDate(value: string): string {
         return formatDate(value);

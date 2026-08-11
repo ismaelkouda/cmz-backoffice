@@ -15,4 +15,9 @@ export function validateInfrastructureTypeCreate(
             'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.ERROR.CREATE.DESCRIPTION_REQUIRE'
         );
     }
+    if (!contract.tag) {
+        throw new GenericRequiredError(
+            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.ERROR.CREATE.TAG_REQUIRE'
+        );
+    }
 }

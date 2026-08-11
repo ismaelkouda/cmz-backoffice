@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
     ChangeDetectionStrategy,
     Component,
@@ -20,6 +21,7 @@ import { INFRASTRUCTURE_TYPE_FORM_KEYS } from '@presentation/pages/administrativ
 import { INFRASTRUCTURE_TYPE_FORM_ERROR_MESSAGES } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-form-error-messages.constant';
 import { InfrastructureTypeFormControl } from '@presentation/pages/administrative-infrastructure/presentation/store/infrastructure-type/infrastructure-type-form.control';
 import { getControlError } from '@presentation/pages/administrative-infrastructure/presentation/helpers/administrative-infrastructure-form-errors.helper';
+import { INFRASTRUCTURE_TYPE_TAG_OPTIONS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-tag-options.constant';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
@@ -27,6 +29,7 @@ import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { TextareaModule } from 'primeng/textarea';
@@ -43,6 +46,7 @@ import { ToastrService } from 'ngx-toastr';
     styleUrls: ['./infrastructure-type-form.component.scss'],
     standalone: true,
     imports: [
+        NgClass,
         TranslateModule,
         BreadcrumbComponent,
         PageTitleComponent,
@@ -51,6 +55,7 @@ import { ToastrService } from 'ngx-toastr';
         InputMaskModule,
         TextareaModule,
         SelectModule,
+        RadioButtonModule,
         ButtonModule,
         TagModule,
         ToastModule,
@@ -79,6 +84,7 @@ export class InfrastructureTypeFormComponent implements OnInit {
     protected readonly isCreateMode = this.store.isCreateMode;
     protected readonly loading = this.store.loading;
     protected readonly KEYS = INFRASTRUCTURE_TYPE_FORM_KEYS;
+    protected readonly tagOptions = INFRASTRUCTURE_TYPE_TAG_OPTIONS;
 
     protected readonly loadingSubmit = computed(() => {
         return this.submitFacade.actionState() === 'loading';

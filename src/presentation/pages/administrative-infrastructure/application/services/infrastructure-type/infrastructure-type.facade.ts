@@ -141,7 +141,8 @@ export class InfrastructureTypeFacade extends BaseFacade<
 
         const command = new InfrastructureTypeCreateCommand(
             dto.name,
-            dto.description
+            dto.description,
+            dto.tag
         );
 
         this.handleActionWithRefresh(
@@ -166,7 +167,8 @@ export class InfrastructureTypeFacade extends BaseFacade<
         const command = new InfrastructureTypeUpdateCommand(
             dto.uniqId,
             dto.name,
-            dto.description
+            dto.description,
+            dto.tag
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

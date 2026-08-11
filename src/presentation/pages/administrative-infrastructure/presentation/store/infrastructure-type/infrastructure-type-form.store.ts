@@ -72,6 +72,13 @@ export class InfrastructureTypeFormStore {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
+
+            [INFRASTRUCTURE_TYPE_FORM_KEYS.TAG]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
         });
     }
 
@@ -82,12 +89,12 @@ export class InfrastructureTypeFormStore {
                 return;
             }
 
-            const { name, description } = item;
+            const { name, description, tag } = item;
             const details = this.isDetailsMode();
 
             untracked(() => {
                 queueMicrotask(() => {
-                    this.form.patchValue({ name, description });
+                    this.form.patchValue({ name, description, tag });
                     if (details) {
                         this.form.disable({ emitEvent: false });
                     }
@@ -119,6 +126,7 @@ export class InfrastructureTypeFormStore {
             {
                 [INFRASTRUCTURE_TYPE_FORM_KEYS.NAME]: undefined,
                 [INFRASTRUCTURE_TYPE_FORM_KEYS.DESCRIPTION]: undefined,
+                [INFRASTRUCTURE_TYPE_FORM_KEYS.TAG]: undefined,
             },
             {
                 emitEvent: true,

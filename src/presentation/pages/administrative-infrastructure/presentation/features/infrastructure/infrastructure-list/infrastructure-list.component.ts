@@ -240,7 +240,7 @@ export class InfrastructureListComponent {
                 label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FILTER.TYPE',
                 placeholder: 'COMMON.SELECT_PLACEHOLDER',
                 options: this.infrastructureType(),
-                optionLabel: 'name',
+                optionLabel: 'label',
                 optionValue: 'value',
                 showClear: true,
                 filter: true,

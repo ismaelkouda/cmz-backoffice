@@ -14,6 +14,9 @@ export class ClosePresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonTasksList: this.t(
+                'REPORT_STATES.CLOSE.TOOLTIP.TASKS_LIST'
+            ),
             tooltipButtonQualify: this.t(
                 'REPORT_STATES.CLOSE.TOOLTIP.SEE_MORE'
             ),

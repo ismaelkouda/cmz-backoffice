@@ -22,13 +22,29 @@ import {
     getReportTypeIconPath,
     getReportTypeLabel,
 } from '@shared/domain/constants/report-icon';
+import {
+    StateLabel as FinalizationState,
+    StateStyle as FinalizationStateStyle,
+} from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
+import {
+    StateLabel as ProcessingState,
+    StateStyle as ProcessingStateStyle,
+} from '@pages/processing/domain/enums/details/details-state/details-state.enum';
+import {
+    StatusLabel,
+    StatusStyle,
+} from '@pages/requests/domain/enums/details/details-status/details-status.enum';
 import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { OpenLayersLoaderService } from '@shared/domain/services/openlayers-loader.service';
 import { createAuthenticatedVectorTileLoader } from '@shared/domain/utils/authenticated-vector-tile-loader.util';
 import { hexToRgba } from '@shared/domain/utils/hex-to-rgba.util';
 import { transformExtent } from 'ol/proj';
+import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
 import { Subject } from 'rxjs';
+import { FilterOption } from '@shared/components/filter/filter.types';
+import { TranslateModule } from '@ngx-translate/core';
+import { TagModule } from 'primeng/tag';
 
 export interface MapMarker {
     id: string;
@@ -67,7 +83,7 @@ const EQUIPMENT_TYPE_COLORS: Record<string, string> = {
     selector: 'app-management-map',
     templateUrl: './management-map.component.html',
     styleUrls: ['./management-map.component.scss'],
-    imports: [CommonModule],
+    imports: [CommonModule, SeparatorThousandsPipe, TranslateModule, TagModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementMapComponent implements OnInit, OnDestroy {
@@ -130,8 +146,18 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
      * d'infrastructures scopées à ce signalement (voir updateEquipmentLayer).
      */
     public readonly reportUniqId = input<string | undefined>(undefined);
+    public readonly status = input<
+        ProcessingState | FinalizationState | StatusLabel | undefined
+    >(undefined);
+    public readonly statusStyle = input<
+        ProcessingStateStyle | FinalizationStateStyle | StatusStyle | undefined
+    >(undefined);
+    public readonly telecomOperatorsOptions = input<FilterOption[]>([]);
+    public readonly createdAt = input<string | undefined>(undefined);
+    public readonly initiatorPhone = input<string | undefined>(undefined);
+    public readonly confirmCount = input<number | undefined>(undefined);
     /** Rayon d'impact affiché autour du signalement, en mètres réels. */
-    public readonly radiusMeters = input<number>(500);
+    public readonly radiusMeters = input<number>(1000);
     public readonly showRadiusCircle = input<boolean>(true);
 
     public readonly coverageLegendOpen = signal(true);
@@ -278,7 +304,9 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             view: new View({
                 center: fromLonLat([this.longitude(), this.latitude()]),
                 zoom: this.zoom(),
-                minZoom: 2,
+                // Empêche de dézoomer au-delà du niveau 9 (vue trop large
+                // n'a pas de sens pour une carte de détail signalement).
+                minZoom: 9,
                 maxZoom: 18,
                 extent: transformExtent(
                     [

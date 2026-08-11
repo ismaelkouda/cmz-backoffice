@@ -21,7 +21,7 @@ export class InfrastructureMapper extends PaginatedMapper<
         const props: InfrastructureProps = {
             uniqId: dto.id,
             name: dto.name,
-            type: dto.infrastructure_type,
+            type: dto.infrastructure_type.name,
             description: dto.description,
             region: dto.region?.name,
             department: dto.department?.name,

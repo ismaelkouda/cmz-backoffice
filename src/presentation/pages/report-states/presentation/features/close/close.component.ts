@@ -47,6 +47,8 @@ import { formatDate } from '@shared/domain/functions/format-data.function';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { MenuItem } from 'primeng/api';
 import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ACTIONS_ROUTE } from '@presentation/pages/report-states/report-states.routes';
 
 @Component({
     selector: 'app-close',
@@ -69,6 +71,8 @@ import { DownloadType } from '@presentation/pages/report-states/domain/enums/dow
 export class CloseComponent {
     private readonly permissionActions = inject(PermissionActionsService);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly route = inject(ActivatedRoute);
+    private readonly router = inject(Router);
     private readonly title = inject(Title);
     protected readonly facade = inject(CloseFacade);
     private readonly translate = inject(TranslateService);
@@ -387,12 +391,30 @@ export class CloseComponent {
     }
     protected onActionClicked(event: {
         item: CloseVmProps;
-        actionId?: string;
+        actionId: string;
     }): void {
-        const { item } = event;
-        this.selectedManagementType.set(item.type);
-        this.selectedReportId.set(item.uniqId);
-        this.isVisibleDialog.set(true);
+        const actions: Record<string, () => void> = {
+            qualify: () => {
+                const { item } = event;
+                this.selectedManagementType.set(item.type);
+                this.selectedReportId.set(item.uniqId);
+                this.isVisibleDialog.set(true);
+            },
+            'tasks-list': () => {
+                this.router.navigate([ACTIONS_ROUTE], {
+                    relativeTo: this.route,
+                    queryParams: {
+                        uniqId: event.item.uniqId,
+                        reportType: event.item.reportTypeLabel,
+                        operators: event.item.operators,
+                        createdAt: event.item.reportedAt,
+                        source: event.item.sourceLabel,
+                        initiatorPhone: event.item.initiatorPhoneNumber,
+                    },
+                });
+            },
+        };
+        actions[event.actionId]?.();
     }
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
