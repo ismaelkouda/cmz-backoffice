@@ -9,5 +9,6 @@ export function infrastructureTypeCreateVo(
     return {
         name: contract.name,
         description: contract.description,
+        tag: contract.tag,
     };
 }

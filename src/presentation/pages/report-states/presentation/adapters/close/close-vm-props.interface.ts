@@ -11,6 +11,7 @@ export interface CloseVmProps {
     reportedAt: string;
     actionsRef: string;
 
+    tooltipButtonTasksList: string;
     tooltipButtonQualify: string;
     disableButtonQualify: boolean;
 }

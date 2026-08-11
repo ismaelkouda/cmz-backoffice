@@ -5,6 +5,7 @@ export const EVALUATE_ROUTE = 'evaluated';
 export const CLOSE_ROUTE = 'closed';
 export const REJECT_ROUTE = 'rejected';
 export const DOWNLOAD_ROUTE = 'downloads';
+export const ACTIONS_ROUTE = 'actions';
 
 export const routes: Routes = [
     {
@@ -48,6 +49,14 @@ export const routes: Routes = [
                 data: { breadcrumb: { hide: true } },
             },
             {
+                path: ACTIONS_ROUTE,
+                loadComponent: () =>
+                    import('@pages/processing/presentation/actions-treatment/actions-treatment.component').then(
+                        (m) => m.ActionsTreatmentComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
                 path: '**',
                 redirectTo: '',
             },
@@ -67,6 +76,14 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('@presentation/pages/report-states/presentation/features/close/close.component').then(
                         (m) => m.CloseComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: ACTIONS_ROUTE,
+                loadComponent: () =>
+                    import('@pages/processing/presentation/actions-treatment/actions-treatment.component').then(
+                        (m) => m.ActionsTreatmentComponent
                     ),
                 data: { breadcrumb: { hide: true } },
             },

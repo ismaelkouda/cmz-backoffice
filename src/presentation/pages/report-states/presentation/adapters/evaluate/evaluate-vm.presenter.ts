@@ -14,6 +14,9 @@ export class EvaluatePresenter {
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
+            tooltipButtonTasksList: this.t(
+                'REPORT_STATES.EVALUATE.TOOLTIP.TASKS_LIST'
+            ),
             tooltipButtonTake: this.t(
                 'REPORT_STATES.EVALUATE.TOOLTIP.SEE_MORE'
             ),

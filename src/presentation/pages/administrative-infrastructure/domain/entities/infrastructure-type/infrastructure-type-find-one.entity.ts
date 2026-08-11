@@ -15,6 +15,10 @@ export class InfrastructureTypeFindOneEntity {
         return this.props.description;
     }
 
+    get tag(): string | undefined {
+        return this.props.tag;
+    }
+
     get updatedAt(): string {
         return this.props.updatedAt;
     }

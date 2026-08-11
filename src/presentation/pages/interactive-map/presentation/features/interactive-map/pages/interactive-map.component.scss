@@ -315,12 +315,12 @@ $dark-gray: var(--color-gray);
 }
 
 h3 {
-        margin: 0 0 2px;
-        color: var(--color-text-muted);
-        font-size: var(--font-size-sm);
-        font-weight: 800;
-        text-transform: uppercase;
-    }
+    margin: 0 0 2px;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 800;
+    text-transform: uppercase;
+}
 
 .filter-group {
     display: grid;
@@ -397,7 +397,7 @@ h3 {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background: rgba(15, 23, 42, 0.30);
+    background: rgba(15, 23, 42, 0.3);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     box-shadow: var(--shadow-xl);

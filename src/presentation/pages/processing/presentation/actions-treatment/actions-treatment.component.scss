@@ -24,6 +24,29 @@ $dark-gray: var(--color-gray);
     max-width: 100%;
 }
 
+.p-textarea:disabled {
+    background-color: inherit;
+    color: inherit;
+    opacity: 1;
+}
+
+.p-select.p-disabled {
+    background-color: inherit;
+    color: inherit;
+    opacity: 1;
+}
+
+::ng-deep p-datepicker .p-inputtext:disabled {
+    background-color: inherit !important;
+    color: inherit !important;
+    opacity: 1;
+}
+
+.disabled {
+    opacity: 1;
+}
+
+
 .actions-form-card {
     background: var(--action-surface);
     border-radius: 1rem;

@@ -216,7 +216,6 @@
     }
 
     .signalement-info-panel-content {
-        width: 220px;
         background: rgba(255, 255, 255, 0.98);
         border: 1px solid #d1d5db;
         border-radius: 8px;
@@ -279,6 +278,31 @@
         border-radius: 999px;
         font-size: 12px;
         font-weight: 600;
+    }
+
+    .signalement-info-dl {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 6px 10px;
+        margin: 10px 0 0;
+        padding-top: 10px;
+        border-top: 1px solid #e2e8f0;
+        font-size: 14px;
+
+        dt {
+            color: #64748b;
+            font-weight: 700;
+        }
+
+        dd {
+            margin: 0;
+            color: #0f172a;
+            overflow-wrap: anywhere;
+
+            ::ng-deep .p-tag {
+                font-size: 11px;
+            }
+        }
     }
 
     // ------------------------------------------------------

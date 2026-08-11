@@ -10,5 +10,6 @@ export function infrastructureTypeUpdateVo(
         uniqId: contract.uniqId,
         name: contract.name,
         description: contract.description,
+        tag: contract.tag,
     };
 }

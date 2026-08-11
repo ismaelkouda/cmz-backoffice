@@ -11,6 +11,7 @@ export interface EvaluateVmProps {
     reportedAt: string;
     actionsRef: string;
 
+    tooltipButtonTasksList: string;
     tooltipButtonTake: string;
     disableButtonTake: boolean;
 }

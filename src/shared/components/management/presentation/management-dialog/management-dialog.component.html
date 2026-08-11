@@ -125,6 +125,7 @@
                         [reportTypeOptions]="reportTypeOptions()"
                         [telecomOperatorsOptions]="telecomOperatorsOptions()"
                         [locationNameOptions]="locationNameOptions()"
+
                     />
                 }
 
@@ -144,8 +145,14 @@
                         [markerTitle]="'Incident Prioritaire'"
                         [markerDescription]="'Localisation exacte nécessitant une intervention urgente'"
                         [markerType]="'warning'"
-                        [reportType]="items().reportType"
-                        [reportUniqId]="items().uniqId"
+                        [reportType]="items()?.reportType"
+                        [reportUniqId]="items()?.uniqId"
+                        [status]="items()?.dialogState()"
+                        [statusStyle]="items()?.dialogStateStyle()"
+                        [telecomOperatorsOptions]="telecomOperatorsOptions()"
+                        [createdAt]="items()?.createdAt"
+                        [initiatorPhone]="items()?.initiatorPhone"
+                        [confirmCount]="items()?.confirmCount"
                         [enableAnimations]="true"
                         [showPerformance]="true"
                     >

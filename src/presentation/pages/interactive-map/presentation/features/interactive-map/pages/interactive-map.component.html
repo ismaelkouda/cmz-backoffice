@@ -525,7 +525,7 @@
                                                 <span
                                                     class="zoom-level-badge"
                                                     title="Niveau de zoom requis"
-                                                    >×13</span
+                                                    >13x</span
                                                 >
                                             </label>
                                             <label>
@@ -598,7 +598,9 @@
                                                 />
                                                 <span
                                                     class="legend-color legend-line-icon"
-                                                    [class.legend-line-icon--double]="op.lineCount === 2"
+                                                    [class.legend-line-icon--double]="
+                                                        op.lineCount === 2
+                                                    "
                                                     [style.color]="op.color"
                                                 >
                                                     <span
@@ -615,14 +617,14 @@
                                         }
 
                                         <div class="d-flex gap-2 mt-2">
-                                            <h4 class="my-2">
-                                                Zoom actuel
-                                            </h4>
+                                            <h4 class="my-2">Zoom actuel</h4>
                                             <span
-                                                    class="zoom-level-badge size-xl"
-                                                    title="Niveau de zoom actuel"
-                                                    >{{zoomIndicatorValue()}}</span
-                                                >
+                                                class="zoom-level-badge size-xl"
+                                                title="Niveau de zoom actuel"
+                                                >{{
+                                                    zoomIndicatorValue()
+                                                }}x</span
+                                            >
                                         </div>
 
                                         <!-- <div class="d-flex gap-2 mt-2">
@@ -677,10 +679,10 @@
                                 class="zoom-indicator"
                                 [class.visible]="zoomIndicatorVisible()"
                             >
-                                <span class="zoom-indicator-label">X</span>
                                 <span class="zoom-indicator-value">{{
                                     zoomIndicatorValue()
                                 }}</span>
+                                <span class="zoom-indicator-label">X</span>
                             </div>
 
                             <!-- <section

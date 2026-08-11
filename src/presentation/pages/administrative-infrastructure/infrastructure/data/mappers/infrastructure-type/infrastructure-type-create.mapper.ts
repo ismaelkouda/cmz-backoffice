@@ -13,6 +13,9 @@ export function infrastructureTypeCreateMapper(
     if (validContract.description) {
         params.description = validContract.description;
     }
+    if (validContract.tag) {
+        params.tag = validContract.tag;
+    }
 
     return params;
 }
