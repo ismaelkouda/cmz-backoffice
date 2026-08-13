@@ -21,6 +21,22 @@ export class OpticalFiberNetworkFindOneEntity {
         return this.props.fiberConstructorId;
     }
 
+    get longitudePointA(): string | undefined {
+        return this.props.longitudePointA;
+    }
+
+    get latitudePointA(): string | undefined {
+        return this.props.latitudePointA;
+    }
+
+    get longitudePointB(): string | undefined {
+        return this.props.longitudePointB;
+    }
+
+    get latitudePointB(): string | undefined {
+        return this.props.latitudePointB;
+    }
+
     get fiberConstructorName(): string {
         return this.props.fiberConstructorName;
     }

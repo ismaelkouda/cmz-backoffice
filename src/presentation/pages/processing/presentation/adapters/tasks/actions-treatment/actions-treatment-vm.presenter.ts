@@ -37,11 +37,15 @@ export class ActionsTreatmentPresenter {
                 'PROCESSING.TASKS.ACTIONS.TOOLTIP.SEE_MORE'
             ),
             tooltipButtonDelete:
-                permission.canTreat && !item.shouldNotifyUser
+                permission.canTreat &&
+                !item.shouldNotifyUser &&
+                permission.hasClosed
                     ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.DELETE')
                     : permission.tooltip.delete,
             tooltipButtonEdit:
-                permission.canTreat && !item.shouldNotifyUser
+                permission.canTreat &&
+                !item.shouldNotifyUser &&
+                permission.hasClosed
                     ? this.t('PROCESSING.TASKS.ACTIONS.TOOLTIP.EDIT')
                     : permission.tooltip.edit,
             disableButtonDelete:

@@ -5,6 +5,10 @@ export interface OpticalFiberNetworkFindOneItemApiDto {
     name: string;
     operator: string;
     fiber_constructor_id: string;
+    longitude_point_a?: string;
+    latitude_point_a?: string;
+    longitude_point_b?: string;
+    latitude_point_b?: string;
     fiber_constructor_name: string;
     type: string;
     geom_url?: string;

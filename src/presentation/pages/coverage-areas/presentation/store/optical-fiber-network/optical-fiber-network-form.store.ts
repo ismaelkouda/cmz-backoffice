@@ -58,6 +58,22 @@ export class OpticalFiberNetworkFormStore {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
+            longitudePointA: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            latitudePointA: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            longitudePointB: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+            latitudePointB: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
             type: new FormControl<FiberType | undefined>(undefined, {
                 nonNullable: true,
                 validators: [Validators.required],
@@ -76,8 +92,18 @@ export class OpticalFiberNetworkFormStore {
                 return;
             }
 
-            const { name, operator, fiberConstructorId, type, geom, geomUrl } =
-                item;
+            const {
+                name,
+                operator,
+                fiberConstructorId,
+                longitudePointA,
+                latitudePointA,
+                longitudePointB,
+                latitudePointB,
+                type,
+                geom,
+                geomUrl,
+            } = item;
             const details = this.isDetailsMode();
 
             untracked(() => {
@@ -86,6 +112,10 @@ export class OpticalFiberNetworkFormStore {
                         name,
                         operator,
                         fiberConstructorId,
+                        longitudePointA,
+                        latitudePointA,
+                        longitudePointB,
+                        latitudePointB,
                         type,
                         geomFile: null,
                     });
@@ -127,6 +157,10 @@ export class OpticalFiberNetworkFormStore {
                 name: undefined,
                 operator: undefined,
                 fiberConstructorId: undefined,
+                longitudePointA: undefined,
+                latitudePointA: undefined,
+                longitudePointB: undefined,
+                latitudePointB: undefined,
                 type: undefined,
                 geomFile: null,
             },
