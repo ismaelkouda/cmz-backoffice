@@ -6,6 +6,10 @@ export interface OpticalFiberNetworkFormControl {
     name: FormControl<string | undefined>;
     operator: FormControl<Operator | undefined>;
     fiberConstructorId: FormControl<string | undefined>;
+    longitudePointA: FormControl<string | undefined>;
+    latitudePointA: FormControl<string | undefined>;
+    longitudePointB: FormControl<string | undefined>;
+    latitudePointB: FormControl<string | undefined>;
     type: FormControl<FiberType | undefined>;
     geomFile: FormControl<File | null>;
 }

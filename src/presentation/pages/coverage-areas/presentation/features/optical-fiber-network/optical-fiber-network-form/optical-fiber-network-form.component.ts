@@ -24,6 +24,9 @@ import { Operator } from '@pages/coverage-areas/domain/enums/optical-fiber-netwo
 import { FiberType } from '@pages/coverage-areas/domain/enums/optical-fiber-network/optical-fiber-network-type.enum';
 import { MessageService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { FileUploadModule } from 'primeng/fileupload';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
@@ -49,6 +52,9 @@ const I18N = 'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK';
         PageTitleComponent,
         ReactiveFormsModule,
         InputTextModule,
+        InputNumberModule,
+        InputGroupModule,
+        InputGroupAddonModule,
         SelectModule,
         ButtonModule,
         TagModule,
@@ -231,6 +237,10 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
             operator: formValue.operator,
             fiberConstructorId: formValue.fiberConstructorId,
             type: formValue.type,
+            longitudePointA: formValue.longitudePointA ?? undefined,
+            latitudePointA: formValue.latitudePointA ?? undefined,
+            longitudePointB: formValue.longitudePointB ?? undefined,
+            latitudePointB: formValue.latitudePointB ?? undefined,
             geomFile: formValue.geomFile ?? undefined,
         };
 

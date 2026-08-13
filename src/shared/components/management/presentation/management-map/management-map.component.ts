@@ -45,6 +45,7 @@ import { Subject } from 'rxjs';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { TagModule } from 'primeng/tag';
+import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 
 export interface MapMarker {
     id: string;
@@ -320,6 +321,15 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 ),
             }),
         });
+    }
+
+    protected getOperatorTagStyle(operator: string): Record<string, string> {
+        console.log('operator: ', operator);
+        console.log(
+            'telecomOperatorsOptions()',
+            this.telecomOperatorsOptions()
+        );
+        return operatorsTagStyle(operator);
     }
 
     /**

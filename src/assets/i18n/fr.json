@@ -4936,6 +4936,16 @@
                 "GEOM_FILE": "Tableau de coordonnées de troncon",
                 "GEOM_PLACEHOLDER": "Glisser-déposer ou cliquer",
                 "GEOM_EXISTING": "Fichier GeoJSON déjà associé",
+                "LONGITUDE_POINT_A": "Longitude Point A",
+                "LATITUDE_POINT_A": "Latitude Point A",
+                "LONGITUDE_POINT_B": "Longitude Point B",
+                "LATITUDE_POINT_B": "Latitude Point B",
+                "LONGITUDE_POINT_A_PLACEHOLDER": "Ex: 3.848",
+                "LATITUDE_POINT_A_PLACEHOLDER": "Ex: 11.512",
+                "LONGITUDE_POINT_B_PLACEHOLDER": "Ex: 3.848",
+                "LATITUDE_POINT_B_PLACEHOLDER": "Ex: 11.512",
+                "COORDINATES_POINT_A": "Coordonnées GPS Point A",
+                "COORDINATES_POINT_B": "Coordonnées GPS Point B",
                 "MAP_PREVIEW": "Aperçu carte",
                 "ERROR": {
                     "CREATE": {

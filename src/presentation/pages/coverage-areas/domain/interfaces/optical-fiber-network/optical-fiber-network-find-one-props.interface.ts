@@ -6,6 +6,11 @@ export interface OpticalFiberNetworkFindOneProps {
     name: string;
     operator: Operator;
     fiberConstructorId: string;
+    longitudePointA?: string;
+    latitudePointA?: string;
+    longitudePointB?: string;
+    latitudePointB?: string;
+    latitude?: string;
     fiberConstructorName: string;
     type: FiberType;
     geomUrl?: string;

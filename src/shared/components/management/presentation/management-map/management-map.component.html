@@ -73,6 +73,33 @@
                                 }
                             </dd>
 
+                            <dt>Opérateurs</dt>
+                            <dd>
+                                <div class="field-value operator-padding short">
+                                            @for (operator of telecomOperatorsOptions() ||
+                                                    [];
+                                                track operator
+                                            ) {
+                                                <p-tag
+                                                    [value]="
+                                                        operator | translate
+                                                    "
+                                                    [style]="
+                                                        getOperatorTagStyle(
+                                                            operator | translate
+                                                        )
+                                                    "
+                                                    styleClass="operator-tag"
+                                                />
+                                            } @empty {
+                                                <span>{{
+                                                    'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                        | translate
+                                                }}</span>
+                                            }
+                                        </div>
+                            </dd>
+
                             <dt>Signalé le</dt>
                             <dd>{{ createdAt() || '-' }}</dd>
 
@@ -166,7 +193,7 @@
                                     )
                                 "
                             />
-                            {{ eq.label }}
+                            [10] {{ eq.label }}
                         </label>
                     }
                 </div>

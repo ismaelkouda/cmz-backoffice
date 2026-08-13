@@ -87,6 +87,7 @@ export class ManagementInfoPanelComponent {
     }
 
     protected getOperatorTagStyle(operator: string): Record<string, string> {
+        console.log('operator: ', operator);
         return operatorsTagStyle(operator);
     }
 
