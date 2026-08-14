@@ -39,9 +39,10 @@ import { EncodingDataService } from '@shared/domain/services/encoding-data.servi
 import { OpenLayersLoaderService } from '@shared/domain/services/openlayers-loader.service';
 import { createAuthenticatedVectorTileLoader } from '@shared/domain/utils/authenticated-vector-tile-loader.util';
 import { hexToRgba } from '@shared/domain/utils/hex-to-rgba.util';
+import { InfrastructureImpactStatItem } from '@presentation/pages/interactive-map/domain/models/interactive-map-report.model';
 import { transformExtent } from 'ol/proj';
 import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { TagModule } from 'primeng/tag';
@@ -178,6 +179,14 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         return Object.values(vis).every((v) => v === true);
     });
 
+    /**
+     * Nombre d'infrastructures impactées par tag normalisé (voir
+     * `toInfrastructureTileTag`), issu de l'API
+     * `impacts/infrastructures/{reportUniqId}/stats`. Consommé via
+     * `getInfrastructureCount()` dans le panneau "Filtres sur les couches".
+     */
+    public readonly infrastructureCounts = signal<Record<string, number>>({});
+
     /** Libellé humain du type de signalement, affiché dans le panneau infos. */
     public readonly reportTypeLabel = computed(() =>
         getReportTypeLabel(this.reportType())
@@ -208,6 +217,11 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             if (container && !this.map) {
                 this.initializeMap(container.nativeElement);
             }
+        });
+
+        effect(() => {
+            const reportUniqId = this.reportUniqId();
+            this.loadInfrastructureStats(reportUniqId);
         });
     }
 
@@ -515,6 +529,107 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             .normalize('NFD')
             .replace(/[\u0300-\u036f]/g, '')
             .toUpperCase();
+    }
+
+    /**
+     * Nombre d'infrastructures impact\u00e9es pour un type d'\u00e9quipement donn\u00e9
+     * (voir `equipmentOptions`), \u00e0 afficher \u00e0 c\u00f4t\u00e9 de chaque case \u00e0 cocher
+     * du panneau "Filtres sur les couches". Retourne 0 tant que les stats
+     * ne sont pas charg\u00e9es ou si le tag est absent de la r\u00e9ponse API.
+     * @param equipmentId
+     */
+    public getInfrastructureCount(equipmentId: string): number {
+        const key = this.toInfrastructureTileTag(equipmentId);
+        return this.infrastructureCounts()[key] ?? 0;
+    }
+
+    /**
+     * Charge les statistiques d'infrastructures impact\u00e9es pour le
+     * signalement courant (`impacts/infrastructures/{reportUniqId}/stats`)
+     * et les normalise en `{ TAG_NORMALIS\u00c9: count }` (voir
+     * `toInfrastructureTileTag`) pour un lookup ind\u00e9pendant de la casse et
+     * des accents renvoy\u00e9s par le backend.
+     * @param reportUniqId
+     */
+    private loadInfrastructureStats(reportUniqId: string | undefined): void {
+        if (!reportUniqId) {
+            this.infrastructureCounts.set({});
+            return;
+        }
+
+        this.reportsApi
+            .getReportInfrastructureStats(reportUniqId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response) => {
+                    this.infrastructureCounts.set(
+                        this.normalizeInfrastructureStats(response)
+                    );
+                },
+                error: (error) => {
+                    console.warn(
+                        "[management-map] \u00c9chec du chargement des statistiques d'infrastructures impact\u00e9es :",
+                        error
+                    );
+                    this.infrastructureCounts.set({});
+                },
+            });
+    }
+
+    /**
+     * Parsing d\u00e9fensif de la r\u00e9ponse stats : la forme exacte renvoy\u00e9e par
+     * le backend (tableau `{ tag, infrastructures_count }` ou objet index\u00e9
+     * par tag) n'\u00e9tant pas garantie, on g\u00e8re les deux cas et on retombe sur
+     * `count` si `infrastructures_count` est absent.
+     * @param response
+     */
+    private normalizeInfrastructureStats(
+        response: unknown
+    ): Record<string, number> {
+        const result: Record<string, number> = {};
+        if (!response) {
+            return result;
+        }
+
+        const setCount = (rawTag: unknown, rawCount: unknown): void => {
+            if (typeof rawTag !== 'string' || !rawTag.trim()) {
+                return;
+            }
+            const count = Number(rawCount);
+            if (Number.isNaN(count)) {
+                return;
+            }
+            result[this.toInfrastructureTileTag(rawTag)] = count;
+        };
+
+        const extractCount = (value: unknown): unknown => {
+            if (value && typeof value === 'object') {
+                const item = value as InfrastructureImpactStatItem;
+                return item.infrastructures_count ?? item.count;
+            }
+            return value;
+        };
+
+        if (Array.isArray(response)) {
+            for (const item of response as InfrastructureImpactStatItem[]) {
+                if (!item || typeof item !== 'object') {
+                    continue;
+                }
+                const tag = item.tag ?? item.type ?? item.equipment_type;
+                setCount(tag, extractCount(item));
+            }
+            return result;
+        }
+
+        if (typeof response === 'object') {
+            for (const [tag, value] of Object.entries(
+                response as Record<string, unknown>
+            )) {
+                setCount(tag, extractCount(value));
+            }
+        }
+
+        return result;
     }
 
     private buildTileRequestHeaders(): HeadersInit {

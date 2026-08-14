@@ -107,3 +107,27 @@ export interface ClusterSummary {
     byOperator: Record<ReportOperator, number>;
     byType: Record<ReportType, number>;
 }
+
+/**
+ * Un élément de statistique d'infrastructures impactées, par tag
+ * (education/sante/administration/securite/autre), tel que peut le
+ * renvoyer l'API `impacts/infrastructures/{reportUniqId}/stats`.
+ */
+export interface InfrastructureImpactStatItem {
+    tag?: string;
+    type?: string;
+    equipment_type?: string;
+    infrastructures_count?: number;
+    count?: number;
+}
+
+/**
+ * Forme de réponse de l'API stats : soit un tableau d'éléments
+ * `{ tag, infrastructures_count }`, soit un objet indexé par tag
+ * (`{ EDUCATION: 10, ... }` ou `{ EDUCATION: { infrastructures_count: 10 }, ... }`).
+ * La forme exacte n'étant pas garantie côté backend, le parsing côté
+ * frontend (voir management-map.component.ts) reste défensif.
+ */
+export type InfrastructureImpactStatsResponse =
+    | InfrastructureImpactStatItem[]
+    | Record<string, number | InfrastructureImpactStatItem>;

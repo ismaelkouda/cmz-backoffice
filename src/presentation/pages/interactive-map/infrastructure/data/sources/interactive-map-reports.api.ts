@@ -4,6 +4,7 @@ import {
     Bounds,
     CoverageAreaFilters,
     CoverageAreaGeoJson,
+    InfrastructureImpactStatsResponse,
     InteractiveMapReport,
     ReportFilters,
     ReportOperator,
@@ -125,6 +126,43 @@ export class InteractiveMapReportsApi {
         }).toString();
 
         return `${baseUrl}?${query}`;
+    }
+
+    /**
+     * Statistiques d'infrastructures impactées par un signalement, par tag
+     * (nombre d'infrastructures impactées par catégorie d'équipement).
+     * Utilisé par management-map pour afficher un compteur dans le
+     * panneau "Filtres sur les couches".
+     * @param reportUniqId
+     */
+    getReportInfrastructureStats(
+        reportUniqId: string
+    ): Observable<InfrastructureImpactStatsResponse> {
+        const path =
+            INTERACTIVE_MAP_ENDPOINTS.REPORT_INFRASTRUCTURE_STATS.replace(
+                '{reportUniqId}',
+                reportUniqId
+            );
+        const url = `${this.baseUrl}${path}`;
+
+        return this.http
+            .get<
+                | InfrastructureImpactStatsResponse
+                | { data: InfrastructureImpactStatsResponse }
+            >(url)
+            .pipe(
+                map((response) =>
+                    response &&
+                    typeof response === 'object' &&
+                    'data' in response
+                        ? (
+                              response as {
+                                  data: InfrastructureImpactStatsResponse;
+                              }
+                          ).data
+                        : (response as InfrastructureImpactStatsResponse)
+                )
+            );
     }
 
     updateStatus(

@@ -232,13 +232,24 @@ $dark-gray: var(--color-gray);
         margin-bottom: 0.5rem;
         font-weight: 600;
         font-size: 0.875rem;
-        color: var(--action-text);
 
         .required {
             color: var(--action-error);
             font-weight: 700;
         }
     }
+
+    /* Labels du formulaire : compatible light / dark mode */
+.form-label {
+    color: var(--p-text-color);
+}
+
+/* Si certains labels ou composants ont une couleur forcée */
+.action-form-dialog label,
+.action-form-dialog .form-label,
+.action-form-dialog .toggle-field .form-label {
+    color: var(--p-text-color);
+}
 
     .error-message {
         color: var(--action-error);
