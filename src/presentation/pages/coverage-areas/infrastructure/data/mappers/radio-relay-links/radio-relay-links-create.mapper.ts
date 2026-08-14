@@ -11,6 +11,11 @@ export class RadioRelayLinksCreateMapper {
             name: contract.name,
             operator: contract.operator,
             frequency: contract.frequency,
+            first_point_lng: contract.longitudePointA,
+            first_point_lat: contract.latitudePointA,
+            second_point_lng: contract.longitudePointB,
+            second_point_lat: contract.latitudePointB,
+            geom_file: contract.geomFile,
         };
     }
 }

@@ -6,6 +6,11 @@ export class RadioRelayLinksUpdateCommand {
         public readonly uniqId?: string,
         public readonly name?: string,
         public readonly operator?: RadioRelayLinksOperator,
-        public readonly frequency?: RadioRelayLinksFrequency
+        public readonly frequency?: RadioRelayLinksFrequency,
+        public readonly longitudePointA?: string,
+        public readonly latitudePointA?: string,
+        public readonly longitudePointB?: string,
+        public readonly latitudePointB?: string,
+        public readonly geomFile?: File
     ) {}
 }

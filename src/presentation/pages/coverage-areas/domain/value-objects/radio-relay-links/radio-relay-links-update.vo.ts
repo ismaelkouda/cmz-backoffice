@@ -14,5 +14,10 @@ export function radioRelayLinksUpdateVo(
         name: contract.name as string,
         operator: contract.operator as RadioRelayLinksOperator,
         frequency: contract.frequency as RadioRelayLinksFrequency,
+        longitudePointA: contract.longitudePointA as string,
+        latitudePointA: contract.latitudePointA as string,
+        longitudePointB: contract.longitudePointB as string,
+        latitudePointB: contract.latitudePointB as string,
+        geomFile: contract.geomFile,
     };
 }

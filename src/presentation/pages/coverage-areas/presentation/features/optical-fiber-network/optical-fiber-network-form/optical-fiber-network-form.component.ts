@@ -37,6 +37,7 @@ import SweetAlert from 'sweetalert2';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
 import { GeojsonLineMapComponent } from '@shared/components/geojson-line-map/geojson-line-map.component';
+import { map, startWith } from 'rxjs';
 
 const PERMISSION_PATH = '/coverage-areas/optical-fiber-networks';
 const I18N = 'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK';
@@ -100,6 +101,20 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         { initialValue: false }
     );
     protected readonly existingGeom = this.store.existingGeom;
+    private readonly formValue = toSignal(
+        this.form.valueChanges.pipe(
+            startWith(this.form.getRawValue()),
+            map(() => this.form.getRawValue())
+        ),
+        { initialValue: this.form.getRawValue() }
+    );
+    protected readonly routeGeoJson = computed(() => {
+        const coordinates = this.getValidRouteCoordinates();
+        if (coordinates.length < 2) {
+            return this.existingGeom();
+        }
+        return this.buildLineStringGeoJson(coordinates);
+    });
 
     protected readonly operatorOptions = [
         { label: 'Moov', value: Operator.MOOV },
@@ -182,6 +197,18 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         return !!(control?.invalid && control?.touched);
     }
 
+    protected get routeCoordinates() {
+        return this.form.controls.routeCoordinates;
+    }
+
+    addRouteCoordinate(): void {
+        this.store.addRouteCoordinate();
+    }
+
+    removeRouteCoordinate(index: number): void {
+        this.store.removeRouteCoordinate(index);
+    }
+
     onFileChange(event: any): void {
         const file = event.files?.[0];
         if (file) {
@@ -237,11 +264,10 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
             operator: formValue.operator,
             fiberConstructorId: formValue.fiberConstructorId,
             type: formValue.type,
-            longitudePointA: formValue.longitudePointA ?? undefined,
-            latitudePointA: formValue.latitudePointA ?? undefined,
-            longitudePointB: formValue.longitudePointB ?? undefined,
-            latitudePointB: formValue.latitudePointB ?? undefined,
-            geomFile: formValue.geomFile ?? undefined,
+            geomFile:
+                formValue.geomFile ??
+                this.createRouteGeoJsonFile() ??
+                undefined,
         };
 
         if (this.isEditMode()) {
@@ -277,5 +303,54 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
 
     private t(key: string): string {
         return this.translate.instant(key);
+    }
+
+    private getValidRouteCoordinates(): [number, number][] {
+        return this.formValue()
+            .routeCoordinates.filter(
+                (coordinate) =>
+                    this.hasCoordinateValue(coordinate.longitude) &&
+                    this.hasCoordinateValue(coordinate.latitude)
+            )
+            .map((coordinate) => [
+                Number(coordinate.longitude),
+                Number(coordinate.latitude),
+            ])
+            .filter(
+                ([longitude, latitude]) =>
+                    Number.isFinite(longitude) && Number.isFinite(latitude)
+            ) as [number, number][];
+    }
+
+    private buildLineStringGeoJson(coordinates: [number, number][]) {
+        return {
+            type: 'Feature',
+            properties: {},
+            geometry: {
+                type: 'LineString',
+                coordinates,
+            },
+        };
+    }
+
+    private createRouteGeoJsonFile(): File | null {
+        const coordinates = this.getValidRouteCoordinates();
+        if (coordinates.length < 2) {
+            return null;
+        }
+        const geoJson = this.buildLineStringGeoJson(coordinates);
+        return new File(
+            [JSON.stringify(geoJson)],
+            'optical-fiber-route.geojson',
+            {
+                type: 'application/geo+json',
+            }
+        );
+    }
+
+    private hasCoordinateValue(value: unknown): boolean {
+        return (
+            value !== null && value !== undefined && String(value).trim() !== ''
+        );
     }
 }

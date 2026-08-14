@@ -13,7 +13,20 @@ import {
     viewChild,
 } from '@angular/core';
 import { OpenLayersLoaderService } from '@shared/domain/services/openlayers-loader.service';
+import { transformExtent } from 'ol/proj';
 import { Subject } from 'rxjs';
+
+const IVORY_COAST_BOUNDS = {
+    minLat: 4.223876,
+    maxLat: 10.873696,
+    minLng: -9.698757,
+    maxLng: -1.656668,
+};
+
+const IVORY_COAST_CENTER = {
+    latitude: (IVORY_COAST_BOUNDS.minLat + IVORY_COAST_BOUNDS.maxLat) / 2,
+    longitude: (IVORY_COAST_BOUNDS.minLng + IVORY_COAST_BOUNDS.maxLng) / 2,
+};
 
 @Component({
     selector: 'app-geojson-line-map',
@@ -77,7 +90,8 @@ export class GeojsonLineMapComponent implements OnDestroy {
             const geoJsonModule = await import('ol/format/GeoJSON');
             this.geoJsonFormat = new geoJsonModule.default();
 
-            const { Map, View, TileLayer, OSM, defaults } = this.olModules;
+            const { Map, View, TileLayer, OSM, defaults, fromLonLat } =
+                this.olModules;
 
             this.ngZone.runOutsideAngular(() => {
                 this.map = new Map({
@@ -88,8 +102,14 @@ export class GeojsonLineMapComponent implements OnDestroy {
                         }),
                     ],
                     view: new View({
-                        center: [0, 0],
-                        zoom: 2,
+                        center: fromLonLat([
+                            IVORY_COAST_CENTER.longitude,
+                            IVORY_COAST_CENTER.latitude,
+                        ]),
+                        zoom: 7,
+                        minZoom: 6,
+                        maxZoom: 19,
+                        extent: this.getIvoryCoastExtent(),
                     }),
                     controls: defaults({
                         attribution: false,
@@ -99,6 +119,7 @@ export class GeojsonLineMapComponent implements OnDestroy {
             });
 
             this.isMapInitialized.set(true);
+            this.fitIvoryCoast();
             await this.renderGeoJson(this.geojson());
         } catch (error) {
             console.error(error);
@@ -147,6 +168,7 @@ export class GeojsonLineMapComponent implements OnDestroy {
             }
 
             if (!geojson) {
+                this.fitIvoryCoast();
                 return;
             }
 
@@ -170,6 +192,13 @@ export class GeojsonLineMapComponent implements OnDestroy {
 
             const extent = source.getExtent();
             if (extent && extent.every((v: number) => Number.isFinite(v))) {
+                if (
+                    this.isEmptyExtent(extent) ||
+                    !this.intersectsIvoryCoast(extent)
+                ) {
+                    this.fitIvoryCoast();
+                    return;
+                }
                 this.map.getView().fit(extent, {
                     padding: [48, 48, 48, 48],
                     maxZoom: 16,
@@ -180,5 +209,40 @@ export class GeojsonLineMapComponent implements OnDestroy {
             console.error(error);
             this.errorMessage.set('GEOM_INVALID');
         }
+    }
+
+    private getIvoryCoastExtent(): number[] {
+        return transformExtent(
+            [
+                IVORY_COAST_BOUNDS.minLng,
+                IVORY_COAST_BOUNDS.minLat,
+                IVORY_COAST_BOUNDS.maxLng,
+                IVORY_COAST_BOUNDS.maxLat,
+            ],
+            'EPSG:4326',
+            'EPSG:3857'
+        );
+    }
+
+    private isEmptyExtent(extent: number[]): boolean {
+        return extent[0] === extent[2] && extent[1] === extent[3];
+    }
+
+    private intersectsIvoryCoast(extent: number[]): boolean {
+        const ivoryCoastExtent = this.getIvoryCoastExtent();
+        return !(
+            extent[2] < ivoryCoastExtent[0] ||
+            extent[0] > ivoryCoastExtent[2] ||
+            extent[3] < ivoryCoastExtent[1] ||
+            extent[1] > ivoryCoastExtent[3]
+        );
+    }
+
+    private fitIvoryCoast(): void {
+        this.map?.getView().fit(this.getIvoryCoastExtent(), {
+            padding: [32, 32, 32, 32],
+            maxZoom: 7,
+            duration: 0,
+        });
     }
 }

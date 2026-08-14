@@ -259,10 +259,6 @@
                                                             'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_FILE'
                                                                 | translate
                                                         }}
-                                                        <span
-                                                            class="text-danger"
-                                                            >*</span
-                                                        >
                                                     </label>
                                                     <p-fileUpload
                                                         #fileUpload
@@ -295,21 +291,6 @@
                                                     >
                                                     </p-fileUpload>
                                                     @if (
-                                                        form.get('geomFile')
-                                                            ?.invalid &&
-                                                        form.get('geomFile')
-                                                            ?.touched &&
-                                                        !isDetailsMode()
-                                                    ) {
-                                                        <small
-                                                            class="text-danger d-block mt-1"
-                                                            >{{
-                                                                'COMMON.VALIDATION.REQUIRED'
-                                                                    | translate
-                                                            }}</small
-                                                        >
-                                                    }
-                                                    @if (
                                                         isDetailsMode() &&
                                                         existingGeom()
                                                     ) {
@@ -325,143 +306,181 @@
                                                         </div>
                                                     }
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <div class="col-md-12 mb-3">
+                                                <div
+                                                    class="col-md-4"
+                                                    formArrayName="routeCoordinates"
+                                                >
+                                                    <div
+                                                        class="d-flex align-items-center justify-content-between mb-2"
+                                                    >
                                                         <label
-                                                            for="coordinates-point-a"
-                                                            class="form-label fw-bold"
-                                                            >{{
-                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.COORDINATES_POINT_A'
+                                                            class="form-label fw-bold mb-0"
+                                                        >
+                                                            {{
+                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_COORDINATES'
                                                                     | translate
                                                             }}
                                                             <span
                                                                 class="text-danger"
                                                                 aria-label="required"
                                                                 >*</span
-                                                            ></label
-                                                        >
-                                                        <div class="d-flex align-items-top gap-2">
-                                                            <div>
-                                                                <p-inputgroup class="w-100">
-                                                                    <p-inputnumber
-                                                                        id="longitudePointA"
-                                                                        formControlName="longitudePointA"
-                                                                        [minFractionDigits]="0"
-                                                                        [maxFractionDigits]="0"
-                                                                        [useGrouping]="false"
-                                                                        [min]="1"
-                                                                        styleClass="w-100"
-                                                                        [placeholder]="'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LONGITUDE_POINT_A_PLACEHOLDER' | translate"
-                                                                        [attr.aria-invalid]="
-                                                                        form.get('longitudePointA')?.invalid && 
-                                                                        form.get('longitudePointA')?.touched"
-                                                                    />
-                                                                    <p-inputgroup-addon>
-                                                                        Long
-                                                                    </p-inputgroup-addon>
-                                                                </p-inputgroup>
-                                                                @if (form.get('longitudePointA')?.invalid && form.get('longitudePointA')?.touched) {
-                                                                    <small class="text-danger d-block mt-1">
-                                                                        {{ getErrorMessage('longitudePointA') }}
-                                                                    </small>
-                                                                }
-                                                            </div>
-
-                                                            <div>
-                                                                <p-inputgroup class="w-100">
-                                                                    <p-inputnumber
-                                                                        id="latitudePointA"
-                                                                        formControlName="latitudePointA"
-                                                                        [minFractionDigits]="0"
-                                                                        [maxFractionDigits]="0"
-                                                                        [useGrouping]="false"
-                                                                        [min]="1"
-                                                                        styleClass="w-100"
-                                                                        [placeholder]="'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LATITUDE_POINT_A_PLACEHOLDER' | translate"
-                                                                        [attr.aria-invalid]="
-                                                                        form.get('latitudePointA')?.invalid && 
-                                                                        form.get('latitudePointA')?.touched"
-                                                                    />
-                                                                    <p-inputgroup-addon>
-                                                                        Lat
-                                                                    </p-inputgroup-addon>
-                                                                </p-inputgroup>
-                                                                @if (form.get('latitudePointA')?.invalid && form.get('latitudePointA')?.touched) {
-                                                                    <small class="text-danger d-block mt-1">
-                                                                        {{ getErrorMessage('latitudePointA') }}
-                                                                    </small>
-                                                                }
-                                                            </div>
-                                                        </div>
+                                                            >
+                                                        </label>
+                                                        @if (!isDetailsMode()) {
+                                                            <button
+                                                                pButton
+                                                                type="button"
+                                                                class="p-button-sm"
+                                                                icon="pi pi-plus"
+                                                                [label]="
+                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ADD_ROUTE_COORDINATE'
+                                                                        | translate
+                                                                "
+                                                                (click)="
+                                                                    addRouteCoordinate()
+                                                                "
+                                                            ></button>
+                                                        }
                                                     </div>
-                                                    <div class="col-md-12">
-                                                        <label
-                                                            for="coordinates-point-b"
-                                                            class="form-label fw-bold"
-                                                            >{{
-                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.COORDINATES_POINT_B'
+
+                                                    <div class="d-grid gap-2">
+                                                        @for (
+                                                            coordinate of routeCoordinates.controls;
+                                                            track coordinate;
+                                                            let index = $index
+                                                        ) {
+                                                            <div
+                                                                class="border rounded p-2"
+                                                                [formGroupName]="
+                                                                    index
+                                                                "
+                                                            >
+                                                                <div
+                                                                    class="d-flex align-items-center justify-content-between mb-2"
+                                                                >
+                                                                    <strong>
+                                                                        {{
+                                                                            'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_POINT'
+                                                                                | translate
+                                                                        }}
+                                                                        {{
+                                                                            index +
+                                                                                1
+                                                                        }}
+                                                                    </strong>
+                                                                    @if (
+                                                                        !isDetailsMode() &&
+                                                                        routeCoordinates.length >
+                                                                            2
+                                                                    ) {
+                                                                        <button
+                                                                            pButton
+                                                                            type="button"
+                                                                            class="p-button-sm p-button-danger p-button-text"
+                                                                            icon="pi pi-trash"
+                                                                            (click)="
+                                                                                removeRouteCoordinate(
+                                                                                    index
+                                                                                )
+                                                                            "
+                                                                        ></button>
+                                                                    }
+                                                                </div>
+
+                                                                <div
+                                                                    class="d-flex align-items-top gap-2"
+                                                                >
+                                                                    <div>
+                                                                        <p-inputgroup
+                                                                            class="w-100"
+                                                                        >
+                                                                            <p-inputnumber
+                                                                                [inputId]="
+                                                                                    'routeLongitude' +
+                                                                                    index
+                                                                                "
+                                                                                formControlName="longitude"
+                                                                                [minFractionDigits]="
+                                                                                    0
+                                                                                "
+                                                                                [maxFractionDigits]="
+                                                                                    7
+                                                                                "
+                                                                                [useGrouping]="
+                                                                                    false
+                                                                                "
+                                                                                [min]="
+                                                                                    -180
+                                                                                "
+                                                                                [max]="
+                                                                                    180
+                                                                                "
+                                                                                styleClass="w-100"
+                                                                                [placeholder]="
+                                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LONGITUDE_PLACEHOLDER'
+                                                                                        | translate
+                                                                                "
+                                                                            />
+                                                                            <p-inputgroup-addon>
+                                                                                Long
+                                                                            </p-inputgroup-addon>
+                                                                        </p-inputgroup>
+                                                                    </div>
+
+                                                                    <div>
+                                                                        <p-inputgroup
+                                                                            class="w-100"
+                                                                        >
+                                                                            <p-inputnumber
+                                                                                [inputId]="
+                                                                                    'routeLatitude' +
+                                                                                    index
+                                                                                "
+                                                                                formControlName="latitude"
+                                                                                [minFractionDigits]="
+                                                                                    0
+                                                                                "
+                                                                                [maxFractionDigits]="
+                                                                                    7
+                                                                                "
+                                                                                [useGrouping]="
+                                                                                    false
+                                                                                "
+                                                                                [min]="
+                                                                                    -90
+                                                                                "
+                                                                                [max]="
+                                                                                    90
+                                                                                "
+                                                                                styleClass="w-100"
+                                                                                [placeholder]="
+                                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LATITUDE_PLACEHOLDER'
+                                                                                        | translate
+                                                                                "
+                                                                            />
+                                                                            <p-inputgroup-addon>
+                                                                                Lat
+                                                                            </p-inputgroup-addon>
+                                                                        </p-inputgroup>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+
+                                                    @if (
+                                                        routeCoordinates.invalid &&
+                                                        routeCoordinates.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-2"
+                                                        >
+                                                            {{
+                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_COORDINATES_MIN'
                                                                     | translate
                                                             }}
-                                                            <span
-                                                                class="text-danger"
-                                                                aria-label="required"
-                                                                >*</span
-                                                            ></label
-                                                        >
-                                                        <div class="d-flex align-items-top gap-2">
-                                                            <div>
-                                                                <p-inputgroup class="w-100">
-                                                                    <p-inputnumber
-                                                                        id="longitudePointB"
-                                                                        formControlName="longitudePointB"
-                                                                        [minFractionDigits]="0"
-                                                                        [maxFractionDigits]="0"
-                                                                        [useGrouping]="false"
-                                                                        [min]="1"
-                                                                        styleClass="w-100"
-                                                                        [placeholder]="'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LONGITUDE_POINT_B_PLACEHOLDER' | translate"
-                                                                        [attr.aria-invalid]="
-                                                                        form.get('longitudePointB')?.invalid && 
-                                                                        form.get('longitudePointB')?.touched"
-                                                                    />
-                                                                    <p-inputgroup-addon>
-                                                                        Long
-                                                                    </p-inputgroup-addon>
-                                                                </p-inputgroup>
-                                                                @if (form.get('longitudePointB')?.invalid && form.get('longitudePointB')?.touched) {
-                                                                    <small class="text-danger d-block mt-1">
-                                                                        {{ getErrorMessage('longitudePointB') }}
-                                                                    </small>
-                                                                }
-                                                            </div>
-
-                                                            <div>
-                                                                <p-inputgroup class="w-100">
-                                                                    <p-inputnumber
-                                                                        id="latitudePointB"
-                                                                        formControlName="latitudePointB"
-                                                                        [minFractionDigits]="0"
-                                                                        [maxFractionDigits]="0"
-                                                                        [useGrouping]="false"
-                                                                        [min]="1"
-                                                                        styleClass="w-100"
-                                                                        [placeholder]="'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LATITUDE_POINT_B_PLACEHOLDER' | translate"
-                                                                        [attr.aria-invalid]="
-                                                                        form.get('latitudePointB')?.invalid && 
-                                                                        form.get('latitudePointB')?.touched"
-                                                                    />
-                                                                    <p-inputgroup-addon>
-                                                                        Lat
-                                                                    </p-inputgroup-addon>
-                                                                </p-inputgroup>
-                                                                @if (form.get('latitudePointB')?.invalid && form.get('latitudePointB')?.touched) {
-                                                                    <small class="text-danger d-block mt-1">
-                                                                        {{ getErrorMessage('latitudePointB') }}
-                                                                    </small>
-                                                                }
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                        </small>
+                                                    }
                                                 </div>
                                                 <div class="col-md-8">
                                                     <label
@@ -476,9 +495,7 @@
                                                     <app-geojson-line-map
                                                         id="mapPreview"
                                                         [geojson]="
-                                                            form.get('geomFile')
-                                                                ?.value ||
-                                                            existingGeom()
+                                                            routeGeoJson()
                                                         "
                                                         height="450px"
                                                         [strokeColor]="'#e11d48'"

@@ -3235,6 +3235,12 @@
                 "GEOM_PLACEHOLDER": "Arrastrar y soltar o hacer clic",
                 "GEOM_EXISTING": "Archivo GeoJSON existente",
                 "MAP_PREVIEW": "Vista previa del mapa",
+                "ROUTE_COORDINATES": "Coordenadas del trazado",
+                "ROUTE_COORDINATES_MIN": "Introduzca al menos dos coordenadas para dibujar la fibra óptica",
+                "ROUTE_POINT": "Punto del trazado",
+                "ADD_ROUTE_COORDINATE": "Agregar coordenada",
+                "LONGITUDE_PLACEHOLDER": "Longitud",
+                "LATITUDE_PLACEHOLDER": "Latitud",
                 "ERROR": {
                     "CREATE": {
                         "NAME_REQUIRE": "El nombre del tramo es obligatorio",
@@ -3356,6 +3362,14 @@
                 "OPERATOR": "Operador",
                 "FREQUENCY": "Frecuencia",
                 "FREQUENCY_PLACEHOLDER": "Ej: 900",
+                "COORDINATES_POINT_A": "Coordenadas del punto A",
+                "COORDINATES_POINT_B": "Coordenadas del punto B",
+                "LONGITUDE_POINT_A_PLACEHOLDER": "Longitud del punto A",
+                "LATITUDE_POINT_A_PLACEHOLDER": "Latitud del punto A",
+                "LONGITUDE_POINT_B_PLACEHOLDER": "Longitud del punto B",
+                "LATITUDE_POINT_B_PLACEHOLDER": "Latitud del punto B",
+                "MAP_PREVIEW": "Vista previa del mapa",
+                "MAP_SEARCH_PLACEHOLDER": "Buscar un lugar o introducir coordenadas",
                 "START_DATE": "Fecha de inicio",
                 "END_DATE": "Fecha de fin",
                 "ERROR": {
@@ -3374,13 +3388,21 @@
                     "CREATE": {
                         "NAME_REQUIRE": "El nombre es obligatorio",
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
-                        "FREQUENCY_REQUIRE": "La frecuencia es obligatoria"
+                        "FREQUENCY_REQUIRE": "La frecuencia es obligatoria",
+                        "LONGITUDE_POINT_A_REQUIRE": "La longitud del punto A es obligatoria",
+                        "LATITUDE_POINT_A_REQUIRE": "La latitud del punto A es obligatoria",
+                        "LONGITUDE_POINT_B_REQUIRE": "La longitud del punto B es obligatoria",
+                        "LATITUDE_POINT_B_REQUIRE": "La latitud del punto B es obligatoria"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "El identificador es obligatorio",
                         "NAME_REQUIRE": "El nombre es obligatorio",
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
-                        "FREQUENCY_REQUIRE": "La frecuencia es obligatoria"
+                        "FREQUENCY_REQUIRE": "La frecuencia es obligatoria",
+                        "LONGITUDE_POINT_A_REQUIRE": "La longitud del punto A es obligatoria",
+                        "LATITUDE_POINT_A_REQUIRE": "La latitud del punto A es obligatoria",
+                        "LONGITUDE_POINT_B_REQUIRE": "La longitud del punto B es obligatoria",
+                        "LATITUDE_POINT_B_REQUIRE": "La latitud del punto B es obligatoria"
                     }
                 }
             },

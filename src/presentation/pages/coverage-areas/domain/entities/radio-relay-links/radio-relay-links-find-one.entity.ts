@@ -22,6 +22,22 @@ export class RadioRelayLinksFindOneEntity {
         return this.props.frequency;
     }
 
+    get longitudePointA(): string | undefined {
+        return this.props.longitudePointA;
+    }
+
+    get latitudePointA(): string | undefined {
+        return this.props.latitudePointA;
+    }
+
+    get longitudePointB(): string | undefined {
+        return this.props.longitudePointB;
+    }
+
+    get latitudePointB(): string | undefined {
+        return this.props.latitudePointB;
+    }
+
     get status(): RadioRelayLinksStatus {
         return this.props.status;
     }

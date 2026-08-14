@@ -21,10 +21,14 @@ export const RadioRelayLinksFormValidatorsService = {
     ],
     OPERATOR: [Validators.required],
     FREQUENCY: [Validators.required, Validators.min(1)],
+    COORDINATE: [Validators.required],
+    GEOM_FILE: [Validators.required],
 };
 
 export const RadioRelayLinksFormValidatorsStream = {
     NAME: [Validators.required],
     OPERATOR: [Validators.required],
     FREQUENCY: [Validators.required, Validators.min(1)],
+    COORDINATE: [Validators.required],
+    GEOM_FILE: [Validators.required],
 };

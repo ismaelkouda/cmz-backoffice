@@ -5,4 +5,9 @@ export interface RadioRelayLinksCreateContract {
     name?: string;
     operator?: RadioRelayLinksOperator;
     frequency?: RadioRelayLinksFrequency;
+    longitudePointA?: string;
+    latitudePointA?: string;
+    longitudePointB?: string;
+    latitudePointB?: string;
+    geomFile?: File;
 }

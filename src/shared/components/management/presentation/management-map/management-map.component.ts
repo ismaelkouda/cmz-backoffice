@@ -121,14 +121,14 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     readonly mapViewState = signal({
         latitude: 0,
         longitude: 0,
-        zoom: 15,
+        zoom: 7,
     });
     readonly selectedMarker = signal<MapMarker | null>(null);
     readonly showPopup = signal(false);
 
     public readonly latitude = input.required<number>();
     public readonly longitude = input.required<number>();
-    public readonly zoom = input<number>(15);
+    public readonly zoom = input<number>(7);
     public readonly markerTitle = input<string>('Position');
     public readonly markerDescription = input<string>('Localisation spécifiée');
     public readonly markerColor = input<string>('#3366ff');
@@ -159,7 +159,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     public readonly initiatorPhone = input<string | undefined>(undefined);
     public readonly confirmCount = input<number | undefined>(undefined);
     /** Rayon d'impact affiché autour du signalement, en mètres réels. */
-    public readonly radiusMeters = input<number>(1000);
+    public readonly radiusMeters = input<number>(3500);
     public readonly showRadiusCircle = input<boolean>(true);
 
     public readonly coverageLegendOpen = signal(true);

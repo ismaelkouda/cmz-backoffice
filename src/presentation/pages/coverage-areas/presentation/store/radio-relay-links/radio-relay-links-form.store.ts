@@ -33,6 +33,7 @@ export class RadioRelayLinksFormStore {
     readonly isCreateMode = computed(() => this.mode() === 'create');
     readonly isEditMode = computed(() => this.mode() === 'edit');
     readonly isDetailsMode = computed(() => this.mode() === 'details');
+    readonly existingGeom = signal<object | string | null>(null);
 
     readonly loading = computed(() => {
         return this.findOneFacade.loading();
@@ -85,9 +86,15 @@ export class RadioRelayLinksFormStore {
                 name: undefined,
                 operator: undefined,
                 frequency: undefined,
+                longitudePointA: undefined,
+                latitudePointA: undefined,
+                longitudePointB: undefined,
+                latitudePointB: undefined,
+                geomFile: null,
             },
             { emitEvent: true }
         );
+        this.existingGeom.set(null);
         this.mode.set('create');
         this.form.markAsPristine();
         this.form.markAsUntouched();
@@ -100,7 +107,17 @@ export class RadioRelayLinksFormStore {
                 return;
             }
 
-            const { name, operator, frequency } = item;
+            const {
+                name,
+                operator,
+                frequency,
+                longitudePointA,
+                latitudePointA,
+                longitudePointB,
+                latitudePointB,
+                geom,
+                geomUrl,
+            } = item;
             const details = this.isDetailsMode();
 
             untracked(() => {
@@ -109,6 +126,16 @@ export class RadioRelayLinksFormStore {
                         name,
                         operator,
                         frequency: this.helper.parseFrequency(frequency),
+                        longitudePointA,
+                        latitudePointA,
+                        longitudePointB,
+                        latitudePointB,
+                        geomFile: null,
+                    });
+                    this.existingGeom.set(geom ?? geomUrl ?? null);
+                    this.form.controls.geomFile.clearValidators();
+                    this.form.controls.geomFile.updateValueAndValidity({
+                        emitEvent: false,
                     });
                     if (details) {
                         this.form.disable({ emitEvent: false });
@@ -134,6 +161,25 @@ export class RadioRelayLinksFormStore {
             frequency: new FormControl<number | undefined>(undefined, {
                 nonNullable: true,
                 validators: RadioRelayLinksFormValidatorsService.FREQUENCY,
+            }),
+            longitudePointA: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: RadioRelayLinksFormValidatorsService.COORDINATE,
+            }),
+            latitudePointA: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: RadioRelayLinksFormValidatorsService.COORDINATE,
+            }),
+            longitudePointB: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: RadioRelayLinksFormValidatorsService.COORDINATE,
+            }),
+            latitudePointB: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+                validators: RadioRelayLinksFormValidatorsService.COORDINATE,
+            }),
+            geomFile: new FormControl<File | null>(null, {
+                nonNullable: true,
             }),
         });
     }

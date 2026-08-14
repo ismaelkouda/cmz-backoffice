@@ -22,6 +22,12 @@ $dark-gray: var(--color-gray);
     margin-bottom: 1.5rem;
 }
 
+::ng-deep .ol-zoom {
+    top: auto;
+        bottom: .5em;
+    left: .5em;
+}
+
 .actions-form-header {
     display: flex;
     justify-content: space-between;

@@ -3269,6 +3269,12 @@
                 "GEOM_PLACEHOLDER": "Drag & drop or click",
                 "GEOM_EXISTING": "Existing GeoJSON file",
                 "MAP_PREVIEW": "Map Preview",
+                "ROUTE_COORDINATES": "Route coordinates",
+                "ROUTE_COORDINATES_MIN": "Enter at least two coordinates to draw the optical fiber",
+                "ROUTE_POINT": "Route point",
+                "ADD_ROUTE_COORDINATE": "Add coordinate",
+                "LONGITUDE_PLACEHOLDER": "Longitude",
+                "LATITUDE_PLACEHOLDER": "Latitude",
                 "ERROR": {
                     "CREATE": {
                         "NAME_REQUIRE": "Segment name is required",
@@ -3390,6 +3396,14 @@
                 "OPERATOR": "Operator",
                 "FREQUENCY": "Frequency",
                 "FREQUENCY_PLACEHOLDER": "Ex: 900",
+                "COORDINATES_POINT_A": "Point A coordinates",
+                "COORDINATES_POINT_B": "Point B coordinates",
+                "LONGITUDE_POINT_A_PLACEHOLDER": "Point A longitude",
+                "LATITUDE_POINT_A_PLACEHOLDER": "Point A latitude",
+                "LONGITUDE_POINT_B_PLACEHOLDER": "Point B longitude",
+                "LATITUDE_POINT_B_PLACEHOLDER": "Point B latitude",
+                "MAP_PREVIEW": "Map preview",
+                "MAP_SEARCH_PLACEHOLDER": "Search a place or enter coordinates",
                 "START_DATE": "Start Date",
                 "END_DATE": "End Date",
                 "ERROR": {
@@ -3408,13 +3422,21 @@
                     "CREATE": {
                         "NAME_REQUIRE": "Name is required",
                         "OPERATOR_REQUIRE": "Operator is required",
-                        "FREQUENCY_REQUIRE": "Frequency is required"
+                        "FREQUENCY_REQUIRE": "Frequency is required",
+                        "LONGITUDE_POINT_A_REQUIRE": "Point A longitude is required",
+                        "LATITUDE_POINT_A_REQUIRE": "Point A latitude is required",
+                        "LONGITUDE_POINT_B_REQUIRE": "Point B longitude is required",
+                        "LATITUDE_POINT_B_REQUIRE": "Point B latitude is required"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "The identifier is required",
                         "NAME_REQUIRE": "Name is required",
                         "OPERATOR_REQUIRE": "Operator is required",
-                        "FREQUENCY_REQUIRE": "Frequency is required"
+                        "FREQUENCY_REQUIRE": "Frequency is required",
+                        "LONGITUDE_POINT_A_REQUIRE": "Point A longitude is required",
+                        "LATITUDE_POINT_A_REQUIRE": "Point A latitude is required",
+                        "LONGITUDE_POINT_B_REQUIRE": "Point B longitude is required",
+                        "LATITUDE_POINT_B_REQUIRE": "Point B latitude is required"
                     }
                 }
             },

@@ -13,10 +13,15 @@ import {
     viewChild,
     ChangeDetectionStrategy,
 } from '@angular/core';
+import {
+    State,
+    StateStyle,
+    StateLabel,
+} from '@pages/finalization/domain/enums/details/details-state/details-state.enum';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { RegionsSelectFacade } from '@pages/administrative-boundary/application/services/regions/regions-select.facade';
 import {
     InteractiveMapReport,
@@ -109,6 +114,7 @@ export class InteractiveMapComponent
     // s'affichent dès qu'un opérateur est sélectionné.
     public readonly showCoverageZones = signal(true);
     public readonly showCoverageCenters = signal(true);
+    private readonly translate = inject(TranslateService);
 
     // Méthodes appelées par les checkbox
     public toggleCoverageZones(visible: boolean): void {
@@ -630,10 +636,21 @@ export class InteractiveMapComponent
     }
 
     public getStatusLabel(status: ReportStatus): string {
-        return (
-            this.statusOptions.find((option) => option.value === status)
-                ?.label || status
-        );
+        const methodMap: any = {
+            [State.COMPLETED]: StateLabel.completed,
+            [State.IN_PROGRESS]: StateLabel['in-progress'],
+            [State.PENDING]: StateLabel.pending,
+        };
+        return this.translate.instant(methodMap[status]);
+    }
+
+    dialogStateStyle(status: ReportStatus): StateStyle {
+        const methodMap: any = {
+            [State.IN_PROGRESS]: StateStyle.IN_PROGRESS,
+            [State.PENDING]: StateStyle.PENDING,
+            [State.COMPLETED]: StateStyle.COMPLETED,
+        };
+        return this.translate.instant(methodMap[status]);
     }
 
     public getOperators(report: InteractiveMapReport): string {
