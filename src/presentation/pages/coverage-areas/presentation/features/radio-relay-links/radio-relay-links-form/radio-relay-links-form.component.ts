@@ -10,6 +10,7 @@ import {
     signal,
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -39,6 +40,11 @@ import SweetAlert from 'sweetalert2';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
 import { DatePickerModule } from 'primeng/datepicker';
+import { map, startWith } from 'rxjs';
+import {
+    RadioRelayLinksMapPickerComponent,
+    RelayPointChange,
+} from './radio-relay-links-map-picker.component';
 
 const PERMISSION_PATH = '/coverage-areas/radio-relay-links';
 const I18N = 'COVERAGE_AREAS.RADIO_RELAY_LINKS';
@@ -63,6 +69,7 @@ const I18N = 'COVERAGE_AREAS.RADIO_RELAY_LINKS';
         ToastModule,
         TooltipModule,
         DatePickerModule,
+        RadioRelayLinksMapPickerComponent,
     ],
     providers: [
         MessageService,
@@ -88,6 +95,28 @@ export class RadioRelayLinksFormComponent implements OnInit {
     protected readonly isEditMode = this.store.isEditMode;
     protected readonly isCreateMode = this.store.isCreateMode;
     protected readonly loading = this.store.loading;
+    protected readonly existingGeom = this.store.existingGeom;
+    private readonly formValue = toSignal(
+        this.form.valueChanges.pipe(
+            startWith(this.form.getRawValue()),
+            map(() => this.form.getRawValue())
+        ),
+        { initialValue: this.form.getRawValue() }
+    );
+    protected readonly pointA = computed(() => {
+        const value = this.formValue();
+        return {
+            latitude: this.toCoordinateNumber(value.latitudePointA),
+            longitude: this.toCoordinateNumber(value.longitudePointA),
+        };
+    });
+    protected readonly pointB = computed(() => {
+        const value = this.formValue();
+        return {
+            latitude: this.toCoordinateNumber(value.latitudePointB),
+            longitude: this.toCoordinateNumber(value.longitudePointB),
+        };
+    });
 
     private readonly currentLang = signal<string>(
         this.translate.getCurrentLang()
@@ -174,6 +203,31 @@ export class RadioRelayLinksFormComponent implements OnInit {
         return !!(control?.invalid && control?.touched);
     }
 
+    onMapPointChange(change: RelayPointChange): void {
+        const values =
+            change.point === 'A'
+                ? {
+                      latitudePointA: this.formatCoordinate(change.latitude),
+                      longitudePointA: this.formatCoordinate(change.longitude),
+                  }
+                : {
+                      latitudePointB: this.formatCoordinate(change.latitude),
+                      longitudePointB: this.formatCoordinate(change.longitude),
+                  };
+
+        this.form.patchValue(values);
+        const latitudeControl = this.form.get(
+            change.point === 'A' ? 'latitudePointA' : 'latitudePointB'
+        );
+        const longitudeControl = this.form.get(
+            change.point === 'A' ? 'longitudePointA' : 'longitudePointB'
+        );
+        latitudeControl?.markAsTouched();
+        longitudeControl?.markAsTouched();
+        latitudeControl?.updateValueAndValidity();
+        longitudeControl?.updateValueAndValidity();
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
@@ -214,6 +268,11 @@ export class RadioRelayLinksFormComponent implements OnInit {
             name: formValue.name ?? undefined,
             operator: formValue.operator ?? undefined,
             frequency: this.helper.formatFrequency(formValue.frequency),
+            longitudePointA: formValue.longitudePointA ?? undefined,
+            latitudePointA: formValue.latitudePointA ?? undefined,
+            longitudePointB: formValue.longitudePointB ?? undefined,
+            latitudePointB: formValue.latitudePointB ?? undefined,
+            geomFile: formValue.geomFile ?? undefined,
         };
 
         if (this.isEditMode()) {
@@ -246,5 +305,17 @@ export class RadioRelayLinksFormComponent implements OnInit {
 
     private t(key: string, params?: object): string {
         return this.translate.instant(key, params);
+    }
+
+    private toCoordinateNumber(value: unknown): number | null {
+        if (value === null || value === undefined || value === '') {
+            return null;
+        }
+        const numericValue = Number(value);
+        return Number.isFinite(numericValue) ? numericValue : null;
+    }
+
+    private formatCoordinate(value: number): string {
+        return value.toFixed(7);
     }
 }

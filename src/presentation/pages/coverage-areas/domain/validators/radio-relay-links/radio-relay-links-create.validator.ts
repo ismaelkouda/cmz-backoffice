@@ -24,4 +24,24 @@ export function radioRelayLinksCreateValidator(
             'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.CREATE.FREQUENCY_REQUIRE'
         );
     }
+    if (!contract.longitudePointA) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.CREATE.LONGITUDE_POINT_A_REQUIRE'
+        );
+    }
+    if (!contract.latitudePointA) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.CREATE.LATITUDE_POINT_A_REQUIRE'
+        );
+    }
+    if (!contract.longitudePointB) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.CREATE.LONGITUDE_POINT_B_REQUIRE'
+        );
+    }
+    if (!contract.latitudePointB) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.CREATE.LATITUDE_POINT_B_REQUIRE'
+        );
+    }
 }

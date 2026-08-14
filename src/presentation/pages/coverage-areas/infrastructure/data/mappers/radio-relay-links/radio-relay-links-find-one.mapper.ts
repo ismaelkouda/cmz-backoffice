@@ -29,11 +29,15 @@ export class RadioRelayLinksFindOneMapper extends SimpleResponseMapper<
             name: dto.name,
             operator: dto.operator as RadioRelayLinksOperator,
             frequency: dto.frequency as RadioRelayLinksFrequency,
+            longitudePointA: dto.longitude_point_a,
+            latitudePointA: dto.latitude_point_a,
+            longitudePointB: dto.longitude_point_b,
+            latitudePointB: dto.latitude_point_b,
             status: dto.is_active
                 ? RadioRelayLinksStatus.ACTIVE
                 : RadioRelayLinksStatus.INACTIVE,
             updatedAt: new Date(dto.updated_at),
-            geomUrl: dto.geom_url,
+            geomUrl: dto.geom_url || dto.geom_file_url,
             geom: dto.geom,
         };
 

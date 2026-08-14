@@ -12,6 +12,11 @@ export class RadioRelayLinksUpdateMapper {
             name: contract.name,
             operator: contract.operator,
             frequency: contract.frequency,
+            longitude_point_a: contract.longitudePointA,
+            latitude_point_a: contract.latitudePointA,
+            longitude_point_b: contract.longitudePointB,
+            latitude_point_b: contract.latitudePointB,
+            geom_file: contract.geomFile,
         };
     }
 }

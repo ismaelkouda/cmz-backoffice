@@ -6,6 +6,7 @@
         "ES": "Espagnol"
     },
     "COMMON": {
+        "SEARCH": "Rechercher...",
         "DOWNLOAD": "Télécharger",
         "EXCEL": "Excel",
         "SHAPE": "Shape",
@@ -4947,6 +4948,12 @@
                 "COORDINATES_POINT_A": "Coordonnées GPS Point A",
                 "COORDINATES_POINT_B": "Coordonnées GPS Point B",
                 "MAP_PREVIEW": "Aperçu carte",
+                "ROUTE_COORDINATES": "Coordonnées du tracé",
+                "ROUTE_COORDINATES_MIN": "Renseignez au moins deux coordonnées pour tracer la fibre optique",
+                "ROUTE_POINT": "Point du tracé",
+                "ADD_ROUTE_COORDINATE": "Ajouter",
+                "LONGITUDE_PLACEHOLDER": "Longitude",
+                "LATITUDE_PLACEHOLDER": "Latitude",
                 "ERROR": {
                     "CREATE": {
                         "NAME_REQUIRE": "Le nom du tronçon est obligatoire",
@@ -5070,6 +5077,14 @@
                 "OPERATOR": "Opérateur",
                 "FREQUENCY": "Fréquence",
                 "FREQUENCY_PLACEHOLDER": "Ex: 900",
+                "COORDINATES_POINT_A": "Coordonnées du point A",
+                "COORDINATES_POINT_B": "Coordonnées du point B",
+                "LONGITUDE_POINT_A_PLACEHOLDER": "Longitude du point A",
+                "LATITUDE_POINT_A_PLACEHOLDER": "Latitude du point A",
+                "LONGITUDE_POINT_B_PLACEHOLDER": "Longitude du point B",
+                "LATITUDE_POINT_B_PLACEHOLDER": "Latitude du point B",
+                "MAP_PREVIEW": "Aperçu sur la carte",
+                "MAP_SEARCH_PLACEHOLDER": "Rechercher un lieu ou saisir des coordonnées",
                 "START_DATE": "Date de début",
                 "END_DATE": "Date de fin",
                 "ERROR": {
@@ -5088,13 +5103,21 @@
                     "CREATE": {
                         "NAME_REQUIRE": "Le nom est requis",
                         "OPERATOR_REQUIRE": "L'opérateur est requis",
-                        "FREQUENCY_REQUIRE": "La fréquence est requise"
+                        "FREQUENCY_REQUIRE": "La fréquence est requise",
+                        "LONGITUDE_POINT_A_REQUIRE": "La longitude du point A est requise",
+                        "LATITUDE_POINT_A_REQUIRE": "La latitude du point A est requise",
+                        "LONGITUDE_POINT_B_REQUIRE": "La longitude du point B est requise",
+                        "LATITUDE_POINT_B_REQUIRE": "La latitude du point B est requise"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "L'identifiant est requis",
                         "NAME_REQUIRE": "Le nom est requis",
                         "OPERATOR_REQUIRE": "L'opérateur est requis",
-                        "FREQUENCY_REQUIRE": "La fréquence est requise"
+                        "FREQUENCY_REQUIRE": "La fréquence est requise",
+                        "LONGITUDE_POINT_A_REQUIRE": "La longitude du point A est requise",
+                        "LATITUDE_POINT_A_REQUIRE": "La latitude du point A est requise",
+                        "LONGITUDE_POINT_B_REQUIRE": "La longitude du point B est requise",
+                        "LATITUDE_POINT_B_REQUIRE": "La latitude du point B est requise"
                     }
                 }
             },

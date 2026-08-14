@@ -18,6 +18,10 @@ export interface RadioRelayLinksFindOneProps {
     name: string;
     operator: RadioRelayLinksOperator;
     frequency: RadioRelayLinksFrequency;
+    longitudePointA?: string;
+    latitudePointA?: string;
+    longitudePointB?: string;
+    latitudePointB?: string;
     status: RadioRelayLinksStatus;
     updatedAt: Date;
     geomUrl?: string;

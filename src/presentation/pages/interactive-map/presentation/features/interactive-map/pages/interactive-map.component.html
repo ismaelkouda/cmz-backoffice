@@ -909,13 +909,11 @@
                                                     role="button"
                                                 >
                                                     <p-tag
-                                                        [value]="
-                                                            getStatusLabel(
-                                                                report.state
-                                                            )
-                                                        "
-                                                        severity="info"
-                                                    />
+                                                                    [value]="
+                                                                        getStatusLabel(report.state)
+                                                                    "
+                                                                    [severity]="dialogStateStyle(report.state)"
+                                                                />
                                                 </span>
                                             </dd>
                                             <dt>Operateur(s)</dt>
@@ -1028,11 +1026,9 @@
                                                             <dd>
                                                                 <p-tag
                                                                     [value]="
-                                                                        getStatusLabel(
-                                                                            report.state
-                                                                        )
+                                                                        getStatusLabel(report.state)
                                                                     "
-                                                                    severity="info"
+                                                                    [severity]="dialogStateStyle(report.state)"
                                                                 />
                                                             </dd>
                                                             <dt>

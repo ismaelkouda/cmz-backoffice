@@ -143,7 +143,12 @@ export class RadioRelayLinksFacade extends BaseFacade<
         const command = new RadioRelayLinksCreateCommand(
             dto.name,
             dto.operator,
-            dto.frequency
+            dto.frequency,
+            dto.longitudePointA,
+            dto.latitudePointA,
+            dto.longitudePointB,
+            dto.latitudePointB,
+            dto.geomFile
         );
 
         this.handleActionWithRefresh(
@@ -169,7 +174,12 @@ export class RadioRelayLinksFacade extends BaseFacade<
             dto.uniqId,
             dto.name,
             dto.operator,
-            dto.frequency
+            dto.frequency,
+            dto.longitudePointA,
+            dto.latitudePointA,
+            dto.longitudePointB,
+            dto.latitudePointB,
+            dto.geomFile
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

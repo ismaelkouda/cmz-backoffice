@@ -223,6 +223,319 @@
                                                         </small>
                                                     }
                                                 </div>
+
+                                                <div class="col-md-4">
+                                                    <div class="col-md-12 mb-3">
+                                                        <label
+                                                            for="coordinates-point-a"
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.COORDINATES_POINT_A'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            ></label
+                                                        >
+                                                        <div
+                                                            class="d-flex align-items-top gap-2"
+                                                        >
+                                                            <div>
+                                                                <p-inputgroup
+                                                                    class="w-100"
+                                                                >
+                                                                    <p-inputnumber
+                                                                        id="longitudePointA"
+                                                                        formControlName="longitudePointA"
+                                                                        [minFractionDigits]="
+                                                                            0
+                                                                        "
+                                                                        [maxFractionDigits]="
+                                                                            7
+                                                                        "
+                                                                        [useGrouping]="
+                                                                            false
+                                                                        "
+                                                                        [min]="
+                                                                            -180
+                                                                        "
+                                                                        [max]="
+                                                                            180
+                                                                        "
+                                                                        styleClass="w-100"
+                                                                        [placeholder]="
+                                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.LONGITUDE_POINT_A_PLACEHOLDER'
+                                                                                | translate
+                                                                        "
+                                                                        [attr.aria-invalid]="
+                                                                            form.get(
+                                                                                'longitudePointA'
+                                                                            )
+                                                                                ?.invalid &&
+                                                                            form.get(
+                                                                                'longitudePointA'
+                                                                            )
+                                                                                ?.touched
+                                                                        "
+                                                                    />
+                                                                    <p-inputgroup-addon>
+                                                                        Long
+                                                                    </p-inputgroup-addon>
+                                                                </p-inputgroup>
+                                                                @if (
+                                                                    form.get(
+                                                                        'longitudePointA'
+                                                                    )
+                                                                        ?.invalid &&
+                                                                    form.get(
+                                                                        'longitudePointA'
+                                                                    )?.touched
+                                                                ) {
+                                                                    <small
+                                                                        class="text-danger d-block mt-1"
+                                                                    >
+                                                                        {{
+                                                                            getErrorMessage(
+                                                                                'longitudePointA'
+                                                                            )
+                                                                        }}
+                                                                    </small>
+                                                                }
+                                                            </div>
+
+                                                            <div>
+                                                                <p-inputgroup
+                                                                    class="w-100"
+                                                                >
+                                                                    <p-inputnumber
+                                                                        id="latitudePointA"
+                                                                        formControlName="latitudePointA"
+                                                                        [minFractionDigits]="
+                                                                            0
+                                                                        "
+                                                                        [maxFractionDigits]="
+                                                                            7
+                                                                        "
+                                                                        [useGrouping]="
+                                                                            false
+                                                                        "
+                                                                        [min]="
+                                                                            -90
+                                                                        "
+                                                                        [max]="
+                                                                            90
+                                                                        "
+                                                                        styleClass="w-100"
+                                                                        [placeholder]="
+                                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.LATITUDE_POINT_A_PLACEHOLDER'
+                                                                                | translate
+                                                                        "
+                                                                        [attr.aria-invalid]="
+                                                                            form.get(
+                                                                                'latitudePointA'
+                                                                            )
+                                                                                ?.invalid &&
+                                                                            form.get(
+                                                                                'latitudePointA'
+                                                                            )
+                                                                                ?.touched
+                                                                        "
+                                                                    />
+                                                                    <p-inputgroup-addon>
+                                                                        Lat
+                                                                    </p-inputgroup-addon>
+                                                                </p-inputgroup>
+                                                                @if (
+                                                                    form.get(
+                                                                        'latitudePointA'
+                                                                    )
+                                                                        ?.invalid &&
+                                                                    form.get(
+                                                                        'latitudePointA'
+                                                                    )?.touched
+                                                                ) {
+                                                                    <small
+                                                                        class="text-danger d-block mt-1"
+                                                                    >
+                                                                        {{
+                                                                            getErrorMessage(
+                                                                                'latitudePointA'
+                                                                            )
+                                                                        }}
+                                                                    </small>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <label
+                                                            for="coordinates-point-b"
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.COORDINATES_POINT_B'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            ></label
+                                                        >
+                                                        <div
+                                                            class="d-flex align-items-top gap-2"
+                                                        >
+                                                            <div>
+                                                                <p-inputgroup
+                                                                    class="w-100"
+                                                                >
+                                                                    <p-inputnumber
+                                                                        id="longitudePointB"
+                                                                        formControlName="longitudePointB"
+                                                                        [minFractionDigits]="
+                                                                            0
+                                                                        "
+                                                                        [maxFractionDigits]="
+                                                                            7
+                                                                        "
+                                                                        [useGrouping]="
+                                                                            false
+                                                                        "
+                                                                        [min]="
+                                                                            -180
+                                                                        "
+                                                                        [max]="
+                                                                            180
+                                                                        "
+                                                                        styleClass="w-100"
+                                                                        [placeholder]="
+                                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.LONGITUDE_POINT_B_PLACEHOLDER'
+                                                                                | translate
+                                                                        "
+                                                                        [attr.aria-invalid]="
+                                                                            form.get(
+                                                                                'longitudePointB'
+                                                                            )
+                                                                                ?.invalid &&
+                                                                            form.get(
+                                                                                'longitudePointB'
+                                                                            )
+                                                                                ?.touched
+                                                                        "
+                                                                    />
+                                                                    <p-inputgroup-addon>
+                                                                        Long
+                                                                    </p-inputgroup-addon>
+                                                                </p-inputgroup>
+                                                                @if (
+                                                                    form.get(
+                                                                        'longitudePointB'
+                                                                    )
+                                                                        ?.invalid &&
+                                                                    form.get(
+                                                                        'longitudePointB'
+                                                                    )?.touched
+                                                                ) {
+                                                                    <small
+                                                                        class="text-danger d-block mt-1"
+                                                                    >
+                                                                        {{
+                                                                            getErrorMessage(
+                                                                                'longitudePointB'
+                                                                            )
+                                                                        }}
+                                                                    </small>
+                                                                }
+                                                            </div>
+
+                                                            <div>
+                                                                <p-inputgroup
+                                                                    class="w-100"
+                                                                >
+                                                                    <p-inputnumber
+                                                                        id="latitudePointB"
+                                                                        formControlName="latitudePointB"
+                                                                        [minFractionDigits]="
+                                                                            0
+                                                                        "
+                                                                        [maxFractionDigits]="
+                                                                            7
+                                                                        "
+                                                                        [useGrouping]="
+                                                                            false
+                                                                        "
+                                                                        [min]="
+                                                                            -90
+                                                                        "
+                                                                        [max]="
+                                                                            90
+                                                                        "
+                                                                        styleClass="w-100"
+                                                                        [placeholder]="
+                                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.LATITUDE_POINT_B_PLACEHOLDER'
+                                                                                | translate
+                                                                        "
+                                                                        [attr.aria-invalid]="
+                                                                            form.get(
+                                                                                'latitudePointB'
+                                                                            )
+                                                                                ?.invalid &&
+                                                                            form.get(
+                                                                                'latitudePointB'
+                                                                            )
+                                                                                ?.touched
+                                                                        "
+                                                                    />
+                                                                    <p-inputgroup-addon>
+                                                                        Lat
+                                                                    </p-inputgroup-addon>
+                                                                </p-inputgroup>
+                                                                @if (
+                                                                    form.get(
+                                                                        'latitudePointB'
+                                                                    )
+                                                                        ?.invalid &&
+                                                                    form.get(
+                                                                        'latitudePointB'
+                                                                    )?.touched
+                                                                ) {
+                                                                    <small
+                                                                        class="text-danger d-block mt-1"
+                                                                    >
+                                                                        {{
+                                                                            getErrorMessage(
+                                                                                'latitudePointB'
+                                                                            )
+                                                                        }}
+                                                                    </small>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label
+                                                        for="mapPreview"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.MAP_PREVIEW'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <app-radio-relay-links-map-picker
+                                                        id="mapPreview"
+                                                        [pointA]="pointA()"
+                                                        [pointB]="pointB()"
+                                                        [height]="'450px'"
+                                                        (pointChange)="
+                                                            onMapPointChange(
+                                                                $event
+                                                            )
+                                                        "
+                                                    />
+                                                </div>
                                             </div>
                                         </fieldset>
 

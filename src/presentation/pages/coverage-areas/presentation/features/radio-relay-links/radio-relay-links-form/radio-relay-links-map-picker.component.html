@@ -1,0 +1,66 @@
+<div class="relay-map-picker">
+    <section class="relay-map-toolbar" aria-label="Recherche sur la carte">
+        <p-inputgroup>
+            <p-inputgroup-addon>
+                <i class="pi pi-search"></i>
+            </p-inputgroup-addon>
+            <input
+                pInputText
+                type="search"
+                autocomplete="off"
+                [placeholder]="
+                    'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.MAP_SEARCH_PLACEHOLDER'
+                        | translate
+                "
+                [ngModel]="searchQuery()"
+                (ngModelChange)="onSearchQueryChange($event)"
+            />
+        </p-inputgroup>
+
+        <div class="relay-map-point-switch" role="group">
+            <button
+                type="button"
+                class="relay-map-point-button"
+                [class.is-active]="activePoint() === 'A'"
+                (click)="setActivePoint('A')"
+            >
+                Point A
+            </button>
+            <button
+                type="button"
+                class="relay-map-point-button"
+                [class.is-active]="activePoint() === 'B'"
+                (click)="setActivePoint('B')"
+            >
+                Point B
+            </button>
+        </div>
+    </section>
+
+    @if (isSearching()) {
+        <div class="relay-map-message">
+            <i class="pi pi-spin pi-spinner"></i>
+            <span>{{ 'COMMON.SEARCH' | translate }}</span>
+        </div>
+    }
+
+    @if (error()) {
+        <div class="relay-map-error">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>{{ error() }}</span>
+        </div>
+    }
+
+    @if (searchResults().length > 0) {
+        <div class="relay-map-results">
+            @for (result of searchResults(); track result.placeId) {
+                <button type="button" (click)="selectSearchResult(result)">
+                    <i class="pi pi-map-marker"></i>
+                    <span>{{ result.displayName }}</span>
+                </button>
+            }
+        </div>
+    }
+
+    <div #mapContainer class="relay-map" [style.height]="height()"></div>
+</div>
