@@ -11,5 +11,12 @@ export const INTERACTIVE_MAP_ENDPOINTS = {
      */
     REPORT_INFRASTRUCTURE_TILES:
         'impacts/infrastructures/{reportUniqId}/tiles/{z}/{x}/{y}',
+    /**
+     * Statistiques d'infrastructures impactées par signalement, par tag
+     * (education/sante/administration/securite/autre) — utilisé pour
+     * afficher le nombre d'infrastructures impactées dans le panneau
+     * "Filtres sur les couches" de management-map.
+     */
+    REPORT_INFRASTRUCTURE_STATS: 'impacts/infrastructures/{reportUniqId}/stats',
     MAP: 'variables',
 } as const;
