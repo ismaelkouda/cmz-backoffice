@@ -1,0 +1,346 @@
+<main class="container-fluid form-infrastructure-container" role="main">
+    <section class="row form-infrastructure-row">
+        <article class="col-sm-12 form-infrastructure">
+            <app-breadcrumb />
+
+            <section class="card form-infrastructure-card">
+                <div class="card-body form-infrastructure-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleMode()"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        @if (!isDetailsMode()) {
+                            <div class="d-flex align-items-center gap-2">
+                                <button
+                                    pButton
+                                    type="submit"
+                                    (click)="onSubmit()"
+                                    [disabled]="form.invalid || loadingSubmit()"
+                                >
+                                    @if (!loadingSubmit()) {
+                                        <i class="pi pi-check"></i>
+                                    } @else {
+                                        <span
+                                            class="spinner-border spinner-border-sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        ></span>
+                                    }
+                                    {{ 'COMMON.SAVE' | translate }}
+                                </button>
+                                <p-button
+                                    label="{{ 'COMMON.CLOSE' | translate }}"
+                                    (onClick)="navigateToBack()"
+                                    styleClass="p-button-danger"
+                                />
+                            </div>
+                        }
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="name"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="name"
+                                                        type="text"
+                                                        [formControlName]="
+                                                            KEYS.NAME
+                                                        "
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.NAME.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.NAME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get(KEYS.NAME)
+                                                                ?.invalid &&
+                                                            form.get(KEYS.NAME)
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="type"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.TYPE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <p-select
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            store.vm()
+                                                                .infrastructureType
+                                                        "
+                                                        [loading]="
+                                                            store.vm()
+                                                                .infrastructureTypeLoading
+                                                        "
+                                                        [formControlName]="
+                                                            KEYS.TYPE
+                                                        "
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        filter="true"
+                                                        filterBy="label"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.TYPE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get(KEYS.TYPE)
+                                                            ?.invalid &&
+                                                        form.get(KEYS.TYPE)
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="description"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.POSITION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <div
+                                                        class="position-display-wrapper"
+                                                    >
+                                                        <!-- <div
+                                                            class="position-coordinates"
+                                                            [class.has-coordinates]="
+                                                                store.vm()
+                                                                    .position !==
+                                                                ''
+                                                            "
+                                                        >
+                                                            <i
+                                                                class="pi pi-map-marker-alt"
+                                                            ></i>
+                                                            <span
+                                                                class="coords-text"
+                                                            >
+                                                                {{
+                                                                    store.vm()
+                                                                        .position ||
+                                                                        ('COMMON.NO_COORDINATES'
+                                                                            | translate)
+                                                                }}
+                                                            </span>
+                                                        </div> -->
+                                                        <p-inputgroup>
+                                                            <input
+                                                                class="form-input"
+                                                                pInputText
+                                                                type="text"
+                                                                [value]="
+                                                                    store.vm()
+                                                                        .position
+                                                                "
+                                                                readonly
+                                                                placeholder="Lat, Lng"
+                                                            />
+                                                            <p-inputgroup-addon>
+                                                                @if (
+                                                                    !isDetailsMode()
+                                                                ) {
+                                                                    <p-button
+                                                                        icon="pi pi-map"
+                                                                        severity="secondary"
+                                                                        (click)="
+                                                                            openLocationPicker()
+                                                                        "
+                                                                        [text]="
+                                                                            true
+                                                                        "
+                                                                        [attr.aria-label]="
+                                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.OPEN_MAP'
+                                                                                | translate
+                                                                        "
+                                                                    >
+                                                                    </p-button>
+                                                                }
+                                                            </p-inputgroup-addon>
+                                                        </p-inputgroup>
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                KEYS.POSITION
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                >{{
+                                                                    getErrorMessage(
+                                                                        KEYS.POSITION
+                                                                    )
+                                                                        | translate
+                                                                }}</small
+                                                            >
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label
+                                                        for="description"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}</label
+                                                    >
+                                                    <textarea
+                                                        rows="3"
+                                                        cols="30"
+                                                        pTextarea
+                                                        id="description"
+                                                        [formControlName]="
+                                                            KEYS.DESCRIPTION
+                                                        "
+                                                        class="w-100"
+                                                        [attr.maxlength]="
+                                                            VALIDATION
+                                                                .DESCRIPTION.MAX
+                                                        "
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE.FORM.DESCRIPTION_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    ></textarea>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        @if (!isDetailsMode()) {
+                                            <div
+                                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                            >
+                                                <p-button
+                                                    label="{{
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    }}"
+                                                    styleClass="p-button-text p-button-secondary"
+                                                    (click)="navigateToBack()"
+                                                    [attr.aria-label]="
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    "
+                                                >
+                                                </p-button>
+
+                                                <button
+                                                    pButton
+                                                    type="submit"
+                                                    [disabled]="
+                                                        form.invalid ||
+                                                        loadingSubmit()
+                                                    "
+                                                >
+                                                    @if (!loadingSubmit()) {
+                                                        <i
+                                                            class="pi pi-check"
+                                                        ></i>
+                                                    } @else {
+                                                        <span
+                                                            class="spinner-border spinner-border-sm"
+                                                            role="status"
+                                                            aria-hidden="true"
+                                                        ></span>
+                                                    }
+                                                    {{
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    }}
+                                                </button>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

@@ -1,12 +1,14 @@
-<div class="card d-flex justify-content-center">
+<div>
     <p-breadcrumb [model]="items()">
         <ng-template pTemplate="item" let-item>
             <a
                 [routerLink]="item.routerLink"
                 class="d-flex align-items-center justify-content-center gap-2"
             >
-                <i *ngIf="item.icon" [class]="'pi ' + item.icon"></i>
-                <span>{{ item.label }}</span>
+                @if (item.icon) {
+                    <i class="icon-gray" [class]="'pi ' + item.icon"></i>
+                }
+                <span class="text-primary">{{ item.label }}</span>
             </a>
         </ng-template>
     </p-breadcrumb>

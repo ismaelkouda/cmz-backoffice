@@ -1,0 +1,133 @@
+import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
+export type ReportType = 'zob' | 'cpo' | 'cps' | 'abi';
+export type ReportOperator = 'orange' | 'moov' | 'mtn';
+export type ReportStatus = 'processing' | 'finalization';
+export type NetworkTechnology = '2G' | '3G' | '4G' | '2G/3G/4G' | string;
+
+export interface NamedPlace {
+    id?: string | number;
+    name?: string;
+}
+
+export interface InteractiveMapReport {
+    uniq_id: string | number;
+    radius?: number | null;
+    lat: number | string;
+    long: number | string;
+    report_type: ReportType;
+    operators: ReportOperator[] | string;
+    state: ReportStatus;
+    is_duplicated: boolean;
+    municipality?: NamedPlace | string | null;
+    region?: NamedPlace | string | null;
+    department?: NamedPlace | string | null;
+    description?: string | null;
+    initiator_phone_number?: string | null;
+    reported_at?: string | null;
+    confirmed_comment?: string | null;
+    approved_comment?: string | null;
+    confirm_count?: number | null;
+    deny_count?: number | null;
+    place_photo?: string | null;
+}
+
+export interface Bounds {
+    minLat: number;
+    maxLat: number;
+    minLng: number;
+    maxLng: number;
+}
+
+export interface LatLng {
+    lat: number;
+    lng: number;
+}
+
+export interface MapViewState {
+    center: LatLng;
+    zoom: number;
+}
+
+export interface ReportFilters {
+    reportTypes: ReportType[];
+    operators: ReportOperator[];
+    statuses: ReportStatus[];
+    region: string | null;
+    department: string;
+    municipality: string;
+    startDate: string;
+    endDate: string;
+    compareOperator: ReportOperator | '';
+}
+
+export type ReportsResponse = PaginatedResponseDto<InteractiveMapReport>;
+
+export interface CoverageAreaGeoJson {
+    type: 'FeatureCollection';
+    features: CoverageAreaGeoJsonFeature[];
+}
+
+export interface CoverageAreaGeoJsonFeature {
+    type: 'Feature';
+    id?: string | number;
+    geometry: Record<string, unknown> | null;
+    properties?: CoverageAreaProperties | null;
+}
+
+export interface CoverageAreaProperties {
+    id?: string | number;
+    uniq_id?: string | number;
+    name?: string;
+    /** Ancien nom de champ (points individuels, avant clustering backend). */
+    operator?: ReportOperator | string;
+    /**
+     * Nom de champ renvoyé depuis l'optimisation clustering côté backend.
+     * Peut contenir plusieurs opérateurs séparés par une virgule pour un
+     * point qui regroupe un cluster (ex: "oci,mtn").
+     */
+    operators?: string;
+    /** Nombre de points regroupés sous ce marqueur (clustering backend). */
+    point_count?: number;
+    layer?: string;
+    network_technology?: NetworkTechnology;
+    region?: string | NamedPlace | null;
+    [key: string]: unknown;
+    radius?: number | null;
+}
+
+export interface CoverageAreaFilters {
+    operator?: string;
+    network_technology?: string;
+    region?: string;
+    equipment?: string;
+}
+
+export interface ClusterSummary {
+    total: number;
+    byOperator: Record<ReportOperator, number>;
+    byType: Record<ReportType, number>;
+}
+
+/**
+ * Un élément de statistique d'infrastructures impactées, par tag
+ * (education/sante/administration/securite/autre), tel que peut le
+ * renvoyer l'API `impacts/infrastructures/{reportUniqId}/stats`.
+ */
+export interface InfrastructureImpactStatItem {
+    tag?: string;
+    type?: string;
+    equipment_type?: string;
+    infrastructures_count?: number;
+    count?: number;
+}
+
+/**
+ * Forme de réponse de l'API stats : soit un tableau d'éléments
+ * `{ tag, infrastructures_count }`, soit un objet indexé par tag
+ * (`{ EDUCATION: 10, ... }` ou `{ EDUCATION: { infrastructures_count: 10 }, ... }`).
+ * La forme exacte n'étant pas garantie côté backend, le parsing côté
+ * frontend (voir management-map.component.ts) reste défensif.
+ */
+export type InfrastructureImpactStatsResponse =
+    | InfrastructureImpactStatItem[]
+    | Record<string, number | InfrastructureImpactStatItem>;

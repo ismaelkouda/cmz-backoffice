@@ -1,0 +1,77 @@
+import { Injectable, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AllFilterDto } from '@pages/finalization/application/dto/all/all-filter.dto';
+import { AllFacade } from '@pages/finalization/application/services/all/all.facade';
+import { AllFilterControl } from '@pages/finalization/presentation/store/all/all-filter-control';
+import { State } from '@presentation/pages/finalization/domain/enums/all/all-state.enum';
+import { ReportType } from '@shared/domain/enums/report-type.enum';
+
+@Injectable()
+export class AllFilterStore {
+    private readonly fb = inject(FormBuilder);
+    private readonly facade = inject(AllFacade);
+
+    private readonly currentFilter = toSignal(this.facade.currentFilter$, {
+        initialValue: null,
+    });
+
+    readonly form: FormGroup<AllFilterControl> =
+        this.fb.group<AllFilterControl>({
+            initiatorPhoneNumber: new FormControl<string>('', {
+                nonNullable: true,
+            }),
+            uniqId: new FormControl<string>('', {
+                nonNullable: true,
+            }),
+            reportType: new FormControl<ReportType | null>(null, {
+                nonNullable: true,
+            }),
+            operators: new FormControl<string[]>([], {
+                nonNullable: true,
+            }),
+            source: new FormControl<string | null>(null, {
+                nonNullable: true,
+            }),
+            state: new FormControl<State | null>(null, {
+                nonNullable: true,
+            }),
+            startDate: new FormControl<string>('', {
+                nonNullable: true,
+            }),
+            endDate: new FormControl<string>('', {
+                nonNullable: true,
+            }),
+        });
+
+    constructor() {
+        const filter = this.currentFilter();
+
+        if (!filter) {
+            return;
+        }
+
+        this.form.patchValue(filter, {
+            emitEvent: false,
+        });
+    }
+
+    reset(): void {
+        this.form.reset();
+    }
+
+    get value(): AllFilterDto {
+        const raw = this.form.getRawValue();
+
+        return {
+            initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
+            uniqId: raw.uniqId || undefined,
+            startDate: raw.startDate || undefined,
+            endDate: raw.endDate || undefined,
+            reportType: raw.reportType || undefined,
+            source: raw.source || undefined,
+            state: raw.state || undefined,
+            operators: raw.operators?.length ? raw.operators : undefined,
+        };
+    }
+}

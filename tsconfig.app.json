@@ -1,14 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
-    "paths": {
-      "@app/*": ["app/*"],
-      "@shared/*": ["shared/*"],
-      "@presentation/*": ["presentation/*"],
-      "@core/*": ["core/*"],
-      "@pages/*": ["presentation/pages/*"]
-    },
     "outDir": "./out-tsc/app",
+    "rootDir": "./src",
+    "types": ["node"],
+    "paths": {
+    "@app/*": ["./src/app/*"],
+    "@core/*": ["./src/core/*"],
+    "@environments/*": ["./src/environments/*"],
+    "@shared/*": ["./src/shared/*"],
+    "@presentation/*": ["./src/presentation/*"],
+    "@pages/*": ["./src/presentation/pages/*"],
+    "@assets/*": ["./src/assets/*"],
+    },
     "allowJs": true,
     "target": "ES2022",
     "module": "ES2022",
@@ -27,11 +30,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "useDefineForClassFields": false,
     "moduleResolution": "bundler",
     "skipLibCheck": true
   },
-  "files": ["src/main.ts", "src/polyfills.ts"],
   "exclude": ["node_modules", "dist", "**/*.spec.ts", "**/*.test.ts"],
-  "include": ["src/**/*.ts", "src/presentation/pages/content-management/core/application/use-cases/privacy-policy/get-privacy-policy-by-id.use-case.tsq"]
+  "include": ["src/**/*.ts", "src/presentation/pages/requests/domain/enums/all", "src/presentation/pages/communication/domain/validators/messaging", "src/presentation/pages/administrative-infrastructure/domain/validators/infrastructure"]
 }

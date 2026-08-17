@@ -1,6 +1,12 @@
-import { TemplateRef } from "@angular/core";
+import { TemplateRef } from '@angular/core';
 
-export type FilterFieldType = 'text' | 'select' | 'multi-select' | 'date' | 'date-range' | 'template';
+export type FilterFieldType =
+    | 'text'
+    | 'select'
+    | 'multi-select'
+    | 'date'
+    | 'date-range'
+    | 'template';
 
 export interface FilterField {
     type: FilterFieldType;
@@ -16,4 +22,72 @@ export interface FilterField {
     showToggleAll?: boolean;
     filter?: boolean;
     template?: TemplateRef<any>;
+    /** Native input type used for 'text' fields (defaults to 'text'). Use 'number' to restrict numeric/decimal fields. */
+    inputType?: 'text' | 'number';
+}
+
+export interface FilterOption {
+    label: string;
+    value: string | number | boolean;
+}
+
+export function enumToFilterOptions<T extends Record<string, string>>(
+    e: T,
+    translate: (key: string) => string,
+    transformKey: 'toLowerCase' | 'toUpperCase' = 'toLowerCase'
+): {
+    label: string;
+    value: string;
+}[] {
+    return Object.entries(e).map(([key, translationKey]) => ({
+        label: translate(translationKey),
+        value:
+            transformKey === 'toLowerCase'
+                ? key.toLowerCase()
+                : key.toUpperCase(),
+    }));
+}
+
+export function enumToFilterOptionsWithValue<T extends Record<string, string>>(
+    e: T,
+    translate: (key: string) => string
+): {
+    label: string;
+    value: string;
+}[] {
+    return Object.entries(e).map(([, translationKey]) => ({
+        label: translate(translationKey),
+        value: translationKey,
+    }));
+}
+
+export function enumToFilterValueOptions<T extends Record<string, string>>(
+    e: T,
+    translate: (key: string) => string
+): {
+    label: string;
+    value: string;
+}[] {
+    return Object.entries(e).map(([key, translationKey]) => ({
+        label: translate(translationKey),
+        value: key,
+    }));
+}
+
+export function getEnumKeyByValue<T extends object>(
+    enumObj: T,
+    value: string,
+    transformKey: 'toLowerCase' | 'toUpperCase' = 'toLowerCase'
+): string | undefined {
+    const foundKey = Object.keys(enumObj).find(
+        (key: string) => enumObj[key as keyof T] === value
+    );
+
+    if (foundKey && transformKey) {
+        return transformKey === 'toLowerCase'
+            ? foundKey.toLowerCase()
+            : foundKey.toUpperCase();
+    }
+
+    return foundKey;
 }

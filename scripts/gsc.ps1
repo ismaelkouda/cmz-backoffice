@@ -205,7 +205,7 @@ import { catchError, finalize, debounceTime, switchMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 import { EnvService } from '../../../../../../shared/services/env.service';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ${subModuleName}ApiResponseInterface, ${subModuleName}Interface } from '../interfaces/sms-balance-status.interface';
 import { ${subModuleName}EndpointEnum } from '../enums/${subModuleName}-endpoint.enum';
 import { ${subModuleName}FilterInterface } from '../interfaces/${subModuleName}-filter.interface';
@@ -766,7 +766,7 @@ import { TranslateService } from '@ngx-translate/core';
         }
 
         public copyToClipboard(data: string): void {
-            const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
+            const translatedMessage = this.translate.instant('COMMON.COPIED_TO_CLIPBOARD');
             this.toastService.success(translatedMessage);
             this.clipboardService.copyFromContent(data);
         }
@@ -981,7 +981,7 @@ import { FORM } from '../../../$moduleName/$moduleName-routing.module';
 import { ${subModuleName}ApiService } from '../../data-access/$subModuleName/services/$subModuleName-api.service';
 import { ${subModuleName}Interface } from '../../data-access/${subModuleName}/interfaces/${subModuleName}.interface';
 import { ${subModuleName}FilterInterface } from '../../data-access/$subModuleName/interfaces/$subModuleName-filter.interface';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ApnInterface } from '../../../../../shared/interfaces/apn.interface';
 import { FirstLevelInterface } from '../../../../../shared/interfaces/first-level.interface';
 import { ThirdLevelInterface } from '../../../../../shared/interfaces/third-level.interface';
@@ -1322,7 +1322,7 @@ if (-not (Test-Path $featurePath)) {
         }
 
         public copyToClipboard(data: string): void {
-            const translatedMessage = this.translate.instant('COPIED_TO_THE_CLIPBOARD');
+            const translatedMessage = this.translate.instant('COMMON.COPIED_TO_CLIPBOARD');
             this.toastService.success(translatedMessage);
             this.clipboardService.copyFromContent(data);
         }
@@ -1803,7 +1803,7 @@ import { FORM } from '../../../$moduleName/$moduleName-routing.module';
 import { ${subModuleName}ApiService } from '../../data-access/$subModuleName/services/$subModuleName-api.service';
 import { ${subModuleName}Interface } from '../../data-access/${subModuleName}/interfaces/${subModuleName}.interface';
 import { ${subModuleName}FilterInterface } from '../../data-access/$subModuleName/interfaces/$subModuleName-filter.interface';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ApnInterface } from '../../../../../shared/interfaces/apn.interface';
 import { FirstLevelInterface } from '../../../../../shared/interfaces/first-level.interface';
 import { ThirdLevelInterface } from '../../../../../shared/interfaces/third-level.interface';

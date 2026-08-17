@@ -1,0 +1,167 @@
+<main class="container-fluid queues-container" role="main">
+    <section class="row queues-row">
+        <div class="dashboard-container">
+            <div class="dashboard-header">
+                <div class="title-section">
+                    <h1 class="dashboard-title">
+                        {{ 'DASHBOARD.TITLE' | translate }}
+                    </h1>
+                </div>
+
+                <div class="period-filter-container">
+                    <label class="period-filter">
+                        <span class="period-filter-label">
+                            <i class="pi pi-calendar"></i>
+                            {{ 'DASHBOARD.FILTER.PERIOD_LABEL' | translate }}
+                        </span>
+                        <span class="period-filter-value">
+                            {{
+                                'DASHBOARD.FILTER.PERIOD_INDICATOR' | translate
+                            }}:
+                        </span>
+                    </label>
+
+                    <p-selectButton
+                        [options]="periodOpts"
+                        [ngModel]="selectedPeriod()"
+                        (onChange)="onPeriodChange($event.value)"
+                        [disabled]="loading()"
+                        optionLabel="label"
+                        optionValue="value"
+                        styleClass="period-select-button"
+                    ></p-selectButton>
+                </div>
+
+                <div class="header-actions">
+                    <div class="date-info">
+                        {{ 'DASHBOARD.UPDATED_DATE' | translate }}:
+                        {{
+                            items()?.lastRefreshAt ||
+                                ('DASHBOARD.NO_DATE' | translate)
+                        }}
+                    </div>
+                    <button
+                        class="refresh-btn"
+                        (click)="refreshData()"
+                        [disabled]="loading()"
+                        type="button"
+                        [attr.aria-label]="'DASHBOARD.REFRESH' | translate"
+                    >
+                        <i
+                            class="pi pi-refresh"
+                            [class.pi-spin]="loading()"
+                        ></i>
+                    </button>
+                </div>
+            </div>
+
+            @if (loading()) {
+                <app-dashboard-skeleton></app-dashboard-skeleton>
+            } @else {
+                <div class="dashboard-content">
+                    @if (typeStatistics.length > 0) {
+                        <div class="statistics-section">
+                            <div class="section-header">
+                                <div class="section-badge">
+                                    {{
+                                        'DASHBOARD.SECTIONS.TYPE.TITLE'
+                                            | translate
+                                    }}
+                                </div>
+                            </div>
+                            <div class="statistics-grid">
+                                @for (
+                                    stat of typeStatistics;
+                                    track stat.label
+                                ) {
+                                    <div
+                                        class="stat-card card-{{ stat.color }}"
+                                        [class.clickable]="stat.routerFilter"
+                                        (click)="navigateToReport(stat)"
+                                        (keyup.enter)="navigateToReport(stat)"
+                                        role="button"
+                                        tabindex="0"
+                                    >
+                                        <div class="card-content">
+                                            <div class="stat-header">
+                                                <div class="stat-value">
+                                                    {{ stat.count }}
+                                                </div>
+                                                <div class="stat-icon-wrapper">
+                                                    <i
+                                                        class="stat-icon pi {{
+                                                            stat.icon
+                                                        }}"
+                                                    ></i>
+                                                </div>
+                                            </div>
+                                            <div class="stat-label">
+                                                {{ stat.label | translate }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (taskStatusStatistics.length > 0) {
+                        <div class="statistics-section">
+                            <div class="section-header">
+                                <div class="section-badge">
+                                    {{
+                                        'DASHBOARD.SECTIONS.TASK_STATUS.TITLE'
+                                            | translate
+                                    }}
+                                </div>
+                            </div>
+                            <div class="statistics-grid">
+                                @for (
+                                    stat of taskStatusStatistics;
+                                    track stat.label
+                                ) {
+                                    <div
+                                        class="stat-card card-{{ stat.color }}"
+                                        [class.clickable]="stat.routerFilter"
+                                        (click)="navigateToReport(stat)"
+                                        (keyup.enter)="navigateToReport(stat)"
+                                        role="button"
+                                        tabindex="0"
+                                    >
+                                        <div class="card-content">
+                                            <div class="stat-header">
+                                                <div class="stat-value">
+                                                    {{ stat.count }}
+                                                </div>
+                                                <div class="stat-icon-wrapper">
+                                                    <i
+                                                        class="stat-icon pi {{
+                                                            stat.icon
+                                                        }}"
+                                                    ></i>
+                                                </div>
+                                            </div>
+                                            <div class="stat-label">
+                                                {{ stat.label | translate }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    }
+
+                    @if (
+                        typeStatistics.length === 0 &&
+                        taskStatusStatistics.length === 0
+                    ) {
+                        <div class="no-data-container">
+                            <i class="pi pi-info-circle"></i>
+                            <p>{{ 'DASHBOARD.NO_DATA' | translate }}</p>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </section>
+</main>

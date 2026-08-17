@@ -1,25 +1,37 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, input, output } from '@angular/core';
+import {
+    Component,
+    EventEmitter,
+    effect,
+    inject,
+    input,
+    output,
+    signal,
+} from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { HomeActionDropdownComponent } from '@presentation/pages/content-management/presentation/features/home/table-home/home-action-dropdown/home-action-dropdown.component';
+import { ActionDropdownComponent } from '@shared/components/action-dropdown/action-dropdown.component';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
-import { TableButtonHeaderComponent } from '@shared/components/table-button-header/table-button-header.component';
+import {
+    TableButtonHeaderComponent,
+    TableHeaderButton,
+} from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
-import { Paginate } from '@shared/data/dtos/simple-response.dto';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
-import { TableConfig } from '@shared/services/table-export-excel-file.service';
-import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { TooltipModule } from 'primeng/tooltip';
-
-import { inject } from '@angular/core';
+import { formatDate } from '@shared/domain/functions/format-data.function';
+import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
+import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
+import { TableConfig } from '@shared/domain/services/table-export-excel-file.service';
 import { CrudFormType } from '@shared/domain/utils/crud-form-utils';
-import { SeparatorThousandsPipe } from '@shared/pipes/separator-thousands.pipe';
 import { ClipboardService } from 'ngx-clipboard';
 import { ToastrService } from 'ngx-toastr';
 import { BadgeModule } from 'primeng/badge';
+import { ButtonModule } from 'primeng/button';
+import { CheckboxModule } from 'primeng/checkbox';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
     selector: 'app-table',
@@ -36,36 +48,68 @@ import { TagModule } from 'primeng/tag';
         ProgressSpinnerModule,
         TooltipModule,
         TagModule,
-        HomeActionDropdownComponent,
-        SeparatorThousandsPipe
+        ActionDropdownComponent,
+        SeparatorThousandsPipe,
+        CheckboxModule,
     ],
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
+    public selectedItems: any[] = [];
+    public readonly numberToCheck = signal<number>(0);
+    private readonly clipboardService = inject(ClipboardService);
+    private readonly toastService = inject(ToastrService);
+    private readonly translate = inject(TranslateService);
+    public readonly label = input<boolean>(true);
     public readonly loading = input<boolean>(false);
     public readonly items = input<any[]>([]);
     public readonly pagination = input<Paginate<any> | null>(null);
     public readonly config = input.required<TableConfig>();
     public readonly hiddenButtonOther = input<boolean>(true);
-    public readonly dataKey = input<string>('id');
+    public readonly hiddenButtonExport = input<boolean>(false);
+    public readonly hiddenButtonRefresh = input<boolean>(false);
+    public readonly dataKey = input<string>('uniqId');
+    public readonly headerButtons = input<TableHeaderButton[]>([]);
+    public readonly selectionMode = input<'single' | 'multiple' | 'saisie'>(
+        'single'
+    );
+    public readonly selection = input<any | any[] | null>(null);
+    public readonly hiddenTableTitle = input<boolean>(false);
 
-    public readonly refreshRequested = output<void>();
+    public readonly refreshRequested = output<undefined>();
     public readonly createRequested = output<{ ref: CrudFormType }>();
     public readonly editRequested = output<{ item: any; ref: CrudFormType }>();
-    public readonly deleteRequested = output<{ item: any; ref: CrudFormType }>();
+    public readonly deleteRequested = output<{
+        item: any;
+        ref: CrudFormType;
+    }>();
+    public readonly enableRequested = output<{
+        item: any;
+        ref: CrudFormType;
+    }>();
+    public readonly disableRequested = output<{
+        item: any;
+        ref: CrudFormType;
+    }>();
+    public readonly selectionChange = output<any[]>();
     public readonly viewRequested = output<{ item: any; ref: CrudFormType }>();
     public readonly badgeClicked = output<{ item: any; col: any }>();
     public readonly actionClicked = output<any>();
+    public readonly headerButtonClicked = output<string>();
+    public readonly export = new EventEmitter<void>();
 
-    @Output() export = new EventEmitter<void>();
-
-    private readonly clipboardService = inject(ClipboardService);
-    private readonly toastService = inject(ToastrService);
-    private readonly translate = inject(TranslateService);
+    constructor() {
+        effect(() => {
+            if (this.numberToCheck() > 0) {
+                this.onNumberInputChange(this.numberToCheck());
+            }
+        });
+    }
 
     public onRefresh(): void {
-        this.refreshRequested.emit();
+        this.selectedItems = [];
+        this.refreshRequested.emit(undefined);
     }
 
     public onCreate(): void {
@@ -73,12 +117,48 @@ export class TableComponent {
     }
 
     public onEdit(item: any): void {
-        console.log(item);
         this.editRequested.emit({ item, ref: CrudFormType.EDIT });
     }
 
     public onDelete(item: any): void {
         this.deleteRequested.emit(item);
+    }
+
+    public onEnable(item: any): void {
+        this.enableRequested.emit(item);
+    }
+
+    public disabledButton(
+        type:
+            | 'edit'
+            | 'delete'
+            | 'take'
+            | 'qualify'
+            | 'treat'
+            | 'finalize'
+            | 'view'
+            | 'read'
+            | 'download'
+            | 'tasks-list',
+        item: any
+    ): void {
+        const disable = {
+            edit: item.disableButtonEdit,
+            delete: item.disableButtonDelete,
+            take: item.disableButtonTake,
+            qualify: item.disableButtonQualify,
+            treat: item.disableButtonTreat,
+            finalize: item.disableButtonFinalize,
+            view: item.disableButtonView,
+            read: item.disableButtonRead,
+            download: item.disableButtonDownload,
+            'tasks-list': item.disableButtonTasksList,
+        };
+        return disable[type];
+    }
+
+    public onDisable(item: any): void {
+        this.disableRequested.emit(item);
     }
 
     public onView(item: any): void {
@@ -89,67 +169,88 @@ export class TableComponent {
         this.badgeClicked.emit({ item, col });
     }
 
-    public onActionClick(item: any): void {
-        this.actionClicked.emit(item);
+    public onActionClick(item: any, actionId?: string): void {
+        this.actionClicked.emit({ item, actionId });
+    }
+
+    protected getTooltip(
+        type:
+            | 'edit'
+            | 'delete'
+            | 'take'
+            | 'qualify'
+            | 'treat'
+            | 'finalize'
+            | 'view'
+            | 'read'
+            | 'download'
+            | 'tasks-list',
+        item: any
+    ): string {
+        const tooltip = {
+            take: item.tooltipButtonTake,
+            qualify: item.tooltipButtonQualify,
+            treat: item.tooltipButtonTreat,
+            finalize: item.tooltipButtonFinalize,
+            view: item.tooltipButtonView,
+            edit: item.tooltipButtonEdit,
+            delete: item.tooltipButtonDelete,
+            read: item.tooltipButtonRead,
+            download: item.tooltipButtonDownload,
+            'tasks-list': item.tooltipButtonTasksList,
+        };
+
+        return `${tooltip[type]} 
+                <span class="custom-tooltip">${item.actionsRef}</span>
+            `;
+    }
+
+    public onNumberInputChange(count: number): void {
+        const items = this.items();
+
+        if (!items?.length) {
+            return;
+        }
+
+        const safeCount = Math.min(count ?? 0, items.length);
+
+        this.selectedItems = items.slice(0, safeCount);
+
+        this.selectionChange.emit(this.selectedItems);
+    }
+
+    public onTableSelectionChange(selection: any[]): void {
+        this.selectedItems = selection ?? [];
+        this.selectionChange.emit(this.selectedItems);
     }
 
     public onExportExcel(): void {
         this.export.emit();
     }
 
-    public trackByColField(_: number, col: any): string {
-        return col.field;
+    public onHeaderButtonClick(actionId: string): void {
+        this.headerButtonClicked.emit(actionId);
     }
 
     public getItemStatus(item: any): ActionDropdown {
-        return (item.status as ActionDropdown) || ('NONE' as unknown as ActionDropdown);
+        return (
+            (item.status as ActionDropdown) ||
+            ('NONE' as unknown as ActionDropdown)
+        );
     }
 
-    public formatDate(value: string): string {
-        if (!value) return '-';
-        try {
-            const normalized = value.includes('T')
-                ? value
-                : value.replace(' ', 'T');
-            const withTimezone = normalized.endsWith('Z')
-                ? normalized
-                : `${normalized}Z`;
-            const date = new Date(withTimezone);
-            return Number.isNaN(date.getTime())
-                ? value
-                : date.toLocaleString();
-        } catch {
-            return value;
-        }
+    public getFormatDate(value: string): string {
+        return formatDate(value);
     }
 
     public copyToClipboard(data: string): void {
         this.clipboardService.copyFromContent(data);
         this.toastService.success(
-            this.translate.instant('COPIED_TO_THE_CLIPBOARD')
+            this.translate.instant('COMMON.COPIED_TO_CLIPBOARD')
         );
     }
 
-    public getOperatorColor(operator: string): string {
-        const normalized = operator?.toLowerCase().trim() ?? '';
-        const colorMap: Record<string, string> = {
-            orange: 'rgb(241, 110, 0)',
-            mtn: 'rgb(255, 203, 5)',
-            moov: 'rgb(0, 91, 164)',
-        };
-        return colorMap[normalized] ?? `rgba(var(--theme-default-rgb), 0.8)`;
-    }
-
     public getOperatorTagStyle(operator: string): Record<string, string> {
-        const backgroundColor = this.getOperatorColor(operator);
-        const textColor =
-            operator?.toLowerCase() === 'mtn' ? '#212121' : '#ffffff';
-        return { backgroundColor, color: textColor };
-    }
-
-    public numberSeverity(value: number) {
-        if (value === 0) return 'danger';
-        else if (value > 0 && value < 999999) return 'warn';
-        else return 'success';
+        return operatorsTagStyle(operator);
     }
 }

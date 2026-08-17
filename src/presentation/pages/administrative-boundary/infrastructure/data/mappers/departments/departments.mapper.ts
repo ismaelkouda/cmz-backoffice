@@ -1,23 +1,45 @@
-import { DepartmentsEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/departments/departments.entity';
-import { DepartmentsItemApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/departments/departments-response-api.dto';
+import { inject, Injectable } from '@angular/core';
+import { DepartmentsEntity } from '@pages/administrative-boundary/domain/entities/departments/departments.entity';
+import { DepartmentsItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-response-api.dto';
+import { StatusMapper } from '@pages/administrative-boundary/infrastructure/data/mappers/departments/departments-status.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
+@Injectable({ providedIn: 'root' })
 export class DepartmentsMapper extends PaginatedMapper<
     DepartmentsEntity,
     DepartmentsItemApiDto
 > {
+    private readonly statusMapper = inject(StatusMapper);
     private readonly entityCache = new Map<string, DepartmentsEntity>();
 
-    protected override mapItemFromDto(dto: DepartmentsItemApiDto): DepartmentsEntity {
+    protected override mapItemFromDto(
+        dto: DepartmentsItemApiDto
+    ): DepartmentsEntity {
         MapperUtils.validateDto(dto, {
-            required: ['id']
+            required: ['id'],
         });
 
-        const cacheKey = `dto:${dto.id}`;
+        const props = {
+            uniqId: dto.id,
+            name: dto.name,
+            code: dto.code,
+            description: dto.description,
+            region: dto.region.name,
+            populationSize: dto.population_size,
+            municipalitiesCount: dto.municipalities_count,
+            infrastructureCount: dto.infrastructure_size,
+            status: this.statusMapper.mapApiToStatus(dto.is_active),
+            createdAt: dto.created_at,
+            updatedAt: dto.updated_at,
+        };
+
+        const cacheKey = `dto:${props.uniqId}`;
         const cached = this.entityCache.get(cacheKey);
 
-        const entity = cached ? cached.with(dto) : DepartmentsEntity.fromDto(dto);
+        const entity = cached
+            ? cached.with(props)
+            : new DepartmentsEntity(props);
 
         this.entityCache.set(cacheKey, entity);
         return entity;

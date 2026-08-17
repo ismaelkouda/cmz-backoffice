@@ -3,5 +3,4 @@ export enum ReportType {
     ZOB = 'COMMON.ZOB',
     CPS = 'COMMON.CPS',
     CPO = 'COMMON.CPO',
-    UNKNOWN = 'COMMON.UNKNOWN',
 }

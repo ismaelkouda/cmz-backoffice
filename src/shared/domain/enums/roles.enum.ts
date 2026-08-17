@@ -1,0 +1,11 @@
+export enum Roles {
+    SUPERVISOR = 'COMMON.SUPERVISOR',
+    'TEAM-LEADER' = 'COMMON.LEADER',
+    AGENT = 'COMMON.AGENT',
+}
+
+export enum RolesStyle {
+    SUPERVISOR = 'COMMON.SUPERVISOR_STYLE',
+    'TEAM-LEADER' = 'COMMON.LEADER_STYLE',
+    AGENT = 'COMMON.AGENT_STYLE',
+}

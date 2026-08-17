@@ -1,15 +1,18 @@
 import { Provider } from '@angular/core';
-import { MyAccountRepositoryImpl } from '../data/repositories/my-account.repository.impl';
-import { MyAccountApi } from '../data/sources/my-account.api';
-import { MyAccountRepository } from '../domain/repositories/my-account.repository';
+import { provideLogout } from './logout.providers';
+import { providePasswordChange } from './password-change.providers';
+import { provideProfileUpdate } from './profile-update.providers';
+import { provideTwoFactorDisable } from './two-factor-disable.providers';
+import { provideTwoFactorEnable } from './two-factor-enable.providers';
+import { provideTwoFactorRequest } from './two-factor-request.providers';
 
 export function provideMyAccount(): Provider[] {
     return [
-        MyAccountApi,
-        MyAccountRepositoryImpl,
-        {
-            provide: MyAccountRepository,
-            useExisting: MyAccountRepositoryImpl,
-        },
+        ...provideLogout,
+        ...providePasswordChange,
+        ...provideProfileUpdate,
+        ...provideTwoFactorDisable,
+        ...provideTwoFactorEnable,
+        ...provideTwoFactorRequest,
     ];
 }

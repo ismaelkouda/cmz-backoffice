@@ -1,21 +1,54 @@
-import { DepartmentsSelectEntity } from '@presentation/pages/administrative-boundary/core/domain/entities/departments/departments-select.entity';
+import { Injectable } from '@angular/core';
+import { DepartmentsSelectEntity } from '@pages/administrative-boundary/domain/entities/departments/departments-select.entity';
+import { DepartmentsSelectItemApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/departments/departments-select-response-api.dto';
 import { ArrayResponseMapper } from '@shared/data/mappers/base/array-response.mapper';
-import { MapperUtils } from '@shared/utils/utils/mappers/mapper-utils';
-import { DepartmentsSelectItemApiDto } from '../../../api/dtos/departments/departments-select-response-api.dto';
+import { DepartmentsSelectProps } from '@shared/domain/interfaces/departments-select.props.interface';
+import { MunicipalitiesSelectProps } from '@shared/domain/interfaces/municipalities-select.props.interface';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
+@Injectable({ providedIn: 'root' })
 export class DepartmentsSelectMapper extends ArrayResponseMapper<
     DepartmentsSelectEntity,
     DepartmentsSelectItemApiDto
 > {
     private readonly entityCache = new Map<string, DepartmentsSelectEntity>();
 
-    protected override mapItemFromDto(dto: DepartmentsSelectItemApiDto): DepartmentsSelectEntity {
-        MapperUtils.validateDto(dto, { required: ['id'] });
+    protected override mapItemFromDto(
+        dto: DepartmentsSelectItemApiDto
+    ): DepartmentsSelectEntity {
+        MapperUtils.validateDto(dto, {
+            required: ['id', 'name', 'code', 'municipalities'],
+        });
 
-        const cacheKey = `dto:${dto.id}`;
+        const cacheKey = `department:${dto.id}`;
         const cached = this.entityCache.get(cacheKey);
 
-        const entity = cached ? cached.with(dto) : DepartmentsSelectEntity.fromDto(dto);
+        const municipalities = dto.municipalities.map(
+            (m): MunicipalitiesSelectProps => ({
+                uniqId: m.id,
+                name: m.name,
+                value: m.code,
+            })
+        );
+
+        const props: DepartmentsSelectProps = {
+            uniqId: dto.id,
+            value: dto.code,
+            name: dto.name,
+            municipalities: cached
+                ? MapperUtils.mergeImmutable(
+                      cached.municipalities,
+                      municipalities,
+                      (m) => m.uniqId,
+                      (entity, dto) => dto,
+                      (dto) => dto
+                  )
+                : municipalities,
+        };
+
+        const entity = cached
+            ? cached.with(props)
+            : new DepartmentsSelectEntity(props);
 
         this.entityCache.set(cacheKey, entity);
         return entity;

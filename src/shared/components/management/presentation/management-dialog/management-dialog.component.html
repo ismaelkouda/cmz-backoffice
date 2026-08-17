@@ -1,0 +1,182 @@
+<p-dialog
+    [visible]="visible()"
+    (visibleChange)="onCloseDialog()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    [closeOnEscape]="true"
+    [style]="{ width: '100vw', height: '100vh' }"
+    [maximizable]="false"
+    styleClass="report-treatment-dialog"
+>
+    <ng-template #header>
+        <app-management-header
+            [item]="items()"
+            [uniqId]="uniqId()"
+            [loading]="loading()"
+            (copyItem)="copyToClipboard($event)"
+        />
+    </ng-template>
+
+    <div class="main-container command-layout">
+        <app-management-sidebar
+            [item]="items()"
+            [loading]="loading()"
+            [uniqId]="uniqId()"
+            [submitting]="submitting()"
+            (submitAction)="onValidReportTreatment()"
+            (copyItem)="copyToClipboard($event)"
+        />
+
+        <main class="content-main">
+            @if (loading()) {
+                <div class="step-bar skeleton-step-bar">
+                    <div class="skeleton-steps">
+                        @for (step of [1, 2, 3, 4, 5]; track step) {
+                            <p-skeleton
+                                width="180px"
+                                height="20px"
+                                styleClass="step-skeleton"
+                            />
+                        }
+                    </div>
+                </div>
+
+                <nav class="content-tabs">
+                    <div class="tabs-container">
+                        @for (tab of [1, 2, 3]; track tab) {
+                            <div class="content-tab skeleton-tab">
+                                <div class="tab-visual">
+                                    <p-skeleton
+                                        shape="circle"
+                                        size="24px"
+                                    ></p-skeleton>
+                                </div>
+                                <span class="tab-label">
+                                    <p-skeleton
+                                        width="80px"
+                                        height="16px"
+                                    ></p-skeleton>
+                                </span>
+                            </div>
+                        }
+                    </div>
+                </nav>
+            } @else {
+                <div class="step-bar">
+                    @for (
+                        item of items()?.updateWorkflowTimestamps;
+                        track item.key
+                    ) {
+                        <span class="step-item">
+                            <span class="step-label">{{
+                                item.label | translate
+                            }}</span>
+                            <span class="step-timestamp">
+                                [{{
+                                    item.timestamp
+                                        ? (item.timestamp
+                                          | date: 'yyyy-MM-dd HH:mm:ss')
+                                        : '---:---'
+                                }}]
+                            </span>
+                        </span>
+                    }
+                </div>
+
+                <nav class="content-tabs">
+                    <div class="tabs-container">
+                        @for (tab of tabs(); track tab.value) {
+                            <button
+                                (click)="selectTab($index)"
+                                [class.active]="selectedTabIndex() === $index"
+                                class="content-tab"
+                            >
+                                <div class="tab-visual">
+                                    <i [class]="tab.icon"></i>
+                                </div>
+                                <span class="tab-label">{{
+                                    tab.label | translate
+                                }}</span>
+                                <div class="tab-indicator"></div>
+                            </button>
+                        }
+                    </div>
+                </nav>
+
+                <app-management-callback
+                    [item]="items()"
+                    [loading]="loading()"
+                    [submitting]="submitting()"
+                    [callbackTypeOptions]="callbackTypesOptions()"
+                    (approvalTypeChange)="setApprovalType($event)"
+                />
+            }
+
+            <div class="tab-content-area">
+                @if (selectedTab() === 'information') {
+                    <app-management-info-panel
+                        [item]="items()"
+                        [loading]="loading()"
+                        (copyClicked)="copyToClipboard($event)"
+                        [submitting]="submitting()"
+                        [submitLabel]="items()?.labelButtonSubmit ?? ''"
+                        [reportTypeOptions]="reportTypeOptions()"
+                        [telecomOperatorsOptions]="telecomOperatorsOptions()"
+                        [locationNameOptions]="locationNameOptions()"
+
+                    />
+                }
+
+                @if (selectedTab() === 'images') {
+                    <app-management-photos-panel
+                        [instanceId]="photoTabInstanceId()"
+                        [item]="items()"
+                        [loading]="loading()"
+                    />
+                }
+
+                @if (selectedTab() === 'geographic-view') {
+                    <app-management-map
+                        [latitude]="items().location.coordinates.latitude"
+                        [longitude]="items().location.coordinates.longitude"
+                        [zoom]="16"
+                        [markerTitle]="'Incident Prioritaire'"
+                        [markerDescription]="'Localisation exacte nécessitant une intervention urgente'"
+                        [markerType]="'warning'"
+                        [reportType]="items()?.reportType"
+                        [reportUniqId]="items()?.uniqId"
+                        [status]="items()?.dialogState()"
+                        [statusStyle]="items()?.dialogStateStyle()"
+                        [telecomOperatorsOptions]="items()?.operators"
+                        [createdAt]="items()?.createdAt"
+                        [initiatorPhone]="items()?.initiatorPhone"
+                        [confirmCount]="items()?.confirmCount"
+                        [enableAnimations]="true"
+                        [showPerformance]="true"
+                    >
+                    </app-management-map>
+                }
+
+                @if (selectedTab() === 'chatbot') {
+                    <app-management-chatbot-panel [uniqId]="uniqId()" />
+                }
+            </div>
+
+            @if (items()?.canQualify || items()?.canBeFinalized) {
+                <app-management-treatment-form
+                    [loading]="loading()"
+                    [expanded]="isTreatmentFormExpanded"
+                    [submitting]="submitting()"
+                    [submitLabel]="items()?.labelButtonSubmit ?? ''"
+                    [showApprovalSection]="items()?.canQualify ?? false"
+                    [motifOptions]="motifOptions()"
+                    (cancelForm)="closeTreatmentForm()"
+                    (submitForm)="onValidReportTreatment()"
+                    (decisionChange)="setDecision($event)"
+                />
+            }
+        </main>
+    </div>
+</p-dialog>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TelecomOperatorDto } from '@shared/data/dtos/telecom-operator.dto';
+import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
 
 @Injectable({
@@ -10,29 +10,18 @@ export class TelecomOperatorMapper {
         [TelecomOperatorDto.MTN, TelecomOperator.MTN],
         [TelecomOperatorDto.ORANGE, TelecomOperator.ORANGE],
         [TelecomOperatorDto.MOOV, TelecomOperator.MOOV],
-        [TelecomOperatorDto.UNKNOWN, TelecomOperator.UNKNOWN],
     ]);
 
-    mapToEnum(dto: TelecomOperatorDto | null | undefined): TelecomOperator {
-        return TelecomOperatorMapper.MAP.get(dto ?? TelecomOperatorDto.UNKNOWN)
-            ?? TelecomOperator.UNKNOWN;
+    mapToEnum(dto: TelecomOperatorDto): TelecomOperator {
+        return TelecomOperatorMapper.MAP.get(dto) as TelecomOperator;
     }
 
-    mapStringToEnum(dtoValue: Array<TelecomOperatorDto>): Array<TelecomOperator> {
-        if (dtoValue == null) {
-            return [TelecomOperator.UNKNOWN];
-        }
-        if (!Array.isArray(dtoValue)) {
-            dtoValue = JSON.parse(dtoValue);
-        }
+    mapFromDto(dto: TelecomOperatorDto): TelecomOperator {
         const methodMap: Record<TelecomOperatorDto, TelecomOperator> = {
             [TelecomOperatorDto.MTN]: TelecomOperator.MTN,
             [TelecomOperatorDto.ORANGE]: TelecomOperator.ORANGE,
             [TelecomOperatorDto.MOOV]: TelecomOperator.MOOV,
-            [TelecomOperatorDto.UNKNOWN]: TelecomOperator.UNKNOWN,
         };
-        return dtoValue.map(
-            (operator) => methodMap[operator] || TelecomOperator.UNKNOWN
-        );
+        return methodMap[dto];
     }
 }

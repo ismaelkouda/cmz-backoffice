@@ -1,0 +1,1364 @@
+:host {
+    --color-primary: #2563eb;
+    --color-primary-light: #eff6ff;
+    --color-primary-bg: #dbeafe;
+    --color-text: #0f172a;
+    --color-text-soft: #1f2937;
+    --color-text-muted: #334155;
+    --color-text-hint: #475569;
+    --color-text-subtle: #64748b;
+    --color-text-inverse: #ffffff;
+    --color-border: #cbd5e1;
+    --color-border-light: #dbe3ee;
+    --color-border-lighter: #e2e8f0;
+    --color-bg-page: #eef2f7;
+    --color-bg-surface: #ffffff;
+    --color-bg-subtle: #f8fafc;
+    --color-bg-hover: #f8fafc;
+    --color-bg-error-light: #fff1f2;
+    --color-border-error: #fecdd3;
+    --color-error: #991b1b;
+    --color-warning: #92400e;
+    --color-overlay: rgba(15, 23, 42, 0.18);
+
+    --shadow-sm: 0 8px 22px rgba(15, 23, 42, 0.18);
+    --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.18);
+    --shadow-lg: 0 16px 34px rgba(15, 23, 42, 0.18);
+    --shadow-xl: 0 18px 44px rgba(15, 23, 42, 0.24);
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 18px;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+
+    --font-size-xs: 11px;
+    --font-size-sm: 12px;
+    --font-size-md: 13px;
+    --font-size-lg: 14px;
+    --font-size-xl: 17px;
+    --font-size-2xl: 18px;
+
+    --btn-min-height: 38px;
+    --btn-radius: var(--radius-md);
+    --btn-font-size: var(--font-size-md);
+    --btn-font-weight: 800;
+}
+$white: var(--color-white);
+$black: var(--color-black);
+$bg-primary: var(--color-gray-light);
+$light-gray: var(--color-gray-light);
+$medium-gray: var(--color-gray);
+$dark-gray: var(--color-gray);
+
+@mixin card($padding: var(--space-md), $bg: var(--color-bg-surface)) {
+    background: $bg;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: $padding;
+}
+
+@mixin button-base {
+    min-height: var(--btn-min-height);
+    padding: 0 12px;
+    border-radius: var(--btn-radius);
+    font-size: var(--btn-font-size);
+    font-weight: var(--btn-font-weight);
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition:
+        background-color 0.2s,
+        border-color 0.2s,
+        color 0.2s;
+}
+
+@mixin visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
+}
+
+:host {
+    display: block;
+    height: calc(100vh - 110px);
+    min-height: 680px;
+}
+
+.map-topbar {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    background: var(--color-bg-surface);
+}
+
+.toolbar-button {
+    @include button-base;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    min-width: 0;
+    color: var(--color-text-soft);
+    background: var(--color-bg-surface);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-sm);
+    white-space: nowrap;
+
+    &:hover {
+        color: var(--color-primary);
+        background: var(--color-primary-light);
+        border-color: var(--color-primary);
+    }
+}
+
+.coverage-counter {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: var(--space-sm);
+    margin-left: var(--space-sm);
+}
+
+.interactive-map-shell {
+    position: relative;
+    display: block;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--color-bg-page);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+
+    &:fullscreen {
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+    }
+}
+
+.reports-panel {
+    overflow: auto;
+    background: var(--color-bg-surface);
+    border-color: var(--color-border-light);
+}
+
+// Panneau de filtres flottant au-dessus de la carte (même logique que
+// .coverage-legend-panel à droite) : il ne fait plus partie de la grille
+// et ne redimensionne donc plus la carte quand on l'ouvre/le ferme.
+.filters-panel-stack {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 7;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    align-items: stretch;
+    max-width: calc(100% - 20px);
+    max-height: calc(100% - 20px);
+    pointer-events: none;
+
+    > * {
+        pointer-events: auto;
+    }
+}
+
+.filters-panel {
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: auto;
+    width: 300px;
+    max-width: 100%;
+    max-height: calc(100% - 42px);
+    overflow: auto;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-xl);
+}
+
+.reports-panel {
+    border-left: 1px solid var(--color-border-light);
+    padding: var(--space-xl);
+}
+
+.panel-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--space-md);
+
+    h2 {
+        margin: 0;
+        color: var(--color-text);
+        font-size: var(--font-size-2xl);
+        font-weight: 800;
+    }
+
+    p,
+    span {
+        margin: var(--space-xs) 0 0;
+        color: var(--color-text-subtle);
+        font-size: var(--font-size-sm);
+    }
+
+    &.compact {
+        align-items: center;
+    }
+}
+
+.close-toggle-button {
+    position: absolute;
+    top: 5px;
+    right: 0;
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    color: var(--color-text-subtle);
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+
+    &:hover {
+        background: var(--color-bg-hover);
+        color: var(--color-text);
+    }
+}
+
+.open-toggle-button {
+    position: relative;
+    top: auto;
+    left: auto;
+    z-index: auto;
+    align-self: flex-start;
+    @include button-base;
+    color: var(--color-text);
+    background: var(--color-bg-surface);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-sm);
+
+    &:hover {
+        background: var(--color-bg-hover);
+        border-color: var(--color-primary);
+    }
+}
+
+// Conteneur des contrôles (reset + zoom OL), enfant direct de
+// filters-panel-stack : `left: 100%` colle toujours au bord droit réel de
+// ce bloc (replié ou ouvert), donc distance constante dans les deux états,
+// sans valeur magique à recalculer au toggle.
+.map-side-controls {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-left: var(--space-sm);
+    z-index: 7;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-sm);
+}
+
+.reset-view-button {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    background: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    &:hover {
+        background: var(--color-bg-hover);
+    }
+}
+
+// Ancre des boutons de zoom OL (voir map.adapter.ts `zoomControlsTarget`) :
+// on neutralise le positionnement absolu par défaut d'OpenLayers pour que
+// les boutons +/- s'insèrent normalement dans le flux de ce conteneur.
+.zoom-controls-anchor {
+    display: flex;
+
+    ::ng-deep .ol-zoom {
+        position: static;
+        top: auto;
+        left: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    ::ng-deep .ol-zoom .ol-zoom-in,
+    ::ng-deep .ol-zoom .ol-zoom-out {
+        width: 34px;
+        height: 34px;
+        margin: 0;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    }
+}
+
+h3 {
+    margin: 0 0 2px;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.filter-group {
+    display: grid;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+    line-height: 5px;
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        color: var(--color-text-soft);
+        font-size: var(--font-size-md);
+    }
+
+    input[type='checkbox'] {
+        width: 16px;
+        height: 16px;
+        accent-color: var(--color-primary);
+    }
+
+    select,
+    input[type='date'] {
+        width: 100%;
+        // min-height: 35px;
+        padding: 8px 10px;
+        color: var(--color-text);
+        background: var(--color-bg-subtle);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        font-size: var(--font-size-md);
+
+        &:disabled {
+            opacity: 0.62;
+            cursor: not-allowed;
+        }
+    }
+
+    &.dates label {
+        display: grid;
+        align-items: stretch;
+        gap: var(--space-xs);
+    }
+}
+
+.map-workspace {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.map {
+    width: 100%;
+    height: 100%;
+    background: #d7dee8;
+}
+
+// ========================================================
+// Indicateur de zoom (grand nombre au centre, façon Google Maps)
+// ========================================================
+.zoom-indicator {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    // Toujours flottant au-dessus de tous les autres éléments superposés à
+    // la carte (filtres, recherche, légende de couches, tooltip cluster...).
+    z-index: 15;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: rgba(15, 23, 42, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: var(--shadow-xl);
+    color: var(--color-text-inverse);
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.85);
+    transition:
+        opacity 0.22s ease,
+        transform 0.22s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .zoom-indicator-value {
+        font-size: 52px;
+        font-weight: 800;
+        line-height: 1;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .zoom-indicator-label {
+        margin-top: 6px;
+        font-size: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: rgba(255, 255, 255, 0.75);
+    }
+}
+
+// Badge de zoom compact, utilisé dans les labels de checkbox du panneau
+// "Filtres sur les couches" (fond clair — ne pas réutiliser
+// .zoom-indicator-label, prévu pour l'overlay sombre au centre de la carte).
+.zoom-level-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 7px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-light);
+    border: 1px solid var(--color-primary-bg);
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--color-primary);
+    letter-spacing: 0.02em;
+
+    &.size-xl {
+        font-size: 16px !important;
+    }
+}
+
+.map-search-bar {
+    position: absolute;
+    top: var(--space-lg);
+    left: 50%;
+    z-index: 7;
+    width: min(620px, calc(100% - 32px));
+    transform: translateX(-50%);
+
+    p-inputgroup {
+        overflow: hidden;
+        border: 1px solid rgba(148, 163, 184, 0.42);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-md);
+    }
+
+    input {
+        min-height: 46px;
+        border: 0;
+        color: var(--color-text);
+        font-size: var(--font-size-lg);
+        font-weight: 600;
+    }
+}
+
+// Résultats de recherche
+.map-search-results,
+.map-search-message {
+    margin-top: var(--space-sm);
+    overflow: hidden;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid rgba(203, 213, 225, 0.95);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+}
+
+.map-search-results {
+    display: grid;
+    max-height: 290px;
+    overflow-y: auto;
+
+    button {
+        display: grid;
+        grid-template-columns: 22px 1fr;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 44px;
+        padding: 10px 14px;
+        color: var(--color-text);
+        text-align: left;
+        background: transparent;
+        border: 0;
+        border-bottom: 1px solid #edf2f7; // couleur légère fixe
+        font-size: var(--font-size-md);
+
+        &:hover {
+            background: var(--color-bg-hover);
+        }
+
+        &:last-child {
+            border-bottom: 0;
+        }
+
+        i {
+            color: var(--color-primarystat);
+        }
+    }
+}
+
+.map-search-message {
+    padding: 10px 14px;
+    color: var(--color-warning);
+    font-size: var(--font-size-md);
+}
+
+// --- Indicateur de chargement ---
+.loading-overlay {
+    position: absolute;
+    top: 78px;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    color: var(--color-text);
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    transform: translateX(-50%);
+    z-index: 4;
+}
+
+.loading-spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid var(--color-primary-bg);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+// --- Infobulles cluster (hover) ---
+.cluster-tooltip {
+    position: relative;
+    z-index: 5;
+    min-width: 150px;
+    padding: 10px;
+    color: var(--color-text);
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md);
+    font-size: var(--font-size-sm);
+    pointer-events: none;
+
+    strong {
+        display: block;
+        margin-bottom: 6px;
+    }
+
+    hr {
+        margin: 6px 0;
+        border: 0;
+        border-top: 1px solid var(--color-border-lighter);
+    }
+
+    &.is-hidden {
+        display: none;
+    }
+
+    &.report-hover-card {
+        min-width: 260px;
+        max-width: min(320px, calc(100% - 32px));
+        padding: 0;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        pointer-events: auto;
+    }
+}
+
+// Carte au survol d'un signalement
+.report-hover-content {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: stretch;
+}
+
+.report-hover-main {
+    display: grid;
+    gap: 3px;
+    padding: 12px 14px;
+
+    strong {
+        margin: 0;
+        color: var(--color-text);
+        font-size: var(--font-size-lg);
+        line-height: 1.2;
+    }
+
+    span {
+        color: var(--color-text-hint);
+        font-size: var(--font-size-sm);
+        line-height: 1.3;
+    }
+}
+
+.report-hover-kicker {
+    color: var(--color-primary) !important;
+    font-size: var(--font-size-xs) !important;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.report-hover-actions {
+    display: grid;
+    grid-auto-flow: column;
+    align-content: center;
+    gap: 6px;
+    padding: 10px 12px 10px 0;
+
+    a,
+    button {
+        display: grid;
+        place-items: center;
+        width: 34px;
+        height: 34px;
+        color: var(--color-text);
+        background: var(--color-bg-subtle);
+        border: 1px solid var(--color-border-light);
+        border-radius: 50%;
+        text-decoration: none;
+
+        &:hover {
+            color: var(--color-text-inverse);
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+    }
+}
+
+// --- Popup de click (signalement ou cluster) ---
+.map-click-overlay {
+    position: relative;
+    z-index: 6;
+
+    &.is-hidden {
+        display: none;
+    }
+}
+
+.report-popup {
+    @include card($padding: var(--space-lg));
+    box-shadow: var(--shadow-xl);
+    overflow: auto;
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        gap: var(--space-md);
+        margin-bottom: var(--space-md);
+
+        strong {
+            display: block;
+            color: var(--color-text);
+            font-size: var(--font-size-xl);
+        }
+
+        span {
+            display: inline-block;
+            margin-top: var(--space-xs);
+            color: var(--color-text-hint);
+            font-size: var(--font-size-sm);
+        }
+
+        button {
+            width: 30px;
+            height: 30px;
+            border: 0;
+            border-radius: 50%;
+            background: #f1f5f9;
+        }
+    }
+
+    dl {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: var(--space-sm) var(--space-md);
+        margin: 0;
+        color: var(--color-text-soft);
+        font-size: var(--font-size-md);
+    }
+
+    dt {
+        color: var(--color-text-subtle);
+        font-weight: 700;
+    }
+
+    dd {
+        margin: 0;
+        overflow-wrap: anywhere;
+    }
+}
+
+// Liste de signalements dans un cluster
+.cluster-report-list {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.cluster-report-item {
+    display: grid;
+    gap: 3px;
+    width: 100%;
+    padding: 10px;
+    color: var(--color-text);
+    text-align: left;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-lighter);
+    border-radius: var(--radius-md);
+
+    span {
+        color: var(--color-text);
+        font-size: var(--font-size-md);
+        font-weight: 800;
+    }
+
+    small {
+        color: var(--color-text-subtle);
+        font-size: var(--font-size-sm);
+    }
+
+    &:hover {
+        background: var(--color-primary-light);
+        border-color: var(--color-primary);
+    }
+}
+
+// Actions dans les popups
+.popup-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-sm);
+    margin-top: 14px;
+
+    button {
+        min-height: 36px;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-md);
+        background: var(--color-bg-subtle);
+        color: var(--color-text);
+        font-size: var(--font-size-sm);
+        font-weight: 700;
+    }
+}
+
+.photo-link {
+    display: inline-flex;
+    margin-top: var(--space-md);
+    color: var(--color-primary);
+    font-size: var(--font-size-md);
+    font-weight: 700;
+}
+
+// --- Styles de boutons génériques ---
+.primary-button {
+    @include button-base;
+    width: 100%;
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-inverse);
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.secondary-button {
+    @include button-base;
+    width: 100%;
+    color: var(--color-text-soft);
+    background: var(--color-bg-surface);
+    border-color: var(--color-border);
+}
+
+.icon-button {
+    @include button-base;
+    width: auto;
+    margin-top: 2rem;
+    white-space: nowrap;
+    color: var(--color-text-soft);
+    background: var(--color-bg-surface);
+    border-color: var(--color-border);
+}
+
+// --- Affichage des erreurs / états vides ---
+.message-card {
+    position: absolute;
+    left: var(--space-xl);
+    bottom: var(--space-xl);
+    z-index: 5;
+    max-width: 360px;
+    padding: 14px;
+    color: var(--color-error);
+    background: var(--color-bg-error-light);
+    border: 1px solid var(--color-border-error);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+
+    p {
+        margin: 6px 0 10px;
+    }
+
+    button {
+        @include button-base;
+        width: 100%;
+        color: var(--color-text-soft);
+        background: var(--color-bg-surface);
+        border-color: var(--color-border);
+    }
+}
+
+.small-alert,
+.empty-state {
+    margin-top: var(--space-md);
+    padding: var(--space-md);
+    color: var(--color-text-hint);
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-lighter);
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-md);
+}
+
+// --- Liste de signalements (panel droite) ---
+.report-list {
+    display: grid;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.report-row {
+    display: grid;
+    gap: var(--space-xs);
+    width: 100%;
+    padding: 10px;
+    text-align: left;
+    background: var(--color-bg-subtle);
+    border: 1px solid var(--color-border-lighter);
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
+
+    &:hover {
+        border-color: var(--color-primary);
+        background: var(--color-primary-light);
+    }
+}
+
+.report-row-title {
+    color: var(--color-text);
+    font-size: var(--font-size-md);
+    font-weight: 800;
+}
+
+// --- Utilitaires ---
+.sr-only {
+    @include visually-hidden;
+}
+
+// --- Animations ---
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+// --- Responsive ---
+@media (max-width: 1180px) {
+    :host {
+        height: auto;
+    }
+
+    .interactive-map-shell {
+        min-height: 900px;
+    }
+
+    .reports-panel {
+        grid-column: 1 / -1;
+        max-height: 320px;
+        border-top: 1px solid var(--color-border-light);
+        border-left: 0;
+    }
+}
+
+@media (max-width: 760px) {
+    .interactive-map-shell {
+        display: block;
+        height: auto;
+    }
+
+    .reports-panel {
+        max-height: none;
+        border: 0;
+        border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .filters-panel-stack {
+        left: 10px;
+        right: 10px;
+        width: auto;
+        max-width: calc(100% - 20px);
+    }
+
+    .filters-panel {
+        width: 100%;
+        max-width: none;
+    }
+
+    // filters-panel-stack prend (quasi) toute la largeur en mobile :
+    // `left: 100%` collerait les contrôles hors écran. On les repasse en
+    // coin fixe, comme avant, plutôt que relatifs au bloc de filtres.
+    .map-side-controls {
+        position: absolute;
+        top: auto;
+        bottom: 10px;
+        left: auto;
+        right: 10px;
+        margin-left: 0;
+    }
+
+    .map-workspace {
+        height: 620px;
+    }
+
+    .map-search-bar {
+        top: var(--space-md);
+        width: calc(100% - 20px);
+
+        input {
+            min-height: 42px;
+            font-size: var(--font-size-md);
+        }
+    }
+
+    .report-popup {
+        width: calc(100% - 20px);
+    }
+}
+
+.map-legend {
+    margin: 0 0 var(--space-md);
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid var(--color-border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    width: 100%;
+    font-size: 13px;
+    overflow: hidden;
+}
+
+.legend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    font-weight: 600;
+
+    h3 {
+        margin: 0;
+        font-size: 14px;
+    }
+
+    .close-legend {
+        background: none;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        color: #64748b;
+        padding: 4px;
+        border-radius: 4px;
+        &:hover {
+            background: #e2e8f0;
+        }
+    }
+}
+
+.legend-content {
+    display: grid;
+    grid-template-columns: minmax(320px, 2fr);
+    gap: var(--space-md);
+}
+
+.legend-section {
+    margin-bottom: 0;
+
+    h4 {
+        margin: 0 0 8px 0;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #475569;
+    }
+}
+
+.legend-items {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .legend-color {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow:
+            0 0 0 1px #fff,
+            0 0 0 2px #cbd5e1;
+
+        &.ring {
+            background: rgba(255, 255, 255, 0.72);
+            border: 4px solid currentColor;
+            box-shadow:
+                0 0 0 1px #fff,
+                0 0 0 2px #cbd5e1;
+        }
+    }
+
+    .legend-cluster {
+        font-size: 22px;
+        line-height: 1;
+        color: #2563eb;
+        text-shadow:
+            0 0 0 1px white,
+            0 0 0 2px #cbd5e1;
+    }
+}
+
+.legend-gradient {
+    width: 100%;
+    height: 12px;
+    background: linear-gradient(to right, #3b82f6, #ef4444);
+    border-radius: 6px;
+    margin: 8px 0 4px;
+}
+
+.gradient-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #475569;
+}
+
+// ========================================================
+// Légende de couverture (haut à droite de la carte)
+// ========================================================
+.coverage-legend {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    &.open .coverage-legend-panel {
+        display: block;
+    }
+}
+
+.coverage-legend-toggle {
+    @include button-base;
+    color: var(--color-text);
+    background: var(--color-bg-surface);
+    border-color: var(--color-border);
+    box-shadow: var(--shadow-sm);
+
+    &:hover {
+        background: var(--color-bg-hover);
+        border-color: var(--color-primary);
+    }
+}
+
+.coverage-legend-panel {
+    display: none;
+    width: 220px;
+    background: rgba(255, 255, 255, 0.98);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: 12px 14px;
+    font-size: 13px;
+    color: var(--color-text);
+
+    h4 {
+        margin: 0 0 6px;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--color-text-muted);
+        &:not(:first-child) {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid var(--color-border-lighter);
+        }
+    }
+
+    label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 4px 0;
+        font-size: 13px;
+        color: var(--color-text-soft);
+        cursor: pointer;
+
+        input[type='radio'],
+        input[type='checkbox'] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--color-primary);
+            flex-shrink: 0;
+        }
+
+        .legend-color.ring {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: inline-block;
+            border: 4px solid currentColor;
+            background: rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        // Pictogramme "ligne" du réseau RNHD : une barre pour la fibre
+        // optique, deux barres superposées pour un faisceau radio — plus
+        // parlant qu'un simple rond de couleur pour représenter un lien
+        // linéaire entre deux points.
+        .legend-color.legend-line-icon {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: stretch;
+            gap: 3px;
+            width: 16px;
+            height: 16px;
+            border-radius: 0;
+            border: none;
+            background: transparent;
+            box-shadow: none;
+            flex-shrink: 0;
+        }
+
+        .legend-line-bar {
+            display: block;
+            height: 2px;
+            width: 100%;
+            background: currentColor;
+            border-radius: 1px;
+        }
+    }
+
+    // Pour que les labels des fonds de carte s’affichent bien
+    .basemap-options,
+    .coverage-options {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+}
+.form-p-select,
+.p-inputtext,
+.form-input {
+    border: 2px solid $light-gray;
+    border-radius: 12px;
+    font: 400 16px/24px var(--font-primary);
+    color: $black;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: var(--theme-default);
+        box-shadow: 0 0 0 4px
+            color-mix(in srgb, var(--theme-default) 15%, transparent);
+        background-color: $white;
+    }
+
+    &::placeholder {
+        color: rgba($black, 0.4);
+    }
+}
+
+// --- Liste d'accordéon pour les clusters superposés ---
+.cluster-accordion-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-md);
+}
+
+.cluster-report-accordion {
+    border: 1px solid var(--color-border-lighter);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-subtle);
+    overflow: hidden;
+
+    &[open] {
+        background: var(--color-bg-surface);
+    }
+}
+
+.accordion-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    cursor: pointer;
+    font-size: var(--font-size-md);
+    color: var(--color-text-soft);
+    list-style: none; // supprime la puce par défaut
+
+    &::-webkit-details-marker {
+        display: none;
+    }
+
+    // Chevron PrimeIcons
+    &::before {
+        content: '\e932'; // pi-chevron-right
+        font-family: 'primeicons';
+        font-size: 14px;
+        margin-right: 8px;
+        transition: transform 0.2s;
+        display: inline-block;
+    }
+
+    // Quand le <details> est ouvert -> chevron-down
+    details[open] &::before {
+        content: '\e930'; // pi-chevron-down
+    }
+
+    .summary-index {
+        font-weight: 700;
+        color: var(--color-text);
+    }
+
+    .summary-id {
+        color: var(--color-text-subtle);
+        font-size: var(--font-size-sm);
+        font-family: monospace;
+    }
+}
+
+.accordion-content {
+    padding: 0 12px 12px 12px;
+    border-top: 1px solid var(--color-border-lighter);
+    background: var(--color-bg-surface);
+
+    .report-details-list {
+        display: grid;
+        grid-template-columns: 130px 1fr;
+        gap: var(--space-xs) var(--space-md);
+        margin: var(--space-sm) 0;
+        font-size: var(--font-size-md);
+
+        dt {
+            color: var(--color-text-subtle);
+            font-weight: 700;
+        }
+
+        dd {
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+    }
+}
+
+.legend-icon {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    vertical-align: middle;
+}
+
+.coverage-legend-wrapper {
+    position: absolute; // ou fixed, selon votre layout
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Bouton d'ouverture (quand le panneau est fermé) */
+.open-coverage-button {
+    // Similaire au .open-toggle-button des filtres
+    background: #007ad9;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+
+    &:hover {
+        background: #005b9f;
+    }
+}
+
+/* Panneau ouvert */
+.coverage-legend-panel {
+    position: relative;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1rem;
+    min-width: 220px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+
+    .panel-heading {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+
+        h4 {
+            margin: 0;
+        }
+
+        .close-coverage-button {
+            background: transparent;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #666;
+
+            &:hover {
+                color: #000;
+            }
+        }
+    }
+
+    // Conservez vos styles pour les labels, checkbox, etc.
+}

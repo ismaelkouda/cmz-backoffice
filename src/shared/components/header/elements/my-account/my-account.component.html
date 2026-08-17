@@ -1,372 +1,410 @@
-<button
-    class="profile-media"
-    [class.active]="isDropdownOpen()"
-    (click)="toggleDropdown()"
-    (keydown.enter)="toggleDropdown()"
-    (keydown.escape)="closeDropdown()"
-    tabindex="0"
-    role="button"
-    aria-haspopup="true"
-    [attr.aria-expanded]="isDropdownOpen()"
->
-    <div class="media-wrapper">
+<div id="account-menu">
+    <button
+        type="button"
+        class="profile-media"
+        [class.active]="isDropdownOpen()"
+        (click)="toggleDropdown()"
+        (keydown.escape)="closeDropdown()"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="isDropdownOpen()"
+    >
         <img
             class="profile-avatar"
-            [src]="'assets/images/dashboard/profile.png'"
+            alt="Description de profil"
+            [src]="
+                currentUser()?.photo || 'assets/images/dashboard/profile.png'
+            "
             width="40"
             height="40"
-            alt="Photo de profil de {{ currentUser()?.first_name }} {{
-                currentUser()?.last_name
-            }}"
         />
-
-        <div class="profile-info">
-            <span class="user-name"
-                >{{ currentUser()?.last_name }}
-                {{ currentUser()?.first_name }}</span
-            >
-            <p class="user-email">{{ currentUser()?.email }}</p>
-        </div>
-
+        <span class="profile-info">
+            <span class="user-name">
+                {{ currentUser()?.last_name }} {{ currentUser()?.first_name }}
+            </span>
+            <span class="user-email">{{ currentUser()?.email }}</span>
+        </span>
         <i
             class="dropdown-icon pi pi-chevron-down"
             [class.rotated]="isDropdownOpen()"
-        ></i>
-    </div>
+        >
+        </i>
+    </button>
 
-    <ul class="profile-dropdown" [class.show]="isDropdownOpen()" role="menu">
-        <li
-            role="menuitem"
-            (click)="openAccountModal()"
-            (keydown.enter)="openAccountModal()"
-        >
-            <i class="pi pi-user"></i>
-            <span>Mon compte</span>
-        </li>
-        <li
-            role="menuitem"
-            (click)="openPasswordModal()"
-            (keydown.enter)="openPasswordModal()"
-        >
-            <i class="pi pi-lock"></i>
-            <span>Mot de passe</span>
-        </li>
-        <li role="separator" class="dropdown-divider"></li>
-        <li role="menuitem" (click)="logout()" (keydown.enter)="logout()">
-            <i class="pi pi-sign-out"></i>
-            <span>Déconnexion</span>
-        </li>
-    </ul>
-</button>
-<!---------------------PASSWORD FORM----------------------------->
-<ng-template #passwordV let-modal>
-    <form [formGroup]="passwordForm">
+    @if (isDropdownOpen()) {
+        <div class="profile-dropdown" role="menu">
+            <button type="button" role="menuitem" (click)="openAccountModal()">
+                <i class="pi pi-user"></i>
+                <span>Mon compte</span>
+            </button>
+            <button type="button" role="menuitem" (click)="openPasswordModal()">
+                <i class="pi pi-lock"></i>
+                <span>Mot de passe</span>
+            </button>
+            <button type="button" role="menuitem">
+                <i class="pi pi-shield"></i>
+                <span>2FA</span>
+                <p-tag
+                    [severity]="enable2fa() ? 'success' : 'danger'"
+                    [value]="enable2fa() ? 'Activée' : 'Désactivée'"
+                />
+            </button>
+            <span class="dropdown-divider" role="separator"></span>
+            <button
+                type="button"
+                class="logout-action"
+                role="menuitem"
+                (click)="logout()"
+            >
+                <i class="pi pi-sign-out"></i>
+                <span>Déconnexion</span>
+            </button>
+        </div>
+    }
+</div>
+
+<ng-template #accountV>
+    <form [formGroup]="accountForm" (ngSubmit)="saveAccount()">
         <div class="modal-header">
             <h4 class="modal-title">
-                {{'MY_ACCOUNT.PASSWORD.FORM.TITLE' | translate}}
+                {{ 'MY_ACCOUNT.ACCOUNT.FORM.TITLE' | translate }}
             </h4>
             <button
                 type="button"
                 class="btn-close"
                 aria-label="Close"
-                (click)="hideFormPassword()"
+                (click)="closeModal()"
             ></button>
         </div>
-        <div class="modal-body" novalidate>
-            <div class="form-group mb-3">
-                <label for="old_password">
-                    {{'MY_ACCOUNT.PASSWORD.FORM.OLD_PASSWORD.LABEL' | translate}}<span class="text-danger">*</span>
-                </label>
-                <p-password
-                    id="old_password"
-                    formControlName="old_password"
-                    [feedback]="false"
-                    [toggleMask]="true"
-                    [inputStyleClass]="
-                        'form-input' +
-                        (isFieldInvalidPassword('old_password')
-                            ? ' form-input--invalid'
-                            : '') +
-                        (isFieldValidPassword('old_password')
-                            ? ' form-input--valid'
-                            : '') +
-                        (oldPassword?.touched
-                            ? ' form-input--focused'
-                            : '')
-                    "
-                    [attr.aria-invalid]="isFieldInvalidPassword('old_password')"
-                    [attr.aria-describedby]="
-                        isFieldInvalidPassword('old_password')
-                            ? 'old_password-error'
-                            : null
-                    "
-                    [ariaLabel]="
-                        'MY_ACCOUNT.PASSWORD.FORM.OLD_PASSWORD.LABEL'
-                            | translate
-                    "
-                />
-            </div>
-            <div class="form-group mb-4">
-                <label for="new_password">
-                    {{'MY_ACCOUNT.PASSWORD.FORM.NEW_PASSWORD.LABEL' | translate}}<span class="text-danger">*</span>
-                </label>
-                <p-password
-                    id="new_password"
-                    formControlName="new_password"
-                    [feedback]="false"
-                    [toggleMask]="true"
-                    [inputStyleClass]="
-                        'form-input' +
-                        (isFieldInvalidPassword('new_password')
-                            ? ' form-input--invalid'
-                            : '') +
-                        (isFieldValidPassword('new_password')
-                            ? ' form-input--valid'
-                            : '') +
-                        (newPassword?.touched
-                            ? ' form-input--focused'
-                            : '')
-                    "
-                    [attr.aria-invalid]="isFieldInvalidPassword('new_password')"
-                    [attr.aria-describedby]="
-                        isFieldInvalidPassword('new_password')
-                            ? 'new_password-error'
-                            : null
-                    "
-                    [ariaLabel]="
-                        'MY_ACCOUNT.PASSWORD.FORM.NEW_PASSWORD.LABEL'
-                            | translate
-                    "
-                />
-                @if (getFieldErrorPassword('new_password')) {
-                    <small class="text-danger">
-                        {{ getFieldErrorPassword('new_password') | translate }}
-                    </small>
-                }
-            </div>
-            <div class="form-group mb-3">
-                <label for="confirm_new_password">
-                    {{'MY_ACCOUNT.PASSWORD.FORM.CONFIRM_NEW_PASSWORD.LABEL' | translate}}<span class="text-danger">*</span>
-                </label>
-                <p-password
-                    id="confirm_new_password"
-                    formControlName="confirm_new_password"
-                    [feedback]="false"
-                    [toggleMask]="true"
-                    [inputStyleClass]="
-                        'form-input' +
-                        (isFieldInvalidPassword('confirm_new_password')
-                            ? ' form-input--invalid'
-                            : '') +
-                        (isFieldValidPassword('confirm_new_password')
-                            ? ' form-input--valid'
-                            : '') +
-                        (confirmNewPassword?.touched
-                            ? ' form-input--focused'
-                            : '')
-                    "
-                    [attr.aria-invalid]="isFieldInvalidPassword('confirm_new_password')"
-                    [attr.aria-describedby]="
-                        isFieldInvalidPassword('confirm_new_password')
-                            ? 'confirm_new_password-error'
-                            : null
-                    "
-                    [ariaLabel]="
-                        'MY_ACCOUNT.PASSWORD.FORM.CONFIRM_NEW_PASSWORD.LABEL'
-                            | translate
-                    "
-                />
-                @if (getFieldErrorPassword('confirm_new_password')) {
-                    <small class="text-danger">
-                        {{ getFieldErrorPassword('confirm_new_password') | translate }}
-                    </small>
-                }
+        <div class="modal-body">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="lastName"
+                        >Nom<span class="text-danger">*</span></label
+                    >
+                    <input
+                        id="lastName"
+                        class="form-input"
+                        type="text"
+                        formControlName="lastName"
+                        [class.form-input--invalid]="
+                            isAccountFieldInvalid('lastName')
+                        "
+                        [class.form-input--valid]="
+                            isAccountFieldValid('lastName')
+                        "
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="firstName"
+                        >Prénom<span class="text-danger">*</span></label
+                    >
+                    <input
+                        id="firstName"
+                        class="form-input"
+                        type="text"
+                        formControlName="firstName"
+                        [class.form-input--invalid]="
+                            isAccountFieldInvalid('firstName')
+                        "
+                        [class.form-input--valid]="
+                            isAccountFieldValid('firstName')
+                        "
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="email"
+                        >Email<span class="text-danger">*</span></label
+                    >
+                    <input
+                        id="email"
+                        class="form-input"
+                        type="email"
+                        formControlName="email"
+                        [class.form-input--invalid]="
+                            isAccountFieldInvalid('email')
+                        "
+                        [class.form-input--valid]="isAccountFieldValid('email')"
+                    />
+                    <!-- @if (accountError('email')) {
+                        <small class="text-danger">{{
+                            accountError('email') | translate
+                        }}</small>
+                    } -->
+                </div>
+                <div class="form-group">
+                    <label for="phone"
+                        >Téléphone<span class="text-danger">*</span></label
+                    >
+                    <p-inputMask
+                        id="phone"
+                        formControlName="phone"
+                        mask="99-99-99-99-99"
+                        [unmask]="true"
+                        [styleClass]="
+                            'form-input' +
+                            (isAccountFieldInvalid('phone')
+                                ? ' form-input--invalid'
+                                : '') +
+                            (isAccountFieldValid('phone')
+                                ? ' form-input--valid'
+                                : '')
+                        "
+                    />
+                    <!-- @if (accountError('phone')) {
+                        <small class="text-danger">{{
+                            accountError('phone') | translate
+                        }}</small>
+                    } -->
+                </div>
             </div>
         </div>
-
         <div class="modal-footer">
-            <div>
-                <button type="button" class="btn btn-hide" (click)="hideFormPassword()">
-                    Fermer
-                </button>
-            </div>
-            <div>
-                <button
-                    type="button"
-                    class="btn btn-save"
-                    (click)="handleUpdatePassword()"
-                    [disabled]="passwordForm.invalid"
-                >
-                    Valider
-                </button>
-            </div>
+            <button type="button" class="btn btn-hide" (click)="closeModal()">
+                {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button
+                type="submit"
+                class="btn btn-save"
+                [disabled]="accountForm.invalid"
+            >
+                {{ 'COMMON.SAVE' | translate }}
+            </button>
         </div>
     </form>
 </ng-template>
-<!---------------------ACCOUNT FORM----------------------------->
-<ng-template #accountV let-modal>
-    <form [formGroup]="accountForm">
+
+<ng-template #passwordV>
+    <form [formGroup]="passwordForm" (ngSubmit)="savePassword()">
         <div class="modal-header">
-            <h4 class="modal-title">{{'MY_ACCOUNT.ACCOUNT.FORM.TITLE' | translate}}</h4>
+            <h4 class="modal-title">
+                {{ 'MY_ACCOUNT.PASSWORD.FORM.TITLE' | translate }}
+            </h4>
             <button
                 type="button"
                 class="btn-close"
                 aria-label="Close"
-                (click)="hideFormAccount()"
+                (click)="closeModal()"
             ></button>
         </div>
-        <div class="modal-body" novalidate>
-            <div class="form-group mb-3">
-                <label for="last_name">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.LAST_NAME.LABEL' | translate}}<span class="text-danger">*</span></b>
-                </label>
-                <input
-                    id="last_name"
-                    type="text"
-                    formControlName="last_name"
-                    [placeholder]="
-                        'MY_ACCOUNT.ACCOUNT.FORM.LAST_NAME.PLACEHOLDER'
-                            | translate
-                    "
-                    [class.form-input--invalid]="
-                        isFieldInvalidAccount('last_name')
-                    "
-                    [class.form-input--valid]="
-                        isFieldValidAccount('last_name')
-                    "
-                    [class.form-input--focused]="last_name?.touched"
-                    class="form-input"
-                    [attr.aria-invalid]="isFieldInvalidAccount('last_name')"
-                    [attr.aria-describedby]="
-                        isFieldInvalidAccount('last_name')
-                            ? 'last_name-error'
-                            : null
-                    "
-                    aria-required="true"
-                />
-            </div>
-            <div class="form-group mb-3">
-                <label for="first_name">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.FIRST_NAME.LABEL' | translate}}<span class="text-danger">*</span></b>
-                </label>
-                <input
-                    id="first_name-input"
-                    type="text"
-                    formControlName="first_name"
-                    [placeholder]="
-                        'MY_ACCOUNT.ACCOUNT.FORM.FIRST_NAME.PLACEHOLDER'
-                            | translate
-                    "
-                    [class.form-input--invalid]="
-                        isFieldInvalidAccount('first_name')
-                    "
-                    [class.form-input--valid]="
-                        isFieldValidAccount('first_name')
-                    "
-                    [class.form-input--focused]="first_name?.touched"
-                    class="form-input"
-                    [attr.aria-invalid]="isFieldInvalidAccount('first_name')"
-                    [attr.aria-describedby]="
-                        isFieldInvalidAccount('first_name')
-                            ? 'first_name-error'
-                            : null
-                    "
-                    aria-required="true"
-                />
-            </div>
-            <div class="form-group mb-3">
-                <label for="email">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.EMAIL.LABEL' | translate}}<span class="text-danger">*</span></b>
-                </label>
-                <input
-                    id="email-input"
-                    type="email"
-                    formControlName="email"
-                    [placeholder]="
-                        'MY_ACCOUNT.ACCOUNT.FORM.EMAIL.PLACEHOLDER'
-                            | translate
-                    "
-                    [class.form-input--invalid]="
-                        isFieldInvalidAccount('email')
-                    "
-                    [class.form-input--valid]="
-                        isFieldValidAccount('email')
-                    "
-                    [class.form-input--focused]="email?.touched"
-                    class="form-input"
-                    [attr.aria-invalid]="isFieldInvalidAccount('email')"
-                    [attr.aria-describedby]="
-                        isFieldInvalidAccount('email')
-                            ? 'email-error'
-                            : null
-                    "
-                    aria-required="true"
-                />
-                @if (fieldErrorEmail) {
-                    <small class="text-danger">
-                        {{ fieldErrorEmail | translate }}
-                    </small>
-                }
-            </div>
-            <div class="form-group mb-3">
-                <label for="phone">
-                    <b>{{'MY_ACCOUNT.ACCOUNT.FORM.PHONE.LABEL' | translate}}<span class="text-danger">*</span></b>
-                </label>
-                <p-inputMask
-                    id="phone-input"
-                    formControlName="phone"
-                    mask="99-99-99-99-99"
-                    [unmask]="true"
-                    [styleClass]="
+        <div class="modal-body">
+            <div class="form-group">
+                <label for="oldPassword"
+                    >Ancien mot de passe<span class="text-danger"
+                        >*</span
+                    ></label
+                >
+                <p-password
+                    id="oldPassword"
+                    formControlName="oldPassword"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    [inputStyleClass]="
                         'form-input' +
-                        (isFieldInvalidAccount('phone')
+                        (isPasswordFieldInvalid('oldPassword')
                             ? ' form-input--invalid'
                             : '') +
-                        (isFieldValidAccount('phone')
+                        (isPasswordFieldValid('oldPassword')
                             ? ' form-input--valid'
-                            : '') +
-                        (phone?.touched
-                            ? ' form-input--focused'
                             : '')
                     "
-                    [attr.aria-invalid]="isFieldInvalidAccount('phone')"
-                    [attr.aria-describedby]="
-                        isFieldInvalidAccount('phone')
-                            ? 'phone-error'
-                            : null
-                    "
-                    [ariaLabel]="
-                        'MY_ACCOUNT.ACCOUNT.FORM.PHONE.LABEL'
-                            | translate
+                />
+            </div>
+            <div class="form-group">
+                <label for="newPassword"
+                    >Nouveau mot de passe<span class="text-danger"
+                        >*</span
+                    ></label
+                >
+                <p-password
+                    id="newPassword"
+                    formControlName="newPassword"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    [inputStyleClass]="
+                        'form-input' +
+                        (isPasswordFieldInvalid('newPassword')
+                            ? ' form-input--invalid'
+                            : '') +
+                        (isPasswordFieldValid('newPassword')
+                            ? ' form-input--valid'
+                            : '')
                     "
                 />
-                @if (fieldErrorPhone) {
-                    <small class="text-danger">
-                        {{ fieldErrorPhone | translate }}
-                    </small>
+                @if (passwordError('newPassword')) {
+                    <small class="text-danger">{{
+                        passwordError('newPassword') | translate
+                    }}</small>
+                }
+            </div>
+            <div class="form-group">
+                <label for="confirmNewPassword"
+                    >Confirmation<span class="text-danger">*</span></label
+                >
+                <p-password
+                    id="confirmNewPassword"
+                    formControlName="confirmNewPassword"
+                    [feedback]="false"
+                    [toggleMask]="true"
+                    [inputStyleClass]="
+                        'form-input' +
+                        (isPasswordFieldInvalid('confirmNewPassword')
+                            ? ' form-input--invalid'
+                            : '') +
+                        (isPasswordFieldValid('confirmNewPassword')
+                            ? ' form-input--valid'
+                            : '')
+                    "
+                />
+                @if (passwordError('confirmNewPassword')) {
+                    <small class="text-danger">{{
+                        passwordError('confirmNewPassword') | translate
+                    }}</small>
                 }
             </div>
         </div>
         <div class="modal-footer">
-            <div>
-                <button
-                    type="button"
-                    class="btn btn-hide"
-                    (click)="hideFormAccount()"
-                >
-                    {{'COMMON.CANCEL' | translate}}
-                </button>
-            </div>
-            <div>
-                <button
-                    type="button"
-                    class="btn btn-save"
-                    (click)="handleUpdateAccount()"
-                    [disabled]="accountForm.invalid"
-                >
-                    {{'COMMON.SAVE' | translate}}
-                </button>
-            </div>
+            <button type="button" class="btn btn-hide" (click)="closeModal()">
+                {{ 'COMMON.CANCEL' | translate }}
+            </button>
+            <button
+                type="submit"
+                class="btn btn-save"
+                [disabled]="passwordForm.invalid"
+            >
+                Valider
+            </button>
         </div>
     </form>
+</ng-template>
+
+<ng-template #doubleFactorV>
+    <div class="modal-header">
+        @if (twoFaStep() === 'verification') {
+            <button
+                type="button"
+                class="btn-back"
+                aria-label="Retour"
+                (click)="backToStatus()"
+            >
+                <i class="pi pi-arrow-left"></i>
+            </button>
+        }
+        <h4 class="modal-title">Authentification à deux facteurs</h4>
+        <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="closeModal()"
+        ></button>
+    </div>
+
+    <div class="modal-body">
+        @if (twoFaStep() === 'status') {
+            <section class="security-panel">
+                <i class="pi pi-shield"></i>
+                <div>
+                    <h5>Protégez votre compte avec un code supplémentaire</h5>
+                    <p>
+                        Activer la double authentification de sécurité à votre
+                        compte en demandant un code de validation envoyé par
+                        email lors de la connexion.
+                    </p>
+                </div>
+            </section>
+            <div class="status-row">
+                <span>Statut actuel</span>
+                <p-togglebutton
+                    [ngModel]="enable2fa()"
+                    onLabel="Activée"
+                    offLabel="Désactivée"
+                    size="large"
+                    class="min-w-24"
+                />
+                <p-tag
+                    [severity]="enable2fa() ? 'success' : 'danger'"
+                    [value]="enable2fa() ? 'Activée' : 'Désactivée'"
+                />
+            </div>
+        } @else {
+            <form
+                [formGroup]="twoFactorForm"
+                class="verification-form"
+                (ngSubmit)="verifyTwoFactor()"
+            >
+                <p>
+                    Code envoyé à
+                    <strong>{{
+                        twoFactorChallenge()?.maskedRecipient ||
+                            currentUser()?.email
+                    }}</strong>
+                </p>
+                <input
+                    id="twoFactorCode"
+                    pInputText
+                    class="form-input verification-code"
+                    type="text"
+                    formControlName="code"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="one-time-code"
+                />
+                @if (
+                    twoFactorForm.controls.code.invalid &&
+                    twoFactorForm.controls.code.touched
+                ) {
+                    <small class="text-danger"
+                        >Le code doit contenir 6 chiffres.</small
+                    >
+                }
+                <button
+                    type="button"
+                    class="btn-link"
+                    (click)="resendCode()"
+                    [disabled]="resendCooldown() > 0"
+                >
+                    @if (resendCooldown() > 0) {
+                        Renvoyer dans {{ resendCooldown() }}s
+                    } @else {
+                        Renvoyer le code
+                    }
+                </button>
+            </form>
+        }
+    </div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-hide" (click)="closeModal()">
+            {{ twoFaStep() === 'status' ? 'Fermer' : 'Annuler' }}
+        </button>
+        @if (twoFaStep() === 'status' && !enable2fa()) {
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="requestTwoFactor()"
+                [disabled]="loading()"
+            >
+                Activer
+            </button>
+        }
+        @if (twoFaStep() === 'status' && enable2fa()) {
+            <button
+                type="button"
+                class="btn btn-danger"
+                (click)="disableTwoFactor()"
+                [disabled]="loading()"
+            >
+                Désactiver
+            </button>
+        }
+        @if (twoFaStep() === 'verification') {
+            <button
+                type="button"
+                class="btn btn-save"
+                (click)="verifyTwoFactor()"
+                [disabled]="twoFactorForm.invalid"
+            >
+                Valider
+            </button>
+        }
+    </div>
 </ng-template>

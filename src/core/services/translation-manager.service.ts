@@ -10,15 +10,16 @@ export class TranslationManagerService {
     private readonly SUPPORTED_LANGS = ['fr', 'en', 'es'];
     private readonly STORAGE_KEY = 'language';
 
-    // Signals for modern reactivity
-    private currentLangSignal = signal<string>('fr');
+    private readonly currentLangSignal = signal<string>('fr');
     public currentLang = this.currentLangSignal.asReadonly();
-    public supportedLangs = signal<string[]>(this.SUPPORTED_LANGS).asReadonly();
+    public readonly supportedLangs = signal<string[]>(
+        this.SUPPORTED_LANGS
+    ).asReadonly();
 
     private debugTranslationLoading(): void {
         console.log('🔍 Debug translation configuration:');
         console.log('- Default language:', this.translate.defaultLang);
-        console.log('- Current language:', this.translate.currentLang);
+        console.log('- Current language:', this.translate.getCurrentLang());
         console.log('- Supported languages:', this.translate.getLangs());
     }
 

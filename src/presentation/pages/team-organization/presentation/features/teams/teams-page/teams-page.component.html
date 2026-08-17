@@ -1,0 +1,38 @@
+<main class="container-fluid teams-container" role="main">
+    <section class="row teams-row">
+        <article class="col-sm-12 teams-article">
+            <app-breadcrumb />
+
+            <section class="card teams-card">
+                <div class="card-body teams-card-body">
+                    <header class="teams-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'TEAM_ORGANIZATION.TEAMS.TITLE' | translate
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <p-tabs [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.value) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

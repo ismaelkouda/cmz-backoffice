@@ -1,0 +1,76 @@
+<p-dialog
+    [visible]="visible()"
+    [modal]="true"
+    [closable]="false"
+    [resizable]="false"
+    [draggable]="false"
+    [style]="{ width: '90vw', maxWidth: '900px' }"
+    [breakpoints]="{ '768px': '95vw' }"
+    styleClass="image-preview-dialog"
+    (onHide)="onCloseDialog()"
+    (onShow)="onDialogShow()"
+    [header]="title() | translate"
+>
+    <div class="preview-content mt-3">
+        <img
+            [src]="image().url"
+            [alt]="image().alt || ('IMAGE_PREVIEW.IMAGE_ALT' | translate)"
+            class="preview-image"
+            [class.loaded]="imageLoaded()"
+            (load)="onImageLoad()"
+            (error)="onImageError()"
+        />
+
+        <!-- <app-image-zoom
+            id="image"
+            [src]="image().url"
+            [label]="image().alt || ('IMAGE_PREVIEW.IMAGE_ALT' | translate)"
+        /> -->
+
+        @if (imageError()) {
+            <div class="preview-error">
+                <i class="pi pi-exclamation-circle error-icon"></i>
+                <p class="error-text">
+                    {{ 'IMAGE_PREVIEW.LOAD_ERROR' | translate }}
+                </p>
+            </div>
+        }
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="preview-footer">
+            <div class="image-metadata">
+                @if (image().fileName) {
+                    <span
+                        class="metadata-item"
+                        [pTooltip]="'IMAGE_PREVIEW.FILE_NAME' | translate"
+                    >
+                        <i class="pi pi-file"></i>
+                        {{ image().fileName }}
+                    </span>
+                }
+
+                @if (image().fileSize) {
+                    <span
+                        class="metadata-item"
+                        [pTooltip]="'IMAGE_PREVIEW.FILE_SIZE' | translate"
+                    >
+                        <i class="pi pi-chart-bar"></i>
+                        {{ image().fileSize }}
+                    </span>
+                }
+            </div>
+
+            <div class="preview-actions">
+                <button
+                    type="button"
+                    pButton
+                    icon="pi pi-times"
+                    [label]="'COMMON.CLOSE' | translate"
+                    class="p-button-outlined p-button-secondary"
+                    (click)="onCloseDialog()"
+                ></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

@@ -1,0 +1,235 @@
+<main class="container-fluid form-legal-notice-container" role="main">
+    <p-toast position="top-right"></p-toast>
+
+    <section class="row form-legal-notice-row">
+        <article class="col-sm-12 form-legal-notice-article">
+            <app-breadcrumb />
+
+            <section class="card form-legal-notice-card">
+                <div class="card-body form-legal-notice-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode()
+                                        ? ('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.TITLE_FORM_EDIT'
+                                          | translate)
+                                        : ('CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.TITLE_FORM_ADD'
+                                          | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="navigateToBack()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    @if (loading()) {
+                                        <div class="text-center p-4">
+                                            <i
+                                                class="pi pi-spin pi-spinner"
+                                                style="font-size: 2rem"
+                                            ></i>
+                                            <p>
+                                                {{
+                                                    'COMMON.LOADING' | translate
+                                                }}
+                                            </p>
+                                        </div>
+                                    } @else {
+                                        <form
+                                            class="form row g-3"
+                                            [formGroup]="form"
+                                            (ngSubmit)="onSubmit()"
+                                        >
+                                            <fieldset class="fieldset">
+                                                <legend>
+                                                    <b>{{
+                                                        'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.GENERAL_INFO'
+                                                            | translate
+                                                    }}</b>
+                                                </legend>
+
+                                                <div class="row g-3">
+                                                    <div class="col-md-3">
+                                                        <label
+                                                            for="version"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            class="form-input"
+                                                            id="version"
+                                                            type="text"
+                                                            formControlName="version"
+                                                            [placeholder]="
+                                                                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-label]="
+                                                                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.VERSION'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'version'
+                                                                )
+                                                            "
+                                                        />
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mt-1"
+                                                        >
+                                                            @if (
+                                                                isFieldInvalid(
+                                                                    'version'
+                                                                )
+                                                            ) {
+                                                                <small
+                                                                    class="text-danger d-block"
+                                                                >
+                                                                    {{
+                                                                        getErrorMessage(
+                                                                            'version'
+                                                                        )
+                                                                    }}
+                                                                </small>
+                                                            }
+                                                            @if (
+                                                                !isFieldInvalid(
+                                                                    'version'
+                                                                )
+                                                            ) {
+                                                                <div></div>
+                                                            }
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12 mt-4">
+                                                        <label
+                                                            for="content"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.CONTENT'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
+                                                        </label>
+                                                        <p-editor
+                                                            id="content"
+                                                            formControlName="content"
+                                                            [invalid]="
+                                                                isFieldInvalid(
+                                                                    'content'
+                                                                )
+                                                            "
+                                                            [placeholder]="
+                                                                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.CONTENT_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-label]="
+                                                                'CONTENT_MANAGEMENT.LEGAL_NOTICE.FORM.CONTENT'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                isFieldInvalid(
+                                                                    'content'
+                                                                )
+                                                            "
+                                                            [style]="{
+                                                                height: '300px',
+                                                            }"
+                                                        />
+
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mt-1"
+                                                        >
+                                                            @if (
+                                                                isFieldInvalid(
+                                                                    'content'
+                                                                )
+                                                            ) {
+                                                                <small
+                                                                    class="text-danger d-block"
+                                                                    role="alert"
+                                                                >
+                                                                    {{
+                                                                        getErrorMessage(
+                                                                            'content'
+                                                                        )
+                                                                    }}
+                                                                </small>
+                                                            }
+                                                            @if (
+                                                                !isFieldInvalid(
+                                                                    'content'
+                                                                )
+                                                            ) {
+                                                                <div></div>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+
+                                            <div
+                                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                            >
+                                                <p-button
+                                                    [label]="
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    "
+                                                    styleClass="p-button-text p-button-secondary"
+                                                    (onClick)="navigateToBack()"
+                                                />
+
+                                                <p-button
+                                                    type="submit"
+                                                    [label]="
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    "
+                                                    [disabled]="
+                                                        form.invalid ||
+                                                        loadingSubmit()
+                                                    "
+                                                    [attr.aria-label]="
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    "
+                                                />
+                                            </div>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

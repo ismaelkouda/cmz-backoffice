@@ -1,52 +1,44 @@
-<div class="page-header" [class.close_icon]="navServices.collapseSidebar">
-    <div class="header-wrapper row m-0" *ngIf="statusLayout()">
-        <div class="col col-12 horizontal-wrapper pl-0">
-            <div class="nav-right">
-                <ul class="nav-menus">
-                    <li class="onhover-dropdown p-0">
-                        <app-languages></app-languages>
-                    </li>
-                    <li class="profile-nav onhover-dropdown">
-                        <app-my-account></app-my-account>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-    <nav class="navbar m-0" [hidden]="statusLayout()">
-        <div
-            class="container-fluid d-flex justify-content-between align-items-center flex-wrap px-3 py-2 mr-10"
-        >
-            <div class="d-flex align-items-center gap-3">
-                <h3 class="sidebar-tenant my-0">
-                    <span class="legende"
-                        ><b>{{ config.app.title }}</b></span
-                    >
-                </h3>
-            </div>
-            <div class="d-flex gap-4 align-items-center">
-                <!-- <div class="refresh-icon-wrapper">
-                    <button
-                        type="button"
-                        class="pi pi-refresh header-icon refresh-button"
-                        [title]="'LAYOUT.HEADER.REFRESH.TITLE' | translate"
-                        (click)="handleRefreshNotification()"
-                        [attr.aria-label]="
-                            'LAYOUT.HEADER.REFRESH.ARIA_LABEL' | translate
-                        "
-                    ></button>
-                </div> -->
-                <div>
+<div class="page-header" [class.close_icon]="collapseSidebar()">
+    @if (statusLayout()) {
+        <div class="header-wrapper row m-0">
+            <div class="col col-12 horizontal-wrapper pl-0">
+                <div class="nav-right">
                     <ul class="nav-menus mb-0">
-                        <li class="onhover-dropdown p-0">
+                        <!-- <li>
                             <app-languages></app-languages>
+                        </li> -->
+                        <li>
+                            <app-notifications-bell
+                                [notificationsCount]="count()"
+                            ></app-notifications-bell>
                         </li>
-                        <li class="profile-nav onhover-dropdown p-0">
+                        <li>
                             <app-my-account></app-my-account>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
+    }
+    <nav
+        class="navbar container-fluid d-flex justify-content-between align-items-center flex-wrap my-1 px-3"
+        [hidden]="statusLayout()"
+    >
+        <h3 class="legend">
+            <b>{{ config.app.title }}</b>
+        </h3>
+        <ul class="nav-menus mb-0">
+            <!-- <li>
+                <app-languages></app-languages>
+            </li> -->
+            <li>
+                <app-notifications-bell
+                    [notificationsCount]="count()"
+                ></app-notifications-bell>
+            </li>
+            <li>
+                <app-my-account></app-my-account>
+            </li>
+        </ul>
     </nav>
 </div>

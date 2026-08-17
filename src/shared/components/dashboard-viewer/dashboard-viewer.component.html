@@ -1,0 +1,107 @@
+<main class="dashboard-container" role="main">
+    <section class="dashboard-header-section">
+        <article class="dashboard-content">
+            <app-breadcrumb />
+
+            <section
+                class="dashboard-card"
+                [class.fullscreen-mode]="isFullscreen()"
+            >
+                <header class="dashboard-card-header">
+                    <div class="header-content">
+                        <div class="title-section">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleKey() | translate"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        <div class="header-actions">
+                            <button
+                                pButton
+                                icon="pi pi-refresh"
+                                class="p-button-outlined p-button-secondary action-btn"
+                                (click)="handleRefreshDashboard()"
+                                pTooltip="{{ 'COMMON.REFRESH' | translate }}"
+                                tooltipPosition="bottom"
+                            ></button>
+                            <button
+                                pButton
+                                [icon]="
+                                    isFullscreen()
+                                        ? 'pi pi-window-minimize'
+                                        : 'pi pi-window-maximize'
+                                "
+                                class="p-button-outlined p-button-secondary action-btn"
+                                (click)="toggleFullscreen()"
+                                [pTooltip]="
+                                    isFullscreen()
+                                        ? ('COMMON.EXIT_FULLSCREEN' | translate)
+                                        : ('COMMON.ENTER_FULLSCREEN'
+                                          | translate)
+                                "
+                                tooltipPosition="bottom"
+                            ></button>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="dashboard-card-body">
+                    @if (loading()) {
+                        <div class="loading-state">
+                            <p-progressSpinner
+                                strokeWidth="4"
+                                animationDuration=".5s"
+                            >
+                            </p-progressSpinner>
+                            <h3>
+                                {{
+                                    'COMMON.LOADING_GRAFANA_DASHBOARD'
+                                        | translate
+                                }}
+                            </h3>
+                            <p>{{ loadingDescription() | translate }}</p>
+                        </div>
+                    } @else if (error()) {
+                        <div class="error-state">
+                            <div class="error-icon">
+                                <i class="pi pi-exclamation-triangle"></i>
+                            </div>
+                            <h3>
+                                {{
+                                    'COMMON.ERROR_GRAFANA_DASHBOARD' | translate
+                                }}
+                            </h3>
+                            <p>{{ errorDescription() | translate }}</p>
+                            <button
+                                pButton
+                                icon="pi pi-refresh"
+                                label="{{ 'COMMON.RETRY' | translate }}"
+                                (click)="handleRefreshDashboard()"
+                                class="p-button-primary"
+                            ></button>
+                        </div>
+                    } @else {
+                        <div
+                            class="grafana-container"
+                            [class.fullscreen]="isFullscreen()"
+                        >
+                            <iframe
+                                #grafanaIframe
+                                [src]="grafanaLink() | safeUrl"
+                                frameborder="0"
+                                allowfullscreen
+                                class="grafana-iframe"
+                                title="{{ titleKey() | translate }}"
+                            >
+                            </iframe>
+                        </div>
+                    }
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

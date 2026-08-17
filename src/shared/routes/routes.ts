@@ -2,89 +2,99 @@ import { Routes } from '@angular/router';
 export const SEARCH = 'search';
 
 export const DASHBOARD = 'dashboard';
-export const REPORTS_PROCESSING_ROUTE = 'reports-processing';
-export const REPORT_FINALIZATION_ROUTE = 'reports-finalization';
+export const PROCESSING_ROUTE = 'reports-processing';
+export const FINALIZATION_ROUTE = 'reports-finalization';
+export const REPORT_STATES_ROUTE = 'report-status';
 export const REPORTING_ROUTE = 'reporting';
-export const REPORT_REQUESTS_ROUTE = 'requests';
+export const MONITORING_ROUTE = 'system-supervision';
+export const REQUESTS_ROUTE = 'requests';
 export const CUSTOMERS_MANAGED = 'managed-customers';
 export const REQUESTS_SERVICE = 'requests-services';
 export const SUPERVISORY_REPOSITORY = 'sla-reference';
 export const SETTINGS_SECURITY_ROUTE = 'security-settings';
-export const TEAM_ORGANIZATION = 'organization';
+export const TEAM_ORGANIZATION_ROUTE = 'organization';
 export const ACCOUNTING = 'accounting';
 export const COMMUNICATION_ROUTE = 'communication';
+export const MAP_ROUTE = 'map';
 export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
 export const ADMINISTRATIVE_BOUNDARY_ROUTE = 'territorial-structure';
+export const ADMINISTRATIVE_INFRASTRUCTURE_ROUTE = 'equipments';
+export const COVERAGE_AREAS_ROUTE = 'coverage-areas';
 
 export const content: Routes = [
     {
         path: DASHBOARD,
         loadChildren: () =>
-            import('../../presentation/pages/dashboard/dashboard.routes').then(
+            import('@pages/dashboard/dashboard.routes').then((m) => m.routes),
+        data: {
+            module: 'TEAM_ORGANIZATION',
+            subModule: [
+                'TEAM_ORGANIZATION.PARTICIPANT.LABEL',
+                'TEAM_ORGANIZATION.TEAM.LABEL',
+                'TEAM_ORGANIZATION.AGENT_IA.LABEL',
+            ],
+        },
+    },
+    {
+        path: TEAM_ORGANIZATION_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'TEAM_ORGANIZATION.BREADCRUMB.LABEL',
+                icon: 'TEAM_ORGANIZATION.BREADCRUMB.ICON',
+            },
+        },
+        loadChildren: () =>
+            import('@pages/team-organization/team-organization.routes').then(
                 (m) => m.routes
             ),
-        data: {
-            module: 'TEAM_ORGANIZATION',
-            subModule: [
-                'TEAM_ORGANIZATION.PARTICIPANT.LABEL',
-                'TEAM_ORGANIZATION.TEAM.LABEL',
-                'TEAM_ORGANIZATION.AGENT_IA.LABEL',
-            ],
-        },
     },
     {
-        path: TEAM_ORGANIZATION,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/team-organization/team-organization.routes'
-            ).then((m) => m.routes),
-        data: {
-            module: 'TEAM_ORGANIZATION',
-            subModule: [
-                'TEAM_ORGANIZATION.PARTICIPANT.LABEL',
-                'TEAM_ORGANIZATION.TEAM.LABEL',
-                'TEAM_ORGANIZATION.AGENT_IA.LABEL',
-            ],
-        },
-    },
-    {
-        path: REPORT_REQUESTS_ROUTE,
+        path: REQUESTS_ROUTE,
         data: {
             breadcrumb: {
-                label: 'REPORTS_REQUESTS.BREADCRUMB.LABEL',
-                icon: 'REPORTS_REQUESTS.BREADCRUMB.ICON',
+                label: 'REQUESTS.BREADCRUMB.LABEL',
+                icon: 'REQUESTS.BREADCRUMB.ICON',
             },
         },
         loadChildren: () =>
-            import(
-                '../../presentation/pages/report-requests/report-requests.routes'
-            ).then((m) => m.routes),
+            import('@pages/requests/requests.routes').then((m) => m.routes),
     },
     {
-        path: REPORTS_PROCESSING_ROUTE,
+        path: PROCESSING_ROUTE,
         data: {
             breadcrumb: {
-                label: 'REPORTS_PROCESSING.BREADCRUMB.LABEL',
-                icon: 'REPORTS_PROCESSING.BREADCRUMB.ICON',
+                label: 'PROCESSING.BREADCRUMB.LABEL',
+                icon: 'PROCESSING.BREADCRUMB.ICON',
             },
         },
         loadChildren: () =>
-            import(
-                '../../presentation/pages/reports-processing/reports-processing.routes'
-            ).then((m) => m.routes),
+            import('@pages/processing/processing.routes').then((m) => m.routes),
     },
+    // {
+    //     path: FINALIZATION_ROUTE,
+    //     data: {
+    //         breadcrumb: {
+    //             label: 'FINALIZATION.BREADCRUMB.LABEL',
+    //             icon: 'FINALIZATION.BREADCRUMB.ICON',
+    //         },
+    //     },
+    //     loadChildren: () =>
+    //         import('@pages/finalization/finalization.routes').then(
+    //             (m) => m.routes
+    //         ),
+    // },
     {
-        path: REPORT_FINALIZATION_ROUTE,
+        path: REPORT_STATES_ROUTE,
         data: {
             breadcrumb: {
-                label: 'FINALIZATION.BREADCRUMB.LABEL',
-                icon: 'FINALIZATION.BREADCRUMB.ICON',
+                label: 'REPORT_STATES.BREADCRUMB.LABEL',
+                icon: 'REPORT_STATES.BREADCRUMB.ICON',
             },
         },
         loadChildren: () =>
-            import(
-                '../../presentation/pages/finalization/finalization.routes'
-            ).then((m) => m.routes),
+            import('@pages/report-states/report-states.routes').then(
+                (m) => m.routes
+            ),
     },
     {
         path: REPORTING_ROUTE,
@@ -95,30 +105,40 @@ export const content: Routes = [
             },
         },
         loadChildren: () =>
-            import('../../presentation/pages/reporting/reporting.route').then(
+            import('@pages/reporting/reporting.route').then((m) => m.routes),
+    },
+    {
+        path: COMMUNICATION_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'COMMUNICATION.BREADCRUMB.LABEL',
+                icon: 'COMMUNICATION.BREADCRUMB.ICON',
+            },
+        },
+        loadChildren: () =>
+            import('@pages/communication/communication.routes').then(
                 (m) => m.routes
             ),
     },
     {
-        path: COMMUNICATION_ROUTE,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/communication/communication.routes'
-            ).then((m) => m.routes),
+        path: MAP_ROUTE,
         data: {
-            module: 'COMMUNICATION',
-            subModule: [
-                'COMMUNICATION.MESSAGES.LABEL',
-                'COMMUNICATION.NOTIFICATIONS.LABEL',
-            ],
+            breadcrumb: {
+                label: 'INTERACTIVE_MAP.BREADCRUMB.LABEL',
+                icon: 'INTERACTIVE_MAP.BREADCRUMB.ICON',
+            },
         },
+        loadChildren: () =>
+            import('@pages/interactive-map/interactive-map.routes').then(
+                (m) => m.routes
+            ),
     },
     {
         path: CONTENT_MANAGEMENT_ROUTE,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/content-management/content-management.routes'
-            ).then((m) => m.routes),
+            import('@pages/content-management/content-management.routes').then(
+                (m) => m.routes
+            ),
         data: {
             breadcrumb: {
                 label: 'CONTENT_MANAGEMENT.LABEL',
@@ -129,9 +149,9 @@ export const content: Routes = [
     {
         path: ADMINISTRATIVE_BOUNDARY_ROUTE,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/administrative-boundary/administrative-boundary.route'
-            ).then((m) => m.routes),
+            import('@pages/administrative-boundary/administrative-boundary.routes').then(
+                (m) => m.routes
+            ),
         data: {
             breadcrumb: {
                 label: 'ADMINISTRATIVE_BOUNDARY.LABEL',
@@ -139,59 +159,56 @@ export const content: Routes = [
             },
         },
     },
-    /*     {
-            path: SETTINGS_SECURITY_ROUTE,
-            loadChildren: () =>
-                import(
-                    '../../presentation/pages/settings-security/settings-security.routes'
-                ).then((m) => m.routes),
-            data: {
-                module: 'SETTINGS_SECURITY',
-                subModule: [
-                    'SETTINGS_SECURITY.USER.LABEL',
-                    'SETTINGS_SECURITY.PROFILE_HABILITATION.LABEL',
-                ],
+    {
+        path: SETTINGS_SECURITY_ROUTE,
+        loadChildren: () =>
+            import('@pages/settings-security/settings-security.routes').then(
+                (m) => m.routes
+            ),
+        data: {
+            breadcrumb: {
+                label: 'SETTINGS_SECURITY.LABEL',
+                icon: 'pi-cog',
             },
-        }, */
-    /*     {
-        path: CUSTOMERS_MANAGED,
-        loadChildren: () =>
-            import(
-                '../../presentation/pages/managed-customers/managed-customers.module'
-            ).then((m) => m.ManagedCustomersModule),
-        data: {
-            module: 'CUSTOMERS_MANAGED',
-            subModule: [
-                'COMMERCIAL_ENTERPRISE',
-                'PUBLIC_ENTERPRISES',
-                'ASSOCIATION_ENTERPRISES',
-                'INDIVIDUALS',
-                'CUSTOMERS',
-            ],
         },
-    }, */
-    /*     {
-        path: SUPERVISORY_REPOSITORY,
+    },
+    {
+        path: ADMINISTRATIVE_INFRASTRUCTURE_ROUTE,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/supervisory-repository/supervisory-repository.module'
-            ).then((m) => m.SupervisoryRepositoryModule),
+            import('@pages/administrative-infrastructure/administrative-infrastructure.routes').then(
+                (m) => m.routes
+            ),
         data: {
-            module: 'SUPERVISORY_REPOSITORY',
-            subModule: ['SLA_AGREEMENTS', 'SLA_MANAGEMENT_CONTRACT'],
+            breadcrumb: {
+                label: 'ADMINISTRATIVE_INFRASTRUCTURE.LABEL',
+                icon: 'pi-sitemap',
+            },
         },
-    }, */
-    /*     {
-        path: REQUESTS_SERVICE,
+    },
+    {
+        path: COVERAGE_AREAS_ROUTE,
         loadChildren: () =>
-            import(
-                '../../presentation/pages/requests-service/requests-service-routing.module'
-            ).then((m) => m.routes),
+            import('@pages/coverage-areas/coverage-areas.routes').then(
+                (m) => m.routes
+            ),
         data: {
-            module: 'REQUESTS_SERVICE',
-            subModule: ['CUSTOMERS_ACTIVATE'],
+            breadcrumb: {
+                label: 'COVERAGE_AREAS.LABEL',
+                icon: 'pi-sitemap',
+            },
         },
-    }, */
+    },
+    {
+        path: MONITORING_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'MONITORING.BREADCRUMB.LABEL',
+                icon: 'MONITORING.BREADCRUMB.ICON',
+            },
+        },
+        loadChildren: () =>
+            import('@pages/monitoring/monitoring.routes').then((m) => m.routes),
+    },
     {
         path: '',
         redirectTo: DASHBOARD,

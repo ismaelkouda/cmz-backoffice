@@ -1,0 +1,67 @@
+<main class="container-fluid tasks-container" role="main">
+    <section class="row tasks-row">
+        <article class="col-sm-12 tasks-article">
+            <app-breadcrumb />
+
+            <section class="card tasks-card">
+                <div class="card-body tasks-card-body">
+                    <header class="tasks-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'FINALIZATION.TASKS.TITLE' | translate"
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="tasks-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="form"
+                            [fields]="filterFields()"
+                            (filter)="onFilterClicked()"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="4"
+                        ></app-filter>
+
+                        <hr class="tasks-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                [selectionMode]="'multiple'"
+                                class="table-component"
+                                dataKey="uniqId"
+                                [config]="tableConfig"
+                                [loading]="loading()"
+                                [headerButtons]="headerButtons()"
+                                [items]="itemsVM()"
+                                [pagination]="pagination()"
+                                (actionClicked)="onActionClicked($event)"
+                                (headerButtonClicked)="onHeaderClicked($event)"
+                                (selectionChange)="onSelectionChange($event)"
+                                [selection]="selectedInTable()"
+                            >
+                            </app-table>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onChangePageClicked($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+
+    @if (isVisibleDialog()) {
+        <app-management-dialog
+            [visible]="isVisibleDialog()"
+            [uniqId]="selectedReportId()"
+            [type]="selectedManagementType()"
+            (visibleChange)="onVisibleDialogClicked($event)"
+        ></app-management-dialog>
+    }
+</main>

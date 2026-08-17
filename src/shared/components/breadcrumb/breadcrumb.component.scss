@@ -5,3 +5,15 @@
 .breadcrumb-item::before {
     color: #000 !important;
 }
+
+:host ::ng-deep .p-breadcrumb {
+    background: transparent !important;
+}
+
+.icon-gray {
+    color: gray !important;
+}
+
+.text-primary {
+    color: var(--theme-default) !important;
+}

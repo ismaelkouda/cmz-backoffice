@@ -1,0 +1,65 @@
+<div class="header-left">
+    @if (loading()) {
+        <div class="header-skeleton">
+            <p-skeleton
+                width="500px"
+                height="28px"
+                styleClass="mb-2"
+            ></p-skeleton>
+        </div>
+    } @else {
+        <span class="header-title">
+            {{ mainTitle() | translate }}
+            @if (isReport()) {
+                {{ 'MANAGEMENT.HEADER.DETAILS_REPORT' | translate }}
+            } @else {
+                {{ 'MANAGEMENT.HEADER.DETAILS_DEMAND' | translate }}
+            }
+        </span>
+
+        @if (uniqId()) {
+            <span
+                class="header-title copyable"
+                [pTooltip]="'COMMON.COPY' | translate"
+                tooltipPosition="bottom"
+                (click)="onCopyId()"
+                (keypress)="onCopyId()"
+                tabindex="0"
+                role="button"
+            >
+                [ {{ uniqId() }} ]
+            </span>
+        }
+
+        <span class="header-title">
+            {{ 'MANAGEMENT.FORM.REPORT_INFO.TRANSMISSION_CHANNEL' | translate }}
+        </span>
+
+        <span
+            class="header-title copyable"
+            [pTooltip]="'COMMON.COPY' | translate"
+            tooltipPosition="bottom"
+            tabindex="0"
+            role="button"
+        >
+            [ {{ source() | translate }} ]
+        </span>
+
+        <span class="header-title">
+            {{ 'MANAGEMENT.FORM.REPORT_INFO.STATUS' | translate }}
+        </span>
+
+        <span class="tag-group status-group" tabindex="0" role="button">
+            <p-tag
+                [style]="{ 'font-size': '1.5rem' }"
+                [value]="status() | translate"
+                [severity]="statusStyle() | translate"
+            />
+        </span>
+
+        <span class="header-title">
+            {{ 'MANAGEMENT.HEADER.NUMBER_OF_CONFIRMATIONS' | translate }}
+            [ {{ confirmCount() }} ]
+        </span>
+    }
+</div>

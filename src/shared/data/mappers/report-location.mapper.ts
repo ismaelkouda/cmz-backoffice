@@ -1,7 +1,7 @@
-import { ReportLocationDto } from '@shared/data/dtos/report-location.dto';
+import { Injectable } from '@angular/core';
+import { ReportLocationDto } from '@shared/data/dto/report-location.dto';
 import { ReportLocationEntity } from '@shared/domain/entities/report-location.entity';
 
-import { Injectable } from '@angular/core';
 @Injectable({
     providedIn: 'root',
 })
@@ -9,7 +9,9 @@ export class ReportLocationMapper {
     mapToEntity(
         dtoValue: ReportLocationDto | null
     ): ReportLocationEntity | null {
-        if (!dtoValue) return null;
+        if (!dtoValue) {
+            return null;
+        }
 
         return new ReportLocationEntity(
             dtoValue.coordinates,
@@ -23,7 +25,9 @@ export class ReportLocationMapper {
     mapToDto(
         entityValue: ReportLocationEntity | null
     ): ReportLocationDto | null {
-        if (!entityValue) return null;
+        if (!entityValue) {
+            return null;
+        }
 
         return {
             coordinates: entityValue.coordinates,

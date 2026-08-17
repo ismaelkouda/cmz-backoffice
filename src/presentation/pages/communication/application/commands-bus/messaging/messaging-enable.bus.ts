@@ -1,0 +1,18 @@
+import { Injectable, inject } from '@angular/core';
+import { MessagingEnableCommand } from '@pages/communication/application/commands/messaging/messaging-enable.command';
+import { MessagingEnableHandler } from '@pages/communication/application/commands-handlers/messaging/messaging-enable.handler';
+import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class MessagingEnableBus {
+    private readonly filterHandler = inject(MessagingEnableHandler);
+
+    dispatch<T>(command: T): Observable<MessageResponseDto> {
+        if (command instanceof MessagingEnableCommand) {
+            return this.filterHandler.execute(command);
+        }
+
+        throw new Error('No handler found for command');
+    }
+}

@@ -1,10 +1,16 @@
 <div>
     <span class="table-header-wrapper">
-        <b
-            ><span *ngIf="displayList">{{ 'COMMON.LIST_OF' | translate }}&nbsp;</span>{{ title }}&nbsp;
-            <span style="text-decoration: underline" *ngIf="displayDate"
-                >{{ 'COMMON.UPDATED_AT' | translate }} {{ currentDate }}</span
-            >
+        <b>
+            @if (displayList) {
+                <span>{{ 'COMMON.LIST_OF' | translate }}</span>
+            }
+            {{ title }}&nbsp;
+            @if (displayDate) {
+                <span style="text-decoration: underline"
+                    >{{ 'COMMON.UPDATED_AT' | translate }}
+                    {{ currentDate }}</span
+                >
+            }
         </b>
     </span>
 </div>

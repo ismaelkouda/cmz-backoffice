@@ -21,7 +21,6 @@ label {
     width: 100% !important;
 }
 
-
 ::ng-deep .form-input {
     @extend .form-input;
     padding-right: 48px;
@@ -83,7 +82,7 @@ label {
     display: flex;
     justify-content: space-between;
 
-    &__legende {
+    &__legend {
         padding-top: 0.7rem;
     }
 }
@@ -351,9 +350,9 @@ input::-webkit-inner-spin-button {
 .modal-header {
     background-color: #000;
 
-    h4 {
-        text-transform: uppercase;
-    }
+    // h4 {
+    //     text-transform: uppercase;
+    // }
 
     h4,
     button {
@@ -409,6 +408,6 @@ input::-webkit-inner-spin-button {
 .disabled_radio {
     background: gainsboro;
     padding: 0 8px;
-    line-height: -31p;
+    line-height: -31px;
     border-radius: 4px;
 }

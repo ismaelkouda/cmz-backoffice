@@ -9,6 +9,13 @@
 /node_modules
 .angular
 
+# configuration files
+/src/assets/config/env.js
+
+/src/environments
+/src/assets/config
+/tools/env
+
 # IDEs and editors
 /.idea
 .project
@@ -39,3 +46,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
+
+# SEOS DSL temp configs
+seos/.tmp/

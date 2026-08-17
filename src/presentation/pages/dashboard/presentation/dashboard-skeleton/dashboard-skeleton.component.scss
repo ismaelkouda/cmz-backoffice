@@ -1,0 +1,300 @@
+.dashboard-container {
+    padding: 24px;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--theme-default-rgb, 91, 155, 213), 0.02) 0%,
+        rgba(var(--theme-default-rgb, 91, 155, 213), 0.05) 100%
+    );
+    min-height: calc(100vh - 60px);
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    padding: 10px 32px;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--theme-default-rgb, 91, 155, 213), 0.1) 0%,
+        rgba(var(--theme-default-rgb, 91, 155, 213), 0.05) 100%
+    );
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(var(--theme-default-rgb, 91, 155, 213), 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.15);
+}
+
+.title-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.period-filter-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.2);
+}
+
+.period-filter {
+    margin-bottom: 0;
+}
+
+.period-select-button-skeleton {
+    display: flex;
+    gap: 8px;
+}
+
+.date-info {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 8px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.15);
+}
+
+.refresh-btn-skeleton {
+    width: 44px;
+    height: 44px;
+}
+
+.dashboard-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.statistics-section {
+    position: relative;
+    background: var(--theme-tertiary, #ffffff);
+    border-radius: 20px;
+    padding: 28px 28px 28px;
+    border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.12);
+    box-shadow: 0 8px 32px rgba(var(--theme-default-rgb, 91, 155, 213), 0.08);
+    overflow: hidden;
+}
+
+.section-header {
+    position: relative;
+    margin-bottom: 35px;
+}
+
+.section-badge-skeleton {
+    position: absolute;
+    top: -20px;
+    left: 32px;
+    z-index: 2;
+}
+
+.section-indicator-skeleton {
+    height: 2px;
+    margin-top: 12px;
+}
+
+.statistics-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+}
+
+.stat-card-skeleton {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 18px;
+    min-height: 180px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(
+        135deg,
+        rgba(var(--theme-default-rgb, 91, 155, 213), 0.1) 0%,
+        rgba(var(--theme-default-rgb, 91, 155, 213), 0.05) 100%
+    );
+    border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.1);
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+}
+
+.stat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 4px;
+}
+
+.stat-icon-wrapper-skeleton {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(var(--theme-default-rgb, 91, 155, 213), 0.05);
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(var(--theme-default-rgb, 91, 155, 213), 0.1);
+}
+
+.stat-label-skeleton {
+    margin-top: 8px;
+}
+
+.card-decoration-skeleton {
+    position: absolute;
+    bottom: -20px;
+    right: -20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgba(var(--theme-default-rgb, 91, 155, 213), 0.03);
+}
+
+// Animation de pulse pour les skeletons
+::ng-deep {
+    .p-skeleton {
+        background: rgba(var(--theme-default-rgb, 91, 155, 213), 0.15);
+        border-radius: 4px;
+
+        &:after {
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.3),
+                transparent
+            );
+        }
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1600px) {
+    .statistics-grid {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 1400px) {
+    .statistics-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .statistics-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 992px) {
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+        padding: 20px 24px;
+    }
+
+    .header-actions {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    .period-filter-container {
+        order: 1;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .period-select-button-skeleton {
+        flex-wrap: wrap;
+    }
+
+    .date-info {
+        order: 2;
+    }
+
+    .refresh-btn-skeleton {
+        order: 3;
+    }
+
+    .statistics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 16px;
+    }
+
+    .statistics-section {
+        padding: 32px 20px 20px;
+    }
+
+    .section-badge-skeleton {
+        left: 20px;
+    }
+
+    .statistics-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .statistics-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .stat-card-skeleton {
+        min-height: 160px;
+        padding: 24px;
+    }
+}
+
+@media (max-width: 576px) {
+    .period-filter-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .period-select-button-skeleton {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .header-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .date-info {
+        text-align: center;
+    }
+}

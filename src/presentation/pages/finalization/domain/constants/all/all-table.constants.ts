@@ -1,4 +1,17 @@
-export const ALL_TABLE_CONST = {
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
+export const ALL_TABLE = {
+    actions: [
+        {
+            id: 'view',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'FINALIZATION.ALL.TABLE.SEE_MORE',
+            severity: 'primary',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -13,7 +26,7 @@ export const ALL_TABLE_CONST = {
             width: '8rem',
         },
         {
-            field: 'reportType',
+            field: 'reportTypeLabel',
             header: 'FINALIZATION.ALL.TABLE.REPORT_TYPE',
             width: '12rem',
         },
@@ -23,19 +36,13 @@ export const ALL_TABLE_CONST = {
             width: '12rem',
         },
         {
-            field: 'source',
+            field: 'sourceLabel',
             header: 'FINALIZATION.ALL.TABLE.SOURCE',
             width: '12rem',
         },
         {
-            field: 'state',
-            header: 'FINALIZATION.ALL.TABLE.STATE',
-            class: 'text-center',
-            width: '4rem',
-        },
-        {
-            field: 'createdAt',
-            header: 'FINALIZATION.ALL.TABLE.CREATED_AT',
+            field: 'reportedAt',
+            header: 'FINALIZATION.ALL.TABLE.REPORTED_AT',
             class: 'text-center',
             width: '8rem',
         },
@@ -43,15 +50,15 @@ export const ALL_TABLE_CONST = {
             field: '__action',
             header: 'FINALIZATION.ALL.TABLE.ACTION',
             class: 'text-center',
-            width: '2rem',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: [
         'uniqId',
         'reportTypeLabel',
-        'operatorsLabels',
+        'operators',
         'sourceLabel',
-        'state',
-        'createdAt',
+        'initiatorPhoneNumber',
+        'reportedAt',
     ],
 };

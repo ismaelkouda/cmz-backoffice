@@ -5,21 +5,15 @@ import {
     Component,
     inject,
 } from '@angular/core';
-import {
-    ActivatedRoute,
-    NavigationEnd,
-    Router,
-    RouterOutlet,
-} from '@angular/router';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { FooterComponent } from '@shared/components/footer/footer.component';
+import { HeaderComponent } from '@shared/components/header/header.component';
+import { SidebarComponent } from '@shared/components/sidebar/sidebar.component';
 import { fadeInAnimation } from '@shared/data/router-animation/router-animation';
-import { AppCustomizationService } from '@shared/services/app-customization.service';
-import { LayoutService } from '@shared/services/layout.service';
-import { NavService } from '@shared/services/nav.service';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { NavService } from '@shared/domain/services/nav.service';
 import * as feather from 'feather-icons';
 import { filter } from 'rxjs';
-import { FooterComponent } from '../../footer/footer.component';
-import { HeaderComponent } from '../../header/header.component';
-import { SidebarComponent } from '../../sidebar/sidebar.component';
 
 @Component({
     selector: 'app-content',
@@ -37,15 +31,13 @@ import { SidebarComponent } from '../../sidebar/sidebar.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ContentComponent implements AfterViewInit {
-    public readonly config = inject(AppCustomizationService).config;
+    navServices = inject(NavService);
+    private readonly router = inject(Router);
+
+    public readonly config = inject(AppCustomizationService);
     public showTabs = false;
 
-    constructor(
-        private route: ActivatedRoute,
-        public navServices: NavService,
-        public layout: LayoutService,
-        private router: Router
-    ) {
+    constructor() {
         this.router.events
             .pipe(filter((event) => event instanceof NavigationEnd))
             .subscribe(() => {
@@ -54,11 +46,7 @@ export class ContentComponent implements AfterViewInit {
                 }, 2500);
             });
 
-        this.route.queryParams.subscribe((params) => {
-            this.layout.config.settings.layout = params['layout']
-                ? params['layout']
-                : this.layout.config.settings.layout;
-        });
+        this.config.listenToSystemMode();
     }
 
     ngAfterViewInit(): void {
@@ -68,15 +56,14 @@ export class ContentComponent implements AfterViewInit {
     }
 
     get layoutClass(): string {
-        switch (globalThis.localStorage.getItem('layout')) {
-            case 'Paris':
-                return 'compact-wrapper dark-sidebar';
-            case 'Barcelona':
-                return this.navServices.horizontal
-                    ? 'horizontal-wrapper enterprice-type advance-layout'
-                    : 'compact-wrapper enterprice-type advance-layout';
+        const mode = this.config.getUserMode();
+        switch (mode) {
+            case 'dark':
+                return 'light-sidebar';
+            case 'light':
+                return 'dark-sidebar';
             default:
-                return 'compact-wrapper dark-sidebar';
+                return 'dark-sidebar';
         }
     }
 }

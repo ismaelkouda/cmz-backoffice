@@ -1,42 +1,61 @@
 import { Routes } from '@angular/router';
-import { FormSlideComponent } from './form-slide/form-slide.component';
-import { SlideComponent } from './pages/slide.component';
 
-export const SLIDE_CREATE_ROUTE = 'create';
-export const SLIDE_EDIT_ROUTE = ':id/edit';
-export const SLIDE_VIEW_ROUTE = ':id/view';
+import {
+    SLIDE_LIST_ROUTE,
+    SLIDE_HISTORY_ROUTE,
+    SLIDE_FORM_ROUTE,
+} from '@pages/content-management/presentation/features/slide/slide-paths.constants';
 
 export const SLIDE_ROUTES: Routes = [
     {
         path: '',
-        component: SlideComponent,
+        loadComponent: () =>
+            import('@presentation/pages/content-management/presentation/features/slide/slide-page/slide-page.component').then(
+                (m) => m.SlidePageComponent
+            ),
         data: {
             title: 'CONTENT_MANAGEMENT.SLIDE.TITLE',
             breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.TITLE',
         },
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: SLIDE_LIST_ROUTE,
+            },
+            {
+                path: SLIDE_LIST_ROUTE,
+                loadComponent: () =>
+                    import('@presentation/pages/content-management/presentation/features/slide/slide-list/slide-list.component').then(
+                        (m) => m.SlideListComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: SLIDE_HISTORY_ROUTE,
+                loadComponent: () =>
+                    import('@shared/components/history/presentation/features/history-page/history-page.component').then(
+                        (m) => m.HistoryPageComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+        ],
     },
     {
-        path: SLIDE_CREATE_ROUTE,
-        component: FormSlideComponent,
+        path: `${SLIDE_FORM_ROUTE}`,
         data: {
-            title: 'CONTENT_MANAGEMENT.SLIDE.CREATE.TITLE',
-            breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.CREATE.TITLE',
+            title: 'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE',
+            breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.FORM.TITLE',
         },
+        children: [
+            {
+                path: '',
+                loadComponent: () =>
+                    import('@pages/content-management/presentation/features/slide/slide-form/slide-form.component').then(
+                        (m) => m.SlideFormComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+        ],
     },
-    {
-        path: SLIDE_EDIT_ROUTE,
-        component: FormSlideComponent,
-        data: {
-            title: 'CONTENT_MANAGEMENT.SLIDE.EDIT.TITLE',
-            breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.EDIT.TITLE',
-        },
-    },
-    /* {
-        path: SLIDE_VIEW_ROUTE,
-        component: ViewSlideComponent,
-        data: {
-            title: 'CONTENT_MANAGEMENT.SLIDE.VIEW.TITLE',
-            breadcrumb: 'CONTENT_MANAGEMENT.SLIDE.VIEW.TITLE',
-        },
-    } */
 ];

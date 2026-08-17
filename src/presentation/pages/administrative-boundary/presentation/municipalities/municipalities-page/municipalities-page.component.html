@@ -1,0 +1,39 @@
+<main class="container-fluid municipalities-container" role="main">
+    <section class="row municipalities-row">
+        <article class="col-sm-12 municipalities-article">
+            <app-breadcrumb />
+
+            <section class="card municipalities-card">
+                <div class="card-body municipalities-card-body">
+                    <header class="municipalities-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'ADMINISTRATIVE_BOUNDARY.MUNICIPALITIES.TITLE'
+                                    | translate
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <p-tabs lazy [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.route) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

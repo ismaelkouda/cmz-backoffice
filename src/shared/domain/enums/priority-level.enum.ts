@@ -1,4 +1,4 @@
-import { PriorityLevelDto } from '@shared/data/dtos/priority-level.dto';
+import { PriorityLevelDto } from '@shared/data/dto/priority-level.dto';
 
 export const PriorityLevel: Record<PriorityLevelDto, string> = {
     [PriorityLevelDto.LOW]: 'COMMON.LOW',

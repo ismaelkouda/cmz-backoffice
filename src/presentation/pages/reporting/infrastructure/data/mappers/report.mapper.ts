@@ -1,12 +1,14 @@
+import { Injectable } from '@angular/core';
+import { ReportsEntity } from '@pages/reporting/domain/entities/reports/reports.entity';
+import { ReportItemDto } from '@pages/reporting/infrastructure/api/dto/report/report-response.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
-import { ReportEntity } from '../../../core/domain/entities/report/report.entity';
-import { ReportItemDto } from '../../api/dtos/report/report-response.dto';
 
+@Injectable({ providedIn: 'root' })
 export class ReportMapper extends SimpleResponseMapper<
-    ReportEntity,
+    ReportsEntity,
     ReportItemDto
 > {
-    protected override mapItemFromDto(dto: ReportItemDto): ReportEntity {
-        return new ReportEntity(dto.reportReportingLink);
+    protected override mapItemFromDto(dto: ReportItemDto): ReportsEntity {
+        return new ReportsEntity(dto.reportReportingLink);
     }
 }

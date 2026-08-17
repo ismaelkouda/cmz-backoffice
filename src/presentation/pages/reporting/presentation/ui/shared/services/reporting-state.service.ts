@@ -18,7 +18,6 @@ export class ReportingStateService {
         connectionStatus: 'loading',
     });
 
-    // Computed signals pour un accès réactif
     public readonly isLoading = computed(() => this.state().isLoading);
     public readonly hasError = computed(() => this.state().hasError);
     public readonly isFullscreen = computed(() => this.state().isFullscreen);
@@ -27,7 +26,6 @@ export class ReportingStateService {
         () => this.state().connectionStatus
     );
 
-    // Méthodes pour mettre à jour l'état
     public setLoading(loading: boolean): void {
         this.state.update((prev) => ({ ...prev, isLoading: loading }));
     }

@@ -1,0 +1,194 @@
+<p-dialog
+    [visible]="visible()"
+    [modal]="true"
+    [closable]="false"
+    [resizable]="false"
+    [draggable]="false"
+    [breakpoints]="{ '768px': '95vw', '1024px': '80vw' }"
+    [style]="{ width: '72vw', maxWidth: '920px' }"
+    styleClass="crop-dialog"
+    [maximizable]="false"
+    appendTo="body"
+    [focusOnShow]="false"
+>
+    <ng-template #header>
+        <div class="crop-dialog-header">
+            <div class="crop-dialog-title">
+                <i class="pi pi-crop"></i>
+                <span>{{
+                    'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.TITLE' | translate
+                }}</span>
+            </div>
+
+            <div class="crop-ratio-badge">
+                <i class="pi pi-expand"></i>
+                <span>{{ aspectRatioLabel() }}</span>
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="crop-dialog-body">
+        <div class="crop-canvas-area">
+            @if (!cropperReady() && isLoading()) {
+                <div class="crop-loading-overlay">
+                    <p-progressSpinner
+                        strokeWidth="3"
+                        styleClass="crop-spinner"
+                    />
+                    <p class="crop-loading-text">
+                        {{
+                            'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.LOADING'
+                                | translate
+                        }}
+                    </p>
+                </div>
+            }
+
+            @if (sourceFile() && visible()) {
+                <image-cropper
+                    [imageFile]="sourceFile()!"
+                    [maintainAspectRatio]="true"
+                    [aspectRatio]="aspectRatio()"
+                    [canvasRotation]="rotation() / 90"
+                    [transform]="{ flipH: flipH(), flipV: flipV() }"
+                    [cropperMinWidth]="minCropWidth()"
+                    [cropperMinHeight]="minCropHeight()"
+                    [cropperMaxWidth]="maxCropWidth()"
+                    [cropperMaxHeight]="maxCropHeight()"
+                    [onlyScaleDown]="true"
+                    [roundCropper]="false"
+                    [alignImage]="'center'"
+                    [backgroundColor]="'#1a1a1a'"
+                    [format]="outputFormat()"
+                    outputType="blob"
+                    [style.display]="cropperReady() ? 'block' : 'none'"
+                    (imageLoaded)="onImageLoaded($event)"
+                    (loadImageFailed)="onLoadImageFailed()"
+                    (imageCropped)="onImageCropped($event)"
+                ></image-cropper>
+            }
+        </div>
+
+        @if (cropperReady()) {
+            <div class="crop-toolbar">
+                <div class="toolbar-section">
+                    <span class="toolbar-label">
+                        {{
+                            'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.ROTATE'
+                                | translate
+                        }}
+                    </span>
+                    <div class="toolbar-actions">
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-undo"
+                            class="p-button-outlined p-button-secondary p-button-sm crop-tool-btn"
+                            (click)="rotateLeft.emit()"
+                            [pTooltip]="
+                                'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.ROTATE_LEFT'
+                                    | translate
+                            "
+                            tooltipPosition="top"
+                        ></button>
+                        <span class="rotation-indicator">{{
+                            rotationLabel()
+                        }}</span>
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-refresh"
+                            class="p-button-outlined p-button-secondary p-button-sm crop-tool-btn"
+                            (click)="rotateRight.emit()"
+                            [pTooltip]="
+                                'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.ROTATE_RIGHT'
+                                    | translate
+                            "
+                            tooltipPosition="top"
+                        ></button>
+                    </div>
+                </div>
+
+                <p-divider layout="vertical" />
+
+                <div class="toolbar-section">
+                    <span class="toolbar-label">
+                        {{
+                            'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.FLIP'
+                                | translate
+                        }}
+                    </span>
+                    <div class="toolbar-actions">
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-arrows-h"
+                            [class.p-button-primary]="flipH()"
+                            [class.p-button-outlined]="!flipH()"
+                            class="p-button-secondary p-button-sm crop-tool-btn"
+                            (click)="flipHorizontal.emit()"
+                            [pTooltip]="
+                                'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.FLIP_H'
+                                    | translate
+                            "
+                            tooltipPosition="top"
+                        ></button>
+                        <button
+                            type="button"
+                            pButton
+                            icon="pi pi-arrows-v"
+                            [class.p-button-primary]="flipV()"
+                            [class.p-button-outlined]="!flipV()"
+                            class="p-button-secondary p-button-sm crop-tool-btn"
+                            (click)="flipVertical.emit()"
+                            [pTooltip]="
+                                'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.FLIP_V'
+                                    | translate
+                            "
+                            tooltipPosition="top"
+                        ></button>
+                    </div>
+                </div>
+
+                <p-divider layout="vertical" />
+
+                <div class="toolbar-section">
+                    <button
+                        type="button"
+                        pButton
+                        icon="pi pi-replay"
+                        [label]="
+                            'CONTENT_MANAGEMENT.SLIDE.FORM.CROPPER.RESET'
+                                | translate
+                        "
+                        class="p-button-text p-button-secondary p-button-sm"
+                        (click)="resetTransforms.emit()"
+                        tooltipPosition="top"
+                    ></button>
+                </div>
+            </div>
+        }
+    </div>
+
+    <ng-template pTemplate="footer">
+        <div class="crop-dialog-footer">
+            <button
+                type="button"
+                pButton
+                icon="pi pi-times"
+                [label]="'COMMON.CANCEL' | translate"
+                class="p-button-outlined p-button-secondary"
+                (click)="onCancel()"
+            ></button>
+            <button
+                type="button"
+                pButton
+                icon="pi pi-check"
+                [label]="'COMMON.CONFIRM' | translate"
+                class="p-button-primary"
+                [disabled]="!canConfirm()"
+                (click)="onConfirm()"
+            ></button>
+        </div>
+    </ng-template>
+</p-dialog>

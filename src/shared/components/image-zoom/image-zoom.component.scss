@@ -6,8 +6,8 @@
     position: relative;
     display: inline-block;
     width: 100%;
-    max-width: 350px;
-    height: 250px;
+    // max-width: 350px;
+    // height: 250px;
     overflow: visible !important;
     border-radius: 12px;
     cursor: pointer;
@@ -70,7 +70,7 @@
 
     .zoomed-image {
         position: absolute;
-        top: -50%;
+        top: 0%;
         left: calc(100% + 50px);
         width: 400px;
         height: 400px;

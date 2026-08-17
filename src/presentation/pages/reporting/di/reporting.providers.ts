@@ -1,36 +1,22 @@
-import { inject, Provider } from '@angular/core';
-import { EnvService } from '@shared/services/env.service';
-import { ReportRepository } from '../core/domain/repositories/report-repository.interface';
-import { RequestRepository } from '../core/domain/repositories/request-repository.interface';
-import { REPORTING_API_BASE_URL } from '../infrastructure/api/reporting.config';
-import { ReportMapper } from '../infrastructure/data/mappers/report.mapper';
-import { RequestMapper } from '../infrastructure/data/mappers/request.mapper';
-import { ReportRepositoryImpl } from '../infrastructure/data/repositories/report.repository.impl';
-import { RequestRepositoryImpl } from '../infrastructure/data/repositories/request.repository.impl';
-import { ReportApi } from '../infrastructure/data/sources/report.api';
-import { RequestApi } from '../infrastructure/data/sources/request.api';
-
-const getApiBaseUrl = (): string => {
-    const baseUrl = inject(EnvService).settingUrl;
-
-    if (!baseUrl) {
-        console.warn(
-            'Reporting Module: API Base URL is missing in environment configuration.'
-        );
-    }
-
-    return baseUrl;
-};
+import { Provider } from '@angular/core';
+import { ReportRepository } from '@pages/reporting/domain/repositories/report-repository.interface';
+import { RequestRepository } from '@pages/reporting/domain/repositories/request-repository.interface';
+import { ReportByChannelRepository } from '@pages/reporting/domain/repositories/report-by-channel-repository.interface';
+import { ReportByOperatorRepository } from '@pages/reporting/domain/repositories/report-by-operator-repository.interface';
+import { ReportRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/reports.repository.impl';
+import { RequestRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/requests.repository.impl';
+import { ReportByChannelRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/report-by-channel.repository.impl';
+import { ReportByOperatorRepositoryImpl } from '@pages/reporting/infrastructure/data/repositories/report-by-operator.repository.impl';
 
 export const provideReporting = (): Provider[] => [
-    {
-        provide: REPORTING_API_BASE_URL,
-        useFactory: getApiBaseUrl,
-    },
-    ReportApi,
-    RequestApi,
-    ReportMapper,
-    RequestMapper,
     { provide: ReportRepository, useClass: ReportRepositoryImpl },
     { provide: RequestRepository, useClass: RequestRepositoryImpl },
+    {
+        provide: ReportByChannelRepository,
+        useClass: ReportByChannelRepositoryImpl,
+    },
+    {
+        provide: ReportByOperatorRepository,
+        useClass: ReportByOperatorRepositoryImpl,
+    },
 ];

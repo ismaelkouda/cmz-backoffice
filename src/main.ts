@@ -1,7 +1,8 @@
 import { bootstrapApplication } from '@angular/platform-browser';
 import { appConfig } from '@presentation/app.config';
+
 import { AppComponent } from './presentation/app.component';
-import { DEFAULT_CUSTOMIZATION } from './shared/services/app-customization.config';
+import { DEFAULT_CUSTOMIZATION } from './shared/domain/services/app-customization/app-customization.config';
 
 const PERFORMANCE_CONFIG = {
     bootstrapStartMark: DEFAULT_CUSTOMIZATION.performance.bootstrapStartMark,
@@ -67,7 +68,8 @@ function displayBootstrapError(error: Error): void {
         return;
     }
 
-    const errorMessage = error instanceof Error ? error.message : 'APP.BOOTSTRAP.ERROR_UNKNOWN';
+    const errorMessage =
+        error instanceof Error ? error.message : 'APP.BOOTSTRAP.ERROR_UNKNOWN';
     const errorElement = document.createElement('div');
     errorElement.setAttribute('role', ERROR_DISPLAY_CONFIG.role);
     errorElement.setAttribute('aria-live', ERROR_DISPLAY_CONFIG.ariaLive);
@@ -82,7 +84,6 @@ function displayBootstrapError(error: Error): void {
         })
         .join(' ');
 
-    // Contenu HTML (sera remplacé par i18n dans le composant)
     errorElement.innerHTML = `
         <strong>APP.BOOTSTRAP.ERROR_TITLE</strong>
         <p>APP.BOOTSTRAP.ERROR_MESSAGE</p>
@@ -94,15 +95,12 @@ function displayBootstrapError(error: Error): void {
 
 function bootstrapApp(): void {
     try {
-        // Configurer les gestionnaires d'erreurs globaux
         setupGlobalErrorHandlers();
 
-        // Marquer le début du bootstrap pour mesurer les performances
         if (typeof performance !== 'undefined') {
             performance.mark(PERFORMANCE_CONFIG.bootstrapStartMark);
         }
 
-        // Bootstrap l'application
         bootstrapApplication(AppComponent, appConfig)
             .then(() => {
                 measureBootstrapPerformance();

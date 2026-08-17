@@ -1,63 +1,72 @@
 import {
     AfterViewInit,
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
     OnInit,
     ViewChild,
+    inject,
 } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { EncodingDataService } from '../../services/encoding-data.service';
-import { TabService } from '../../services/tab.service';
+
+import { EncodingDataService } from '../../domain/services/encoding-data.service';
+import { TabService } from '../../domain/services/tab.service';
+
 import { ConfirmationModalComponent } from './confirmation-modal.component';
 
 @Component({
     selector: 'app-tabs',
     standalone: true,
     imports: [ConfirmationModalComponent, TranslateModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
         <div class="tabs-container">
             <div
                 class="tabs-wrapper d-flex justify-content-between align-items-center"
             >
                 <ul class="nav nav-tabs premium-tabs" #tabsContainer>
-                    <li
-                        class="nav-item cursor-pointer"
-                        *ngFor="let tab of tabs"
-                        [class.single-tab]="tabs.length === 1"
-                    >
-                        <a
-                            class="nav-link"
-                            [class.active]="tab.active"
-                            (click)="activateTab(tab.id)"
+                    @for (tab of tabs; track tab) {
+                        <li
+                            class="nav-item cursor-pointer"
+                            [class.single-tab]="tabs.length === 1"
                         >
-                            <div class="tab-content">
-                                <i
-                                    *ngIf="tab.icon"
-                                    class="me-2"
-                                    [class]="tab.icon"
-                                ></i>
-                                <span class="tab-title">{{ tab.title }}</span>
-                            </div>
-                            <span
-                                class="close-tab"
-                                *ngIf="tab.closable"
-                                (click)="closeTab(tab.id, $event)"
+                            <a
+                                class="nav-link"
+                                [class.active]="tab.active"
+                                (click)="activateTab(tab.id)"
                             >
-                                &times;
-                            </span>
-                        </a>
-                    </li>
+                                <div class="tab-content">
+                                    @if (tab.icon) {
+                                        <i class="me-2" [class]="tab.icon"></i>
+                                    }
+                                    <span class="tab-title">{{
+                                        tab.title
+                                    }}</span>
+                                </div>
+                                @if (tab.closable) {
+                                    <span
+                                        class="close-tab"
+                                        (click)="closeTab(tab.id, $event)"
+                                    >
+                                        &times;
+                                    </span>
+                                }
+                            </a>
+                        </li>
+                    }
                 </ul>
-                <div class="tabs-actions" *ngIf="tabs.length > 1">
-                    <button
-                        class="btn close-all-tabs"
-                        title="Fermer tous les onglets (sauf Tableau de bord)"
-                        (click)="showCloseAllModal()"
-                    >
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
+                @if (tabs.length > 1) {
+                    <div class="tabs-actions">
+                        <button
+                            class="btn close-all-tabs"
+                            title="Fermer tous les onglets (sauf Tableau de bord)"
+                            (click)="showCloseAllModal()"
+                        >
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                }
             </div>
         </div>
 
@@ -164,16 +173,14 @@ import { ConfirmationModalComponent } from './confirmation-modal.component';
     ],
 })
 export class TabsComponent implements OnInit, AfterViewInit {
+    private tabService = inject(TabService);
+    private el = inject(ElementRef);
+    private encodingService = inject(EncodingDataService);
+
     tabs: any[] = [];
-    isModalOpen: boolean = false;
+    isModalOpen = false;
 
     @ViewChild('tabsContainer') tabsContainer!: ElementRef;
-
-    constructor(
-        private tabService: TabService,
-        private el: ElementRef,
-        private encodingService: EncodingDataService
-    ) {}
 
     ngOnInit(): void {
         this.tabService.tabs$.subscribe((tabs) => {
@@ -192,34 +199,46 @@ export class TabsComponent implements OnInit, AfterViewInit {
     }
 
     adjustTabsAppearance(): void {
-        if (!this.tabsContainer || !this.tabsContainer.nativeElement) return;
+        if (!this.tabsContainer || !this.tabsContainer.nativeElement) {
+            return;
+        }
 
         const container = this.tabsContainer.nativeElement;
         const tabs = container.querySelectorAll('.nav-item');
         const tabCount = tabs.length;
 
         if (tabCount > 1) {
-            // let fontSize = '0.9rem';
-            // let padding = '10px 15px';
+            let fontSize = '0.9rem';
+            let padding = '10px 15px';
 
-            // if (tabCount > 5) fontSize = '0.85rem';
-            // if (tabCount > 10) fontSize = '0.8rem';
-            // if (tabCount > 15) fontSize = '0.75rem';
+            if (tabCount > 5) {
+                fontSize = '0.85rem';
+            }
+            if (tabCount > 10) {
+                fontSize = '0.8rem';
+            }
+            if (tabCount > 15) {
+                fontSize = '0.75rem';
+            }
 
-            // if (tabCount > 5) padding = '8px 12px';
-            // if (tabCount > 10) padding = '6px 10px';
+            if (tabCount > 5) {
+                padding = '8px 12px';
+            }
+            if (tabCount > 10) {
+                padding = '6px 10px';
+            }
 
             tabs.forEach((tab: Element) => {
                 const titleEl = tab.querySelector('.tab-title');
                 const linkEl = tab.querySelector('.nav-link');
 
-                // if (titleEl) {
-                //     (titleEl as HTMLElement).style.fontSize = fontSize;
-                // }
+                if (titleEl) {
+                    (titleEl as HTMLElement).style.fontSize = fontSize;
+                }
 
-                // if (linkEl) {
-                //     (linkEl as HTMLElement).style.padding = padding;
-                // }
+                if (linkEl) {
+                    (linkEl as HTMLElement).style.padding = padding;
+                }
             });
         }
     }

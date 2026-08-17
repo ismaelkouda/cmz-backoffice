@@ -1,0 +1,379 @@
+<main class="container-fluid form-user-container" role="main">
+    <section class="row form-user-row">
+        <article class="col-sm-12 form-user">
+            <app-breadcrumb />
+
+            <section class="card form-user-card">
+                <div class="card-body form-user-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleMode()"
+                            >
+                            </app-page-title>
+                        </div>
+
+                        @if (!isDetailsMode()) {
+                            <div class="d-flex align-items-center gap-2">
+                                <button
+                                    pButton
+                                    type="submit"
+                                    (click)="onSubmit()"
+                                    [disabled]="form.invalid || loadingSubmit()"
+                                >
+                                    @if (!loadingSubmit()) {
+                                        <i class="pi pi-check"></i>
+                                    } @else {
+                                        <span
+                                            class="spinner-border spinner-border-sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        ></span>
+                                    }
+                                    {{ 'COMMON.SAVE' | translate }}
+                                </button>
+                                <p-button
+                                    label="{{ 'COMMON.CLOSE' | translate }}"
+                                    (onClick)="navigateToBack()"
+                                    styleClass="p-button-danger"
+                                />
+                            </div>
+                        }
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="name"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="name"
+                                                        type="text"
+                                                        [formControlName]="
+                                                            KEYS.NAME
+                                                        "
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.NAME.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.NAME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get(KEYS.NAME)
+                                                                ?.invalid &&
+                                                            form.get(KEYS.NAME)
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get(KEYS.NAME)
+                                                                ?.invalid &&
+                                                            form.get(KEYS.NAME)
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        KEYS.NAME
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        KEYS.NAME
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.NAME
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-8">
+                                                    <label
+                                                        for="description"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="description"
+                                                        type="text"
+                                                        [formControlName]="
+                                                            KEYS.DESCRIPTION
+                                                        "
+                                                        [placeholder]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.DESCRIPTION_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION
+                                                                .DESCRIPTION.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.DESCRIPTION'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get(
+                                                                KEYS.DESCRIPTION
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                KEYS.DESCRIPTION
+                                                            )?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get(
+                                                                KEYS.DESCRIPTION
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                KEYS.DESCRIPTION
+                                                            )?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        KEYS.DESCRIPTION
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        KEYS.DESCRIPTION
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .DESCRIPTION
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TAG'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <div
+                                                        class="tag-option-group"
+                                                        role="radiogroup"
+                                                        [class.is-invalid]="
+                                                            form.get(KEYS.TAG)
+                                                                ?.invalid &&
+                                                            form.get(KEYS.TAG)
+                                                                ?.touched
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TAG'
+                                                                | translate
+                                                        "
+                                                    >
+                                                        @for (
+                                                            option of tagOptions;
+                                                            track option.value
+                                                        ) {
+                                                            <label
+                                                                [for]="
+                                                                    'tag-' +
+                                                                    option.value
+                                                                "
+                                                                class="tag-option"
+                                                                [class.tag-option--selected]="
+                                                                    form.get(
+                                                                        KEYS.TAG
+                                                                    )
+                                                                        ?.value ===
+                                                                    option.value
+                                                                "
+                                                            >
+                                                                <p-radioButton
+                                                                    [inputId]="
+                                                                        'tag-' +
+                                                                        option.value
+                                                                    "
+                                                                    name="tag"
+                                                                    class="tag-option-input"
+                                                                    [value]="
+                                                                        option.value
+                                                                    "
+                                                                    [formControlName]="
+                                                                        KEYS.TAG
+                                                                    "
+                                                                />
+                                                                <i
+                                                                    class="pi tag-option-icon"
+                                                                    [ngClass]="
+                                                                        option.icon
+                                                                    "
+                                                                ></i>
+                                                                <span
+                                                                    class="tag-option-label"
+                                                                    >{{
+                                                                        option.labelKey
+                                                                            | translate
+                                                                    }}</span
+                                                                >
+                                                            </label>
+                                                        }
+                                                    </div>
+                                                    @if (
+                                                        form.get(KEYS.TAG)
+                                                            ?.invalid &&
+                                                        form.get(KEYS.TAG)
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            role="alert"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    KEYS.TAG
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        @if (!isDetailsMode()) {
+                                            <div
+                                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                            >
+                                                <p-button
+                                                    label="{{
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    }}"
+                                                    styleClass="p-button-text p-button-secondary"
+                                                    (click)="navigateToBack()"
+                                                    [attr.aria-label]="
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    "
+                                                >
+                                                </p-button>
+
+                                                <button
+                                                    pButton
+                                                    type="submit"
+                                                    [disabled]="
+                                                        form.invalid ||
+                                                        loadingSubmit()
+                                                    "
+                                                >
+                                                    @if (!loadingSubmit()) {
+                                                        <i
+                                                            class="pi pi-check"
+                                                        ></i>
+                                                    } @else {
+                                                        <span
+                                                            class="spinner-border spinner-border-sm"
+                                                            role="status"
+                                                            aria-hidden="true"
+                                                        ></span>
+                                                    }
+                                                    {{
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    }}
+                                                </button>
+                                            </div>
+                                        }
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

@@ -7,10 +7,11 @@ import {
 import { RouterOutlet } from '@angular/router';
 import { NgxLoadingBar } from '@ngx-loading-bar/core';
 import { TranslateModule } from '@ngx-translate/core';
-import { TapToTopComponent } from '../shared/components/tap-to-top/tap-to-top.component';
-import { AppCustomizationService } from '../shared/services/app-customization.service';
-import { EncodingDataService } from '../shared/services/encoding-data.service';
-import { EnvService } from '../shared/services/env.service';
+import { TapToTopComponent } from '@shared/components/tap-to-top/tap-to-top.component';
+import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
+import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
+
+import { EnvService } from '../core/config/env.service';
 
 @Component({
     selector: 'app-root',
@@ -25,7 +26,7 @@ export class AppComponent implements OnInit {
     private readonly envService = inject(EnvService);
     private readonly encodingService = inject(EncodingDataService);
 
-    public readonly config = this.customizationService.config;
+    public readonly config = this.customizationService.customization;
 
     ngOnInit(): void {
         this.initializeApplication();
@@ -33,17 +34,17 @@ export class AppComponent implements OnInit {
 
     private initializeApplication(): void {
         try {
-            this.customizationService.applyCustomization();
-
             const userLang = this.customizationService.getUserLanguage();
             this.customizationService.setDefaultLanguage(userLang);
 
+            const userMode = this.customizationService.getUserMode();
+            this.customizationService.setDefaultMode(userMode);
+
+            this.customizationService.applyCustomization();
+
             this.saveAppSettings();
         } catch (error) {
-            console.error(
-                "Erreur lors de l'initialisation de l'application:",
-                error
-            );
+            console.error("Erreur lors de l'initialisation:", error);
         }
     }
 

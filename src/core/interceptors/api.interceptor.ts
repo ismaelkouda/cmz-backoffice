@@ -1,18 +1,22 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { ConfigurationService } from '@core/services/configuration.service';
 import {
     isInternalUrl,
     isStaticAssetRequest,
     pickBaseForRelativeEndpoint,
-} from './utils/interceptor-request-filter.util';
+} from '@core/interceptors/utils/interceptor-request-filter.util';
+import { ConfigurationService } from '@core/services/configuration.service';
 
 export const apiInterceptor: HttpInterceptorFn = (req, next) => {
     const configService = inject(ConfigurationService);
 
-    if (isStaticAssetRequest(req.url)) return next(req);
+    if (isStaticAssetRequest(req.url)) {
+        return next(req);
+    }
 
-    if (!isInternalUrl(req.url, configService)) return next(req);
+    if (!isInternalUrl(req.url, configService)) {
+        return next(req);
+    }
 
     if (req.url.startsWith('http')) {
         return next(req);

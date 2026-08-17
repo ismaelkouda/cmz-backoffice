@@ -1,11 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, forwardRef, input, signal } from '@angular/core';
-import { ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
+import {
+    ChangeDetectionStrategy,
+    Component,
+    input,
+    signal,
+} from '@angular/core';
+import {
+    ControlValueAccessor,
+    FormControl,
+    NG_VALUE_ACCESSOR,
+    ReactiveFormsModule,
+} from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { SelectModule } from 'primeng/select';
 
 @Component({
-    selector: 'imako-select',
+    selector: 'app-imako-select',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, SelectModule, TranslateModule],
     templateUrl: './imako-select.component.html',
@@ -13,15 +23,17 @@ import { SelectModule } from 'primeng/select';
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => ImakoSelectComponent),
-            multi: true
-        }
-    ]
+            useExisting: ImakoSelectComponent,
+            multi: true,
+        },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImakoSelectComponent implements ControlValueAccessor {
     public readonly label = input<string>('');
     public readonly placeholder = input<string>('');
     public readonly options = input<any[]>([]);
+    public readonly loading = input<boolean>(false);
     public readonly optionLabel = input<string>('label');
     public readonly optionValue = input<string>('value');
     public readonly showClear = input<boolean>(false);
@@ -31,8 +43,8 @@ export class ImakoSelectComponent implements ControlValueAccessor {
 
     protected readonly value = signal<any>('');
 
-    onChange: any = () => { };
-    onTouch: any = () => { };
+    protected onChange!: (value: any) => void;
+    protected onTouch!: () => void;
 
     writeValue(value: any): void {
         this.value.set(value);

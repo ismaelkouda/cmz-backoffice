@@ -1,33 +1,12 @@
-import Joi from 'joi';
-
-const configSchema = Joi.object({
-    authenticationUrl: Joi.string().uri().required(),
-    reportUrl: Joi.string().uri().required(),
-    settingUrl: Joi.string().uri().required(),
-    fileUrl: Joi.string().uri().required(),
-    environmentDeployment: Joi.string().valid('DEV', 'CLOUD', 'CMZ_DEV', 'TEST', 'PROD').required(),
-    enableDebug: Joi.boolean().required(),
-    messageApp: Joi.object({
-        sourceStockTenantSim: Joi.string().required(),
-        sourceStockOrangeSim: Joi.string().required(),
-        sourceSoldeDotation: Joi.string().required(),
-        sourceSoldeDotationOrange: Joi.string().required(),
-    }).optional(),
-    appSettings: Joi.object({
-        appName: Joi.string().required(),
-        appLogoFull: Joi.string().required(),
-        appLogoIcon: Joi.string().required(),
-        appPrimaryColor: Joi.string()
-            .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)
-            .required(),
-        appSecondaryColor: Joi.string()
-            .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)
-            .required(),
-        appTertiaryColor: Joi.string()
-            .regex(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)
-            .required(),
-    }).optional(),
-}).options({ stripUnknown: true });
+import { buildConfigSchema } from '../../src/core/config/config-schema.builder.ts'
+export const environmentValues = [
+    'DEV',
+    'CLOUD',
+    'CMZ_DEV',
+    'CMZ_PROD',
+    'PROD',
+];
+const configSchema = buildConfigSchema(environmentValues);
 
 export function validateConfig(config) {
     const { error, value } = configSchema.validate(config, {
@@ -38,39 +17,106 @@ export function validateConfig(config) {
     return {
         isValid: !error,
         config: value,
-        errors: error ? error.details.map((detail) => detail.message) : [],
+        errors: error ? error.details.map(d => d.message) : [],
     };
 }
 
 export function generateTypes(config) {
+    const envUnion = environmentValues
+        .map((env) => `'${env}'`)
+        .join(' | ');
+
     return `// ⚠️ GENERATED FILE - DO NOT EDIT MANUALLY
-// Generated at: ${new Date().toISOString()}
 
 export interface AppConfig {
     authenticationUrl: string;
     reportUrl: string;
     settingUrl: string;
     fileUrl: string;
-    environmentDeployment: 'DEV' | 'CLOUD' | 'CMZ_DEV' | 'TEST' | 'PROD';
+    environmentDeployment: ${envUnion};
     enableDebug: boolean;
-    messageApp?: {
-        sourceStockTenantSim: string;
-        sourceStockOrangeSim: string;
-        sourceSoldeDotation: string;
-        sourceSoldeDotationOrange: string;
+
+    appSettings: {
+        app: {
+        name: string;
+        title: string;
+        description: string;
+        keywords: string;
+        author: string;
     };
-    appSettings?: {
-        appName: string;
-        appLogoFull: string;
-        appLogoIcon: string;
-        appPrimaryColor: string;
-        appSecondaryColor: string;
-        appTertiaryColor: string;
+
+    fonts: {
+        primary: string;
+        secondary: string;
+    };
+
+    colors: {
+        primary: string;
+        secondary: string;
+        tertiary: string;
+        black: string;
+        white: string;
+        gray: string;
+        grayLight: string;
+        error: string;
+        warning: string;
+        success: string;
+        info: string;
+    };
+
+    languages: {
+        supported: readonly string[];
+        default: string;
+        storageKey: string;
+    };
+
+    modes: {
+        supported: readonly string[];
+        default: string;
+        storageKey: string;
+    };
+
+    assets: {
+        favicon: string;
+        authLogo: string;
+        sidebarLogo: string;
+        logoIcon: string;
+        loginBg: string;
+    };
+
+    loadingBar: {
+        color: string;
+        height: string;
+        includeSpinner: boolean;
+    };
+
+    error: {
+        displayStyles: {
+            position: string;
+            top: string;
+            left: string;
+            width: string;
+            background: string;
+            color: string;
+            padding: string;
+            textAlign: string;
+            fontFamily: string;
+            zIndex: string;
+            boxShadow: string;
+        };
+        role: string;
+        ariaLive: string;
+    };
+
+    performance: {
+        bootstrapStartMark: string;
+        bootstrapEndMark: string;
+        bootstrapMeasure: string;
+    };
     };
 }
 
 export interface BuildInfo {
-    timestamp: string;
     environment: string;
     version: string;
     commitHash: string;
@@ -82,14 +128,9 @@ declare global {
     }
 }
 
-// Environment-specific configurations
-export const ENVIRONMENTS = ${JSON.stringify(config, null, 2)} as const;
-
-export type EnvironmentName = keyof typeof ENVIRONMENTS;
 `;
 }
 
-// Export nommé pour ES Modules
 export default {
     validateConfig,
     generateTypes,

@@ -1,11 +1,28 @@
+import { AccessLogsItemApiDto } from '@pages/settings-security/infrastructure/api/dto/access-logs/access-logs-response-api.dto';
+
 export class AccessLogsEntity {
     constructor(
-        public readonly id: string,
-        public readonly createdAt: string,
-        public readonly event: string,
-        public readonly action: string,
-        public readonly ip: string,
-        public readonly username: string,
-        public readonly data: any
+        public readonly uniqId: string,
+        public action: string,
+        public source: string,
+        public usedAgent: string,
+        public createdAt: string
     ) {}
+
+    static fromDto(dto: AccessLogsItemApiDto): AccessLogsEntity {
+        return new AccessLogsEntity(
+            dto.id,
+            dto.action,
+            dto.source,
+            dto.used_agent,
+            dto.created_at
+        );
+    }
+
+    public with(dto: AccessLogsItemApiDto): AccessLogsEntity {
+        if (this.uniqId === dto.id) {
+            return this;
+        }
+        return AccessLogsEntity.fromDto(dto);
+    }
 }

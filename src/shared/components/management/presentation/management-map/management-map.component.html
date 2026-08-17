@@ -1,0 +1,249 @@
+<div class="management-map">
+    @if (isLoading()) {
+        <div class="map-overlay">
+            <div class="loading-container">
+                <div class="spinner"></div>
+                <p>Chargement de la carte...</p>
+            </div>
+        </div>
+    }
+
+    <div
+        #mapContainer
+        class="map-container"
+        [class.map-container--ready]="isMapInitialized()"
+        tabindex="0"
+    ></div>
+
+    <!--
+        Bloc gauche : panneau infos signalement. Les deux boutons (recentrer
+        + zoom OL) sont des enfants DOM de ce conteneur, positionnés en
+        absolu (left:100%) afin de garder une distance constante avec lui,
+        peu importe l'état déroulé/replié — même technique que
+        interactive-map (.filters-panel-stack / .map-side-controls).
+    -->
+    <div class="signalement-info-stack">
+        @if (isMapInitialized()) {
+            <div
+                class="signalement-info-panel"
+                [class.open]="signalementInfoOpen()"
+            >
+                @if (!signalementInfoOpen()) {
+                    <button
+                        type="button"
+                        class="signalement-info-toggle"
+                        [attr.aria-expanded]="signalementInfoOpen()"
+                        (click)="toggleSignalementInfo()"
+                    >
+                        Informations du signalement
+                    </button>
+                }
+                @if (signalementInfoOpen()) {
+                    <div class="signalement-info-panel-content">
+                        <div class="panel-heading"><span
+                                class="signalement-type-badge"
+                                [style.background]="reportTypeColor()"
+                            >
+                                {{ reportTypeLabel() ?? 'Non renseigné' }}
+                            </span>
+                            <button
+                                type="button"
+                                (click)="toggleSignalementInfo()"
+                                aria-label="Fermer"
+                            >
+                                ×
+                            </button>
+                        </div>
+
+                        <dl class="signalement-info-dl">
+                            <dt>Identifiant</dt>
+                            <dd>
+                                <b>{{ reportUniqId() || '-' }}</b>
+                            </dd>
+
+                            <dt>Statut</dt>
+                            <dd>
+                                @if (status()) {
+                                    <p-tag
+                                        [value]="status() | translate"
+                                        [severity]="statusStyle() | translate"
+                                    />
+                                } @else {
+                                    -
+                                }
+                            </dd>
+
+                            <dt>Opérateurs</dt>
+                            <dd>
+                                <div class="field-value operator-padding short">
+                                            @for (operator of telecomOperatorsOptions() ||
+                                                    [];
+                                                track operator
+                                            ) {
+                                                <p-tag
+                                                    [value]="
+                                                        operator | translate
+                                                    "
+                                                    [style]="
+                                                        getOperatorTagStyle(
+                                                            operator | translate
+                                                        )
+                                                    "
+                                                    styleClass="operator-tag"
+                                                />
+                                            } @empty {
+                                                <span>{{
+                                                    'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                        | translate
+                                                }}</span>
+                                            }
+                                        </div>
+                            </dd>
+
+                            <dt>Signalé le</dt>
+                            <dd>{{ createdAt() || '-' }}</dd>
+
+                            <dt>Tél. Émetteur</dt>
+                            <dd>{{ initiatorPhone() || '-' }}</dd>
+
+                            <dt>Confirmations</dt>
+                            <dd>{{ confirmCount() || 0 }}</dd>
+                        </dl>
+                    </div>
+                }
+            </div>
+        }
+
+        <div class="map-side-controls">
+            <button
+                class="control-btn"
+                (click)="recenterMap()"
+                title="Recenter"
+            >
+                🎯
+            </button>
+            <div #zoomControlsAnchor class="zoom-controls-anchor"></div>
+        </div>
+    </div>
+
+    <!-- Bloc droit : panneau "Filtres sur les couches", indépendant. -->
+    @if (isMapInitialized()) {
+        <div class="coverage-legend" [class.open]="coverageLegendOpen()">
+            @if (!coverageLegendOpen()) {
+                <button
+                    type="button"
+                    class="coverage-legend-toggle"
+                    [attr.aria-expanded]="coverageLegendOpen()"
+                    (click)="toggleCoverageLegend()"
+                >
+                    Filtres sur les couches
+                </button>
+            }
+            @if (coverageLegendOpen()) {
+                <div class="coverage-legend-panel">
+                    <div class="panel-heading">
+                        <h4>Couches</h4>
+                        <button
+                            type="button"
+                            (click)="toggleCoverageLegend()"
+                            aria-label="Fermer"
+                        >
+                            ×
+                        </button>
+                    </div>
+                    <label>
+                        <input
+                            type="radio"
+                            name="management-basemap"
+                            [checked]="currentBaseMap() === 'osm'"
+                            (change)="setBaseMap('osm')"
+                        />
+                        OpenStreetMap
+                    </label>
+                    <label>
+                        <input
+                            type="radio"
+                            name="management-basemap"
+                            [checked]="currentBaseMap() === 'satellite'"
+                            (change)="setBaseMap('satellite')"
+                        />
+                        Satellitaire
+                    </label>
+
+                    <div class="d-flex gap-2 mt-2">
+                        <h4>Equipements impactés</h4>
+                        <input
+                            class="mb-2"
+                            type="checkbox"
+                            [checked]="allEquipmentsVisible()"
+                            (change)="
+                                toggleAllEquipments($any($event.target).checked)
+                            "
+                        />
+                    </div>
+                    @for (eq of equipmentOptions; track eq.id) {
+                        <label class="m-0">
+                            <input
+                                type="checkbox"
+                                [checked]="equipmentsVisible()[eq.id]"
+                                (change)="
+                                    toggleEquipment(
+                                        eq.id,
+                                        $any($event.target).checked
+                                    )
+                                "
+                            />
+                            [{{ getInfrastructureCount(eq.id) }}]
+                            {{ eq.label }}
+                        </label>
+                    }
+                </div>
+            }
+        </div>
+    }
+
+    @if (enablePopup()) {
+        <div class="map-popup" [class.show]="showPopup()">
+            <div class="popup-content">
+                <div class="popup-header">
+                    <h3>{{ selectedMarker()?.title || 'Position' }}</h3>
+                    <button class="popup-close" (click)="togglePopup(false)">
+                        ×
+                    </button>
+                </div>
+                <div class="popup-body">
+                    <p>
+                        <strong>Latitude:</strong>
+                        {{ latitude() | number: '1.6-6' }}
+                    </p>
+                    <p>
+                        <strong>Longitude:</strong>
+                        {{ longitude() | number: '1.6-6' }}
+                    </p>
+                </div>
+                <div class="popup-actions">
+                    <button class="btn-copy" (click)="copyCoordinates()">
+                        📋 Copier
+                    </button>
+                </div>
+            </div>
+        </div>
+    }
+
+    @if (isMapInitialized()) {
+        <div class="coordinates-badge">
+            <div class="badge-content">
+                📍 {{ latitude() | number: '1.6-6' }},
+                {{ longitude() | number: '1.6-6' }}
+            </div>
+        </div>
+    }
+
+    @if (isMapInitialized() && showPerformance() && showRadiusCircle()) {
+        <div class="radius-badge">
+            <div class="badge-content">
+                🎯 Rayon d'impact : 3.5km
+            </div>
+        </div>
+    }
+</div>

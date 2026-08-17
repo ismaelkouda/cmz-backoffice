@@ -1,0 +1,111 @@
+<div class="location-picker-dialog">
+    <div class="search-section mt-3">
+        <div class="p-inputgroup">
+            <p-inputgroup>
+                <p-inputgroup-addon>
+                    <i class="pi pi-search"></i>
+                </p-inputgroup-addon>
+                <input
+                    pInputText
+                    class="form-input w-full"
+                    [placeholder]="'COMMON.RESEARCH' | translate"
+                    [ngModel]="searchQuery()"
+                    (ngModelChange)="onSearchQueryChange($event)"
+                />
+            </p-inputgroup>
+        </div>
+
+        @if (isSearching()) {
+            <div class="search-loading">
+                <i class="pi pi-spin pi-spinner"></i>
+                <span>Recherche en cours...</span>
+            </div>
+        }
+
+        @if (error()) {
+            <div class="search-error">
+                <i class="pi pi-exclamation-triangle"></i>
+                <span>{{ error() }}</span>
+            </div>
+        }
+
+        @if (searchResults().length > 0) {
+            <div class="search-results">
+                @for (result of searchResults(); track result.placeId) {
+                    <div
+                        class="search-result-item"
+                        (click)="onSelectSearchResult(result)"
+                        (keydown)="onSelectSearchResult(result)"
+                        tabindex="0"
+                        role="button"
+                    >
+                        <i class="pi pi-map-marker"></i>
+                        <span
+                            >{{ result.displayName }} [{{ result.lat }},{{
+                                result.lng
+                            }}]</span
+                        >
+                    </div>
+                }
+            </div>
+        }
+
+        <!-- @if (
+            !isSearching() &&
+            searchQuery().length >= 3 &&
+            searchResults().length === 0 &&
+            !error()
+        ) {
+            <div class="no-results">
+                <i class="pi pi-info-circle"></i>
+                <span>Aucun résultat trouvé</span>
+            </div>
+        } -->
+    </div>
+
+    <div class="map-wrapper">
+        <app-ol-map
+            [initialCoords]="facade.selectedLocation()"
+            (coordinatesChange)="onMapCoordinatesChange($event)"
+        >
+        </app-ol-map>
+    </div>
+
+    <div class="footer">
+        <div class="coordinates-preview">
+            <i class="pi pi-crosshair"></i>
+            @if (facade.selectedLocation()) {
+                <div class="coordinates-preview__details">
+                    <span>{{ currentLocationDisplay() }}</span>
+                    <!-- @if (currentAddressDisplay()) {
+                        <small class="coordinates-preview__address">{{
+                            currentAddressDisplay()
+                        }}</small>
+                    } -->
+                </div>
+            } @else {
+                <span class="coordinates-preview__empty">{{
+                    'COMMON.NO_COORDINATES' | translate
+                }}</span>
+            }
+        </div>
+
+        <div class="actions">
+            <p-button
+                [label]="'COMMON.CANCEL' | translate"
+                icon="pi pi-times"
+                severity="secondary"
+                (click)="onCancel()"
+            >
+            </p-button>
+            <p-button
+                [label]="'COMMON.VALIDATE' | translate"
+                icon="pi pi-check"
+                (click)="onValidate()"
+                [disabled]="!facade.selectedLocation() || isSearching()"
+                [loading]="isSearching()"
+            >
+            </p-button>
+        </div>
+    </div>
+</div>

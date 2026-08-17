@@ -1,0 +1,25 @@
+.tasks-card {
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.tasks-header {
+    margin-bottom: 1.5rem;
+}
+
+.tasks-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.tasks-divider {
+    opacity: 0.25;
+    margin: 0;
+}
+
+.table-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

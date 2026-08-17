@@ -1,0 +1,446 @@
+<p-dialog
+    [visible]="visible()"
+    (visibleChange)="onClose()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    [closeOnEscape]="true"
+    [style]="{ width: '100vw', height: '100vh' }"
+    [maximizable]="false"
+    styleClass="dialog"
+>
+    <ng-template #header>
+        <div>
+            <div class="header-left">
+                @if (loading()) {
+                    <div class="header-skeleton">
+                        <p-skeleton
+                            width="500px"
+                            height="28px"
+                            styleClass="mb-2"
+                        ></p-skeleton>
+                    </div>
+                } @else {
+                    @if (vm(); as data) {
+                        <span class="header-title">
+                            {{ 'HISTORY.DIALOG.TITLE' | translate }}
+                        </span>
+
+                        @if (data.header?.uniqId) {
+                            <span
+                                class="header-title copyable"
+                                [pTooltip]="'COMMON.COPY' | translate"
+                                tooltipPosition="bottom"
+                                (click)="onCopyId()"
+                                (keypress)="onCopyId()"
+                                tabindex="0"
+                                role="button"
+                            >
+                                [ {{ data.header.uniqId }} ]
+                            </span>
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="main-container command-layout">
+        <main class="content-main">
+            <div class="tab-content-area">
+                @if (loading()) {
+                    <div class="tab-panel photos-panel skeleton-panel">
+                        <div class="tab-panel information-panel">
+                            <div class="skeleton-cards">
+                                <div
+                                    class="data-card report-info-card skeleton-card"
+                                >
+                                    <div class="card-header">
+                                        <div class="card-title-group">
+                                            <p-skeleton
+                                                shape="circle"
+                                                size="32px"
+                                            />
+                                            <p-skeleton
+                                                width="200px"
+                                                height="24px"
+                                            />
+                                        </div>
+                                        <div class="card-badges">
+                                            <p-skeleton
+                                                width="120px"
+                                                height="28px"
+                                                borderRadius="20px"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="card-body">
+                                        <div class="data-grid">
+                                            <div class="data-row triple">
+                                                @for (
+                                                    field of [1, 2, 3];
+                                                    track field
+                                                ) {
+                                                    <div class="data-field">
+                                                        <p-skeleton
+                                                            width="120px"
+                                                            height="18px"
+                                                            styleClass="mb-2"
+                                                        ></p-skeleton>
+                                                        <p-skeleton
+                                                            width="100%"
+                                                            height="44px"
+                                                            borderRadius="8px"
+                                                        ></p-skeleton>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="data-row double">
+                                                @for (
+                                                    field of [1, 2];
+                                                    track field
+                                                ) {
+                                                    <div class="data-field">
+                                                        <p-skeleton
+                                                            width="100px"
+                                                            height="18px"
+                                                            styleClass="mb-2"
+                                                        ></p-skeleton>
+                                                        <p-skeleton
+                                                            width="140px"
+                                                            height="32px"
+                                                            borderRadius="20px"
+                                                        ></p-skeleton>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="data-row full">
+                                                <div class="data-field">
+                                                    <p-skeleton
+                                                        width="150px"
+                                                        height="18px"
+                                                        styleClass="mb-2"
+                                                    ></p-skeleton>
+                                                    <p-skeleton
+                                                        width="100%"
+                                                        height="80px"
+                                                        borderRadius="8px"
+                                                    ></p-skeleton>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                } @else {
+                    @if (vm(); as data) {
+                        <div class="tab-panel information-panel">
+                            <div class="information-content">
+                                <div class="data-card location-card">
+                                    <div class="card-body">
+                                        <div class="data-grid">
+                                            <div class="data-row triple">
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i
+                                                            class="pi pi-calendar"
+                                                        ></i>
+                                                        {{
+                                                            'HISTORY.DIALOG.DATE'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        {{
+                                                            data.metadata
+                                                                ?.occurredAt ||
+                                                                'N/A'
+                                                        }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i
+                                                            class="pi pi-user"
+                                                        ></i>
+                                                        {{
+                                                            'HISTORY.DIALOG.USER'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        @if (
+                                                            data.metadata?.user
+                                                        ) {
+                                                            <div
+                                                                class="user-info"
+                                                            >
+                                                                <span
+                                                                    class="user-name"
+                                                                    >{{
+                                                                        data
+                                                                            .metadata
+                                                                            .user
+                                                                            .fullName
+                                                                    }}</span
+                                                                >
+                                                            </div>
+                                                        } @else {
+                                                            <span
+                                                                class="no-data"
+                                                                >N/A</span
+                                                            >
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i
+                                                            class="pi pi-tag"
+                                                        ></i>
+                                                        {{
+                                                            'HISTORY.DIALOG.OPERATION'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <div
+                                                        class="field-value py-0"
+                                                    >
+                                                        <p-tag
+                                                            [value]="
+                                                                data.metadata
+                                                                    ?.operationKey
+                                                                    | translate
+                                                            "
+                                                            [severity]="
+                                                                data.header
+                                                                    ?.eventSeverity ||
+                                                                'info'
+                                                            "
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Ligne 2: Action, Module -->
+                                            <div class="data-row triple">
+                                                <div
+                                                    class="data-field flexible"
+                                                >
+                                                    <label class="field-label">
+                                                        <i
+                                                            class="pi pi-info-circle"
+                                                        ></i>
+                                                        {{
+                                                            'HISTORY.DIALOG.ACTION'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <div
+                                                        class="field-value long"
+                                                    >
+                                                        {{
+                                                            data.metadata
+                                                                ?.action ||
+                                                                'N/A'
+                                                        }}
+                                                    </div>
+                                                </div>
+
+                                                <div class="data-field">
+                                                    <label class="field-label">
+                                                        <i
+                                                            class="pi pi-folder"
+                                                        ></i>
+                                                        {{
+                                                            'HISTORY.DIALOG.MODULE'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <div class="field-value">
+                                                        {{
+                                                            data.metadata
+                                                                ?.module ||
+                                                                'N/A'
+                                                        }}
+                                                    </div>
+                                                </div>
+
+                                                @if (data.metadata?.sourceIp) {
+                                                    <div class="data-field">
+                                                        <label
+                                                            class="field-label"
+                                                        >
+                                                            <i
+                                                                class="pi pi-globe"
+                                                            ></i>
+                                                            {{
+                                                                'HISTORY.DIALOG.IP_ADDRESS'
+                                                                    | translate
+                                                            }}
+                                                        </label>
+                                                        <div
+                                                            class="field-value py-0"
+                                                        >
+                                                            <code>{{
+                                                                data.metadata
+                                                                    .sourceIp
+                                                            }}</code>
+                                                            <button
+                                                                pButton
+                                                                type="button"
+                                                                icon="pi pi-copy"
+                                                                class="p-button-rounded p-button-text p-button-sm ml-2"
+                                                                (click)="
+                                                                    copyToClipboard(
+                                                                        data
+                                                                            .metadata
+                                                                            .sourceIp!
+                                                                    )
+                                                                "
+                                                                pTooltip="{{
+                                                                    'COMMON.COPY'
+                                                                        | translate
+                                                                }}"
+                                                            ></button>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+
+                                            @if (data.metadata?.accessMethod) {
+                                                <div class="data-row full">
+                                                    <div class="data-field">
+                                                        <label
+                                                            class="field-label"
+                                                        >
+                                                            <i
+                                                                class="pi pi-desktop"
+                                                            ></i>
+                                                            {{
+                                                                'HISTORY.DIALOG.ACCESS_METHOD'
+                                                                    | translate
+                                                            }}
+                                                        </label>
+                                                        <div
+                                                            class="field-value access-method"
+                                                        >
+                                                            {{
+                                                                data.metadata
+                                                                    .accessMethod
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if (
+                            data.summary &&
+                            data.summary.hasDiff &&
+                            data.changes &&
+                            data.changes.length > 0
+                        ) {
+                            <div class="summary-section">
+                                <div class="summary-card">
+                                    <div class="summary-stats">
+                                        <div class="stat-item">
+                                            <span class="stat-value">{{
+                                                data.summary.changedFields || 0
+                                            }}</span>
+                                            <span class="stat-label">{{
+                                                'HISTORY.SUMMARY.MODIFIED'
+                                                    | translate
+                                            }}</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">{{
+                                                data.summary.unchangedFields ||
+                                                    0
+                                            }}</span>
+                                            <span class="stat-label">{{
+                                                'HISTORY.SUMMARY.UNCHANGED'
+                                                    | translate
+                                            }}</span>
+                                        </div>
+                                        <div class="stat-item">
+                                            <span class="stat-value">{{
+                                                data.summary.totalFields || 0
+                                            }}</span>
+                                            <span class="stat-label">{{
+                                                'HISTORY.SUMMARY.TOTAL'
+                                                    | translate
+                                            }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (
+                            data.table &&
+                            data.table.rows &&
+                            data.table.rows.length > 0
+                        ) {
+                            <div class="changes-section">
+                                <div class="section-header">
+                                    <h4>
+                                        {{
+                                            'HISTORY.DIALOG.CHANGES' | translate
+                                        }}
+                                    </h4>
+                                    @if (data.table.mode === 'DIFF') {
+                                        <span class="mode-badge diff"
+                                            >Comparaison</span
+                                        >
+                                    } @else {
+                                        <span class="mode-badge snapshot"
+                                            >Valeur</span
+                                        >
+                                    }
+                                </div>
+
+                                <app-table
+                                    class="table-component history-diff-table"
+                                    dataKey="fieldKey"
+                                    [hiddenTableTitle]="true"
+                                    [config]="data.table.config"
+                                    [loading]="loading()"
+                                    [items]="data.table.rows"
+                                    [hiddenButtonExport]="true"
+                                    [hiddenButtonRefresh]="true"
+                                ></app-table>
+                            </div>
+                        } @else if (
+                            !data.summary?.hasDiff && data.changes?.length === 0
+                        ) {
+                            <div class="no-changes-state">
+                                <i class="pi pi-info-circle"></i>
+                                <p>
+                                    {{
+                                        'HISTORY.DIALOG.NO_CHANGES' | translate
+                                    }}
+                                </p>
+                            </div>
+                        }
+                    } @else {
+                        <div class="empty-state">
+                            <i class="pi pi-inbox"></i>
+                            <p>{{ 'HISTORY.DIALOG.NO_DATA' | translate }}</p>
+                        </div>
+                    }
+                }
+            </div>
+        </main>
+    </div>
+</p-dialog>

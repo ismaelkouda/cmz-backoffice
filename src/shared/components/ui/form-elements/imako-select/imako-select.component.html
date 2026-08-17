@@ -1,10 +1,11 @@
 <div class="imako-select-container" [ngClass]="styleClass()">
     @if (label()) {
-        <label class="imako-label">
+        <label [for]="label()" class="imako-label">
             <b>{{ label() | translate }}</b>
         </label>
     }
     <p-select
+        [id]="label()"
         [options]="options()"
         [formControl]="control()"
         [optionLabel]="optionLabel()"
@@ -12,9 +13,11 @@
         [showClear]="showClear()"
         [filter]="filter()"
         [filterBy]="optionLabel()"
+        [loading]="loading()"
         appendTo="body"
         [placeholder]="placeholder() | translate"
-        (onBlur)="onTouch()"
         styleClass="w-100"
+        [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+        [emptyFilterMessage]="'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate"
     ></p-select>
 </div>

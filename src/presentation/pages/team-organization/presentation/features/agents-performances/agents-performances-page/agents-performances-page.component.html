@@ -1,0 +1,38 @@
+<main class="container-fluid agents-performances-container" role="main">
+    <section class="row agents-performances-row">
+        <article class="col-sm-12 agents-performances-article">
+            <app-breadcrumb />
+
+            <section class="card agents-performances-card">
+                <div class="card-body agents-performances-card-body">
+                    <header class="agents-performances-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'TEAM_ORGANIZATION.TEAMS.TITLE' | translate
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <p-tabs [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.value) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

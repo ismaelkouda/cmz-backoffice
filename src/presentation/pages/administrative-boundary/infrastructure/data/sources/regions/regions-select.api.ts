@@ -1,22 +1,28 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
-import { ADMINISTRATIVE_BOUNDARY_API_BASE_URL } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.config';
-import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@presentation/pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
-import { RegionsSelectResponseApiDto } from '@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/regions-select-response-api.dto';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
+import { SETTINGS_API_URL } from '@core/config/config.tokens';
+import { ADMINISTRATIVE_BOUNDARY_ENDPOINTS } from '@pages/administrative-boundary/infrastructure/api/administrative-boundary.endpoints';
+import { RegionsSelectResponseApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/regions-select-response-api.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class RegionsSelectApi {
-    constructor(
-        private readonly http: HttpClient,
-        @Inject(ADMINISTRATIVE_BOUNDARY_API_BASE_URL) private readonly baseUrl: string
-    ) { }
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl: string = inject(SETTINGS_API_URL);
 
-    readAll(): Observable<RegionsSelectResponseApiDto> {
+    readAll(options?: FetchOptions): Observable<RegionsSelectResponseApiDto> {
         const url = `${this.baseUrl}${ADMINISTRATIVE_BOUNDARY_ENDPOINTS.REGIONS}/selected-field`;
 
-        return this.http.get<RegionsSelectResponseApiDto>(url);
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
+        return this.http.get<RegionsSelectResponseApiDto>(url, {
+            context,
+        });
     }
 }

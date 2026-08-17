@@ -1,0 +1,517 @@
+<main class="container-fluid actions-form-container" role="main">
+    <section class="row actions-form-row">
+        <article class="col-sm-12 actions-form-article">
+            <app-breadcrumb />
+
+            <section class="card actions-form-card">
+                <div class="card-body actions-form-card-body">
+                    <header class="actions-form-header">
+                        <div class="action-buttons d-flex gap-2">
+                            <app-page-title
+                                [title]="
+                                    'PROCESSING.TASKS.ACTIONS.TITLE' | translate
+                                "
+                                [displayDate]="false"
+                            />
+                            @if (uniqId()) {
+                                <p-tag
+                                    [value]="uniqId()"
+                                    severity="contrast"
+                                    [rounded]="true"
+                                />
+                            }
+                            <p-button
+                                label="{{
+                                    'PROCESSING.TASKS.TABLE.SEE_REPORT'
+                                        | translate
+                                }}"
+                                icon="pi pi-eye"
+                                [pTooltip]="
+                                    'PROCESSING.TASKS.ACTIONS.TOOLTIP.SEE_MORE'
+                                        | translate
+                                "
+                                tooltipPosition="bottom"
+                                styleClass="p-button-outlined p-button-secondary"
+                                (onClick)="isReportDialogVisible.set(true)"
+                            />
+                            <p-button
+                                label="{{
+                                    'PROCESSING.TASKS.TABLE.CLOSURE' | translate
+                                }}"
+                                icon="pi pi-check-circle"
+                                styleClass="p-button-success"
+                                tooltipPosition="bottom"
+                                [disabled]="canClosure()"
+                                (onClick)="onClosureClicked()"
+                                [pTooltip]="closureTooltip()"
+                            />
+                        </div>
+
+                        <p-button
+                            label="{{ 'COMMON.CLOSE' | translate }}"
+                            icon="pi pi-times"
+                            styleClass="p-button-danger"
+                            (onClick)="navigateBack()"
+                        />
+                    </header>
+
+                    <div class="fade-in actions-content">
+                        <div class="report-subtitle">
+                            <div class="subtitle-item">
+                                <span class="subtitle-label">
+                                    {{ 'COMMON.REPORT' | translate }} :
+                                </span>
+                                <p-tag
+                                    [value]="reportType()"
+                                    [rounded]="true"
+                                ></p-tag>
+                            </div>
+
+                            <div class="subtitle-item">
+                                <span class="subtitle-label">
+                                    {{ 'COMMON.OPERATORS' | translate }} :
+                                </span>
+                                <div class="operators-list">
+                                    @for (
+                                        operator of operators();
+                                        track operator
+                                    ) {
+                                        <p-tag
+                                            [value]="operator"
+                                            [style]="
+                                                getOperatorTagStyle(operator)
+                                            "
+                                            styleClass="operator-tag"
+                                        />
+                                    }
+                                </div>
+                            </div>
+
+                            <div class="subtitle-item">
+                                <span class="subtitle-label">
+                                    {{ 'COMMON.CREATED_AT' | translate }} :
+                                </span>
+                                <span class="subtitle-value">{{
+                                    getFormatDate(createdAt())
+                                }}</span>
+                            </div>
+
+                            <div class="subtitle-item">
+                                <span class="subtitle-label">
+                                    {{ 'COMMON.SOURCE' | translate }} :
+                                </span>
+                                <span class="subtitle-value"
+                                    >{{ source() }} [ {{ initiatorPhone() }} ]
+                                </span>
+                            </div>
+                        </div>
+
+                        <hr class="actions-divider" />
+
+                        <section
+                            class="actions-table-section"
+                            [aria-label]="
+                                'PROCESSING.TASKS.ACTIONS.TITLE' | translate
+                            "
+                        >
+                            <app-table
+                                class="table-component"
+                                dataKey="uniqId"
+                                [label]="false"
+                                [config]="tableConfig"
+                                [loading]="loading()"
+                                [items]="itemsVM()"
+                                [pagination]="pagination()"
+                                [headerButtons]="headerButtons()"
+                                (headerButtonClicked)="onHeaderClicked($event)"
+                                (actionClicked)="onActionClicked($event)"
+                            ></app-table>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onChangePageClicked($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+
+@if (isReportDialogVisible()) {
+    <app-management-dialog
+        [visible]="isReportDialogVisible()"
+        [uniqId]="uniqId()"
+        [type]="selectedManagementType()"
+        (visibleChange)="isReportDialogVisible.set($event)"
+    ></app-management-dialog>
+}
+
+<p-dialog
+    [visible]="formStore.isOpen()"
+    (visibleChange)="formStore.close()"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    styleClass="action-form-dialog"
+>
+    <ng-template #header>
+        <div class="dialog-header">
+            <div class="header-content">
+                <h2 class="dialog-title">
+                    @if (formStore.isCreateMode()) {
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE.CREATE'
+                                | translate
+                        }}
+                    } @else if (formStore.isEditMode()) {
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE.EDIT'
+                                | translate
+                        }}
+                    } @else {
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.TITLE.VIEW'
+                                | translate
+                        }}
+                    }
+                    <span></span>
+                </h2>
+
+                @if (uniqId()) {
+                    <p-tag
+                        [value]="uniqId()"
+                        severity="info"
+                        styleClass="uniq-id-tag"
+                        (click)="copyToClipboard(uniqId())"
+                        [pTooltip]="'COMMON.COPY' | translate"
+                        tooltipPosition="bottom"
+                    />
+                }
+            </div>
+        </div>
+    </ng-template>
+
+    <div class="dialog-body">
+        <div class="report-summary">
+            <div class="summary-item">
+                <span class="summary-label">{{
+                    'COMMON.REPORT' | translate
+                }}</span>
+                <p-tag [value]="reportType()" [rounded]="true" />
+            </div>
+
+            @if (operators().length) {
+                <div class="summary-item">
+                    <span class="summary-label">{{
+                        'COMMON.OPERATORS' | translate
+                    }}</span>
+                    <div class="operators-badges">
+                        @for (operator of operators(); track operator) {
+                            <p-tag
+                                [value]="operator"
+                                [style]="getOperatorTagStyle(operator)"
+                            />
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="summary-item">
+                <span class="summary-label">{{
+                    'COMMON.CREATED_AT' | translate
+                }}</span>
+                <span class="summary-value">{{
+                    getFormatDate(createdAt())
+                }}</span>
+            </div>
+
+            <div class="summary-item">
+                <span class="summary-label">{{
+                    'COMMON.SOURCE' | translate
+                }}</span>
+                <span class="summary-value"
+                    >{{ source() }} [{{ initiatorPhone() }}]</span
+                >
+            </div>
+        </div>
+
+        <form
+            [formGroup]="formStore.form"
+            (ngSubmit)="onSubmit()"
+            class="action-form"
+        >
+            <div class="row">
+                <div class="col-md-4">
+                    <label class="form-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE'
+                                | translate
+                        }}
+                        <span class="required">*</span>
+                    </label>
+                    <p-select
+                        class="form-p-select"
+                        formControlName="type"
+                        [options]="actionsType()"
+                        optionLabel="label"
+                        optionValue="value"
+                        [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                        [emptyMessage]="
+                            'COMMON.SELECT_EMPTY_MESSAGE' | translate
+                        "
+                        styleClass="w-full"
+                    />
+                </div>
+                @if (operators().length) {
+                    <div class="col-md-4">
+                        <label class="form-label">
+                            {{ 'COMMON.OPERATORS' | translate }}
+                            <span class="text-danger" aria-label="required"
+                                >*</span
+                            >
+                        </label>
+                        <div class="operator-card" role="radiogroup">
+                            @for (operator of operators(); track operator) {
+                                <div
+                                    class="operator-item"
+                                    [class.disabled]="
+                                        formStore.isViewMode() ||
+                                        (allowedOperatorsSet().has(operator) &&
+                                            formStore.isCreateMode()) ||
+                                        loadingActionsType()
+                                    "
+                                    [class.selected]="
+                                        (formStore.operator() === operator &&
+                                            !allowedOperatorsSet().has(
+                                                operator
+                                            ) &&
+                                            formStore.isCreateMode()) ||
+                                        (formStore.operator() === operator &&
+                                            formStore.isEditMode()) ||
+                                        (formStore.operator() === operator &&
+                                            formStore.isViewMode())
+                                    "
+                                    (click)="
+                                        (!allowedOperatorsSet().has(operator) &&
+                                            formStore.isCreateMode() &&
+                                            formStore.selectOperator(
+                                                operator
+                                            )) ||
+                                            (formStore.isEditMode() &&
+                                                formStore.selectOperator(
+                                                    operator
+                                                )) ||
+                                            (formStore.isViewMode() &&
+                                                formStore.selectOperator(
+                                                    operator
+                                                ))
+                                    "
+                                    (keydown.enter)="
+                                        (!allowedOperatorsSet().has(operator) &&
+                                            formStore.isCreateMode() &&
+                                            formStore.selectOperator(
+                                                operator
+                                            )) ||
+                                            (formStore.isEditMode() &&
+                                                formStore.selectOperator(
+                                                    operator
+                                                )) ||
+                                            (formStore.isViewMode() &&
+                                                formStore.selectOperator(
+                                                    operator
+                                                ))
+                                    "
+                                    [attr.aria-checked]="
+                                        (formStore.operator() === operator &&
+                                            !allowedOperatorsSet().has(
+                                                operator
+                                            ) &&
+                                            formStore.isCreateMode()) ||
+                                        (formStore.operator() === operator &&
+                                            formStore.isEditMode()) ||
+                                        (formStore.operator() === operator &&
+                                            formStore.isViewMode())
+                                    "
+                                    [attr.tabindex]="
+                                        formStore.isViewMode() ||
+                                        !allowedOperatorsSet().has(operator)
+                                            ? -1
+                                            : 0
+                                    "
+                                >
+                                    <div class="radio-indicator">
+                                        <div
+                                            class="radio-dot"
+                                            [class.active]="
+                                                formStore.operator() ===
+                                                operator
+                                            "
+                                        ></div>
+                                    </div>
+                                    <p-tag
+                                        [value]="operator"
+                                        [style]="getOperatorTagStyle(operator)"
+                                    />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <div class="col-md-3">
+                    <label class="form-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
+                                | translate
+                        }}
+                        <span class="required">*</span>
+                    </label>
+                    <p-datepicker
+                        formControlName="date"
+                        [showIcon]="true"
+                        [showTime]="true"
+                        hourFormat="24"
+                        dateFormat="yy-mm-dd"
+                        appendTo="body"
+                        styleClass="w-full"
+                    />
+                </div>
+            </div>
+
+            <div class="row my-3">
+                <div class="col-md-4">
+                    <label class="form-label" id="conformity-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
+                                | translate
+                        }}
+                        <span class="required">*</span>
+                    </label>
+
+                    <p-selectbutton
+                        formControlName="isConform"
+                        [options]="conformityOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        dataKey="value"
+                        [allowEmpty]="false"
+                        [invalid]="
+                            formStore.form.get('isConform')?.invalid &&
+                            formStore.form.get('isConform')?.touched
+                        "
+                        ariaLabelledBy="conformity-label"
+                        styleClass="w-full conformity-selector"
+                        size="small"
+                    >
+                        <ng-template #item let-option>
+                            <div class="conformity-option">
+                                <i [class]="option.icon"></i>
+
+                                <div class="conformity-content">
+                                    <span class="title">
+                                        {{ option.label }}
+                                    </span>
+
+                                    <!-- @if (option.description) {
+                                        <small class="description">
+                                            {{ option.description }}
+                                        </small>
+                                    } -->
+                                </div>
+                            </div>
+                        </ng-template>
+                    </p-selectbutton>
+
+                    @if (
+                        formStore.form.get('isConform')?.invalid &&
+                        formStore.form.get('isConform')?.touched
+                    ) {
+                        <small class="error-message">
+                            {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                        </small>
+                    }
+                </div>
+                <div class="col-md-8">
+                    <label class="form-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION'
+                                | translate
+                        }}
+                        <span class="required">*</span>
+                    </label>
+                    <textarea
+                        pInputTextarea
+                        formControlName="description"
+                        rows="3"
+                        [maxlength]="255"
+                        [placeholder]="
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER'
+                                | translate
+                        "
+                        class="w-full"
+                        [autoResize]="true"
+                    ></textarea>
+                    <div class="field-footer">
+                        @if (
+                            formStore.form.get('description')?.invalid &&
+                            formStore.form.get('description')?.touched
+                        ) {
+                            <small class="error-message">
+                                {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                            </small>
+                        }
+                        <small class="char-count">
+                            {{
+                                formStore.form.get('description')?.value
+                                    ?.length || 0
+                            }}/255
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-field full-width">
+                <div class="toggle-field">
+                    <label class="form-label">
+                        {{
+                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
+                                | translate
+                        }}
+                    </label>
+                    <p-toggleswitch formControlName="shouldNotifyUser" />
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ng-template #footer>
+        <div class="dialog-footer">
+            <p-button
+                [label]="'COMMON.CANCEL' | translate"
+                icon="pi pi-times"
+                severity="secondary"
+                [outlined]="true"
+                (onClick)="formStore.close()"
+            />
+
+            @if (!formStore.isViewMode()) {
+                <p-button
+                    [label]="'COMMON.SAVE' | translate"
+                    [icon]="
+                        formStore.isSubmitting()
+                            ? 'pi pi-spin pi-spinner'
+                            : 'pi pi-check'
+                    "
+                    [loading]="formStore.isSubmitting()"
+                    [disabled]="
+                        !formStore.isValid() || formStore.isSubmitting()
+                    "
+                    (onClick)="onSubmit()"
+                />
+            }
+        </div>
+    </ng-template>
+</p-dialog>

@@ -1,18 +1,29 @@
-import { DepartmentsByRegionIdFilter } from "@presentation/pages/administrative-boundary/core/domain/value-objects/regions/departments-by-region-id-filter.vo";
-import { DepartmentsByRegionIdFilterApiDto } from "@presentation/pages/administrative-boundary/infrastructure/api/dtos/regions/departments-by-region-id-filter-api.dto";
+import { DepartmentsByRegionIdFilterProps } from '@pages/administrative-boundary/domain/interfaces/regions/departments-by-region-id-filter-props.interface';
+import { DepartmentsByRegionIdFilterApiDto } from '@pages/administrative-boundary/infrastructure/api/dto/regions/departments-by-region-id-filter-api.dto';
 
+export function DepartmentsByRegionIdFilterMapper(
+    filter: DepartmentsByRegionIdFilterProps
+): DepartmentsByRegionIdFilterApiDto {
+    const params: DepartmentsByRegionIdFilterApiDto =
+        {} as DepartmentsByRegionIdFilterApiDto;
 
-export class DepartmentsByRegionIdFilterMapper {
-    static toApi(filter: DepartmentsByRegionIdFilter): DepartmentsByRegionIdFilterApiDto {
-        const params: DepartmentsByRegionIdFilterApiDto = {} as DepartmentsByRegionIdFilterApiDto;
-
-        params.region_code = filter.regionCode;
-        if (filter.startDate) params['start_date'] = filter.startDate;
-        if (filter.endDate) params['end_date'] = filter.endDate;
-        if (filter.search) params['search'] = filter.search;
-        if (filter.municipalityCode) params['municipality_code'] = filter.municipalityCode;
-        if (filter.isActive !== undefined && filter.isActive !== null) params['is_active'] = filter.isActive;
-
-        return params;
+    params.region_id = filter.uniqId;
+    if (filter.search) {
+        params['search'] = filter.search;
     }
+    if (filter.region) {
+        params['region_id'] = filter.region;
+    }
+    if (filter.municipality) {
+        params['municipality_code'] = filter.municipality;
+    }
+
+    if (filter.period?.start) {
+        params['start_date'] = filter.period.start;
+    }
+    if (filter.period?.end) {
+        params['end_date'] = filter.period.end;
+    }
+
+    return params;
 }

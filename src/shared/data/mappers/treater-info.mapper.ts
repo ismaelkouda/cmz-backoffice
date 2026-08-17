@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { TreaterInfoEntity } from '@shared/domain/entities/treater-info.entity';
-import { TreaterInfoDto } from '../dtos/treater-info.dto';
+
+import { TreaterInfoDto } from '../dto/treater-info.dto';
 @Injectable({
     providedIn: 'root',
 })
@@ -24,6 +25,7 @@ export class TreaterInfoMapper {
             abandoned_comment: treaterInfo.abandonedComment,
             deny_count: treaterInfo.denyCount,
             reason: treaterInfo.reason,
+            callback_type: treaterInfo.callbackType,
         };
     }
 
@@ -45,7 +47,8 @@ export class TreaterInfoMapper {
             treaterInfoDto.confirmed_comment,
             treaterInfoDto.abandoned_comment,
             treaterInfoDto.deny_count,
-            treaterInfoDto.reason
+            treaterInfoDto.reason,
+            treaterInfoDto.callback_type
         );
     }
 }

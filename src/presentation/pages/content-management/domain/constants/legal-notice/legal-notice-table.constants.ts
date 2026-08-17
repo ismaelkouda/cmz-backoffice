@@ -1,0 +1,47 @@
+export const LEGAL_NOTICE_TABLE = {
+    cols: [
+        {
+            field: '__index',
+            header: 'COMMON.INDEX',
+            class: 'text-center',
+            width: '2rem',
+        },
+        {
+            field: 'version',
+            header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.VERSION',
+            width: '6rem',
+        },
+        {
+            field: 'statusLabel',
+            header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.STATUS',
+            class: 'text-center',
+            width: '6rem',
+        },
+        {
+            field: 'createdAt',
+            header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.CREATED_AT',
+            class: 'text-center',
+            width: '6rem',
+        },
+        {
+            field: 'publishedAt',
+            header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.PUBLISHED_AT',
+            class: 'text-center',
+            width: '6rem',
+        },
+        {
+            field: '__actionDropdown',
+            header: 'CONTENT_MANAGEMENT.LEGAL_NOTICE.TABLE.ACTION',
+            class: 'text-center',
+            width: '6rem',
+        },
+    ],
+    globalFilterFields: [
+        'uniqId',
+        'name',
+        'version',
+        'statusLabel',
+        'createdAt',
+        'publishedAt',
+    ],
+};

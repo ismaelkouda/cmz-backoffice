@@ -1,0 +1,213 @@
+<main class="container-fluid profiles-permissions-users-container" team="main">
+    <section class="row profiles-permissions-users-row">
+        <article class="col-sm-12 profiles-permissions-users-article">
+            <app-breadcrumb />
+
+            <section class="card profiles-permissions-users-card">
+                <div class="card-body profiles-permissions-users-card-body">
+                    <header class="profiles-permissions-users-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [title]="
+                                    'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.TITLE'
+                                        | translate
+                                "
+                            >
+                            </app-page-title>
+                            <div class="ms-auto">
+                                <p-tag
+                                    severity="success"
+                                    [value]="paramsName()"
+                                />
+                            </div>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="navigateToBack()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="profiles-permissions-users-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="form"
+                            [fields]="filterFields()"
+                            (filter)="onFilter($event)"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="5"
+                        ></app-filter>
+
+                        <hr class="profiles-permissions-users-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                [loading]="loading()"
+                                [items]="items()"
+                                [pagination]="pagination()"
+                                [config]="tableConfig"
+                                (refreshRequested)="onRefresh()"
+                                dataKey="uniqId"
+                                [headerButtons]="headerButtons()"
+                                selectionMode="multiple"
+                                [selection]="usersSelectedInTable()"
+                                (selectionChange)="onSelectionChange($event)"
+                                (headerButtonClicked)="onHeaderClicked($event)"
+                            ></app-table>
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onPageChange($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+
+<p-dialog
+    [visible]="displayReassignModal()"
+    (visibleChange)="displayReassignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{
+        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.REASSIGN_TITLE'
+            | translate
+    }}"
+>
+    <form [formGroup]="reassignForm">
+        <div class="form-group my-1">
+            <label for="team">
+                <b>
+                    {{
+                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.REASSIGN_LABEL'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-select
+                formControlName="team"
+                [options]="profiles()"
+                optionLabel="label"
+                optionValue="value"
+                [loading]="loadingProfiles()"
+                [filter]="true"
+                filterBy="label"
+                appendTo="body"
+                [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                styleClass="w-100"
+                [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                [emptyFilterMessage]="
+                    'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate
+                "
+                [class.ng-invalid]="
+                    reassignForm.get('team')?.invalid &&
+                    reassignForm.get('team')?.touched
+                "
+            ></p-select>
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CLOSE' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeReassignModal()"
+        ></p-button>
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="
+                facade.actionState() === 'loading'
+                    ? 'pi pi-spin pi-spinner'
+                    : 'pi pi-check'
+            "
+            (onClick)="onSubmitReassign()"
+            [disabled]="
+                reassignForm.invalid ||
+                !usersSelectedInTable().length ||
+                !profiles().length ||
+                loadingProfiles() ||
+                facade.actionState() === 'loading'
+            "
+        ></p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog
+    [visible]="displayAssignModal()"
+    (visibleChange)="displayAssignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [draggable]="false"
+    [resizable]="false"
+    header="{{
+        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.ASSIGN_TITLE'
+            | translate
+    }}"
+>
+    <form [formGroup]="assignForm">
+        <div class="form-group my-1">
+            <label for="team">
+                <b>
+                    {{
+                        'SETTINGS_SECURITY.PROFILES_PERMISSIONS.USERS.MODAL.ASSIGN_LABEL'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-multiselect
+                formControlName="users"
+                [options]="users()"
+                [loading]="loadingUsers()"
+                optionLabel="label"
+                optionValue="value"
+                [filter]="true"
+                filterBy="label"
+                [showToggleAll]="false"
+                [showClear]="true"
+                placeholder="{{ 'COMMON.SELECT_PLACEHOLDER' | translate }}"
+                appendTo="body"
+                styleClass="w-100"
+                [class.ng-invalid]="
+                    assignForm.get('users')?.invalid &&
+                    assignForm.get('users')?.touched
+                "
+            />
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CLOSE' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeAssignModal()"
+        ></p-button>
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="
+                facade.actionState() === 'loading'
+                    ? 'pi pi-spin pi-spinner'
+                    : 'pi pi-check'
+            "
+            (onClick)="onSubmitAssign()"
+            [disabled]="
+                assignForm.invalid ||
+                !uniqId().length ||
+                !users().length ||
+                loadingUsers() ||
+                facade.actionState() === 'loading'
+            "
+        ></p-button>
+    </ng-template>
+</p-dialog>

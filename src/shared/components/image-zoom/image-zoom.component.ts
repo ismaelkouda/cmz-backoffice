@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import {
+    ChangeDetectionStrategy,
     Component,
     ElementRef,
     HostListener,
-    Input,
-    OnInit,
-    Renderer2,
+    inject,
+    input,
 } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 
@@ -15,10 +15,12 @@ import { DialogModule } from 'primeng/dialog';
     templateUrl: './image-zoom.component.html',
     styleUrls: ['./image-zoom.component.scss'],
     imports: [CommonModule, DialogModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImageZoomComponent implements OnInit {
-    @Input() src!: string;
-    @Input() label?: string;
+export class ImageZoomComponent {
+    private readonly el: ElementRef = inject(ElementRef);
+    protected readonly src = input.required<string>();
+    protected readonly label = input<string>();
 
     zoomVisible = false;
     lensPosition = { top: 0, left: 0 };
@@ -27,14 +29,6 @@ export class ImageZoomComponent implements OnInit {
     private rect!: DOMRect;
 
     rotation = 0;
-    modalVisible = false;
-
-    constructor(
-        private el: ElementRef,
-        private renderer: Renderer2
-    ) {}
-
-    ngOnInit() {}
 
     rotateLeft() {
         this.rotation = (this.rotation - 90) % 360;
@@ -45,15 +39,17 @@ export class ImageZoomComponent implements OnInit {
     }
 
     openModal() {
-        this.modalVisible = true;
         this.onLeave();
     }
 
-    @HostListener('mouseenter', ['$event'])
-    onEnter(event: MouseEvent) {
-        this.rect = (this.el.nativeElement as HTMLElement)
-            .querySelector('.image-wrapper')!
-            .getBoundingClientRect();
+    @HostListener('mouseenter')
+    onEnter() {
+        const imageWrapper =
+            this.el.nativeElement.querySelector('.image-wrapper');
+        if (!imageWrapper) {
+            return;
+        }
+        this.rect = imageWrapper.getBoundingClientRect();
         const windowWidth = window.innerWidth;
         const imageRight = this.rect.right;
         this.alignRight = imageRight + 450 > windowWidth;
@@ -62,7 +58,9 @@ export class ImageZoomComponent implements OnInit {
 
     @HostListener('mousemove', ['$event'])
     onMove(event: MouseEvent) {
-        if (!this.zoomVisible || this.modalVisible) return;
+        if (!this.zoomVisible) {
+            return;
+        }
 
         const x = event.clientX - this.rect.left;
         const y = event.clientY - this.rect.top;

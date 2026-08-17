@@ -1,4 +1,8 @@
-export const OPERATOR_CONST = [
+export const OPERATORS_CONST = [
+    {
+        value: 'moov',
+        label: 'COMMON.MOOV',
+    },
     {
         value: 'orange',
         label: 'COMMON.ORANGE',
@@ -6,9 +10,5 @@ export const OPERATOR_CONST = [
     {
         value: 'mtn',
         label: 'COMMON.MTN',
-    },
-    {
-        value: 'moov',
-        label: 'COMMON.MOOV',
     },
 ] as const;

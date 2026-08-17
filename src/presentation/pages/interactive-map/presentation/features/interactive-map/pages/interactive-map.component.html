@@ -1,0 +1,1105 @@
+<main class="container-fluid queues-container" role="main">
+    <section class="row queues-row">
+        <article class="col-sm-12 queues-article">
+            <app-breadcrumb />
+
+            <section #mapShell class="card queues-card">
+                <div class="card-body queues-card-body">
+                    <!-- <header class="queues-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [displayList]="false"
+                            [title]="'INTERACTIVE_MAP.MAP.TITLE' | translate"
+                        />
+                    </header> -->
+
+                    <div class="map-topbar">
+                        <div class="legend-content">
+                            <div class="legend-section">
+                                <h4>Legend des signalements</h4>
+                                <div class="legend-items">
+                                    <div class="legend-item">
+                                        <img
+                                            [src]="getReportIconPath('zob')"
+                                            class="legend-icon"
+                                            alt="Aucun réseau"
+                                        />
+                                        <span>Aucun réseau</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <img
+                                            [src]="getReportIconPath('cpo')"
+                                            class="legend-icon"
+                                            alt="Absence d'opérateur(s)"
+                                        />
+                                        <span>Absence d'opérateur(s)</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <img
+                                            [src]="getReportIconPath('cps')"
+                                            class="legend-icon"
+                                            alt="Mauvais signal"
+                                        />
+                                        <span
+                                            >Mauvais signal d'Opérateur(s)</span
+                                        >
+                                    </div>
+                                    <div class="legend-item">
+                                        <img
+                                            [src]="getReportIconPath('abi')"
+                                            class="legend-icon"
+                                            alt="Absence d'Internet"
+                                        />
+                                        <span>Absence d'Internet</span>
+                                    </div>
+                                    <!-- <div class="legend-item">
+                                        <span
+                                            class="legend-color ring"
+                                            style="border-color: #ff7900"
+                                        ></span>
+                                        <span>Couverture Orange</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color ring"
+                                            style="border-color: #ffcc00"
+                                        ></span>
+                                        <span>Couverture MTN</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color ring"
+                                            style="border-color: #005baa"
+                                        ></span>
+                                        <span>Couverture Moov</span>
+                                    </div> -->
+                                    <div class="legend-item">
+                                        <span
+                                            class="legend-color"
+                                            style="background-color: #000"
+                                        ></span>
+                                        <span
+                                            >Plusieurs signalements proches
+                                            (nombre affiché)</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="mb-0 d-flex align-items-end gap-2">
+                            <p-badge
+                                badgeSize="large"
+                                [value]="store.visibleReports().length"
+                            />
+                            signalement(s)
+                            <!-- @if (coverageAreasVisible()) {
+                                <span class="coverage-counter">
+                                    <i class="pi pi-map"></i>
+                                    zones de couverture
+                                </span>
+                            } -->
+                        </p>
+
+                        <button
+                            type="button"
+                            class="toolbar-button"
+                            (click)="toggleFullscreen()"
+                        >
+                            <i
+                                [class]="
+                                    isFullscreen()
+                                        ? 'pi pi-window-minimize'
+                                        : 'pi pi-window-maximize'
+                                "
+                            ></i>
+                        </button>
+                    </div>
+
+                    @if (legendVisible()) {
+                        <aside class="map-legend">
+                            <header class="legend-header">
+                                <h3>Légende</h3>
+                                <button
+                                    type="button"
+                                    (click)="toggleLegend()"
+                                    class="close-legend"
+                                >
+                                    <i class="pi pi-times"></i>
+                                </button>
+                            </header>
+                        </aside>
+                    }
+
+                    <div class="interactive-map-shell mt-3">
+                        <main class="map-workspace">
+                            <div class="filters-panel-stack">
+                                @if (!filtersPanelOpen()) {
+                                    <button
+                                        type="button"
+                                        class="open-toggle-button"
+                                        [attr.aria-expanded]="
+                                            filtersPanelOpen()
+                                        "
+                                        (click)="toggleFiltersPanel()"
+                                    >
+                                        Filtres sur les signalements
+                                    </button>
+                                }
+                                @if (filtersPanelOpen()) {
+                                    <aside class="filters-panel">
+                                        <div class="panel-heading">
+                                            <p-button
+                                                class="close-toggle-button"
+                                                icon="pi pi-times"
+                                                [rounded]="true"
+                                                [text]="true"
+                                                severity="danger"
+                                                (click)="toggleFiltersPanel()"
+                                            />
+                                        </div>
+
+                                        <section class="filter-group">
+                                            <h3>Type de signalements</h3>
+                                            @for (
+                                                option of reportTypeOptions;
+                                                track option
+                                            ) {
+                                                <label>
+                                                    <input
+                                                        type="checkbox"
+                                                        [checked]="
+                                                            isSelected(
+                                                                draftFilters()
+                                                                    .reportTypes,
+                                                                option.value
+                                                            )
+                                                        "
+                                                        (change)="
+                                                            toggleFilter(
+                                                                'reportTypes',
+                                                                option.value,
+                                                                $any(
+                                                                    $event.target
+                                                                ).checked
+                                                            )
+                                                        "
+                                                    />
+                                                    <span>{{
+                                                        option.label
+                                                    }}</span>
+                                                </label>
+                                            }
+                                        </section>
+
+                                        <section class="filter-group">
+                                            <h3>Operateurs consernés</h3>
+                                            <div class="d-flex gap-10">
+                                                @for (
+                                                    option of operatorOptions;
+                                                    track option
+                                                ) {
+                                                    <label>
+                                                        <input
+                                                            type="checkbox"
+                                                            [checked]="
+                                                                isSelected(
+                                                                    draftFilters()
+                                                                        .operators,
+                                                                    option.value
+                                                                )
+                                                            "
+                                                            (change)="
+                                                                toggleFilter(
+                                                                    'operators',
+                                                                    option.value,
+                                                                    $any(
+                                                                        $event.target
+                                                                    ).checked
+                                                                )
+                                                            "
+                                                        />
+                                                        <span>{{
+                                                            option.label
+                                                        }}</span>
+                                                    </label>
+                                                }
+                                            </div>
+                                        </section>
+
+                                        <!-- <section class="filter-group">
+                                    <h3>Statut</h3>
+                                    <select
+                                    multiple
+                                    [value]="store.filters().statuses"
+                                    (change)="setStatuses($any($event.target))"
+                                    >
+                                @for (option of statusOptions; track option.value) {
+                                    <option
+                                        [value]="option.value"
+                                                                [selected]="
+                                                                    isSelected(
+                                                                        store.filters().statuses,
+                                                                        option.value
+                                                                    )
+                                                                "
+                                        >
+                                        {{ option.label }}
+                                    </option>
+                                }
+                                    </select>
+                            </section> -->
+
+                                        <section class="filter-group">
+                                            <h3>Statut</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    statusSelectOptions()
+                                                "
+                                                [ngModel]="currentStatus()"
+                                                (ngModelChange)="
+                                                    setStatus($event)
+                                                "
+                                                optionLabel="label"
+                                                optionValue="value"
+                                                placeholder="Tous les statuts"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group">
+                                            <h3>Région</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    regionSelectOptions()
+                                                "
+                                                [ngModel]="
+                                                    draftFilters().region
+                                                "
+                                                (ngModelChange)="
+                                                    setRegion($event)
+                                                "
+                                                [filter]="true"
+                                                filterBy="label"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group">
+                                            <h3>Département</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    departmentSelectOptions()
+                                                "
+                                                [ngModel]="
+                                                    draftFilters().department
+                                                "
+                                                (ngModelChange)="
+                                                    setDepartment($event)
+                                                "
+                                                [filter]="true"
+                                                filterBy="label"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                                [disabled]="
+                                                    !draftFilters().region
+                                                "
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group">
+                                            <h3>Commune / Sous-préfecture</h3>
+                                            <p-select
+                                                class="form-p-select"
+                                                [options]="
+                                                    municipalitySelectOptions()
+                                                "
+                                                [ngModel]="
+                                                    draftFilters().municipality
+                                                "
+                                                (ngModelChange)="
+                                                    setMunicipality($event)
+                                                "
+                                                [filter]="true"
+                                                filterBy="label"
+                                                [showClear]="true"
+                                                styleClass="w-full"
+                                                [disabled]="
+                                                    !draftFilters().department
+                                                "
+                                            ></p-select>
+                                        </section>
+
+                                        <section class="filter-group dates">
+                                            <h3>Du / Au</h3>
+                                            <label>
+                                                <p-datepicker
+                                                    [placeholder]="
+                                                        'COMMON.DATE_PLACEHOLDER'
+                                                            | translate
+                                                    "
+                                                    [showIcon]="true"
+                                                    [dateFormat]="'yy-mm-dd'"
+                                                    appendTo="body"
+                                                    (onSelect)="
+                                                        setDateFilter(
+                                                            'startDate',
+                                                            $event
+                                                                .toISOString()
+                                                                .split('T')[0]
+                                                        )
+                                                    "
+                                                />
+                                                <!-- <input
+                                        type="date"
+                                        [value]="store.filters().startDate"
+                                        (change)="
+                                            setDateFilter(
+                                                'startDate',
+                                                $any($event.target).value
+                                            )
+                                        "
+                                    /> -->
+                                            </label>
+                                            <label>
+                                                <p-datepicker
+                                                    [placeholder]="
+                                                        'COMMON.DATE_PLACEHOLDER'
+                                                            | translate
+                                                    "
+                                                    [showIcon]="true"
+                                                    [dateFormat]="'yy-mm-dd'"
+                                                    appendTo="body"
+                                                    (onSelect)="
+                                                        setDateFilter(
+                                                            'endDate',
+                                                            $event
+                                                                .toISOString()
+                                                                .split('T')[0]
+                                                        )
+                                                    "
+                                                />
+                                            </label>
+                                        </section>
+
+                                        <div
+                                            class="d-flex justify-content-center gap-3"
+                                        >
+                                            <p-button
+                                                (click)="resetFilters()"
+                                                label="Annuler"
+                                                icon="pi pi-times"
+                                                severity="danger"
+                                            />
+                                            <p-button
+                                                (click)="submitFilters()"
+                                                label="Appliquer"
+                                                icon="pi pi-check"
+                                            />
+                                        </div>
+                                    </aside>
+                                }
+
+                                <!--
+                                    Enfant direct de filters-panel-stack :
+                                    `left: 100%` (voir scss) suit toujours le
+                                    bord droit réel de ce bloc, qu'il soit
+                                    replié (bouton toggle) ou ouvert (panneau
+                                    300px) — même distance dans les deux cas,
+                                    sans valeur magique à recalculer.
+                                -->
+                                <div class="map-side-controls">
+                                    <button
+                                        type="button"
+                                        class="reset-view-button"
+                                        title="Réinitialiser la vue"
+                                        (click)="resetMapView()"
+                                    >
+                                        🎯
+                                    </button>
+                                    <div
+                                        #zoomControlsAnchor
+                                        class="zoom-controls-anchor"
+                                    ></div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="coverage-legend"
+                                [class.open]="coverageLegendOpen()"
+                            >
+                                @if (!coverageLegendOpen()) {
+                                    <button
+                                        type="button"
+                                        class="coverage-legend-toggle"
+                                        [attr.aria-expanded]="
+                                            coverageLegendOpen()
+                                        "
+                                        (click)="toggleCoverageLegend()"
+                                    >
+                                        Filtres sur les couches
+                                    </button>
+                                }
+                                @if (coverageLegendOpen()) {
+                                    <div class="coverage-legend-panel">
+                                        <div class="panel-heading">
+                                            <h3 class="mb-0">Couches</h3>
+                                            <p-button
+                                                class="close-toggle-button"
+                                                icon="pi pi-times"
+                                                [rounded]="true"
+                                                [text]="true"
+                                                severity="danger"
+                                                (click)="toggleCoverageLegend()"
+                                            />
+                                        </div>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="basemap"
+                                                [checked]="
+                                                    currentBaseMap() === 'osm'
+                                                "
+                                                (change)="setBaseMap('osm')"
+                                            />
+                                            OpenStreetMap
+                                        </label>
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="basemap"
+                                                [checked]="
+                                                    currentBaseMap() ===
+                                                    'satellite'
+                                                "
+                                                (change)="
+                                                    setBaseMap('satellite')
+                                                "
+                                            />
+                                            Satellitaire
+                                        </label>
+
+                                        <div class="d-flex gap-2 mt-2">
+                                            <h3 class="mb-0">
+                                                Couverture reseau
+                                            </h3>
+                                            <input
+                                                type="checkbox"
+                                                [checked]="
+                                                    allOperatorsVisible()
+                                                "
+                                                (change)="
+                                                    toggleAllOperators(
+                                                        $any($event.target)
+                                                            .checked
+                                                    )
+                                                "
+                                            />
+                                        </div>
+                                        <div
+                                            class="d-flex gap-3 align-items-center mt-2"
+                                        >
+                                            <label class="d-flex gap-1">
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        showCoverageZones()
+                                                    "
+                                                    (change)="
+                                                        toggleCoverageZones(
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <img
+                                                    src="assets/images/icones/radar.svg"
+                                                    class="legend-icon"
+                                                    alt="Zone de couverture"
+                                                />
+                                                <span
+                                                    class="zoom-level-badge"
+                                                    title="Niveau de zoom requis"
+                                                    >13x</span
+                                                >
+                                            </label>
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        showCoverageCenters()
+                                                    "
+                                                    (change)="
+                                                        toggleCoverageCenters(
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <img
+                                                    src="assets/images/icones/signal.svg"
+                                                    class="legend-icon"
+                                                    alt="Point central"
+                                                />
+                                            </label>
+                                        </div>
+                                        @for (
+                                            op of COVERAGE_OPERATORS;
+                                            track op.id
+                                        ) {
+                                            <label>
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        coverageOperatorVisible(
+                                                            op.id
+                                                        )
+                                                    "
+                                                    (change)="
+                                                        toggleCoverageOperator(
+                                                            op.id,
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <span
+                                                    class="legend-color ring"
+                                                    [style.borderColor]="
+                                                        op.color
+                                                    "
+                                                ></span>
+                                                {{ op.label }}
+                                            </label>
+                                        }
+
+                                        @for (
+                                            op of networkTechnologyOptions;
+                                            track op.value
+                                        ) {
+                                            <label class="m-0">
+                                                <input
+                                                    type="checkbox"
+                                                    [checked]="
+                                                        rnhdVisible(op.value)
+                                                    "
+                                                    (change)="
+                                                        toggleRnhd(
+                                                            op.value,
+                                                            $any($event.target)
+                                                                .checked
+                                                        )
+                                                    "
+                                                />
+                                                <span
+                                                    class="legend-color legend-line-icon"
+                                                    [class.legend-line-icon--double]="
+                                                        op.lineCount === 2
+                                                    "
+                                                    [style.color]="op.color"
+                                                >
+                                                    <span
+                                                        class="legend-line-bar"
+                                                    ></span>
+                                                    @if (op.lineCount === 2) {
+                                                        <span
+                                                            class="legend-line-bar"
+                                                        ></span>
+                                                    }
+                                                </span>
+                                                RNHD : {{ op.label }}
+                                            </label>
+                                        }
+
+                                        <div class="d-flex gap-2 mt-2">
+                                            <h4 class="my-2">Zoom actuel</h4>
+                                            <span
+                                                class="zoom-level-badge size-xl"
+                                                title="Niveau de zoom actuel"
+                                                >{{
+                                                    zoomIndicatorValue()
+                                                }}x</span
+                                            >
+                                        </div>
+
+                                        <!-- <div class="d-flex gap-2 mt-2">
+                                            <h4 class="my-2">
+                                                Type d'équipements
+                                            </h4>
+                                            <input
+                                                type="checkbox"
+                                                [checked]="
+                                                    allEquipmentsVisible()
+                                                "
+                                                (change)="
+                                                    toggleAllEquipments(
+                                                        $any($event.target)
+                                                            .checked
+                                                    )
+                                                "
+                                            />
+                                        </div> -->
+                                        <!-- <section class="filter-group">
+                                            @for (
+                                                eq of equipmentOptions;
+                                                track eq.id
+                                            ) {
+                                                <label class="m-0">
+                                                    <input
+                                                        type="checkbox"
+                                                        [checked]="
+                                                            equipmentsVisible()[
+                                                                eq.id
+                                                            ]
+                                                        "
+                                                        (change)="
+                                                            toggleEquipment(
+                                                                eq.id,
+                                                                $any(
+                                                                    $event.target
+                                                                ).checked
+                                                            )
+                                                        "
+                                                    />
+                                                    {{ eq.label }}
+                                                </label>
+                                            }
+                                        </section> -->
+                                    </div>
+                                }
+                            </div>
+                            <div #mapContainer class="map"></div>
+
+                            <div
+                                class="zoom-indicator"
+                                [class.visible]="zoomIndicatorVisible()"
+                            >
+                                <span class="zoom-indicator-value">{{
+                                    zoomIndicatorValue()
+                                }}</span>
+                                <span class="zoom-indicator-label">X</span>
+                            </div>
+
+                            <!-- <section
+                                class="map-search-bar"
+                                aria-label="Recherche de lieu sur la carte"
+                            >
+                                <p-inputgroup>
+                                    <p-inputgroup-addon>
+                                        <i class="pi pi-search"></i>
+                                    </p-inputgroup-addon>
+                                    <input
+                                        pInputText
+                                        type="search"
+                                        autocomplete="off"
+                                        placeholder="Rechercher une commune, un quartier ou des coordonnees"
+                                        [ngModel]="locationSearchQuery()"
+                                        (ngModelChange)="
+                                            onLocationSearchChange($event)
+                                        "
+                                    />
+                                    @if (locationSearchLoading()) {
+                                        <p-inputgroup-addon>
+                                            <i
+                                                class="pi pi-spin pi-spinner"
+                                            ></i>
+                                        </p-inputgroup-addon>
+                                    }
+                                </p-inputgroup>
+
+                                @if (locationSearchResults().length > 0) {
+                                    <div class="map-search-results">
+                                        @for (
+                                            result of locationSearchResults();
+                                            track result.displayName
+                                        ) {
+                                            <button
+                                                type="button"
+                                                (click)="
+                                                    selectLocationSearchResult(
+                                                        result
+                                                    )
+                                                "
+                                            >
+                                                <i class="pi pi-map-marker"></i>
+                                                <span>{{
+                                                    result.displayName
+                                                }}</span>
+                                            </button>
+                                        }
+                                    </div>
+                                }
+
+                                @if (locationSearchError()) {
+                                    <div class="map-search-message">
+                                        {{ locationSearchError() }}
+                                    </div>
+                                }
+                            </section> -->
+
+                            <!-- @if (store.loading()) {
+                                <div class="loading-overlay">
+                                    <div class="loading-spinner"></div>
+                                    <span>Chargement des signalements...</span>
+                                </div>
+                            } -->
+
+                            <div
+                                #hoverOverlay
+                                class="cluster-tooltip"
+                                [class.report-hover-card]="
+                                    clusterTooltip()?.kind === 'report'
+                                "
+                                [class.is-hidden]="!clusterTooltip()"
+                                (mouseenter)="keepHoverTooltip()"
+                                (mouseleave)="releaseHoverTooltip()"
+                            >
+                                @if (clusterTooltip(); as tooltip) {
+                                    @if (
+                                        tooltip.kind === 'cluster' &&
+                                        tooltip.summary
+                                    ) {
+                                        <strong>
+                                            {{ tooltip.summary.total }}
+                                            signalements
+                                        </strong>
+                                        <div>
+                                            Orange:
+                                            {{
+                                                tooltip.summary.byOperator
+                                                    .orange
+                                            }}
+                                        </div>
+                                        <div>
+                                            MTN:
+                                            {{ tooltip.summary.byOperator.mtn }}
+                                        </div>
+                                        <div>
+                                            Moov:
+                                            {{
+                                                tooltip.summary.byOperator.moov
+                                            }}
+                                        </div>
+                                        <hr />
+                                        <div>
+                                            ZOB:
+                                            {{ tooltip.summary.byType.zob }}
+                                        </div>
+                                        <div>
+                                            CPO:
+                                            {{ tooltip.summary.byType.cpo }}
+                                        </div>
+                                        <div>
+                                            CPS:
+                                            {{ tooltip.summary.byType.cps }}
+                                        </div>
+                                        <div>
+                                            ABI:
+                                            {{ tooltip.summary.byType.abi }}
+                                        </div>
+                                    }
+
+                                    @if (tooltip.report; as report) {
+                                        <article class="report-hover-content">
+                                            <div class="report-hover-main">
+                                                <span
+                                                    class="report-hover-kicker"
+                                                >
+                                                    Signalement
+                                                </span>
+                                                <strong>
+                                                    {{
+                                                        getReportTypeLabel(
+                                                            report.report_type
+                                                        )
+                                                    }}
+                                                </strong>
+                                                <span>
+                                                    {{
+                                                        getOperators(report) ||
+                                                            '-'
+                                                    }}
+                                                </span>
+                                                <span>
+                                                    {{
+                                                        report.initiator_phone_number ||
+                                                            '-'
+                                                    }}
+                                                </span>
+                                            </div>
+
+                                            <div class="report-hover-actions">
+                                                @if (report.place_photo) {
+                                                    <a
+                                                        [href]="
+                                                            report.place_photo
+                                                        "
+                                                        target="_blank"
+                                                        rel="noreferrer"
+                                                        title="Voir la photo"
+                                                        aria-label="Voir la photo"
+                                                    >
+                                                        <i
+                                                            class="pi pi-image"
+                                                        ></i>
+                                                    </a>
+                                                }
+                                                <button
+                                                    type="button"
+                                                    title="Voir plus"
+                                                    aria-label="Voir plus"
+                                                    (click)="
+                                                        openReportFromHover(
+                                                            report,
+                                                            tooltip.coordinate
+                                                        )
+                                                    "
+                                                >
+                                                    <i
+                                                        class="pi pi-info-circle"
+                                                    ></i>
+                                                </button>
+                                            </div>
+                                        </article>
+                                    }
+                                }
+                            </div>
+
+                            <div
+                                #clickOverlay
+                                class="map-click-overlay"
+                                [class.is-hidden]="
+                                    !store.selectedReport() &&
+                                    selectedClusterReports().length === 0
+                                "
+                            >
+                                @if (store.selectedReport(); as report) {
+                                    <article class="report-popup">
+                                        <header>
+                                            <div>
+                                                <strong>{{
+                                                    getReportTypeLabel(
+                                                        report.report_type
+                                                    )
+                                                }}</strong>
+                                            </div>
+                                            <button
+                                                type="button"
+                                                (click)="closePopup()"
+                                            >
+                                                x
+                                            </button>
+                                        </header>
+
+                                        <dl>
+                                            <dt>Identifiant</dt>
+                                            <dd>
+                                                <b>{{ report.uniq_id }}</b>
+                                            </dd>
+                                            <dt>Statut</dt>
+                                            <dd>
+                                                <span
+                                                    class="tag-group d-flex justify-content-start"
+                                                    tabindex="0"
+                                                    role="button"
+                                                >
+                                                    <p-tag
+                                                                    [value]="
+                                                                        getStatusLabel(report.state)
+                                                                    "
+                                                                    [severity]="dialogStateStyle(report.state)"
+                                                                />
+                                                </span>
+                                            </dd>
+                                            <dt>Operateur(s)</dt>
+                                            <dd>{{ getOperators(report) }}</dd>
+                                            <dt>Signale le</dt>
+                                            <dd>
+                                                {{ report.reported_at || '-' }}
+                                            </dd>
+                                            <dt>Tel. Emetteur</dt>
+                                            <dd>
+                                                {{
+                                                    report.initiator_phone_number ||
+                                                        '-'
+                                                }}
+                                            </dd>
+                                            <dt>Confirmations</dt>
+                                            <dd>
+                                                {{ report.confirm_count || 0 }}
+                                            </dd>
+                                        </dl>
+
+                                        <div class="popup-actions">
+                                            <button
+                                                type="button"
+                                                (click)="
+                                                    onSeeMoreInfosClicked(
+                                                        report
+                                                    )
+                                                "
+                                            >
+                                                Voir les détails
+                                            </button>
+                                        </div>
+                                    </article>
+                                } @else if (selectedClusterReports().length) {
+                                    <article class="report-popup cluster-popup">
+                                        <header>
+                                            <div>
+                                                <strong>
+                                                    {{
+                                                        selectedClusterReports()
+                                                            .length
+                                                    }}
+                                                    signalements superposés
+                                                </strong>
+                                                @if (
+                                                    selectedClusterSummary();
+                                                    as summary
+                                                ) {
+                                                    <span>
+                                                        Orange:
+                                                        {{
+                                                            summary.byOperator
+                                                                .orange
+                                                        }}
+                                                        · MTN:
+                                                        {{
+                                                            summary.byOperator
+                                                                .mtn
+                                                        }}
+                                                        · Moov:
+                                                        {{
+                                                            summary.byOperator
+                                                                .moov
+                                                        }}
+                                                    </span>
+                                                }
+                                            </div>
+                                            <button
+                                                type="button"
+                                                (click)="closePopup()"
+                                            >
+                                                x
+                                            </button>
+                                        </header>
+
+                                        <div class="cluster-accordion-list">
+                                            @for (
+                                                report of selectedClusterReports();
+                                                track report.uniq_id;
+                                                let idx = $index
+                                            ) {
+                                                <details
+                                                    class="cluster-report-accordion"
+                                                >
+                                                    <summary
+                                                        class="accordion-summary"
+                                                    >
+                                                        <span
+                                                            class="summary-index"
+                                                            >Signalement
+                                                            {{ idx + 1 }}</span
+                                                        >
+                                                        <span
+                                                            class="summary-id"
+                                                        >
+                                                            :
+                                                            {{
+                                                                report.uniq_id
+                                                            }}</span
+                                                        >
+                                                    </summary>
+                                                    <div
+                                                        class="accordion-content"
+                                                    >
+                                                        <dl
+                                                            class="report-details-list"
+                                                        >
+                                                            <dt>Statut</dt>
+                                                            <dd>
+                                                                <p-tag
+                                                                    [value]="
+                                                                        getStatusLabel(report.state)
+                                                                    "
+                                                                    [severity]="dialogStateStyle(report.state)"
+                                                                />
+                                                            </dd>
+                                                            <dt>
+                                                                Opérateur(s)
+                                                            </dt>
+                                                            <dd>
+                                                                {{
+                                                                    getOperators(
+                                                                        report
+                                                                    )
+                                                                }}
+                                                            </dd>
+                                                            <dt>Signalé le</dt>
+                                                            <dd>
+                                                                {{
+                                                                    report.reported_at ||
+                                                                        '-'
+                                                                }}
+                                                            </dd>
+                                                            <dt>
+                                                                Tél. Émetteur
+                                                            </dt>
+                                                            <dd>
+                                                                {{
+                                                                    report.initiator_phone_number ||
+                                                                        '-'
+                                                                }}
+                                                            </dd>
+                                                            <dt>
+                                                                Confirmations
+                                                            </dt>
+                                                            <dd>
+                                                                {{
+                                                                    report.confirm_count ||
+                                                                        0
+                                                                }}
+                                                            </dd>
+                                                        </dl>
+                                                        <div
+                                                            class="popup-actions"
+                                                        >
+                                                            <button
+                                                                type="button"
+                                                                (click)="
+                                                                    onSeeMoreInfosClicked(
+                                                                        report
+                                                                    )
+                                                                "
+                                                            >
+                                                                Voir les détails
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </details>
+                                            }
+                                        </div>
+                                    </article>
+                                }
+                            </div>
+                        </main>
+                        @if (isVisibleDialog()) {
+                            <app-management-dialog
+                                [visible]="isVisibleDialog()"
+                                [uniqId]="selectedReportId()"
+                                [type]="selectedManagementType()"
+                                (visibleChange)="onVisibleDialogClicked($event)"
+                            ></app-management-dialog>
+                        }
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

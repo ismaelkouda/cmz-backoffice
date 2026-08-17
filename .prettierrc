@@ -5,5 +5,13 @@
     "useTabs": false,
     "tabWidth": 4,
     "semi": true,
-    "bracketSpacing": true
+    "bracketSpacing": true,
+    "importOrder": [
+        "^node:",
+        "^@angular",
+        "^rxjs",
+        "^[./]"
+    ],
+    "importOrderSeparateGroups": true,
+    "importOrderSortSpecifiers": true
 }

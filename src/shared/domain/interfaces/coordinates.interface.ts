@@ -1,5 +1,5 @@
 export interface Coordinates {
     latitude: number;
     longitude: number;
-    what3words: string;
+    what3words?: string;
 }

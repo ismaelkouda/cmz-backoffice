@@ -1,0 +1,69 @@
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
+import { Injectable, inject } from '@angular/core';
+import { TeamsCreateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-create-api.dto';
+import { TeamsDeleteApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-delete-api.dto';
+import { TeamsDisableApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-disable-api.dto';
+import { TeamsEnableApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-enable-api.dto';
+import { TeamsFilterApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-filter-api.dto';
+import { TeamsResponseApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-response-api.dto';
+import { TeamsUpdateApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-update-api.dto';
+import { AUTH_API_URL } from '@core/config/config.tokens';
+import { TEAM_ORGANIZATION_ENDPOINTS } from '@pages/team-organization/infrastructure/api/team-organization.endpoints';
+import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
+import { buildHttpParams } from '@shared/domain/utils/build-http-params.utils';
+import { buildHttpPayload } from '@shared/domain/utils/build-http-payload.util';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class TeamsApi {
+    private readonly http = inject(HttpClient);
+    private readonly baseUrl = inject(AUTH_API_URL);
+
+    readAll(
+        dto: TeamsFilterApiDto,
+        page: string,
+        options?: FetchOptions
+    ): Observable<TeamsResponseApiDto> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}?page=${page}`;
+
+        const params = buildHttpParams(dto);
+
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
+        return this.http.get<TeamsResponseApiDto>(url, {
+            params,
+            context,
+        });
+    }
+
+    create(dto: TeamsCreateApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/store`;
+        const payload = buildHttpPayload(dto, []);
+        return this.http.post<SimpleResponseDto<void>>(url, payload);
+    }
+
+    update(dto: TeamsUpdateApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.id}/update`;
+        const payload = buildHttpPayload(dto, ['id']);
+        return this.http.post<SimpleResponseDto<void>>(url, payload);
+    }
+
+    enable(dto: TeamsEnableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.uniq_id}/enable`;
+        return this.http.put<SimpleResponseDto<void>>(url, {});
+    }
+
+    disable(dto: TeamsDisableApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.uniq_id}/disable`;
+        return this.http.put<SimpleResponseDto<void>>(url, {});
+    }
+
+    delete(dto: TeamsDeleteApiDto): Observable<SimpleResponseDto<void>> {
+        const url = `${this.baseUrl}${TEAM_ORGANIZATION_ENDPOINTS.TEAMS}/${dto.uniq_id}/delete`;
+        return this.http.delete<SimpleResponseDto<void>>(url);
+    }
+}

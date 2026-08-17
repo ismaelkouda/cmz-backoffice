@@ -1,0 +1,38 @@
+<main class="container-fluid site-group-container" role="main">
+    <section class="row site-group-row">
+        <article class="col-sm-12 site-group-article">
+            <app-breadcrumb />
+
+            <section class="card site-group-card">
+                <div class="card-body site-group-card-body">
+                    <header class="site-group-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'COVERAGE_AREAS.SITE_GROUP.TITLE' | translate
+                            "
+                        />
+                    </header>
+
+                    <p-tabs lazy [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.value) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

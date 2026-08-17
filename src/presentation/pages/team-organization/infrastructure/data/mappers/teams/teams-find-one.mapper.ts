@@ -1,0 +1,55 @@
+import { Injectable } from '@angular/core';
+import { TeamsFindOneEntity } from '@pages/team-organization/domain/entities/teams/teams-find-one.entity';
+import { TeamsFindOneItemApiDto } from '@pages/team-organization/infrastructure/api/dto/teams/teams-find-one-response-api.dto';
+import { PermissionApiDto } from '@presentation/pages/settings-security/infrastructure/api/dto/profiles-permissions/profiles-permissions-find-one-response-api.dto';
+import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { TreeNodeEntity } from '@shared/domain/entities/tree-node.entity';
+import { MapperUtils } from '@shared/domain/utils/mapper-utils';
+
+@Injectable({ providedIn: 'root' })
+export class TeamsFindOneMapper extends SimpleResponseMapper<
+    TeamsFindOneEntity,
+    TeamsFindOneItemApiDto
+> {
+    private readonly entityCache = new Map<string, TeamsFindOneEntity>();
+
+    protected mapItemFromDto(dto: TeamsFindOneItemApiDto): TeamsFindOneEntity {
+        MapperUtils.validateDto(dto, { required: ['code'] });
+
+        // const cacheKey =
+        //     dto.code ?? this.buildPermissionsCacheKey(dto.permissions_json);
+
+        // const cached = this.entityCache.get(cacheKey);
+        // if (cached) {
+        //     return cached.with(dto);
+        // }
+
+        const entity = new TeamsFindOneEntity(
+            dto.id ?? null,
+            dto.code ?? undefined,
+            dto.name ?? undefined,
+            dto.description ?? undefined,
+            dto.report_types ?? undefined,
+            dto.operators ?? undefined,
+            dto.permissions_json.map((p) => this.mapPermissionNode(p))
+        );
+
+        // this.entityCache.set(cacheKey, entity);
+        return entity;
+    }
+
+    private mapPermissionNode(dto: PermissionApiDto): TreeNodeEntity {
+        return new TreeNodeEntity(
+            dto.data.value,
+            dto.data.slug ?? '',
+            dto.data.title,
+            dto.data.checked ?? false,
+            dto.data.icon ?? '',
+            dto.children?.map((c) => this.mapPermissionNode(c)) ?? []
+        );
+    }
+
+    private buildPermissionsCacheKey(perms: PermissionApiDto[]): string {
+        return 'perms:' + JSON.stringify(perms.map((p) => p.data.value));
+    }
+}

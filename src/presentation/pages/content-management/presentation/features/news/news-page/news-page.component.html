@@ -1,0 +1,38 @@
+<main class="container-fluid news-container" role="main">
+    <section class="row news-row">
+        <article class="col-sm-12 news-article">
+            <app-breadcrumb />
+
+            <section class="card news-card">
+                <div class="card-body news-card-body">
+                    <header class="news-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'CONTENT_MANAGEMENT.NEWS.TITLE' | translate
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <p-tabs lazy [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.value) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

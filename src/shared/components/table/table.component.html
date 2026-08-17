@@ -1,6 +1,8 @@
 <p-table
     #dt
     [value]="items()"
+    [(selection)]="selectedItems"
+    (selectionChange)="onTableSelectionChange($event)"
     [rowHover]="true"
     [rows]="pagination()?.per_page || 10"
     [globalFilterFields]="config().globalFilterFields"
@@ -12,29 +14,34 @@
     [columns]="config().cols"
     styleClass="p-datatable-gridlines"
     [reorderableColumns]="true"
-    selectionMode="single"
     [dataKey]="dataKey()"
-    [tableStyle]="{ 'min-width': '75rem' }"
+    [selectionMode]="selectionMode()"
 >
     <ng-template pTemplate="caption">
         <div class="container-table-header">
             <app-table-title
+                [label]="label()"
+                [hiddenTableTitle]="hiddenTableTitle()"
                 [count]="pagination()?.total"
                 [perPage]="pagination()?.per_page"
                 [page]="pagination()?.current_page"
                 [totalPage]="pagination()?.last_page"
+            />
+            <div
+                class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0"
             >
-            </app-table-title>
-            <div class="d-flex gap-2 align-items-center custom-header-actions mt-2 mt-md-0">
                 <app-table-button-header
                     (export)="onExportExcel()"
                     (refresh)="onRefresh()"
                     (other)="onCreate()"
+                    (buttonClick)="onHeaderButtonClick($event)"
                     [disabledButtonExport]="loading() || items().length === 0"
                     [disabledButtonRefresh]="loading()"
+                    [hiddenButtonRefresh]="hiddenButtonRefresh()"
+                    [hiddenButtonExport]="hiddenButtonExport()"
                     [hiddenButtonOther]="hiddenButtonOther()"
-                >
-                </app-table-button-header>
+                    [customButtons]="headerButtons()"
+                />
                 <app-search-table [dt]="dt" />
             </div>
         </div>
@@ -42,18 +49,24 @@
 
     <ng-template pTemplate="header" let-columns>
         <tr>
-            @for (col of columns; track trackByColField($index, col)) {
+            @for (col of columns; track col.field) {
                 <th
+                    [id]="col.field"
                     [class]="col.class"
                     [style.width]="col.width"
                     [pSortableColumn]="col.field"
                 >
-                    @if (col.field !== '__action' && col.field !== '__reorder' && col.field !== '__index') {
+                    @if (
+                        col.field !== '__action' &&
+                        col.field !== '__reorder' &&
+                        col.field !== '__index' &&
+                        col.field !== '__actionDropdown' &&
+                        col.field !== '__selection'
+                    ) {
                         {{ col.header | translate }}
-                        <p-sortIcon
-                            [field]="col.field"
-                            *ngIf="col.field !== '__action' && col.field !== '__reorder'"
-                        ></p-sortIcon>
+                        <p-sortIcon [field]="col.field" />
+                    } @else if (col.field === '__selection') {
+                        <p-tableHeaderCheckbox />
                     } @else {
                         {{ col.header | translate }}
                     }
@@ -62,29 +75,62 @@
         </tr>
     </ng-template>
 
-    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
-        <tr role="row" [class.cursor-pointer]="!loading()" [pReorderableRow]="rowIndex">
-            @for (col of columns; track trackByColField($index, col)) {
+    <ng-template
+        pTemplate="body"
+        let-rowData
+        let-columns="columns"
+        let-rowIndex="rowIndex"
+    >
+        <tr
+            role="row"
+            [class.cursor-pointer]="!loading()"
+            [pReorderableRow]="rowIndex"
+            [pSelectableRow]="rowData"
+        >
+            @for (col of columns; track col.field) {
                 <td [class]="col.class">
-                    @if (col.type === 'badge-button') {
-                        @if (rowData[col.field]) {
-                            <div class="flex justify-content-center">
-                                <p-button
-                                    [badge]="rowData[col.field]"
-                                    (onClick)="onBadgeClick(rowData, col)"
-                                    severity="contrast"
-                                    size="small"
-                                    [label]="'Visualiser'"
-                                />
-
-                            </div>
-                        } @else {
-                            <ng-template #noOperators>
-                                <span class="no-data">-</span>
-                            </ng-template>
-                        }
-                    } @else if (col.type === 'number') {
-                        <p-badge [value]="rowData[col.field] | separatorThousandsPipe" [severity]="numberSeverity(rowData[col.field])" />
+                    @if (col.field === '__selection') {
+                        <p-tableCheckbox [value]="rowData" />
+                    } @else if (col.type === 'badge-button') {
+                        <div class="flex justify-content-center">
+                            <p-button
+                                [badge]="rowData[col.field] || '0'"
+                                (onClick)="onBadgeClick(rowData, col)"
+                                [disabled]="loading()"
+                                severity="contrast"
+                                size="small"
+                                [label]="'COMMON.VISUALIZE' | translate"
+                            />
+                        </div>
+                    } @else if (col.type === 'badge') {
+                        <div class="flex justify-content-center">
+                            <p-badge
+                                [value]="rowData[col.field] | translate"
+                                [severity]="rowData[col.style]"
+                            />
+                        </div>
+                    } @else if (col.type === 'image') {
+                        <div class="flex justify-content-center">
+                            <img
+                                [src]="rowData[col.field]"
+                                [alt]="col.type"
+                                class="w-24 rounded"
+                            />
+                        </div>
+                    } @else if (col.type === 'video') {
+                        <!-- <div class="flex justify-content-center">
+                            <img [src]="rowData[col.field]" [alt]="col.type" class="w-24 rounded" />
+                        </div>
+                    } @else if (col.type === 'number') { -->
+                        <b>{{ rowData[col.field] | separatorThousandsPipe }}</b>
+                    } @else if (col.type === 'tooltip') {
+                        <div
+                            [class]="col.class"
+                            [pTooltip]="rowData[col.field]"
+                            tooltipPosition="bottom"
+                        >
+                            {{ rowData[col.field] }}
+                        </div>
                     } @else {
                         @switch (col.field) {
                             @case ('__reorder') {
@@ -95,24 +141,17 @@
                             }
                             @case ('__index') {
                                 {{
-                                    ((pagination()?.current_page - 1 || 0) *
+                                    (pagination()?.current_page - 1 || 0) *
                                         (pagination()?.per_page || 0) +
                                         rowIndex +
-                                        1)
+                                        1
                                 }}
                             }
-
-                            @case ('status') {
-                                <p-tag
-                                    [value]="rowData.status | translate"
-                                    [severity]="'success'"
-                                />
-                            }
                             @case ('createdAt') {
-                                {{ formatDate(rowData.createdAt) }}
+                                {{ getFormatDate(rowData.createdAt) }}
                             }
                             @case ('updatedAt') {
-                                {{ formatDate(rowData.updatedAt) }}
+                                {{ getFormatDate(rowData.updatedAt) }}
                             }
                             @case ('uniqId') {
                                 <p-tag
@@ -120,69 +159,202 @@
                                     severity="secondary"
                                     class="cursor-pointer"
                                     (click)="copyToClipboard(rowData.uniqId)"
-                                    pTooltip="{{ 'COPY' | translate }}"
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
                                     tooltipPosition="bottom"
                                 />
                             }
-                            @case ('reportType') {
+                            @case ('reportTypeLabel') {
                                 <div>
-                                    {{ rowData.reportType | translate }}
+                                    {{ rowData.reportTypeLabel }}
                                 </div>
                             }
                             @case ('operators') {
-                                <div class="tag-group" *ngIf="rowData.operators?.length; else noOperators">
-                                    @for (operator of rowData.operators; track $index) {
-                                        <p-tag
-                                            [value]="operator | translate"
-                                            [style]="getOperatorTagStyle(operator | translate)"
-                                            styleClass="operator-tag"
-                                        />
-                                    }
-                                </div>
-                                <ng-template #noOperators>
+                                @if (rowData.operators?.length) {
+                                    <div class="tag-group">
+                                        @for (
+                                            operator of rowData.operators;
+                                            track operator
+                                        ) {
+                                            <p-tag
+                                                [value]="operator | translate"
+                                                [style]="
+                                                    getOperatorTagStyle(
+                                                        operator | translate
+                                                    )
+                                                "
+                                                styleClass="operator-tag"
+                                            />
+                                        }
+                                    </div>
+                                } @else {
                                     <span class="no-data">-</span>
-                                </ng-template>
+                                }
+                            }
+                            @case ('platforms') {
+                                @if (rowData.platforms?.length) {
+                                    <div class="tag-group">
+                                        @for (
+                                            platform of rowData.platforms;
+                                            track platform
+                                        ) {
+                                            <p-tag
+                                                [value]="platform | translate"
+                                                [severity]="
+                                                    rowData.platformsStyle(
+                                                        platform
+                                                    ) | translate
+                                                "
+                                            />
+                                        }
+                                    </div>
+                                } @else {
+                                    <span class="no-data">-</span>
+                                }
+                            }
+                            @case ('channels') {
+                                @if (rowData.channels.length) {
+                                    <div class="tag-group">
+                                        @for (
+                                            channel of rowData.channels;
+                                            track channel
+                                        ) {
+                                            <p-tag
+                                                [value]="channel | translate"
+                                                [severity]="
+                                                    rowData.channelsStyle(
+                                                        channel
+                                                    ) | translate
+                                                "
+                                            />
+                                        }
+                                    </div>
+                                } @else {
+                                    <span class="no-data">-</span>
+                                }
+                            }
+                            @case ('statusLabel') {
+                                <div class="tag-group status-group">
+                                    <p-tag
+                                        [value]="rowData.statusLabel"
+                                        [severity]="
+                                            rowData.statusStyle | translate
+                                        "
+                                    />
+                                </div>
+                            }
+                            @case ('conformLabel') {
+                                <div class="tag-group status-group">
+                                    <p-tag
+                                        [value]="rowData.conformLabel"
+                                        [severity]="
+                                            rowData.conformStyle | translate
+                                        "
+                                    />
+                                </div>
+                            }
+                            @case ('roleLabel') {
+                                @if (rowData.roleLabel) {
+                                    <div class="tag-group status-group">
+                                        <p-badge
+                                            [value]="rowData.roleLabel"
+                                            [severity]="
+                                                rowData.roleStyle | translate
+                                            "
+                                        />
+                                    </div>
+                                } @else {
+                                    <span class="no-data">-</span>
+                                }
                             }
                             @case ('reportedAt') {
                                 <time [attr.datetime]="rowData.reportedAt">
-                                    {{ formatDate(rowData.reportedAt) }}
+                                    {{ getFormatDate(rowData.reportedAt) }}
                                 </time>
                             }
-                            @case ('source') {
+                            @case ('sourceLabel') {
                                 <div class="source-type-content">
-                                    <span>{{ rowData.source | translate }}</span>&nbsp;
+                                    <span>{{ rowData.sourceLabel }}</span>
                                     <span
                                         class="copyable"
-                                        pTooltip="{{ 'COPY' | translate }}"
-                                        (click)="copyToClipboard(rowData.initiatorPhoneNumber)"
+                                        pTooltip="{{
+                                            'COMMON.COPY' | translate
+                                        }}"
+                                        (click)="
+                                            copyToClipboard(
+                                                rowData.initiatorPhoneNumber
+                                            )
+                                        "
+                                        (keypress)="
+                                            copyToClipboard(
+                                                rowData.initiatorPhoneNumber
+                                            )
+                                        "
                                         tooltipPosition="bottom"
-                                    >[ {{ rowData.initiatorPhoneNumber }} ]
+                                    >
+                                        [ {{ rowData.initiatorPhoneNumber }} ]
                                     </span>
                                 </div>
                             }
                             @case ('__action') {
-                                <div (onKeyPress)="$event.stopPropagation()" class="action-group">
-                                    <button
-                                        type="button"
-                                        pButton
-                                        icon="pi pi-window-maximize"
-                                        (click)="onActionClick(rowData)"
-                                        pTooltip="{{ 'REPORTS_REQUESTS.QUEUES.TABLE.TAKE' | translate }} {{ rowData.uniqId }}"
-                                        tooltipPosition="bottom"
-                                        [disabled]="loading()"
-                                        size="small"
-                                        class="action-btn"
-                                    ></button>
+                                <div
+                                    (onKeyPress)="$event.stopPropagation()"
+                                    class="action-group d-flex justify-content-around"
+                                >
+                                    @if (
+                                        config().actions &&
+                                        config().actions.length > 0
+                                    ) {
+                                        @for (
+                                            action of config().actions;
+                                            track action.id
+                                        ) {
+                                            <button
+                                                type="button"
+                                                pButton
+                                                [icon]="action.icon"
+                                                [severity]="
+                                                    action.severity ||
+                                                    'secondary'
+                                                "
+                                                (click)="
+                                                    onActionClick(
+                                                        rowData,
+                                                        action.id
+                                                    )
+                                                "
+                                                [pTooltip]="
+                                                    getTooltip(
+                                                        action.id,
+                                                        rowData
+                                                    )
+                                                "
+                                                tooltipPosition="left"
+                                                [escape]="false"
+                                                [disabled]="
+                                                    loading() ||
+                                                    disabledButton(
+                                                        action.id,
+                                                        rowData
+                                                    )
+                                                "
+                                                size="small"
+                                                class="action-btn"
+                                                [class]="action.class"
+                                            ></button>
+                                        }
+                                    }
                                 </div>
                             }
                             @case ('__actionDropdown') {
-                                <app-home-action-dropdown
+                                <app-action-dropdown
                                     [disabled]="loading()"
-                                    [status]="getItemStatus(rowData)"
-                                    (edit)="onEdit(rowData)"
-                                    (view)="onView(rowData)"
-                                    (delete)="onDelete(rowData)"
-                                ></app-home-action-dropdown>
+                                    [actions]="rowData.dropdownActions"
+                                    [disabled]="rowData.disableDropdown"
+                                    [tooltip]="rowData.tooltipDropdown"
+                                    (actionClicked)="
+                                        onActionClick(rowData, $event.id)
+                                    "
+                                ></app-action-dropdown>
                             }
                             @default {
                                 {{ rowData[col.field] }}
@@ -201,7 +373,7 @@
                     {{ 'COMMON.NO_DATA' | translate }}
                 } @else {
                     <p-progressSpinner
-                        [style]="{ width: '30px', height: '50px' }"
+                        [style]="{ width: '30px', height: '30px' }"
                         strokeWidth="8"
                         fill="#EEEEEE"
                         animationDuration=".5s"

@@ -4,25 +4,26 @@ import {
     ElementRef,
     Input,
     Renderer2,
+    inject,
 } from '@angular/core';
 
 @Directive({
     selector: '[appFileUploadI18n]',
 })
 export class FileUploadI18nDirective implements AfterViewInit {
-    @Input() emptyLabel = 'Aucun fichier sélectionné';
+    private el = inject(ElementRef);
+    private renderer = inject(Renderer2);
 
-    constructor(
-        private el: ElementRef,
-        private renderer: Renderer2
-    ) {}
+    @Input() emptyLabel = 'Aucun fichier sélectionné';
 
     ngAfterViewInit(): void {
         const host: HTMLElement = this.el.nativeElement;
 
         // input[type="file"]
         const input = host.querySelector('input[type="file"]');
-        if (!input) return;
+        if (!input) {
+            return;
+        }
 
         // span label affichant le nom du fichier
         const label = host.querySelector('.p-fileupload-filename');

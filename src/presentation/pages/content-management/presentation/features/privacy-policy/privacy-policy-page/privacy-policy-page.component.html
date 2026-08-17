@@ -1,0 +1,39 @@
+<main class="container-fluid privacy-policy-container" role="main">
+    <section class="row privacy-policy-row">
+        <article class="col-sm-12 privacy-policy-article">
+            <app-breadcrumb />
+
+            <section class="card privacy-policy-card">
+                <div class="card-body privacy-policy-card-body">
+                    <header class="privacy-policy-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'CONTENT_MANAGEMENT.PRIVACY_POLICY.TITLE'
+                                    | translate
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <p-tabs lazy [value]="activeTab()">
+                        <p-tablist>
+                            @for (tab of tabs; track tab.value) {
+                                <p-tab
+                                    [value]="tab.route"
+                                    [routerLink]="tab.route"
+                                    [queryParams]="tab.queryParams"
+                                >
+                                    <i [class]="tab.icon"></i>
+                                    <span>{{ tab.label | translate }}</span>
+                                </p-tab>
+                            }
+                        </p-tablist>
+                    </p-tabs>
+
+                    <router-outlet></router-outlet>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

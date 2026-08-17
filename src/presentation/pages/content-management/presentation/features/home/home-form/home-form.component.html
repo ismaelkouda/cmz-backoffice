@@ -1,0 +1,667 @@
+<main class="container-fluid form-home-container" role="main">
+    <p-toast position="top-right" />
+
+    <section class="row form-home-row">
+        <article class="col-sm-12 form-home-article">
+            <app-breadcrumb />
+
+            <section class="card form-home-card">
+                <div class="card-body form-home-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode()
+                                        ? ('CONTENT_MANAGEMENT.HOME.FORM.TITLE_FORM_EDIT'
+                                          | translate)
+                                        : ('CONTENT_MANAGEMENT.HOME.FORM.TITLE_FORM_ADD'
+                                          | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            (onClick)="navigateToBack()"
+                            styleClass="p-button-danger"
+                        >
+                        </p-button>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.HOME.FORM.MEDIA_DISPLAY'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div
+                                                class="row g-3 align-items-end"
+                                            >
+                                                <div class="col-md-6 mt-0">
+                                                    <div class="image">
+                                                        <label
+                                                            for="image"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'CONTENT_MANAGEMENT.HOME.FORM.IMAGE'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
+                                                        </label>
+
+                                                        <app-image-upload
+                                                            id="image"
+                                                            [instanceId]="
+                                                                instanceId
+                                                            "
+                                                            [isIdle]="isIdle()"
+                                                            [hasError]="
+                                                                hasError()
+                                                            "
+                                                            [hasImage]="
+                                                                hasImage()
+                                                            "
+                                                            [fileName]="
+                                                                fileName()
+                                                            "
+                                                            [fileSize]="
+                                                                fileSize()
+                                                            "
+                                                            [previewUrl]="
+                                                                previewUrl()
+                                                            "
+                                                            formControlName="image"
+                                                            (viewImage)="
+                                                                openImagePreview()
+                                                            "
+                                                            (imageCleared)="
+                                                                onImageCleared()
+                                                            "
+                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.HOME.FORM.CONFIG'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
+                                                <div class="col-md-6">
+                                                    <label
+                                                        for="buttonLabel"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <input
+                                                        id="buttonLabel"
+                                                        class="form-input"
+                                                        formControlName="buttonLabel"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_LABEL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'buttonLabel'
+                                                            )
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'buttonLabel'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'buttonLabel'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        @if (
+                                                            form.hasError(
+                                                                'buttonLabelRequired'
+                                                            ) &&
+                                                            form.get(
+                                                                'buttonUrl'
+                                                            )?.value
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                            >
+                                                                {{
+                                                                    'CONTENT_MANAGEMENT.HOME.FORM.ERROR_BUTTON_LABEL_REQUIRED'
+                                                                        | translate
+                                                                }}
+                                                            </small>
+                                                        }
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-6">
+                                                    <label
+                                                        for="buttonUrl"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'
+                                                                | translate
+                                                        }}
+                                                        @if (
+                                                            form.hasError(
+                                                                'buttonUrlRequired'
+                                                            ) &&
+                                                            form.get(
+                                                                'buttonLabel'
+                                                            )?.value
+                                                        ) {
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
+                                                        }
+                                                    </label>
+                                                    <input
+                                                        id="buttonUrl"
+                                                        class="form-input"
+                                                        formControlName="buttonUrl"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.BUTTON_URL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'buttonUrl'
+                                                            ) ||
+                                                            form.hasError(
+                                                                'buttonUrlRequired'
+                                                            )
+                                                        "
+                                                    />
+                                                    <!-- <div class="d-flex justify-content-between align-items-center">
+                                                        @if (isFieldInvalid('buttonUrl')) {
+                                                            <small class="text-danger d-block mt-1">
+                                                                {{ getErrorMessage('buttonUrl') }}
+                                                            </small>
+                                                        }
+                                                        @if (form.hasError('buttonUrlRequired') && form.get('buttonLabel')?.value) {
+                                                            <small class="text-danger d-block mt-1">
+                                                                {{ 'CONTENT_MANAGEMENT.HOME.FORM.VALIDATION.BUTTON_LABEL_WITHOUT_URL' | translate }}
+                                                            </small>
+                                                        }
+                                                    </div> -->
+                                                </div>
+                                            </div>
+
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
+                                                <div class="col-md-6">
+                                                    <label
+                                                        for="platforms"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+
+                                                    <p-multiSelect
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            platformOptions()
+                                                        "
+                                                        [class.mb-4]="
+                                                            !isFieldInvalid(
+                                                                'platforms'
+                                                            )
+                                                        "
+                                                        formControlName="platforms"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.PLATFORMS'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'platforms'
+                                                            )
+                                                        "
+                                                        [filter]="false"
+                                                        [showToggleAll]="false"
+                                                    />
+                                                    @if (
+                                                        isFieldInvalid(
+                                                            'platforms'
+                                                        )
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'platforms'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label
+                                                        for="startDate"
+                                                        class="form-label"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.START_DATE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+
+                                                    <p-datePicker
+                                                        id="startDate"
+                                                        class="form-p-datepicker w-full mb-4"
+                                                        formControlName="startDate"
+                                                        [showTime]="true"
+                                                        [showIcon]="true"
+                                                        [showClear]="true"
+                                                        dateFormat="dd-mm-yy"
+                                                        pInputMask="99-99-9999"
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.START_DATE'
+                                                                | translate
+                                                        "
+                                                    />
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label
+                                                        for="endDate"
+                                                        class="form-label"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.END_DATE'
+                                                                | translate
+                                                        }}<span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+
+                                                    <p-datePicker
+                                                        id="endDate"
+                                                        class="form-p-datepicker w-full mb-4"
+                                                        formControlName="endDate"
+                                                        [showTime]="true"
+                                                        [showIcon]="true"
+                                                        [showClear]="true"
+                                                        [placeholder]="'JJ-MM-AAAA'"
+                                                        dateFormat="dd-mm-yy"
+                                                        pInputMask="99-99-9999"
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.END_DATE'
+                                                                | translate
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'CONTENT_MANAGEMENT.HOME.FORM.GENERAL_INFO'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div
+                                                class="row g-3 align-items-center"
+                                            >
+                                                <div class="col-md-12">
+                                                    <label
+                                                        for="title"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.TITLE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <input
+                                                        id="title"
+                                                        class="form-input"
+                                                        formControlName="title"
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.TITLE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.TITLE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'title'
+                                                            )
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'title'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'title'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <!-- <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let title =
+                                                                form.controls
+                                                                    .title
+                                                                    .value;
+                                                            <div
+                                                                class="title-indicator"
+                                                            >
+                                                                <small
+                                                                    class="title-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        title.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .TITLE
+                                                                            .MAX
+                                                                    }}
+                                                                </small>
+                                                            </div>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label
+                                                        for="resume"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.RESUME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <textarea
+                                                        id="resume"
+                                                        formControlName="resume"
+                                                        rows="3"
+                                                        cols="30"
+                                                        pTextarea
+                                                        class="form-p-textarea w-100"
+                                                        [invalid]="
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.RESUME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.RESUME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        "
+                                                    ></textarea>
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'resume'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <!-- <div
+                                                            class="d-flex align-items-center gap-2 ms-auto"
+                                                        >
+                                                            @let resume =
+                                                                form.controls
+                                                                    .resume
+                                                                    .value;
+                                                            <div
+                                                                class="resume-indicator"
+                                                            >
+                                                                <small
+                                                                    class="resume-value text-muted ms-2"
+                                                                >
+                                                                    {{
+                                                                        resume?.length ||
+                                                                            0
+                                                                    }}/{{
+                                                                        allowed
+                                                                            .RESUME
+                                                                            .MAX
+                                                                    }}
+                                                                </small>
+                                                            </div>
+                                                        </div> -->
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-12">
+                                                    <label
+                                                        for="content"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.DESCRIPTION'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        >
+                                                    </label>
+                                                    <p-editor
+                                                        id="content"
+                                                        formControlName="content"
+                                                        [invalid]="
+                                                            isFieldInvalid(
+                                                                'content'
+                                                            )
+                                                        "
+                                                        [placeholder]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.CONTENT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'CONTENT_MANAGEMENT.HOME.FORM.CONTENT'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            isFieldInvalid(
+                                                                'resume'
+                                                            )
+                                                        "
+                                                        [style]="{
+                                                            height: '200px',
+                                                        }"
+                                                    />
+
+                                                    <div
+                                                        class="d-flex justify-content-between align-items-center"
+                                                    >
+                                                        @if (
+                                                            isFieldInvalid(
+                                                                'content'
+                                                            )
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'content'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                [label]="
+                                                    'COMMON.CLOSE' | translate
+                                                "
+                                                styleClass="p-button-text p-button-secondary"
+                                                (onClick)="navigateToBack()"
+                                            />
+
+                                            <p-button
+                                                type="submit"
+                                                [label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
+                                                [attr.aria-label]="
+                                                    'COMMON.SAVE' | translate
+                                                "
+                                            />
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+
+<app-image-preview-dialog
+    [visible]="previewVisible()"
+    [instanceId]="instanceId"
+    [title]="'CONTENT_MANAGEMENT.HOME.FORM.IMAGE_PREVIEW'"
+    (hide)="closeImagePreview()"
+/>
+
+<app-image-crop-dialog
+    [visible]="cropperState().isOpen"
+    (closeDialog)="onCloseCropDialog()"
+    [sourceFile]="cropperState().sourceFile"
+    [rotation]="cropperState().rotation"
+    [flipH]="cropperState().flipH"
+    [flipV]="cropperState().flipV"
+    [isLoading]="cropperState().status === 'loading'"
+    (imageCropped)="onCropConfirmed($event)"
+    (imageLoaded)="onImageLoaded()"
+    (loadFailed)="onImageFailed()"
+    (rotateLeft)="onImageRotate('left')"
+    (rotateRight)="onImageRotate('right')"
+    (flipHorizontal)="onImageFlipHorizontal()"
+    (flipVertical)="onImageFlipVertical()"
+    (resetTransforms)="onImageResetTransforms()"
+/>

@@ -1,4 +1,23 @@
-export const TASKS_TABLE_CONST = {
+export function calculateActionColumnWidth(actionCount: number): string {
+    const width = Math.max(3, 0.5 + actionCount * 2.3);
+    return `${width}rem`;
+}
+
+export const TASKS_TABLE = {
+    actions: [
+        {
+            id: 'finalize',
+            icon: 'pi pi-window-maximize',
+            tooltip: 'FINALIZATION.QUEUES.TABLE.TAKE',
+            severity: 'primary',
+        },
+        /* {
+            id: 'finalize',
+            icon: 'pi pi-check-circle',
+            tooltip: 'FINALIZATION.QUEUES.TABLE.FINALIZE',
+            severity: 'info',
+        }, */
+    ],
     cols: [
         {
             field: '__selection',
@@ -9,43 +28,43 @@ export const TASKS_TABLE_CONST = {
         },
         {
             field: 'uniqId',
-            header: 'REPORTS_PROCESSING.TASKS.TABLE.UNIQ_ID',
+            header: 'FINALIZATION.TASKS.TABLE.UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },
         {
-            field: 'reportType',
-            header: 'REPORTS_PROCESSING.TASKS.TABLE.REPORT_TYPE',
+            field: 'reportTypeLabel',
+            header: 'FINALIZATION.TASKS.TABLE.REPORT_TYPE',
             width: '11rem',
         },
         {
             field: 'operators',
-            header: 'REPORTS_PROCESSING.TASKS.TABLE.OPERATORS',
+            header: 'FINALIZATION.TASKS.TABLE.OPERATORS',
             width: '10rem',
         },
         {
-            field: 'source',
-            header: 'REPORTS_PROCESSING.TASKS.TABLE.SOURCE',
+            field: 'sourceLabel',
+            header: 'FINALIZATION.TASKS.TABLE.SOURCE',
             width: '12rem',
         },
         {
-            field: 'createdAt',
-            header: 'REPORTS_PROCESSING.TASKS.TABLE.CREATED_AT',
+            field: 'reportedAt',
+            header: 'FINALIZATION.TASKS.TABLE.REPORTED_AT',
             class: 'text-center',
             width: '8rem',
         },
         {
             field: '__action',
-            header: 'REPORTS_PROCESSING.TASKS.TABLE.ACTION',
+            header: 'FINALIZATION.TASKS.TABLE.ACTION',
             class: 'text-center',
-            width: '5rem',
+            width: calculateActionColumnWidth(1),
         },
     ],
     globalFilterFields: [
         'uniqId',
         'reportTypeLabel',
-        'operatorsLabels',
+        'operators',
         'sourceLabel',
-        'createdAt',
+        'reportedAt',
     ],
 };

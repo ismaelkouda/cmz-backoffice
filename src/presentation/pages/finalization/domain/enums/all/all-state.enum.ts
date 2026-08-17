@@ -1,0 +1,7 @@
+export enum State {
+    TERMINATED = 'FINALIZATION.ALL.STATE.TERMINATED',
+}
+
+export enum StateStyle {
+    TERMINATED = 'FINALIZATION.ALL.STATE.TERMINATED_STYLE',
+}

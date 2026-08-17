@@ -1,0 +1,517 @@
+<main class="container-fluid form-participant-container" role="main">
+    <section class="row form-participant-row">
+        <article class="col-sm-12 form-participant">
+            <app-breadcrumb />
+
+            <section class="card form-participant-card">
+                <div class="card-body form-participant-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="
+                                    isEditMode()
+                                        ? ('TEAM_ORGANIZATION.PARTICIPANTS.FORM.TITLE_FORM_EDIT'
+                                          | translate)
+                                        : ('TEAM_ORGANIZATION.PARTICIPANTS.FORM.TITLE_FORM_ADD'
+                                          | translate)
+                                "
+                            >
+                            </app-page-title>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <button
+                                pButton
+                                type="submit"
+                                (click)="onSubmit()"
+                                [disabled]="form.invalid || loadingSubmit()"
+                            >
+                                @if (!loadingSubmit()) {
+                                    <i class="pi pi-check"></i>
+                                } @else {
+                                    <span
+                                        class="spinner-border spinner-border-sm"
+                                        role="status"
+                                        aria-hidden="true"
+                                    ></span>
+                                }
+                                {{ 'COMMON.SAVE' | translate }}
+                            </button>
+                            <p-button
+                                label="{{ 'COMMON.CLOSE' | translate }}"
+                                (onClick)="navigateToBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    <form
+                                        class="form row g-3"
+                                        [formGroup]="form"
+                                        (ngSubmit)="onSubmit()"
+                                        [attr.aria-label]="
+                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        <fieldset class="fieldset">
+                                            <legend>
+                                                <b>{{
+                                                    'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.TITLE'
+                                                        | translate
+                                                }}</b>
+                                            </legend>
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="lastName"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.LAST_NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="lastName"
+                                                        type="text"
+                                                        formControlName="lastName"
+                                                        [placeholder]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.LAST_NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.LAST_NAME
+                                                                .MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.LAST_NAME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('lastName')
+                                                                ?.invalid &&
+                                                            form.get('lastName')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('lastName')
+                                                                ?.invalid &&
+                                                            form.get('lastName')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'lastName'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'lastName'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .LAST_NAME
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="firstName"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.FIRST_NAME'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="firstName"
+                                                        type="text"
+                                                        formControlName="firstName"
+                                                        [placeholder]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.FIRST_NAME_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION
+                                                                .FIRST_NAME.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.FIRST_NAME'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.invalid &&
+                                                            form.get(
+                                                                'firstName'
+                                                            )?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'firstName'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'firstName'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION
+                                                                    .FIRST_NAME
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="email"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.EMAIL'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <input
+                                                        class="form-input"
+                                                        id="email"
+                                                        type="email"
+                                                        formControlName="email"
+                                                        [placeholder]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.EMAIL_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [attr.maxlength]="
+                                                            VALIDATION.EMAIL.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.EMAIL'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('email')
+                                                                ?.invalid &&
+                                                            form.get('email')
+                                                                ?.touched
+                                                        "
+                                                    />
+                                                    <div
+                                                        class="d-flex justify-content-between mt-1"
+                                                    >
+                                                        @if (
+                                                            form.get('email')
+                                                                ?.invalid &&
+                                                            form.get('email')
+                                                                ?.touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger"
+                                                                role="alert"
+                                                            >
+                                                                {{
+                                                                    getErrorMessage(
+                                                                        'email'
+                                                                    )
+                                                                }}
+                                                            </small>
+                                                        }
+                                                        <small
+                                                            class="text-muted ms-auto"
+                                                            aria-live="polite"
+                                                        >
+                                                            {{
+                                                                (
+                                                                    form.get(
+                                                                        'email'
+                                                                    )?.value ||
+                                                                    ''
+                                                                ).length
+                                                            }}/{{
+                                                                VALIDATION.EMAIL
+                                                                    .MAX
+                                                            }}
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="phone"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.PHONE'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <p-inputMask
+                                                        id="phone"
+                                                        formControlName="phone"
+                                                        mask="99-99-99-99-99"
+                                                        [attr.maxlength]="
+                                                            VALIDATION.PHONE.MAX
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.PHONE'
+                                                                | translate
+                                                        "
+                                                    />
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="team"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.TEAMS'
+                                                                | translate
+                                                        }}
+                                                    </label>
+                                                    <p-select
+                                                        id="team"
+                                                        class="form-p-select"
+                                                        [options]="teams()"
+                                                        [showClear]="true"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        [loading]="
+                                                            loadingTeams()
+                                                        "
+                                                        formControlName="team"
+                                                        [filter]="true"
+                                                        filterBy="label"
+                                                        appendTo="body"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.TEAMS'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('team')
+                                                                ?.invalid &&
+                                                            form.get('team')
+                                                                ?.touched
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('team')
+                                                            ?.invalid &&
+                                                        form.get('team')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            role="alert"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label
+                                                        for="role"
+                                                        class="form-label fw-bold"
+                                                    >
+                                                        {{
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
+                                                                | translate
+                                                        }}
+                                                        @if (
+                                                            form.get('role')
+                                                                ?.invalid
+                                                        ) {
+                                                            <span
+                                                                class="text-danger"
+                                                                >*</span
+                                                            >
+                                                        }
+                                                    </label>
+                                                    <p-select
+                                                        id="role"
+                                                        class="form-p-select"
+                                                        [options]="
+                                                            rolesOptions()
+                                                        "
+                                                        [showClear]="true"
+                                                        formControlName="role"
+                                                        optionLabel="label"
+                                                        optionValue="value"
+                                                        filter="false"
+                                                        filterBy="name"
+                                                        styleClass="w-100"
+                                                        [placeholder]="
+                                                            'COMMON.SELECT_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                        [emptyMessage]="
+                                                            'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [emptyFilterMessage]="
+                                                            'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-label]="
+                                                            'TEAM_ORGANIZATION.PARTICIPANTS.FORM.FIELDSET_GENERAL_INFO.ROLE'
+                                                                | translate
+                                                        "
+                                                        [attr.aria-invalid]="
+                                                            form.get('role')
+                                                                ?.invalid &&
+                                                            form.get('role')
+                                                                ?.touched
+                                                        "
+                                                    >
+                                                    </p-select>
+                                                    @if (
+                                                        form.get('role')
+                                                            ?.invalid &&
+                                                        form.get('role')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            role="alert"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+                                            </div>
+                                        </fieldset>
+
+                                        <div
+                                            class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                        >
+                                            <p-button
+                                                label="{{
+                                                    'COMMON.CLOSE' | translate
+                                                }}"
+                                                styleClass="p-button-text p-button-secondary"
+                                                (click)="navigateToBack()"
+                                                [attr.aria-label]="
+                                                    'COMMON.CLOSE' | translate
+                                                "
+                                            >
+                                            </p-button>
+
+                                            <button
+                                                pButton
+                                                type="submit"
+                                                [disabled]="
+                                                    form.invalid ||
+                                                    loadingSubmit()
+                                                "
+                                            >
+                                                @if (!loadingSubmit()) {
+                                                    <i class="pi pi-check"></i>
+                                                } @else {
+                                                    <span
+                                                        class="spinner-border spinner-border-sm"
+                                                        role="status"
+                                                        aria-hidden="true"
+                                                    ></span>
+                                                }
+                                                {{ 'COMMON.SAVE' | translate }}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

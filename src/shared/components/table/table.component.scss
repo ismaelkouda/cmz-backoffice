@@ -146,10 +146,7 @@
     background-color: #e9ecef;
 }
 
-.truncated-text {
-    display: inline-block;
-    max-width: 100%;
-    overflow: hidden;
+.truncated-text div {
     text-overflow: ellipsis;
     white-space: nowrap;
     cursor: help;
@@ -184,4 +181,13 @@
     padding: 8px 12px;
     border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.p-inputnumber {
+    width: 50px !important;
+
+    .p-inputnumber-input {
+        width: 100%;
+        text-align: center;
+    }
 }

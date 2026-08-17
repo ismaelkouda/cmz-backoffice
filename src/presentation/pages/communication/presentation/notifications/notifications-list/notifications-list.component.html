@@ -1,0 +1,65 @@
+<main class="container-fluid notifications-container" role="main">
+    <section class="row notifications-row">
+        <article class="col-sm-12 notifications-article">
+            <app-breadcrumb />
+
+            <section class="card notifications-card">
+                <div class="card-body notifications-card-body">
+                    <header class="notifications-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="
+                                'COMMUNICATION.NOTIFICATIONS.TITLE' | translate
+                            "
+                        ></app-page-title>
+                    </header>
+
+                    <div class="notifications-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="form"
+                            [fields]="filterFields()"
+                            (filter)="onFilterClicked()"
+                            [filterState]="facade.currentFilter$"
+                            [limit]="5"
+                        ></app-filter>
+
+                        <hr class="notifications-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                dataKey="uniqId"
+                                [loading]="loading()"
+                                [items]="itemsVM()"
+                                [pagination]="pagination()"
+                                [config]="tableConfig"
+                                [headerButtons]="headerButtons()"
+                                (headerButtonClicked)="onHeaderClicked($event)"
+                                (actionClicked)="onActionClicked($event)"
+                            ></app-table>
+
+                            <app-pagination
+                                class="pagination-component"
+                                [pagination]="pagination()"
+                                (pageChange)="onChangePageClicked($event)"
+                            ></app-pagination>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+
+    @if (isVisibleDialog()) {
+        <app-management-dialog
+            [visible]="isVisibleDialog()"
+            [uniqId]="selectedReportId()"
+            [type]="selectedManagementType()"
+            [isNotification]="true"
+            (visibleChange)="onVisibleDialogClicked($event)"
+        ></app-management-dialog>
+    }
+</main>

@@ -1,0 +1,25 @@
+import { privacyPolicyQueryMapper } from '@pages/content-management/application/queries-mappers/privacy-policy/privacy-policy.mapper';
+import { Injectable, inject } from '@angular/core';
+import { PrivacyPolicyQuery } from '@pages/content-management/application/queries/privacy-policy/privacy-policy.query';
+import { PrivacyPolicyUseCase } from '@pages/content-management/application/use-cases/privacy-policy/privacy-policy.use-case';
+import { PrivacyPolicyEntity } from '@pages/content-management/domain/entities/privacy-policy/privacy-policy.entity';
+import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class PrivacyPolicyHandler {
+    private readonly useCase = inject(PrivacyPolicyUseCase);
+
+    execute(
+        command: PrivacyPolicyQuery,
+        page: string,
+        options?: FetchOptions
+    ): Observable<Paginate<PrivacyPolicyEntity>> {
+        return this.useCase.execute(
+            privacyPolicyQueryMapper(command),
+            page,
+            options
+        );
+    }
+}

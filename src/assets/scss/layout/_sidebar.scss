@@ -743,9 +743,8 @@
     }
 
     .page-body-wrapper {
-        background-color: $main-body-color;
-
         .page-body {
+            background-color: $main-body-color;
             min-height: calc(100vh - #{$header-size});
             margin-top: $header-size;
             position: relative;
@@ -1421,9 +1420,9 @@
                     position: fixed;
                     top: 0;
                     z-index: 9;
+                    background-color: var(--theme-default) !important;
                     height: auto;
                     line-height: inherit;
-                    background: $white;
                     width: $sidebar-compact-width;
                     text-align: left;
                     transition: 0.3s;
@@ -1659,10 +1658,7 @@
                                         letter-spacing: 0.7px;
                                         text-transform: none;
                                         font-size: 14px;
-                                        color: rgba(
-                                            $theme-body-sub-title-color,
-                                            0.8
-                                        );
+                                        color: white;
                                     }
 
                                     &.link-nav {
@@ -1759,16 +1755,18 @@
                                                     }
 
                                                     &:hover {
-                                                        /* > a {
+                                                        > a {
                                                             &:hover {
                                                                 background-color: rgba(
-                                                                    var(--theme-default),
+                                                                    var(
+                                                                        --theme-default
+                                                                    ),
                                                                     0.07
                                                                 );
                                                                 transition: all
                                                                     0.3s ease;
                                                             }
-                                                        } */
+                                                        }
                                                     }
                                                 }
 
@@ -1915,10 +1913,10 @@
                                                         a {
                                                             padding: 7px 25px;
                                                             font-size: 14px;
-                                                            color: rgba(
-                                                                $theme-body-font-color,
-                                                                0.6
+                                                            color: var(
+                                                                --color-gray-light
                                                             );
+                                                            opacity: 0.8;
                                                             display: block;
                                                             position: relative;
                                                             letter-spacing: 0.06em;
@@ -1936,6 +1934,7 @@
                                                             &.active {
                                                                 background-color: white;
                                                                 color: black;
+                                                                opacity: 1;
 
                                                                 &::before {
                                                                     opacity: 1;
@@ -1944,6 +1943,7 @@
                                                             }
 
                                                             &:after {
+                                                                opacity: 1;
                                                                 left: 27px;
                                                                 @extend %sidebar-after;
                                                             }
@@ -1959,12 +1959,13 @@
                                                                 );
                                                                 color: white;
                                                                 margin-left: 0;
+                                                                opacity: 1;
                                                             }
                                                         }
                                                     }
                                                 }
 
-                                                /* .mega-menu-container {
+                                                .mega-menu-container {
                                                     padding: 0;
                                                     position: relative;
 
@@ -2112,7 +2113,7 @@
                                                             }
                                                         }
                                                     }
-                                                } */
+                                                }
 
                                                 .sidebar-link {
                                                     transition: all 0.5s ease;
@@ -2538,7 +2539,6 @@
                 > div {
                     height: auto;
                     line-height: inherit;
-                    background: $white;
                     width: 150px;
                     text-align: left;
                     transition: 0.3s;

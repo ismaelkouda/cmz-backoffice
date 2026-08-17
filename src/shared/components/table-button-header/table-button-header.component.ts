@@ -1,21 +1,33 @@
 import { CommonModule } from '@angular/common';
-import {
-    ChangeDetectionStrategy,
-    Component,
-    EventEmitter,
-    HostListener,
-    Input,
-    OnInit,
-    Output,
-} from '@angular/core';
+import { Component, HostListener, input, OnInit, output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { MenuItem } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
+import { MenuModule } from 'primeng/menu';
+import { TooltipModule } from 'primeng/tooltip';
+
+export interface TableHeaderButton {
+    label?: string;
+    icon?: string;
+    class?: string;
+    type?: string;
+    actionId: string;
+    disabled?: boolean;
+    hidden?: boolean;
+    translateKey?: string;
+    items?: MenuItem[];
+}
 
 @Component({
     selector: 'app-table-button-header',
     standalone: true,
-    imports: [CommonModule, ButtonModule, TranslateModule],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
+        CommonModule,
+        ButtonModule,
+        TranslateModule,
+        MenuModule,
+        TooltipModule,
+    ],
     styles: [
         `
             .table-button-header {
@@ -23,77 +35,111 @@ import { ButtonModule } from 'primeng/button';
                 align-items: center;
                 gap: 0.5rem;
             }
+
+            .pi.pi-plus {
+                font-size: inherit !important;
+            }
         `,
     ],
     template: `
         <div class="table-button-header">
-            @if (!hiddenButtonOther) {
-                <button
-                    type="button"
-                    [class.p-disabled]="disabledButtonOther"
-                    [styleClass]="otherButtonStyleClass"
-                    class="btn btn-primary"
-                    [attr.aria-label]="
-                        showLabels ? null : labelOther || ('CREATE' | translate)
-                    "
-                    (click)="onOther()"
-                >
-                    @if (labelOther) {
-                        <span>{{ labelOther | translate }}</span>
-                    } @else {
-                        <span>{{ 'COMMON.CREATE' | translate }}</span>
-                    }
-                </button>
-            }
-            @if (!hiddenButtonRefresh) {
-                <button
-                    type="button"
-                    [class.p-disabled]="disabledButtonRefresh"
-                    class="btn btn-dark"
-                    [attr.aria-label]="
-                        showLabels ? null : ('COMMON.REFRESH' | translate)
-                    "
-                    (click)="onRefresh()"
-                >
-                    <span *ngIf="showLabels">{{ 'COMMON.REFRESH' | translate }}</span>
-                </button>
-            }
-            @if (!hiddenButtonExport) {
-                <button
-                    type="button"
-                    [class.p-disabled]="disabledButtonExport"
-                    class="btn btn-success"
-                    [attr.aria-label]="
-                        showLabels ? null : ('COMMON.EXPORT' | translate)
-                    "
-                    (click)="onExport()"
-                >
-                    <span *ngIf="showLabels">{{
-                        'COMMON.EXPORT' | translate
-                    }}</span>
-                </button>
+            @for (btn of customButtons(); track btn.actionId) {
+                @if (btn.items?.length) {
+                    <p-menu
+                        #menu
+                        [model]="btn.items"
+                        [popup]="true"
+                        appendTo="body"
+                    />
+
+                    <span
+                        appendTo="body"
+                        tooltipPosition="bottom"
+                        [pTooltip]="btn.tooltip"
+                    >
+                        <button
+                            type="button"
+                            [disabled]="btn.disabled"
+                            [pTooltip]="btn.tooltip"
+                            tooltipPosition="bottom"
+                            class="btn"
+                            [ngClass]="btn.class || 'btn-primary'"
+                            [attr.aria-label]="
+                                showLabels
+                                    ? null
+                                    : (btn.translateKey || btn.label || ''
+                                      | translate)
+                            "
+                            (click)="menu.toggle($event)"
+                        >
+                            @if (btn.icon) {
+                                <i
+                                    [class]="btn.icon"
+                                    [class.me-2]="showLabels"
+                                ></i>
+                            }
+                            @if (
+                                showLabels && (btn.label || btn.translateKey)
+                            ) {
+                                <span>{{
+                                    btn.translateKey || btn.label | translate
+                                }}</span>
+                            }
+                        </button>
+                    </span>
+                } @else {
+                    <span [pTooltip]="btn.tooltip" tooltipPosition="bottom">
+                        <button
+                            type="button"
+                            [disabled]="btn.disabled"
+                            class="btn"
+                            [ngClass]="btn.class || 'btn-secondary'"
+                            [pTooltip]="btn.tooltip"
+                            tooltipPosition="bottom"
+                            (click)="onButtonClick(btn.actionId)"
+                        >
+                            @if (btn.icon) {
+                                <i
+                                    [class]="btn.icon"
+                                    [class.me-2]="showLabels"
+                                ></i>
+                            }
+                            @if (
+                                showLabels && (btn.label || btn.translateKey)
+                            ) {
+                                <span>{{
+                                    btn.translateKey || btn.label | translate
+                                }}</span>
+                            }
+                        </button>
+                    </span>
+                }
             }
         </div>
     `,
 })
 export class TableButtonHeaderComponent implements OnInit {
     public showLabels!: boolean;
-    @Output() refresh = new EventEmitter<void>();
-    @Output() export = new EventEmitter<void>();
-    @Output() other = new EventEmitter<void>();
-    @Input() hiddenButtonRefresh!: boolean;
-    @Input() hiddenButtonExport!: boolean;
-    @Input() hiddenButtonOther!: boolean;
-    @Input() labelOther!: string;
-    @Input() iconOther!: string;
-    @Input() colorOther: string | null = null;
-    @Input() disabledButtonExport!: boolean;
-    @Input() disabledButtonOther!: boolean;
-    @Input() disabledButtonRefresh = false;
+    readonly refresh = output();
+    readonly export = output();
+    readonly other = output();
+    readonly buttonClick = output<string>();
+
+    readonly hiddenButtonRefresh = input<boolean>(false);
+    readonly hiddenButtonExport = input<boolean>(false);
+    readonly hiddenButtonOther = input<boolean>(false);
+    readonly labelOther = input<string>('');
+    readonly iconOther = input<string>('');
+    readonly colorOther = input<string>('');
+    readonly disabledButtonExport = input<boolean>(false);
+    readonly disabledButtonOther = input<boolean>(true);
+    readonly disabledButtonRefresh = input<boolean>(false);
+
+    readonly customButtons = input<TableHeaderButton[]>();
 
     get otherButtonStyleClass(): string {
-        return this.colorOther
-            ? `p-button-${this.colorOther}`
+        return this.colorOther()
+            ? `p-button-${this.colorOther()}`
             : 'p-button-help';
     }
 
@@ -101,20 +147,24 @@ export class TableButtonHeaderComponent implements OnInit {
         this.updateLabelVisibility();
     }
 
-    onRefresh() {
+    onRefresh(): void {
         this.refresh.emit();
     }
 
-    onExport() {
+    onExport(): void {
         this.export.emit();
     }
 
-    onOther() {
+    onOther(): void {
         this.other.emit();
     }
 
+    onButtonClick(actionId: string): void {
+        this.buttonClick.emit(actionId);
+    }
+
     @HostListener('window:resize')
-    onResize() {
+    onResize(): void {
         this.updateLabelVisibility();
     }
 

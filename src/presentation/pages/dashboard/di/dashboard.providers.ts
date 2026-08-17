@@ -1,17 +1,10 @@
 import { Provider } from '@angular/core';
-import { DashboardMapper } from '@pages/dashboard/data/mappers/dashboard.mapper';
-import { DashboardRepositoryImpl } from '@pages/dashboard/data/repositories/dashboard.repository.impl';
-import { DashboardApi } from '@pages/dashboard/data/sources/dashboard.api';
 import { DashboardRepository } from '@pages/dashboard/domain/repositories/dashboard.repository';
+import { DashboardRepositoryImpl } from '@pages/dashboard/infrastructure/data/repositories/dashboard-repository.impl';
 
-export function provideDashboard(): Provider[] {
-    return [
-        DashboardApi,
-        DashboardMapper,
-        DashboardRepositoryImpl,
-        {
-            provide: DashboardRepository,
-            useExisting: DashboardRepositoryImpl,
-        },
-    ];
-}
+export const provideDashboard = (): Provider[] => [
+    {
+        provide: DashboardRepository,
+        useExisting: DashboardRepositoryImpl,
+    },
+];
