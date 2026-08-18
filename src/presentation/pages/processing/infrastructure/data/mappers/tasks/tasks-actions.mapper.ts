@@ -20,6 +20,7 @@ export class TasksActionsMapper extends PaginatedMapper<
     protected override mapItemFromDto(
         dto: TasksActionsItemApiDto
     ): TasksActionsEntity {
+        console.log('hfjhg dto', dto);
         const operators = [dto.operator];
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: TasksActionsProps = {
@@ -27,6 +28,11 @@ export class TasksActionsMapper extends PaginatedMapper<
             date: dto.date ? new Date(dto.date) : new Date(),
             type: dto.type,
             code: dto.type_code,
+            technology: {
+                '2G': 'yes',
+                '3G': 'yes',
+                '4G': 'no',
+            },
             operators: this.utils.memoizedList(
                 operators,
                 (p) => this.telecomOperatorMapper.mapFromDto(p),
@@ -34,6 +40,7 @@ export class TasksActionsMapper extends PaginatedMapper<
             ),
             description: dto.description,
             shouldNotifyUser: dto.should_notify_user ?? false,
+            shouldDisplayInNewspaper: dto.is_visible_for_user ?? true,
             autoChecked: dto.auto_check,
             isConform: this.conformityMapper.mapFromDto(dto.result),
             createdBy: `${dto.created_by.last_name} ${dto.created_by.first_name}`,

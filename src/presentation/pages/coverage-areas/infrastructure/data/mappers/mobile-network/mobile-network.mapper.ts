@@ -19,6 +19,11 @@ export class MobileNetworkMapper extends PaginatedMapper<
     protected mapItemFromDto(
         dto: MobileNetworkItemApiDto
     ): MobileNetworkEntity {
+        console.log(
+            'Mapping MobileNetworkItemApiDto to MobileNetworkEntity:',
+            dto
+        );
+        console.log('dto.tower_type', dto.tower_type);
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: MobileNetworkProps = {
             uniqId: dto.id,
@@ -26,8 +31,8 @@ export class MobileNetworkMapper extends PaginatedMapper<
             siteName: dto.site_name,
             siteGroupId: dto.site_group.id,
             siteGroupName: dto.site_group.name,
-            towerTypeId: dto.tower_type.id,
-            towerTypeName: dto.tower_type.name,
+            towerTypeId: dto.tower_type?.id,
+            towerTypeName: dto.tower_type?.name,
             towerHeight: dto.tower_height,
             networkTechnology: dto.network_technology,
             operator: dto.operator as Operator,

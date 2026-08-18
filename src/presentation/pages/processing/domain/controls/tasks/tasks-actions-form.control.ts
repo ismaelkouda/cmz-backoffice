@@ -6,5 +6,6 @@ export interface TasksActionsFormControl {
     description: FormControl<string>;
     operator: FormControl<string>;
     shouldNotifyUser: FormControl<boolean>;
+    shouldDisplayInNewspaper: FormControl<boolean>;
     isConform: FormControl<Conformity | null>;
 }

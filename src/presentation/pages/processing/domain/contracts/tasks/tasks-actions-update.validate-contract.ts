@@ -8,5 +8,6 @@ export interface TasksActionsUpdateValidateContract {
     operator: string;
     description: string;
     shouldNotifyUser: boolean;
+    shouldDisplayInNewspaper: boolean;
     isConform: Conformity;
 }

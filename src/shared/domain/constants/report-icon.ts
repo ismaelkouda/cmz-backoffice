@@ -75,7 +75,7 @@ export function getReportTypeColor(
  * options affichées dans le filtre "Type de signalement" d'interactive-map.
  */
 export const REPORT_TYPE_LABELS: Record<ReportIconType, string> = {
-    zob: 'Aucun réseau',
+    zob: 'Aucuns réseaux',
     cpo: "Absence d'Opérateur(s)",
     cps: "Mauvais signal d'Opérateur(s)",
     abi: "Absence d'Internet",

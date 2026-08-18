@@ -6,9 +6,11 @@ export interface TasksActionsProps {
     date: Date;
     type: string;
     code: string;
+    technology: Record<string, string>;
     operators: TelecomOperator[];
     description: string;
     shouldNotifyUser: boolean;
+    shouldDisplayInNewspaper: boolean;
     autoChecked: boolean;
     isConform: Conformity;
     createdBy: string;

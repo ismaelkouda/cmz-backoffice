@@ -11,6 +11,6 @@ export interface MobileNetworkFindOneProps {
     towerHeight: string;
     networkTechnology: string;
     operator: Operator;
-    coverageRadius?: number;
+    coverageRadius: number;
     updatedAt: string;
 }

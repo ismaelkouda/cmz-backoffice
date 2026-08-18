@@ -10,6 +10,7 @@ export function tasksActionsCreateCommandMapper(
         operator: command.operator,
         description: command.description,
         shouldNotifyUser: command.shouldNotifyUser,
+        shouldDisplayInNewspaper: command.shouldDisplayInNewspaper,
         isConform: command.isConform,
     };
 }

@@ -181,7 +181,7 @@
                                                         [loading]="
                                                             siteGroupLoading()
                                                         "
-                                                        formControlName="infrastructureType"
+                                                        formControlName="siteGroupId"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         filter="true"
@@ -202,12 +202,10 @@
                                                     >
                                                     </p-select>
                                                     @if (
-                                                        form.get(
-                                                            'infrastructureType'
-                                                        )?.invalid &&
-                                                        form.get(
-                                                            'infrastructureType'
-                                                        )?.touched
+                                                        form.get('siteGroupId')
+                                                            ?.invalid &&
+                                                        form.get('siteGroupId')
+                                                            ?.touched
                                                     ) {
                                                         <small
                                                             class="text-danger d-block mt-1"
@@ -278,7 +276,7 @@
 
                                                 <div class="col-md-3">
                                                     <label
-                                                        for="towerSize"
+                                                        for="towerHeight"
                                                         class="form-label fw-bold"
                                                         >{{
                                                             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.TOWER_SIZE'
@@ -290,8 +288,8 @@
                                                         ></label
                                                     >
                                                     <p-inputnumber
-                                                        id="towerSize"
-                                                        formControlName="towerSize"
+                                                        id="towerHeight"
+                                                        formControlName="towerHeight"
                                                         mode="decimal"
                                                         [minFractionDigits]="0"
                                                         [maxFractionDigits]="2"
@@ -301,9 +299,9 @@
                                                         "
                                                     />
                                                     @if (
-                                                        form.get('towerSize')
+                                                        form.get('towerHeight')
                                                             ?.invalid &&
-                                                        form.get('towerSize')
+                                                        form.get('towerHeight')
                                                             ?.touched
                                                     ) {
                                                         <small
@@ -334,7 +332,7 @@
                                                         [options]="
                                                             technologyOptions()
                                                         "
-                                                        formControlName="technology"
+                                                        formControlName="networkTechnology"
                                                         optionLabel="label"
                                                         optionValue="value"
                                                         styleClass="w-100"
@@ -352,10 +350,12 @@
                                                         "
                                                     />
                                                     @if (
-                                                        form.get('technology')
-                                                            ?.invalid &&
-                                                        form.get('technology')
-                                                            ?.touched
+                                                        form.get(
+                                                            'networkTechnology'
+                                                        )?.invalid &&
+                                                        form.get(
+                                                            'networkTechnology'
+                                                        )?.touched
                                                     ) {
                                                         <small
                                                             class="text-danger d-block mt-1"
@@ -413,16 +413,21 @@
 
                                                 <div class="col-md-3">
                                                     <label
-                                                        for="radius"
+                                                        for="coverageRadius"
                                                         class="form-label fw-bold"
                                                         >{{
                                                             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.RADIUS'
                                                                 | translate
-                                                        }}</label
+                                                        }}
+                                                        (m)
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
                                                     >
                                                     <p-inputnumber
-                                                        id="radius"
-                                                        formControlName="radius"
+                                                        id="coverageRadius"
+                                                        formControlName="coverageRadius"
                                                         mode="decimal"
                                                         [minFractionDigits]="0"
                                                         [maxFractionDigits]="2"
@@ -431,6 +436,22 @@
                                                                 | translate
                                                         "
                                                     />
+                                                    @if (
+                                                        form.get(
+                                                            'coverageRadius'
+                                                        )?.invalid &&
+                                                        form.get(
+                                                            'coverageRadius'
+                                                        )?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
                                                 </div>
                                             </div>
                                         </fieldset>

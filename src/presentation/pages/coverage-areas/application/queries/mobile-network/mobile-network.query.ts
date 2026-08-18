@@ -4,6 +4,7 @@ import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobi
 export class MobileNetworkQuery {
     constructor(
         public readonly search?: string,
+        public readonly siteGroupId?: string,
         public readonly towerTypeId?: string,
         public readonly towerSize?: number,
         public readonly technology?: Technology,

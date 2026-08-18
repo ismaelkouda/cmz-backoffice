@@ -3,6 +3,7 @@ import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobi
 
 export interface MobileNetworkFilterDto {
     search?: string;
+    siteGroupId?: string;
     towerTypeId?: string;
     towerSize?: number;
     technology?: Technology;

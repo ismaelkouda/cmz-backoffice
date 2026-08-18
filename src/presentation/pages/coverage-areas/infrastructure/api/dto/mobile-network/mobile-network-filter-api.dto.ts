@@ -1,5 +1,6 @@
 export interface MobileNetworkFilterApiDto {
     search?: string;
+    site_group_id?: string;
     tower_type_id?: string;
     tower_size?: number;
     technology?: string;

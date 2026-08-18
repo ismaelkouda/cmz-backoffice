@@ -15,6 +15,8 @@ export interface TasksActionsItemApiDto {
     operator: TelecomOperatorDto;
     description: string;
     should_notify_user: boolean;
+    is_visible_for_user: boolean;
+    network_technology: Record<string, string>;
     auto_check: boolean;
     result: ConformityDto;
     created_by: ActorDto;

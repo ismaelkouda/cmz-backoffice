@@ -9,6 +9,9 @@ export function mobileNetworkFilterMapper(
     if (validContract.search) {
         params.search = validContract.search;
     }
+    if (validContract.siteGroupId) {
+        params.site_group_id = validContract.siteGroupId;
+    }
     if (validContract.towerTypeId) {
         params.tower_type_id = validContract.towerTypeId;
     }

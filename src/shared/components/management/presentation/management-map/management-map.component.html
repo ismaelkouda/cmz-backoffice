@@ -40,7 +40,8 @@
                 }
                 @if (signalementInfoOpen()) {
                     <div class="signalement-info-panel-content">
-                        <div class="panel-heading"><span
+                        <div class="panel-heading">
+                            <span
                                 class="signalement-type-badge"
                                 [style.background]="reportTypeColor()"
                             >
@@ -76,28 +77,27 @@
                             <dt>Opérateurs</dt>
                             <dd>
                                 <div class="field-value operator-padding short">
-                                            @for (operator of telecomOperatorsOptions() ||
-                                                    [];
-                                                track operator
-                                            ) {
-                                                <p-tag
-                                                    [value]="
-                                                        operator | translate
-                                                    "
-                                                    [style]="
-                                                        getOperatorTagStyle(
-                                                            operator | translate
-                                                        )
-                                                    "
-                                                    styleClass="operator-tag"
-                                                />
-                                            } @empty {
-                                                <span>{{
-                                                    'MANAGEMENT.FORM.NOT_SPECIFIED'
-                                                        | translate
-                                                }}</span>
-                                            }
-                                        </div>
+                                    @for (
+                                        operator of telecomOperatorsOptions() ||
+                                            [];
+                                        track operator
+                                    ) {
+                                        <p-tag
+                                            [value]="operator | translate"
+                                            [style]="
+                                                getOperatorTagStyle(
+                                                    operator | translate
+                                                )
+                                            "
+                                            styleClass="operator-tag"
+                                        />
+                                    } @empty {
+                                        <span>{{
+                                            'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate
+                                        }}</span>
+                                    }
+                                </div>
                             </dd>
 
                             <dt>Signalé le</dt>
@@ -241,9 +241,7 @@
 
     @if (isMapInitialized() && showPerformance() && showRadiusCircle()) {
         <div class="radius-badge">
-            <div class="badge-content">
-                🎯 Rayon d'impact : 3.5km
-            </div>
+            <div class="badge-content">🎯 Rayon d'impact : 3.5km</div>
         </div>
     }
 </div>

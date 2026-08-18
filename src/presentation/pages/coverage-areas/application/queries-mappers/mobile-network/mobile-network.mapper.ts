@@ -6,6 +6,7 @@ export function mobileNetworkQueryMapper(
 ): MobileNetworkFilterContract {
     return {
         search: query.search,
+        siteGroupId: query.siteGroupId,
         towerTypeId: query.towerTypeId,
         towerSize: query.towerSize,
         technology: query.technology,

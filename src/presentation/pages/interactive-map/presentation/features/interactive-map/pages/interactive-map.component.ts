@@ -240,7 +240,7 @@ export class InteractiveMapComponent
     }
     public readonly reportTypeOptions: { value: ReportType; label: string }[] =
         [
-            { value: 'zob', label: 'Aucun réseau' },
+            { value: 'zob', label: 'Aucuns réseaux' },
             { value: 'cpo', label: "Absence d'Opérateur(s)" },
             { value: 'cps', label: "Mauvais signal d'Opérateur(s)" },
             { value: 'abi', label: "Absence d'Internet" },
