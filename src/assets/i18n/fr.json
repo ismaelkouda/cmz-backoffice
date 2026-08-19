@@ -2457,8 +2457,9 @@
                         "DESCRIPTION_PLACEHOLDER": "Ex: Recommandations sur l'action de traitement",
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
-                        "NOTIFY_USERS": "Notifier les utilisateurs",
-                        "DISPLAY_IN_NEWSPAPER": "Afficher dans le journal des utilisateurs",
+                        "NOTIFY_USERS": "Notification des utilisateurs",
+                        "OPERATOR": "Opérateur conserné",
+                        "DISPLAY_IN_NEWSPAPER": "Visibilité dans le journal du signalement",
                         "INTERNAL_NOTE": "Action interne",
                         "CONFORMITY": {
                             "TITLE": "Conformité du résultat avec le signalement",
