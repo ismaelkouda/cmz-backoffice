@@ -334,6 +334,22 @@
                         }
                     </div>
                 </div>
+
+                @if (formStore.isViewMode()) {
+                    <div class="action-view-item">
+                        <div class="action-view-label">
+                            <i class="pi pi-chart-bar"></i>
+                            <span class="action-label">Effectué par</span>
+                        </div>
+    
+                        <div class="action-view-value">
+                            @if (selectedAction(); as action) {
+                                {{ action.createdBy }}
+                            }
+                        </div>
+                        
+                    </div>
+                }
     
                 <!-- OPERATEUR -->
                 <div class="action-view-item">
@@ -341,7 +357,7 @@
                         <i class="pi pi-building"></i>
     
                         <span class="action-label">
-                            {{ 'COMMON.OPERATORS' | translate }}
+                            {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.OPERATOR' | translate }}
     
                             @if (!formStore.isViewMode()) {
                                 <span class="required">*</span>
@@ -484,6 +500,7 @@
                     <div class="action-view-value">
                         @if (formStore.isViewMode()) {
                             @if (selectedAction(); as action) {
+                                
                                 <p-tag
                                     [value]="action.conformLabel"
                                     [severity]="action.conformStyle | translate"
