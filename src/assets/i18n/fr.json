@@ -2453,8 +2453,8 @@
                     },
                     "FORM": {
                         "TYPE": "Type d'action",
-                        "DESCRIPTION": "Description",
-                        "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'action de traitement",
+                        "DESCRIPTION": "Recommandations et observations",
+                        "DESCRIPTION_PLACEHOLDER": "Ex: Recommandations sur l'action de traitement",
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
                         "NOTIFY_USERS": "Notifier les utilisateurs",

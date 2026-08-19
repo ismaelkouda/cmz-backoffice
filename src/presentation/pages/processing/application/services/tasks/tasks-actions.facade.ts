@@ -83,7 +83,7 @@ export class TasksActionsFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
+        if (!filter?.uniqId) {
             return;
         }
         const command = new TasksActionsQuery(filter.uniqId);

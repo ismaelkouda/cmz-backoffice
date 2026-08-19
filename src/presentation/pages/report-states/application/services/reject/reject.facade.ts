@@ -77,9 +77,9 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = this.buildQuery(filter);
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);

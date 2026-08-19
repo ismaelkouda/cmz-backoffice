@@ -62,9 +62,9 @@ export class AccessLogsFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new AccessLogsQuery(
             filter?.search,
             filter?.action,

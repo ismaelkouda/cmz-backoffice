@@ -93,9 +93,9 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,

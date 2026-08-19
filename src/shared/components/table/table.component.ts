@@ -56,6 +56,24 @@ import { TooltipModule } from 'primeng/tooltip';
     styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
+    public readonly COVERAGE_OPERATORS: {
+        id: string;
+        label: string;
+        color: string;
+    }[] = [
+        { id: 'oci', label: 'OCI', color: '#ff7900' },
+        { id: 'cit', label: 'CIT', color: '#ff7900' },
+        { id: 'ihs (oci)', label: 'IHS (OCI)', color: '#ff7900' },
+        { id: 'mtn', label: 'MTN', color: '#ffcc00' },
+        { id: 'ihs (mtn)', label: 'IHS (MTN)', color: '#ffcc00' },
+        { id: 'moov', label: 'Moov', color: '#005baa' },
+        { id: 'moov (coloas)', label: 'Moov (Coloas)', color: '#005baa' },
+        { id: 'idt', label: 'IDT', color: '#e6194B' },
+        { id: 'ihs', label: 'IHS', color: '#bfef45' },
+        { id: 'presidence', label: 'Présidence', color: '#4363d8' },
+        { id: 'cafe mobile', label: 'Café Mobile', color: '#fabed4' },
+        { id: 'green', label: 'Green', color: '#469990' },
+    ];
     public selectedItems: any[] = [];
     public readonly numberToCheck = signal<number>(0);
     private readonly clipboardService = inject(ClipboardService);
@@ -252,5 +270,14 @@ export class TableComponent {
 
     public getOperatorTagStyle(operator: string): Record<string, string> {
         return operatorsTagStyle(operator);
+    }
+
+    public getFullOperatorTagStyle(operator: string): Record<string, string> {
+        const coverageOperator = this.COVERAGE_OPERATORS.find(
+            (op) => op.id === operator
+        );
+        return coverageOperator
+            ? { backgroundColor: coverageOperator.color, color: '#fff' }
+            : {};
     }
 }

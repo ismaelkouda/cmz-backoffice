@@ -47,6 +47,7 @@ import { formatDate } from '@shared/domain/functions/format-data.function';
 import { MenuItem } from 'primeng/api';
 import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
     selector: 'app-approve',
@@ -62,6 +63,7 @@ import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
         TranslateModule,
         ReactiveFormsModule,
         FilterComponent,
+        JsonPipe,
     ],
     providers: [ApproveFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,

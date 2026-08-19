@@ -83,9 +83,9 @@ export class InfrastructureTypeFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         this.executeQuery(filter, page);
     }
 
