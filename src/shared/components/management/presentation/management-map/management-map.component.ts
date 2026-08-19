@@ -505,7 +505,6 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             properties?.type;
         console.log('rawType', properties);
         const type = this.normalizeEquipmentType(rawType);
-        console.log('type', type);
 
         const color =
             this.equipmentOptions.find((eq) => eq.id === type)?.color ??
