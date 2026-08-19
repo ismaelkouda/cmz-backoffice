@@ -13,6 +13,7 @@ export function tasksActionsCreateVo(
         operator: contract.operator,
         description: contract.description,
         shouldNotifyUser: contract.shouldNotifyUser ?? false,
+        shouldDisplayInNewspaper: contract.shouldDisplayInNewspaper ?? true,
         isConform: contract.isConform,
     };
 }

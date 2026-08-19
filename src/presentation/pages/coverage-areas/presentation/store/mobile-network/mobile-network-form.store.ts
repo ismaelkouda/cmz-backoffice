@@ -99,6 +99,7 @@ export class MobileNetworkFormStore {
 
             coverageRadius: new FormControl<number | undefined>(undefined, {
                 nonNullable: true,
+                validators: [Validators.required],
             }),
         });
     }

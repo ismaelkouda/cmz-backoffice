@@ -48,6 +48,9 @@ export class ActionsTreatmentFormStore {
         shouldNotifyUser: new FormControl<boolean>(false, {
             nonNullable: true,
         }),
+        shouldDisplayInNewspaper: new FormControl<boolean>(true, {
+            nonNullable: true,
+        }),
         operator: new FormControl<string>('', {
             nonNullable: true,
             validators: [Validators.required],
@@ -136,6 +139,7 @@ export class ActionsTreatmentFormStore {
             type: '',
             description: '',
             shouldNotifyUser: false,
+            shouldDisplayInNewspaper: true,
             isConform: null,
             operator:
                 availableOperators.length === 1
@@ -209,6 +213,7 @@ export class ActionsTreatmentFormStore {
             type: item.code,
             description: item.description,
             shouldNotifyUser: item.shouldNotifyUser,
+            shouldDisplayInNewspaper: item.shouldDisplayInNewspaper,
             isConform: item.isConform,
             operator: this.translate.instant(item.operators[0]) ?? '',
         });

@@ -16,6 +16,10 @@
         }
     }
 
+    .fs-16 {
+        font-size: 18px;
+    }
+
     .map-overlay {
         position: absolute;
         top: 0;
@@ -232,7 +236,7 @@
 
             h4 {
                 margin: 0;
-                font-size: 12px;
+                font-size: 16px;
                 font-weight: 700;
                 text-transform: uppercase;
                 color: #334155;
@@ -305,6 +309,32 @@
         }
     }
 
+    input[type='radio'],
+            input[type='checkbox'] {
+                width: 25px;
+                height: 25px;
+                accent-color: #2563eb;
+                flex-shrink: 0;
+            }
+
+            .legend-color {
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                display: inline-block;
+                box-shadow:
+                    0 0 0 1px #fff,
+                    0 0 0 2px #cbd5e1;
+        
+                &.ring {
+                    background: rgba(255, 255, 255, 0.72);
+                    border: 4px solid currentColor;
+                    box-shadow:
+                        0 0 0 1px #fff,
+                        0 0 0 2px #cbd5e1;
+                }
+            }
+
     // ------------------------------------------------------
     // Bloc droit : panneau "Filtres sur les couches", indépendant du
     // bloc gauche (pas de boutons attachés).
@@ -370,7 +400,7 @@
 
         h4 {
             margin: 0 0 6px;
-            font-size: 12px;
+            font-size: 16px;
             font-weight: 700;
             text-transform: uppercase;
             color: #334155;
@@ -390,14 +420,6 @@
             font-size: 13px;
             color: #1f2937;
             cursor: pointer;
-
-            input[type='radio'],
-            input[type='checkbox'] {
-                width: 16px;
-                height: 16px;
-                accent-color: #2563eb;
-                flex-shrink: 0;
-            }
 
             &.m-0 {
                 margin: 0;
@@ -435,40 +457,40 @@
     }
 }
 
-    .field-label {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: #374151;
+.field-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.field-value {
+    border-radius: 12px;
+    font-size: 0.95rem;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+
+    &.coordinate-value {
+        background: #eff6ff;
+        border-color: #bfdbfe;
+        color: #1e40af;
+        cursor: pointer;
     }
 
-    .field-value {
-        border-radius: 12px;
-        font-size: 0.95rem;
-        color: #1e293b;
-        display: flex;
-        align-items: center;
-
-        &.coordinate-value {
-            background: #eff6ff;
-            border-color: #bfdbfe;
-            color: #1e40af;
-            cursor: pointer;
-        }
-
-        &.description {
-            flex-direction: column;
-            align-items: stretch;
-            padding: 1.25rem;
-        }
+    &.description {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 1.25rem;
     }
+}
 
-    .operator-padding {
-        display: flex;
-        gap: 0.5rem;
-    }
+.operator-padding {
+    display: flex;
+    gap: 0.5rem;
+}
 
 @keyframes spin {
     0% {

@@ -14,9 +14,9 @@ export interface MobileNetworkVmProps {
     towerTypeId: string | number;
     towerTypeName: string;
     towerHeight: string;
-    networkTechnology: string;
+    networkTechnology: string[];
     operator: Operator;
-    coverageRadius?: number;
+    coverageRadius: number;
 
     status: Status;
     statusLabel: string;

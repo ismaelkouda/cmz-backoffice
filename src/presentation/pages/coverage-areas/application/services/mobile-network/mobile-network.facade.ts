@@ -112,6 +112,7 @@ export class MobileNetworkFacade extends BaseFacade<
     ): MobileNetworkQuery {
         return new MobileNetworkQuery(
             filter?.search,
+            filter?.siteGroupId,
             filter?.towerTypeId,
             filter?.towerSize,
             filter?.technology,

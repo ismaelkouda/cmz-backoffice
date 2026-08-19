@@ -6,6 +6,8 @@
         "ES": "Espagnol"
     },
     "COMMON": {
+        "YES": "Oui",
+        "NO": "Non",
         "SEARCH": "Rechercher...",
         "DOWNLOAD": "Télécharger",
         "EXCEL": "Excel",
@@ -83,9 +85,9 @@
         "SMS": "SMS",
         "IVR": "IVR",
         "ABI": "Absence d'Internet",
-        "ZOB": "Aucun réseau",
+        "ZOB": "Aucuns réseaux",
         "CPS": "Mauvais Signal d'opérateur",
-        "CPO": "Couverture Partielle Operateur",
+        "CPO": "Absence d'Opérateur",
         "ORANGE": "Orange",
         "MTN": "MTN",
         "MOOV": "Moov",
@@ -413,11 +415,11 @@
                     "SUBTITLE": "Tous les signalements confondus"
                 },
                 "PARTIAL_OPERATOR_PROCESSING": {
-                    "LABEL": "Absence d'opérateur",
-                    "SUBTITLE": "Signalements de couverture partielle opérateur"
+                    "LABEL": "Absences d'opérateur(s)",
+                    "SUBTITLE": "Signalements de Absence d'Opérateur"
                 },
                 "WHITE_ZONE_PROCESSING": {
-                    "LABEL": "Aucun réseau",
+                    "LABEL": "Aucuns réseaux",
                     "SUBTITLE": "Signalements de réseau"
                 },
                 "PARTIAL_SIGNAL_PROCESSING": {
@@ -1953,9 +1955,9 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATORS": {
@@ -2039,7 +2041,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -2155,7 +2157,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -2245,9 +2247,9 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATORS": {
@@ -2336,7 +2338,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -2455,7 +2457,9 @@
                         "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'action de traitement",
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
-                        "NOTIFY_USERS": "Publier dans le journal et notifier les utilisateurs",
+                        "NOTIFY_USERS": "Notifier les utilisateurs",
+                        "DISPLAY_IN_NEWSPAPER": "Afficher dans le journal des utilisateurs",
+                        "INTERNAL_NOTE": "Action interne",
                         "CONFORMITY": {
                             "TITLE": "Conformité du résultat avec le signalement",
                             "CONFORM": "Conforme",
@@ -2551,7 +2555,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -2646,9 +2650,9 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATORS": {
@@ -2730,7 +2734,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -2828,7 +2832,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -2920,9 +2924,9 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATORS": {
@@ -3005,9 +3009,9 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATORS": {
@@ -3091,7 +3095,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -3208,7 +3212,7 @@
             "OPTIONS": {
                 "REPORT_TYPE": {
                     "PARTIAL_SIGNAL": "Couverture partielle du signal",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet",
                     "PARTIAL_OPERATORS": "Absence d'opérateur",
                     "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
@@ -3306,9 +3310,9 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
-                    "WHITE_ZONE": "Aucun réseau",
+                    "WHITE_ZONE": "Aucuns réseaux",
                     "NO_INTERNET": "Absence d'Internet"
                 },
                 "OPERATORS": {
@@ -3564,7 +3568,7 @@
             "STATUS": "Statut",
             "STATUS_PENDING": "En attente",
             "TYPE": "Type",
-            "TYPE_PLACEHOLDER": "Aucun réseau",
+            "TYPE_PLACEHOLDER": "Aucuns réseaux",
             "DATE_PLACEHOLDER": "Date à venir..."
         },
         "STEP_BAR": {
@@ -3781,9 +3785,9 @@
                 },
                 "REPORT_TYPE": {
                     "ABI": "Absence d'Internet",
-                    "ZOB": "Aucun réseau",
+                    "ZOB": "Aucuns réseaux",
                     "CPS": "Mauvais Signal d'opérateur",
-                    "CPO": "Couverture Partielle Operateur",
+                    "CPO": "Absence d'Opérateur",
                     "OTHER": "Autre"
                 },
                 "STATUS": {
@@ -4665,6 +4669,7 @@
             "ROUTE": "site-groups",
             "TABLE": {
                 "CODE": "Code (Nom affiché)",
+                "MOBILE_NETWORK_COUNT": "# Sites réseaux mobiles",
                 "NAME": "Nom du groupe",
                 "STATUS": "Statut",
                 "UPDATED_AT": "Date MAJ",
@@ -4772,14 +4777,16 @@
                 "TOWER_SIZE": "Hauteur du pylone (m)",
                 "TECHNOLOGY": "Technologie",
                 "OPERATOR": "Opérateur",
+                "SITE_GROUPE": "Groupe de site",
                 "RADIUS": "Rayon",
                 "STATUS": "Statut",
                 "UPDATED_AT": "Date MAJ",
                 "ACTION": "Action"
             },
             "FILTER": {
-                "SEARCH": "Rechercher",
+                "SEARCH": "Rechercher (Id ou Nom)",
                 "SEARCH_PLACEHOLDER": "Rechercher",
+                "SITE_GROUPE": "Groupe de site",
                 "TOWER_TYPE": "Type pylone",
                 "TOWER_SIZE": "Hauteur du pylone (m)",
                 "TOWER_SIZE_PLACEHOLDER": "Ex: 30",
@@ -5009,7 +5016,7 @@
                 "DELETE": "Supprimer ce réseau fibre optique",
                 "ENABLE": "Activer ce réseau fibre optique",
                 "DISABLE": "Désactiver ce réseau fibre optique",
-                "NO_EXPORT": "Aucun réseau fibre optique à exporter",
+                "NO_EXPORT": "Aucuns réseaux fibre optique à exporter",
                 "NOT_EDIT": "Modification non permise",
                 "NOT_DELETE": "Réseau actif, impossible de supprimer",
                 "NOT_ACTIVE": "Activation non permise",
@@ -5409,9 +5416,9 @@
                         "FIELDSET_REPORT_TYPES": {
                             "TITLE": "Types de signalements",
                             "ABI": "Absence d'Internet",
-                            "ZOB": "Aucun réseau",
+                            "ZOB": "Aucuns réseaux",
                             "CPS": "Mauvais Signal d'opérateur",
-                            "CPO": "Couverture Partielle Operateur"
+                            "CPO": "Absence d'Opérateur"
                         },
                         "FIELDSET_OPERATORS": {
                             "TITLE": "Opérateurs",

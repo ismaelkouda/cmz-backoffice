@@ -7,9 +7,9 @@ export interface MobileNetworkItemApiDto {
     site_id: string;
     site_name: string;
     tower_height: string;
-    network_technology: string;
+    network_technology: string[];
     operator: string;
-    coverage_radius?: number;
+    coverage_radius: number;
     is_active: boolean;
     created_at: string;
     updated_at: string;

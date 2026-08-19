@@ -23,9 +23,9 @@
                                         <img
                                             [src]="getReportIconPath('zob')"
                                             class="legend-icon"
-                                            alt="Aucun réseau"
+                                            alt="Aucuns réseaux"
                                         />
-                                        <span>Aucun réseau</span>
+                                        <span>Aucuns réseaux</span>
                                     </div>
                                     <div class="legend-item">
                                         <img
@@ -909,11 +909,17 @@
                                                     role="button"
                                                 >
                                                     <p-tag
-                                                                    [value]="
-                                                                        getStatusLabel(report.state)
-                                                                    "
-                                                                    [severity]="dialogStateStyle(report.state)"
-                                                                />
+                                                        [value]="
+                                                            getStatusLabel(
+                                                                report.state
+                                                            )
+                                                        "
+                                                        [severity]="
+                                                            dialogStateStyle(
+                                                                report.state
+                                                            )
+                                                        "
+                                                    />
                                                 </span>
                                             </dd>
                                             <dt>Operateur(s)</dt>
@@ -1026,9 +1032,15 @@
                                                             <dd>
                                                                 <p-tag
                                                                     [value]="
-                                                                        getStatusLabel(report.state)
+                                                                        getStatusLabel(
+                                                                            report.state
+                                                                        )
                                                                     "
-                                                                    [severity]="dialogStateStyle(report.state)"
+                                                                    [severity]="
+                                                                        dialogStateStyle(
+                                                                            report.state
+                                                                        )
+                                                                    "
                                                                 />
                                                             </dd>
                                                             <dt>

@@ -44,7 +44,7 @@ export class MobileNetworkFindOneEntity {
         return this.props.operator;
     }
 
-    get coverageRadius(): number | undefined {
+    get coverageRadius(): number {
         return this.props.coverageRadius;
     }
 

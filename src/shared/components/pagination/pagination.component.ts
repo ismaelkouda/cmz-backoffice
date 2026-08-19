@@ -94,6 +94,7 @@ export class PaginationComponent {
     }
 
     onPageChange(event: any): void {
+        console.log('onPageChange event:', event); // Log the event to see its structure
         const pageNumber = event.page;
         this.pageChange.emit(pageNumber);
 

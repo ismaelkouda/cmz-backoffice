@@ -8,5 +8,5 @@ export interface MobileNetworkCreateValidateContract {
     towerHeight: string;
     networkTechnology: string;
     operator: Operator;
-    coverageRadius?: number;
+    coverageRadius: number;
 }

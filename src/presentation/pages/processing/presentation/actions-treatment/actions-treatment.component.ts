@@ -59,6 +59,7 @@ import {
     CLOSE_ROUTE,
     EVALUATE_ROUTE,
 } from '@presentation/pages/report-states/report-states.routes';
+import { KeyValuePipe } from '@angular/common';
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -66,6 +67,7 @@ import {
     styleUrls: ['./actions-treatment.component.scss'],
     imports: [
         TranslateModule,
+        KeyValuePipe,
         PageTitleComponent,
         PaginationComponent,
         TableComponent,
@@ -109,6 +111,9 @@ export class ActionsTreatmentComponent {
     protected readonly tableConfig = TASKS_ACTIONS_TABLE;
     private readonly presenter = new ActionsTreatmentPresenter(
         this.translate.instant.bind(this.translate)
+    );
+    protected readonly selectedAction = signal<TasksActionsVmProps | null>(
+        null
     );
     protected readonly isReportDialogVisible = signal(false);
     protected readonly selectedManagementType = signal<TypeReport>(
@@ -213,11 +218,7 @@ export class ActionsTreatmentComponent {
         () => this.closure()?.state === State.IN_PROGRESS
     );
     protected readonly canClosure = computed(
-        () =>
-            !this.canTreat() ||
-            this.itemsVM().length < 1 ||
-            this.loading() ||
-            !this.hasClosed()
+        () => !this.canTreat() || this.loading() || !this.hasClosed()
     );
     private readonly canExportData = computed(
         () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
@@ -258,6 +259,9 @@ export class ActionsTreatmentComponent {
             String(this.itemsVM().length)
         );
     });
+    protected readonly objectEntries = (
+        value: Record<string, string> | null | undefined
+    ): [string, string][] => Object.entries(value ?? {});
     private readonly createTooltip = computed(() => {
         const permission = !this.canTreat();
         const state = !this.hasClosed();
@@ -445,8 +449,10 @@ export class ActionsTreatmentComponent {
                 this.formStore.openEdit(uniqId, event.item);
             },
             view: () => {
+                this.selectedAction.set(event.item);
                 this.formStore.openView(uniqId, event.item);
             },
+
             delete: () => {
                 if (!this.canTreat() || !this.hasClosed()) {
                     this.toast.error(this.deleteTooltip());
@@ -457,6 +463,12 @@ export class ActionsTreatmentComponent {
         };
         actions[event.actionId]?.();
     }
+
+    protected closeActionDialog(): void {
+        this.selectedAction.set(null);
+        this.formStore.close();
+    }
+
     private openCreateDialog(): void {
         const uniqId = this.uniqId();
         this.formStore.openCreate(uniqId, this.availableOperators());

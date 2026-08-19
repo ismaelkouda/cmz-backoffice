@@ -39,6 +39,7 @@ import {
 import { Status } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-status.enum';
 import { Technology } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-technology.enum';
 import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
+import { SiteGroupSelectFacade } from '@presentation/pages/coverage-areas/application/services/site-group/site-group-select.facade';
 type TTableActions = 'details' | 'edit' | 'delete' | 'enable' | 'disable';
 
 const PERMISSION_PATH = '/coverage-areas/mobile-networks';
@@ -63,6 +64,7 @@ export class MobileNetworkListComponent {
     private readonly sweetAlert = inject(SweetAlertService);
     protected readonly facade = inject(MobileNetworkFacade);
     private readonly towerTypeFacade = inject(TowerTypeSelectFacade);
+    private readonly siteGroupFacade = inject(SiteGroupSelectFacade);
     private readonly formStore = inject(MobileNetworkFilterStore);
     private readonly activatedRoute = inject(ActivatedRoute);
     private readonly router = inject(Router);
@@ -224,6 +226,18 @@ export class MobileNetworkListComponent {
             initialValue: false,
         }
     );
+    protected readonly siteGroupOptions = toSignal(
+        this.siteGroupFacade.items$,
+        {
+            initialValue: [],
+        }
+    );
+    protected readonly siteGroupLoading = toSignal(
+        this.siteGroupFacade.isLoading$,
+        {
+            initialValue: false,
+        }
+    );
     readonly technologyOptions: Signal<FilterOption[]> = computed(() => {
         this.currentLang();
         return enumToFilterOptionsWithValue(Technology, this.t.bind(this));
@@ -270,6 +284,20 @@ export class MobileNetworkListComponent {
                 loading: this.towerTypeLoading(),
             },
             {
+                type: 'select',
+                name: 'siteGroupId',
+                label: this.t(
+                    'COVERAGE_AREAS.MOBILE_NETWORK.FILTER.SITE_GROUPE'
+                ),
+                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+                options: this.siteGroupOptions(),
+                optionLabel: 'label',
+                optionValue: 'value',
+                showClear: true,
+                filter: true,
+                loading: this.siteGroupLoading(),
+            },
+            {
                 type: 'text',
                 name: 'towerSize',
                 label: this.t(
@@ -292,16 +320,16 @@ export class MobileNetworkListComponent {
                 optionValue: 'value',
                 showClear: true,
             },
-            {
-                type: 'select',
-                name: 'operator',
-                label: this.t('COVERAGE_AREAS.MOBILE_NETWORK.FILTER.OPERATOR'),
-                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
-                options: operatorOpts,
-                optionLabel: 'label',
-                optionValue: 'value',
-                showClear: true,
-            },
+            // {
+            //     type: 'select',
+            //     name: 'operator',
+            //     label: this.t('COVERAGE_AREAS.MOBILE_NETWORK.FILTER.OPERATOR'),
+            //     placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+            //     options: operatorOpts,
+            //     optionLabel: 'label',
+            //     optionValue: 'value',
+            //     showClear: true,
+            // },
             {
                 type: 'text',
                 name: 'radius',
@@ -364,6 +392,7 @@ export class MobileNetworkListComponent {
     });
     constructor() {
         this.facade.readAll(this.currentFilter() as MobileNetworkFilterDto);
+        this.siteGroupFacade.readAll();
         this.towerTypeFacade.readAll();
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))

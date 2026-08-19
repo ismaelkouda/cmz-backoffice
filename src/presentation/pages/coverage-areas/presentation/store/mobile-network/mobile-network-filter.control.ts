@@ -4,6 +4,7 @@ import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobi
 
 export interface MobileNetworkFilterControl {
     search: FormControl<string | undefined>;
+    siteGroupId: FormControl<string | undefined>;
     towerTypeId: FormControl<string | undefined>;
     towerSize: FormControl<number | undefined>;
     technology: FormControl<Technology | undefined>;

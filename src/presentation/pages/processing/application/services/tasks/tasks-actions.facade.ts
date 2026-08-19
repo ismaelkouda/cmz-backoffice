@@ -132,6 +132,7 @@ export class TasksActionsFacade extends BaseFacade<
             action.operator,
             action.description,
             action.shouldNotifyUser,
+            action.shouldDisplayInNewspaper,
             action.isConform
         );
 
@@ -163,6 +164,7 @@ export class TasksActionsFacade extends BaseFacade<
             action.operator,
             action.description,
             action.shouldNotifyUser,
+            action.shouldDisplayInNewspaper,
             action.isConform
         );
 

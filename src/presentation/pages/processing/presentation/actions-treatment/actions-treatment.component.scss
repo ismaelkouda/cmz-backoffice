@@ -46,7 +46,6 @@ $dark-gray: var(--color-gray);
     opacity: 1;
 }
 
-
 .actions-form-card {
     background: var(--action-surface);
     border-radius: 1rem;
@@ -165,7 +164,7 @@ $dark-gray: var(--color-gray);
 }
 
 .dialog-body {
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .dialog-body .report-summary {
@@ -232,24 +231,26 @@ $dark-gray: var(--color-gray);
         margin-bottom: 0.5rem;
         font-weight: 600;
         font-size: 0.875rem;
+    }
+
+    
 
         .required {
             color: var(--action-error);
             font-weight: 700;
         }
-    }
 
     /* Labels du formulaire : compatible light / dark mode */
-.form-label {
-    color: var(--p-text-color);
-}
+    .form-label {
+        color: var(--p-text-color);
+    }
 
-/* Si certains labels ou composants ont une couleur forcée */
-.action-form-dialog label,
-.action-form-dialog .form-label,
-.action-form-dialog .toggle-field .form-label {
-    color: var(--p-text-color);
-}
+    /* Si certains labels ou composants ont une couleur forcée */
+    .action-form-dialog label,
+    .action-form-dialog .form-label,
+    .action-form-dialog .toggle-field .form-label {
+        color: var(--p-text-color);
+    }
 
     .error-message {
         color: var(--action-error);
@@ -302,7 +303,7 @@ $dark-gray: var(--color-gray);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    width: fit-content;
+    width: fit-content !important;
     padding: 0.3rem 0.5rem;
     border-radius: 0.5rem;
     cursor: pointer;
@@ -543,6 +544,61 @@ textarea {
         0 10px 24px rgba(249, 115, 22, 0.1);
 }
 
+.conformity-item {
+    margin-bottom: 0;
+    &.conform-selected {
+        border-color: var(--p-green-700);
+        background: var(--p-green-50);
+
+        .radio-indicator {
+            border-color: var(--p-green-700);
+
+            .radio-dot.active {
+                background: var(--p-green-700);
+            }
+        }
+
+        .conformity-content i {
+            color: var(--p-green-700);
+        }
+    }
+
+    &.non-conform-selected {
+        border-color: var(--p-red-700);
+        background: var(--p-red-50);
+
+        .radio-indicator {
+            border-color: var(--p-red-700);
+
+            .radio-dot.active {
+                background: var(--p-red-700);
+            }
+        }
+
+        .conformity-content i {
+            color: var(--p-red-700);
+        }
+    }
+}
+
+.radio-indicator {
+    &.radio-indicator--conform {
+        border-color: var(--p-green-500);
+
+        .radio-dot.active {
+            background: var(--p-green-500);
+        }
+    }
+
+    &.radio-indicator--non-conform {
+        border-color: var(--p-red-500);
+
+        .radio-dot.active {
+            background: var(--p-red-500);
+        }
+    }
+}
+
 :host ::ng-deep .p-togglebutton.p-togglebutton-checked:last-child i {
     color: #ea580c;
 }
@@ -651,6 +707,94 @@ textarea {
 //     color: #6b7280;
 //     margin-top: 0.2rem;
 // }
+
+.action-view {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.action-view-item {
+    display: grid;
+    grid-template-columns: minmax(180px, 400px) 1fr;
+    align-items: center;
+    gap: 2rem;
+
+    padding: 0.7rem 0;
+
+    border-bottom: 1px solid var(--p-content-border-color);
+
+    &:first-child {
+        padding-top: 0;
+    }
+
+    &:last-child {
+        padding-bottom: 0;
+        border-bottom: 0;
+    }
+}
+
+.action-view-label {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    color: var(--p-text-muted-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+
+    .action-label {
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    i {
+        width: 1.25rem;
+
+        color: var(--p-primary-color);
+        font-size: 1rem;
+
+        text-align: center;
+    }
+}
+
+.action-view-value {
+    min-width: 0;
+
+    color: var(--p-text-color);
+    font-size: 0.95rem;
+    font-weight: 600;
+}
+
+.action-view-description {
+    font-weight: 400;
+    line-height: 1.65;
+
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.empty-value {
+    color: var(--p-text-muted-color);
+    font-weight: 400;
+}
+
+@media (max-width: 768px) {
+    .action-view-item {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+
+        padding: 1rem 0;
+    }
+
+    .action-view-value {
+        padding-left: 2rem;
+    }
+
+    .action-view-description {
+        padding-left: 2rem;
+    }
+}
 
 .dialog-footer {
     display: flex;
