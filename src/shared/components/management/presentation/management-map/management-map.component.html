@@ -158,7 +158,7 @@
                             [checked]="currentBaseMap() === 'osm'"
                             (change)="setBaseMap('osm')"
                         />
-                        OpenStreetMap
+                        <span class="fs-16">OpenStreetMap</span>
                     </label>
                     <label>
                         <input
@@ -167,7 +167,7 @@
                             [checked]="currentBaseMap() === 'satellite'"
                             (change)="setBaseMap('satellite')"
                         />
-                        Satellitaire
+                        <span class="fs-16">Satellitaire</span>
                     </label>
 
                     <div class="d-flex gap-2 mt-2">
@@ -193,8 +193,11 @@
                                     )
                                 "
                             />
+                            <span class="legend-color ring"
+                                [style.borderColor]="eq.color">
+                            </span>
                             [{{ getInfrastructureCount(eq.id) }}]
-                            {{ eq.label }}
+                            <span class="fs-16">{{ eq.label }}</span>
                         </label>
                     }
                 </div>

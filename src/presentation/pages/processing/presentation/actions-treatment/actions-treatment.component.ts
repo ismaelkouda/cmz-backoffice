@@ -259,6 +259,9 @@ export class ActionsTreatmentComponent {
             String(this.itemsVM().length)
         );
     });
+    protected readonly objectEntries = (
+        value: Record<string, string> | null | undefined
+    ): [string, string][] => Object.entries(value ?? {});
     private readonly createTooltip = computed(() => {
         const permission = !this.canTreat();
         const state = !this.hasClosed();

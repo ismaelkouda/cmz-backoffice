@@ -17,6 +17,13 @@ export const SITE_GROUP_TABLE = {
             width: '12rem',
         },
         {
+            field: 'municipalitiesCount',
+            header: 'COVERAGE_AREAS.SITE_GROUP.TABLE.MOBILE_NETWORK_COUNT',
+            class: 'text-center',
+            width: '2rem',
+            type: 'badge-button',
+        },
+        {
             field: 'statusLabel',
             header: 'COVERAGE_AREAS.SITE_GROUP.TABLE.STATUS',
             class: 'text-center',

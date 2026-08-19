@@ -41,13 +41,18 @@ import { createAuthenticatedVectorTileLoader } from '@shared/domain/utils/authen
 import { hexToRgba } from '@shared/domain/utils/hex-to-rgba.util';
 import { InfrastructureImpactStatItem } from '@presentation/pages/interactive-map/domain/models/interactive-map-report.model';
 import { transformExtent } from 'ol/proj';
-import { SeparatorThousandsPipe } from '@shared/domain/pipes/separator-thousands.pipe';
 import { Subject, takeUntil } from 'rxjs';
 import { FilterOption } from '@shared/components/filter/filter.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { TagModule } from 'primeng/tag';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
 
+export type EquipmentType =
+    | 'education'
+    | 'sante'
+    | 'administration'
+    | 'securite'
+    | 'autre';
 export interface MapMarker {
     id: string;
     latitude: number;
@@ -72,20 +77,24 @@ const MARKER_TYPE_COLORS: Record<string, string> = {
     success: '#16a34a',
 };
 
-/** Couleurs des points d'équipements/infrastructures, par type. */
+/**
+ * Couleurs des points d'équipements/infrastructures, par type.
+ * Utilisé uniquement en interne par `createEquipmentTileStyle` ; la
+ * source de vérité pour le panneau légende reste `equipmentOptions`.
+ */
 const EQUIPMENT_TYPE_COLORS: Record<string, string> = {
-    education: '#1d4ed8',
-    sante: '#dc2626',
-    administration: '#7c3aed',
-    securité: '#059669',
-    autre: '#6b7280',
+    education: '#2563EB',
+    sante: '#16A34A',
+    administration: '#7C3AED',
+    securite: '#DC2626',
+    autre: '#64748B',
 };
 
 @Component({
     selector: 'app-management-map',
     templateUrl: './management-map.component.html',
     styleUrls: ['./management-map.component.scss'],
-    imports: [CommonModule, SeparatorThousandsPipe, TranslateModule, TagModule],
+    imports: [CommonModule, TranslateModule, TagModule],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementMapComponent implements OnInit, OnDestroy {
@@ -121,14 +130,14 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     readonly mapViewState = signal({
         latitude: 0,
         longitude: 0,
-        zoom: 7,
+        zoom: 2,
     });
     readonly selectedMarker = signal<MapMarker | null>(null);
     readonly showPopup = signal(false);
 
     public readonly latitude = input.required<number>();
     public readonly longitude = input.required<number>();
-    public readonly zoom = input<number>(7);
+    public readonly zoom = input<number>(2);
     public readonly markerTitle = input<string>('Position');
     public readonly markerDescription = input<string>('Localisation spécifiée');
     public readonly markerColor = input<string>('#3366ff');
@@ -164,12 +173,16 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
 
     public readonly coverageLegendOpen = signal(true);
     public readonly currentBaseMap = signal<'osm' | 'satellite'>('osm');
-    public readonly equipmentOptions: { id: string; label: string }[] = [
-        { id: 'education', label: 'Education' },
-        { id: 'sante', label: 'Santé' },
-        { id: 'administration', label: 'Administration' },
-        { id: 'securité', label: 'Sécurité' },
-        { id: 'autre', label: 'Autre' },
+    public readonly equipmentOptions: {
+        id: string;
+        label: string;
+        color: string;
+    }[] = [
+        { id: 'education', label: 'Education', color: '#2563EB' },
+        { id: 'sante', label: 'Santé', color: '#16A34A' },
+        { id: 'administration', label: 'Administration', color: '#7C3AED' },
+        { id: 'securite', label: 'Sécurité', color: '#DC2626' },
+        { id: 'autre', label: 'Autre', color: '#64748B' },
     ];
     public readonly equipmentsVisible = signal<Record<string, boolean>>(
         Object.fromEntries(this.equipmentOptions.map((eq) => [eq.id, false]))
@@ -178,6 +191,9 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         const vis = this.equipmentsVisible();
         return Object.values(vis).every((v) => v === true);
     });
+    public getReportIconPath(type: string): string {
+        return getReportTypeIconPath(type) || '';
+    }
 
     /**
      * Nombre d'infrastructures impactées par tag normalisé (voir
@@ -318,7 +334,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             controls,
             view: new View({
                 center: fromLonLat([this.longitude(), this.latitude()]),
-                zoom: this.zoom(),
+                zoom: 14,
                 // Empêche de dézoomer au-delà du niveau 9 (vue trop large
                 // n'a pas de sens pour une carte de détail signalement).
                 minZoom: 9,
@@ -476,15 +492,25 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             equipment_type?: string;
             type?: string;
             tag?: string;
+            description?: string;
             point_count?: number | string;
             cluster_count?: number | string;
             count?: number | string;
         };
 
-        const type = this.normalizeEquipmentType(
-            properties?.equipment_type ?? properties?.type ?? properties?.tag
-        );
-        const color = EQUIPMENT_TYPE_COLORS[type ?? ''] ?? '#6b7280';
+        const rawType =
+            properties?.equipment_type ??
+            properties?.tag ??
+            properties?.description ??
+            properties?.type;
+        console.log('rawType', properties);
+        const type = this.normalizeEquipmentType(rawType);
+        console.log('type', type);
+
+        const color =
+            this.equipmentOptions.find((eq) => eq.id === type)?.color ??
+            EQUIPMENT_TYPE_COLORS[type ?? ''] ??
+            '#6b7280';
         const clusterCount =
             Number(
                 properties?.point_count ??
@@ -517,11 +543,48 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         });
     }
 
+    /**
+     * Normalise une valeur brute renvoyée par l'API MVT (description,
+     * type, tag, etc.) en un `equipmentOptions.id` correspondant.
+     *
+     * Stratégie :
+     *  1. Correspondance exacte avec un `id`  (ex. `"education"`)
+     *  2. La valeur contient le libellé         (ex. `"EDUCATION FORMELLE"` contient `"education"`)
+     *  3. Le libellé contient la valeur          (ex. `"PRIMAIRE"` contenu dans `"education"`)
+     *
+     * Les deux sens de « contains » permettent de couvrir tous les
+     * formats de descriptions renvoyés par le backend.
+     * @param value
+     */
     private normalizeEquipmentType(value: unknown): string | undefined {
         if (typeof value !== 'string') {
             return undefined;
         }
-        return value.trim().toLowerCase();
+        const normalized = value
+            .trim()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .toLowerCase();
+
+        if (!normalized) {
+            return undefined;
+        }
+
+        for (const eq of this.equipmentOptions) {
+            const labelNorm = eq.label
+                .normalize('NFD')
+                .replace(/[\u0300-\u036f]/g, '')
+                .toLowerCase();
+
+            if (
+                normalized === eq.id ||
+                normalized.includes(labelNorm) ||
+                labelNorm.includes(normalized)
+            ) {
+                return eq.id;
+            }
+        }
+        return undefined;
     }
 
     private toInfrastructureTileTag(equipmentId: string): string {
@@ -532,15 +595,14 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Nombre d'infrastructures impact\u00e9es pour un type d'\u00e9quipement donn\u00e9
-     * (voir `equipmentOptions`), \u00e0 afficher \u00e0 c\u00f4t\u00e9 de chaque case \u00e0 cocher
-     * du panneau "Filtres sur les couches". Retourne 0 tant que les stats
-     * ne sont pas charg\u00e9es ou si le tag est absent de la r\u00e9ponse API.
+     * Nombre d'infrastructures impactées pour un type d'équipement donné
+     * (voir `equipmentOptions`), à afficher à côté de chaque case à cocher
+     * du panneau "Filtres sur les couches". Les clés de
+     * `infrastructureCounts` sont les `equipmentOptions.id` normalisés.
      * @param equipmentId
      */
     public getInfrastructureCount(equipmentId: string): number {
-        const key = this.toInfrastructureTileTag(equipmentId);
-        return this.infrastructureCounts()[key] ?? 0;
+        return this.infrastructureCounts()[equipmentId] ?? 0;
     }
 
     /**
@@ -599,7 +661,10 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             if (Number.isNaN(count)) {
                 return;
             }
-            result[this.toInfrastructureTileTag(rawTag)] = count;
+            const equipmentId = this.normalizeEquipmentType(rawTag);
+            if (equipmentId) {
+                result[equipmentId] = (result[equipmentId] ?? 0) + count;
+            }
         };
 
         const extractCount = (value: unknown): unknown => {

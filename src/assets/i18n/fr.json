@@ -4669,6 +4669,7 @@
             "ROUTE": "site-groups",
             "TABLE": {
                 "CODE": "Code (Nom affiché)",
+                "MOBILE_NETWORK_COUNT": "# Sites réseaux mobiles",
                 "NAME": "Nom du groupe",
                 "STATUS": "Statut",
                 "UPDATED_AT": "Date MAJ",
@@ -4776,6 +4777,7 @@
                 "TOWER_SIZE": "Hauteur du pylone (m)",
                 "TECHNOLOGY": "Technologie",
                 "OPERATOR": "Opérateur",
+                "SITE_GROUPE": "Groupe de site",
                 "RADIUS": "Rayon",
                 "STATUS": "Statut",
                 "UPDATED_AT": "Date MAJ",

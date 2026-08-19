@@ -35,7 +35,7 @@ export const MOBILE_NETWORK_TABLE = {
         },
         {
             field: 'operator',
-            header: 'COVERAGE_AREAS.MOBILE_NETWORK.TABLE.OPERATOR',
+            header: 'COVERAGE_AREAS.MOBILE_NETWORK.TABLE.SITE_GROUPE',
             class: 'text-center',
             width: '3rem',
         },

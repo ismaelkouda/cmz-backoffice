@@ -197,17 +197,22 @@
     <div class="dialog-body">
         <div class="report-summary">
             <div class="summary-item">
-                <span class="summary-label">{{
-                    'COMMON.REPORT' | translate
-                }}</span>
-                <p-tag [value]="reportType()" [rounded]="true" />
+                <span class="summary-label">
+                    {{ 'COMMON.REPORT' | translate }}
+                </span>
+    
+                <p-tag
+                    [value]="reportType()"
+                    [rounded]="true"
+                />
             </div>
-
+    
             @if (operators().length) {
                 <div class="summary-item">
-                    <span class="summary-label">{{
-                        'COMMON.OPERATORS' | translate
-                    }}</span>
+                    <span class="summary-label">
+                        {{ 'COMMON.OPERATORS' | translate }}
+                    </span>
+    
                     <div class="operators-badges">
                         @for (operator of operators(); track operator) {
                             <p-tag
@@ -218,75 +223,134 @@
                     </div>
                 </div>
             }
-
+    
             <div class="summary-item">
-                <span class="summary-label">{{
-                    'COMMON.CREATED_AT' | translate
-                }}</span>
-                <span class="summary-value">{{
-                    getFormatDate(createdAt())
-                }}</span>
+                <span class="summary-label">
+                    {{ 'COMMON.CREATED_AT' | translate }}
+                </span>
+    
+                <span class="summary-value">
+                    {{ getFormatDate(createdAt()) }}
+                </span>
             </div>
-
+    
             <div class="summary-item">
-                <span class="summary-label">{{
-                    'COMMON.SOURCE' | translate
-                }}</span>
-                <span class="summary-value"
-                    >{{ source() }} [{{ initiatorPhone() }}]</span
-                >
+                <span class="summary-label">
+                    {{ 'COMMON.SOURCE' | translate }}
+                </span>
+    
+                <span class="summary-value">
+                    {{ source() }} [{{ initiatorPhone() }}]
+                </span>
             </div>
         </div>
-
-        @if (formStore.isViewMode()) {
-            @if (selectedAction(); as action) {
-                <section class="action-view" aria-label="Détails de l'action">
-                    <!-- Type d'action -->
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-bolt"></i>
-
-                            <span>
-                                {{
-                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE'
-                                        | translate
-                                }}
-                            </span>
-                        </div>
-
-                        <div class="action-view-value">
-                            {{ action.type | translate }}
-                        </div>
+    
+        <form
+            [formGroup]="formStore.form"
+            (ngSubmit)="onSubmit()"
+            class="action-form"
+        >
+            <section
+                class="action-view"
+                aria-label="Détails de l'action"
+            >
+                <!-- TYPE D'ACTION -->
+                <div class="action-view-item">
+                    <div class="action-view-label">
+                        <i class="pi pi-bolt"></i>
+    
+                        <span class="action-label">
+                            {{
+                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE'
+                                    | translate
+                            }}
+    
+                            @if (!formStore.isViewMode()) {
+                                <span class="required">*</span>
+                            }
+                        </span>
                     </div>
-
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-clock"></i>
-
-                            <span>
-                                {{
-                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
-                                        | translate
-                                }}
-                            </span>
-                        </div>
-
-                        <div class="action-view-value">
-                            {{ action.date | translate }}
-                        </div>
+    
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
+                            @if (selectedAction(); as action) {
+                                {{ action.type | translate }}
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        } @else {
+                            <p-select
+                                class="form-p-select"
+                                formControlName="type"
+                                [options]="actionsType()"
+                                optionLabel="label"
+                                optionValue="value"
+                                [placeholder]="
+                                    'COMMON.SELECT_PLACEHOLDER' | translate
+                                "
+                                [emptyMessage]="
+                                    'COMMON.SELECT_EMPTY_MESSAGE' | translate
+                                "
+                                styleClass="w-full"
+                            />
+                        }
                     </div>
-
-                    <!-- Opérateur -->
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-building"></i>
-
-                            <span>
-                                {{ 'COMMON.OPERATORS' | translate }}
-                            </span>
-                        </div>
-
-                        <div class="action-view-value">
+                </div>
+    
+                <!-- DATE -->
+                <div class="action-view-item">
+                    <div class="action-view-label">
+                        <i class="pi pi-calendar"></i>
+    
+                        <span class="action-label">
+                            {{
+                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
+                                    | translate
+                            }}
+    
+                            @if (!formStore.isViewMode()) {
+                                <span class="required">*</span>
+                            }
+                        </span>
+                    </div>
+    
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
+                            @if (selectedAction(); as action) {
+                                {{ action.date }}
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        } @else {
+                            <p-datepicker
+                                formControlName="date"
+                                [showIcon]="true"
+                                [showTime]="true"
+                                hourFormat="24"
+                                dateFormat="yy-mm-dd"
+                                appendTo="body"
+                                styleClass="w-full"
+                            />
+                        }
+                    </div>
+                </div>
+    
+                <!-- OPERATEUR -->
+                <div class="action-view-item">
+                    <div class="action-view-label">
+                        <i class="pi pi-building"></i>
+    
+                        <span class="action-label">
+                            {{ 'COMMON.OPERATORS' | translate }}
+    
+                            @if (!formStore.isViewMode()) {
+                                <span class="required">*</span>
+                            }
+                        </span>
+                    </div>
+    
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
                             @if (formStore.operator(); as operator) {
                                 <p-tag
                                     [value]="operator"
@@ -296,263 +360,42 @@
                             } @else {
                                 <span class="empty-value">—</span>
                             }
-                        </div>
-                    </div>
-
-                    <!-- Résultat -->
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-chart-bar"></i>
-                            <span>Résultat</span>
-                        </div>
-
-                        <div class="action-view-value">
-                            <div class="technology-results d-flex gap-3">
-                                @for (
-                                    technology of action.technology | keyvalue;
-                                    track technology.key
-                                ) {
-                                    <p-tag
-                                        [value]="technology.key"
-                                        [icon]="
-                                            technology.value === 'yes'
-                                                ? 'pi pi-check-circle'
-                                                : 'pi pi-times-circle'
-                                        "
-                                        [severity]="
-                                            technology.value === 'yes'
-                                                ? 'success'
-                                                : 'danger'
-                                        "
-                                        [rounded]="true"
-                                    />
-                                }
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Conformité -->
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-verified"></i>
-
-                            <span>
-                                {{
-                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
-                                        | translate
-                                }}
-                            </span>
-                        </div>
-
-                        <div class="action-view-value">
-                            <p-tag
-                                [value]="action.conformLabel"
-                                [severity]="action.conformStyle | translate"
-                                [rounded]="true"
-                            />
-                        </div>
-                    </div>
-
-                    <!-- Recommandation -->
-                    <div
-                        class="action-view-item action-view-item--recommendation"
-                    >
-                        <div class="action-view-label">
-                            <i class="pi pi-comment"></i>
-
-                            <span>Recommandation</span>
-                        </div>
-
-                        <div class="action-view-value action-view-description">
-                            {{ action.description || '—' }}
-                        </div>
-                    </div>
-
-                    <!-- Options de diffusion -->
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-bell"></i>
-                            <span>
-                                {{
-                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
-                                        | translate
-                                }}
-                            </span>
-                        </div>
-
-                        <div class="action-view-value">
-                            <p-tag
-                                [value]="
-                                    (action.shouldNotifyUser
-                                        ? 'COMMON.YES'
-                                        : 'COMMON.NO'
-                                    ) | translate
-                                "
-                                [icon]="
-                                    action.shouldNotifyUser
-                                        ? 'pi pi-check-circle'
-                                        : 'pi pi-times-circle'
-                                "
-                                [severity]="
-                                    action.shouldNotifyUser
-                                        ? 'success'
-                                        : 'danger'
-                                "
-                                [rounded]="true"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-book"></i>
-                            <span>
-                                {{
-                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DISPLAY_IN_NEWSPAPER'
-                                        | translate
-                                }}
-                            </span>
-                        </div>
-
-                        <div class="action-view-value">
-                            <p-tag
-                                [value]="
-                                    (action.shouldDisplayInNewspaper
-                                        ? 'COMMON.YES'
-                                        : 'COMMON.NO'
-                                    ) | translate
-                                "
-                                [icon]="
-                                    action.shouldDisplayInNewspaper
-                                        ? 'pi pi-check-circle'
-                                        : 'pi pi-times-circle'
-                                "
-                                [severity]="
-                                    action.shouldDisplayInNewspaper
-                                        ? 'success'
-                                        : 'danger'
-                                "
-                                [rounded]="true"
-                            />
-                        </div>
-                    </div>
-                </section>
-            }
-        } @else {
-            <form
-                [formGroup]="formStore.form"
-                (ngSubmit)="onSubmit()"
-                class="action-form"
-            >
-                <div class="row">
-                    <div class="col-md-4">
-                        <label class="form-label">
-                            {{
-                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE'
-                                    | translate
-                            }}
-                            <span class="required">*</span>
-                        </label>
-                        <p-select
-                            class="form-p-select"
-                            formControlName="type"
-                            [options]="actionsType()"
-                            optionLabel="label"
-                            optionValue="value"
-                            [placeholder]="
-                                'COMMON.SELECT_PLACEHOLDER' | translate
-                            "
-                            [emptyMessage]="
-                                'COMMON.SELECT_EMPTY_MESSAGE' | translate
-                            "
-                            styleClass="w-full"
-                        />
-                    </div>
-                    @if (operators().length) {
-                        <div class="col-md-4">
-                            <label class="form-label">
-                                {{ 'COMMON.OPERATORS' | translate }}
-                                <span class="text-danger" aria-label="required"
-                                    >*</span
-                                >
-                            </label>
-                            <div class="operator-card" role="radiogroup">
+                        } @else {
+                            <div
+                                class="operator-card"
+                                role="radiogroup"
+                            >
                                 @for (operator of operators(); track operator) {
                                     <div
                                         class="operator-item"
                                         [class.disabled]="
-                                            formStore.isViewMode() ||
-                                            (allowedOperatorsSet().has(
-                                                operator
-                                            ) &&
+                                            (allowedOperatorsSet().has(operator) &&
                                                 formStore.isCreateMode()) ||
                                             loadingActionsType()
                                         "
                                         [class.selected]="
-                                            (formStore.operator() ===
-                                                operator &&
-                                                !allowedOperatorsSet().has(
-                                                    operator
-                                                ) &&
-                                                formStore.isCreateMode()) ||
-                                            (formStore.operator() ===
-                                                operator &&
-                                                formStore.isEditMode()) ||
-                                            (formStore.operator() ===
-                                                operator &&
-                                                formStore.isViewMode())
+                                            formStore.operator() === operator
                                         "
                                         (click)="
-                                            (!allowedOperatorsSet().has(
-                                                operator
-                                            ) &&
+                                            (!allowedOperatorsSet().has(operator) &&
                                                 formStore.isCreateMode() &&
-                                                formStore.selectOperator(
-                                                    operator
-                                                )) ||
-                                                (formStore.isEditMode() &&
-                                                    formStore.selectOperator(
-                                                        operator
-                                                    )) ||
-                                                (formStore.isViewMode() &&
-                                                    formStore.selectOperator(
-                                                        operator
-                                                    ))
+                                                formStore.selectOperator(operator)) ||
+                                            (formStore.isEditMode() &&
+                                                formStore.selectOperator(operator))
                                         "
                                         (keydown.enter)="
-                                            (!allowedOperatorsSet().has(
-                                                operator
-                                            ) &&
+                                            (!allowedOperatorsSet().has(operator) &&
                                                 formStore.isCreateMode() &&
-                                                formStore.selectOperator(
-                                                    operator
-                                                )) ||
-                                                (formStore.isEditMode() &&
-                                                    formStore.selectOperator(
-                                                        operator
-                                                    )) ||
-                                                (formStore.isViewMode() &&
-                                                    formStore.selectOperator(
-                                                        operator
-                                                    ))
+                                                formStore.selectOperator(operator)) ||
+                                            (formStore.isEditMode() &&
+                                                formStore.selectOperator(operator))
                                         "
                                         [attr.aria-checked]="
-                                            (formStore.operator() ===
-                                                operator &&
-                                                !allowedOperatorsSet().has(
-                                                    operator
-                                                ) &&
-                                                formStore.isCreateMode()) ||
-                                            (formStore.operator() ===
-                                                operator &&
-                                                formStore.isEditMode()) ||
-                                            (formStore.operator() ===
-                                                operator &&
-                                                formStore.isViewMode())
+                                            formStore.operator() === operator
                                         "
                                         [attr.tabindex]="
-                                            formStore.isViewMode() ||
-                                            !allowedOperatorsSet().has(operator)
+                                            allowedOperatorsSet().has(operator) &&
+                                            formStore.isCreateMode()
                                                 ? -1
                                                 : 0
                                         "
@@ -561,174 +404,329 @@
                                             <div
                                                 class="radio-dot"
                                                 [class.active]="
-                                                    formStore.operator() ===
-                                                    operator
+                                                    formStore.operator() === operator
                                                 "
                                             ></div>
                                         </div>
+    
                                         <p-tag
                                             [value]="operator"
-                                            [style]="
-                                                getOperatorTagStyle(operator)
-                                            "
+                                            [style]="getOperatorTagStyle(operator)"
                                         />
                                     </div>
                                 }
                             </div>
-                        </div>
-                    }
-
-                    <div class="col-md-3">
-                        <label class="form-label">
-                            {{
-                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
-                                    | translate
-                            }}
-                            <span class="required">*</span>
-                        </label>
-                        <p-datepicker
-                            formControlName="date"
-                            [showIcon]="true"
-                            [showTime]="true"
-                            hourFormat="24"
-                            dateFormat="yy-mm-dd"
-                            appendTo="body"
-                            styleClass="w-full"
-                        />
+                        }
                     </div>
                 </div>
-
-                <div class="row my-3">
-                    <div class="col-md-4">
-                        <label class="form-label" id="conformity-label">
+    
+                <!-- RESULTAT / TECHNOLOGIES -->
+                @if (formStore.isViewMode()) {
+                    <div class="action-view-item">
+                        <div class="action-view-label">
+                            <i class="pi pi-chart-bar"></i>
+                            <span class="action-label">Résultat</span>
+                        </div>
+    
+                        <div class="action-view-value">
+                            @if (selectedAction(); as action) {
+                                <div
+                                    class="technology-results d-flex flex-wrap gap-2"
+                                >
+                                    @for (
+                                        technology of objectEntries(
+                                            action.technology
+                                        );
+                                        track technology[0]
+                                    ) {
+                                        <p-tag
+                                            [value]="technology[0]"
+                                            [icon]="
+                                                technology[1] === 'yes'
+                                                    ? 'pi pi-check-circle'
+                                                    : 'pi pi-times-circle'
+                                            "
+                                            [severity]="
+                                                technology[1] === 'yes'
+                                                    ? 'success'
+                                                    : 'danger'
+                                            "
+                                            [rounded]="true"
+                                        />
+                                    } @empty {
+                                        <span class="empty-value">—</span>
+                                    }
+                                </div>
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        </div>
+                    </div>
+                }
+    
+                <!-- CONFORMITE -->
+                <div class="action-view-item">
+                    <div class="action-view-label">
+                        <i class="pi pi-verified"></i>
+    
+                        <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
                                     | translate
                             }}
-                            <span class="required">*</span>
-                        </label>
+    
+                            @if (!formStore.isViewMode()) {
+                                <span class="required">*</span>
+                            }
+                        </span>
+                    </div>
+    
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
+                            @if (selectedAction(); as action) {
+                                <p-tag
+                                    [value]="action.conformLabel"
+                                    [severity]="action.conformStyle | translate"
+                                    [rounded]="true"
+                                />
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        } @else {
+                            <div>
+                                <div
+    class="operator-card"
+    role="radiogroup"
+    [attr.aria-label]="
+        'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
+            | translate
+    "
+>
+    @for (
+        option of conformityOptions;
+        track option.value
+    ) {
+        <label
+            class="operator-item conformity-item"
+            [class.selected]="
+                formStore.form.controls.isConform.value ===
+                option.value
+            "
+            [class.conform-selected]="
+                formStore.form.controls.isConform.value === option.value &&
+                option.value === 'COMMON.CONFORM'
+            "
+            [class.non-conform-selected]="
+                formStore.form.controls.isConform.value === option.value &&
+                option.value === 'COMMON.NON_CONFORM'
+            "
+        >
+            <input
+                type="radio"
+                formControlName="isConform"
+                [value]="option.value"
+                class="visually-hidden"
+            />
 
-                        <p-selectbutton
-                            formControlName="isConform"
-                            [options]="conformityOptions"
-                            optionLabel="label"
-                            optionValue="value"
-                            dataKey="value"
-                            [allowEmpty]="false"
-                            [invalid]="
-                                formStore.form.get('isConform')?.invalid &&
-                                formStore.form.get('isConform')?.touched
-                            "
-                            ariaLabelledBy="conformity-label"
-                            styleClass="w-full conformity-selector"
-                            size="small"
-                        >
-                            <ng-template #item let-option>
-                                <div class="conformity-option">
-                                    <i [class]="option.icon"></i>
+            <div
+                class="radio-indicator"
+                [class.radio-indicator--conform]="
+                    formStore.form.controls.isConform.value === option.value &&
+                    option.value === 'COMMON.CONFORM'
+                "
+                [class.radio-indicator--non-conform]="
+                    formStore.form.controls.isConform.value === option.value &&
+                    option.value === 'COMMON.NON_CONFORM'
+                "
+            >
+                <div
+                    class="radio-dot"
+                    [class.active]="
+                        formStore.form.controls.isConform.value ===
+                        option.value
+                    "
+                ></div>
+            </div>
 
-                                    <div class="conformity-content">
-                                        <span class="title">
-                                            {{ option.label }}
-                                        </span>
+            <div class="d-flex align-items-center gap-2">
+                <i
+                    [class]="option.icon"
+                    aria-hidden="true"
+                ></i>
 
-                                        <!-- @if (option.description) {
-                                        <small class="description">
-                                            {{ option.description }}
-                                        </small>
-                                    } -->
-                                    </div>
-                                </div>
-                            </ng-template>
-                        </p-selectbutton>
-
-                        @if (
-                            formStore.form.get('isConform')?.invalid &&
-                            formStore.form.get('isConform')?.touched
-                        ) {
-                            <small class="error-message">
-                                {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
-                            </small>
+                <span class="title">
+                    {{ option.label }}
+                </span>
+            </div>
+        </label>
+    }
+</div>
+                        
+                                @if (
+                                    formStore.form.controls.isConform.invalid &&
+                                    formStore.form.controls.isConform.touched
+                                ) {
+                                    <small class="error-message">
+                                        {{
+                                            'COMMON.VALIDATION.REQUIRED'
+                                                | translate
+                                        }}
+                                    </small>
+                                }
+                            </div>
                         }
                     </div>
-                    <div class="col-md-8">
-                        <label class="form-label">
+                </div>
+    
+                <!-- RECOMMANDATION -->
+                <div
+                    class="action-view-item action-view-item--recommendation"
+                >
+                    <div class="action-view-label">
+                        <i class="pi pi-comment"></i>
+    
+                        <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION'
                                     | translate
                             }}
-                            <span class="required">*</span>
-                        </label>
-                        <textarea
-                            pInputTextarea
-                            formControlName="description"
-                            rows="3"
-                            [maxlength]="255"
-                            [placeholder]="
-                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER'
-                                    | translate
-                            "
-                            class="w-full"
-                            [autoResize]="true"
-                        ></textarea>
-                        <div class="field-footer">
-                            @if (
-                                formStore.form.get('description')?.invalid &&
-                                formStore.form.get('description')?.touched
-                            ) {
-                                <small class="error-message">
-                                    {{
-                                        'COMMON.VALIDATION.REQUIRED' | translate
-                                    }}
-                                </small>
+    
+                            @if (!formStore.isViewMode()) {
+                                <span class="required">*</span>
                             }
-                            <small class="char-count">
-                                {{
-                                    formStore.form.get('description')?.value
-                                        ?.length || 0
-                                }}/255
-                            </small>
-                        </div>
+                        </span>
+                    </div>
+    
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
+                            @if (selectedAction(); as action) {
+                                <div class="action-view-description">
+                                    {{ action.description || '—' }}
+                                </div>
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        } @else {
+                            <div class="w-100">
+                                <textarea
+                                    pInputTextarea
+                                    formControlName="description"
+                                    rows="2"
+                                    [maxlength]="255"
+                                    [placeholder]="
+                                        'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION_PLACEHOLDER'
+                                            | translate
+                                    "
+                                    class="w-full"
+                                    [autoResize]="true"
+                                    style="height: 66px;overflow: hidden;"
+                                ></textarea>
+                            </div>
+                        }
                     </div>
                 </div>
-
-                <div class="form-field full-width">
-                    <div class="toggle-field">
-                        <label
-                            class="d-flex align-items-center gap-3 form-label"
-                        >
-                            <p-toggleswitch
-                                formControlName="shouldNotifyUser"
-                            />
-                            {{
-                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
-                                    | translate
-                            }}
-                        </label>
-                        <label
-                            class="d-flex align-items-center gap-3 form-label"
-                        >
-                            <p-toggleswitch
-                                formControlName="shouldDisplayInNewspaper"
-                            />
+                
+    
+                <!-- PUBLICATION JOURNAL -->
+                <div class="action-view-item">
+                    <div class="action-view-label">
+                        <i class="pi pi-book"></i>
+    
+                        <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DISPLAY_IN_NEWSPAPER'
                                     | translate
                             }}
-                        </label>
+                        </span>
+                    </div>
+    
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
+                            @if (selectedAction(); as action) {
+                                <p-tag
+                                    [value]="
+                                        (action.shouldDisplayInNewspaper
+                                            ? 'COMMON.YES'
+                                            : 'COMMON.NO'
+                                        ) | translate
+                                    "
+                                    [icon]="
+                                        action.shouldDisplayInNewspaper
+                                            ? 'pi pi-check-circle'
+                                            : 'pi pi-times-circle'
+                                    "
+                                    [severity]="
+                                        action.shouldDisplayInNewspaper
+                                            ? 'success'
+                                            : 'danger'
+                                    "
+                                    [rounded]="true"
+                                />
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        } @else {
+                            <p-toggleswitch
+                                formControlName="shouldDisplayInNewspaper"
+                            />
+                        }
                     </div>
                 </div>
-            </form>
-        }
+                <!-- NOTIFICATION UTILISATEUR -->
+                <div class="action-view-item">
+                    <div class="action-view-label">
+                        <i class="pi pi-bell"></i>
+    
+                        <span class="action-label">
+                            {{
+                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
+                                    | translate
+                            }}
+                        </span>
+                    </div>
+    
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
+                            @if (selectedAction(); as action) {
+                                <p-tag
+                                    [value]="
+                                        (action.shouldNotifyUser
+                                            ? 'COMMON.YES'
+                                            : 'COMMON.NO'
+                                        ) | translate
+                                    "
+                                    [icon]="
+                                        action.shouldNotifyUser
+                                            ? 'pi pi-check-circle'
+                                            : 'pi pi-times-circle'
+                                    "
+                                    [severity]="
+                                        action.shouldNotifyUser
+                                            ? 'success'
+                                            : 'danger'
+                                    "
+                                    [rounded]="true"
+                                />
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        } @else {
+                            <p-toggleswitch
+                                formControlName="shouldNotifyUser"
+                            />
+                        }
+                    </div>
+                </div>
+            </section>
+        </form>
     </div>
 
     <ng-template #footer>
         <div class="dialog-footer">
             <p-button
-                [label]="'COMMON.CANCEL' | translate"
+                [label]="'COMMON.CLOSE' | translate"
                 icon="pi pi-times"
-                severity="secondary"
-                [outlined]="true"
+                severity="danger"
                 (onClick)="formStore.close()"
             />
 

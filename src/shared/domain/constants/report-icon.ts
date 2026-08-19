@@ -6,13 +6,27 @@
  * Source unique de vérité : avant, ce mapping était dupliqué dans
  * map.adapter.ts et interactive-map.component.ts.
  */
-export type ReportIconType = 'zob' | 'cpo' | 'cps' | 'abi';
+export type ReportIconType =
+    | 'zob'
+    | 'cpo'
+    | 'cps'
+    | 'abi'
+    | 'education'
+    | 'health'
+    | 'administration'
+    | 'security'
+    | 'other';
 
 export const REPORT_TYPE_ICON_PATHS: Record<ReportIconType, string> = {
     zob: 'assets/images/icones/marker-zb.svg',
     cpo: 'assets/images/icones/marker-ao.svg',
     cps: 'assets/images/icones/marker-ms.svg',
     abi: 'assets/images/icones/marker-ai.svg',
+    education: 'assets/images/icones/marker-education.png',
+    health: 'assets/images/icones/marker-health.png',
+    administration: 'assets/images/icones/marker-administration.png',
+    security: 'assets/images/icones/marker-security.png',
+    other: 'assets/images/icones/marker-other.png',
 };
 
 /**
@@ -48,6 +62,11 @@ export const REPORT_TYPE_COLORS: Record<ReportIconType, string> = {
     cpo: '#0f766e',
     cps: '#be123c',
     abi: '#475569',
+    education: '#3b82f6',
+    health: '#10b981',
+    administration: '#f59e0b',
+    security: '#ef4444',
+    other: '#6b7280',
 };
 
 /**
@@ -79,6 +98,11 @@ export const REPORT_TYPE_LABELS: Record<ReportIconType, string> = {
     cpo: "Absence d'Opérateur(s)",
     cps: "Mauvais signal d'Opérateur(s)",
     abi: "Absence d'Internet",
+    education: 'Éducation',
+    health: 'Santé',
+    administration: 'Administration',
+    security: 'Sécurité',
+    other: 'Autre',
 };
 
 /**

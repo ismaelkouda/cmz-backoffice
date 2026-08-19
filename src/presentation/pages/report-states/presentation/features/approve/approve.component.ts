@@ -385,6 +385,7 @@ export class ApproveComponent {
         this.facade.read(this.formStore.value, '1', { forceRefresh: true });
     }
     public onChangePageClicked(event: number): void {
+        console.log('onChangePageClicked event:', event); // Log the event to see its structure
         this.facade.changePage(JSON.stringify(event + 1));
     }
     protected onActionClicked(event: {
