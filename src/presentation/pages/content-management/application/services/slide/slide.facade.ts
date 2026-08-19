@@ -101,9 +101,9 @@ export class SlideFacade extends BaseFacade<SlideEntity, SlideFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new SlideQuery(
             filter?.search,
             filter?.platforms,

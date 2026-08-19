@@ -63,9 +63,9 @@ export class AllFacade extends BaseFacade<AllEntity, AllFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new AllQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,

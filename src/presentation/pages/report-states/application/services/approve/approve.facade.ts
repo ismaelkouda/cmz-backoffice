@@ -73,6 +73,7 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
     refresh(): void {
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
+        this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
         const filter = this.filterSubject.getValue();
         const page = this.pageSubject.getValue();
         const query = new ApproveQuery(
@@ -93,9 +94,9 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const query = new ApproveQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
@@ -105,7 +106,9 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
             filter?.startDate,
             filter?.endDate
         );
-        const fetch$ = this.filterBus.dispatch(query, page);
+        const fetch$ = this.filterBus.dispatch(query, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }

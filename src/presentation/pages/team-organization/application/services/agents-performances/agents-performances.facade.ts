@@ -62,9 +62,9 @@ export class AgentsPerformancesFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new AgentsPerformancesQuery(
             filter?.search,
             filter?.member,

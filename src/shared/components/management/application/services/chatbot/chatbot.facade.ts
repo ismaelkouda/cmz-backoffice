@@ -109,9 +109,9 @@ export class ChatbotFacade extends BaseFacade<ChatbotEntity, ChatbotFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new ChatbotQuery(
             filter?.reportId,
             filter?.search,

@@ -97,9 +97,9 @@ export class TeamsFacade extends BaseFacade<TeamsEntity, TeamsFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new TeamsQuery(
             filter?.search,
             filter?.member,
