@@ -200,19 +200,16 @@
                 <span class="summary-label">
                     {{ 'COMMON.REPORT' | translate }}
                 </span>
-    
-                <p-tag
-                    [value]="reportType()"
-                    [rounded]="true"
-                />
+
+                <p-tag [value]="reportType()" [rounded]="true" />
             </div>
-    
+
             @if (operators().length) {
                 <div class="summary-item">
                     <span class="summary-label">
                         {{ 'COMMON.OPERATORS' | translate }}
                     </span>
-    
+
                     <div class="operators-badges">
                         @for (operator of operators(); track operator) {
                             <p-tag
@@ -223,54 +220,51 @@
                     </div>
                 </div>
             }
-    
+
             <div class="summary-item">
                 <span class="summary-label">
                     {{ 'COMMON.CREATED_AT' | translate }}
                 </span>
-    
+
                 <span class="summary-value">
                     {{ getFormatDate(createdAt()) }}
                 </span>
             </div>
-    
+
             <div class="summary-item">
                 <span class="summary-label">
                     {{ 'COMMON.SOURCE' | translate }}
                 </span>
-    
+
                 <span class="summary-value">
                     {{ source() }} [{{ initiatorPhone() }}]
                 </span>
             </div>
         </div>
-    
+
         <form
             [formGroup]="formStore.form"
             (ngSubmit)="onSubmit()"
             class="action-form"
         >
-            <section
-                class="action-view"
-                aria-label="Détails de l'action"
-            >
+            <section class="action-view" aria-label="Détails de l'action">
                 <!-- TYPE D'ACTION -->
                 <div class="action-view-item">
                     <div class="action-view-label">
                         <i class="pi pi-bolt"></i>
-    
+
                         <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.TYPE'
                                     | translate
                             }}
-    
+
                             @if (!formStore.isViewMode()) {
                                 <span class="required">*</span>
                             }
                         </span>
                     </div>
-    
+
                     <div class="action-view-value">
                         @if (formStore.isViewMode()) {
                             @if (selectedAction(); as action) {
@@ -296,24 +290,24 @@
                         }
                     </div>
                 </div>
-    
+
                 <!-- DATE -->
                 <div class="action-view-item">
                     <div class="action-view-label">
                         <i class="pi pi-calendar"></i>
-    
+
                         <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DATE'
                                     | translate
                             }}
-    
+
                             @if (!formStore.isViewMode()) {
                                 <span class="required">*</span>
                             }
                         </span>
                     </div>
-    
+
                     <div class="action-view-value">
                         @if (formStore.isViewMode()) {
                             @if (selectedAction(); as action) {
@@ -341,30 +335,32 @@
                             <i class="pi pi-chart-bar"></i>
                             <span class="action-label">Effectué par</span>
                         </div>
-    
+
                         <div class="action-view-value">
                             @if (selectedAction(); as action) {
                                 {{ action.createdBy }}
                             }
                         </div>
-                        
                     </div>
                 }
-    
+
                 <!-- OPERATEUR -->
                 <div class="action-view-item">
                     <div class="action-view-label">
                         <i class="pi pi-building"></i>
-    
+
                         <span class="action-label">
-                            {{ 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.OPERATOR' | translate }}
-    
+                            {{
+                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.OPERATOR'
+                                    | translate
+                            }}
+
                             @if (!formStore.isViewMode()) {
                                 <span class="required">*</span>
                             }
                         </span>
                     </div>
-    
+
                     <div class="action-view-value">
                         @if (formStore.isViewMode()) {
                             @if (formStore.operator(); as operator) {
@@ -377,15 +373,14 @@
                                 <span class="empty-value">—</span>
                             }
                         } @else {
-                            <div
-                                class="operator-card"
-                                role="radiogroup"
-                            >
+                            <div class="operator-card" role="radiogroup">
                                 @for (operator of operators(); track operator) {
                                     <div
                                         class="operator-item"
                                         [class.disabled]="
-                                            (allowedOperatorsSet().has(operator) &&
+                                            (allowedOperatorsSet().has(
+                                                operator
+                                            ) &&
                                                 formStore.isCreateMode()) ||
                                             loadingActionsType()
                                         "
@@ -393,25 +388,38 @@
                                             formStore.operator() === operator
                                         "
                                         (click)="
-                                            (!allowedOperatorsSet().has(operator) &&
+                                            (!allowedOperatorsSet().has(
+                                                operator
+                                            ) &&
                                                 formStore.isCreateMode() &&
-                                                formStore.selectOperator(operator)) ||
-                                            (formStore.isEditMode() &&
-                                                formStore.selectOperator(operator))
+                                                formStore.selectOperator(
+                                                    operator
+                                                )) ||
+                                                (formStore.isEditMode() &&
+                                                    formStore.selectOperator(
+                                                        operator
+                                                    ))
                                         "
                                         (keydown.enter)="
-                                            (!allowedOperatorsSet().has(operator) &&
+                                            (!allowedOperatorsSet().has(
+                                                operator
+                                            ) &&
                                                 formStore.isCreateMode() &&
-                                                formStore.selectOperator(operator)) ||
-                                            (formStore.isEditMode() &&
-                                                formStore.selectOperator(operator))
+                                                formStore.selectOperator(
+                                                    operator
+                                                )) ||
+                                                (formStore.isEditMode() &&
+                                                    formStore.selectOperator(
+                                                        operator
+                                                    ))
                                         "
                                         [attr.aria-checked]="
                                             formStore.operator() === operator
                                         "
                                         [attr.tabindex]="
-                                            allowedOperatorsSet().has(operator) &&
-                                            formStore.isCreateMode()
+                                            allowedOperatorsSet().has(
+                                                operator
+                                            ) && formStore.isCreateMode()
                                                 ? -1
                                                 : 0
                                         "
@@ -420,14 +428,17 @@
                                             <div
                                                 class="radio-dot"
                                                 [class.active]="
-                                                    formStore.operator() === operator
+                                                    formStore.operator() ===
+                                                    operator
                                                 "
                                             ></div>
                                         </div>
-    
+
                                         <p-tag
                                             [value]="operator"
-                                            [style]="getOperatorTagStyle(operator)"
+                                            [style]="
+                                                getOperatorTagStyle(operator)
+                                            "
                                         />
                                     </div>
                                 }
@@ -435,7 +446,7 @@
                         }
                     </div>
                 </div>
-    
+
                 <!-- RESULTAT / TECHNOLOGIES -->
                 @if (formStore.isViewMode()) {
                     <div class="action-view-item">
@@ -443,7 +454,7 @@
                             <i class="pi pi-chart-bar"></i>
                             <span class="action-label">Résultat</span>
                         </div>
-    
+
                         <div class="action-view-value">
                             @if (selectedAction(); as action) {
                                 <div
@@ -479,28 +490,27 @@
                         </div>
                     </div>
                 }
-    
+
                 <!-- CONFORMITE -->
                 <div class="action-view-item">
                     <div class="action-view-label">
                         <i class="pi pi-verified"></i>
-    
+
                         <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
                                     | translate
                             }}
-    
+
                             @if (!formStore.isViewMode()) {
                                 <span class="required">*</span>
                             }
                         </span>
                     </div>
-    
+
                     <div class="action-view-value">
                         @if (formStore.isViewMode()) {
                             @if (selectedAction(); as action) {
-                                
                                 <p-tag
                                     [value]="action.conformLabel"
                                     [severity]="action.conformStyle | translate"
@@ -512,73 +522,89 @@
                         } @else {
                             <div>
                                 <div
-    class="operator-card"
-    role="radiogroup"
-    [attr.aria-label]="
-        'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
-            | translate
-    "
->
-    @for (
-        option of conformityOptions;
-        track option.value
-    ) {
-        <label
-            class="operator-item conformity-item"
-            [class.selected]="
-                formStore.form.controls.isConform.value ===
-                option.value
-            "
-            [class.conform-selected]="
-                formStore.form.controls.isConform.value === option.value &&
-                option.value === 'COMMON.CONFORM'
-            "
-            [class.non-conform-selected]="
-                formStore.form.controls.isConform.value === option.value &&
-                option.value === 'COMMON.NON_CONFORM'
-            "
-        >
-            <input
-                type="radio"
-                formControlName="isConform"
-                [value]="option.value"
-                class="visually-hidden"
-            />
+                                    class="operator-card"
+                                    role="radiogroup"
+                                    [attr.aria-label]="
+                                        'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
+                                            | translate
+                                    "
+                                >
+                                    @for (
+                                        option of conformityOptions;
+                                        track option.value
+                                    ) {
+                                        <label
+                                            class="operator-item conformity-item"
+                                            [class.selected]="
+                                                formStore.form.controls
+                                                    .isConform.value ===
+                                                option.value
+                                            "
+                                            [class.conform-selected]="
+                                                formStore.form.controls
+                                                    .isConform.value ===
+                                                    option.value &&
+                                                option.value ===
+                                                    'COMMON.CONFORM'
+                                            "
+                                            [class.non-conform-selected]="
+                                                formStore.form.controls
+                                                    .isConform.value ===
+                                                    option.value &&
+                                                option.value ===
+                                                    'COMMON.NON_CONFORM'
+                                            "
+                                        >
+                                            <input
+                                                type="radio"
+                                                formControlName="isConform"
+                                                [value]="option.value"
+                                                class="visually-hidden"
+                                            />
 
-            <div
-                class="radio-indicator"
-                [class.radio-indicator--conform]="
-                    formStore.form.controls.isConform.value === option.value &&
-                    option.value === 'COMMON.CONFORM'
-                "
-                [class.radio-indicator--non-conform]="
-                    formStore.form.controls.isConform.value === option.value &&
-                    option.value === 'COMMON.NON_CONFORM'
-                "
-            >
-                <div
-                    class="radio-dot"
-                    [class.active]="
-                        formStore.form.controls.isConform.value ===
-                        option.value
-                    "
-                ></div>
-            </div>
+                                            <div
+                                                class="radio-indicator"
+                                                [class.radio-indicator--conform]="
+                                                    formStore.form.controls
+                                                        .isConform.value ===
+                                                        option.value &&
+                                                    option.value ===
+                                                        'COMMON.CONFORM'
+                                                "
+                                                [class.radio-indicator--non-conform]="
+                                                    formStore.form.controls
+                                                        .isConform.value ===
+                                                        option.value &&
+                                                    option.value ===
+                                                        'COMMON.NON_CONFORM'
+                                                "
+                                            >
+                                                <div
+                                                    class="radio-dot"
+                                                    [class.active]="
+                                                        formStore.form.controls
+                                                            .isConform.value ===
+                                                        option.value
+                                                    "
+                                                ></div>
+                                            </div>
 
-            <div class="d-flex align-items-center gap-2">
-                <i
-                    [class]="option.icon"
-                    aria-hidden="true"
-                ></i>
+                                            <div
+                                                class="d-flex align-items-center gap-2"
+                                            >
+                                                <i
+                                                    [class]="option.icon"
+                                                    aria-hidden="true"
+                                                ></i>
 
-                <span class="title">
-                    {{ option.label }}
-                </span>
-            </div>
-        </label>
-    }
-</div>
-                        
+                                                <span class="title">
+                                                    {{ option.label }}
+                                                </span>
+                                            </div>
+                                        </label>
+                                    }
+                                </div>
+
                                 @if (
                                     formStore.form.controls.isConform.invalid &&
                                     formStore.form.controls.isConform.touched
@@ -594,26 +620,24 @@
                         }
                     </div>
                 </div>
-    
+
                 <!-- RECOMMANDATION -->
-                <div
-                    class="action-view-item action-view-item--recommendation"
-                >
+                <div class="action-view-item action-view-item--recommendation">
                     <div class="action-view-label">
                         <i class="pi pi-comment"></i>
-    
+
                         <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DESCRIPTION'
                                     | translate
                             }}
-    
+
                             @if (!formStore.isViewMode()) {
                                 <span class="required">*</span>
                             }
                         </span>
                     </div>
-    
+
                     <div class="action-view-value">
                         @if (formStore.isViewMode()) {
                             @if (selectedAction(); as action) {
@@ -636,19 +660,18 @@
                                     "
                                     class="w-full"
                                     [autoResize]="true"
-                                    style="height: 66px;overflow: hidden;"
+                                    style="height: 66px; overflow: hidden"
                                 ></textarea>
                             </div>
                         }
                     </div>
                 </div>
-                
-    
+
                 <!-- PUBLICATION JOURNAL -->
                 <div class="action-view-item">
                     <div class="action-view-label">
                         <i class="pi pi-book"></i>
-    
+
                         <span class="action-label">
                             {{
                                 'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.DISPLAY_IN_NEWSPAPER'
@@ -656,7 +679,7 @@
                             }}
                         </span>
                     </div>
-    
+
                     <div class="action-view-value">
                         @if (formStore.isViewMode()) {
                             @if (selectedAction(); as action) {
@@ -689,51 +712,55 @@
                         }
                     </div>
                 </div>
-                <!-- NOTIFICATION UTILISATEUR -->
-                <div class="action-view-item">
-                    <div class="action-view-label">
-                        <i class="pi pi-bell"></i>
-    
-                        <span class="action-label">
-                            {{
-                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
-                                    | translate
-                            }}
-                        </span>
-                    </div>
-    
-                    <div class="action-view-value">
-                        @if (formStore.isViewMode()) {
-                            @if (selectedAction(); as action) {
-                                <p-tag
-                                    [value]="
-                                        (action.shouldNotifyUser
-                                            ? 'COMMON.YES'
-                                            : 'COMMON.NO'
-                                        ) | translate
-                                    "
-                                    [icon]="
-                                        action.shouldNotifyUser
-                                            ? 'pi pi-check-circle'
-                                            : 'pi pi-times-circle'
-                                    "
-                                    [severity]="
-                                        action.shouldNotifyUser
-                                            ? 'success'
-                                            : 'danger'
-                                    "
-                                    [rounded]="true"
-                                />
+                @if (
+                    isNotifyVisible()
+                ) {
+                    <!-- NOTIFICATION UTILISATEUR -->
+                    <div class="action-view-item">
+                        <div class="action-view-label">
+                            <i class="pi pi-bell"></i>
+
+                            <span class="action-label">
+                                {{
+                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
+                                        | translate
+                                }}
+                            </span>
+                        </div>
+
+                        <div class="action-view-value">
+                            @if (formStore.isViewMode()) {
+                                @if (selectedAction(); as action) {
+                                    <p-tag
+                                        [value]="
+                                            (action.shouldNotifyUser
+                                                ? 'COMMON.YES'
+                                                : 'COMMON.NO'
+                                            ) | translate
+                                        "
+                                        [icon]="
+                                            action.shouldNotifyUser
+                                                ? 'pi pi-check-circle'
+                                                : 'pi pi-times-circle'
+                                        "
+                                        [severity]="
+                                            action.shouldNotifyUser
+                                                ? 'success'
+                                                : 'danger'
+                                        "
+                                        [rounded]="true"
+                                    />
+                                } @else {
+                                    <span class="empty-value">—</span>
+                                }
                             } @else {
-                                <span class="empty-value">—</span>
+                                <p-toggleswitch
+                                    formControlName="shouldNotifyUser"
+                                />
                             }
-                        } @else {
-                            <p-toggleswitch
-                                formControlName="shouldNotifyUser"
-                            />
-                        }
+                        </div>
                     </div>
-                </div>
+                }
             </section>
         </form>
     </div>

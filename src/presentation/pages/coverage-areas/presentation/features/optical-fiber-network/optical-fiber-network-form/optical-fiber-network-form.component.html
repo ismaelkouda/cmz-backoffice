@@ -265,7 +265,9 @@
                                                             >
                                                         </label>
                                                         <p-selectButton
-                                                            [options]="geometryModeOptions"
+                                                            [options]="
+                                                                geometryModeOptions
+                                                            "
                                                             optionLabel="label"
                                                             optionValue="value"
                                                             [style]="{
@@ -291,7 +293,10 @@
                                                                 | translate
                                                         }}
                                                     </label>
-                                                    @if (isFileMode() || isDetailsMode()) {
+                                                    @if (
+                                                        isFileMode() ||
+                                                        isDetailsMode()
+                                                    ) {
                                                         <p-fileUpload
                                                             #fileUpload
                                                             accept=".geojson,.json"
@@ -310,9 +315,13 @@
                                                                 'COMMON.CANCEL'
                                                                     | translate
                                                             }}"
-                                                            [customUpload]="true"
+                                                            [customUpload]="
+                                                                true
+                                                            "
                                                             (onSelect)="
-                                                                onFileChange($event)
+                                                                onFileChange(
+                                                                    $event
+                                                                )
                                                             "
                                                             (onClear)="
                                                                 onFileClear()
@@ -343,7 +352,10 @@
                                                     class="col-md-4"
                                                     formArrayName="routeCoordinates"
                                                 >
-                                                    @if (isCoordinatesMode() || isDetailsMode()) {
+                                                    @if (
+                                                        isCoordinatesMode() ||
+                                                        isDetailsMode()
+                                                    ) {
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-2"
                                                         >
@@ -360,7 +372,9 @@
                                                                     >*</span
                                                                 >
                                                             </label>
-                                                            @if (!isDetailsMode()) {
+                                                            @if (
+                                                                !isDetailsMode()
+                                                            ) {
                                                                 <button
                                                                     pButton
                                                                     type="button"
@@ -377,7 +391,9 @@
                                                             }
                                                         </div>
 
-                                                        <div class="d-grid gap-2">
+                                                        <div
+                                                            class="d-grid gap-2"
+                                                        >
                                                             @for (
                                                                 coordinate of routeCoordinates.controls;
                                                                 track coordinate;

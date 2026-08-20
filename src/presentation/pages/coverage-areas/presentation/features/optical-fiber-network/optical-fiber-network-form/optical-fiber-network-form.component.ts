@@ -131,7 +131,10 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         { label: 'Multi Mode', value: FiberType.MULTI_MODE },
     ];
     protected readonly geometryModeOptions = [
-        { label: this.t(`${I18N}.FORM.GEOMETRY_MODE_COORDINATES`), value: 'coordinates' },
+        {
+            label: this.t(`${I18N}.FORM.GEOMETRY_MODE_COORDINATES`),
+            value: 'coordinates',
+        },
         { label: this.t(`${I18N}.FORM.GEOMETRY_MODE_FILE`), value: 'file' },
     ];
 
@@ -282,8 +285,8 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
             fiberConstructorId: formValue.fiberConstructorId,
             type: formValue.type,
             geomFile: isFileMode
-                ? formValue.geomFile ?? undefined
-                : this.createRouteGeoJsonFile() ?? undefined,
+                ? (formValue.geomFile ?? undefined)
+                : (this.createRouteGeoJsonFile() ?? undefined),
         };
 
         if (this.isEditMode()) {
@@ -328,11 +331,15 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         const mode = this.geometryMode();
         if (mode === 'file') {
             this.form.controls.routeCoordinates.clearValidators();
-            this.form.controls.routeCoordinates.updateValueAndValidity({ emitEvent: false });
+            this.form.controls.routeCoordinates.updateValueAndValidity({
+                emitEvent: false,
+            });
         } else {
             this.form.controls.geomFile.clearValidators();
             this.form.controls.geomFile.setValue(null, { emitEvent: false });
-            this.form.controls.geomFile.updateValueAndValidity({ emitEvent: false });
+            this.form.controls.geomFile.updateValueAndValidity({
+                emitEvent: false,
+            });
         }
     }
 

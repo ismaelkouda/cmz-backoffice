@@ -44,7 +44,9 @@ export class OpticalFiberNetworkFormStore {
     readonly isCreateMode = computed(() => this.mode() === 'create');
     readonly isEditMode = computed(() => this.mode() === 'edit');
     readonly isDetailsMode = computed(() => this.mode() === 'details');
-    readonly isCoordinatesMode = computed(() => this.geometryMode() === 'coordinates');
+    readonly isCoordinatesMode = computed(
+        () => this.geometryMode() === 'coordinates'
+    );
     readonly isFileMode = computed(() => this.geometryMode() === 'file');
     readonly loading = computed(() => this.findOneFacade.loading());
     readonly status = toSignal(
@@ -106,24 +108,37 @@ export class OpticalFiberNetworkFormStore {
             const routeCoordinates = this.extractRouteCoordinates(item);
             const details = this.isDetailsMode();
             const hasGeomFile = !!(geom || geomUrl);
-            const hasLegacyCoords = !!(item.longitudePointA || item.latitudePointA);
-            const mode: GeometryMode = hasGeomFile && !hasLegacyCoords ? 'file' : 'coordinates';
+            const hasLegacyCoords = !!(
+                item.longitudePointA || item.latitudePointA
+            );
+            const mode: GeometryMode =
+                hasGeomFile && !hasLegacyCoords ? 'file' : 'coordinates';
 
             untracked(() => {
                 queueMicrotask(() => {
                     this.geometryMode.set(mode);
                     if (mode === 'file') {
                         this.form.controls.routeCoordinates.clearValidators();
-                        this.form.controls.routeCoordinates.updateValueAndValidity({ emitEvent: false });
+                        this.form.controls.routeCoordinates.updateValueAndValidity(
+                            { emitEvent: false }
+                        );
                         this.form.controls.geomFile.clearValidators();
-                        this.form.controls.geomFile.updateValueAndValidity({ emitEvent: false });
+                        this.form.controls.geomFile.updateValueAndValidity({
+                            emitEvent: false,
+                        });
                         this.setRouteCoordinates([{}, {}]);
                     } else {
                         this.setRouteCoordinates(routeCoordinates);
-                        this.form.controls.routeCoordinates.setValidators([this.routeCoordinatesValidator()]);
-                        this.form.controls.routeCoordinates.updateValueAndValidity({ emitEvent: false });
+                        this.form.controls.routeCoordinates.setValidators([
+                            this.routeCoordinatesValidator(),
+                        ]);
+                        this.form.controls.routeCoordinates.updateValueAndValidity(
+                            { emitEvent: false }
+                        );
                         this.form.controls.geomFile.clearValidators();
-                        this.form.controls.geomFile.updateValueAndValidity({ emitEvent: false });
+                        this.form.controls.geomFile.updateValueAndValidity({
+                            emitEvent: false,
+                        });
                     }
                     this.form.patchValue({
                         name,
@@ -166,15 +181,25 @@ export class OpticalFiberNetworkFormStore {
         if (mode === 'file') {
             this.setRouteCoordinates([{}, {}]);
             this.form.controls.routeCoordinates.clearValidators();
-            this.form.controls.routeCoordinates.updateValueAndValidity({ emitEvent: false });
+            this.form.controls.routeCoordinates.updateValueAndValidity({
+                emitEvent: false,
+            });
             this.form.controls.geomFile.setValidators([Validators.required]);
-            this.form.controls.geomFile.updateValueAndValidity({ emitEvent: false });
+            this.form.controls.geomFile.updateValueAndValidity({
+                emitEvent: false,
+            });
         } else {
             this.form.controls.geomFile.clearValidators();
             this.form.controls.geomFile.setValue(null, { emitEvent: false });
-            this.form.controls.geomFile.updateValueAndValidity({ emitEvent: false });
-            this.form.controls.routeCoordinates.setValidators([this.routeCoordinatesValidator()]);
-            this.form.controls.routeCoordinates.updateValueAndValidity({ emitEvent: false });
+            this.form.controls.geomFile.updateValueAndValidity({
+                emitEvent: false,
+            });
+            this.form.controls.routeCoordinates.setValidators([
+                this.routeCoordinatesValidator(),
+            ]);
+            this.form.controls.routeCoordinates.updateValueAndValidity({
+                emitEvent: false,
+            });
         }
     }
 
@@ -182,9 +207,15 @@ export class OpticalFiberNetworkFormStore {
         this.form.enable({ emitEvent: false });
         this.geometryMode.set('coordinates');
         this.form.controls.geomFile.clearValidators();
-        this.form.controls.geomFile.updateValueAndValidity({ emitEvent: false });
-        this.form.controls.routeCoordinates.setValidators([this.routeCoordinatesValidator()]);
-        this.form.controls.routeCoordinates.updateValueAndValidity({ emitEvent: false });
+        this.form.controls.geomFile.updateValueAndValidity({
+            emitEvent: false,
+        });
+        this.form.controls.routeCoordinates.setValidators([
+            this.routeCoordinatesValidator(),
+        ]);
+        this.form.controls.routeCoordinates.updateValueAndValidity({
+            emitEvent: false,
+        });
         this.setRouteCoordinates([{}, {}]);
         this.form.reset(
             {

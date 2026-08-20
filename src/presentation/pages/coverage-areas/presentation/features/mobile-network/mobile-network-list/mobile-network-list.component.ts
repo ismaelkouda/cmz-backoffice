@@ -253,7 +253,6 @@ export class MobileNetworkListComponent {
     protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const technologyOpts = this.technologyOptions();
-        const operatorOpts = this.operatorOptions();
         return [
             {
                 type: 'text',
