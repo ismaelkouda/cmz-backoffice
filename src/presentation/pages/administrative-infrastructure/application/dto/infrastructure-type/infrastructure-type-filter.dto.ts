@@ -3,6 +3,7 @@ import { Status } from '@presentation/pages/administrative-infrastructure/domain
 export interface InfrastructureTypeFilterDto {
     search?: string;
     status?: Status;
+    tag?: string;
     startDate?: Date;
     endDate?: Date;
 }

@@ -98,6 +98,22 @@ export class ActionsTreatmentFormStore {
             this.form.enable({ emitEvent: false });
         }
     });
+    private readonly newspaperVisible = toSignal(
+        this.form.controls.shouldDisplayInNewspaper.valueChanges.pipe(
+            startWith(this.form.controls.shouldDisplayInNewspaper.value)
+        ),
+        { initialValue: this.form.controls.shouldDisplayInNewspaper.value }
+    );
+    private readonly newspaperSyncEffect = effect(() => {
+        const visible = this.newspaperVisible();
+        const notifyCtrl = this.form.controls.shouldNotifyUser;
+        if (!visible) {
+            notifyCtrl.setValue(false, { emitEvent: false });
+            notifyCtrl.disable({ emitEvent: false });
+        } else if (notifyCtrl.disabled) {
+            notifyCtrl.enable({ emitEvent: false });
+        }
+    });
     private readonly successEffect = effect(() => {
         const currentSuccess = this.facade.actionSuccess();
         if (!this.modalOpen()) {

@@ -5,6 +5,7 @@ import { INFRASTRUCTURE_TYPE_FILTER_KEYS } from '@presentation/pages/administrat
 export interface InfrastructureTypeFilterControl {
     [INFRASTRUCTURE_TYPE_FILTER_KEYS.SEARCH]: FormControl<string | undefined>;
     [INFRASTRUCTURE_TYPE_FILTER_KEYS.STATUS]: FormControl<Status | undefined>;
+    [INFRASTRUCTURE_TYPE_FILTER_KEYS.TAG]: FormControl<string | undefined>;
     [INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE]: FormControl<Date | undefined>;
     [INFRASTRUCTURE_TYPE_FILTER_KEYS.END_DATE]: FormControl<Date | undefined>;
 }

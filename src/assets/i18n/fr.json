@@ -3440,7 +3440,7 @@
                     "ROUTE": "history"
                 }
             },
-            "TITLE": "Messagerie",
+            "TITLE": "messages",
             "LABEL": "Messagerie",
             "ROUTE": "messaging",
             "FILTER": {
@@ -4281,7 +4281,7 @@
         "ROUTE": "infrastructures",
         "INFRASTRUCTURE_TYPE": {
             "BREADCRUMB": {
-                "LABEL": "Type d'équipements",
+                "LABEL": "Type des type d'équipements",
                 "ROUTE": "equipment-types"
             },
             "TABS": {
@@ -4298,6 +4298,7 @@
             "ROUTE": "equipment-types",
             "TABLE": {
                 "NAME": "Nom",
+                "TAG": "Tag",
                 "DESCRIPTION": "Description",
                 "STATUS": "Statut",
                 "CREATED_AT": "Créé le",
@@ -4308,6 +4309,8 @@
             "FILTER": {
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
+                "TAG": "Tag",
+                "TAG_PLACEHOLDER": "Tag",
                 "STATUS": "Statut",
                 "DATE": {
                     "FROM": "Date de début",
@@ -4317,8 +4320,8 @@
             },
             "FORM": {
                 "TITLE": "Informations Générales",
-                "CREATE_TITLE": "Ajouter un équipement",
-                "EDIT_TITLE": "Modifier un équipement",
+                "CREATE_TITLE": "Ajouter un type d'équipement",
+                "EDIT_TITLE": "Modifier un type d'équipement",
                 "NAME": "Nom",
                 "DESCRIPTION": "Description",
                 "MATRICULE": "Matricule",
@@ -4397,29 +4400,29 @@
             },
             "SWEET_ALERT": {
                 "TITLE": {
-                    "CREATE": "Créer cet équipement",
-                    "NOT_CREATE": "Impossible de créer cet équipement",
-                    "EDIT": "Editer cet équipement",
-                    "NOT_EDIT": "Impossible d'éditer cet équipement",
-                    "DELETE": "Supprimer cet équipement",
-                    "NOT_DELETE": "Impossible de supprimer cet équipement",
-                    "ENABLE": "Activer cet équipement",
-                    "NOT_ENABLE": "Impossible d'activer cet équipement",
-                    "DISABLE": "Désactiver cet équipement",
-                    "NOT_DISABLE": "Impossible de desactiver cet équipement"
+                    "CREATE": "Créer ce type d'équipement",
+                    "NOT_CREATE": "Impossible de créer ce type d'équipement",
+                    "EDIT": "Editer ce type d'équipement",
+                    "NOT_EDIT": "Impossible d'éditer ce type d'équipement",
+                    "DELETE": "Supprimer ce type d'équipement",
+                    "NOT_DELETE": "Impossible de supprimer ce type d'équipement",
+                    "ENABLE": "Activer ce type d'équipement",
+                    "NOT_ENABLE": "Impossible d'activer ce type d'équipement",
+                    "DISABLE": "Désactiver ce type d'équipement",
+                    "NOT_DISABLE": "Impossible de desactiver ce type d'équipement"
                 },
                 "MESSAGE": {
-                    "CREATE": "Êtes-vous sûr de vouloir créer cet équipement",
-                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cet équipement",
-                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cet équipement </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
-                    "EDIT": "Êtes-vous sûr de vouloir éditer cet équipement",
-                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet équipement",
-                    "DELETE": "Êtes-vous sûr de vouloir supprimer cet équipement",
-                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet équipement",
-                    "ENABLE": "Êtes-vous sûr de vouloir activer cet équipement <b class='text-primary'>uniqId</b>",
-                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cet équipement <b class='text-primary'>uniqId</b>",
-                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cet équipement <b class='text-primary'>uniqId</b>",
-                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cet équipement <b class='text-primary'>uniqId</b>"
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce type d'équipement",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce type d'équipement",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce type d'équipement </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce type d'équipement",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce type d'équipement",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce type d'équipement",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce type d'équipement",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce type d'équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce type d'équipement <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce type d'équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce type d'équipement <b class='text-primary'>uniqId</b>"
                 }
             },
             "TOOLTIP": {
@@ -4427,12 +4430,12 @@
                 "EXPORT": "Exporter la liste de {nb} équipements",
                 "CHOOSE": "Choisir une action",
                 "CREATE": "Créer un équipement",
-                "EDIT": "Editer cet équipement",
-                "DELETE": "Supprimer cet équipement",
-                "ENABLE": "Activer cet équipement",
-                "DISABLE": "Désactiver cet équipement",
+                "EDIT": "Editer ce type d'équipement",
+                "DELETE": "Supprimer ce type d'équipement",
+                "ENABLE": "Activer ce type d'équipement",
+                "DISABLE": "Désactiver ce type d'équipement",
                 "NO_EXPORT": "Aucun équipement à exporter",
-                "NOT_DELETE": "Équipement actif, Impossible de supprimer cet équipement",
+                "NOT_DELETE": "Équipement actif, Impossible de supprimer ce type d'équipement",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des équipements non permis",
                 "NO_PERMISSION_CREATE": "Création d'un équipement non permis",
@@ -4942,6 +4945,9 @@
                 "CONSTRUCTOR_PLACEHOLDER": "Sélectionner un constructeur",
                 "TYPE": "Type de fibre",
                 "TYPE_PLACEHOLDER": "Sélectionner le type",
+                "GEOMETRY_MODE": "Mode de géométrie",
+                "GEOMETRY_MODE_COORDINATES": "Saisie manuelle",
+                "GEOMETRY_MODE_FILE": "Fichier GeoJSON",
                 "GEOM_FILE": "Tableau de coordonnées de troncon",
                 "GEOM_PLACEHOLDER": "Glisser-déposer ou cliquer",
                 "GEOM_EXISTING": "Fichier GeoJSON déjà associé",

@@ -3,6 +3,7 @@ import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 export interface InfrastructureTypeItemApiDto {
     id: string;
     name: string;
+    tag: string;
     description: string;
     is_active: boolean;
     created_at: string;

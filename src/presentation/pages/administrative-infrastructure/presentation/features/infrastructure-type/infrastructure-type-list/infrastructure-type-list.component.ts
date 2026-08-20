@@ -37,6 +37,7 @@ import {
 } from '@shared/components/filter/filter.types';
 import { Status } from '@presentation/pages/administrative-infrastructure/domain/enums/infrastructure-type/infrastructure-type-status.enum';
 import { INFRASTRUCTURE_TYPE_FILTER_KEYS } from '@presentation/pages/administrative-infrastructure/presentation/constants/infrastructure-type/infrastructure-type-filter-keys.constant';
+import { InfrastructureTypeTag } from '../../../constants/infrastructure-type/infrastructure-type-tag-options.constant';
 type TTableActions = 'details' | 'edit' | 'delete' | 'enable' | 'disable';
 
 @Component({
@@ -229,9 +230,18 @@ export class InfrastructureTypeListComponent {
         this.currentLang();
         return enumToFilterOptionsWithValue(Status, this.t.bind(this));
     });
+
+    protected readonly tagOptions: Signal<FilterOption[]> = computed(() => {
+        this.currentLang();
+        return enumToFilterOptionsWithValue(
+            InfrastructureTypeTag,
+            this.t.bind(this)
+        );
+    });
     protected readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.currentLang();
         const statusOpts = this.statusOptions();
+        const tagOpts = this.tagOptions();
         return [
             {
                 type: 'text',
@@ -263,6 +273,22 @@ export class InfrastructureTypeListComponent {
                 icon: 'pi pi-filter',
                 translationKeys: {
                     label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.STATUS',
+                },
+            },
+            {
+                type: 'select',
+                name: INFRASTRUCTURE_TYPE_FILTER_KEYS.TAG,
+                label: this.t(
+                    'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.TAG'
+                ),
+                placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
+                options: tagOpts,
+                optionLabel: 'label',
+                optionValue: 'value',
+                showClear: true,
+                icon: 'pi pi-filter',
+                translationKeys: {
+                    label: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FILTER.TAG',
                 },
             },
             {
@@ -339,6 +365,7 @@ export class InfrastructureTypeListComponent {
         this.facade.refresh();
     }
     protected onFilterClicked(): void {
+        console.log('this.formStore.value', this.formStore.value);
         this.facade.readAll(this.formStore.value, '1', { forceRefresh: true });
     }
     protected onChangePageClicked(event: number): void {

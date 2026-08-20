@@ -59,7 +59,6 @@ import {
     CLOSE_ROUTE,
     EVALUATE_ROUTE,
 } from '@presentation/pages/report-states/report-states.routes';
-import { KeyValuePipe } from '@angular/common';
 @Component({
     selector: 'app-actions-treatment',
     standalone: true,
@@ -67,7 +66,6 @@ import { KeyValuePipe } from '@angular/common';
     styleUrls: ['./actions-treatment.component.scss'],
     imports: [
         TranslateModule,
-        KeyValuePipe,
         PageTitleComponent,
         PaginationComponent,
         TableComponent,

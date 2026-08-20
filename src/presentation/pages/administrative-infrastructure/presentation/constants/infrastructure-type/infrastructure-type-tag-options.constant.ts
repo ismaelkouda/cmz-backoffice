@@ -5,40 +5,43 @@
  */
 export interface InfrastructureTypeTagOption {
     value: string;
-    labelKey: string;
+    label: string;
     /** Icône PrimeIcons illustrant la catégorie (rendu carte sélectionnable). */
     icon: string;
+}
+
+export enum InfrastructureTypeTag {
+    EDUCATION = 'education',
+    SANTE = 'sante',
+    ADMINISTRATION = 'administration',
+    SECURITE = 'securite',
+    AUTRE = 'autre',
 }
 
 export const INFRASTRUCTURE_TYPE_TAG_OPTIONS: InfrastructureTypeTagOption[] = [
     {
         value: 'education',
-        labelKey:
-            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TAG_OPTIONS.EDUCATION',
+        label: 'Education',
         icon: 'pi-book',
     },
     {
         value: 'sante',
-        labelKey:
-            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TAG_OPTIONS.SANTE',
+        label: 'Santé',
         icon: 'pi-heart',
     },
     {
         value: 'administration',
-        labelKey:
-            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TAG_OPTIONS.ADMINISTRATION',
+        label: 'Administration',
         icon: 'pi-building',
     },
     {
         value: 'securite',
-        labelKey:
-            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TAG_OPTIONS.SECURITE',
+        label: 'Sécurité',
         icon: 'pi-shield',
     },
     {
         value: 'autre',
-        labelKey:
-            'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.FORM.TAG_OPTIONS.AUTRE',
+        label: 'Autre',
         icon: 'pi-tag',
     },
 ];

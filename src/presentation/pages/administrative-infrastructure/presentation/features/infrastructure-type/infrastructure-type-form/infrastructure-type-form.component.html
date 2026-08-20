@@ -120,7 +120,7 @@
                                                                 {{
                                                                     getErrorMessage(
                                                                         KEYS.NAME
-                                                                    )
+                                                                    ) | translate
                                                                 }}
                                                             </small>
                                                         }
@@ -203,7 +203,7 @@
                                                                 {{
                                                                     getErrorMessage(
                                                                         KEYS.DESCRIPTION
-                                                                    )
+                                                                    ) | translate
                                                                 }}
                                                             </small>
                                                         }
@@ -294,8 +294,7 @@
                                                                 <span
                                                                     class="tag-option-label"
                                                                     >{{
-                                                                        option.labelKey
-                                                                            | translate
+                                                                        option.label
                                                                     }}</span
                                                                 >
                                                             </label>

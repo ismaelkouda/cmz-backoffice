@@ -9,24 +9,29 @@ export const INFRASTRUCTURE_TYPE_TABLE = {
         {
             field: 'name',
             header: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.TABLE.NAME',
-            width: '7rem',
+            width: '15rem',
+        },
+        {
+            field: 'tag',
+            header: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.TABLE.TAG',
+            width: '5rem',
         },
         {
             field: 'description',
             header: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.TABLE.DESCRIPTION',
-            width: '20rem',
+            width: '18rem',
         },
         {
             field: 'statusLabel',
             header: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.TABLE.STATUS',
             class: 'text-center',
-            width: '5rem',
+            width: '3rem',
         },
         {
             field: 'updatedAt',
             header: 'ADMINISTRATIVE_INFRASTRUCTURE.INFRASTRUCTURE_TYPE.TABLE.UPDATED_AT',
             class: 'text-center',
-            width: '8rem',
+            width: '6rem',
         },
         {
             field: '__actionDropdown',
