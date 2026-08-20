@@ -1,20 +1,20 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgPlural } from '@angular/common';
 import {
-    Component,
-    EventEmitter,
-    effect,
-    inject,
-    input,
-    output,
-    signal,
-} from '@angular/core';
+  Component,
+  EventEmitter,
+  effect,
+  inject,
+  input,
+  output,
+  signal
+} from "@angular/core";
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ActionDropdownComponent } from '@shared/components/action-dropdown/action-dropdown.component';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import {
-    TableButtonHeaderComponent,
-    TableHeaderButton,
-} from '@shared/components/table-button-header/table-button-header.component';
+  TableButtonHeaderComponent,
+  TableHeaderButton
+} from "@shared/components/table-button-header/table-button-header.component";
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
@@ -51,6 +51,7 @@ import { TooltipModule } from 'primeng/tooltip';
         ActionDropdownComponent,
         SeparatorThousandsPipe,
         CheckboxModule,
+        NgPlural
     ],
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],

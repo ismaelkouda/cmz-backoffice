@@ -19,6 +19,10 @@ export class InfrastructureTypeEntity {
         return this.props.name;
     }
 
+    get tag(): string {
+        return this.props.tag;
+    }
+
     get description(): string {
         return this.props.description;
     }

@@ -3,6 +3,7 @@ export class InfrastructureTypeQuery {
     constructor(
         public readonly search?: string,
         public readonly status?: Status,
+        public readonly tag?: string,
         public readonly startDate?: Date,
         public readonly endDate?: Date
     ) {}

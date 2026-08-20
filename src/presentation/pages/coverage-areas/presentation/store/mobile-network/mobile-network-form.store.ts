@@ -107,6 +107,7 @@ export class MobileNetworkFormStore {
     private initializeDetailsModeEffect(): void {
         effect(() => {
             const item = this.item();
+            console.log('item', item);
             if (this.isCreateMode() || !item) {
                 return;
             }

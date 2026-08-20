@@ -27,6 +27,7 @@ export class InfrastructureTypePresenter {
         return {
             uniqId: item.uniqId,
             name: item.name,
+            tag: item.tag,
             description: item.description,
             status: item.status,
             statusLabel: this.t(item.status),
