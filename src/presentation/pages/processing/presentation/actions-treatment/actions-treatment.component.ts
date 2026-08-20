@@ -158,6 +158,12 @@ export class ActionsTreatmentComponent {
     private readonly allowedOperatorsDisplayed = computed(() =>
         this.operators().filter((op) => this.allowedOperatorsSet().has(op))
     );
+    protected readonly isNotifyVisible = computed(() => {
+        if (this.formStore.isViewMode()) {
+            return this.selectedAction()?.shouldDisplayInNewspaper ?? false;
+        }
+        return this.formStore.newspaperVisible();
+    });
     protected readonly conformityOptions = [
         {
             label: this.translate.instant('COMMON.CONFORM'),

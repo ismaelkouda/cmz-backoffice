@@ -233,12 +233,10 @@ $dark-gray: var(--color-gray);
         font-size: 0.875rem;
     }
 
-    
-
-        .required {
-            color: var(--action-error);
-            font-weight: 700;
-        }
+    .required {
+        color: var(--action-error);
+        font-weight: 700;
+    }
 
     /* Labels du formulaire : compatible light / dark mode */
     .form-label {

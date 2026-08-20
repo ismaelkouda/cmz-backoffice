@@ -98,7 +98,7 @@ export class ActionsTreatmentFormStore {
             this.form.enable({ emitEvent: false });
         }
     });
-    private readonly newspaperVisible = toSignal(
+    public readonly newspaperVisible = toSignal(
         this.form.controls.shouldDisplayInNewspaper.valueChanges.pipe(
             startWith(this.form.controls.shouldDisplayInNewspaper.value)
         ),

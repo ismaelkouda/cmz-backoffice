@@ -191,19 +191,25 @@
                                 }
                             }
                             @case ('operator') {
-                                    <div class="tag-group d-flex justify-content-center">
-                                            <p-tag
-                                                [value]="rowData.operator"
-                                                [style]="
-                                                    getFullOperatorTagStyle(rowData.operator)
-                                                "
-                                                styleClass="operator-tag"
-                                            />
-                                    </div>
+                                <div
+                                    class="tag-group d-flex justify-content-center"
+                                >
+                                    <p-tag
+                                        [value]="rowData.operator"
+                                        [style]="
+                                            getFullOperatorTagStyle(
+                                                rowData.operator
+                                            )
+                                        "
+                                        styleClass="operator-tag"
+                                    />
+                                </div>
                             }
                             @case ('networkTechnology') {
                                 @if (rowData.networkTechnology?.length) {
-                                    <div class="tag-group d-flex justify-content-center">
+                                    <div
+                                        class="tag-group d-flex justify-content-center"
+                                    >
                                         @for (
                                             technology of rowData.networkTechnology;
                                             track technology
