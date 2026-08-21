@@ -34,7 +34,7 @@ interface StatisticCard {
         isPositive: boolean;
     };
 }
-const INITIAL_DAY = '90';
+const INITIAL_DAY = '100';
 
 @Component({
     selector: 'app-dashboard-page',
