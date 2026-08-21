@@ -15,6 +15,43 @@
         tabindex="0"
     ></div>
 
+    <div
+        #hoverOverlay
+        class="signalement-info-panel"
+        [class.is-hidden]="!equipmentTooltip()"
+        (mouseenter)="keepHoverTooltip()"
+        (mouseleave)="releaseHoverTooltip()">
+        @if (equipmentTooltip(); as tooltip) {
+            <div class="signalement-info-panel">
+                    <div class="signalement-info-panel-content">
+                        <div class="panel-heading">
+                            <span
+                                class="signalement-type-badge text-center"
+                                [style.background]="'black'"
+                            >
+                                <b>{{ tooltip.name }}</b>
+                            </span>
+                        </div>
+
+                        <dl class="signalement-info-dl">
+                            @if (tooltip.tag) {
+                                <dt><b>Tag</b></dt>
+                                <dd>{{ tooltip.tag | capitalize }}</dd>
+                            }
+                            @if (tooltip.type) {
+                                <dt><b>Type</b></dt>
+                                <dd>{{ tooltip.type }}</dd>
+                            }
+                            @if (tooltip.description) {
+                                <dt><b>Description</b></dt>
+                                <dd>{{ tooltip.description }}</dd>
+                            }
+                        </dl>
+                    </div>
+            </div>
+        }
+    </div>
+
     <!--
         Bloc gauche : panneau infos signalement. Les deux boutons (recentrer
         + zoom OL) sont des enfants DOM de ce conteneur, positionnés en

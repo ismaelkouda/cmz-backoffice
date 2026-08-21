@@ -98,6 +98,54 @@
         }
     }
 
+    .equipment-tooltip {
+        position: relative;
+        z-index: 5;
+        min-width: 180px;
+        max-width: min(320px, calc(100% - 32px));
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.98);
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+        font-size: 13px;
+        color: #0f172a;
+        pointer-events: auto;
+        transition: opacity 0.12s ease;
+
+        &.is-hidden {
+            display: none;
+        }
+
+        .equipment-tooltip-name {
+            font-weight: 700;
+            font-size: 14px;
+            margin-bottom: 6px;
+            color: #1e293b;
+        }
+
+        .equipment-tooltip-dl {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 3px 8px;
+            margin: 0;
+            padding: 0;
+
+            dt {
+                color: #64748b;
+                font-weight: 600;
+                font-size: 11px;
+                text-transform: uppercase;
+            }
+
+            dd {
+                margin: 0;
+                color: #0f172a;
+                overflow-wrap: anywhere;
+            }
+        }
+    }
+
     .control-btn {
         width: 40px;
         height: 40px;

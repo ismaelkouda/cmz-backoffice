@@ -46,6 +46,7 @@ import { FilterOption } from '@shared/components/filter/filter.types';
 import { TranslateModule } from '@ngx-translate/core';
 import { TagModule } from 'primeng/tag';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
+import { CapitalizePipe } from '@shared/domain/pipes/capitalize.pipe';
 
 export type EquipmentType =
     | 'education'
@@ -60,6 +61,14 @@ export interface MapMarker {
     title?: string;
     description?: string;
     color?: string;
+}
+
+export interface EquipmentTooltip {
+    name?: string;
+    type?: string;
+    tag?: string;
+    description?: string;
+    coordinate: number[];
 }
 
 const IVORY_COAST_BOUNDS: Bounds = {
@@ -94,7 +103,7 @@ const EQUIPMENT_TYPE_COLORS: Record<string, string> = {
     selector: 'app-management-map',
     templateUrl: './management-map.component.html',
     styleUrls: ['./management-map.component.scss'],
-    imports: [CommonModule, TranslateModule, TagModule],
+    imports: [CommonModule, TranslateModule, TagModule, CapitalizePipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ManagementMapComponent implements OnInit, OnDestroy {
@@ -125,6 +134,8 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
      */
     private readonly zoomControlsAnchor =
         viewChild<ElementRef<HTMLElement>>('zoomControlsAnchor');
+    private readonly hoverOverlay =
+        viewChild<ElementRef<HTMLElement>>('hoverOverlay');
     readonly isMapInitialized = signal(false);
     readonly isLoading = signal(true);
     readonly mapViewState = signal({
@@ -134,6 +145,9 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     });
     readonly selectedMarker = signal<MapMarker | null>(null);
     readonly showPopup = signal(false);
+    readonly equipmentTooltip = signal<EquipmentTooltip | null>(null);
+    private hoverTooltipLocked = false;
+    private hoverHideTimer: ReturnType<typeof setTimeout> | null = null;
 
     public readonly latitude = input.required<number>();
     public readonly longitude = input.required<number>();
@@ -248,6 +262,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.clearHoverHideTimer();
         this.destroy$.next();
         this.destroy$.complete();
         this.cleanupMap();
@@ -267,7 +282,8 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 this.addMarker();
                 this.addRadiusCircle();
                 this.setupPopup();
-                // this.setupMapEvents();
+                this.setupHoverOverlay();
+                this.setupHoverEvents();
             });
 
             this.isMapInitialized.set(true);
@@ -497,6 +513,8 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             cluster_count?: number | string;
             count?: number | string;
         };
+
+        console.log('properties', properties);
 
         const rawType =
             properties?.equipment_type ??
@@ -878,6 +896,86 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
         });
 
         this.map.addOverlay(this.popupOverlay);
+    }
+
+    private hoverOverlayInstance: any = null;
+
+    private setupHoverOverlay(): void {
+        const { Overlay } = this.olModules;
+        const element = this.hoverOverlay()?.nativeElement;
+        if (!element) {
+            return;
+        }
+        this.hoverOverlayInstance = new Overlay({
+            element,
+            positioning: 'bottom-center',
+            offset: [0, -18],
+            stopEvent: true,
+            insertFirst: false,
+        });
+        this.map.addOverlay(this.hoverOverlayInstance);
+    }
+
+    private setupHoverEvents(): void {
+        this.map.on('pointermove', (event: any) => {
+            const feature = this.map.forEachFeatureAtPixel(
+                event.pixel,
+                (ft: any) => ft,
+                {
+                    layerFilter: (layer: any) =>
+                        this.equipmentLayers.has('equipment') &&
+                        layer === this.equipmentLayers.get('equipment'),
+                }
+            );
+
+            if (feature) {
+                const properties = feature.getProperties();
+                const tooltip: EquipmentTooltip = {
+                    name: properties.name,
+                    type: properties.type,
+                    tag: properties.tag,
+                    description: properties.description,
+                    coordinate: event.coordinate,
+                };
+                this.clearHoverHideTimer();
+                this.equipmentTooltip.set(tooltip);
+                this.hoverOverlayInstance?.setPosition(event.coordinate);
+                this.map.getTargetElement().style.cursor = 'pointer';
+            } else {
+                this.map.getTargetElement().style.cursor = '';
+                if (!this.hoverTooltipLocked) {
+                    this.scheduleHoverHide();
+                }
+            }
+        });
+    }
+
+    public keepHoverTooltip(): void {
+        this.hoverTooltipLocked = true;
+        this.clearHoverHideTimer();
+    }
+
+    public releaseHoverTooltip(): void {
+        this.hoverTooltipLocked = false;
+        this.scheduleHoverHide();
+    }
+
+    private scheduleHoverHide(): void {
+        this.clearHoverHideTimer();
+        this.hoverHideTimer = setTimeout(() => {
+            if (this.hoverTooltipLocked) {
+                return;
+            }
+            this.equipmentTooltip.set(null);
+            this.hoverOverlayInstance?.setPosition(undefined);
+        }, 180);
+    }
+
+    private clearHoverHideTimer(): void {
+        if (this.hoverHideTimer) {
+            clearTimeout(this.hoverHideTimer);
+            this.hoverHideTimer = null;
+        }
     }
 
     private setupMapEvents(): void {
