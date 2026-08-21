@@ -42,11 +42,11 @@ export class RadioRelayLinksFormHelperService {
 
     formatFrequency(
         value: number | undefined
-    ): RadioRelayLinksFrequency | undefined {
-        if (value === null || Number.isNaN(value)) {
+    ): number | undefined {
+        if (value === null || value === undefined || Number.isNaN(value)) {
             return undefined;
         }
 
-        return `${value}MHZ` as RadioRelayLinksFrequency;
+        return value;
     }
 }

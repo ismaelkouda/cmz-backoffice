@@ -21,6 +21,7 @@ export const RadioRelayLinksFormValidatorsService = {
     ],
     OPERATOR: [Validators.required],
     FREQUENCY: [Validators.required, Validators.min(1)],
+    DEBIT: [Validators.required, Validators.min(0.01)],
     COORDINATE: [Validators.required],
     GEOM_FILE: [Validators.required],
 };
@@ -29,6 +30,7 @@ export const RadioRelayLinksFormValidatorsStream = {
     NAME: [Validators.required],
     OPERATOR: [Validators.required],
     FREQUENCY: [Validators.required, Validators.min(1)],
+    DEBIT: [Validators.required, Validators.min(0.01)],
     COORDINATE: [Validators.required],
     GEOM_FILE: [Validators.required],
 };

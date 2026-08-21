@@ -3284,7 +3284,8 @@
                         "OPERATOR_REQUIRE": "Operator is required",
                         "FIBER_CONSTRUCTOR_REQUIRE": "Constructor is required",
                         "TYPE_REQUIRE": "Fiber type is required",
-                        "GEOM_FILE_REQUIRE": "GeoJSON file is required"
+                        "GEOM_FILE_REQUIRE": "GeoJSON file is required",
+                        "GEOM_REQUIRE": "Route coordinates or GeoJSON file are required"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "Unique ID required",
@@ -3399,6 +3400,8 @@
                 "OPERATOR": "Operator",
                 "FREQUENCY": "Frequency",
                 "FREQUENCY_PLACEHOLDER": "Ex: 900",
+                "DEBIT": "Bitrate",
+                "DEBIT_PLACEHOLDER": "Ex: 150",
                 "COORDINATES_POINT_A": "Point A coordinates",
                 "COORDINATES_POINT_B": "Point B coordinates",
                 "LONGITUDE_POINT_A_PLACEHOLDER": "Point A longitude",
@@ -3426,6 +3429,7 @@
                         "NAME_REQUIRE": "Name is required",
                         "OPERATOR_REQUIRE": "Operator is required",
                         "FREQUENCY_REQUIRE": "Frequency is required",
+                        "DEBIT_REQUIRE": "Bitrate is required",
                         "LONGITUDE_POINT_A_REQUIRE": "Point A longitude is required",
                         "LATITUDE_POINT_A_REQUIRE": "Point A latitude is required",
                         "LONGITUDE_POINT_B_REQUIRE": "Point B longitude is required",
@@ -3436,6 +3440,7 @@
                         "NAME_REQUIRE": "Name is required",
                         "OPERATOR_REQUIRE": "Operator is required",
                         "FREQUENCY_REQUIRE": "Frequency is required",
+                        "DEBIT_REQUIRE": "Bitrate is required",
                         "LONGITUDE_POINT_A_REQUIRE": "Point A longitude is required",
                         "LATITUDE_POINT_A_REQUIRE": "Point A latitude is required",
                         "LONGITUDE_POINT_B_REQUIRE": "Point B longitude is required",

@@ -22,6 +22,10 @@ export class RadioRelayLinksFindOneEntity {
         return this.props.frequency;
     }
 
+    get debit(): number | undefined {
+        return this.props.debit;
+    }
+
     get longitudePointA(): string | undefined {
         return this.props.longitudePointA;
     }

@@ -65,7 +65,7 @@
                                                 }}</b>
                                             </legend>
                                             <div class="row g-3">
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="name"
                                                         class="form-label fw-bold"
@@ -113,7 +113,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="operator"
                                                         class="form-label fw-bold"
@@ -160,7 +160,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-4">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="frequency"
                                                         class="form-label fw-bold"
@@ -218,6 +218,70 @@
                                                             {{
                                                                 getErrorMessage(
                                                                     'frequency'
+                                                                )
+                                                            }}
+                                                        </small>
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label
+                                                        for="debit"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.DEBIT'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            aria-label="required"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-inputgroup class="w-100">
+                                                        <p-inputnumber
+                                                            id="debit"
+                                                            formControlName="debit"
+                                                            [minFractionDigits]="
+                                                                0
+                                                            "
+                                                            [maxFractionDigits]="
+                                                                2
+                                                            "
+                                                            [useGrouping]="
+                                                                false
+                                                            "
+                                                            [min]="0.01"
+                                                            styleClass="w-100"
+                                                            [placeholder]="
+                                                                'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.DEBIT_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                form.get(
+                                                                    'debit'
+                                                                )?.invalid &&
+                                                                form.get(
+                                                                    'debit'
+                                                                )?.touched
+                                                            "
+                                                        />
+                                                        <p-inputgroup-addon>
+                                                            Mbps
+                                                        </p-inputgroup-addon>
+                                                    </p-inputgroup>
+                                                    @if (
+                                                        form.get('debit')
+                                                            ?.invalid &&
+                                                        form.get('debit')
+                                                            ?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                        >
+                                                            {{
+                                                                getErrorMessage(
+                                                                    'debit'
                                                                 )
                                                             }}
                                                         </small>

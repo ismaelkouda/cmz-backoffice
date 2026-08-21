@@ -11,6 +11,7 @@ export function opticalFiberNetworkCreateVo(
         operator: contract.operator,
         fiberConstructorId: contract.fiberConstructorId,
         type: contract.type,
-        geomFile: contract.geomFile,
+        geomFile: contract.geomFile as File | undefined,
+        geomList: contract.geomList as string[],
     };
 }

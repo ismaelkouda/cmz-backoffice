@@ -243,6 +243,31 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         this.store.setGeometryMode(mode);
     }
 
+    onCoordinateInput(index: number, field: 'longitude' | 'latitude', value: number | null): void {
+        const control = this.routeCoordinates.at(index).get(field);
+        if (control && value != null && Number.isFinite(value)) {
+            control.setValue(String(value), { emitEvent: true });
+        }
+    }
+
+    onCoordinatePaste(event: ClipboardEvent, index: number, field: 'longitude' | 'latitude'): void {
+        event.preventDefault();
+        const pasted = event.clipboardData?.getData('text') ?? '';
+        const cleaned = pasted.replace(/[^0-9.\-]/g, '');
+        if (cleaned === '' || cleaned === '-' || cleaned === '.') {
+            return;
+        }
+        const num = Number(cleaned);
+        if (!Number.isFinite(num)) {
+            return;
+        }
+        const control = this.routeCoordinates.at(index).get(field);
+        if (control) {
+            control.setValue(cleaned, { emitEvent: true });
+            control.markAsTouched();
+        }
+    }
+
     onSubmit(): void {
         if (this.form.invalid) {
             this.form.markAllAsTouched();
@@ -284,9 +309,9 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
             operator: formValue.operator,
             fiberConstructorId: formValue.fiberConstructorId,
             type: formValue.type,
-            geomFile: isFileMode
-                ? (formValue.geomFile ?? undefined)
-                : (this.createRouteGeoJsonFile() ?? undefined),
+            ...(isFileMode
+                ? { geomFile: formValue.geomFile ?? undefined }
+                : { geomList: this.buildGeomList() }),
         };
 
         if (this.isEditMode()) {
@@ -371,18 +396,9 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         };
     }
 
-    private createRouteGeoJsonFile(): File | null {
-        const coordinates = this.getValidRouteCoordinates();
-        if (coordinates.length < 2) {
-            return null;
-        }
-        const geoJson = this.buildLineStringGeoJson(coordinates);
-        return new File(
-            [JSON.stringify(geoJson)],
-            'optical-fiber-route.geojson',
-            {
-                type: 'application/geo+json',
-            }
+    private buildGeomList(): string[] {
+        return this.getValidRouteCoordinates().map(
+            ([longitude, latitude]) => `${latitude},${longitude}`
         );
     }
 

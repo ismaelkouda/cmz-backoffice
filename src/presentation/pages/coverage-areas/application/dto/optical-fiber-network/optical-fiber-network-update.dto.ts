@@ -8,4 +8,5 @@ export interface OpticalFiberNetworkUpdateDto {
     fiberConstructorId?: string;
     type?: FiberType;
     geomFile?: File;
+    geomList?: string[];
 }

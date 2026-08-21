@@ -14,5 +14,8 @@ export function opticalFiberNetworkUpdateMapper(
     if (validContract.geomFile) {
         params.geom_file = validContract.geomFile;
     }
+    if (validContract.geomList) {
+        params.geom_list = validContract.geomList;
+    }
     return params;
 }

@@ -3,5 +3,6 @@ export interface OpticalFiberNetworkCreateApiDto {
     operator: string;
     fiber_constructor_id: string | number;
     type: string;
-    geom_file: File;
+    geom_file?: File;
+    geom_list?: string[];
 }

@@ -4974,7 +4974,8 @@
                         "OPERATOR_REQUIRE": "L'opérateur est obligatoire",
                         "FIBER_CONSTRUCTOR_REQUIRE": "Le constructeur est obligatoire",
                         "TYPE_REQUIRE": "Le type de fibre est obligatoire",
-                        "GEOM_FILE_REQUIRE": "Le fichier GeoJSON est obligatoire"
+                        "GEOM_FILE_REQUIRE": "Le fichier GeoJSON est obligatoire",
+                        "GEOM_REQUIRE": "Les coordonnées du tracé ou le fichier GeoJSON sont obligatoires"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "Identifiant unique requis",
@@ -5091,6 +5092,8 @@
                 "OPERATOR": "Opérateur",
                 "FREQUENCY": "Fréquence",
                 "FREQUENCY_PLACEHOLDER": "Ex: 900",
+                "DEBIT": "Débit",
+                "DEBIT_PLACEHOLDER": "Ex: 150",
                 "COORDINATES_POINT_A": "Coordonnées du point A",
                 "COORDINATES_POINT_B": "Coordonnées du point B",
                 "LONGITUDE_POINT_A_PLACEHOLDER": "Longitude du point A",
@@ -5118,6 +5121,7 @@
                         "NAME_REQUIRE": "Le nom est requis",
                         "OPERATOR_REQUIRE": "L'opérateur est requis",
                         "FREQUENCY_REQUIRE": "La fréquence est requise",
+                        "DEBIT_REQUIRE": "Le débit est requis",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitude du point A est requise",
                         "LATITUDE_POINT_A_REQUIRE": "La latitude du point A est requise",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitude du point B est requise",
@@ -5128,6 +5132,7 @@
                         "NAME_REQUIRE": "Le nom est requis",
                         "OPERATOR_REQUIRE": "L'opérateur est requis",
                         "FREQUENCY_REQUIRE": "La fréquence est requise",
+                        "DEBIT_REQUIRE": "Le débit est requis",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitude du point A est requise",
                         "LATITUDE_POINT_A_REQUIRE": "La latitude du point A est requise",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitude du point B est requise",

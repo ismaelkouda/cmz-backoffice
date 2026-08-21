@@ -8,4 +8,5 @@ export interface OpticalFiberNetworkUpdateValidateContract {
     fiberConstructorId: string;
     type: FiberType;
     geomFile?: File;
+    geomList?: string[];
 }
