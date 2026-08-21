@@ -3250,7 +3250,8 @@
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
                         "FIBER_CONSTRUCTOR_REQUIRE": "El constructor es obligatorio",
                         "TYPE_REQUIRE": "El tipo de fibra es obligatorio",
-                        "GEOM_FILE_REQUIRE": "El archivo GeoJSON es obligatorio"
+                        "GEOM_FILE_REQUIRE": "El archivo GeoJSON es obligatorio",
+                        "GEOM_REQUIRE": "Las coordenadas del trazado o el archivo GeoJSON son obligatorios"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "ID único requerido",
@@ -3365,6 +3366,8 @@
                 "OPERATOR": "Operador",
                 "FREQUENCY": "Frecuencia",
                 "FREQUENCY_PLACEHOLDER": "Ej: 900",
+                "DEBIT": "Ancho de banda",
+                "DEBIT_PLACEHOLDER": "Ej: 150",
                 "COORDINATES_POINT_A": "Coordenadas del punto A",
                 "COORDINATES_POINT_B": "Coordenadas del punto B",
                 "LONGITUDE_POINT_A_PLACEHOLDER": "Longitud del punto A",
@@ -3392,6 +3395,7 @@
                         "NAME_REQUIRE": "El nombre es obligatorio",
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
                         "FREQUENCY_REQUIRE": "La frecuencia es obligatoria",
+                        "DEBIT_REQUIRE": "El ancho de banda es obligatorio",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitud del punto A es obligatoria",
                         "LATITUDE_POINT_A_REQUIRE": "La latitud del punto A es obligatoria",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitud del punto B es obligatoria",
@@ -3402,6 +3406,7 @@
                         "NAME_REQUIRE": "El nombre es obligatorio",
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
                         "FREQUENCY_REQUIRE": "La frecuencia es obligatoria",
+                        "DEBIT_REQUIRE": "El ancho de banda es obligatorio",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitud del punto A es obligatoria",
                         "LATITUDE_POINT_A_REQUIRE": "La latitud del punto A es obligatoria",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitud del punto B es obligatoria",

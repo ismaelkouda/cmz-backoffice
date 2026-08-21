@@ -144,7 +144,8 @@ export class OpticalFiberNetworkFacade extends BaseFacade<
             dto.operator,
             dto.fiberConstructorId,
             dto.type,
-            dto.geomFile
+            dto.geomFile,
+            dto.geomList
         );
 
         this.handleActionWithRefresh(
@@ -172,7 +173,8 @@ export class OpticalFiberNetworkFacade extends BaseFacade<
             dto.operator,
             dto.fiberConstructorId,
             dto.type,
-            dto.geomFile
+            dto.geomFile,
+            dto.geomList
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

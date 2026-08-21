@@ -25,9 +25,10 @@ export function validateOpticalFiberNetworkCreate(
             'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ERROR.CREATE.TYPE_REQUIRE'
         );
     }
-    if (!contract.geomFile) {
+    const hasGeomList = !!contract.geomList && contract.geomList.length >= 2;
+    if (!hasGeomList && !contract.geomFile) {
         throw new GenericRequiredError(
-            'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ERROR.CREATE.GEOM_FILE_REQUIRE'
+            'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ERROR.CREATE.GEOM_REQUIRE'
         );
     }
 }

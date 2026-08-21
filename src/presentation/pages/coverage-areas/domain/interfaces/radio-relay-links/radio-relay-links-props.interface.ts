@@ -18,6 +18,7 @@ export interface RadioRelayLinksFindOneProps {
     name: string;
     operator: RadioRelayLinksOperator;
     frequency: RadioRelayLinksFrequency;
+    debit?: number;
     longitudePointA?: string;
     latitudePointA?: string;
     longitudePointB?: string;

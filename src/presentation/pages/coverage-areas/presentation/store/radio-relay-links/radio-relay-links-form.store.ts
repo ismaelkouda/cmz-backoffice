@@ -86,6 +86,7 @@ export class RadioRelayLinksFormStore {
                 name: undefined,
                 operator: undefined,
                 frequency: undefined,
+                debit: undefined,
                 longitudePointA: undefined,
                 latitudePointA: undefined,
                 longitudePointB: undefined,
@@ -111,6 +112,7 @@ export class RadioRelayLinksFormStore {
                 name,
                 operator,
                 frequency,
+                debit,
                 longitudePointA,
                 latitudePointA,
                 longitudePointB,
@@ -126,6 +128,7 @@ export class RadioRelayLinksFormStore {
                         name,
                         operator,
                         frequency: this.helper.parseFrequency(frequency),
+                        debit,
                         longitudePointA,
                         latitudePointA,
                         longitudePointB,
@@ -161,6 +164,10 @@ export class RadioRelayLinksFormStore {
             frequency: new FormControl<number | undefined>(undefined, {
                 nonNullable: true,
                 validators: RadioRelayLinksFormValidatorsService.FREQUENCY,
+            }),
+            debit: new FormControl<number | undefined>(undefined, {
+                nonNullable: true,
+                validators: RadioRelayLinksFormValidatorsService.DEBIT,
             }),
             longitudePointA: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,

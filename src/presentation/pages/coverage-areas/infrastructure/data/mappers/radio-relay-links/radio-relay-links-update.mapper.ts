@@ -12,6 +12,7 @@ export class RadioRelayLinksUpdateMapper {
             name: contract.name,
             operator: contract.operator,
             frequency: contract.frequency,
+            debit: contract.debit,
             longitude_point_a: contract.longitudePointA,
             latitude_point_a: contract.latitudePointA,
             longitude_point_b: contract.longitudePointB,

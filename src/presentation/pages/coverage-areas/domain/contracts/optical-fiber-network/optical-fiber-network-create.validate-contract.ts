@@ -6,5 +6,6 @@ export interface OpticalFiberNetworkCreateValidateContract {
     operator: Operator;
     fiberConstructorId: string;
     type: FiberType;
-    geomFile: File;
+    geomFile?: File;
+    geomList: string[];
 }

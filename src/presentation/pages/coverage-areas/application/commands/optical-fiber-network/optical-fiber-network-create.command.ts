@@ -7,6 +7,7 @@ export class OpticalFiberNetworkCreateCommand {
         public readonly operator: Operator | undefined,
         public readonly fiberConstructorId: string | undefined,
         public readonly type: FiberType | undefined,
-        public readonly geomFile: File | undefined
+        public readonly geomFile: File | undefined,
+        public readonly geomList: string[] | undefined
     ) {}
 }

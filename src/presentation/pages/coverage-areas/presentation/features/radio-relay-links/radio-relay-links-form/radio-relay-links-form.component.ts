@@ -268,6 +268,7 @@ export class RadioRelayLinksFormComponent implements OnInit {
             name: formValue.name ?? undefined,
             operator: formValue.operator ?? undefined,
             frequency: this.helper.formatFrequency(formValue.frequency),
+            debit: formValue.debit ?? undefined,
             longitudePointA: formValue.longitudePointA ?? undefined,
             latitudePointA: formValue.latitudePointA ?? undefined,
             longitudePointB: formValue.longitudePointB ?? undefined,

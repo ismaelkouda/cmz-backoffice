@@ -29,6 +29,7 @@ export class RadioRelayLinksFindOneMapper extends SimpleResponseMapper<
             name: dto.name,
             operator: dto.operator as RadioRelayLinksOperator,
             frequency: dto.frequency as RadioRelayLinksFrequency,
+            debit: dto.debit,
             longitudePointA: dto.longitude_point_a,
             latitudePointA: dto.latitude_point_a,
             longitudePointB: dto.longitude_point_b,

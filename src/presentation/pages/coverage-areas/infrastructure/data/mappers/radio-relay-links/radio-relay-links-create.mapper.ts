@@ -9,8 +9,9 @@ export class RadioRelayLinksCreateMapper {
     ): RadioRelayLinksCreateApiDto {
         return {
             name: contract.name,
-            operator: contract.operator,
+            operator: contract.operator.toLowerCase(),
             frequency: contract.frequency,
+            debit: contract.debit,
             first_point_lng: contract.longitudePointA,
             first_point_lat: contract.latitudePointA,
             second_point_lng: contract.longitudePointB,

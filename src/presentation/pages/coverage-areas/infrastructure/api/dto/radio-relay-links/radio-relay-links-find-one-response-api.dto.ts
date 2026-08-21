@@ -5,6 +5,7 @@ export interface RadioRelayLinksFindOneItemApiDto {
     name: string;
     operator: string;
     frequency: string;
+    debit?: number;
     longitude_point_a?: string;
     latitude_point_a?: string;
     longitude_point_b?: string;

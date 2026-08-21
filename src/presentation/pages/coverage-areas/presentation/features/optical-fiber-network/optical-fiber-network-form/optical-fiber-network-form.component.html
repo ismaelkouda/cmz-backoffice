@@ -65,7 +65,7 @@
                                                 }}</b>
                                             </legend>
                                             <div class="row g-3">
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="name"
                                                         class="form-label fw-bold"
@@ -111,7 +111,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="operator"
                                                         class="form-label fw-bold"
@@ -207,7 +207,7 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
                                                     <label
                                                         for="type"
                                                         class="form-label fw-bold"
@@ -250,53 +250,55 @@
                                                     }
                                                 </div>
 
-                                                @if (!isDetailsMode()) {
-                                                    <div class="col-md-3">
-                                                        <label
-                                                            class="form-label mb-0 fw-bold"
-                                                        >
-                                                            {{
-                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOMETRY_MODE'
-                                                                    | translate
-                                                            }}
-                                                            <span
-                                                                class="text-danger"
-                                                                >*</span
+                                                <div class="col-md-5">
+                                                    @if (!isDetailsMode()) {
+                                                        <div class="row mb-4">
+                                                            <label
+                                                                class="form-label mb-0 fw-bold"
                                                             >
-                                                        </label>
-                                                        <p-selectButton
-                                                            [options]="
-                                                                geometryModeOptions
-                                                            "
-                                                            optionLabel="label"
-                                                            optionValue="value"
-                                                            [style]="{
-                                                                width: '100%',
-                                                            }"
-                                                            (onChange)="
-                                                                onGeometryModeChange(
-                                                                    $event.value
-                                                                )
-                                                            "
-                                                        >
-                                                        </p-selectButton>
-                                                    </div>
-                                                }
-
-                                                <div class="col-md-3">
-                                                    <label
-                                                        for="geomFile"
-                                                        class="form-label mb-0 fw-bold"
-                                                    >
-                                                        {{
-                                                            'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_FILE'
-                                                                | translate
-                                                        }}
-                                                    </label>
+                                                                {{
+                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOMETRY_MODE'
+                                                                        | translate
+                                                                }}
+                                                                <span
+                                                                    class="text-danger"
+                                                                    >*</span
+                                                                >
+                                                            </label>
+                                                            <p-selectButton
+                                                                [options]="
+                                                                    geometryModeOptions
+                                                                "
+                                                                optionLabel="label"
+                                                                optionValue="value"
+                                                                [style]="{
+                                                                    width: '100%',
+                                                                }"
+                                                                (onChange)="
+                                                                    onGeometryModeChange(
+                                                                        $event.value
+                                                                    )
+                                                                "
+                                                            >
+                                                            </p-selectButton>
+                                                        </div>
+                                                    }
+    
+                                                    
                                                     @if (
                                                         isFileMode() ||
                                                         isDetailsMode()
                                                     ) {
+                                                    <div class="row">
+                                                        <label
+                                                            for="geomFile"
+                                                            class="form-label mb-0 fw-bold"
+                                                        >
+                                                            {{
+                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_FILE'
+                                                                    | translate
+                                                            }}
+                                                        </label>
                                                         <p-fileUpload
                                                             #fileUpload
                                                             accept=".geojson,.json"
@@ -346,194 +348,218 @@
                                                                 </small>
                                                             </div>
                                                         }
+                                                    </div>
                                                     }
-                                                </div>
-                                                <div
-                                                    class="col-md-4"
-                                                    formArrayName="routeCoordinates"
-                                                >
-                                                    @if (
-                                                        isCoordinatesMode() ||
-                                                        isDetailsMode()
-                                                    ) {
-                                                        <div
-                                                            class="d-flex align-items-center justify-content-between mb-2"
-                                                        >
-                                                            <label
-                                                                class="form-label fw-bold mb-0"
-                                                            >
-                                                                {{
-                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_COORDINATES'
-                                                                        | translate
-                                                                }}
-                                                                <span
-                                                                    class="text-danger"
-                                                                    aria-label="required"
-                                                                    >*</span
-                                                                >
-                                                            </label>
-                                                            @if (
-                                                                !isDetailsMode()
-                                                            ) {
-                                                                <button
-                                                                    pButton
-                                                                    type="button"
-                                                                    class="p-button-sm"
-                                                                    icon="pi pi-plus"
-                                                                    [label]="
-                                                                        'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ADD_ROUTE_COORDINATE'
-                                                                            | translate
-                                                                    "
-                                                                    (click)="
-                                                                        addRouteCoordinate()
-                                                                    "
-                                                                ></button>
-                                                            }
-                                                        </div>
-
-                                                        <div
-                                                            class="d-grid gap-2"
-                                                        >
-                                                            @for (
-                                                                coordinate of routeCoordinates.controls;
-                                                                track coordinate;
-                                                                let index = $index
-                                                            ) {
-                                                                <div
-                                                                    class="border rounded p-2"
-                                                                    [formGroupName]="
-                                                                        index
-                                                                    "
-                                                                >
-                                                                    <div
-                                                                        class="d-flex align-items-center justify-content-between mb-2"
-                                                                    >
-                                                                        <strong>
-                                                                            {{
-                                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_POINT'
-                                                                                    | translate
-                                                                            }}
-                                                                            {{
-                                                                                index +
-                                                                                    1
-                                                                            }}
-                                                                        </strong>
-                                                                        @if (
-                                                                            !isDetailsMode() &&
-                                                                            routeCoordinates.length >
-                                                                                2
-                                                                        ) {
-                                                                            <button
-                                                                                pButton
-                                                                                type="button"
-                                                                                class="p-button-sm p-button-danger p-button-text"
-                                                                                icon="pi pi-trash"
-                                                                                (click)="
-                                                                                    removeRouteCoordinate(
-                                                                                        index
-                                                                                    )
-                                                                                "
-                                                                            ></button>
-                                                                        }
-                                                                    </div>
-
-                                                                    <div
-                                                                        class="d-flex align-items-top gap-2"
-                                                                    >
-                                                                        <div>
-                                                                            <p-inputgroup
-                                                                                class="w-100"
-                                                                            >
-                                                                                <p-inputnumber
-                                                                                    [inputId]="
-                                                                                        'routeLongitude' +
-                                                                                        index
-                                                                                    "
-                                                                                    formControlName="longitude"
-                                                                                    [minFractionDigits]="
-                                                                                        0
-                                                                                    "
-                                                                                    [maxFractionDigits]="
-                                                                                        7
-                                                                                    "
-                                                                                    [useGrouping]="
-                                                                                        false
-                                                                                    "
-                                                                                    [min]="
-                                                                                        -180
-                                                                                    "
-                                                                                    [max]="
-                                                                                        180
-                                                                                    "
-                                                                                    styleClass="w-100"
-                                                                                    [placeholder]="
-                                                                                        'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LONGITUDE_PLACEHOLDER'
-                                                                                            | translate
-                                                                                    "
-                                                                                />
-                                                                                <p-inputgroup-addon>
-                                                                                    Long
-                                                                                </p-inputgroup-addon>
-                                                                            </p-inputgroup>
-                                                                        </div>
-
-                                                                        <div>
-                                                                            <p-inputgroup
-                                                                                class="w-100"
-                                                                            >
-                                                                                <p-inputnumber
-                                                                                    [inputId]="
-                                                                                        'routeLatitude' +
-                                                                                        index
-                                                                                    "
-                                                                                    formControlName="latitude"
-                                                                                    [minFractionDigits]="
-                                                                                        0
-                                                                                    "
-                                                                                    [maxFractionDigits]="
-                                                                                        7
-                                                                                    "
-                                                                                    [useGrouping]="
-                                                                                        false
-                                                                                    "
-                                                                                    [min]="
-                                                                                        -90
-                                                                                    "
-                                                                                    [max]="
-                                                                                        90
-                                                                                    "
-                                                                                    styleClass="w-100"
-                                                                                    [placeholder]="
-                                                                                        'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LATITUDE_PLACEHOLDER'
-                                                                                            | translate
-                                                                                    "
-                                                                                />
-                                                                                <p-inputgroup-addon>
-                                                                                    Lat
-                                                                                </p-inputgroup-addon>
-                                                                            </p-inputgroup>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            }
-                                                        </div>
-
+                                                    <div class="row"
+                                                        formArrayName="routeCoordinates"
+                                                    >
                                                         @if (
-                                                            routeCoordinates.invalid &&
-                                                            routeCoordinates.touched
+                                                            isCoordinatesMode() ||
+                                                            isDetailsMode()
                                                         ) {
-                                                            <small
-                                                                class="text-danger d-block mt-2"
+                                                            <div
+                                                                class="d-flex align-items-center justify-content-between mb-2"
                                                             >
-                                                                {{
-                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_COORDINATES_MIN'
-                                                                        | translate
-                                                                }}
-                                                            </small>
+                                                                <label
+                                                                    class="form-label fw-bold mb-0"
+                                                                >
+                                                                    {{
+                                                                        'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_COORDINATES'
+                                                                            | translate
+                                                                    }}
+                                                                    <span
+                                                                        class="text-danger"
+                                                                        aria-label="required"
+                                                                        >*</span
+                                                                    >
+                                                                </label>
+                                                                @if (
+                                                                    !isDetailsMode()
+                                                                ) {
+                                                                    <button
+                                                                        pButton
+                                                                        type="button"
+                                                                        class="p-button-sm"
+                                                                        icon="pi pi-plus"
+                                                                        (click)="
+                                                                            addRouteCoordinate()
+                                                                        "
+                                                                    ></button>
+                                                                }
+                                                            </div>
+    
+                                                            <div
+                                                                class="d-grid gap-2"
+                                                            >
+                                                                @for (
+                                                                    coordinate of routeCoordinates.controls;
+                                                                    track coordinate;
+                                                                    let index = $index
+                                                                ) {
+                                                                    <div
+                                                                        class="border rounded p-2"
+                                                                        [formGroupName]="
+                                                                            index
+                                                                        "
+                                                                    >
+                                                                        <div
+                                                                            class="d-flex align-items-center justify-content-between mb-2"
+                                                                        >
+                                                                            <strong>
+                                                                                {{
+                                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_POINT'
+                                                                                        | translate
+                                                                                }}
+                                                                                {{
+                                                                                    index +
+                                                                                        1
+                                                                                }}
+                                                                            </strong>
+                                                                            @if (
+                                                                                !isDetailsMode() &&
+                                                                                routeCoordinates.length >
+                                                                                    2
+                                                                            ) {
+                                                                                <button
+                                                                                    pButton
+                                                                                    type="button"
+                                                                                    class="p-button-sm p-button-danger p-button-text"
+                                                                                    icon="pi pi-trash"
+                                                                                    (click)="
+                                                                                        removeRouteCoordinate(
+                                                                                            index
+                                                                                        )
+                                                                                    "
+                                                                                ></button>
+                                                                            }
+                                                                        </div>
+    
+                                                                        <div
+                                                                            class="d-flex align-items-top gap-2"
+                                                                        >
+                                                                            <div>
+                                                                                <p-inputgroup
+                                                                                    class="w-100"
+                                                                                >
+                                                                                    <p-inputnumber
+                                                                                        [inputId]="
+                                                                                            'routeLongitude' +
+                                                                                            index
+                                                                                        "
+                                                                                        formControlName="longitude"
+                                                                                        [minFractionDigits]="
+                                                                                            0
+                                                                                        "
+                                                                                        [maxFractionDigits]="
+                                                                                            7
+                                                                                        "
+                                                                                        [useGrouping]="
+                                                                                            false
+                                                                                        "
+                                                                                        [min]="
+                                                                                            -180
+                                                                                        "
+                                                                                        [max]="
+                                                                                            180
+                                                                                        "
+                                                                                        styleClass="w-100"
+                                                                                        [placeholder]="
+                                                                                            'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LONGITUDE_PLACEHOLDER'
+                                                                                                | translate
+                                                                                        "
+                                                                                        (onInput)="
+                                                                                            onCoordinateInput(
+                                                                                                index,
+                                                                                                'longitude',
+                                                                                                $event
+                                                                                            )
+                                                                                        "
+                                                                                        (paste)="
+                                                                                            onCoordinatePaste(
+                                                                                                $event,
+                                                                                                index,
+                                                                                                'longitude'
+                                                                                            )
+                                                                                        "
+                                                                                    />
+                                                                                    <p-inputgroup-addon>
+                                                                                        Long
+                                                                                    </p-inputgroup-addon>
+                                                                                </p-inputgroup>
+                                                                            </div>
+    
+                                                                            <div>
+                                                                                <p-inputgroup
+                                                                                    class="w-100"
+                                                                                >
+                                                                                    <p-inputnumber
+                                                                                        [inputId]="
+                                                                                            'routeLatitude' +
+                                                                                            index
+                                                                                        "
+                                                                                        formControlName="latitude"
+                                                                                        [minFractionDigits]="
+                                                                                            0
+                                                                                        "
+                                                                                        [maxFractionDigits]="
+                                                                                            7
+                                                                                        "
+                                                                                        [useGrouping]="
+                                                                                            false
+                                                                                        "
+                                                                                        [min]="
+                                                                                            -90
+                                                                                        "
+                                                                                        [max]="
+                                                                                            90
+                                                                                        "
+                                                                                        styleClass="w-100"
+                                                                                        [placeholder]="
+                                                                                            'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.LATITUDE_PLACEHOLDER'
+                                                                                                | translate
+                                                                                        "
+                                                                                        (onInput)="
+                                                                                            onCoordinateInput(
+                                                                                                index,
+                                                                                                'latitude',
+                                                                                                $event
+                                                                                            )
+                                                                                        "
+                                                                                        (paste)="
+                                                                                            onCoordinatePaste(
+                                                                                                $event,
+                                                                                                index,
+                                                                                                'latitude'
+                                                                                            )
+                                                                                        "
+                                                                                    />
+                                                                                    <p-inputgroup-addon>
+                                                                                        Lat
+                                                                                    </p-inputgroup-addon>
+                                                                                </p-inputgroup>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+    
+                                                            @if (
+                                                                routeCoordinates.invalid &&
+                                                                routeCoordinates.touched
+                                                            ) {
+                                                                <small
+                                                                    class="text-danger d-block mt-2"
+                                                                >
+                                                                    {{
+                                                                        'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.ROUTE_COORDINATES_MIN'
+                                                                            | translate
+                                                                    }}
+                                                                </small>
+                                                            }
                                                         }
-                                                    }
+                                                    </div>
                                                 </div>
-                                                <div class="col-md-8">
+                                                <div class="col-md-7">
                                                     <label
                                                         for="mapPreview"
                                                         class="form-label fw-bold"
