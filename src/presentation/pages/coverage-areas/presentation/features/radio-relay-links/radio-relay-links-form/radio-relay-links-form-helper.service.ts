@@ -40,9 +40,7 @@ export class RadioRelayLinksFormHelperService {
         return Number.isNaN(numeric) ? undefined : numeric;
     }
 
-    formatFrequency(
-        value: number | undefined
-    ): number | undefined {
+    formatFrequency(value: number | undefined): number | undefined {
         if (value === null || value === undefined || Number.isNaN(value)) {
             return undefined;
         }

@@ -83,7 +83,7 @@ export function isStaticAssetRequest(url: string): boolean {
         'manifest.webmanifest',
         'ngsw-worker.js',
         'ngsw.json',
-        'favicon.ico',
+        'favicon.png',
     ];
     if (staticPatterns.some((p) => url.includes(p))) {
         return true;

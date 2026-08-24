@@ -114,7 +114,10 @@ export class DashboardPageComponent implements OnInit {
     }
 
     public navigateToReport(stat: StatisticCard): void {
-        stat.routerFilter?.();
+        console.log('stat', stat);
+        if (stat.routerFilter) {
+            stat?.routerFilter();
+        }
     }
 
     private generateStatistics(data: DashboardEntity): void {
@@ -176,7 +179,7 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-clock pi-spin',
-                routerFilter: () => this.router.navigate(['/report/queue']),
+                routerFilter: () => this.router.navigate(['/requests/tasks']),
             },
             {
                 key: 'totalReportsInProcessing',
@@ -185,7 +188,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.SUBTITLE',
                 color: 'error',
                 icon: 'pi-times',
-                routerFilter: () => this.router.navigate(['/report/approval']),
+                routerFilter: () =>
+                    this.router.navigate(['/report-status/rejected']),
             },
             {
                 key: 'totalReportsProcessed',
@@ -195,7 +199,7 @@ export class DashboardPageComponent implements OnInit {
                 color: 'warning',
                 icon: 'pi-cog pi-spin',
                 routerFilter: () =>
-                    this.router.navigate(['/report/processing']),
+                    this.router.navigate(['/reports-processing/queues']),
             },
             {
                 key: 'totalReportsFinalized',
@@ -204,7 +208,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZED.SUBTITLE',
                 color: 'success',
                 icon: 'pi-check-circle',
-                routerFilter: () => this.router.navigate(['/report/finalize']),
+                routerFilter: () =>
+                    this.router.navigate(['/reports-processing/tasks']),
             },
             {
                 key: 'totalReportsEvaluated',
@@ -213,6 +218,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATED.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-star-fill',
+                routerFilter: () =>
+                    this.router.navigate(['/report-status/closed']),
             },
         ];
 

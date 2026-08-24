@@ -712,55 +712,51 @@
                         }
                     </div>
                 </div>
-                @if (
-                    isNotifyVisible()
-                ) {
-                    <!-- NOTIFICATION UTILISATEUR -->
-                    <div class="action-view-item">
-                        <div class="action-view-label">
-                            <i class="pi pi-bell"></i>
+                <!-- NOTIFICATION UTILISATEUR -->
+                <div class="action-view-item">
+                    <div class="action-view-label">
+                        <i class="pi pi-bell"></i>
 
-                            <span class="action-label">
-                                {{
-                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
-                                        | translate
-                                }}
-                            </span>
-                        </div>
-
-                        <div class="action-view-value">
-                            @if (formStore.isViewMode()) {
-                                @if (selectedAction(); as action) {
-                                    <p-tag
-                                        [value]="
-                                            (action.shouldNotifyUser
-                                                ? 'COMMON.YES'
-                                                : 'COMMON.NO'
-                                            ) | translate
-                                        "
-                                        [icon]="
-                                            action.shouldNotifyUser
-                                                ? 'pi pi-check-circle'
-                                                : 'pi pi-times-circle'
-                                        "
-                                        [severity]="
-                                            action.shouldNotifyUser
-                                                ? 'success'
-                                                : 'danger'
-                                        "
-                                        [rounded]="true"
-                                    />
-                                } @else {
-                                    <span class="empty-value">—</span>
-                                }
-                            } @else {
-                                <p-toggleswitch
-                                    formControlName="shouldNotifyUser"
-                                />
-                            }
-                        </div>
+                        <span class="action-label">
+                            {{
+                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.NOTIFY_USERS'
+                                    | translate
+                            }}
+                        </span>
                     </div>
-                }
+
+                    <div class="action-view-value">
+                        @if (formStore.isViewMode()) {
+                            @if (selectedAction(); as action) {
+                                <p-tag
+                                    [value]="
+                                        (action.shouldNotifyUser
+                                            ? 'COMMON.YES'
+                                            : 'COMMON.NO'
+                                        ) | translate
+                                    "
+                                    [icon]="
+                                        action.shouldNotifyUser
+                                            ? 'pi pi-check-circle'
+                                            : 'pi pi-times-circle'
+                                    "
+                                    [severity]="
+                                        action.shouldNotifyUser
+                                            ? 'success'
+                                            : 'danger'
+                                    "
+                                    [rounded]="true"
+                                />
+                            } @else {
+                                <span class="empty-value">—</span>
+                            }
+                        } @else {
+                            <p-toggleswitch
+                                formControlName="shouldNotifyUser"
+                            />
+                        }
+                    </div>
+                </div>
             </section>
         </form>
     </div>
