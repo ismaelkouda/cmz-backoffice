@@ -126,6 +126,7 @@ export class ManagementInfoPanelComponent {
         });
         ref?.onClose.subscribe((result: LocationCoordinates | null) => {
             if (result) {
+                console.log('result', result);
                 this.store.setCoordinates(result);
             }
         });

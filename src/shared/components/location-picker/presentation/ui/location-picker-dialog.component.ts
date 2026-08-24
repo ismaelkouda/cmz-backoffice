@@ -86,6 +86,7 @@ export class LocationPickerDialogComponent {
     }
 
     onSelectSearchResult(location: GeoLocation): void {
+        console.log('location', location);
         this.facade.select(location);
         this.searchQuery.set(location.displayName);
     }
@@ -101,7 +102,12 @@ export class LocationPickerDialogComponent {
         );
     }
     onValidate(): void {
-        this.ref.close(this.facade.selectedLocation());
+        const data = this.facade.selectedLocation();
+        this.ref.close({
+            ...this.facade.selectedLocation(),
+            latitude: data?.lat,
+            longitude: data?.lng,
+        });
     }
 
     onCancel(): void {
