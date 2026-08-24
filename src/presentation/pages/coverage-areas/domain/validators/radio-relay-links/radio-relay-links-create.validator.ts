@@ -24,7 +24,11 @@ export function radioRelayLinksCreateValidator(
             'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.CREATE.FREQUENCY_REQUIRE'
         );
     }
-    if (contract.debit === undefined || contract.debit === null || contract.debit <= 0) {
+    if (
+        contract.debit === undefined ||
+        contract.debit === null ||
+        contract.debit <= 0
+    ) {
         throw new GenericRequiredError(
             'COVERAGE_AREAS.RADIO_RELAY_LINKS.FORM.ERROR.CREATE.DEBIT_REQUIRE'
         );

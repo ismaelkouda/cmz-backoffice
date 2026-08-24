@@ -243,25 +243,39 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         this.store.setGeometryMode(mode);
     }
 
-    onCoordinateInput(index: number, field: 'longitude' | 'latitude', value: number | null): void {
+    onCoordinateInput(
+        index: number,
+        field: 'longitude' | 'latitude',
+        value: number | null
+    ): void {
         const control = this.routeCoordinates.at(index).get(field);
-        if (control && value != null && Number.isFinite(value)) {
+        if (control && value !== null && Number.isFinite(value)) {
             control.setValue(String(value), { emitEvent: true });
         }
     }
 
-    onCoordinatePaste(event: ClipboardEvent, index: number, field: 'longitude' | 'latitude'): void {
+    onCoordinatePaste(
+        event: ClipboardEvent,
+        index: number,
+        field: 'longitude' | 'latitude'
+    ): void {
         event.preventDefault();
+
         const pasted = event.clipboardData?.getData('text') ?? '';
-        const cleaned = pasted.replace(/[^0-9.\-]/g, '');
+        const cleaned = pasted.replace(/[^0-9.-]/g, '');
+
         if (cleaned === '' || cleaned === '-' || cleaned === '.') {
             return;
         }
+
         const num = Number(cleaned);
+
         if (!Number.isFinite(num)) {
             return;
         }
+
         const control = this.routeCoordinates.at(index).get(field);
+
         if (control) {
             control.setValue(cleaned, { emitEvent: true });
             control.markAsTouched();

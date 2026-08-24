@@ -283,74 +283,76 @@
                                                             </p-selectButton>
                                                         </div>
                                                     }
-    
-                                                    
+
                                                     @if (
                                                         isFileMode() ||
                                                         isDetailsMode()
                                                     ) {
-                                                    <div class="row">
-                                                        <label
-                                                            for="geomFile"
-                                                            class="form-label mb-0 fw-bold"
-                                                        >
-                                                            {{
-                                                                'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_FILE'
-                                                                    | translate
-                                                            }}
-                                                        </label>
-                                                        <p-fileUpload
-                                                            #fileUpload
-                                                            accept=".geojson,.json"
-                                                            [showUploadButton]="
-                                                                false
-                                                            "
-                                                            [showCancelButton]="
-                                                                true
-                                                            "
-                                                            [auto]="true"
-                                                            chooseLabel="{{
-                                                                'COMMON.CHOOSE_FILE'
-                                                                    | translate
-                                                            }}"
-                                                            cancelLabel="{{
-                                                                'COMMON.CANCEL'
-                                                                    | translate
-                                                            }}"
-                                                            [customUpload]="
-                                                                true
-                                                            "
-                                                            (onSelect)="
-                                                                onFileChange(
-                                                                    $event
-                                                                )
-                                                            "
-                                                            (onClear)="
-                                                                onFileClear()
-                                                            "
-                                                            [disabled]="
-                                                                isDetailsMode()
-                                                            "
-                                                        >
-                                                        </p-fileUpload>
-                                                        @if (
-                                                            isDetailsMode() &&
-                                                            existingGeom()
-                                                        ) {
-                                                            <div class="mt-2">
-                                                                <small
-                                                                    class="text-muted"
+                                                        <div class="row">
+                                                            <label
+                                                                for="geomFile"
+                                                                class="form-label mb-0 fw-bold"
+                                                            >
+                                                                {{
+                                                                    'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_FILE'
+                                                                        | translate
+                                                                }}
+                                                            </label>
+                                                            <p-fileUpload
+                                                                #fileUpload
+                                                                accept=".geojson,.json"
+                                                                [showUploadButton]="
+                                                                    false
+                                                                "
+                                                                [showCancelButton]="
+                                                                    true
+                                                                "
+                                                                [auto]="true"
+                                                                chooseLabel="{{
+                                                                    'COMMON.CHOOSE_FILE'
+                                                                        | translate
+                                                                }}"
+                                                                cancelLabel="{{
+                                                                    'COMMON.CANCEL'
+                                                                        | translate
+                                                                }}"
+                                                                [customUpload]="
+                                                                    true
+                                                                "
+                                                                (onSelect)="
+                                                                    onFileChange(
+                                                                        $event
+                                                                    )
+                                                                "
+                                                                (onClear)="
+                                                                    onFileClear()
+                                                                "
+                                                                [disabled]="
+                                                                    isDetailsMode()
+                                                                "
+                                                            >
+                                                            </p-fileUpload>
+                                                            @if (
+                                                                isDetailsMode() &&
+                                                                existingGeom()
+                                                            ) {
+                                                                <div
+                                                                    class="mt-2"
                                                                 >
-                                                                    {{
-                                                                        'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_EXISTING'
-                                                                            | translate
-                                                                    }}
-                                                                </small>
-                                                            </div>
-                                                        }
-                                                    </div>
+                                                                    <small
+                                                                        class="text-muted"
+                                                                    >
+                                                                        {{
+                                                                            'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.FORM.GEOM_EXISTING'
+                                                                                | translate
+                                                                        }}
+                                                                    </small>
+                                                                </div>
+                                                            }
+                                                        </div>
                                                     }
-                                                    <div class="row"
+                                                    <div
+                                                        class="row"
                                                         formArrayName="routeCoordinates"
                                                     >
                                                         @if (
@@ -387,7 +389,7 @@
                                                                     ></button>
                                                                 }
                                                             </div>
-    
+
                                                             <div
                                                                 class="d-grid gap-2"
                                                             >
@@ -433,7 +435,7 @@
                                                                                 ></button>
                                                                             }
                                                                         </div>
-    
+
                                                                         <div
                                                                             class="d-flex align-items-top gap-2"
                                                                         >
@@ -487,7 +489,7 @@
                                                                                     </p-inputgroup-addon>
                                                                                 </p-inputgroup>
                                                                             </div>
-    
+
                                                                             <div>
                                                                                 <p-inputgroup
                                                                                     class="w-100"
@@ -542,7 +544,7 @@
                                                                     </div>
                                                                 }
                                                             </div>
-    
+
                                                             @if (
                                                                 routeCoordinates.invalid &&
                                                                 routeCoordinates.touched

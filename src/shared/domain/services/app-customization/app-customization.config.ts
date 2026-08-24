@@ -36,7 +36,7 @@ export const DEFAULT_CUSTOMIZATION: AppCustomizationConfig = {
         storageKey: 'mode',
     },
     assets: {
-        favicon: 'favicon.ico',
+        favicon: 'favicon.png',
         authLogo: 'assets/images/logo/app-logo-full.png',
         sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
         logoIcon: 'assets/images/favicon.png',
