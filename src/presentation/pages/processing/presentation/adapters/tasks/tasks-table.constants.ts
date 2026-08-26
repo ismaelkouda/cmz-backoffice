@@ -20,14 +20,14 @@ export const TASKS_TABLE = {
             width: '2rem',
         },
         {
-            field: 'uniqId',
-            header: 'PROCESSING.TASKS.TABLE.UNIQ_ID',
+            field: 'requestReportUniqId',
+            header: 'PROCESSING.TASKS.TABLE.REQUEST_REPORT_UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },
         {
-            field: 'requestReportUniqId',
-            header: 'PROCESSING.TASKS.TABLE.REQUEST_REPORT_UNIQ_ID',
+            field: 'uniqId',
+            header: 'PROCESSING.TASKS.TABLE.UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },
