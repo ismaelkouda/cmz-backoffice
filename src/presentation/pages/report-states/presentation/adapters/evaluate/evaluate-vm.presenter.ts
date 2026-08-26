@@ -7,6 +7,7 @@ export class EvaluatePresenter {
     map(item: EvaluateEntity): EvaluateVmProps {
         return {
             uniqId: item.uniqId,
+            requestReportUniqId: item.requestReportUniqId,
             type: item.type,
             reportTypeLabel: this.t(item.reportType),
             operators: item.operators,

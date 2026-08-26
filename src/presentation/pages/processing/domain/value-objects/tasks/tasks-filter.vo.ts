@@ -6,6 +6,7 @@ import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 export class TasksFilterVo {
     public readonly initiatorPhoneNumber?: string;
     public readonly uniqId?: string;
+    public readonly requestReportUniqId?: string;
     public readonly reportType?: ReportType;
     public readonly operators?: string[];
     public readonly source?: string;
@@ -14,6 +15,7 @@ export class TasksFilterVo {
     private constructor(props: {
         initiatorPhoneNumber?: string;
         uniqId?: string;
+        requestReportUniqId?: string;
         reportType?: ReportType;
         operators?: string[];
         source?: string;
@@ -21,6 +23,7 @@ export class TasksFilterVo {
     }) {
         this.initiatorPhoneNumber = props.initiatorPhoneNumber;
         this.uniqId = props.uniqId;
+        this.requestReportUniqId = props.requestReportUniqId;
         this.reportType = props.reportType;
         this.operators = props.operators;
         this.source = props.source;
@@ -32,6 +35,7 @@ export class TasksFilterVo {
             dto?.initiatorPhoneNumber?.trim()
         );
         const uniqId = dto?.uniqId;
+        const requestReportUniqId = dto?.requestReportUniqId;
         const reportType = dto?.reportType;
         const operators = dto?.operators;
         const source = dto?.source;
@@ -45,6 +49,7 @@ export class TasksFilterVo {
         return new TasksFilterVo({
             initiatorPhoneNumber,
             uniqId,
+            requestReportUniqId,
             reportType,
             operators,
             source,

@@ -29,6 +29,7 @@ export class QueuesMapper extends PaginatedMapper<
         const props: QueuesProps = {
             type: TypeReport.PROCESSING,
             uniqId: dto.uniq_id,
+            requestReportUniqId: dto.request_report_uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
             operators: this.utils.memoizedList(
                 dto?.operators,

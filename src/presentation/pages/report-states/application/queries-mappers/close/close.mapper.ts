@@ -4,6 +4,7 @@ export function closeQueryMapper(query: CloseQuery) {
     return {
         initiatorPhoneNumber: query.initiatorPhoneNumber,
         uniqId: query.uniqId,
+        requestReportUniqId: query.requestReportUniqId,
         reportType: query.reportType,
         operators: query.operators,
         source: query.source,

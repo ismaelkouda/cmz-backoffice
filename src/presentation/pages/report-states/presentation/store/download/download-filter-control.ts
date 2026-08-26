@@ -5,7 +5,8 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 export interface DownloadFilterControl {
     search: FormControl<string>;
     date: FormControl<Date | undefined>;
-    uniqId: FormControl<string>;
+    uniqId: FormControl<string | null>;
+    requestReportUniqId: FormControl<string | null>;
     initiatorPhoneNumber: FormControl<string>;
     startDate: FormControl<Date | undefined>;
     endDate: FormControl<Date | undefined>;

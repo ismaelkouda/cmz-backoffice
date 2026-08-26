@@ -29,6 +29,7 @@ export class ApproveMapper extends PaginatedMapper<
         const props: ApproveProps = {
             type: TypeReport.REQUESTS,
             uniqId: dto.uniq_id,
+            requestReportUniqId: dto.report_uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
             operators: this.utils.memoizedList(
                 dto?.operators,

@@ -19,4 +19,9 @@ export const TABS = [
         label: 'MANAGEMENT.TABS.CATEGORIES.CHATBOT',
         icon: 'pi pi-comments',
     },
+    {
+        value: 'treatment-newspaper',
+        label: 'MANAGEMENT.TABS.CATEGORIES.TREATMENT_LOGS',
+        icon: 'pi pi-comments',
+    },
 ] as const;

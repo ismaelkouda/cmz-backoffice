@@ -7,6 +7,7 @@ export interface DownloadFilterProps {
     date?: Date;
     initiatorPhoneNumber?: string;
     uniqId?: string;
+    requestReportUniqId?: string;
     reportType?: ReportType;
     operators?: string[];
     status?: Status;

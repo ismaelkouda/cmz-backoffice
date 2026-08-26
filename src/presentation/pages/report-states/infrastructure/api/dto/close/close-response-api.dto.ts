@@ -9,6 +9,7 @@ export enum ReportStateDto {
 
 export interface CloseItemApiDto {
     uniq_id: string;
+    request_report_uniq_id: string;
     report_type: ReportTypeDto;
     operators: TelecomOperatorDto[];
     source: ReportSourceDto;

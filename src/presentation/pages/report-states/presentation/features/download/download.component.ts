@@ -192,11 +192,11 @@ export class DownloadComponent {
             //     type: 'text',
             //     name: 'uniqId',
             //     label: this.t('REPORT_STATES.DOWNLOAD.FILTER.UNIQ_ID'),
-            //     placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
+            //     placeholder: this.t('COMMON.UNIQ_ID_PLACEHOLDER'),
             //     icon: 'pi pi-id-card',
             //     translationKeys: {
             //         label: 'REPORT_STATES.DOWNLOAD.FILTER.UNIQ_ID',
-            //         placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
+            //         placeholder: 'COMMON.UNIQ_ID_PLACEHOLDER',
             //     },
             // },
             // {

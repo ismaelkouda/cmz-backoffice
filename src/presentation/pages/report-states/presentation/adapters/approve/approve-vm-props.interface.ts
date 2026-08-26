@@ -3,6 +3,7 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export interface ApproveVmProps {
     uniqId: string;
+    requestReportUniqId: string;
     type: TypeReport;
     reportTypeLabel: string;
     operators: TelecomOperator[];

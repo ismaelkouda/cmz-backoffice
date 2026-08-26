@@ -57,6 +57,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -78,6 +79,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -99,6 +101,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -116,6 +119,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -154,6 +158,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
             download.format,
             download?.initiatorPhoneNumber,
             download?.uniqId,
+            download?.requestReportUniqId,
             download?.reportType,
             download?.operators,
             download?.source,

@@ -163,6 +163,20 @@
                                     tooltipPosition="bottom"
                                 />
                             }
+                            @case ('requestReportUniqId') {
+                                <p-tag
+                                    value="{{ rowData.requestReportUniqId }}"
+                                    severity="secondary"
+                                    class="cursor-pointer"
+                                    (click)="
+                                        copyToClipboard(
+                                            rowData.requestReportUniqId
+                                        )
+                                    "
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                    tooltipPosition="bottom"
+                                />
+                            }
                             @case ('reportTypeLabel') {
                                 <div>
                                     {{ rowData.reportTypeLabel }}

@@ -25,6 +25,9 @@ export class CloseFilterStore {
             uniqId: new FormControl<string>('', {
                 nonNullable: true,
             }),
+            requestReportUniqId: new FormControl<string>('', {
+                nonNullable: true,
+            }),
             reportType: new FormControl<ReportType | null>(null, {
                 nonNullable: true,
             }),
@@ -64,6 +67,7 @@ export class CloseFilterStore {
         return {
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
+            requestReportUniqId: raw.requestReportUniqId || undefined,
             startDate: raw.startDate || undefined,
             endDate: raw.endDate || undefined,
             reportType: raw.reportType || undefined,
@@ -79,6 +83,7 @@ export class CloseFilterStore {
             format,
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
+            requestReportUniqId: raw.requestReportUniqId || undefined,
             startDate: raw.startDate || undefined,
             endDate: raw.endDate || undefined,
             reportType: raw.reportType || undefined,

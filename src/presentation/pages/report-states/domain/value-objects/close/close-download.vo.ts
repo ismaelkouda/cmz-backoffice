@@ -12,6 +12,7 @@ export function closeDownloadVo(
         format: contract.format,
         initiatorPhoneNumber: contract.initiatorPhoneNumber,
         uniqId: contract.uniqId,
+        requestReportUniqId: contract.requestReportUniqId,
         reportType: contract.reportType,
         operators: contract.operators,
         source: contract.source,

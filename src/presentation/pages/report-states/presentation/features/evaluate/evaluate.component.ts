@@ -154,11 +154,30 @@ export class EvaluateComponent {
                 type: 'text',
                 name: 'uniqId',
                 label: this.t('REPORT_STATES.EVALUATE.FILTER.UNIQ_ID'),
-                placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
+                placeholder: this.t(
+                    'REPORT_STATES.EVALUATE.FILTER.UNIQ_ID_PLACEHOLDER'
+                ),
                 icon: 'pi pi-id-card',
                 translationKeys: {
                     label: 'REPORT_STATES.EVALUATE.FILTER.UNIQ_ID',
-                    placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
+                    placeholder:
+                        'REPORT_STATES.EVALUATE.FILTER.UNIQ_ID_PLACEHOLDER',
+                },
+            },
+            {
+                type: 'text',
+                name: 'requestReportUniqId',
+                label: this.t(
+                    'REPORT_STATES.EVALUATE.FILTER.REQUEST_REPORT_UNIQ_ID'
+                ),
+                placeholder: this.t(
+                    'REPORT_STATES.EVALUATE.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER'
+                ),
+                icon: 'pi pi-id-card',
+                translationKeys: {
+                    label: 'REPORT_STATES.EVALUATE.FILTER.REQUEST_REPORT_UNIQ_ID',
+                    placeholder:
+                        'REPORT_STATES.EVALUATE.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER',
                 },
             },
             {

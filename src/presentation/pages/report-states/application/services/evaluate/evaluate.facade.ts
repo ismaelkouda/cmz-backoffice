@@ -60,6 +60,7 @@ export class EvaluateFacade extends BaseFacade<
         const command = new EvaluateQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -81,6 +82,7 @@ export class EvaluateFacade extends BaseFacade<
         const command = new EvaluateQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -102,6 +104,7 @@ export class EvaluateFacade extends BaseFacade<
         const command = new EvaluateQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -119,6 +122,7 @@ export class EvaluateFacade extends BaseFacade<
         const command = new EvaluateQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -157,6 +161,7 @@ export class EvaluateFacade extends BaseFacade<
             download.format,
             download?.initiatorPhoneNumber,
             download?.uniqId,
+            download?.requestReportUniqId,
             download?.reportType,
             download?.operators,
             download?.source,
