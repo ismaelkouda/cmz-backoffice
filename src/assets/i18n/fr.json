@@ -147,7 +147,7 @@
         "END_DATE": "Date de fin",
         "DATE_PLACEHOLDER": "AAAA-MM-JJ",
         "PHONE_PLACEHOLDER": "Saisir le numéro de tel",
-        "REPORT_UNIQ_ID_PLACEHOLDER": "Saisir l'id de la demande",
+        "UNIQ_ID_PLACEHOLDER": "Saisir l'id de la demande",
         "REFRESH": "Rafraîchir",
         "EXPORT": "Exporter",
         "RESEARCH": "Rechercher",
@@ -3093,9 +3093,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "N° Signalement",
-                "UNIQ_ID_PLACEHOLDER": "N° Signalement",
                 "REQUEST_REPORT_UNIQ_ID": "N° Demande",
-                "REPORT_REQUEST_UNIQ_ID_PLACEHOLDER": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",

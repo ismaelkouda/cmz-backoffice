@@ -26,14 +26,14 @@ export const CLOSE_TABLE = {
             width: '2rem',
         },
         {
-            field: 'uniqId',
-            header: 'REPORT_STATES.CLOSE.TABLE.UNIQ_ID',
+            field: 'requestReportUniqId',
+            header: 'REPORT_STATES.CLOSE.TABLE.REQUEST_REPORT_UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },
         {
-            field: 'requestReportUniqId',
-            header: 'REPORT_STATES.CLOSE.TABLE.REQUEST_REPORT_UNIQ_ID',
+            field: 'uniqId',
+            header: 'REPORT_STATES.CLOSE.TABLE.UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },

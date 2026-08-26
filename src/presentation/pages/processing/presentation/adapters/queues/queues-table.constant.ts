@@ -20,14 +20,14 @@ export const QUEUES_TABLE = {
             width: '2rem',
         },
         {
-            field: 'uniqId',
-            header: 'PROCESSING.QUEUES.TABLE.UNIQ_ID',
+            field: 'requestReportUniqId',
+            header: 'PROCESSING.QUEUES.TABLE.REQUEST_REPORT_UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },
         {
-            field: 'requestReportUniqId',
-            header: 'PROCESSING.QUEUES.TABLE.REQUEST_REPORT_UNIQ_ID',
+            field: 'uniqId',
+            header: 'PROCESSING.QUEUES.TABLE.UNIQ_ID',
             class: 'text-center',
             width: '8rem',
         },
