@@ -5,6 +5,7 @@ export interface TasksVmProps {
     uniqId: string;
     type: TypeReport;
     reportTypeLabel: string;
+    requestReportUniqId: string;
     operators: TelecomOperator[];
     sourceLabel: string;
     initiatorPhoneNumber: string;

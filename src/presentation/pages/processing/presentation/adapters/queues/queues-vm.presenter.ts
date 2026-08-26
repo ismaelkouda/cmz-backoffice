@@ -7,6 +7,7 @@ export class QueuesPresenter {
     map(item: QueuesEntity, permission: { canTake: boolean }): QueuesVmProps {
         return {
             uniqId: item.uniqId,
+            requestReportUniqId: item.requestReportUniqId,
             type: item.type,
             reportTypeLabel: this.t(item.reportType),
             operators: item.operators,
