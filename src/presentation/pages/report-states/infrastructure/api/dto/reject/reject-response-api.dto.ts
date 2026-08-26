@@ -6,6 +6,7 @@ import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 
 export interface RejectItemApiDto {
     uniq_id: string;
+    report_uniq_id: string;
     report_type: ReportTypeDto;
     operators: TelecomOperatorDto[];
     source: ReportSourceDto;

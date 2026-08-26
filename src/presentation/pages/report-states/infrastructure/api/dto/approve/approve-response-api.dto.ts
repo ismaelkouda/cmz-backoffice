@@ -9,6 +9,7 @@ export enum ReportStateDto {
 
 export interface ApproveItemApiDto {
     uniq_id: string;
+    report_uniq_id: string;
     report_type: ReportTypeDto;
     operators: TelecomOperatorDto[];
     source: ReportSourceDto;

@@ -143,11 +143,29 @@ export class QueuesComponent {
                 type: 'text',
                 name: 'uniqId',
                 label: this.t('PROCESSING.QUEUES.FILTER.UNIQ_ID'),
-                placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
+                placeholder: this.t(
+                    'PROCESSING.QUEUES.FILTER.UNIQ_ID_PLACEHOLDER'
+                ),
                 icon: 'pi pi-id-card',
                 translationKeys: {
                     label: 'PROCESSING.QUEUES.FILTER.UNIQ_ID',
-                    placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
+                    placeholder: 'PROCESSING.QUEUES.FILTER.UNIQ_ID_PLACEHOLDER',
+                },
+            },
+            {
+                type: 'text',
+                name: 'requestReportUniqId',
+                label: this.t(
+                    'PROCESSING.QUEUES.FILTER.REQUEST_REPORT_UNIQ_ID'
+                ),
+                placeholder: this.t(
+                    'PROCESSING.QUEUES.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER'
+                ),
+                icon: 'pi pi-id-card',
+                translationKeys: {
+                    label: 'PROCESSING.QUEUES.FILTER.REQUEST_REPORT_UNIQ_ID',
+                    placeholder:
+                        'PROCESSING.QUEUES.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER',
                 },
             },
             {

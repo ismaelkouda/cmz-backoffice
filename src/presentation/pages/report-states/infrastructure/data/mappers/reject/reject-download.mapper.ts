@@ -25,6 +25,9 @@ export class RejectDownloadMapper {
             // ...(entity.data.reportType && {
             //     report_type: this.reportTypeMapper.mapToDto(entity.data.reportType),
             // }),
+            ...(entity.data.requestReportUniqId && {
+                report_uniq_id: entity.data.requestReportUniqId,
+            }),
             ...(entity.data.reportType && {
                 report_type: entity.data.reportType,
             }),

@@ -26,6 +26,12 @@ export const QUEUES_TABLE = {
             width: '8rem',
         },
         {
+            field: 'requestReportUniqId',
+            header: 'PROCESSING.QUEUES.TABLE.REQUEST_REPORT_UNIQ_ID',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
             field: 'reportTypeLabel',
             header: 'PROCESSING.QUEUES.TABLE.REPORT_TYPE',
             width: '11rem',
@@ -55,6 +61,7 @@ export const QUEUES_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
+        'requestReportUniqId',
         'reportTypeLabel',
         'operators',
         'sourceLabel',

@@ -19,6 +19,10 @@ export class TasksEntity {
         return this.props.uniqId;
     }
 
+    get requestReportUniqId(): string {
+        return this.props.requestReportUniqId;
+    }
+
     get reportType(): ReportType {
         return this.props.reportType;
     }

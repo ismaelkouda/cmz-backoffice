@@ -97,6 +97,7 @@ export class DownloadFacade extends BaseFacade<
             filter?.date,
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,

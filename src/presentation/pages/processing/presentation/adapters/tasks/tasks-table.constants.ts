@@ -26,6 +26,12 @@ export const TASKS_TABLE = {
             width: '8rem',
         },
         {
+            field: 'requestReportUniqId',
+            header: 'PROCESSING.TASKS.TABLE.REQUEST_REPORT_UNIQ_ID',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
             field: 'reportTypeLabel',
             header: 'PROCESSING.TASKS.TABLE.REPORT_TYPE',
             width: '11rem',
@@ -55,6 +61,7 @@ export const TASKS_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
+        'requestReportUniqId',
         'reportTypeLabel',
         'operators',
         'sourceLabel',

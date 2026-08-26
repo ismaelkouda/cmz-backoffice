@@ -25,6 +25,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {
         const command = new TasksQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -46,6 +47,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {
         const command = new TasksQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -67,6 +69,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {
         const command = new TasksQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -84,6 +87,7 @@ export class TasksFacade extends BaseFacade<TasksEntity, TasksFilterDto> {
         const command = new TasksQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,

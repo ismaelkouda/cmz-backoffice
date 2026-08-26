@@ -32,6 +32,12 @@ export const EVALUATE_TABLE = {
             width: '8rem',
         },
         {
+            field: 'requestReportUniqId',
+            header: 'REPORT_STATES.EVALUATE.TABLE.REQUEST_REPORT_UNIQ_ID',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
             field: 'reportTypeLabel',
             header: 'REPORT_STATES.EVALUATE.TABLE.REPORT_TYPE',
             width: '11rem',
@@ -61,6 +67,7 @@ export const EVALUATE_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
+        'requestReportUniqId',
         'reportTypeLabel',
         'operators',
         'sourceLabel',

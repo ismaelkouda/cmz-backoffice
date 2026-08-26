@@ -31,6 +31,7 @@ export class RejectMapper extends PaginatedMapper<
         const props: RejectProps = {
             type: TypeReport.REQUESTS,
             uniqId: dto.uniq_id,
+            requestReportUniqId: dto.report_uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
             operators: this.utils.memoizedList(
                 dto?.operators,

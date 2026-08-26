@@ -3,6 +3,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 export interface QueuesFilterControl {
     uniqId: FormControl<string>;
+    requestReportUniqId: FormControl<string>;
     initiatorPhoneNumber: FormControl<string>;
     startDate: FormControl<string>;
     endDate: FormControl<string>;

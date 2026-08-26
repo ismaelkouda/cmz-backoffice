@@ -4,6 +4,7 @@ import { Status } from '@pages/report-states/domain/enums/reject/reject-status.e
 export interface RejectFilterContract {
     initiatorPhoneNumber?: string;
     uniqId?: string;
+    requestReportUniqId?: string;
     reportType?: ReportType;
     operators?: string[];
     source?: string;

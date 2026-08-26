@@ -22,6 +22,10 @@ export class CloseEntity implements CloseProps {
         return this.props.uniqId;
     }
 
+    get requestReportUniqId(): string {
+        return this.props.requestReportUniqId;
+    }
+
     get reportType(): ReportType {
         return this.props.reportType;
     }

@@ -57,6 +57,7 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
         const query = new ApproveQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -79,6 +80,7 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
         const query = new ApproveQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -100,6 +102,7 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
         const query = new ApproveQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -119,6 +122,7 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
         const query = new ApproveQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -157,6 +161,7 @@ export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
             download.format,
             download?.initiatorPhoneNumber,
             download?.uniqId,
+            download?.requestReportUniqId,
             download?.reportType,
             download?.operators,
             download?.source,

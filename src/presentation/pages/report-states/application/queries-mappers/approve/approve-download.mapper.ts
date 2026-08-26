@@ -9,6 +9,7 @@ export function approveDownloadQueryMapper(query: ApproveDownloadQuery) {
         format: query.format,
         initiatorPhoneNumber: query.initiatorPhoneNumber,
         uniqId: query.uniqId,
+        requestReportUniqId: query.requestReportUniqId,
         reportType: query.reportType,
         operators: query.operators,
         source: query.source,

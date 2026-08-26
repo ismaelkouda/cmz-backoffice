@@ -32,6 +32,12 @@ export const CLOSE_TABLE = {
             width: '8rem',
         },
         {
+            field: 'requestReportUniqId',
+            header: 'REPORT_STATES.CLOSE.TABLE.REQUEST_REPORT_UNIQ_ID',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
             field: 'reportTypeLabel',
             header: 'REPORT_STATES.CLOSE.TABLE.REPORT_TYPE',
             width: '11rem',
@@ -61,6 +67,7 @@ export const CLOSE_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
+        'requestReportUniqId',
         'reportTypeLabel',
         'operators',
         'sourceLabel',

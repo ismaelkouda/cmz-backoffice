@@ -47,7 +47,6 @@ import { formatDate } from '@shared/domain/functions/format-data.function';
 import { MenuItem } from 'primeng/api';
 import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
-import { JsonPipe } from '@angular/common';
 
 @Component({
     selector: 'app-approve',
@@ -63,7 +62,6 @@ import { JsonPipe } from '@angular/common';
         TranslateModule,
         ReactiveFormsModule,
         FilterComponent,
-        JsonPipe,
     ],
     providers: [ApproveFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -152,11 +150,30 @@ export class ApproveComponent {
                 type: 'text',
                 name: 'uniqId',
                 label: this.t('REPORT_STATES.APPROVE.FILTER.UNIQ_ID'),
-                placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
+                placeholder: this.t(
+                    'REPORT_STATES.APPROVE.FILTER.UNIQ_ID_PLACEHOLDER'
+                ),
                 icon: 'pi pi-id-card',
                 translationKeys: {
                     label: 'REPORT_STATES.APPROVE.FILTER.UNIQ_ID',
-                    placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
+                    placeholder:
+                        'REPORT_STATES.APPROVE.FILTER.UNIQ_ID_PLACEHOLDER',
+                },
+            },
+            {
+                type: 'text',
+                name: 'requestReportUniqId',
+                label: this.t(
+                    'REPORT_STATES.APPROVE.FILTER.REQUEST_REPORT_UNIQ_ID'
+                ),
+                placeholder: this.t(
+                    'REPORT_STATES.APPROVE.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER'
+                ),
+                icon: 'pi pi-id-card',
+                translationKeys: {
+                    label: 'REPORT_STATES.APPROVE.FILTER.REQUEST_REPORT_UNIQ_ID',
+                    placeholder:
+                        'REPORT_STATES.APPROVE.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER',
                 },
             },
             {

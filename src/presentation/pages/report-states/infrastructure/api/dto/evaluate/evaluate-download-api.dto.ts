@@ -6,6 +6,7 @@ export interface EvaluateDownloadApiDto {
     format: DownloadTypeDto;
     initiator_phone_number?: string;
     uniq_id?: string;
+    request_report_uniq_id?: string;
     report_type?: string;
     operators?: string[];
     source?: string;

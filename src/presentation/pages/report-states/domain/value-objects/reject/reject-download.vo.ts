@@ -12,6 +12,7 @@ export function rejectDownloadVo(
         format: contract.format,
         initiatorPhoneNumber: contract.initiatorPhoneNumber,
         uniqId: contract.uniqId,
+        requestReportUniqId: contract.requestReportUniqId,
         status: contract.status,
         reportType: contract.reportType,
         operators: contract.operators,

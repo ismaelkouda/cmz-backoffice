@@ -25,6 +25,9 @@ export class CloseDownloadMapper {
             // ...(entity.data.reportType && {
             //     report_type: this.reportTypeMapper.mapToDto(entity.data.reportType),
             // }),
+            ...(entity.data.requestReportUniqId && {
+                request_report_uniq_id: entity.data.requestReportUniqId,
+            }),
             ...(entity.data.reportType && {
                 report_type: entity.data.reportType,
             }),

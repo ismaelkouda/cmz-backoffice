@@ -101,6 +101,7 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
         return new RejectQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -135,6 +136,7 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
             download.format,
             download?.initiatorPhoneNumber,
             download?.uniqId,
+            download?.requestReportUniqId,
             download?.reportType,
             download?.operators,
             download?.source,

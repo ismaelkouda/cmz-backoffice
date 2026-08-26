@@ -30,6 +30,9 @@ export class DownloadFilterStore {
             uniqId: new FormControl<string>('', {
                 nonNullable: true,
             }),
+            requestReportUniqId: new FormControl<string>('', {
+                nonNullable: true,
+            }),
             reportType: new FormControl<ReportType | null>(null, {
                 nonNullable: true,
             }),
@@ -74,6 +77,7 @@ export class DownloadFilterStore {
             date: raw.date,
             initiatorPhoneNumber: raw.initiatorPhoneNumber || undefined,
             uniqId: raw.uniqId || undefined,
+            requestReportUniqId: raw.requestReportUniqId || undefined,
             startDate: raw.startDate || undefined,
             endDate: raw.endDate || undefined,
             reportType: raw.reportType || undefined,

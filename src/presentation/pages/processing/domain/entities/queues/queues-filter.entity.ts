@@ -6,6 +6,7 @@ export class QueuesFilterEntity {
     constructor(
         public readonly initiatorPhoneNumber?: string,
         public readonly uniqId?: string,
+        public readonly requestReportUniqId?: string,
         public readonly reportType?: ReportType,
         public readonly operators?: string[],
         public readonly source?: string,
@@ -16,6 +17,7 @@ export class QueuesFilterEntity {
         return new QueuesFilterEntity(
             vo.initiatorPhoneNumber,
             vo.uniqId,
+            vo.requestReportUniqId,
             vo.reportType,
             vo.operators,
             vo.source,

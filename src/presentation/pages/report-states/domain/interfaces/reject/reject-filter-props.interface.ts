@@ -5,6 +5,7 @@ import { DatePeriod } from '@shared/domain/value-objects/date-period.vo';
 export interface RejectFilterProps {
     initiatorPhoneNumber?: string;
     uniqId?: string;
+    requestReportUniqId?: string;
     reportType?: ReportType;
     operators?: string[];
     status?: Status;
