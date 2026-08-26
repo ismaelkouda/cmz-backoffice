@@ -9,6 +9,7 @@ export class TasksPresenter {
             uniqId: item.uniqId,
             type: item.type,
             reportTypeLabel: this.t(item.reportType),
+            requestReportUniqId: item.requestReportUniqId,
             operators: item.operators,
             sourceLabel: this.t(item.source),
             initiatorPhoneNumber: item.initiatorPhoneNumber,
