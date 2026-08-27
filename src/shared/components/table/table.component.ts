@@ -1,4 +1,4 @@
-import { CommonModule, NgPlural } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
     Component,
     EventEmitter,
@@ -51,7 +51,6 @@ import { TooltipModule } from 'primeng/tooltip';
         ActionDropdownComponent,
         SeparatorThousandsPipe,
         CheckboxModule,
-        NgPlural,
     ],
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],

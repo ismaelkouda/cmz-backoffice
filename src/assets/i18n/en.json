@@ -2477,6 +2477,15 @@
                 "INFO": "Information"
             }
         },
+        "TREATMENT_LOGS": {
+            "TABLE": {
+                "OPERATION": "Operation",
+                "ACTION": "Action",
+                "DATE": "Date",
+                "EMPTY": "No processing recorded",
+                "ERROR": "Unable to load the processing log"
+            }
+        },
         "CONTENT": {
             "INFORMATION": {
                 "PLACEHOLDER": "Information content to come..."

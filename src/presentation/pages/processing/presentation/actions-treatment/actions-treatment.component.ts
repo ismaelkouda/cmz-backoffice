@@ -332,8 +332,8 @@ export class ActionsTreatmentComponent {
     ]);
     private readonly pageTitleKey = computed(() =>
         this.uniqId()
-            ? 'PROCESSING.TASKS.ACTIONS.DIALOG.EDIT'
-            : 'PROCESSING.TASKS.ACTIONS.DIALOG.CREATE'
+            ? 'PROCESSING.TASKS.ACTIONS.TITLE'
+            : 'PROCESSING.TASKS.ACTIONS.TITLE'
     );
     private readonly pageTitle$ = toObservable(this.pageTitleKey).pipe(
         switchMap((key) => this.translate.stream(key)),

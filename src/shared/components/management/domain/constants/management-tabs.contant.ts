@@ -22,6 +22,6 @@ export const TABS = [
     {
         value: 'treatment-newspaper',
         label: 'MANAGEMENT.TABS.CATEGORIES.TREATMENT_LOGS',
-        icon: 'pi pi-comments',
+        icon: 'pi pi-history',
     },
 ] as const;

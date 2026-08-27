@@ -62,6 +62,7 @@ import { providePrimeNG } from 'primeng/config';
 import { provideInteractiveMap } from './pages/interactive-map/di/interactive-map.providers';
 import { provideAdministrativeInfrastructure } from './pages/administrative-infrastructure/di/administrative-infrastructure.providers';
 import { provideCoverageAreas } from '@pages/coverage-areas/di/coverage-areas.providers';
+import { provideReportNewspaper } from '@shared/components/report-newspaper/di/report-newspaper.providers';
 
 const frenchLocale = {
     firstDayOfWeek: 1,
@@ -286,5 +287,7 @@ export const appConfig: ApplicationConfig = {
         ...provideCoverageAreas(),
 
         ...historyProviders(),
+
+        ...provideReportNewspaper(),
     ],
 };

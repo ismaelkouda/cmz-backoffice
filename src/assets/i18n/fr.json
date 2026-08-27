@@ -3665,6 +3665,15 @@
                 "INFO": "Informations"
             }
         },
+        "TREATMENT_LOGS": {
+            "TABLE": {
+                "OPERATION": "Opération",
+                "ACTION": "Action",
+                "DATE": "Date",
+                "EMPTY": "Aucun traitement enregistré",
+                "ERROR": "Impossible de charger le journal de traitement"
+            }
+        },
         "CONTENT": {
             "INFORMATION": {
                 "PLACEHOLDER": "Contenu des informations à venir..."
