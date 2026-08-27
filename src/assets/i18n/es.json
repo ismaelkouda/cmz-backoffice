@@ -2442,6 +2442,15 @@
                 "INFO": "Información"
             }
         },
+        "TREATMENT_LOGS": {
+            "TABLE": {
+                "OPERATION": "Operación",
+                "ACTION": "Acción",
+                "DATE": "Fecha",
+                "EMPTY": "No se registró ningún tratamiento",
+                "ERROR": "No se pudo cargar el diario de tratamiento"
+            }
+        },
         "CONTENT": {
             "INFORMATION": {
                 "PLACEHOLDER": "Contenido de información por venir..."
