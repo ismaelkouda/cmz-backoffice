@@ -175,7 +175,6 @@ export class ManagementFormStore {
             'description',
             'operators',
             'placeDescription',
-            'placePhoto',
             'comment',
         ] as const;
 
