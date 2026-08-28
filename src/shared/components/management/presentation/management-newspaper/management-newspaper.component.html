@@ -24,7 +24,11 @@
             [value]="items()"
             [rowHover]="true"
             responsiveLayout="scroll"
-            styleClass="newspaper-table"
+    [scrollable]="true"
+    scrollHeight="450px"
+    role="grid"
+    width="100%"
+    styleClass="p-datatable-gridlines"
         >
             <ng-template pTemplate="header">
                 <tr>
@@ -48,7 +52,13 @@
             <ng-template pTemplate="body" let-log let-i="rowIndex">
                 <tr>
                     <td class="text-center">{{ i + 1 }}</td>
-                    <td>{{ log.operation }}</td>
+                    <td>
+                        <p-tag
+                            [value]="operationLabel(log.operation) | translate"
+                            [severity]="operationSeverity(log.operation)"
+                            [rounded]="true"
+                        />
+                    </td>
                     <td>{{ log.description }}</td>
                     <td class="text-center">
                         {{ log.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}

@@ -17,6 +17,12 @@ export interface InteractiveMapReport {
     report_type: ReportType;
     operators: ReportOperator[] | string;
     state: ReportStatus;
+    /**
+     * Statut grossier renvoyé par l'API (`processing` / `finalization`),
+     * utilisé par le filtre statut. `state` reste l'état fin
+     * (`pending` / `in-progress` / `completed`).
+     */
+    status?: ReportStatus;
     is_duplicated: boolean;
     municipality?: NamedPlace | string | null;
     region?: NamedPlace | string | null;
