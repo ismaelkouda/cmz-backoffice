@@ -269,7 +269,10 @@ export class MapStore {
         return (
             this.matchesArray(filters.reportTypes, report.report_type) &&
             this.matchesOperatorFilter(filters.operators, operators) &&
-            this.matchesArray(filters.statuses, report.state) &&
+            this.matchesArray(
+                filters.statuses,
+                report.status ?? report.state
+            ) &&
             (!filters.startDate ||
                 (reportedAt && reportedAt >= new Date(filters.startDate))) &&
             (!filters.endDate ||

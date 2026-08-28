@@ -2449,6 +2449,11 @@
                 "DATE": "Fecha",
                 "EMPTY": "No se registró ningún tratamiento",
                 "ERROR": "No se pudo cargar el diario de tratamiento"
+            },
+            "OPERATIONS": {
+                "CREATING": "Creación",
+                "PROCESSING": "Tratamiento",
+                "CLOSURE": "Cierre"
             }
         },
         "CONTENT": {

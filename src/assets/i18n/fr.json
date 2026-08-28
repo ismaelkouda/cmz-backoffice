@@ -1934,7 +1934,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -1944,7 +1944,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -2020,7 +2020,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2029,7 +2029,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Canal d'émission",
@@ -2132,7 +2132,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2144,7 +2144,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -3672,6 +3672,11 @@
                 "DATE": "Date",
                 "EMPTY": "Aucun traitement enregistré",
                 "ERROR": "Impossible de charger le journal de traitement"
+            },
+            "OPERATIONS": {
+                "CREATING": "Création",
+                "PROCESSING": "Traitement",
+                "CLOSURE": "Clôture"
             }
         },
         "CONTENT": {

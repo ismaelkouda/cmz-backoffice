@@ -2484,6 +2484,11 @@
                 "DATE": "Date",
                 "EMPTY": "No processing recorded",
                 "ERROR": "Unable to load the processing log"
+            },
+            "OPERATIONS": {
+                "CREATING": "Creation",
+                "PROCESSING": "Processing",
+                "CLOSURE": "Closure"
             }
         },
         "CONTENT": {
