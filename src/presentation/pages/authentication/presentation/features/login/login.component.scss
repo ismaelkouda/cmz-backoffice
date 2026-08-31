@@ -94,11 +94,12 @@ $dark-gray: var(--color-gray);
 }
 
 .card-left-section {
-    background: linear-gradient(
-        135deg,
-        var(--theme-default) 0%,
-        var(--theme-secondary) 100%
-    );
+    // background: linear-gradient(
+    //     135deg,
+    //     var(--theme-default) 0%,
+    //     var(--theme-secondary) 100%
+    // );
+    background-color: var(--theme-default);
     color: $white;
     padding: 40px 32px;
     position: relative;
@@ -365,11 +366,12 @@ $dark-gray: var(--color-gray);
 }
 
 .submit-button {
-    background: linear-gradient(
-        135deg,
-        var(--theme-default),
-        var(--theme-secondary)
-    );
+    // background: linear-gradient(
+    //     135deg,
+    //     var(--theme-default),
+    //     var(--theme-secondary)
+    // );
+    background-color: var(--theme-secondary);
     color: $white;
     border: none;
     border-radius: 12px;
