@@ -3,7 +3,7 @@ export interface MunicipalitiesCreateApiDto {
     population_size: number;
     infrastructure_size: number;
     name: string;
-    region_id: string;
+    region_code: string;
     description: string;
-    department_id: string;
+    department_code: string;
 }

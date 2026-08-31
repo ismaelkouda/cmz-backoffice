@@ -3902,6 +3902,26 @@
             "LABEL": "Reports by Operator",
             "LOADING_DESCRIPTION": "Monitoring reports by operator in progress...",
             "ERROR_DESCRIPTION": "An error occurred while loading the reports by operator dashboard. Please reload the page or contact support."
+        },
+        "REPORT_BY_EQUIPMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Impacts of reports on equipments",
+                "ROUTE": "impacts-on-equipments"
+            },
+            "TITLE": "Analytics Dashboard - Impacts of reports on equipments",
+            "LABEL": "Impacts of reports on equipments",
+            "LOADING_DESCRIPTION": "Monitoring impacts of reports on equipments in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the impacts of reports on equipments dashboard. Please reload the page or contact support."
+        },
+        "REPORT_BY_POPULATIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Impacts of reports on populations",
+                "ROUTE": "impacts-on-populations"
+            },
+            "TITLE": "Analytics Dashboard - Impacts of reports on populations",
+            "LABEL": "Impacts of reports on populations",
+            "LOADING_DESCRIPTION": "Monitoring impacts of reports on populations in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the impacts of reports on populations dashboard. Please reload the page or contact support."
         }
     },
     "MONITORING": {

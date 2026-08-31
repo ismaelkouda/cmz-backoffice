@@ -3868,6 +3868,26 @@
             "LABEL": "Reportes por operador",
             "LOADING_DESCRIPTION": "Seguimiento de reportes por operador en curso...",
             "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de reportes por operador. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_BY_EQUIPMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Impactos de los reportes en los equipamientos",
+                "ROUTE": "impacts-on-equipments"
+            },
+            "TITLE": "Panel de control analítico de los impactos de los reportes en los equipamientos",
+            "LABEL": "Impactos de los reportes en los equipamientos",
+            "LOADING_DESCRIPTION": "Seguimiento de los impactos de los reportes en los equipamientos en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de los impactos de los reportes en los equipamientos. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_BY_POPULATIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Impactos de los reportes en las poblaciones",
+                "ROUTE": "impacts-on-populations"
+            },
+            "TITLE": "Panel de control analítico de los impactos de los reportes en las poblaciones",
+            "LABEL": "Impactos de los reportes en las poblaciones",
+            "LOADING_DESCRIPTION": "Seguimiento de los impactos de los reportes en las poblaciones en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de los impactos de los reportes en las poblaciones. Por favor, recargue la página o contacte al soporte."
         }
     },
     "MONITORING": {

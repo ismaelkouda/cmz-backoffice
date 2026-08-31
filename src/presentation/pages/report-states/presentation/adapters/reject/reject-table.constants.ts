@@ -27,7 +27,7 @@ export const REJECT_TABLE = {
         },
         {
             field: 'requestReportUniqId',
-            header: 'REPORT_STATES.REJECT.TABLE.REQUEST_REPORT_UNIQ_ID',
+            header: 'REPORT_STATES.REJECT.TABLE.CODE_ERROR',
             class: 'text-center',
             width: '8rem',
         },

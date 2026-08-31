@@ -55,12 +55,12 @@ $dark-gray: var(--color-gray);
     }
 
     @media (min-width: 768px) {
-        padding: 60px 24px;
+        padding: 60px 20px;
     }
 }
 
 .logo-container {
-    margin-bottom: 40px;
+    // margin-bottom: 40px;
     text-align: center;
 
     .auth-logo img {
@@ -106,7 +106,7 @@ $dark-gray: var(--color-gray);
 
     @media (min-width: 1024px) {
         flex: 1;
-        padding: 60px 40px;
+        padding: 60px 20px;
     }
 
     &::before {
@@ -125,7 +125,7 @@ $dark-gray: var(--color-gray);
 
     @media (min-width: 1024px) {
         flex: 1;
-        padding: 60px 40px;
+        padding: 60px 20px;
         display: flex;
         align-items: center;
     }
@@ -141,14 +141,14 @@ $dark-gray: var(--color-gray);
     }
 }
 
-.title-frame {
-    max-width: 400px;
-    margin: 0 auto;
+// .title-frame {
+//     max-width: 400px;
+//     margin: 0 auto;
 
-    @media (min-width: 1024px) {
-        margin: 0;
-    }
-}
+//     @media (min-width: 1024px) {
+//         margin: 0;
+//     }
+// }
 
 .app-title {
     font: 700 32px/40px var(--font-primary);
