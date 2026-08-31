@@ -1,5 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpContext } from '@angular/common/http';
 import { Injectable, signal, inject } from '@angular/core';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
 import {
     Bounds,
     CoverageAreaFilters,
@@ -14,6 +15,7 @@ import {
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
 import { INTERACTIVE_MAP_ENDPOINTS } from '@pages/interactive-map/infrastructure/api/interactive-map.endpoints';
 import { REPORT_API_URL, SETTINGS_API_URL } from '@core/config/config.tokens';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -30,13 +32,14 @@ export class InteractiveMapReportsApi {
         bounds: Bounds,
         filters: ReportFilters,
         page = 1,
-        perPage = 500
+        perPage = 500,
+        options: FetchOptions = {}
     ): Observable<InteractiveMapReport[]> {
         const params = this.buildQueryParams(bounds, filters, page, perPage);
-        console.log('filters: ', filters);
         const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.REPORTS}`;
+        const context = this.buildCacheContext(options);
 
-        return this.http.get<ReportsResponse>(url, { params }).pipe(
+        return this.http.get<ReportsResponse>(url, { params, context }).pipe(
             map((response) => response.data.data || []),
             map((reports) => reports.filter((item) => !item.is_duplicated)),
             // map((reports) => this.applyClientFilters(reports, filters)),
@@ -49,12 +52,14 @@ export class InteractiveMapReportsApi {
 
     getCoverageAreasGeoJson(
         bounds: Bounds,
-        filters: CoverageAreaFilters
+        filters: CoverageAreaFilters,
+        options: FetchOptions = {}
     ): Observable<CoverageAreaGeoJson> {
         const params = this.buildCoverageAreaParams(bounds, filters);
         const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.COVERAGE_AREAS_GEOJSON}`;
+        const context = this.buildCacheContext(options);
 
-        return this.http.get<CoverageAreaGeoJson>(url, { params });
+        return this.http.get<CoverageAreaGeoJson>(url, { params, context });
     }
 
     getCoverageAreasTileUrl(filters: CoverageAreaFilters): string {
@@ -104,7 +109,6 @@ export class InteractiveMapReportsApi {
         reportUniqId: string,
         typeEquipment: string | string[]
     ): string {
-        console.log('reportUniqId', reportUniqId);
         const types = (
             Array.isArray(typeEquipment) ? typeEquipment : [typeEquipment]
         )
@@ -136,7 +140,8 @@ export class InteractiveMapReportsApi {
      * @param reportUniqId
      */
     getReportInfrastructureStats(
-        reportUniqId: string
+        reportUniqId: string,
+        options: FetchOptions = {}
     ): Observable<InfrastructureImpactStatsResponse> {
         const path =
             INTERACTIVE_MAP_ENDPOINTS.REPORT_INFRASTRUCTURE_STATS.replace(
@@ -144,12 +149,13 @@ export class InteractiveMapReportsApi {
                 reportUniqId
             );
         const url = `${this.baseUrl}${path}`;
+        const context = this.buildCacheContext(options);
 
         return this.http
             .get<
                 | InfrastructureImpactStatsResponse
                 | { data: InfrastructureImpactStatsResponse }
-            >(url)
+            >(url, { context })
             .pipe(
                 map((response) =>
                     response &&
@@ -171,6 +177,13 @@ export class InteractiveMapReportsApi {
     ): Observable<InteractiveMapReport> {
         const url = `${this.baseUrl}${INTERACTIVE_MAP_ENDPOINTS.REPORTS}/${reportId}`;
         return this.http.patch<InteractiveMapReport>(url, { status });
+    }
+
+    private buildCacheContext(options: FetchOptions): HttpContext {
+        return new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
     }
 
     private buildQueryParams(

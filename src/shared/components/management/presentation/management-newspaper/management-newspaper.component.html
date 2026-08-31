@@ -45,6 +45,11 @@
                         }}
                     </th>
                     <th class="text-center">
+                        {{
+                            'MANAGEMENT.TREATMENT_LOGS.TABLE.STATUS' | translate
+                        }}
+                    </th>
+                    <th class="text-center">
                         {{ 'MANAGEMENT.TREATMENT_LOGS.TABLE.DATE' | translate }}
                     </th>
                 </tr>
@@ -60,6 +65,7 @@
                         />
                     </td>
                     <td>{{ log.description }}</td>
+                    <td></td>
                     <td class="text-center">
                         {{ log.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}
                     </td>

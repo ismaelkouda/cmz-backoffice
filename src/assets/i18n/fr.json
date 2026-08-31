@@ -3669,6 +3669,7 @@
             "TABLE": {
                 "OPERATION": "Opération",
                 "ACTION": "Action",
+                "STATUS": "Statut",
                 "DATE": "Date",
                 "EMPTY": "Aucun traitement enregistré",
                 "ERROR": "Impossible de charger le journal de traitement"

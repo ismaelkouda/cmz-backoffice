@@ -116,12 +116,10 @@ export class MapStore {
         });
     }
     public setPermission(permission: PermissionState): void {
-        console.log('permission: ', permission);
         this.patchState({ permission });
     }
 
     public setUserPosition(position: LatLng): void {
-        console.log('position: ', position);
         this.patchState({
             userPosition: position,
             error: null,
@@ -208,16 +206,6 @@ export class MapStore {
                 ...this.state().filters,
                 ...filters,
             },
-        });
-    }
-
-    public clearLoadedReports(): void {
-        this.reportsCache.clear();
-        this.patchState({
-            loadedBounds: null,
-            reports: [],
-            loading: false,
-            error: null,
         });
     }
 
@@ -321,7 +309,6 @@ export class MapStore {
     }
 
     public setView(view: MapViewState): void {
-        console.log('view: ', view);
         this.patchState({ view });
     }
 }

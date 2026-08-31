@@ -1095,10 +1095,7 @@ export class MapAdapter {
         });
     }
 
-    private coverageAreaClusterStyleFunction(
-        _feature: FeatureLike
-    ): Style | Style[] {
-        console.log(_feature);
+    private coverageAreaClusterStyleFunction(): Style | Style[] {
         return new Style({});
     }
 
@@ -1526,7 +1523,7 @@ export class MapAdapter {
             // Fallback: décodage manuel via Pbf/VectorTile (comme la
             // référence Leaflet) si le format MVT d'OpenLayers échoue.
             try {
-                return await this.decodePbfManually(buf, extent, projection);
+                return await this.decodePbfManually(buf);
             } catch (fallbackError) {
                 console.error('Erreur fallback Pbf:', fallbackError);
                 return [];
@@ -1534,12 +1531,7 @@ export class MapAdapter {
         }
     }
 
-    private async decodePbfManually(
-        buf: ArrayBuffer,
-        extent: unknown,
-        projection: unknown
-    ): Promise<Feature[]> {
-        console.log(extent, projection);
+    private async decodePbfManually(buf: ArrayBuffer): Promise<Feature[]> {
         // Charger les scripts Pbf et VectorTile depuis CDN
         await this.loadPbfLibraries();
 

@@ -30,7 +30,7 @@ import {
     ReportStatus,
     ReportType,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
-import { InteractiveMapReportsApi } from '@pages/interactive-map/infrastructure/data/sources/interactive-map-reports.api';
+import { ReportsFacade } from '@pages/interactive-map/application/services/reports.facade';
 import {
     ClusterTooltip,
     MapClickInfo,
@@ -46,6 +46,7 @@ import { parseCoordinates } from '@shared/components/location-picker/utils/coord
 import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
 import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { ToastrService } from 'ngx-toastr';
 import { Coordinate } from 'ol/coordinate';
 import { ButtonModule } from 'primeng/button';
@@ -322,7 +323,7 @@ export class InteractiveMapComponent
 
     private readonly geolocationService = inject(GeolocationService);
     private readonly mapAdapter = inject(MapAdapter);
-    private readonly reportsApi = inject(InteractiveMapReportsApi);
+    private readonly reportsFacade = inject(ReportsFacade);
     private readonly http = inject(HttpClient);
     private readonly destroyRef = inject(DestroyRef);
     private readonly route = inject(ActivatedRoute);
@@ -451,7 +452,7 @@ export class InteractiveMapComponent
     public retryLoad(): void {
         const bounds = this.store.viewportBounds();
         if (bounds) {
-            this.loadReportsWithBuffer(bounds);
+            this.loadReportsWithBuffer(bounds, { forceRefresh: true });
         }
     }
 
@@ -532,13 +533,13 @@ export class InteractiveMapComponent
     public submitFilters(): void {
         this.mapAdapter.hideClickOverlay();
         this.store.updateFilters(this.cloneFilters(this.draftFilters()));
-        this.store.clearLoadedReports();
+        this.reloadCurrentViewport({ forceRefresh: true });
     }
 
     public resetFilters(): void {
         this.draftFilters.set(this.cloneFilters(EMPTY_REPORT_FILTERS));
         this.store.resetFilters();
-        this.store.clearLoadedReports();
+        this.reloadCurrentViewport({ forceRefresh: true });
     }
 
     public toggleHeatmap(): void {
@@ -604,7 +605,7 @@ export class InteractiveMapComponent
         report: InteractiveMapReport,
         status: ReportStatus
     ): void {
-        this.reportsApi
+        this.reportsFacade
             .updateStatus(report.uniq_id, status)
             .pipe(
                 tap(() => {
@@ -612,7 +613,9 @@ export class InteractiveMapComponent
                     this.store.setSelectedReport(null);
                     const bounds = this.store.viewportBounds();
                     if (bounds) {
-                        this.loadReportsWithBuffer(bounds);
+                        this.loadReportsWithBuffer(bounds, {
+                            forceRefresh: true,
+                        });
                     }
                 }),
                 catchError(() => {
@@ -737,15 +740,23 @@ export class InteractiveMapComponent
         });
     }
 
+    private reloadCurrentViewport(options?: FetchOptions): void {
+        const bounds = this.store.viewportBounds();
+        if (bounds) {
+            this.loadReportsWithBuffer(bounds, options);
+        }
+    }
+
     private loadReportsWithBuffer(
-        viewportBounds: NonNullable<ReturnType<MapStore['viewportBounds']>>
+        viewportBounds: NonNullable<ReturnType<MapStore['viewportBounds']>>,
+        options?: FetchOptions
     ): void {
         const bufferBounds = this.store.expandBounds(viewportBounds, 2);
         const currentFilters = this.store.filters();
 
         this.store.startLoading();
-        this.reportsApi
-            .getReports(bufferBounds, currentFilters)
+        this.reportsFacade
+            .getReports(bufferBounds, currentFilters, options)
             .pipe(
                 tap((reports) => {
                     this.store.mergeLoadedReports(reports, bufferBounds);
@@ -782,7 +793,7 @@ export class InteractiveMapComponent
         }
 
         const filters = this.store.filters();
-        const tileUrl = this.reportsApi.getCoverageAreasTileUrl({
+        const tileUrl = this.reportsFacade.getCoverageAreasTileUrl({
             operator: selectedOperators.join(',') || undefined,
             network_technology:
                 selectedNetworkTechnologies.join(',') ||
@@ -818,7 +829,7 @@ export class InteractiveMapComponent
         // Choix multiple → ?tag=ADMINISTRATION,EDUCATION,...
         // Clustering fourni par le backend sur ces tuiles MVT.
         const tileUrl =
-            this.reportsApi.getInfrastructureTilesUrl(selectedApiTypes);
+            this.reportsFacade.getInfrastructureTilesUrl(selectedApiTypes);
 
         this.mapAdapter.renderEquipmentAreaTiles([
             {
@@ -952,7 +963,6 @@ export class InteractiveMapComponent
     }
 
     private handleMapClick(info: MapClickInfo): void {
-        console.log('info: ', info);
         if (!info.reports.length) {
             this.store.setSelectedReport(null);
             this.selectedClusterReports.set([]);
@@ -961,7 +971,6 @@ export class InteractiveMapComponent
         }
         if (info.kind === 'cluster') {
             const currentZoom = this.mapAdapter.getViewState()?.zoom ?? 7;
-            console.log('currentZoom: ', currentZoom);
 
             // 🆕 À fort zoom, ne plus zoomer/déplacer, afficher directement la liste
             if (currentZoom >= 16) {
