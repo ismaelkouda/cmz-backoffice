@@ -16,7 +16,7 @@ import {
 } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
 import { Bounds } from '@presentation/pages/interactive-map/domain/models/interactive-map-report.model';
-import { InteractiveMapReportsApi } from '@presentation/pages/interactive-map/infrastructure/data/sources/interactive-map-reports.api';
+import { ReportsFacade } from '@presentation/pages/interactive-map/application/services/reports.facade';
 import {
     getReportTypeColor,
     getReportTypeIconPath,
@@ -119,7 +119,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     private readonly platformId = inject(PLATFORM_ID);
 
     private readonly openLayersLoader = inject(OpenLayersLoaderService);
-    private readonly reportsApi = inject(InteractiveMapReportsApi);
+    private readonly reportsFacade = inject(ReportsFacade);
     private readonly configurationService = inject(ConfigurationService);
     private readonly encodingService = inject(EncodingDataService);
     private readonly ngZone = inject(NgZone);
@@ -370,11 +370,6 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     }
 
     protected getOperatorTagStyle(operator: string): Record<string, string> {
-        console.log('operator: ', operator);
-        console.log(
-            'telecomOperatorsOptions()',
-            this.telecomOperatorsOptions()
-        );
         return operatorsTagStyle(operator);
     }
 
@@ -411,13 +406,16 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Recharge la couche de tuiles d'infrastructures selon les types
-     * d'équipements cochés. Le filtrage par type est délégué au backend
-     * (paramètre `tag`), pas de re-filtrage côté client.
+     * Met à jour les couches de tuiles d'équipements selon les types
+     * cochés. Une couche persistante par type : on ne retire jamais une
+     * couche du rendu, on bascule uniquement sa visibilité. Les tuiles
+     * déjà chargées restent en cache OpenLayers → les équipements ne
+     * disparaissent jamais puis ne réapparaissent pas (même comportement
+     * que les couches coverage d'interactive-map). Le filtrage par type
+     * est délégué au backend (paramètre `tag`), pas de re-filtrage côté
+     * client.
      */
     private updateEquipmentLayer(): void {
-        this.clearEquipmentLayers();
-
         if (!this.map || !this.olModules) {
             console.warn(
                 '[management-map] Carte non initialisée, impossible de charger les tuiles d’équipements.'
@@ -425,16 +423,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const selected = this.equipmentOptions.filter(
-            (eq) => this.equipmentsVisible()[eq.id]
-        );
-        if (!selected.length) {
-            // Aucun type coché : état normal, pas d'appel à faire.
-            return;
-        }
-
         const reportUniqId = this.reportUniqId();
-        console.log('reportUniqId: ', reportUniqId);
         if (!reportUniqId) {
             console.warn(
                 '[management-map] reportUniqId manquant : la tuile ' +
@@ -445,21 +434,35 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const tags = selected.map((eq) => this.toInfrastructureTileTag(eq.id));
-        const url = this.reportsApi.getReportInfrastructureTilesUrl(
-            reportUniqId,
-            tags
+        const selected = this.equipmentOptions.filter(
+            (eq) => this.equipmentsVisible()[eq.id]
         );
-        if (!url) {
-            console.warn(
-                '[management-map] URL de tuiles vide malgré reportUniqId et ' +
-                    'types sélectionnés — vérifier getReportInfrastructureTilesUrl.'
-            );
-            return;
+
+        for (const [type, layer] of this.equipmentLayers) {
+            if (!selected.some((eq) => eq.id === type)) {
+                layer.setVisible(false);
+            }
         }
 
-        console.debug('[management-map] Chargement tuiles équipements:', url);
+        for (const eq of selected) {
+            let layer = this.equipmentLayers.get(eq.id);
+            if (!layer) {
+                const url = this.reportsFacade.getReportInfrastructureTilesUrl(
+                    reportUniqId,
+                    this.toInfrastructureTileTag(eq.id)
+                );
+                if (!url) {
+                    continue;
+                }
+                layer = this.createEquipmentLayer(url);
+                this.equipmentLayers.set(eq.id, layer);
+                this.map.addLayer(layer);
+            }
+            layer.setVisible(true);
+        }
+    }
 
+    private createEquipmentLayer(url: string): any {
         const { VectorTileLayer, VectorTileSource, MVT } = this.olModules;
         const layer = new VectorTileLayer({
             declutter: false,
@@ -482,18 +485,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             })
         );
 
-        this.equipmentLayers.set('equipment', layer);
-        this.map.addLayer(layer);
-    }
-
-    private clearEquipmentLayers(): void {
-        if (!this.map) {
-            return;
-        }
-        for (const layer of this.equipmentLayers.values()) {
-            this.map.removeLayer(layer);
-        }
-        this.equipmentLayers.clear();
+        return layer;
     }
 
     private createEquipmentTileStyle(feature: any): any {
@@ -514,14 +506,11 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             count?: number | string;
         };
 
-        console.log('properties', properties);
-
         const rawType =
             properties?.equipment_type ??
             properties?.tag ??
             properties?.description ??
             properties?.type;
-        console.log('rawType', properties);
         const type = this.normalizeEquipmentType(rawType);
 
         const color =
@@ -636,7 +625,7 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             return;
         }
 
-        this.reportsApi
+        this.reportsFacade
             .getReportInfrastructureStats(reportUniqId)
             .pipe(takeUntil(this.destroy$))
             .subscribe({
@@ -923,8 +912,9 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                 (ft: any) => ft,
                 {
                     layerFilter: (layer: any) =>
-                        this.equipmentLayers.has('equipment') &&
-                        layer === this.equipmentLayers.get('equipment'),
+                        Array.from(this.equipmentLayers.values()).includes(
+                            layer
+                        ) && layer.getVisible(),
                 }
             );
 
