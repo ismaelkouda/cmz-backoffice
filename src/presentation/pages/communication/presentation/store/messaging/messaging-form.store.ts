@@ -82,10 +82,7 @@ export class MessagingFormStore {
     );
 
     readonly isReportMode = computed(() => {
-        return (
-            this.selectedTargetType() ===
-            getEnumKeyByValue(MessagingTargetEnum, MessagingTargetEnum.REPORT)
-        );
+        return this.selectedTargetType() === MessagingTargetEnum.REPORT;
     });
 
     readonly regions = toSignal(this.regionsFacade.items$, {
@@ -345,6 +342,7 @@ export class MessagingFormStore {
 
     private updateAdministrativeValidators(): void {
         const isReport = this.isReportMode();
+        console.log('isReport', isReport);
 
         const regionControl = this.form.controls.region;
 

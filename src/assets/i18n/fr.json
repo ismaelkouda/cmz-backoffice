@@ -289,7 +289,15 @@
                 "REAL_TIME_DASHBOARD": "Tableau de bord en temps réel",
                 "TEAM_MANAGEMENT": "Gestion des équipes",
                 "EXTRACTION_OF_DATA": "Extraction de données",
-                "SETTINGS": "Paramètres & Sécurité"
+                "SETTINGS": "Paramètres & Sécurité",
+
+                "TEAM_AND_STAKEHOLDER_MANAGEMENT": "Gestion des équipes et des intervenants",
+                "REPORT_QUALIFICATION_AND_HANDLING": "Qualification & Prise en charge des signalements",
+                "AI_AGENT_AND_SMART_VERIFICATIONS": "Agent IA intégré & Vérifications intelligentes",
+                "REAL_TIME_DASHBOARDS": "Tableaux de bord en temps réel",
+                "DYNAMIC_GEOGRAPHIC_PORTAL": "Portail géographique dynamique",
+                "OPERATOR_COVERAGE_DATA": "Données de couvertures d'opérateurs",
+                "EQUIPMENT_AND_POPULATION_STATISTICS": "Données statistiques d'équipements et de populations"
             }
         },
         "FORM": {
@@ -3004,7 +3012,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "UNIQ_ID": "N° Demande",
-                "REQUEST_REPORT_UNIQ_ID": "N° Signalement",
+                "CODE_ERROR": "Code d'erreur",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -3016,8 +3024,8 @@
                 "INITIATOR": "Numero initiateur",
                 "UNIQ_ID": "N° Demande",
                 "UNIQ_ID_PLACEHOLDER": "N° Demande",
-                "REQUEST_REPORT_UNIQ_ID": "N° Signalement",
-                "REPORT_REQUEST_UNIQ_ID_PLACEHOLDER": "N° Signalement",
+                "CODE_ERROR": "Code d'erreur",
+                "CODE_ERROR_PLACEHOLDER": "E-400",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -5794,6 +5802,26 @@
             "LABEL": "Signalements par opérateur",
             "LOADING_DESCRIPTION": "Suivi des signalements par opérateur en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements par opérateur. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_BY_EQUIPMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Impacts des signalements sur les équipements",
+                "ROUTE": "impacts-on-equipments"
+            },
+            "TITLE": "Tableau de bord analytique des impacts des signalements sur les équipements",
+            "LABEL": "Impacts des signalements sur les équipements",
+            "LOADING_DESCRIPTION": "Suivi des impacts des signalements sur les équipements en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des impacts des signalements sur les équipements. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_BY_POPULATIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Impacts des signalements sur les populations",
+                "ROUTE": "impacts-on-populations"
+            },
+            "TITLE": "Tableau de bord analytique des impacts des signalements sur les populations",
+            "LABEL": "Impacts des signalements sur les populations",
+            "LOADING_DESCRIPTION": "Suivi des impacts des signalements sur les populations en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des impacts des signalements sur les populations. Veuillez recharger la page ou contacter le support."
         }
     },
     "MONITORING": {

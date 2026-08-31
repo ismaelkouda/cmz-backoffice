@@ -162,17 +162,15 @@ export class RejectComponent {
             {
                 type: 'text',
                 name: 'requestReportUniqId',
-                label: this.t(
-                    'REPORT_STATES.REJECT.FILTER.REQUEST_REPORT_UNIQ_ID'
-                ),
+                label: this.t('REPORT_STATES.REJECT.FILTER.CODE_ERROR'),
                 placeholder: this.t(
-                    'REPORT_STATES.REJECT.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER'
+                    'REPORT_STATES.REJECT.FILTER.CODE_ERROR_PLACEHOLDER'
                 ),
                 icon: 'pi pi-id-card',
                 translationKeys: {
-                    label: 'REPORT_STATES.REJECT.FILTER.REQUEST_REPORT_UNIQ_ID',
+                    label: 'REPORT_STATES.REJECT.FILTER.CODE_ERROR',
                     placeholder:
-                        'REPORT_STATES.REJECT.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER',
+                        'REPORT_STATES.REJECT.FILTER.CODE_ERROR_PLACEHOLDER',
                 },
             },
             {
