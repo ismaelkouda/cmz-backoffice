@@ -291,13 +291,13 @@
                 "EXTRACTION_OF_DATA": "Extraction de données",
                 "SETTINGS": "Paramètres & Sécurité",
 
-                "TEAM_AND_STAKEHOLDER_MANAGEMENT": "Gestion des équipes et des intervenants",
-                "REPORT_QUALIFICATION_AND_HANDLING": "Qualification & Prise en charge des signalements",
-                "AI_AGENT_AND_SMART_VERIFICATIONS": "Agent IA intégré & Vérifications intelligentes",
+                "TEAM_AND_STAKEHOLDER_MANAGEMENT": "Equipes & intervenants",
+                "REPORT_QUALIFICATION_AND_HANDLING": "Qualification & Prise en charge",
+                "AI_AGENT_AND_SMART_VERIFICATIONS": "Agent IA & Vérifications de couverture",
                 "REAL_TIME_DASHBOARDS": "Tableaux de bord en temps réel",
                 "DYNAMIC_GEOGRAPHIC_PORTAL": "Portail géographique dynamique",
-                "OPERATOR_COVERAGE_DATA": "Données de couvertures d'opérateurs",
-                "EQUIPMENT_AND_POPULATION_STATISTICS": "Données statistiques d'équipements et de populations"
+                "OPERATOR_COVERAGE_DATA": "Couvertures réseaux d'opérateurs",
+                "EQUIPMENT_AND_POPULATION_STATISTICS": "Equipements & populations"
             }
         },
         "FORM": {
