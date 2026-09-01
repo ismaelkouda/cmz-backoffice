@@ -43,12 +43,12 @@ export class ProfilesPermissionsEntity {
     }
 
     public with(props: ProfilesPermissionsProps): ProfilesPermissionsEntity {
-        if (
-            this.updatedAt === props.updatedAt &&
-            this.uniqId === props.uniqId
-        ) {
-            return this;
-        }
+        // if (
+        //     this.updatedAt === props.updatedAt &&
+        //     this.uniqId === props.uniqId
+        // ) {
+        //     return this;
+        // }
         return new ProfilesPermissionsEntity(props);
     }
 }
