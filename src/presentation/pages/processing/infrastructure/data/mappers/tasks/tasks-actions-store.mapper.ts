@@ -11,7 +11,6 @@ export function mapBaseTasksActionsDto(
     props: TasksActionFormProps,
     conformityMapper: ConformityMapper
 ): TasksActionsStoreApiDto {
-    console.log('props', props);
     return {
         report_uniq_id: props.reportUniqId,
         date: props.date ?? new Date(),
@@ -20,6 +19,8 @@ export function mapBaseTasksActionsDto(
         description: props.description,
         should_notify_user: Boolean(props.shouldNotifyUser),
         is_visible_for_user: Boolean(props.shouldDisplayInNewspaper),
-        result: conformityMapper.mapToDto(props.isConform),
+        ...(props.isConform !== null && props.isConform !== undefined
+            ? { result: conformityMapper.mapToDto(props.isConform) }
+            : {}),
     };
 }

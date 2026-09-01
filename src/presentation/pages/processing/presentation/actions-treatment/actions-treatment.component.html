@@ -491,8 +491,9 @@
                     </div>
                 }
 
-                <!-- CONFORMITE -->
-                <div class="action-view-item">
+                @if (formStore.conformityVisible()) {
+                    <!-- CONFORMITE -->
+                    <div class="action-view-item">
                     <div class="action-view-label">
                         <i class="pi pi-verified"></i>
 
@@ -620,6 +621,7 @@
                         }
                     </div>
                 </div>
+                }
 
                 <!-- RECOMMANDATION -->
                 <div class="action-view-item action-view-item--recommendation">
