@@ -70,6 +70,14 @@ export class RejectEntity implements RejectProps {
         return methodMap[status];
     }
 
+    get reason(): string {
+        return this.props.reason;
+    }
+
+    get reasonLabel(): string {
+        return this.props.reasonLabel;
+    }
+
     get reportedAt(): string {
         return this.props.reportedAt;
     }

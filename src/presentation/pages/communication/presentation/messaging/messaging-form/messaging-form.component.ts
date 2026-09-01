@@ -179,7 +179,6 @@ export class MessagingFormComponent implements OnInit {
         return this.t('COMMUNICATION.MESSAGING.TOOLTIP.CREATE');
     });
     onSubmit(): void {
-        console.log('this.form', this.form.value);
         if (!this.canCreate()) {
             this.toast.error(this.createTooltip());
             return;

@@ -5,6 +5,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { ForgotPasswordStore } from '@presentation/pages/authentication/presentation/store/forgot-password/forgot-password.store';
 import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
+import { AUTH } from '@presentation/app.routes';
+import {
+    FORGOT_PASSWORD_ROUTE,
+    CHECK_EMAIL_ROUTE,
+} from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-paths.constants';
 import { FORGOT_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/forgot-password/forgot-password-form-keys.constant';
 
 @Component({
@@ -23,7 +28,6 @@ export class ForgotPasswordComponent {
     protected readonly KEYS = FORGOT_PASSWORD_FORM_KEYS;
     protected readonly AUTH_LOGO = this.appConfig.customization.assets.authLogo;
     protected readonly APP_NAME = this.appConfig.customization.app.name;
-    public isEmailSent = false;
 
     private hasRedirected = false;
 
@@ -34,7 +38,7 @@ export class ForgotPasswordComponent {
                 return;
             }
             this.hasRedirected = true;
-            this.isEmailSent = true;
+            this.goToCheckEmail();
         });
     }
 
@@ -42,11 +46,16 @@ export class ForgotPasswordComponent {
         this.store.submit();
     }
 
-    public onResendEmail(): void {
-        this.isEmailSent = false;
+    public onCancel(): void {
+        this.router.navigate(['/', AUTH, LOGIN_ROUTE]);
     }
 
-    public onCancel(): void {
-        this.router.navigate([LOGIN_ROUTE]);
+    private goToCheckEmail(): void {
+        this.router.navigate([
+            '/',
+            AUTH,
+            FORGOT_PASSWORD_ROUTE,
+            CHECK_EMAIL_ROUTE,
+        ]);
     }
 }

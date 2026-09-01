@@ -28,11 +28,7 @@ export class TasksActionsMapper extends PaginatedMapper<
             date: dto.date ? new Date(dto.date) : new Date(),
             type: dto.type,
             code: dto.type_code,
-            technology: {
-                '2G': 'yes',
-                '3G': 'yes',
-                '4G': 'no',
-            },
+            technology: dto.network_technology,
             operators: this.utils.memoizedList(
                 operators,
                 (p) => this.telecomOperatorMapper.mapFromDto(p),

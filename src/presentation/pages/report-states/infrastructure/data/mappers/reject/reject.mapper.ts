@@ -41,6 +41,8 @@ export class RejectMapper extends PaginatedMapper<
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
             status: this.statusMapper.mapApiToStatus(dto.status),
+            reason: dto.reason,
+            reasonLabel: dto.reason_label,
             reportedAt: dto.reported_at,
             updatedAt: dto.updated_at,
         };

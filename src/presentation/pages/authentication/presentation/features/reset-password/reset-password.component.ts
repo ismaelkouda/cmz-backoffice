@@ -4,6 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
+import {
+    RESET_PASSWORD_ROUTE,
+    RESET_PASSWORD_SUCCESS_ROUTE,
+} from '@presentation/pages/authentication/presentation/features/reset-password/reset-password-paths.constants';
+import { AUTH } from '@presentation/app.routes';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PasswordModule } from 'primeng/password';
 import { map } from 'rxjs/operators';
@@ -49,7 +54,7 @@ export class ResetPasswordComponent {
                 return;
             }
             this.hasRedirected = true;
-            this.onCancel();
+            this.goToSuccess();
         });
     }
 
@@ -58,6 +63,15 @@ export class ResetPasswordComponent {
     }
 
     public onCancel(): void {
-        this.router.navigate([LOGIN_ROUTE]);
+        this.router.navigate(['/', AUTH, LOGIN_ROUTE]);
+    }
+
+    private goToSuccess(): void {
+        this.router.navigate([
+            '/',
+            AUTH,
+            RESET_PASSWORD_ROUTE,
+            RESET_PASSWORD_SUCCESS_ROUTE,
+        ]);
     }
 }

@@ -276,7 +276,9 @@
             },
             "CONFIRM_PASSWORD": {
                 "LABEL": "Confirm password",
-                "REQUIRED": "Password confirmation is required"
+                "REQUIRED": "Password confirmation is required",
+                "MIN_LENGTH": "Password must be at least 6 characters long",
+                "MISMATCH": "Both passwords must match"
             }
         },
         "BUTTONS": {
@@ -292,6 +294,64 @@
                 "EMAIL_SENT": "Email sent successfully",
                 "EMAIL_SENT_MESSAGE": "If the email address you provided matches an account registered in our system, you will soon receive an email with instructions to reset your password. Please check your inbox.",
                 "PASSWORD_RESET": "Password reset successfully"
+            },
+            "NOT_RECEIVED": "Didn't receive the email?",
+            "ERROR": {
+                "FAILED": "Password reset failed",
+                "UNABLE_TO_COMPLETE_REQUEST": "Unable to complete request",
+                "UNABLE_TO_COMPLETE_RESET": "Unable to complete reset"
+            }
+        },
+        "SUCCESS": {
+            "TITLE": "Password reset",
+            "DESCRIPTION": "Your password has been changed successfully. You can now log in with your new password.",
+            "LOGIN": "Log in"
+        }
+    },
+    "FORGOT_PASSWORD": {
+        "UI": {
+            "FORGOT_PASSWORD_TITLE": "Forgot password",
+            "FORGOT_PASSWORD_SUBTITLE": "Enter your email address and we'll send you a link to reset your password",
+            "RESET_PASSWORD_TITLE": "Reset password",
+            "RESET_PASSWORD_SUBTITLE": "Enter your new password"
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Email address",
+                "PLACEHOLDER": "cmz@ansut.ci",
+                "REQUIRED": "Email address is required",
+                "INVALID_FORMAT": "Email address must be valid"
+            },
+            "PASSWORD": {
+                "LABEL": "New password",
+                "REQUIRED": "Password is required",
+                "MIN_LENGTH": "Password must be at least 6 characters long",
+                "MISMATCH": "Both passwords must match"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirm password",
+                "REQUIRED": "Password confirmation is required"
+            }
+        },
+        "BUTTONS": {
+            "RESET": "Reset",
+            "CONFIRM": "Confirm",
+            "CANCEL": "Cancel",
+            "BACK_TO_LOGIN": "Back to login",
+            "RESEND": "Resend",
+            "LOADING": "Loading..."
+        },
+        "CHECK_EMAIL": {
+            "TITLE": "Check your inbox",
+            "DESCRIPTION": "If an account is associated with this address, you will receive a link to reset your password. The link will expire after a certain period.",
+            "RESEND": "Resend email",
+            "RESEND_IN": "Resend email in"
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "EMAIL_SENT": "Email sent successfully",
+                "EMAIL_SENT_MESSAGE": "If the email address you provided matches an account registered in our system, you will soon receive an email with instructions to reset your password. Please check your inbox.",
+                "FORGOT_PASSWORD": "Password reset successfully"
             },
             "NOT_RECEIVED": "Didn't receive the email?",
             "ERROR": {

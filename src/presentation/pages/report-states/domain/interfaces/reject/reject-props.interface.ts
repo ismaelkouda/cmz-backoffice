@@ -13,6 +13,8 @@ export interface RejectProps {
     source: ReportSource;
     initiatorPhoneNumber: string;
     status: Status;
+    reason: string;
+    reasonLabel: string;
     reportedAt: string;
     updatedAt: string;
 }

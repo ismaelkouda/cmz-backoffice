@@ -36,7 +36,7 @@ export interface DetailsItemApiDto {
     place_description: string;
     location_name: string;
     report_type: ReportTypeDto;
-    operators: TelecomOperatorDto[];
+    cumulative_operators: TelecomOperatorDto[];
     place_photo: string;
     access_place_photo: string;
     description: string;

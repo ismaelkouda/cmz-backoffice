@@ -7,7 +7,7 @@ import { LoginStore } from '@presentation/pages/authentication/presentation/stor
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { DASHBOARD } from '@shared/routes/routes';
-import { REINITIALIZATION } from '@presentation/app.routes';
+import { AUTH } from '@presentation/app.routes';
 import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-paths.constants';
 import { LOGIN_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/login/login-form-keys.constant';
 
@@ -31,7 +31,7 @@ export class LoginComponent {
     private readonly router = inject(Router);
 
     protected readonly KEYS = LOGIN_FORM_KEYS;
-    protected readonly REINITIALIZATION = REINITIALIZATION;
+    protected readonly AUTH = AUTH;
     protected readonly FORGOT_PASSWORD_ROUTE = FORGOT_PASSWORD_ROUTE;
     protected readonly AUTH_LOGO = this.appConfig.customization.assets.authLogo;
     protected readonly APP_NAME = this.appConfig.customization.app.name;

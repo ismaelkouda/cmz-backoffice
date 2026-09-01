@@ -15,6 +15,8 @@ export interface RejectVmProps {
     status: Status;
     statusLabel: string;
     statusStyle: StatusStyle;
+    reason: string;
+    reasonLabel: string;
     initiatorPhoneNumber: string;
     reportedAt: string;
     actionsRef: string;

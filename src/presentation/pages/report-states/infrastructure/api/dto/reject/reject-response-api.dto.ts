@@ -12,6 +12,8 @@ export interface RejectItemApiDto {
     source: ReportSourceDto;
     initiator_phone_number: string;
     status: ApiStatus;
+    reason: string;
+    reason_label: string;
     reported_at: string;
     updated_at: string;
 }

@@ -1,0 +1,209 @@
+$white: var(--color-white);
+$black: var(--color-black);
+$dark-gray: var(--color-gray);
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin transition($property) {
+    transition: $property 0.3s ease-in-out;
+}
+
+@mixin card-shadow {
+    box-shadow: 0 20px 60px rgba(8, 21, 66, 0.15);
+}
+
+.auth-container {
+    @include flex-center;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 40px 16px;
+    box-sizing: border-box;
+
+    background-image: var(--login-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    position: relative;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            135deg,
+            rgba(245, 247, 250, 0.85) 0%,
+            rgba(228, 232, 240, 0.85) 100%
+        );
+        z-index: 0;
+    }
+
+    > * {
+        position: relative;
+        z-index: 1;
+    }
+
+    @media (min-width: 768px) {
+        padding: 60px 24px;
+    }
+}
+
+.logo-container {
+    margin-bottom: 40px;
+    text-align: center;
+
+    .auth-logo img {
+        height: 160px;
+        width: auto;
+
+        @media (min-width: 768px) {
+            height: 120px;
+        }
+    }
+}
+
+.check-email-card {
+    width: 100%;
+    max-width: 520px;
+    background: $white;
+    border-radius: 24px;
+    @include card-shadow;
+    padding: 48px 40px;
+    overflow: hidden;
+    animation: fadeInUp 0.6s ease-out;
+
+    @media (max-width: 480px) {
+        padding: 32px 24px;
+        border-radius: 16px;
+    }
+}
+
+.card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+}
+
+.success-icon {
+    @include flex-center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: color-mix(
+        in srgb,
+        var(--theme-default) 12%,
+        $white
+    );
+    color: var(--theme-default);
+    font-size: 32px;
+}
+
+.check-email-title {
+    font: 700 28px/36px var(--font-primary);
+    color: $black;
+    margin: 0;
+
+    @media (min-width: 768px) {
+        font-size: 32px;
+        line-height: 40px;
+    }
+}
+
+.check-email-description {
+    font: 400 16px/24px var(--font-primary);
+    color: $dark-gray;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.check-email-actions {
+    display: grid;
+    gap: 16px;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.submit-button {
+    background-color: var(--theme-secondary);
+    color: $white;
+    border: none;
+    border-radius: 12px;
+    padding: 18px 32px;
+    font: 700 16px/24px var(--font-primary);
+    cursor: pointer;
+    @include transition(all);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+
+    &:hover:not([disabled]) {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px
+            color-mix(in srgb, var(--theme-default) 30%, transparent);
+    }
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 4px
+            color-mix(in srgb, var(--theme-default) 20%, transparent);
+    }
+
+    &:active:not([disabled]) {
+        transform: translateY(0);
+    }
+
+    &[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+}
+
+.btn {
+    border-radius: 12px;
+    padding: 18px 32px;
+    font: 700 16px/24px var(--font-primary);
+    cursor: pointer;
+    @include transition(all);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    border: none;
+
+    &.btn-secondary {
+        background: $black;
+        color: $white;
+
+        &:hover:not([disabled]) {
+            background: rgba($black, 0.9);
+            transform: translateY(-2px);
+        }
+
+        &[disabled] {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
