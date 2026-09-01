@@ -15,11 +15,11 @@ export function validateTeamsUpdate(
             'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.UPDATE.NAME_REQUIRE'
         );
     }
-    if (!contract.description) {
-        throw new GenericRequiredError(
-            'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.UPDATE.DESCRIPTION_REQUIRE'
-        );
-    }
+    // if (!contract.description) {
+    //     throw new GenericRequiredError(
+    //         'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.UPDATE.DESCRIPTION_REQUIRE'
+    //     );
+    // }
     if (!contract.reportTypes?.length) {
         throw new GenericRequiredError(
             'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.UPDATE.REPORT_TYPES_REQUIRE'
