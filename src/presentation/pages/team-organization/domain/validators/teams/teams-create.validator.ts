@@ -10,11 +10,11 @@ export function validateTeamsCreate(
             'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.CREATE.NAME_REQUIRE'
         );
     }
-    if (!contract.description) {
-        throw new GenericRequiredError(
-            'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.CREATE.DESCRIPTION_REQUIRE'
-        );
-    }
+    // if (!contract.description) {
+    //     throw new GenericRequiredError(
+    //         'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.CREATE.DESCRIPTION_REQUIRE'
+    //     );
+    // }
     if (!contract.reportTypes?.length) {
         throw new GenericRequiredError(
             'TEAM_ORGANIZATION.TEAMS.FORM.ERROR.CREATE.REPORT_TYPES_REQUIRE'
