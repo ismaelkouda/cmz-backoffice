@@ -5,6 +5,7 @@ import { DetailsProps } from '@pages/processing/domain/interfaces/details/detail
 import { DetailsItemApiDto } from '@pages/processing/infrastructure/api/dto/details/details-response-api.dto';
 import { ProcessingStateMapper } from '@pages/processing/infrastructure/data/mappers/details/details-processing-state.mapper';
 import { StateMapper } from '@pages/processing/infrastructure/data/mappers/details/details-state.mapper';
+import { ActorDto } from '@shared/data/dto/actor.dto';
 import { ActorMapper } from '@shared/data/mappers/actor.mapper';
 import { AdministrativeBoundaryMapper } from '@shared/data/mappers/administrative-boundary.mapper';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
@@ -50,12 +51,17 @@ export class DetailsMapper extends SimpleResponseMapper<
     protected mapItemFromDto(dto: DetailsItemApiDto): DetailsEntity {
         MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
+        const actor = {
+            ...dto.initiator,
+            id: dto.initiator?.email,
+        } as ActorDto;
+
         const props: DetailsProps = {
             type: TypeReport.PROCESSING,
             uniqId: dto.uniq_id,
             reportUniqId: dto.request_report_uniq_id,
             initiatorPhone: dto.initiator_phone_number,
-            initiator: this.utils.memoized(dto.initiator, (i) =>
+            initiator: this.utils.memoized(actor, (i) =>
                 this.actorMapper.mapToEntity(i)
             ),
             acknowledgedBy: this.utils.memoized(dto.acknowledged_by, (a) =>
@@ -118,6 +124,7 @@ export class DetailsMapper extends SimpleResponseMapper<
             confirmCount: dto.confirm_count,
             placeDescription: dto.place_description,
         };
+        console.log('22222DetailsMapper mapItemFromDto props:', props);
 
         const cacheKey = `dto:${dto.uniq_id}`;
         const cached = this.entityCache.get(cacheKey);
