@@ -99,11 +99,7 @@ $dark-gray: var(--color-gray);
     width: 72px;
     height: 72px;
     border-radius: 50%;
-    background-color: color-mix(
-        in srgb,
-        var(--theme-default) 12%,
-        $white
-    );
+    background-color: color-mix(in srgb, var(--theme-default) 12%, $white);
     color: var(--theme-default);
     font-size: 32px;
 }
@@ -117,6 +113,13 @@ $dark-gray: var(--color-gray);
         font-size: 32px;
         line-height: 40px;
     }
+}
+
+.check-email-email {
+    font: 700 17px/26px var(--font-primary);
+    color: var(--theme-default, #2563eb);
+    margin: 0;
+    word-break: break-word;
 }
 
 .check-email-description {

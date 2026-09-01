@@ -13,6 +13,12 @@
             <h1 class="check-email-title">
                 {{ 'FORGOT_PASSWORD.CHECK_EMAIL.TITLE' | translate }}
             </h1>
+            <p class="check-email-email">
+                {{
+                    'FORGOT_PASSWORD.CHECK_EMAIL.EMAIL_SENT_TO'
+                        | translate: { email: maskedEmail() }
+                }}
+            </p>
             <p class="check-email-description">
                 {{ 'FORGOT_PASSWORD.CHECK_EMAIL.DESCRIPTION' | translate }}
             </p>
@@ -21,9 +27,7 @@
                 <button
                     type="button"
                     class="submit-button"
-                    [disabled]="
-                        resendCountdown() > 0 || loading()
-                    "
+                    [disabled]="resendDisabled()"
                     (click)="onResend()"
                     [attr.aria-label]="
                         'FORGOT_PASSWORD.CHECK_EMAIL.RESEND' | translate

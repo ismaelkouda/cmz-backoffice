@@ -18,6 +18,9 @@ export class ForgotPasswordStore {
     public readonly loading = this.facade.loading;
     public readonly error = this.facade.error;
     public readonly session = this.facade.items;
+    public readonly submittedEmail = this.facade.submittedEmail;
+    public readonly retryAfter = this.facade.retryAfter;
+    public readonly startedAt = this.facade.startedAt;
     public readonly VALIDATION = FormValidators;
 
     public readonly form: FormGroup<ForgotPasswordFormControl> =

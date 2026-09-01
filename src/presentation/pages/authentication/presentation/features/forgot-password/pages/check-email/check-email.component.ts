@@ -1,4 +1,11 @@
-import { Component, computed, inject, OnDestroy, signal } from '@angular/core';
+import {
+    Component,
+    computed,
+    effect,
+    inject,
+    OnDestroy,
+    signal,
+} from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
@@ -6,7 +13,7 @@ import { ForgotPasswordFacade } from '@presentation/pages/authentication/applica
 import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
 import { AUTH } from '@presentation/app.routes';
 
-const RESEND_COOLDOWN_SECONDS = 60;
+const DEFAULT_RETRY_AFTER_SECONDS = 60;
 
 @Component({
     selector: 'app-check-email',
@@ -26,45 +33,65 @@ export class CheckEmailComponent implements OnDestroy {
     protected readonly APP_NAME = this.appConfig.customization.app.name;
 
     protected readonly loading = this.facade.loading;
+    protected readonly hasEmail = this.facade.submittedEmail;
+    protected readonly maskedEmail = computed(() =>
+        this.maskEmail(this.facade.submittedEmail())
+    );
+
     protected readonly resendCountdown = signal(0);
     protected readonly countdownLabel = computed(() =>
         this.formatCountdown(this.resendCountdown())
     );
+    protected readonly resendDisabled = computed(
+        () => this.resendCountdown() > 0 || !this.hasEmail() || this.loading()
+    );
 
     private timer: ReturnType<typeof setInterval> | null = null;
 
+    constructor() {
+        effect(() => {
+            this.facade.retryAfter();
+            this.facade.startedAt();
+            this.recomputeRemaining();
+        });
+        this.recomputeRemaining();
+        this.timer = setInterval(() => this.recomputeRemaining(), 1000);
+    }
+
     protected onResend(): void {
         const email = this.facade.submittedEmail();
-        if (!email || this.resendCountdown() > 0 || this.facade.loading()) {
+        if (!email || this.resendDisabled()) {
             return;
         }
         this.facade.execute({ email });
-        this.startCountdown();
     }
 
     protected goToLogin(): void {
         this.router.navigate(['/', AUTH, LOGIN_ROUTE]);
     }
 
-    private startCountdown(): void {
-        this.stopTimer();
-        this.resendCountdown.set(RESEND_COOLDOWN_SECONDS);
-        this.timer = setInterval(() => {
-            const next = this.resendCountdown() - 1;
-            if (next <= 0) {
-                this.resendCountdown.set(0);
-                this.stopTimer();
-            } else {
-                this.resendCountdown.set(next);
-            }
-        }, 1000);
+    private recomputeRemaining(): void {
+        const retryAfter = this.facade.retryAfter();
+        const startedAt = this.facade.startedAt();
+        if (!retryAfter) {
+            const fallback = this.hasEmail() ? DEFAULT_RETRY_AFTER_SECONDS : 0;
+            this.resendCountdown.set(fallback);
+            return;
+        }
+        const elapsed = Math.floor(
+            (Date.now() - (startedAt || Date.now())) / 1000
+        );
+        this.resendCountdown.set(Math.max(0, retryAfter - elapsed));
     }
 
-    private stopTimer(): void {
-        if (this.timer) {
-            clearInterval(this.timer);
-            this.timer = null;
+    private maskEmail(email: string): string {
+        if (!email || !email.includes('@')) {
+            return email;
         }
+        const [local, domain] = email.split('@');
+        const head = local.charAt(0);
+        const tail = local.length > 2 ? local.charAt(local.length - 1) : '';
+        return `${head}***${tail}@${domain}`;
     }
 
     private formatCountdown(seconds: number): string {
@@ -76,6 +103,9 @@ export class CheckEmailComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.stopTimer();
+        if (this.timer) {
+            clearInterval(this.timer);
+            this.timer = null;
+        }
     }
 }

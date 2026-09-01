@@ -343,6 +343,7 @@
         },
         "CHECK_EMAIL": {
             "TITLE": "Revise su bandeja de entrada",
+            "EMAIL_SENT_TO": "Hemos enviado un enlace de restablecimiento de contraseña a {{email}}",
             "DESCRIPTION": "Si existe una cuenta asociada a esta dirección, recibirá un enlace para restablecer su contraseña. El enlace expirará después de un cierto período.",
             "RESEND": "Reenviar correo",
             "RESEND_IN": "Reenviar correo en"
