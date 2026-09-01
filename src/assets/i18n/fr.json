@@ -357,6 +357,12 @@
             "RESEND": "Renvoyer",
             "LOADING": "Chargement..."
         },
+        "CHECK_EMAIL": {
+            "TITLE": "Consultez votre boîte mail",
+            "DESCRIPTION": "Si un compte est associé à cette adresse, vous recevrez un lien pour réinitialiser votre mot de passe. Le lien expirera après un certain délai.",
+            "RESEND": "Renvoyer l'e-mail",
+            "RESEND_IN": "Renvoyer l'e-mail dans"
+        },
         "MESSAGES": {
             "SUCCESS": {
                 "EMAIL_SENT": "E-mail envoyé avec succès",
@@ -369,6 +375,58 @@
                 "UNABLE_TO_COMPLETE_REQUEST": "Impossible de finaliser la demande",
                 "UNABLE_TO_COMPLETE_RESET": "Impossible de finaliser la réinitialisation"
             }
+        }
+    },
+    "PASSWORD_RESET": {
+        "UI": {
+            "FORGOT_PASSWORD_TITLE": "Mot de passe oublié",
+            "FORGOT_PASSWORD_SUBTITLE": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe",
+            "RESET_PASSWORD_TITLE": "Réinitialisation du mot de passe",
+            "RESET_PASSWORD_SUBTITLE": "Entrez votre nouveau mot de passe"
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Adresse e-mail",
+                "PLACEHOLDER": "cmz@ansut.ci",
+                "REQUIRED": "L'adresse e-mail est requise",
+                "INVALID_FORMAT": "L'adresse e-mail doit être valide"
+            },
+            "PASSWORD": {
+                "LABEL": "Nouveau mot de passe",
+                "REQUIRED": "Le mot de passe est requis",
+                "MIN_LENGTH": "Le mot de passe doit contenir au moins 6 caractères",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmation du mot de passe",
+                "REQUIRED": "La confirmation du mot de passe est requise"
+            }
+        },
+        "BUTTONS": {
+            "RESET": "Réinitialiser",
+            "CONFIRM": "Confirmer",
+            "CANCEL": "Annuler",
+            "BACK_TO_LOGIN": "Retour à la connexion",
+            "RESEND": "Renvoyer",
+            "LOADING": "Chargement..."
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "EMAIL_SENT": "E-mail envoyé avec succès",
+                "EMAIL_SENT_MESSAGE": "Si l'adresse e-mail que vous avez fournie correspond à un compte enregistré dans notre système, vous allez bientôt recevoir un e-mail contenant des instructions pour réinitialiser votre mot de passe. Veuillez consulter votre boîte de réception.",
+                "PASSWORD_RESET": "Mot de passe réinitialisé avec succès"
+            },
+            "NOT_RECEIVED": "Vous n'avez pas reçu le courrier ?",
+            "ERROR": {
+                "FAILED": "Échec de la réinitialisation du mot de passe",
+                "UNABLE_TO_COMPLETE_REQUEST": "Impossible de finaliser la demande",
+                "UNABLE_TO_COMPLETE_RESET": "Impossible de finaliser la réinitialisation"
+            }
+        },
+        "SUCCESS": {
+            "TITLE": "Mot de passe réinitialisé",
+            "DESCRIPTION": "Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+            "LOGIN": "Se connecter"
         }
     },
     "DASHBOARD": {

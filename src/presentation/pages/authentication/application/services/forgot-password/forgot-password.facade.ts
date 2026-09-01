@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { ForgotPasswordResponseEntity } from '@presentation/pages/authentication/domain/entities/forgot-password/forgot-password-response.entity';
 import { ForgotPasswordRequestDto } from '@presentation/pages/authentication/application/dto/forgot-password/forgot-password-request.dto';
 import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
@@ -14,7 +14,11 @@ export class ForgotPasswordFacade extends ObjectBaseFacade<
     private readonly ui = inject(UiFeedbackService);
     private readonly bus = inject(ForgotPasswordRequestBus);
 
+    private readonly submittedEmailSignal = signal<string | null>(null);
+    readonly submittedEmail = this.submittedEmailSignal.asReadonly();
+
     execute(dto: ForgotPasswordRequestDto): void {
+        this.submittedEmailSignal.set(dto.email);
         const command = new ForgotPasswordRequestCommand(dto.email);
         const fetch$ = this.bus.dispatch(command);
         this.fetch(dto, fetch$, this.ui);

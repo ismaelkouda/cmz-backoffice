@@ -26,15 +26,15 @@ export const REJECT_TABLE = {
             width: '8rem',
         },
         {
-            field: 'requestReportUniqId',
+            field: 'reason',
             header: 'REPORT_STATES.REJECT.TABLE.CODE_ERROR',
             class: 'text-center',
-            width: '8rem',
+            width: '10rem',
         },
         {
             field: 'reportTypeLabel',
             header: 'REPORT_STATES.REJECT.TABLE.REPORT_TYPE',
-            width: '11rem',
+            width: '8rem',
         },
         {
             field: 'operators',
@@ -61,7 +61,7 @@ export const REJECT_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
-        'requestReportUniqId',
+        'reason',
         'reportTypeLabel',
         'operators',
         'sourceLabel',

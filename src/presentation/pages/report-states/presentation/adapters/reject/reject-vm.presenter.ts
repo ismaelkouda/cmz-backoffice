@@ -15,6 +15,8 @@ export class RejectPresenter {
             status: item.status,
             statusLabel: this.t(item.status),
             statusStyle: item.statusStyle(item.status),
+            reason: `[${item.reason}] ${item.reasonLabel}`,
+            reasonLabel: item.reasonLabel,
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,

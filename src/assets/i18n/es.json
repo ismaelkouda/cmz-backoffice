@@ -276,7 +276,9 @@
             },
             "CONFIRM_PASSWORD": {
                 "LABEL": "Confirmar contraseña",
-                "REQUIRED": "La confirmación de la contraseña es obligatoria"
+                "REQUIRED": "La confirmación de la contraseña es obligatoria",
+                "MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
             }
         },
         "BUTTONS": {
@@ -292,6 +294,64 @@
                 "EMAIL_SENT": "Correo electrónico enviado exitosamente",
                 "EMAIL_SENT_MESSAGE": "Si la dirección de correo electrónico que proporcionó corresponde a una cuenta registrada en nuestro sistema, recibirá pronto un correo con instrucciones para restablecer su contraseña. Por favor, revise su bandeja de entrada.",
                 "PASSWORD_RESET": "Contraseña restablecida exitosamente"
+            },
+            "NOT_RECEIVED": "¿No recibió el correo?",
+            "ERROR": {
+                "FAILED": "Error al restablecer la contraseña",
+                "UNABLE_TO_COMPLETE_REQUEST": "No se pudo completar la solicitud",
+                "UNABLE_TO_COMPLETE_RESET": "No se pudo completar el restablecimiento"
+            }
+        },
+        "SUCCESS": {
+            "TITLE": "Contraseña restablecida",
+            "DESCRIPTION": "Su contraseña ha sido modificada exitosamente. Ahora puede iniciar sesión con su nueva contraseña.",
+            "LOGIN": "Iniciar sesión"
+        }
+    },
+    "FORGOT_PASSWORD": {
+        "UI": {
+            "FORGOT_PASSWORD_TITLE": "¿Olvidó su contraseña?",
+            "FORGOT_PASSWORD_SUBTITLE": "Ingrese su dirección de correo electrónico y le enviaremos un enlace para restablecer su contraseña",
+            "RESET_PASSWORD_TITLE": "Restablecer contraseña",
+            "RESET_PASSWORD_SUBTITLE": "Ingrese su nueva contraseña"
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Dirección de correo electrónico",
+                "PLACEHOLDER": "cmz@ansut.ci",
+                "REQUIRED": "La dirección de correo electrónico es obligatoria",
+                "INVALID_FORMAT": "La dirección de correo electrónico debe ser válida"
+            },
+            "PASSWORD": {
+                "LABEL": "Nueva contraseña",
+                "REQUIRED": "La contraseña es obligatoria",
+                "MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmar contraseña",
+                "REQUIRED": "La confirmación de la contraseña es obligatoria"
+            }
+        },
+        "BUTTONS": {
+            "RESET": "Restablecer",
+            "CONFIRM": "Confirmar",
+            "CANCEL": "Cancelar",
+            "BACK_TO_LOGIN": "Volver a iniciar sesión",
+            "RESEND": "Reenviar",
+            "LOADING": "Cargando..."
+        },
+        "CHECK_EMAIL": {
+            "TITLE": "Revise su bandeja de entrada",
+            "DESCRIPTION": "Si existe una cuenta asociada a esta dirección, recibirá un enlace para restablecer su contraseña. El enlace expirará después de un cierto período.",
+            "RESEND": "Reenviar correo",
+            "RESEND_IN": "Reenviar correo en"
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "EMAIL_SENT": "Correo enviado con éxito",
+                "EMAIL_SENT_MESSAGE": "Si la dirección de correo electrónico que proporcionó coincide con una cuenta registrada en nuestro sistema, pronto recibirá un correo con instrucciones para restablecer su contraseña. Revise su bandeja de entrada.",
+                "FORGOT_PASSWORD": "Contraseña restablecida exitosamente"
             },
             "NOT_RECEIVED": "¿No recibió el correo?",
             "ERROR": {
