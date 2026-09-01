@@ -218,9 +218,9 @@ export class ActionsTreatmentComponent {
             })
         );
     });
-    private readonly hasClosed = computed(
-        () => this.closure()?.state === State.IN_PROGRESS
-    );
+    private readonly hasClosed = computed(() => {
+        return this.closure()?.state === State.IN_PROGRESS;
+    });
     protected readonly canClosure = computed(
         () => !this.canTreat() || this.loading() || !this.hasClosed()
     );
@@ -351,7 +351,7 @@ export class ActionsTreatmentComponent {
         }
 
         this.lastSuccess = current;
-        this.closureFacade.read({ uniqId });
+        this.closureFacade.read({ uniqId }, { forceRefresh: true });
     });
     constructor() {
         this.pageTitle$.subscribe((translatedTitle) => {
