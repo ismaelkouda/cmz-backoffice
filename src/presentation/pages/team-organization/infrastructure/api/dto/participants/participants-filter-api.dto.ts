@@ -1,8 +1,8 @@
-import { RolesDto } from '@shared/data/dto/roles.dto';
+// import { RolesDto } from '@shared/data/dto/roles.dto';
 
 export interface ParticipantsFilterApiDto {
     search?: string;
-    role?: RolesDto;
+    role?: string;
     team_uniq_id?: string;
     status?: string;
 }

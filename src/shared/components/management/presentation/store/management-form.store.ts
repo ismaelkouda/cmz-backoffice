@@ -172,9 +172,7 @@ export class ManagementFormStore {
             'coordinates',
             'locationName',
             'reportType',
-            'description',
             'operators',
-            'placeDescription',
             'comment',
         ] as const;
 

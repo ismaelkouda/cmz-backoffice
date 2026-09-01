@@ -11,11 +11,14 @@ export class ParticipantsFilterMapper {
     mapEntityToApi(vo: ParticipantsFilterVo): ParticipantsFilterApiDto {
         const params: ParticipantsFilterApiDto = {} as ParticipantsFilterApiDto;
 
+        console.log('ParticipantsFilterMapper mapEntityToApi vo:', vo);
+
         if (vo.search) {
             params.search = vo.search;
         }
         if (vo.role) {
-            params.role = this.rolesMapper.mapToDto(vo.role);
+            params.role = vo.role;
+            // params.role = this.rolesMapper.mapToDto(vo.role);
         }
         if (vo.team) {
             params.team_uniq_id = vo.team;

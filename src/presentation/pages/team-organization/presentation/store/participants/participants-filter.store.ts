@@ -54,6 +54,7 @@ export class ParticipantsFilterStore {
             search: raw.search || undefined,
             status: raw.status || undefined,
             role: raw.role || undefined,
+            team: raw.team || undefined,
         };
     }
 }
