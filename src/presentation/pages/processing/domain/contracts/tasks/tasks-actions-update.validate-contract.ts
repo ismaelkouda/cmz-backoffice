@@ -9,5 +9,5 @@ export interface TasksActionsUpdateValidateContract {
     description: string;
     shouldNotifyUser: boolean;
     shouldDisplayInNewspaper: boolean;
-    isConform: Conformity;
+    isConform: Conformity | null;
 }
