@@ -359,6 +359,7 @@
         },
         "CHECK_EMAIL": {
             "TITLE": "Consultez votre boîte mail",
+            "EMAIL_SENT_TO": "Nous avons envoyé un lien de réinitialisation à {{email}}",
             "DESCRIPTION": "Si un compte est associé à cette adresse, vous recevrez un lien pour réinitialiser votre mot de passe. Le lien expirera après un certain délai.",
             "RESEND": "Renvoyer l'e-mail",
             "RESEND_IN": "Renvoyer l'e-mail dans"

@@ -343,6 +343,7 @@
         },
         "CHECK_EMAIL": {
             "TITLE": "Check your inbox",
+            "EMAIL_SENT_TO": "We sent a password reset link to {{email}}",
             "DESCRIPTION": "If an account is associated with this address, you will receive a link to reset your password. The link will expire after a certain period.",
             "RESEND": "Resend email",
             "RESEND_IN": "Resend email in"
