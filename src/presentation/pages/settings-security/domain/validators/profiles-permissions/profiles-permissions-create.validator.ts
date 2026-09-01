@@ -10,11 +10,11 @@ export function validateProfilesPermissionsCreate(
             'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.ERROR.CREATE.NAME_REQUIRE'
         );
     }
-    if (!contract.description) {
-        throw new GenericRequiredError(
-            'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.ERROR.CREATE.DESCRIPTION_REQUIRE'
-        );
-    }
+    // if (!contract.description) {
+    //     throw new GenericRequiredError(
+    //         'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.ERROR.CREATE.DESCRIPTION_REQUIRE'
+    //     );
+    // }
     if (!contract.permissions) {
         throw new GenericRequiredError(
             'SETTINGS_SECURITY.PROFILES_PERMISSIONS.FORM.ERROR.CREATE.PERMISSIONS_REQUIRE'

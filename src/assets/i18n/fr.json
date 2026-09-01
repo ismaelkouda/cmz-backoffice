@@ -297,7 +297,8 @@
                 "REAL_TIME_DASHBOARDS": "Tableaux de bord en temps réel",
                 "DYNAMIC_GEOGRAPHIC_PORTAL": "Portail géographique dynamique",
                 "OPERATOR_COVERAGE_DATA": "Couvertures réseaux d'opérateurs",
-                "EQUIPMENT_AND_POPULATION_STATISTICS": "Equipements & populations"
+                "EQUIPMENT_AND_POPULATION_STATISTICS": "Equipements & populations",
+                "ACTOR_DATA_AND_API_ACCESS": "Données d'acteurs & Accès API"
             }
         },
         "FORM": {
@@ -5730,6 +5731,14 @@
                 "STATUS": "Status",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des statistiques",
+                "EXPORT": "Exporter la liste de {nb} statistiques",
+                "CHOOSE": "Choisir une action",
+                "NO_EXPORT": "Aucune statistique à exporter",
+                "NO_PERMISSION_EXPORT": "Exportation des statistiques non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         }
     },

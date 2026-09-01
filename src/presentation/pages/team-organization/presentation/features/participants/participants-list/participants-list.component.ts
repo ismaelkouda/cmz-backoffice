@@ -229,7 +229,7 @@ export class ParticipantsListComponent {
         this.currentLang();
         const statusOpts = this.statusOptions();
         const rolesOpts = this.rolesOptions();
-        // const teamsOpts = this.teams();
+        const teamsOpts = this.teams();
         return [
             {
                 type: 'text',
@@ -278,7 +278,7 @@ export class ParticipantsListComponent {
                 name: 'team',
                 label: this.t('TEAM_ORGANIZATION.PARTICIPANTS.FILTER.TEAMS'),
                 placeholder: this.t('COMMON.SELECT_PLACEHOLDER'),
-                options: this.teams(),
+                options: teamsOpts,
                 optionLabel: 'label',
                 optionValue: 'value',
                 showClear: true,
