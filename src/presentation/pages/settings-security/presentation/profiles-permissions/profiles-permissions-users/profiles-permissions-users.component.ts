@@ -45,6 +45,7 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { map, tap } from 'rxjs';
 import SweetAlert from 'sweetalert2';
+import { ProfilesPermissionsFacade } from '@presentation/pages/settings-security/application/services/profiles-permissions/profiles-permissions.facade';
 
 @Component({
     selector: 'app-profiles-permissions-users',
@@ -72,6 +73,9 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
     public readonly facade = inject(ProfilesPermissionsUsersFacade);
     public readonly profilesPermissionsSelectFacade = inject(
         ProfilesPermissionsSelectFacade
+    );
+    public readonly profilesPermissionsFacade = inject(
+        ProfilesPermissionsFacade
     );
     public readonly usersSelectFacade = inject(UsersSelectFacade);
     private readonly router = inject(Router);
@@ -153,6 +157,7 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
         }
         this.closeAssignModal();
         this.closeReassignModal();
+        this.profilesPermissionsFacade.refreshWithLastFilterAndPage();
         this.usersSelectedInTable.set([]);
         this.lastSuccess = current;
     });
@@ -200,14 +205,14 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
     >([]);
 
     public readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.ASSIGN',
-            actionId: 'assign',
-            class: 'btn-primary',
-            icon: 'pi pi-user-plus',
-            translateKey: 'COMMON.ASSIGN',
-            disabled: this.usersSelectedInTable().length >= 1,
-        },
+        // {
+        //     label: 'COMMON.ASSIGN',
+        //     actionId: 'assign',
+        //     class: 'btn-primary',
+        //     icon: 'pi pi-user-plus',
+        //     translateKey: 'COMMON.ASSIGN',
+        //     disabled: this.usersSelectedInTable().length >= 1,
+        // },
         {
             label: 'COMMON.REASSIGN',
             actionId: 'reassign',
@@ -217,13 +222,21 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
             disabled: this.usersSelectedInTable().length === 0,
         },
         {
-            label: 'COMMON.REMOVE',
-            actionId: 'remove',
-            class: 'btn-danger',
-            icon: 'pi pi-trash',
-            translateKey: 'COMMON.REMOVE',
-            disabled: this.usersSelectedInTable().length === 0,
+            label: 'COMMON.REFRESH',
+            actionId: 'refresh',
+            class: 'btn-dark',
+            icon: 'pi pi-refresh',
+            translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('REQUESTS.QUEUES.TOOLTIP.REFRESH'),
         },
+        // {
+        //     label: 'COMMON.REMOVE',
+        //     actionId: 'remove',
+        //     class: 'btn-danger',
+        //     icon: 'pi pi-trash',
+        //     translateKey: 'COMMON.REMOVE',
+        //     disabled: this.usersSelectedInTable().length === 0,
+        // },
     ]);
 
     readonly filterFields: Signal<FilterField[]> = computed(() => {
@@ -319,6 +332,8 @@ export class ProfilesPermissionsUsersComponent implements OnInit {
             this.openAssignModal();
         } else if (actionId === 'remove') {
             this.onRemoveUsers();
+        } else if (actionId === 'refresh') {
+            this.onRefresh();
         }
     }
 
