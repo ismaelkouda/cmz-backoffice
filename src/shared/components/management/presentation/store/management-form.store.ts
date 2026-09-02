@@ -173,7 +173,6 @@ export class ManagementFormStore {
             'locationName',
             'reportType',
             'operators',
-            'placePhoto',
             'comment',
         ] as const;
 
