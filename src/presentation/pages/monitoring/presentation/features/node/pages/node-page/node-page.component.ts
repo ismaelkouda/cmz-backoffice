@@ -14,7 +14,7 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
     imports: [TranslateModule, DashboardViewerComponent],
     template: `
         <app-dashboard-viewer
-            [grafanaLink]="data()?.grafanaLink"
+            [grafanaLink]="data()"
             [titleKey]="'MONITORING.NODE.TITLE'"
             [moduleKey]="'MONITORING.LABEL'"
             [subModuleKey]="'MONITORING.NODE.LABEL'"
@@ -30,7 +30,7 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
 })
 export class NodePageComponent implements OnInit {
     private readonly facade = inject(NodeFacade);
-    readonly data = this.facade.items;
+    readonly data = this.facade.url;
     readonly loading = this.facade.loading;
     readonly error = this.facade.error;
 
