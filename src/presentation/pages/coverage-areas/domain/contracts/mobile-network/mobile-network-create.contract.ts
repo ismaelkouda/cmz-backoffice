@@ -9,4 +9,6 @@ export interface MobileNetworkCreateContract {
     networkTechnology?: string;
     operator?: Operator;
     coverageRadius?: number;
+    lng?: number;
+    lat?: number;
 }

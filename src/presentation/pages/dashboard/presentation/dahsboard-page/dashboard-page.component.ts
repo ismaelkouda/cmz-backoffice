@@ -179,7 +179,7 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-clock pi-spin',
-                routerFilter: () => this.router.navigate(['/requests/tasks']),
+                routerFilter: () => this.router.navigate(['/requests/queues']),
             },
             {
                 key: 'totalReportsInProcessing',

@@ -7,4 +7,6 @@ export interface MobileNetworkCreateApiDto {
     network_technology: string;
     operator: string;
     coverage_radius?: number;
+    lng: number;
+    lat: number;
 }

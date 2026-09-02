@@ -8,6 +8,8 @@ export class MobileNetworkUpdateCommand {
         public readonly towerHeight: string | undefined,
         public readonly networkTechnology: string | undefined,
         public readonly operator: string | undefined,
-        public readonly coverageRadius: number | undefined
+        public readonly coverageRadius: number | undefined,
+        public readonly lng: number | undefined,
+        public readonly lat: number | undefined
     ) {}
 }

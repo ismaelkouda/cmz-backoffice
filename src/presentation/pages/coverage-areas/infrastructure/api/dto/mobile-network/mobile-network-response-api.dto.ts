@@ -10,6 +10,8 @@ export interface MobileNetworkItemApiDto {
     network_technology: string[];
     operator: string;
     coverage_radius: number;
+    lng: number;
+    lat: number;
     is_active: boolean;
     created_at: string;
     updated_at: string;

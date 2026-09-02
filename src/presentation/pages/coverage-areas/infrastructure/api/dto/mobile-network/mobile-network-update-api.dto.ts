@@ -8,4 +8,6 @@ export interface MobileNetworkUpdateApiDto {
     network_technology: string;
     operator: string;
     coverage_radius?: number;
+    lng: number;
+    lat: number;
 }

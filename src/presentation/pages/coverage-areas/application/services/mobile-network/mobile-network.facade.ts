@@ -152,7 +152,9 @@ export class MobileNetworkFacade extends BaseFacade<
             dto.towerHeight,
             dto.networkTechnology,
             dto.operator,
-            dto.coverageRadius
+            dto.coverageRadius,
+            dto.lng,
+            dto.lat
         );
 
         this.handleActionWithRefresh(
@@ -183,7 +185,9 @@ export class MobileNetworkFacade extends BaseFacade<
             dto.towerHeight,
             dto.networkTechnology,
             dto.operator,
-            dto.coverageRadius
+            dto.coverageRadius,
+            dto.lng,
+            dto.lat
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

@@ -9,4 +9,6 @@ export interface MobileNetworkFormControl {
     networkTechnology: FormControl<string | undefined>;
     operator: FormControl<string | undefined>;
     coverageRadius: FormControl<number | undefined>;
+    lng: FormControl<number | undefined>;
+    lat: FormControl<number | undefined>;
 }

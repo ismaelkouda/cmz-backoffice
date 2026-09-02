@@ -13,6 +13,8 @@ export interface MobileNetworkProps {
     networkTechnology: string[];
     operator: Operator;
     coverageRadius: number;
+    lng: number;
+    lat: number;
     status: Status;
     updatedAt: string;
 }

@@ -33,6 +33,12 @@ export function mobileNetworkUpdateMapper(
     if (validContract.coverageRadius) {
         params.coverage_radius = validContract.coverageRadius;
     }
+    if (validContract.lng !== undefined) {
+        params.lng = validContract.lng;
+    }
+    if (validContract.lat !== undefined) {
+        params.lat = validContract.lat;
+    }
 
     return params;
 }

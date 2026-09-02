@@ -1,0 +1,54 @@
+<div class="mobile-network-map-picker">
+    <section
+        class="mobile-network-map-toolbar"
+        aria-label="Recherche sur la carte"
+    >
+        <p-inputgroup>
+            <p-inputgroup-addon>
+                <i class="pi pi-search"></i>
+            </p-inputgroup-addon>
+            <input
+                pInputText
+                type="search"
+                autocomplete="off"
+                [placeholder]="
+                    'COVERAGE_AREAS.MOBILE_NETWORK.FORM.MAP_SEARCH_PLACEHOLDER'
+                        | translate
+                "
+                [ngModel]="searchQuery()"
+                (ngModelChange)="onSearchQueryChange($event)"
+            />
+        </p-inputgroup>
+    </section>
+
+    @if (isSearching()) {
+        <div class="mobile-network-map-message">
+            <i class="pi pi-spin pi-spinner"></i>
+            <span>{{ 'COMMON.SEARCH' | translate }}</span>
+        </div>
+    }
+
+    @if (error()) {
+        <div class="mobile-network-map-error">
+            <i class="pi pi-exclamation-triangle"></i>
+            <span>{{ error() }}</span>
+        </div>
+    }
+
+    @if (searchResults().length > 0) {
+        <div class="mobile-network-map-results">
+            @for (result of searchResults(); track result.placeId) {
+                <button type="button" (click)="selectSearchResult(result)">
+                    <i class="pi pi-map-marker"></i>
+                    <span>{{ result.displayName }}</span>
+                </button>
+            }
+        </div>
+    }
+
+    <div
+        #mapContainer
+        class="mobile-network-map"
+        [style.height]="height()"
+    ></div>
+</div>

@@ -32,6 +32,8 @@ export class MobileNetworkFindOneMapper extends SimpleResponseMapper<
             networkTechnology: dto.network_technology,
             operator: dto.operator,
             coverageRadius: dto.coverage_radius,
+            lng: dto.lng,
+            lat: dto.lat,
             updatedAt: dto.updated_at,
         };
 

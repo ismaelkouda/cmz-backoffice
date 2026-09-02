@@ -47,6 +47,14 @@ export class MobileNetworkFindOneEntity {
         return this.props.coverageRadius;
     }
 
+    get lng(): number {
+        return this.props.lng;
+    }
+
+    get lat(): number {
+        return this.props.lat;
+    }
+
     get updatedAt(): string {
         return this.props.updatedAt;
     }
