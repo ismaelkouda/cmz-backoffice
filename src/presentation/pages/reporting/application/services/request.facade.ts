@@ -1,29 +1,34 @@
-import { inject, Injectable } from '@angular/core';
-import { RequestsBus } from '@pages/reporting//application/queries-bus/requests/requests.bus';
-import { RequestsEntity } from '@pages/reporting/domain/entities/requests/requests.entity';
-import { ObjectBaseFacade } from '@shared/application/services/object-base-facade';
-import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { inject, Injectable, Signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { GrafanaDashboardService } from '@shared/services/grafana-dashboard.service';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
+
+const GRAFANA_KEY = 'requestReportReportingLink';
 
 @Injectable({
     providedIn: 'root',
 })
-export class RequestsFacade extends ObjectBaseFacade<
-    RequestsEntity,
-    undefined
-> {
-    private readonly ui = inject(UiFeedbackService);
-    private readonly bus = inject(RequestsBus);
+export class RequestsFacade {
+    private readonly grafana = inject(GrafanaDashboardService);
 
-    execute(options: FetchOptions = {}): void {
-        const fetch$ = this.bus.dispatch(options);
-        this.fetch(undefined, fetch$, this.ui);
+    readonly url: Signal<string | null> = toSignal(
+        this.grafana.url$(GRAFANA_KEY),
+        { initialValue: null }
+    );
+    readonly loading: Signal<boolean> = toSignal(
+        this.grafana.loading$(GRAFANA_KEY),
+        { initialValue: false }
+    );
+    readonly error: Signal<string | null> = toSignal(
+        this.grafana.error$(GRAFANA_KEY),
+        { initialValue: null }
+    );
+
+    execute(options?: FetchOptions): void {
+        this.grafana.load(GRAFANA_KEY, options);
     }
 
     refresh(): void {
-        const fetch$ = this.bus.dispatch({
-            forceRefresh: true,
-        });
-        this.fetch(undefined, fetch$, this.ui);
+        this.grafana.load(GRAFANA_KEY, { forceRefresh: true });
     }
 }

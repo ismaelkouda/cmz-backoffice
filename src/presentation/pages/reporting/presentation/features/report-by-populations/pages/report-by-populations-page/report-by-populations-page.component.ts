@@ -14,7 +14,7 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
     imports: [TranslateModule, DashboardViewerComponent],
     template: `
         <app-dashboard-viewer
-            [grafanaLink]="report()?.grafanaLink"
+            [grafanaLink]="report()"
             [titleKey]="'REPORTING.REPORT_BY_POPULATIONS.TITLE'"
             [moduleKey]="'REPORTING.LABEL'"
             [subModuleKey]="'REPORTING.REPORT_BY_POPULATIONS.LABEL'"
@@ -30,7 +30,7 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
 })
 export class ReportByPopulationsPageComponent implements OnInit {
     private readonly facade = inject(ReportByPopulationsFacade);
-    readonly report = this.facade.items;
+    readonly report = this.facade.url;
     readonly loading = this.facade.loading;
     readonly error = this.facade.error;
 
