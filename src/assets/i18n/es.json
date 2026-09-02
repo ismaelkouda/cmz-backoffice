@@ -3184,6 +3184,11 @@
                 "OPERATOR": "Operador",
                 "RADIUS": "Radio",
                 "RADIUS_PLACEHOLDER": "Ej: 5",
+                "LONGITUDE": "Longitud",
+                "LONGITUDE_PLACEHOLDER": "Ej: -5.5",
+                "LATITUDE": "Latitud",
+                "LATITUDE_PLACEHOLDER": "Ej: 7.5",
+                "MAP_SEARCH_PLACEHOLDER": "Buscar una dirección o coordenadas",
                 "ERROR": {
                     "DELETE": {
                         "UNIQ_ID_REQUIRE": "El identificador es requerido"
@@ -3203,7 +3208,9 @@
                         "TOWER_TYPE_REQUIRE": "El tipo de torre es requerido",
                         "TOWER_SIZE_REQUIRE": "El tamaño de la torre es requerido",
                         "TECHNOLOGY_REQUIRE": "La tecnología es requerida",
-                        "OPERATOR_REQUIRE": "El operador es requerido"
+                        "OPERATOR_REQUIRE": "El operador es requerido",
+                        "LONGITUDE_REQUIRE": "La longitud es requerida",
+                        "LATITUDE_REQUIRE": "La latitud es requerida"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "El identificador es requerido",
@@ -3212,7 +3219,9 @@
                         "TOWER_TYPE_REQUIRE": "El tipo de torre es requerido",
                         "TOWER_SIZE_REQUIRE": "El tamaño de la torre es requerido",
                         "TECHNOLOGY_REQUIRE": "La tecnología es requerida",
-                        "OPERATOR_REQUIRE": "El operador es requerido"
+                        "OPERATOR_REQUIRE": "El operador es requerido",
+                        "LONGITUDE_REQUIRE": "La longitud es requerida",
+                        "LATITUDE_REQUIRE": "La latitud es requerida"
                     }
                 }
             },

@@ -15,5 +15,7 @@ export function mobileNetworkCreateVo(
         networkTechnology: contract.networkTechnology,
         operator: contract.operator,
         coverageRadius: contract.coverageRadius,
+        lng: contract.lng,
+        lat: contract.lat,
     };
 }

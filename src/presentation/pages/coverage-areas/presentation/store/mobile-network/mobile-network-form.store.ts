@@ -101,13 +101,22 @@ export class MobileNetworkFormStore {
                 nonNullable: true,
                 validators: [Validators.required],
             }),
+
+            lng: new FormControl<number | undefined>(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
+
+            lat: new FormControl<number | undefined>(undefined, {
+                nonNullable: true,
+                validators: [Validators.required],
+            }),
         });
     }
 
     private initializeDetailsModeEffect(): void {
         effect(() => {
             const item = this.item();
-            console.log('item', item);
             if (this.isCreateMode() || !item) {
                 return;
             }
@@ -121,6 +130,8 @@ export class MobileNetworkFormStore {
                 networkTechnology,
                 operator,
                 coverageRadius,
+                lng,
+                lat,
             } = item;
             const details = this.isDetailsMode();
 
@@ -135,6 +146,8 @@ export class MobileNetworkFormStore {
                         networkTechnology,
                         operator,
                         coverageRadius,
+                        lng,
+                        lat,
                     });
                     if (details) {
                         this.form.disable({ emitEvent: false });
@@ -173,6 +186,8 @@ export class MobileNetworkFormStore {
                 networkTechnology: undefined,
                 operator: undefined,
                 coverageRadius: undefined,
+                lng: undefined,
+                lat: undefined,
             },
             {
                 emitEvent: true,

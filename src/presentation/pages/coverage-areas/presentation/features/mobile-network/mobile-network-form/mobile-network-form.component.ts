@@ -41,6 +41,8 @@ import SweetAlert from 'sweetalert2';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
 import { SiteGroupSelectFacade } from '@presentation/pages/coverage-areas/application/services/site-group/site-group-select.facade';
+import { MobileNetworkMapPickerComponent } from '@pages/coverage-areas/presentation/features/mobile-network/mobile-network-form/mobile-network-map-picker.component';
+import { MobileNetworkPointChange } from '@pages/coverage-areas/presentation/features/mobile-network/mobile-network-form/mobile-network-map-picker.component';
 
 const PERMISSION_PATH = '/coverage-areas/mobile-networks';
 
@@ -62,6 +64,7 @@ const PERMISSION_PATH = '/coverage-areas/mobile-networks';
         TagModule,
         ToastModule,
         TooltipModule,
+        MobileNetworkMapPickerComponent,
     ],
     providers: [
         MessageService,
@@ -126,6 +129,19 @@ export class MobileNetworkFormComponent implements OnInit {
 
     protected readonly loadingSubmit = computed(() => {
         return this.submitFacade.actionState() === 'loading';
+    });
+
+    protected readonly mapLng = computed(() => {
+        const val = this.form.get('lng')?.value;
+        return val !== undefined && val !== null ? Number(val) : null;
+    });
+    protected readonly mapLat = computed(() => {
+        const val = this.form.get('lat')?.value;
+        return val !== undefined && val !== null ? Number(val) : null;
+    });
+    protected readonly mapCoverageRadius = computed(() => {
+        const val = this.form.get('coverageRadius')?.value;
+        return val !== undefined && val !== null ? Number(val) : null;
     });
     private readonly canCreate = this.permissionActions.can(
         PERMISSION_PATH,
@@ -198,6 +214,13 @@ export class MobileNetworkFormComponent implements OnInit {
         return this.validation.getErrorMessage(
             fieldName,
             control?.errors || null
+        );
+    }
+
+    onMapPointChange(point: MobileNetworkPointChange): void {
+        this.form.patchValue(
+            { lng: point.longitude, lat: point.latitude },
+            { emitEvent: true }
         );
     }
 

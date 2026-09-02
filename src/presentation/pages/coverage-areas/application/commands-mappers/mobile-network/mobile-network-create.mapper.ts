@@ -14,5 +14,7 @@ export function mobileNetworkCreateCommandMapper(
         networkTechnology: command.networkTechnology,
         operator: command.operator as Operator | undefined,
         coverageRadius: command.coverageRadius,
+        lng: command.lng,
+        lat: command.lat,
     };
 }

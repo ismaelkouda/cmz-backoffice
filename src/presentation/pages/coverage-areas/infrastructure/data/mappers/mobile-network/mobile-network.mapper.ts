@@ -37,6 +37,8 @@ export class MobileNetworkMapper extends PaginatedMapper<
             networkTechnology: dto.network_technology,
             operator: dto.operator as Operator,
             coverageRadius: dto.coverage_radius,
+            lng: dto.lng,
+            lat: dto.lat,
             status: dto.is_active ? Status.ACTIVE : Status.INACTIVE,
             updatedAt: dto.updated_at,
         };

@@ -56,6 +56,14 @@ export class MobileNetworkEntity {
         return this.props.coverageRadius;
     }
 
+    get lng(): number {
+        return this.props.lng;
+    }
+
+    get lat(): number {
+        return this.props.lat;
+    }
+
     get status(): Status {
         return this.props.status;
     }

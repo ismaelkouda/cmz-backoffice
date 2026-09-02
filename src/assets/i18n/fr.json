@@ -4932,6 +4932,11 @@
                 "OPERATOR": "Opérateur",
                 "RADIUS": "Rayon",
                 "RADIUS_PLACEHOLDER": "Ex: 5",
+                "LONGITUDE": "Longitude",
+                "LONGITUDE_PLACEHOLDER": "Ex: -5.5",
+                "LATITUDE": "Latitude",
+                "LATITUDE_PLACEHOLDER": "Ex: 7.5",
+                "MAP_SEARCH_PLACEHOLDER": "Rechercher une adresse ou des coordonnées",
                 "ERROR": {
                     "DELETE": {
                         "UNIQ_ID_REQUIRE": "L'identifiant est requis"
@@ -4951,7 +4956,9 @@
                         "TOWER_TYPE_REQUIRE": "Le type de pylone est requis",
                         "TOWER_SIZE_REQUIRE": "La taille du pylone est requise",
                         "TECHNOLOGY_REQUIRE": "La technologie est requise",
-                        "OPERATOR_REQUIRE": "L'opérateur est requis"
+                        "OPERATOR_REQUIRE": "L'opérateur est requis",
+                        "LONGITUDE_REQUIRE": "La longitude est requise",
+                        "LATITUDE_REQUIRE": "La latitude est requise"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "L'identifiant est requis",
@@ -4960,7 +4967,9 @@
                         "TOWER_TYPE_REQUIRE": "Le type de pylone est requis",
                         "TOWER_SIZE_REQUIRE": "La taille du pylone est requise",
                         "TECHNOLOGY_REQUIRE": "La technologie est requise",
-                        "OPERATOR_REQUIRE": "L'opérateur est requis"
+                        "OPERATOR_REQUIRE": "L'opérateur est requis",
+                        "LONGITUDE_REQUIRE": "La longitude est requise",
+                        "LATITUDE_REQUIRE": "La latitude est requise"
                     }
                 }
             },

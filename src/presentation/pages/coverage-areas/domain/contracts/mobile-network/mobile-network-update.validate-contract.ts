@@ -10,4 +10,6 @@ export interface MobileNetworkUpdateValidateContract {
     networkTechnology: string;
     operator: Operator;
     coverageRadius: number;
+    lng: number;
+    lat: number;
 }

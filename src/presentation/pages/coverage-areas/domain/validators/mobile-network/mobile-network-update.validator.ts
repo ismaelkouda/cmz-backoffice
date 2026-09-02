@@ -45,4 +45,14 @@ export function validateMobileNetworkUpdate(
             'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.UPDATE.OPERATOR_REQUIRE'
         );
     }
+    if (typeof contract.lng !== 'number' || Number.isNaN(contract.lng)) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.UPDATE.LONGITUDE_REQUIRE'
+        );
+    }
+    if (typeof contract.lat !== 'number' || Number.isNaN(contract.lat)) {
+        throw new GenericRequiredError(
+            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.ERROR.UPDATE.LATITUDE_REQUIRE'
+        );
+    }
 }

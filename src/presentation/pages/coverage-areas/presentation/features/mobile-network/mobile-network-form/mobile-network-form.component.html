@@ -453,6 +453,97 @@
                                                         >
                                                     }
                                                 </div>
+
+                                                <div class="col-md-3">
+                                                    <label
+                                                        for="lng"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.LONGITUDE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-inputnumber
+                                                        id="lng"
+                                                        formControlName="lng"
+                                                        mode="decimal"
+                                                        [minFractionDigits]="0"
+                                                        [maxFractionDigits]="7"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.LONGITUDE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('lng')
+                                                            ?.invalid &&
+                                                        form.get('lng')?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+
+                                                <div class="col-md-3">
+                                                    <label
+                                                        for="lat"
+                                                        class="form-label fw-bold"
+                                                        >{{
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.LATITUDE'
+                                                                | translate
+                                                        }}
+                                                        <span
+                                                            class="text-danger"
+                                                            >*</span
+                                                        ></label
+                                                    >
+                                                    <p-inputnumber
+                                                        id="lat"
+                                                        formControlName="lat"
+                                                        mode="decimal"
+                                                        [minFractionDigits]="0"
+                                                        [maxFractionDigits]="7"
+                                                        [placeholder]="
+                                                            'COVERAGE_AREAS.MOBILE_NETWORK.FORM.LATITUDE_PLACEHOLDER'
+                                                                | translate
+                                                        "
+                                                    />
+                                                    @if (
+                                                        form.get('lat')
+                                                            ?.invalid &&
+                                                        form.get('lat')?.touched
+                                                    ) {
+                                                        <small
+                                                            class="text-danger d-block mt-1"
+                                                            >{{
+                                                                'COMMON.VALIDATION.REQUIRED'
+                                                                    | translate
+                                                            }}</small
+                                                        >
+                                                    }
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <app-mobile-network-map-picker
+                                                        [lng]="mapLng()"
+                                                        [lat]="mapLat()"
+                                                        [coverageRadius]="
+                                                            mapCoverageRadius()
+                                                        "
+                                                        height="450px"
+                                                        (pointChange)="
+                                                            onMapPointChange($event)
+                                                        "
+                                                    />
+                                                </div>
                                             </div>
                                         </fieldset>
 
