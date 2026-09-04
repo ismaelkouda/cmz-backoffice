@@ -28,6 +28,10 @@ export interface CurrentUser {
     permissions: UserPermissions[];
     paths: string[];
     actions: Record<string, string[]> | null;
+    privacy: {
+        accepted_at: string | null;
+        content: string | null;
+    };
 }
 
 export interface AuthToken {

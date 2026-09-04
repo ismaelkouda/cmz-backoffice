@@ -22,13 +22,7 @@ export class ResetPasswordStore {
 
     public readonly form: FormGroup<ResetPasswordFormControl> =
         this.fb.nonNullable.group({
-            [RESET_PASSWORD_FORM_KEYS.PASSWORD]: [
-                '',
-                [
-                    Validators.required,
-                    Validators.minLength(FormValidators.PASSWORD.MIN),
-                ],
-            ],
+            [RESET_PASSWORD_FORM_KEYS.PASSWORD]: ['', [Validators.required]],
             [RESET_PASSWORD_FORM_KEYS.CONFIRM_PASSWORD]: [
                 '',
                 [Validators.required],

@@ -18,5 +18,4 @@ export const INTERACTIVE_MAP_ENDPOINTS = {
      * "Filtres sur les couches" de management-map.
      */
     REPORT_INFRASTRUCTURE_STATS: 'impacts/infrastructures/{reportUniqId}/stats',
-    MAP: 'variables',
 } as const;

@@ -3,7 +3,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { GrafanaDashboardService } from '@shared/services/grafana-dashboard.service';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
-const GRAFANA_KEY = 'useOfResourcesLink';
+const GRAFANA_KEY = 'services_resources_uid';
 
 @Injectable({
     providedIn: 'root',

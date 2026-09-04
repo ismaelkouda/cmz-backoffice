@@ -431,6 +431,15 @@
             "LOGIN": "Se connecter"
         }
     },
+    "PRIVACY_POLICY": {
+        "DIALOG": {
+            "TITLE": "Politique d'engagement",
+            "EMPTY": "La politique d'engagement est indisponible.",
+            "ACKNOWLEDGE": "Je reconnais avoir pris connaissance de la politique d'engagement.",
+            "CONTINUE": "Continuer",
+            "DISCONNECT": "Se déconnecter"
+        }
+    },
     "DASHBOARD": {
         "TITLE": "Tableau de bord",
         "UPDATED_DATE": "Dernière mise à jour",

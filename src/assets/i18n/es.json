@@ -362,6 +362,15 @@
             }
         }
     },
+    "PRIVACY_POLICY": {
+        "DIALOG": {
+            "TITLE": "Política de privacidad",
+            "EMPTY": "La política de privacidad no está disponible.",
+            "ACKNOWLEDGE": "Reconozco haber leído la política de privacidad.",
+            "CONTINUE": "Continuar",
+            "DISCONNECT": "Cerrar sesión"
+        }
+    },
     "DASHBOARD": {
         "TITLE": "Panel de control",
         "UPDATED_DATE": "Última actualización",

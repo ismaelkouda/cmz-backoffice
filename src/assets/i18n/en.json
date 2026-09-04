@@ -362,6 +362,15 @@
             }
         }
     },
+    "PRIVACY_POLICY": {
+        "DIALOG": {
+            "TITLE": "Privacy policy",
+            "EMPTY": "The privacy policy is unavailable.",
+            "ACKNOWLEDGE": "I acknowledge having read the privacy policy.",
+            "CONTINUE": "Continue",
+            "DISCONNECT": "Log out"
+        }
+    },
     "DASHBOARD": {
         "TITLE": "Dashboard",
         "UPDATED_DATE": "Last updated",

@@ -4,16 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
-import {
-    RESET_PASSWORD_ROUTE,
-    RESET_PASSWORD_SUCCESS_ROUTE,
-} from '@presentation/pages/authentication/presentation/features/reset-password/reset-password-paths.constants';
 import { AUTH } from '@presentation/app.routes';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PasswordModule } from 'primeng/password';
 import { map } from 'rxjs/operators';
 import { ResetPasswordStore } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password.store';
 import { RESET_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form-keys.constant';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 @Component({
     selector: 'app-reset-password',
@@ -26,6 +23,7 @@ import { RESET_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/pre
 export class ResetPasswordComponent {
     protected readonly store = inject(ResetPasswordStore);
     protected readonly appConfig = inject(AppCustomizationService);
+    private readonly ui = inject(UiFeedbackService);
     private readonly route = inject(ActivatedRoute);
     private readonly router = inject(Router);
 
@@ -54,7 +52,10 @@ export class ResetPasswordComponent {
                 return;
             }
             this.hasRedirected = true;
-            this.goToSuccess();
+            if (session.message) {
+                this.ui.success(session.message);
+            }
+            this.goToLogin();
         });
     }
 
@@ -66,12 +67,7 @@ export class ResetPasswordComponent {
         this.router.navigate(['/', AUTH, LOGIN_ROUTE]);
     }
 
-    private goToSuccess(): void {
-        this.router.navigate([
-            '/',
-            AUTH,
-            RESET_PASSWORD_ROUTE,
-            RESET_PASSWORD_SUCCESS_ROUTE,
-        ]);
+    private goToLogin(): void {
+        this.router.navigate(['/', AUTH, LOGIN_ROUTE]);
     }
 }
