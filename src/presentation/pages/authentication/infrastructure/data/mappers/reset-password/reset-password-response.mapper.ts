@@ -1,22 +1,21 @@
 import { Injectable } from '@angular/core';
-import { ResetPasswordResponseApiDto } from '@presentation/pages/authentication/infrastructure/api/dto/reset-password/reset-password-response-api.dto';
-import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
+import { ApiError } from '@shared/domain/errors/api.error';
+import { ResetPasswordResponseDto } from '@presentation/pages/authentication/infrastructure/api/dto/reset-password/reset-password-response-api.dto';
 import { ResetPasswordResponseEntity } from '@presentation/pages/authentication/domain/entities/reset-password/reset-password-response.entity';
 
 @Injectable({ providedIn: 'root' })
-export class ResetPasswordResponseMapper extends SimpleResponseMapper<
-    ResetPasswordResponseEntity,
-    ResetPasswordResponseApiDto
-> {
-    protected mapItemFromDto(
-        dto: ResetPasswordResponseApiDto
-    ): ResetPasswordResponseEntity {
-        const props = {
-            message: dto.message,
-            token: dto.token,
-            user: dto.user,
-        };
+export class ResetPasswordResponseMapper {
+    mapFromDto(dto: ResetPasswordResponseDto): ResetPasswordResponseEntity {
+        if (dto.error) {
+            throw ApiError.invalidResponse(
+                dto.message || 'Erreur API: La requête a échoué.'
+            );
+        }
 
-        return new ResetPasswordResponseEntity(props);
+        return new ResetPasswordResponseEntity({
+            message: dto.message,
+            token: dto.data?.token,
+            user: dto.data?.user,
+        });
     }
 }

@@ -28,6 +28,8 @@ export class ForgotPasswordFacade extends ObjectBaseFacade<
         this.readState()
     );
 
+    private pendingEmail = '';
+
     readonly submittedEmail = computed(() => this.cooldown().email);
     readonly retryAfter = computed(() => this.cooldown().retryAfter);
     readonly startedAt = computed(() => this.cooldown().startedAt);
@@ -40,7 +42,7 @@ export class ForgotPasswordFacade extends ObjectBaseFacade<
                 return;
             }
             this.persist({
-                email: this.cooldown().email,
+                email: this.pendingEmail,
                 retryAfter: item.retryAfter,
                 startedAt: Date.now(),
             });
@@ -48,6 +50,7 @@ export class ForgotPasswordFacade extends ObjectBaseFacade<
     }
 
     execute(dto: ForgotPasswordRequestDto): void {
+        this.pendingEmail = dto.email;
         this.persist({
             email: dto.email,
             retryAfter: this.cooldown().retryAfter,

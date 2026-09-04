@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 export const SEARCH = 'search';
+export const PRIVACY_POLICY_ROUTE = 'privacy-policy';
 
 export const DASHBOARD = 'dashboard';
 export const PROCESSING_ROUTE = 'reports-processing';
