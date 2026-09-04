@@ -1,9 +1,7 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { TokenInterface } from '@shared/domain/interfaces/token.interface';
-import { CurrentUser } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
-import { PRIVACY_POLICY_ROUTE } from '@shared/routes/routes';
 
 export const authGuard: CanActivateFn = () => {
     const encodingService = inject(EncodingDataService);
@@ -12,15 +10,10 @@ export const authGuard: CanActivateFn = () => {
     ) as TokenInterface | null;
     const router = inject(Router);
 
-    if (!token?.value) {
+    if (token?.value) {
+        return true;
+    } else {
         router.navigateByUrl('auth/login');
         return false;
     }
-
-    const user = encodingService.getData('user_data') as CurrentUser | null;
-    if (user?.privacy?.accepted_at === null) {
-        return router.createUrlTree(['/', PRIVACY_POLICY_ROUTE]);
-    }
-
-    return true;
 };

@@ -1,0 +1,40 @@
+::ng-deep .privacy-policy-mask {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(10px);
+}
+
+:host ::ng-deep .privacy-policy-body {
+    color: #3b4252;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+:host ::ng-deep .privacy-policy-content {
+    max-height: 50vh;
+    overflow-y: auto;
+}
+
+:host ::ng-deep .privacy-policy-empty {
+    color: #6b7280;
+    font-style: italic;
+}
+
+:host ::ng-deep .privacy-policy-consent {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+}
+
+:host ::ng-deep .privacy-policy-consent-label {
+    cursor: pointer;
+    color: #1a365d;
+    font-weight: 500;
+}
+
+:host ::ng-deep .privacy-policy-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+}

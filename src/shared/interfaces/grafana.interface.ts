@@ -2,6 +2,7 @@ export interface GrafanaVariablesResponse {
     error: boolean;
     message: string;
     data: Record<string, string>;
+    expires_in?: number;
 }
 
 export interface DashboardTokenRequestDto {
