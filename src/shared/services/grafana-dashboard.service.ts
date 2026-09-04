@@ -8,7 +8,6 @@ import {
     shareReplay,
     switchMap,
     take,
-    tap,
 } from 'rxjs';
 
 import {
@@ -19,7 +18,6 @@ import { FetchOptions } from '@shared/interface/fetch-options.interface';
 
 interface GrafanaTokenState {
     dashboardUid: string;
-    embedUrl: string;
     expiresAt: number;
     refreshTimer: ReturnType<typeof setTimeout> | null;
     readonly url$: BehaviorSubject<string | null>;
@@ -27,12 +25,21 @@ interface GrafanaTokenState {
     readonly error$: BehaviorSubject<string | null>;
 }
 
+interface VariablesCache {
+    tokens: Record<string, string>;
+    expiresAt: number;
+    source: Observable<Record<string, string>>;
+}
+
+const VARIABLES_TTL_FALLBACK_MS = 5 * 60 * 1000;
+
 @Injectable({ providedIn: 'root' })
 export class GrafanaDashboardService {
     private readonly http = inject(HttpClient);
     private readonly baseUrl = inject(SETTINGS_API_URL);
 
-    private variablesRequest: Observable<Record<string, string>> | null = null;
+    private variablesCache: VariablesCache | null = null;
+    private inFlight: Observable<Record<string, string>> | null = null;
     private readonly states = new Map<string, GrafanaTokenState>();
 
     url$(key: string): Observable<string | null> {
@@ -57,7 +64,7 @@ export class GrafanaDashboardService {
         state.loading$.next(true);
         state.error$.next(null);
 
-        this.getVariables()
+        this.getVariables(options?.forceRefresh === true)
             .pipe(take(1))
             .subscribe({
                 next: (tokens) => {
@@ -67,16 +74,6 @@ export class GrafanaDashboardService {
                         state.error$.next(
                             `Aucun token Grafana pour la cle "${key}".`
                         );
-                        return;
-                    }
-
-                    const shouldRefreshToken =
-                        !state.embedUrl ||
-                        options?.forceRefresh === true ||
-                        state.dashboardUid !== dashboardUid;
-
-                    if (!shouldRefreshToken) {
-                        state.loading$.next(false);
                         return;
                     }
 
@@ -105,7 +102,7 @@ export class GrafanaDashboardService {
                 next: (response) => {
                     state.loading$.next(false);
 
-                    if (response?.error || !response?.data) {
+                    if (response?.error || !response?.data?.embed_url) {
                         state.error$.next(
                             response?.message || 'Erreur API Grafana.'
                         );
@@ -113,7 +110,6 @@ export class GrafanaDashboardService {
                     }
 
                     state.dashboardUid = dashboardUid;
-                    state.embedUrl = response.data.embed_url;
                     state.expiresAt =
                         Date.now() + (response.data.expires_in || 0) * 1000;
                     state.error$.next(null);
@@ -129,28 +125,47 @@ export class GrafanaDashboardService {
             });
     }
 
-    private getVariables(): Observable<Record<string, string>> {
-        if (!this.variablesRequest) {
-            this.variablesRequest = this.http
-                .get<GrafanaVariablesResponse>(`${this.baseUrl}variables`)
-                .pipe(
-                    switchMap((response) =>
-                        of(
-                            response?.error || !response?.data
-                                ? {}
-                                : response.data
-                        )
-                    ),
-                    shareReplay({ bufferSize: 1, refCount: false }),
-                    tap((tokens) => {
-                        if (tokens && Object.keys(tokens).length === 0) {
-                            this.variablesRequest = null;
-                        }
-                    })
-                );
+    /**
+     * Returns the dashboard-variable mapping, re-fetching from the API when the
+     * cached copy is expired (`expires_in`) or has not been loaded yet.
+     * Concurrent callers share a single in-flight request.
+     * @param force
+     */
+    private getVariables(force = false): Observable<Record<string, string>> {
+        const cache = this.variablesCache;
+        if (!force && cache && !this.isVariablesExpired(cache)) {
+            return cache.source;
         }
 
-        return this.variablesRequest;
+        if (!force && this.inFlight) {
+            return this.inFlight;
+        }
+
+        this.inFlight = this.http
+            .get<GrafanaVariablesResponse>(`${this.baseUrl}variables`)
+            .pipe(
+                switchMap((response) => {
+                    const tokens =
+                        response?.error || !response?.data ? {} : response.data;
+                    const expiresAt =
+                        Date.now() +
+                        (response?.expires_in || 0) * 1000 +
+                        (response?.expires_in ? 0 : VARIABLES_TTL_FALLBACK_MS);
+                    this.variablesCache = {
+                        tokens,
+                        expiresAt,
+                        source: of(tokens),
+                    };
+                    return of(tokens);
+                }),
+                shareReplay({ bufferSize: 1, refCount: false })
+            );
+
+        return this.inFlight;
+    }
+
+    private isVariablesExpired(cache: VariablesCache): boolean {
+        return !cache.tokens || Date.now() >= cache.expiresAt;
     }
 
     private scheduleRefresh(key: string): void {
@@ -177,7 +192,7 @@ export class GrafanaDashboardService {
             return;
         }
 
-        this.getVariables()
+        this.getVariables(true)
             .pipe(take(1))
             .subscribe((tokens) => {
                 if (!tokens[key]) {
@@ -192,7 +207,6 @@ export class GrafanaDashboardService {
         if (!state) {
             state = {
                 dashboardUid: '',
-                embedUrl: '',
                 expiresAt: 0,
                 refreshTimer: null,
                 url$: new BehaviorSubject<string | null>(null),

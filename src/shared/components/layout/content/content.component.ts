@@ -8,6 +8,7 @@ import {
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { HeaderComponent } from '@shared/components/header/header.component';
+import { PrivacyPolicyDialogComponent } from '@shared/components/privacy-policy-dialog/privacy-policy-dialog.component';
 import { SidebarComponent } from '@shared/components/sidebar/sidebar.component';
 import { fadeInAnimation } from '@shared/data/router-animation/router-animation';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
@@ -26,6 +27,7 @@ import { filter } from 'rxjs';
         SidebarComponent,
         HeaderComponent,
         RouterOutlet,
+        PrivacyPolicyDialogComponent,
     ],
     animations: [fadeInAnimation],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -1,0 +1,52 @@
+<p-dialog
+    header="{{ 'PRIVACY_POLICY.DIALOG.TITLE' | translate }}"
+    [visible]="visible()"
+    [modal]="true"
+    [closable]="false"
+    [dismissableMask]="false"
+    [closeOnEscape]="false"
+    [draggable]="false"
+    [resizable]="false"
+    [maskStyleClass]="'privacy-policy-mask'"
+    [style]="{ width: '640px', maxWidth: '95vw' }"
+>
+    <div class="privacy-policy-body">
+        @if (content()) {
+            <div
+                class="privacy-policy-content"
+                [innerHTML]="content()!"
+            ></div>
+        } @else {
+            <p class="privacy-policy-empty">
+                {{ 'PRIVACY_POLICY.DIALOG.EMPTY' | translate }}
+            </p>
+        }
+    </div>
+    <div class="privacy-policy-consent">
+        <p-checkbox
+            [binary]="true"
+            [inputId]="'privacy-policy-ack'"
+            [(ngModel)]="acknowledged"
+        />
+        <label for="privacy-policy-ack" class="privacy-policy-consent-label">
+            {{ 'PRIVACY_POLICY.DIALOG.ACKNOWLEDGE' | translate }}
+        </label>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="privacy-policy-actions">
+            <p-button
+                [label]="'PRIVACY_POLICY.DIALOG.DISCONNECT' | translate"
+                severity="secondary"
+                [text]="true"
+                (onClick)="onDisconnect()"
+            ></p-button>
+            <p-button
+                [label]="'PRIVACY_POLICY.DIALOG.CONTINUE' | translate"
+                icon="pi pi-check"
+                [loading]="saving()"
+                [disabled]="!canContinue()"
+                (onClick)="onContinue()"
+            ></p-button>
+        </div>
+    </ng-template>
+</p-dialog>
