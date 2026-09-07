@@ -283,6 +283,20 @@
             "CONNECTION": "Connexion",
             "CONNECT_BUTTON": "Se connecter",
             "FORGOT_PASSWORD": "Mot de passe oublié",
+            "TWO_FACTOR": {
+                "VERIFY_TITLE": "Double authentification",
+                "VERIFY_SUBTITLE": "Un code de vérification a été envoyé à votre adresse email. Saisissez-le ci-dessous pour terminer la connexion.",
+                "CODE_SENT_TO": "Code envoyé à {{email}}",
+                "CODE_LABEL": "Code de vérification",
+                "CODE_PLACEHOLDER": "0000",
+                "CODE_HINT": "Saisissez le code à 4 chiffres reçu.",
+                "CODE_REQUIRED": "Le code de vérification est requis",
+                "CODE_INVALID": "Le code doit contenir 4 chiffres",
+                "VERIFY_BUTTON": "Vérifier",
+                "RESEND": "Renvoyer le code",
+                "RESEND_IN": "Renvoyer dans {{time}}s",
+                "BACK": "Retour"
+            },
             "FEATURES": {
                 "SECURE_ACCESS": "Accès sécurisé",
                 "MONITORING_OF_PROCESSING": "Suivi des signalements",

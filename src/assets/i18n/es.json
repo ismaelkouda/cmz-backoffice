@@ -221,6 +221,20 @@
             "CONNECTION": "Conexión",
             "CONNECT_BUTTON": "Iniciar sesión",
             "FORGOT_PASSWORD": "¿Olvidó su contraseña?",
+            "TWO_FACTOR": {
+                "VERIFY_TITLE": "Autenticación de dos factores",
+                "VERIFY_SUBTITLE": "Se ha enviado un código de verificación a su dirección de correo electrónico. Introdúzcalo a continuación para completar el inicio de sesión.",
+                "CODE_SENT_TO": "Código enviado a {{email}}",
+                "CODE_LABEL": "Código de verificación",
+                "CODE_PLACEHOLDER": "0000",
+                "CODE_HINT": "Introduzca el código de 4 dígitos recibido.",
+                "CODE_REQUIRED": "El código de verificación es obligatorio",
+                "CODE_INVALID": "El código debe contener 4 dígitos",
+                "VERIFY_BUTTON": "Verificar",
+                "RESEND": "Reenviar código",
+                "RESEND_IN": "Reenviar en {{time}}s",
+                "BACK": "Volver"
+            },
             "FEATURES": {
                 "SECURE_ACCESS": "Acceso seguro",
                 "MONITORING_OF_PROCESSING": "Seguimiento de reportes",

@@ -221,6 +221,20 @@
             "CONNECTION": "Login",
             "CONNECT_BUTTON": "Sign in",
             "FORGOT_PASSWORD": "Forgot password",
+            "TWO_FACTOR": {
+                "VERIFY_TITLE": "Two-factor authentication",
+                "VERIFY_SUBTITLE": "A verification code has been sent to your email address. Enter it below to complete the sign in.",
+                "CODE_SENT_TO": "Code sent to {{email}}",
+                "CODE_LABEL": "Verification code",
+                "CODE_PLACEHOLDER": "0000",
+                "CODE_HINT": "Enter the 4-digit code you received.",
+                "CODE_REQUIRED": "The verification code is required",
+                "CODE_INVALID": "The verification code must contain 4 digits",
+                "VERIFY_BUTTON": "Verify",
+                "RESEND": "Resend code",
+                "RESEND_IN": "Resend in {{time}}s",
+                "BACK": "Back"
+            },
             "FEATURES": {
                 "SECURE_ACCESS": "Secure access",
                 "MONITORING_OF_PROCESSING": "Report tracking",
