@@ -11,17 +11,16 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constant';
+import { TranslateModule } from '@ngx-translate/core';
 import { CurrentUser } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
+import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ButtonModule } from 'primeng/button';
 import { InputMaskModule } from 'primeng/inputmask';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { TagModule } from 'primeng/tag';
 import { interval, Subscription, takeWhile } from 'rxjs';
-import SweetAlert from 'sweetalert2';
 
 import {
     PasswordForm,
@@ -60,7 +59,6 @@ type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
 export class MyAccountComponent {
     private readonly destroyRef = inject(DestroyRef);
     private readonly profileUpdateFacade = inject(ProfileUpdateFacade);
-    private readonly translate = inject(TranslateService);
     private readonly logoutFacade = inject(LogoutFacade);
     private readonly encodingDataService = inject(EncodingDataService);
     private readonly authFacade = inject(AuthFacade);
@@ -69,6 +67,7 @@ export class MyAccountComponent {
     private readonly twoFactorDisableFacade = inject(TwoFactorDisableFacade);
     private readonly feedback = inject(UiFeedbackService);
     private readonly modal = inject(NgbModal);
+    private readonly sweetAlert = inject(SweetAlertService);
 
     private readonly passwordModalTemplate =
         viewChild<TemplateRef<unknown>>('passwordV');
@@ -226,25 +225,23 @@ export class MyAccountComponent {
         });
     }
 
-    disableTwoFactor(): void {
-        SweetAlert.fire({
-            title: this.translate.instant(
-                'MY_ACCOUNT.2FA.DISABLE_CONFIRM_TITLE'
-            ),
-            text: this.translate.instant('MY_ACCOUNT.2FA.DISABLE_CONFIRM_TEXT'),
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: this.translate.instant('COMMON.YES'),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
-        }).then((result) => {
-            const user = this.currentUser();
-            if (!result.isConfirmed || !user) {
-                return;
-            }
+    async disableTwoFactor(): Promise<void> {
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey: 'MY_ACCOUNT.2FA.DISABLE_CONFIRM_TITLE',
+            messageKey: 'MY_ACCOUNT.2FA.DISABLE_CONFIRM_TEXT',
+            confirmTextKey: 'COMMON.YES',
+        });
+        if (!confirmed) {
+            return;
+        }
 
-            this.twoFactorDisableFacade.execute({
-                email: user.email,
-            });
+        const user = this.currentUser();
+        if (!user) {
+            return;
+        }
+
+        this.twoFactorDisableFacade.execute({
+            email: user.email,
         });
     }
 
@@ -314,21 +311,16 @@ export class MyAccountComponent {
         return null;
     }
 
-    logout(): void {
-        SweetAlert.fire({
-            ...SWEET_ALERT_PARAMS,
-            title: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.CONFIRM'),
-            text: this.translate.instant('LOGOUT.SWEET_ALERT_PARAMS.MESSAGES'),
-            confirmButtonText: this.translate.instant(
-                'LOGOUT.SWEET_ALERT_PARAMS.BUTTONS'
-            ),
-            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
-        }).then((result) => {
-            if (!result.isConfirmed) {
-                return;
-            }
-            this.logoutFacade.execute();
+    async logout(): Promise<void> {
+        const confirmed = await this.sweetAlert.confirm({
+            titleKey: 'LOGOUT.SWEET_ALERT_PARAMS.CONFIRM',
+            messageKey: 'LOGOUT.SWEET_ALERT_PARAMS.MESSAGES',
+            confirmTextKey: 'LOGOUT.SWEET_ALERT_PARAMS.BUTTONS',
         });
+        if (!confirmed) {
+            return;
+        }
+        this.logoutFacade.execute();
     }
 
     private openModal(template: TemplateRef<unknown>): void {

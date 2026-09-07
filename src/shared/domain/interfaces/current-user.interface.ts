@@ -23,6 +23,10 @@ export interface CurrentUser {
     phone: string;
     is_admin: boolean;
     enable2fa: boolean;
+    two_fa?: {
+        enabled: boolean;
+        channel: 'email' | 'sms';
+    };
     status: string;
     photo: string;
     permissions: UserPermissions[];

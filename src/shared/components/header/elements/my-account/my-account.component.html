@@ -45,7 +45,7 @@
                 <span>2FA</span>
                 <p-tag
                     [severity]="enable2fa() ? 'success' : 'danger'"
-                    [value]="enable2fa() ? 'Activée' : 'Désactivée'"
+                    [value]="enable2fa() ? 'Activé' : 'Désactivé'"
                 />
             </button>
             <span class="dropdown-divider" role="separator"></span>
@@ -393,7 +393,7 @@
                 </div>
                 <p-tag
                     [severity]="enable2fa() ? 'success' : 'danger'"
-                    [value]="enable2fa() ? 'Activée' : 'Désactivée'"
+                    [value]="enable2fa() ? 'Activé' : 'Désactivé'"
                 />
             </div>
         } @else {
@@ -465,9 +465,9 @@
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-hide" (click)="closeModal()">
+        <!-- <button type="button" class="btn btn-hide" (click)="closeModal()">
             {{ twoFaStep() === 'status' ? 'Fermer' : 'Annuler' }}
-        </button>
+        </button> -->
         @if (twoFaStep() === 'status' && !enable2fa()) {
             <button
                 type="button"
