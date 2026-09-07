@@ -1,5 +1,4 @@
 ::ng-deep .privacy-policy-mask {
-    background-color: rgba(255, 255, 255, 0.35) !important;
     backdrop-filter: blur(10px);
 }
 
@@ -12,6 +11,7 @@
 :host ::ng-deep .privacy-policy-content {
     max-height: 50vh;
     overflow-y: auto;
+    padding-top: 1rem;
 }
 
 :host ::ng-deep .privacy-policy-empty {
@@ -30,6 +30,7 @@
     cursor: pointer;
     color: #1a365d;
     font-weight: 500;
+    margin-bottom: 0;
 }
 
 :host ::ng-deep .privacy-policy-actions {
