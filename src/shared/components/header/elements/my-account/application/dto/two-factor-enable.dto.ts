@@ -1,5 +1,4 @@
 export interface TwoFactorEnableDto {
-    readonly userId: number;
-    readonly email: string;
-    readonly code: string;
+    readonly otp: string;
+    readonly channel: 'email' | 'sms';
 }

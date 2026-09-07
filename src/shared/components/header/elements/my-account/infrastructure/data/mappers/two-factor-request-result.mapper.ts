@@ -13,10 +13,9 @@ export class TwoFactorRequestResultMapper extends SimpleResponseMapper<
         dto: TwoFactorRequestResultApiDto
     ): TwoFactorRequestResultEntity {
         const props = {
-            message: dto.message,
-            maskedRecipient: dto.masked_recipient,
-            expiresInSeconds: dto.expires_in_seconds,
-            issuedAt: dto.issued_at,
+            channel: dto.channel,
+            expiredAt: dto.expired_at,
+            timeout: dto.timeout,
         };
 
         return new TwoFactorRequestResultEntity(props);

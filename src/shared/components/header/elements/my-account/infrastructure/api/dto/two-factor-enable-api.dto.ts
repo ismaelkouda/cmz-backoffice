@@ -1,5 +1,4 @@
 export interface TwoFactorEnableApiDto {
-    readonly user_id: number;
-    readonly email: string;
-    readonly code: string;
+    readonly otp: string;
+    readonly channel: 'email' | 'sms';
 }

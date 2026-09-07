@@ -413,6 +413,123 @@ $dark-gray: var(--color-gray);
     margin-top: 24px;
 }
 
+.otp-form {
+    .otp-header {
+        text-align: center;
+        margin-bottom: 24px;
+    }
+
+    .otp-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 16px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(
+            135deg,
+            var(--theme-default),
+            var(--theme-secondary)
+        );
+        color: $white;
+        font-size: 28px;
+        box-shadow: 0 8px 20px
+            color-mix(in srgb, var(--theme-default) 25%, transparent);
+
+        i {
+            font-size: 28px;
+        }
+    }
+
+    .otp-title {
+        font: 700 22px/30px var(--font-primary);
+        color: $black;
+        margin: 0 0 8px 0;
+    }
+
+    .otp-subtitle {
+        font: 400 14px/22px var(--font-primary);
+        color: $dark-gray;
+        margin: 0 0 8px 0;
+    }
+
+    .otp-sent-to {
+        font: 500 14px/20px var(--font-primary);
+        color: var(--theme-default);
+        margin: 0;
+    }
+
+    .otp-input {
+        text-align: center;
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: 12px;
+        padding: 16px;
+        @include transition(all);
+
+        &::placeholder {
+            letter-spacing: 12px;
+        }
+    }
+
+    .otp-hint {
+        font: 400 13px/20px var(--font-primary);
+        color: rgba($black, 0.55);
+        text-align: center;
+        margin-top: -8px;
+    }
+
+    .otp-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+
+    .otp-back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font: 500 14px/20px var(--font-primary);
+        color: $dark-gray;
+        background: none;
+        border: none;
+        padding: 8px 0;
+        cursor: pointer;
+        @include transition(all);
+
+        i {
+            font-size: 14px;
+        }
+
+        &:hover {
+            color: var(--theme-default);
+        }
+    }
+
+    .otp-resend-link {
+        font: 500 14px/20px var(--font-primary);
+        color: var(--theme-default);
+        background: none;
+        border: none;
+        padding: 8px 0;
+        cursor: pointer;
+        @include transition(all);
+
+        &:hover {
+            color: var(--theme-secondary, #f73164);
+        }
+
+        &--disabled {
+            color: rgba($black, 0.4);
+            cursor: not-allowed;
+        }
+    }
+}
+
 .forgot-link {
     font: 500 14px/20px var(--font-primary);
     color: var(--theme-default);

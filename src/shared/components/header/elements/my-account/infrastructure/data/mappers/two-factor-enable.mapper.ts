@@ -5,8 +5,7 @@ export function twoFactorEnableMapper(
     entity: TwoFactorEnableEntity
 ): TwoFactorEnableApiDto {
     return {
-        user_id: entity.props.userId,
-        email: entity.props.email,
-        code: entity.props.code,
+        otp: entity.props.otp,
+        channel: entity.props.channel,
     };
 }

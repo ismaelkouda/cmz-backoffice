@@ -11,9 +11,6 @@ export class TwoFactorRequestHandler {
     execute(
         command: TwoFactorRequestCommand
     ): Observable<TwoFactorRequestResultEntity> {
-        return this.useCase.execute({
-            userId: command.userId,
-            email: command.email,
-        });
+        return this.useCase.execute({ channel: command.channel });
     }
 }

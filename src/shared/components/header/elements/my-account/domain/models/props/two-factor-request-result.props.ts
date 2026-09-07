@@ -1,6 +1,5 @@
 export interface TwoFactorRequestResultPops {
-    readonly message: string;
-    readonly maskedRecipient: string;
-    readonly expiresInSeconds: number;
-    readonly issuedAt: string;
+    readonly channel: 'email' | 'sms';
+    readonly expiredAt: string;
+    readonly timeout: number;
 }

@@ -8,7 +8,7 @@ import { inject, Injectable } from '@angular/core';
 import { MessageResultMapper } from '@shared/data/mappers/message-result.mapper';
 import { ProfileUpdateEntity } from '../../../domain/entities/profile-update.entity';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class ProfileUpdateRepositoryImpl implements ProfileUpdateRepository {
     private readonly api = inject(MyAccountApi);
     private readonly messageMapper = inject(MessageResultMapper);

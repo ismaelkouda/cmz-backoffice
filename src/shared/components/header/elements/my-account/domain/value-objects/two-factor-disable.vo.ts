@@ -6,7 +6,6 @@ export class TwoFactorDisableVo {
 
     static fromDto(dto: TwoFactorDisableDto): TwoFactorDisableVo {
         return new TwoFactorDisableVo({
-            userId: dto.userId,
             email: dto.email.trim().toLowerCase(),
         });
     }

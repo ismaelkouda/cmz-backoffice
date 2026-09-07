@@ -6,9 +6,8 @@ export class TwoFactorEnableVo {
 
     static fromDto(dto: TwoFactorEnableDto): TwoFactorEnableVo {
         return new TwoFactorEnableVo({
-            userId: dto.userId,
-            email: dto.email.trim().toLowerCase(),
-            code: dto.code,
+            otp: dto.otp,
+            channel: dto.channel,
         });
     }
 }

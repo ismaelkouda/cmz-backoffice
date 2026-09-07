@@ -1,6 +1,5 @@
 export interface TwoFactorRequestResultApiDto {
-    readonly message: string;
-    readonly masked_recipient: string;
-    readonly expires_in_seconds: number;
-    readonly issued_at: string;
+    readonly channel: 'email' | 'sms';
+    readonly expired_at: string;
+    readonly timeout: number;
 }
