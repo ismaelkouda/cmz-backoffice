@@ -2,8 +2,9 @@ import { Observable } from 'rxjs';
 import { TwoFactorDisableHandler } from '../commands-handlers/two-factor-disable.handler';
 import { MessageEntity } from '@shared/domain/entities/message.entity';
 import { TwoFactorDisableCommand } from '../commands/two-factor-disable.command';
-import { inject } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
+@Injectable({ providedIn: 'root' })
 export class TwoFactorDisableBus {
     private readonly passwordChangeHandler = inject(TwoFactorDisableHandler);
 

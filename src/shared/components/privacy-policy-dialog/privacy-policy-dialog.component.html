@@ -26,7 +26,8 @@
         <p-checkbox
             [binary]="true"
             [inputId]="'privacy-policy-ack'"
-            [(ngModel)]="acknowledged"
+            [ngModel]="acknowledged()"
+            (ngModelChange)="acknowledged.set($event)"
         />
         <label for="privacy-policy-ack" class="privacy-policy-consent-label">
             {{ 'PRIVACY_POLICY.DIALOG.ACKNOWLEDGE' | translate }}

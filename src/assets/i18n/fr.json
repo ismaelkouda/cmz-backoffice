@@ -1991,6 +1991,13 @@
                     "PASSWORD_UPDATED": "Mot de passe mis à jour avec succès"
                 }
             }
+        },
+        "2FA": {
+            "CODE_SENT": "Code de vérification envoyé",
+            "ENABLED_SUCCESS": "Authentification à deux facteurs activée avec succès",
+            "DISABLED_SUCCESS": "Authentification à deux facteurs désactivée avec succès",
+            "DISABLE_CONFIRM_TITLE": "Désactiver la double authentification",
+            "DISABLE_CONFIRM_TEXT": "Êtes-vous sûr de vouloir désactiver la double authentification de votre compte ?"
         }
     },
     "REQUESTS": {

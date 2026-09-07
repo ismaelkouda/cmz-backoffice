@@ -2,6 +2,8 @@ import {
     Component,
     DestroyRef,
     TemplateRef,
+    computed,
+    effect,
     inject,
     signal,
     viewChild,
@@ -20,7 +22,6 @@ import { PasswordModule } from 'primeng/password';
 import { TagModule } from 'primeng/tag';
 import { interval, Subscription, takeWhile } from 'rxjs';
 import SweetAlert from 'sweetalert2';
-import { ToggleButtonModule } from 'primeng/togglebutton';
 
 import {
     PasswordForm,
@@ -33,6 +34,10 @@ import {
 import { LogoutFacade } from './application/facade/logout.facade';
 import { ProfileUpdateFacade } from './application/facade/profile-update.facade';
 import { AuthFacade } from './application/facade/auth.facade';
+import { TwoFactorRequestFacade } from './application/facade/two-factor-request.facade';
+import { TwoFactorEnableFacade } from './application/facade/two-factor-enable.facade';
+import { TwoFactorDisableFacade } from './application/facade/two-factor-disable.facade';
+import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 type AccountField = 'email' | 'firstName' | 'lastName' | 'phone';
 type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
@@ -50,7 +55,6 @@ type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
         TagModule,
         ButtonModule,
         InputTextModule,
-        ToggleButtonModule,
     ],
 })
 export class MyAccountComponent {
@@ -60,6 +64,10 @@ export class MyAccountComponent {
     private readonly logoutFacade = inject(LogoutFacade);
     private readonly encodingDataService = inject(EncodingDataService);
     private readonly authFacade = inject(AuthFacade);
+    private readonly twoFactorRequestFacade = inject(TwoFactorRequestFacade);
+    private readonly twoFactorEnableFacade = inject(TwoFactorEnableFacade);
+    private readonly twoFactorDisableFacade = inject(TwoFactorDisableFacade);
+    private readonly feedback = inject(UiFeedbackService);
     private readonly modal = inject(NgbModal);
 
     private readonly passwordModalTemplate =
@@ -79,6 +87,58 @@ export class MyAccountComponent {
     readonly accountForm: ProfileForm = createProfileForm();
     readonly passwordForm: PasswordForm = createPasswordForm();
     readonly twoFactorForm: TwoFactorForm = createTwoFactorForm();
+
+    readonly twoFactorChallenge = computed(() =>
+        this.twoFactorRequestFacade.items()
+    );
+
+    readonly loading = computed(
+        () =>
+            this.twoFactorRequestFacade.loading() ||
+            this.twoFactorEnableFacade.loading() ||
+            this.twoFactorDisableFacade.loading()
+    );
+
+    constructor() {
+        this.watchCompletion(
+            () => this.twoFactorRequestFacade.state().lastFetch,
+            () => {
+                this.feedback.success('MY_ACCOUNT.2FA.CODE_SENT');
+                this.startResendCooldown(
+                    this.twoFactorRequestFacade.items()?.timeout ?? 30
+                );
+            }
+        );
+        this.watchCompletion(
+            () => this.twoFactorEnableFacade.state().lastFetch,
+            () => {
+                this.persistUser(this.mergeCurrentUser({ enable2fa: true }));
+                this.enable2fa.set(true);
+                this.feedback.success('MY_ACCOUNT.2FA.ENABLED_SUCCESS');
+                this.closeModal();
+            }
+        );
+        this.watchCompletion(
+            () => this.twoFactorDisableFacade.state().lastFetch,
+            () => {
+                this.persistUser(this.mergeCurrentUser({ enable2fa: false }));
+                this.enable2fa.set(false);
+                this.feedback.success('MY_ACCOUNT.2FA.DISABLED_SUCCESS');
+                this.closeModal();
+            }
+        );
+    }
+
+    private watchCompletion(reader: () => number, onSuccess: () => void): void {
+        let previous = reader();
+        effect(() => {
+            const current = reader();
+            if (current > previous) {
+                previous = current;
+                onSuccess();
+            }
+        });
+    }
 
     toggleDropdown(): void {
         this.isDropdownOpen.update((isOpen) => !isOpen);
@@ -111,23 +171,6 @@ export class MyAccountComponent {
             this.accountForm.markAllAsTouched();
             return;
         }
-
-        const payload = this.accountForm.getRawValue();
-        this.profileUpdateFacade.execute(payload);
-        // .pipe(takeUntilDestroyed(this.destroyRef))
-        // .subscribe(() => {
-        //     const updatedUser = this.mergeCurrentUser({
-        //         last_name: payload.lastName,
-        //         first_name: payload.firstName,
-        //         email: payload.email,
-        //         phone: payload.phone,
-        //     });
-        //     this.persistUser(updatedUser);
-        //     this.feedback.success(
-        //         'MY_ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
-        //     );
-        //     this.closeModal();
-        // });
     }
 
     openPasswordModal(): void {
@@ -141,125 +184,81 @@ export class MyAccountComponent {
         this.openModal(template);
     }
 
-    // savePassword(): void {
-    //     if (this.passwordForm.invalid) {
-    //         this.passwordForm.markAllAsTouched();
-    //         return;
-    //     }
-
-    //     const form = this.passwordForm.getRawValue();
-    //     this.facade
-    //         .updatePassword({
-    //             oldPassword: form.oldPassword,
-    //             newPassword: form.newPassword,
-    //             newPasswordConfirmation: form.confirmNewPassword,
-    //         })
-    //         .pipe(takeUntilDestroyed(this.destroyRef))
-    //         .subscribe(() => {
-    //             this.feedback.success(
-    //                 'MY_ACCOUNT.MESSAGES.SUCCESS.PASSWORD_UPDATED'
-    //             );
-    //             this.closeModal();
-    //         });
-    // }
+    savePassword(): void {
+        if (this.passwordForm.invalid) {
+            this.passwordForm.markAllAsTouched();
+            return;
+        }
+    }
 
     protected openDoubleFactorModal(): void {
         this.closeDropdown();
-        // this.backToStatus();
+        this.backToStatus();
         const template = this.doubleFactorModalTemplate();
         if (template) {
             this.openModal(template);
         }
     }
 
-    // requestTwoFactor(): void {
-    //     const user = this.currentUser();
-    //     if (!user) {
-    //         return;
-    //     }
-    //     this.facade
-    //         .requestTwoFactor({ userId: user.id, email: user.email })
-    //         .pipe(takeUntilDestroyed(this.destroyRef))
-    //         .subscribe((challenge) => {
-    //             this.facade.setTwoFactorChallenge(challenge);
-    //             this.twoFaStep.set('verification');
-    //             this.twoFactorForm.reset();
-    //             this.startResendCooldown();
-    //             this.feedback.success('MY_ACCOUNT.2FA.CODE_SENT');
-    //         });
-    // }
+    requestTwoFactor(): void {
+        const channel = this.twoFactorForm.controls.channel.value;
+        this.twoFactorRequestFacade.execute({ channel });
+        this.twoFaStep.set('verification');
+        this.twoFactorForm.controls.code.reset();
+    }
 
-    // resendCode(): void {
-    //     if (this.resendCooldown() > 0 || this.loading()) {
-    //         return;
-    //     }
-    //     this.requestTwoFactor();
-    // }
+    resendCode(): void {
+        if (this.resendCooldown() > 0 || this.loading()) {
+            return;
+        }
+        this.requestTwoFactor();
+    }
 
-    // verifyTwoFactor(): void {
-    //     const user = this.currentUser();
-    //     if (!user || this.twoFactorForm.invalid) {
-    //         this.twoFactorForm.markAllAsTouched();
-    //         return;
-    //     }
+    verifyTwoFactor(): void {
+        if (this.twoFactorForm.invalid) {
+            this.twoFactorForm.markAllAsTouched();
+            return;
+        }
 
-    //     this.facade
-    //         .verifyTwoFactor({
-    //             userId: user.id,
-    //             email: user.email,
-    //             code: this.twoFactorForm.controls.code.value,
-    //         })
-    //         .pipe(takeUntilDestroyed(this.destroyRef))
-    //         .subscribe(() => {
-    //             this.persistUser(this.mergeCurrentUser({ enable2fa: true }));
-    //             this.enable2fa.set(true);
-    //             this.feedback.success('MY_ACCOUNT.2FA.ENABLED_SUCCESS');
-    //             this.closeModal();
-    //         });
-    // }
+        this.twoFactorEnableFacade.execute({
+            otp: this.twoFactorForm.controls.code.value,
+            channel: this.twoFactorForm.controls.channel.value,
+        });
+    }
 
-    // disableTwoFactor(): void {
-    //     SweetAlert.fire({
-    //         title: this.translate.instant(
-    //             'MY_ACCOUNT.2FA.DISABLE_CONFIRM_TITLE'
-    //         ),
-    //         text: this.translate.instant('MY_ACCOUNT.2FA.DISABLE_CONFIRM_TEXT'),
-    //         icon: 'warning',
-    //         showCancelButton: true,
-    //         confirmButtonText: this.translate.instant('COMMON.YES'),
-    //         cancelButtonText: this.translate.instant('COMMON.CANCEL'),
-    //     }).then((result) => {
-    //         const user = this.currentUser();
-    //         if (!result.isConfirmed || !user) {
-    //             return;
-    //         }
+    disableTwoFactor(): void {
+        SweetAlert.fire({
+            title: this.translate.instant(
+                'MY_ACCOUNT.2FA.DISABLE_CONFIRM_TITLE'
+            ),
+            text: this.translate.instant('MY_ACCOUNT.2FA.DISABLE_CONFIRM_TEXT'),
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: this.translate.instant('COMMON.YES'),
+            cancelButtonText: this.translate.instant('COMMON.CANCEL'),
+        }).then((result) => {
+            const user = this.currentUser();
+            if (!result.isConfirmed || !user) {
+                return;
+            }
 
-    //         this.facade
-    //             .disableTwoFactor({ userId: user.id, email: user.email })
-    //             .pipe(takeUntilDestroyed(this.destroyRef))
-    //             .subscribe(() => {
-    //                 this.persistUser(
-    //                     this.mergeCurrentUser({ enable2fa: false })
-    //                 );
-    //                 this.enable2fa.set(false);
-    //                 this.feedback.success('MY_ACCOUNT.2FA.DISABLED_SUCCESS');
-    //                 this.closeModal();
-    //             });
-    //     });
-    // }
+            this.twoFactorDisableFacade.execute({
+                email: user.email,
+            });
+        });
+    }
 
-    // backToStatus(): void {
-    //     this.twoFaStep.set('status');
-    //     this.resendCooldown.set(0);
-    //     this.twoFactorForm.reset();
-    //     this.facade.setTwoFactorChallenge(null);
-    //     this.cooldownSubscription?.unsubscribe();
-    //     this.cooldownSubscription = null;
-    // }
+    backToStatus(): void {
+        this.twoFaStep.set('status');
+        this.resendCooldown.set(0);
+        this.twoFactorForm.reset();
+        this.cooldownSubscription?.unsubscribe();
+        this.cooldownSubscription = null;
+    }
 
     closeModal(): void {
         this.modal.dismissAll();
-        // this.backToStatus();
+        this.backToStatus();
         this.accountForm.reset();
         this.passwordForm.reset();
     }
@@ -358,9 +357,9 @@ export class MyAccountComponent {
         this.currentUser.set(user);
     }
 
-    private startResendCooldown(): void {
+    private startResendCooldown(timeout = 30): void {
         this.cooldownSubscription?.unsubscribe();
-        this.resendCooldown.set(30);
+        this.resendCooldown.set(timeout);
         this.cooldownSubscription = interval(1000)
             .pipe(
                 takeWhile(() => this.resendCooldown() > 0),

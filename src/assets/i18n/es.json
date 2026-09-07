@@ -1396,6 +1396,13 @@
                     "PASSWORD_UPDATED": "Contraseña actualizada exitosamente"
                 }
             }
+        },
+        "2FA": {
+            "CODE_SENT": "Código de verificación enviado",
+            "ENABLED_SUCCESS": "Autenticación de dos factores activada correctamente",
+            "DISABLED_SUCCESS": "Autenticación de dos factores desactivada correctamente",
+            "DISABLE_CONFIRM_TITLE": "Desactivar la autenticación de dos factores",
+            "DISABLE_CONFIRM_TEXT": "¿Está seguro de que desea desactivar la autenticación de dos factores en su cuenta?"
         }
     },
     "REQUESTS": {

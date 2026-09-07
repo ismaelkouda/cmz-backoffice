@@ -1431,6 +1431,13 @@
                     "PASSWORD_UPDATED": "Password updated successfully"
                 }
             }
+        },
+        "2FA": {
+            "CODE_SENT": "Verification code sent",
+            "ENABLED_SUCCESS": "Two-factor authentication enabled successfully",
+            "DISABLED_SUCCESS": "Two-factor authentication disabled successfully",
+            "DISABLE_CONFIRM_TITLE": "Disable two-factor authentication",
+            "DISABLE_CONFIRM_TEXT": "Are you sure you want to disable two-factor authentication on your account?"
         }
     },
     "REQUESTS": {

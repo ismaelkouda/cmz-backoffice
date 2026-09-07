@@ -22,6 +22,7 @@ export interface PasswordFormValue {
 }
 
 export interface TwoFactorFormValue {
+    readonly channel: FormControl<'email' | 'sms'>;
     readonly code: FormControl<string>;
 }
 
@@ -84,12 +85,16 @@ export function createPasswordForm(): PasswordForm {
 
 export function createTwoFactorForm(): TwoFactorForm {
     return new FormGroup<TwoFactorFormValue>({
+        channel: new FormControl<'email' | 'sms'>('email', {
+            nonNullable: true,
+            validators: [Validators.required],
+        }),
         code: new FormControl('', {
             nonNullable: true,
             validators: [
                 Validators.required,
-                Validators.minLength(6),
-                Validators.maxLength(6),
+                Validators.minLength(4),
+                Validators.maxLength(4),
                 Validators.pattern(/^\d+$/),
             ],
         }),

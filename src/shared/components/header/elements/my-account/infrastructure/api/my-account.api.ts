@@ -48,7 +48,7 @@ export class MyAccountApi {
     twoFactorRequest(
         payload: TwoFactorRequestApiDto
     ): Observable<SimpleResponseDto<TwoFactorRequestResultApiDto>> {
-        return this.http.put<SimpleResponseDto<TwoFactorRequestResultApiDto>>(
+        return this.http.post<SimpleResponseDto<TwoFactorRequestResultApiDto>>(
             `${this.baseUrl}${MY_ACCOUNT_ENDPOINTS.ENABLE_TWO_FACTOR}`,
             payload
         );
@@ -66,8 +66,8 @@ export class MyAccountApi {
     twoFactorEnable(
         payload: TwoFactorEnableApiDto
     ): Observable<MessageResponseDto> {
-        return this.http.put<MessageResponseDto>(
-            `${this.baseUrl}${MY_ACCOUNT_ENDPOINTS.ENABLE_TWO_FACTOR}`,
+        return this.http.post<MessageResponseDto>(
+            `${this.baseUrl}${MY_ACCOUNT_ENDPOINTS.REQUEST_TWO_FACTOR}`,
             payload
         );
     }
