@@ -32,7 +32,10 @@ export class LoginResponseMapper extends SimpleResponseMapper<
         return new LoginResponseEntity({
             requiresTwoFactor: false,
             token: session.token,
-            user: session.user,
+            user: {
+                ...session.user,
+                enable2fa: session.user.two_fa?.enabled ?? false,
+            },
             message: session.message,
         });
     }
