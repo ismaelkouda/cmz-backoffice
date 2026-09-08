@@ -86,6 +86,21 @@
             </div>
 
             <div class="card-right-section">
+                @if (store.step() !== 'credentials') {
+                <div class="otp-actions">
+                    <button
+                        type="button"
+                        class="otp-back-link"
+                        (click)="onBackToCredentials()"
+                    >
+                        <i class="pi pi-arrow-left"></i>
+                        {{
+                            'AUTHENTICATION.UI.TWO_FACTOR.BACK'
+                                | translate
+                        }}
+                    </button>
+                </div>
+                }
                 <div class="auth-content">
                     <h1 class="auth-title">
                         {{ 'AUTHENTICATION.TITLE' | translate }}
@@ -253,6 +268,7 @@
                                             | translate
                                     }}
                                 </h2>
+                                
                                 <p class="otp-subtitle">
                                     {{
                                         'AUTHENTICATION.UI.TWO_FACTOR.VERIFY_SUBTITLE'
@@ -330,10 +346,26 @@
                             </div>
 
                             <div class="otp-hint">
-                                {{
-                                    'AUTHENTICATION.UI.TWO_FACTOR.CODE_HINT'
-                                        | translate
-                                }}
+                                @if (store.otpCooldown() > 0) {
+                                    <span class="otp-resend-link otp-resend-link--disabled">
+                                        {{
+                                            'AUTHENTICATION.UI.TWO_FACTOR.RESEND_IN'
+                                                | translate
+                                                    : { time: store.otpCooldown() }
+                                        }}
+                                    </span>
+                                } @else {
+                                    <button
+                                        type="button"
+                                        class="otp-resend-link"
+                                        (click)="store.resendOtp()"
+                                    >
+                                        {{
+                                            'AUTHENTICATION.UI.TWO_FACTOR.RESEND'
+                                                | translate
+                                        }}
+                                    </button>
+                                }
                             </div>
 
                             <button
@@ -358,41 +390,6 @@
                                         | translate
                                 }}
                             </button>
-
-                            <div class="otp-actions">
-                                <button
-                                    type="button"
-                                    class="otp-back-link"
-                                    (click)="onBackToCredentials()"
-                                >
-                                    <i class="pi pi-arrow-left"></i>
-                                    {{
-                                        'AUTHENTICATION.UI.TWO_FACTOR.BACK'
-                                            | translate
-                                    }}
-                                </button>
-
-                                @if (store.otpCooldown() > 0) {
-                                    <span class="otp-resend-link otp-resend-link--disabled">
-                                        {{
-                                            'AUTHENTICATION.UI.TWO_FACTOR.RESEND_IN'
-                                                | translate
-                                                    : { time: store.otpCooldown() }
-                                        }}
-                                    </span>
-                                } @else {
-                                    <button
-                                        type="button"
-                                        class="otp-resend-link"
-                                        (click)="store.resendOtp()"
-                                    >
-                                        {{
-                                            'AUTHENTICATION.UI.TWO_FACTOR.RESEND'
-                                                | translate
-                                        }}
-                                    </button>
-                                }
-                            </div>
                         </form>
                     }
                 </div>

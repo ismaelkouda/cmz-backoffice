@@ -36,6 +36,7 @@ import { AuthFacade } from './application/facade/auth.facade';
 import { TwoFactorRequestFacade } from './application/facade/two-factor-request.facade';
 import { TwoFactorEnableFacade } from './application/facade/two-factor-enable.facade';
 import { TwoFactorDisableFacade } from './application/facade/two-factor-disable.facade';
+import { PasswordChangeFacade } from './application/facade/password-change.facade';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 type AccountField = 'email' | 'firstName' | 'lastName' | 'phone';
@@ -65,6 +66,7 @@ export class MyAccountComponent {
     private readonly twoFactorRequestFacade = inject(TwoFactorRequestFacade);
     private readonly twoFactorEnableFacade = inject(TwoFactorEnableFacade);
     private readonly twoFactorDisableFacade = inject(TwoFactorDisableFacade);
+    private readonly passwordChangeFacade = inject(PasswordChangeFacade);
     private readonly feedback = inject(UiFeedbackService);
     private readonly modal = inject(NgbModal);
     private readonly sweetAlert = inject(SweetAlertService);
@@ -98,6 +100,13 @@ export class MyAccountComponent {
             this.twoFactorDisableFacade.loading()
     );
 
+    readonly accountLoading = computed(() =>
+        this.profileUpdateFacade.loading()
+    );
+    readonly passwordLoading = computed(() =>
+        this.passwordChangeFacade.loading()
+    );
+
     constructor() {
         this.watchCompletion(
             () => this.twoFactorRequestFacade.state().lastFetch,
@@ -123,6 +132,25 @@ export class MyAccountComponent {
                 this.persistUser(this.mergeCurrentUser({ enable2fa: false }));
                 this.enable2fa.set(false);
                 this.feedback.success('MY_ACCOUNT.2FA.DISABLED_SUCCESS');
+                this.closeModal();
+            }
+        );
+        this.watchCompletion(
+            () => this.profileUpdateFacade.state().lastFetch,
+            () => {
+                this.persistCurrentProfile();
+                this.feedback.success(
+                    'MY_ACCOUNT.ACCOUNT.MESSAGES.SUCCESS.PROFILE_UPDATED'
+                );
+                this.closeModal();
+            }
+        );
+        this.watchCompletion(
+            () => this.passwordChangeFacade.state().lastFetch,
+            () => {
+                this.feedback.success(
+                    'MY_ACCOUNT.PASSWORD.MESSAGES.SUCCESS.PASSWORD_UPDATED'
+                );
                 this.closeModal();
             }
         );
@@ -170,6 +198,14 @@ export class MyAccountComponent {
             this.accountForm.markAllAsTouched();
             return;
         }
+        const raw = this.accountForm.getRawValue();
+        this.profileUpdateFacade.execute({
+            id: raw.id,
+            lastName: raw.lastName,
+            firstName: raw.firstName,
+            email: raw.email,
+            phone: raw.phone,
+        });
     }
 
     openPasswordModal(): void {
@@ -188,6 +224,12 @@ export class MyAccountComponent {
             this.passwordForm.markAllAsTouched();
             return;
         }
+        const raw = this.passwordForm.getRawValue();
+        this.passwordChangeFacade.execute({
+            oldPassword: raw.oldPassword,
+            newPassword: raw.newPassword,
+            newPasswordConfirmation: raw.confirmNewPassword,
+        });
     }
 
     protected openDoubleFactorModal(): void {
@@ -347,6 +389,22 @@ export class MyAccountComponent {
     private persistUser(user: CurrentUser): void {
         this.encodingDataService.saveData('user_data', user);
         this.currentUser.set(user);
+    }
+
+    private persistCurrentProfile(): void {
+        const user = this.currentUser();
+        if (!user) {
+            return;
+        }
+        const raw = this.accountForm.getRawValue();
+        this.persistUser(
+            this.mergeCurrentUser({
+                last_name: raw.lastName.trim(),
+                first_name: raw.firstName.trim(),
+                email: raw.email.trim().toLowerCase(),
+                phone: raw.phone.replace(/\D/g, ''),
+            })
+        );
     }
 
     private startResendCooldown(timeout = 30): void {
