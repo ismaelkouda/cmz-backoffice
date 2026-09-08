@@ -126,9 +126,41 @@ $dark-gray: var(--color-gray);
 
     @media (min-width: 1024px) {
         flex: 1;
-        padding: 60px 20px;
+        padding: 30px 20px 60px 20px;
         display: flex;
-        align-items: center;
+        flex-direction: column;
+        // align-items: center;
+    }
+}
+
+
+
+.otp-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.otp-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 500 14px/20px var(--font-primary);
+    color: $dark-gray;
+    background: none;
+    border: none;
+    padding: 8px 0;
+    cursor: pointer;
+    @include transition(all);
+
+    i {
+        font-size: 14px;
+    }
+
+    &:hover {
+        color: var(--theme-default);
     }
 }
 
@@ -245,11 +277,12 @@ $dark-gray: var(--color-gray);
         transform: translateX(-50%);
         width: 60px;
         height: 3px;
-        background: linear-gradient(
-            90deg,
-            var(--theme-default),
-            var(--theme-secondary)
-        );
+        background-color: var(--theme-default);
+        // background: linear-gradient(
+        //     90deg,
+        //     var(--theme-default),
+        //     var(--theme-secondary)
+        // );
         border-radius: 2px;
     }
 
@@ -379,7 +412,6 @@ $dark-gray: var(--color-gray);
     font: 700 16px/24px var(--font-primary);
     cursor: pointer;
     @include transition(all);
-    margin-top: 24px;
     position: relative;
     overflow: hidden;
     width: 100%;
@@ -427,11 +459,12 @@ $dark-gray: var(--color-gray);
         display: flex;
         align-items: center;
         justify-content: center;
-        background: linear-gradient(
-            135deg,
-            var(--theme-default),
-            var(--theme-secondary)
-        );
+        background-color: var(--theme-secondary);
+        // background: linear-gradient(
+        //     135deg,
+        //     var(--theme-default),
+        //     var(--theme-secondary)
+        // );
         color: $white;
         font-size: 28px;
         box-shadow: 0 8px 20px
@@ -478,36 +511,6 @@ $dark-gray: var(--color-gray);
         color: rgba($black, 0.55);
         text-align: center;
         margin-top: -8px;
-    }
-
-    .otp-actions {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        margin-top: 20px;
-        flex-wrap: wrap;
-    }
-
-    .otp-back-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font: 500 14px/20px var(--font-primary);
-        color: $dark-gray;
-        background: none;
-        border: none;
-        padding: 8px 0;
-        cursor: pointer;
-        @include transition(all);
-
-        i {
-            font-size: 14px;
-        }
-
-        &:hover {
-            color: var(--theme-default);
-        }
     }
 
     .otp-resend-link {

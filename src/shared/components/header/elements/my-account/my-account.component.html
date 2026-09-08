@@ -165,7 +165,7 @@
             <button
                 type="submit"
                 class="btn btn-save"
-                [disabled]="accountForm.invalid"
+                [disabled]="accountForm.invalid || accountLoading()"
             >
                 {{ 'COMMON.SAVE' | translate }}
             </button>
@@ -269,7 +269,7 @@
             <button
                 type="submit"
                 class="btn btn-save"
-                [disabled]="passwordForm.invalid"
+                [disabled]="passwordForm.invalid || passwordLoading()"
             >
                 Valider
             </button>

@@ -1,4 +1,4 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginFacade } from '@presentation/pages/authentication/application/services/login/login.facade';
@@ -73,6 +73,28 @@ export class LoginStore {
     );
     public readonly isOtpValid = computed(() => this.otpStatus() === 'VALID');
 
+    private lastLoginFetch = 0;
+
+    constructor() {
+        effect(() => {
+            const lastFetch = this.loginFacade.state().lastFetch;
+            if (lastFetch === this.lastLoginFetch) {
+                return;
+            }
+            this.lastLoginFetch = lastFetch;
+            if (this.step() !== 'otp') {
+                return;
+            }
+            const challenge = this.loginFacade.items()?.challenge;
+            if (!challenge) {
+                return;
+            }
+            this.otpExpiredAt.set(challenge.expiredAt ?? null);
+            this.otpCooldown.set(challenge.timeout ?? 0);
+            this.startCooldown();
+        });
+    }
+
     private get value(): LoginFormValue {
         return this.form.getRawValue();
     }
@@ -101,7 +123,6 @@ export class LoginStore {
         this.step.set('otp');
         this.otpForm.reset();
         const challenge = this.loginFacade.items()?.challenge;
-        console.log('this.loginFacade.items()', challenge);
         this.otpExpiredAt.set(challenge?.expiredAt ?? null);
         this.otpCooldown.set(challenge?.timeout ?? 0);
         this.startCooldown();
