@@ -1,6 +1,13 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    ValidationErrors,
+    ValidatorFn,
+    Validators,
+} from '@angular/forms';
 import { ResetPasswordFacade } from '@presentation/pages/authentication/application/services/reset-password/reset-password.facade';
 import { ResetPasswordFormControl } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password-form.control';
 import { ResetPasswordFormValue } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password-form.value';
@@ -8,7 +15,23 @@ import { RESET_PASSWORD_FORM_ERROR_MESSAGES } from '@presentation/pages/authenti
 import { RESET_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form-keys.constant';
 import { FormValidators } from '@presentation/pages/authentication/presentation/constants/form-validators.constants';
 import { getControlError } from '@presentation/pages/authentication/presentation/helpers/authentication-form-errors.helper';
+import {
+    passwordNotEmailValidator,
+    strongPasswordValidator,
+} from '@shared/presentation/helpers/password-validators.helper';
 import { startWith } from 'rxjs';
+
+const confirmPasswordMatchValidator: ValidatorFn = (
+    control: AbstractControl
+): ValidationErrors | null => {
+    const password = control.parent?.get(
+        RESET_PASSWORD_FORM_KEYS.PASSWORD
+    )?.value;
+    if (!control.value || !password) {
+        return null;
+    }
+    return control.value === password ? null : { mismatch: true };
+};
 
 @Injectable()
 export class ResetPasswordStore {
@@ -20,12 +43,21 @@ export class ResetPasswordStore {
     public readonly session = this.facade.items;
     public readonly VALIDATION = FormValidators;
 
+    private validationEmail = '';
+
     public readonly form: FormGroup<ResetPasswordFormControl> =
         this.fb.nonNullable.group({
-            [RESET_PASSWORD_FORM_KEYS.PASSWORD]: ['', [Validators.required]],
+            [RESET_PASSWORD_FORM_KEYS.PASSWORD]: [
+                '',
+                [
+                    Validators.required,
+                    strongPasswordValidator,
+                    passwordNotEmailValidator(() => this.validationEmail),
+                ],
+            ],
             [RESET_PASSWORD_FORM_KEYS.CONFIRM_PASSWORD]: [
                 '',
-                [Validators.required],
+                [Validators.required, confirmPasswordMatchValidator],
             ],
         });
 
@@ -34,6 +66,13 @@ export class ResetPasswordStore {
         { initialValue: this.form.status }
     );
     public readonly isValid = computed(() => this.status() === 'VALID');
+
+    public setValidationEmail(email: string): void {
+        this.validationEmail = email;
+        this.form.controls[
+            RESET_PASSWORD_FORM_KEYS.PASSWORD
+        ].updateValueAndValidity();
+    }
 
     private get value(): ResetPasswordFormValue {
         return this.form.getRawValue();

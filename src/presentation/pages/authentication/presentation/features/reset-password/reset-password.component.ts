@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 import { ResetPasswordStore } from '@presentation/pages/authentication/presentation/store/reset-password/reset-password.store';
 import { RESET_PASSWORD_FORM_KEYS } from '@presentation/pages/authentication/presentation/constants/reset-password/reset-password-form-keys.constant';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
+import { PasswordStrengthComponent } from '@shared/components/password-strength/password-strength.component';
 
 @Component({
     selector: 'app-reset-password',
@@ -18,7 +19,12 @@ import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
     templateUrl: './reset-password.component.html',
     styleUrls: ['./reset-password.component.scss'],
     providers: [ResetPasswordStore],
-    imports: [ReactiveFormsModule, PasswordModule, TranslateModule],
+    imports: [
+        ReactiveFormsModule,
+        PasswordModule,
+        TranslateModule,
+        PasswordStrengthComponent,
+    ],
 })
 export class ResetPasswordComponent {
     protected readonly store = inject(ResetPasswordStore);
@@ -46,6 +52,10 @@ export class ResetPasswordComponent {
     private hasRedirected = false;
 
     constructor() {
+        effect(() => {
+            this.store.setValidationEmail(this.email());
+        });
+
         effect(() => {
             const session = this.store.session();
             if (!session || this.hasRedirected) {

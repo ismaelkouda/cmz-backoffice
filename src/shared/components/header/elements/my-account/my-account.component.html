@@ -112,9 +112,7 @@
                     />
                 </div>
                 <div class="form-group">
-                    <label for="email"
-                        >Email<span class="text-danger">*</span></label
-                    >
+                    <label for="email">Email</label>
                     <input
                         id="email"
                         class="form-input"
@@ -219,7 +217,7 @@
                     id="newPassword"
                     formControlName="newPassword"
                     [feedback]="false"
-                    [toggleMask]="true"
+                    [toggleMask]="false"
                     [inputStyleClass]="
                         'form-input' +
                         (isPasswordFieldInvalid('newPassword')
@@ -229,6 +227,10 @@
                             ? ' form-input--valid'
                             : '')
                     "
+                />
+                <app-password-strength
+                    [value]="passwordForm.controls.newPassword.value"
+                    [email]="currentUser()?.email ?? ''"
                 />
                 @if (passwordError('newPassword')) {
                     <small class="text-danger">{{

@@ -8,7 +8,6 @@ export function profileUpdateMapper(
         id: entity.props.id,
         last_name: entity.props.lastName,
         first_name: entity.props.firstName,
-        email: entity.props.email,
         phone: entity.props.phone,
     };
 }
