@@ -285,13 +285,15 @@
             "PASSWORD": {
                 "LABEL": "New password",
                 "REQUIRED": "Password is required",
-                "MIN_LENGTH": "Password must be at least 6 characters long",
+                "MIN_LENGTH": "Password must be at least 8 characters long",
+                "WEAK": "Password is too weak: use at least 8 characters with uppercase, lowercase, number and special character",
+                "EMAIL_AS_PASSWORD": "Password must not be the same as your email address",
                 "MISMATCH": "Both passwords must match"
             },
             "CONFIRM_PASSWORD": {
                 "LABEL": "Confirm password",
                 "REQUIRED": "Password confirmation is required",
-                "MIN_LENGTH": "Password must be at least 6 characters long",
+                "MIN_LENGTH": "Password must be at least 8 characters long",
                 "MISMATCH": "Both passwords must match"
             }
         },
@@ -374,6 +376,23 @@
                 "UNABLE_TO_COMPLETE_REQUEST": "Unable to complete request",
                 "UNABLE_TO_COMPLETE_RESET": "Unable to complete reset"
             }
+        }
+    },
+    "PASSWORD_STRENGTH": {
+        "RULES": {
+            "LENGTH": "At least 8 characters",
+            "UPPER": "One uppercase letter",
+            "LOWER": "One lowercase letter",
+            "DIGIT": "One number",
+            "SPECIAL": "One special character",
+            "NOT_EMAIL": "Different from your email"
+        },
+        "LEVELS": {
+            "VERY_WEAK": "Very weak",
+            "WEAK": "Weak",
+            "FAIR": "Fair",
+            "GOOD": "Good",
+            "STRONG": "Strong"
         }
     },
     "PRIVACY_POLICY": {
@@ -883,7 +902,7 @@
                 "MESSAGE_DISABLE": "Are you sure you want to deactivate this slide?"
             }
         },
-        "PRIVACY_POLICY": {
+            "PRIVACY_POLICY": {
             "BREADCRUMB": {
                 "LABEL": "Privacy Policy",
                 "ROUTE": "privacy-policy"
@@ -1438,7 +1457,10 @@
                     "PLACEHOLDER": "Confirm your new password"
                 },
                 "INVALID_FORMAT": "Invalid format",
-                "NOT_MATCH": "Passwords do not match"
+                "NOT_MATCH": "Passwords do not match",
+                "WEAK_PASSWORD": "Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number and one special character",
+                "PASSWORD_EQUALS_EMAIL": "Password must not be the same as your email address",
+                "PASSWORD_EQUALS_OLD": "The new password must be different from the old password"
             },
             "MESSAGES": {
                 "SUCCESS": {

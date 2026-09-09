@@ -30,7 +30,7 @@ export class MyAccountApi {
     passwordChange(
         payload: PasswordChangeApiDto
     ): Observable<MessageResponseDto> {
-        return this.http.put<MessageResponseDto>(
+        return this.http.post<MessageResponseDto>(
             `${this.baseUrl}${MY_ACCOUNT_ENDPOINTS.UPDATE_PASSWORD}`,
             payload
         );
@@ -39,7 +39,7 @@ export class MyAccountApi {
     profileUpdate(
         payload: ProfileUpdateApiDto
     ): Observable<MessageResponseDto> {
-        return this.http.put<MessageResponseDto>(
+        return this.http.post<MessageResponseDto>(
             `${this.baseUrl}${MY_ACCOUNT_ENDPOINTS.UPDATE_PROFILE}`,
             payload
         );

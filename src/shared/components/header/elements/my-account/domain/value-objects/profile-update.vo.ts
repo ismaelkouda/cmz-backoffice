@@ -9,7 +9,6 @@ export class ProfileUpdateVo {
             id: dto.id,
             lastName: dto.lastName.trim(),
             firstName: dto.firstName.trim(),
-            email: dto.email.trim().toLowerCase(),
             phone: dto.phone.replaceAll(/\D/g, ''),
         });
     }

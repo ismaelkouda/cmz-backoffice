@@ -19,7 +19,6 @@ export class ProfileUpdateFacade extends ObjectBaseFacade<
             dto.id,
             dto.lastName,
             dto.firstName,
-            dto.email,
             dto.phone
         );
         const fetch$ = this.bus.dispatch(command);

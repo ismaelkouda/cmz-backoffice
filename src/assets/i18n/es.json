@@ -285,13 +285,15 @@
             "PASSWORD": {
                 "LABEL": "Nueva contraseña",
                 "REQUIRED": "La contraseña es obligatoria",
-                "MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres",
+                "MIN_LENGTH": "La contraseña debe tener al menos 8 caracteres",
+                "WEAK": "La contraseña es demasiado débil: mínimo 8 caracteres con mayúscula, minúscula, número y carácter especial",
+                "EMAIL_AS_PASSWORD": "La contraseña no debe ser igual a su dirección de correo electrónico",
                 "MISMATCH": "Ambas contraseñas deben ser iguales"
             },
             "CONFIRM_PASSWORD": {
                 "LABEL": "Confirmar contraseña",
                 "REQUIRED": "La confirmación de la contraseña es obligatoria",
-                "MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres",
+                "MIN_LENGTH": "La contraseña debe tener al menos 8 caracteres",
                 "MISMATCH": "Ambas contraseñas deben coincidir"
             }
         },
@@ -374,6 +376,23 @@
                 "UNABLE_TO_COMPLETE_REQUEST": "No se pudo completar la solicitud",
                 "UNABLE_TO_COMPLETE_RESET": "No se pudo completar el restablecimiento"
             }
+        }
+    },
+    "PASSWORD_STRENGTH": {
+        "RULES": {
+            "LENGTH": "8 caracteres mínimo",
+            "UPPER": "Una letra mayúscula",
+            "LOWER": "Una letra minúscula",
+            "DIGIT": "Un número",
+            "SPECIAL": "Un carácter especial",
+            "NOT_EMAIL": "Diferente a su correo electrónico"
+        },
+        "LEVELS": {
+            "VERY_WEAK": "Muy débil",
+            "WEAK": "Débil",
+            "FAIR": "Media",
+            "GOOD": "Buena",
+            "STRONG": "Fuerte"
         }
     },
     "PRIVACY_POLICY": {
@@ -848,7 +867,7 @@
                 "MESSAGE_DISABLE": "¿Está seguro de que desea desactivar esta diapositiva?"
             }
         },
-        "PRIVACY_POLICY": {
+            "PRIVACY_POLICY": {
             "BREADCRUMB": {
                 "LABEL": "Política de Privacidad",
                 "ROUTE": "privacy-policy"
@@ -1403,7 +1422,10 @@
                     "PLACEHOLDER": "Confirme su nueva contraseña"
                 },
                 "INVALID_FORMAT": "Formato inválido",
-                "NOT_MATCH": "Las contraseñas no coinciden"
+                "NOT_MATCH": "Las contraseñas no coinciden",
+                "WEAK_PASSWORD": "La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial",
+                "PASSWORD_EQUALS_EMAIL": "La contraseña no debe ser igual a su dirección de correo electrónico",
+                "PASSWORD_EQUALS_OLD": "La nueva contraseña debe ser diferente de la contraseña anterior"
             },
             "MESSAGES": {
                 "SUCCESS": {

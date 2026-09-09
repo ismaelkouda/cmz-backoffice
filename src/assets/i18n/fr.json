@@ -410,12 +410,15 @@
             "PASSWORD": {
                 "LABEL": "Nouveau mot de passe",
                 "REQUIRED": "Le mot de passe est requis",
-                "MIN_LENGTH": "Le mot de passe doit contenir au moins 6 caractères",
+                "MIN_LENGTH": "Le mot de passe doit contenir au moins 8 caractères",
+                "WEAK": "Le mot de passe est trop faible : minimum 8 caractères avec majuscule, minuscule, chiffre et caractère spécial",
+                "EMAIL_AS_PASSWORD": "Le mot de passe ne doit pas être identique à votre adresse e-mail",
                 "MISMATCH": "Les deux mots de passe doivent être identiques"
             },
             "CONFIRM_PASSWORD": {
                 "LABEL": "Confirmation du mot de passe",
-                "REQUIRED": "La confirmation du mot de passe est requise"
+                "REQUIRED": "La confirmation du mot de passe est requise",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
             }
         },
         "BUTTONS": {
@@ -445,10 +448,27 @@
             "LOGIN": "Se connecter"
         }
     },
+    "PASSWORD_STRENGTH": {
+        "RULES": {
+            "LENGTH": "8 caractères minimum",
+            "UPPER": "1 lettre majuscule",
+            "LOWER": "1 lettre minuscule",
+            "DIGIT": "1 chiffre",
+            "SPECIAL": "1 caractère spécial",
+            "NOT_EMAIL": "Différent de votre e-mail"
+        },
+        "LEVELS": {
+            "VERY_WEAK": "Très faible",
+            "WEAK": "Faible",
+            "FAIR": "Moyen",
+            "GOOD": "Bon",
+            "STRONG": "Fort"
+        }
+    },
     "PRIVACY_POLICY": {
         "DIALOG": {
-            "TITLE": "Politique d'engagement",
-            "EMPTY": "La politique d'engagement est indisponible.",
+            "TITLE": "Engagement de respect de fonctionnalités",
+            "EMPTY": "L'engagement de respect de fonctionnalités est indisponible.",
             "ACKNOWLEDGE": "Je reconnais avoir pris connaissance de la politique d'engagement.",
             "CONTINUE": "J'accepte",
             "DISCONNECT": "Se déconnecter"
@@ -1998,7 +2018,10 @@
                     "PLACEHOLDER": "Confirmer votre nouveau mot de passe"
                 },
                 "INVALID_FORMAT": "Format invalide",
-                "NOT_MATCH": "Les mots de passe ne correspondent pas"
+                "NOT_MATCH": "Les mots de passe ne correspondent pas",
+                "WEAK_PASSWORD": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
+                "PASSWORD_EQUALS_EMAIL": "Le mot de passe ne doit pas être identique à votre adresse e-mail",
+                "PASSWORD_EQUALS_OLD": "Le nouveau mot de passe doit être différent de l'ancien mot de passe"
             },
             "MESSAGES": {
                 "SUCCESS": {

@@ -202,7 +202,7 @@ $dark-gray: var(--color-gray);
 }
 
 .app-subtitle {
-    font: 400 18px/26px var(--font-primary);
+    // font: 400 18px/26px var(--font-primary);
     color: rgba($white, 0.9);
     margin: 0 0 32px 0;
     opacity: 0.9;
@@ -224,7 +224,7 @@ $dark-gray: var(--color-gray);
     display: flex;
     align-items: center;
     gap: 12px;
-    font: 500 16px/24px var(--font-primary);
+    // font: 500 16px/24px var(--font-primary);
     color: rgba($white, 0.9);
 
     @media (min-width: 768px) {

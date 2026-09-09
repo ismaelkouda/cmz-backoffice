@@ -37,6 +37,7 @@ import { TwoFactorRequestFacade } from './application/facade/two-factor-request.
 import { TwoFactorEnableFacade } from './application/facade/two-factor-enable.facade';
 import { TwoFactorDisableFacade } from './application/facade/two-factor-disable.facade';
 import { PasswordChangeFacade } from './application/facade/password-change.facade';
+import { PasswordStrengthComponent } from '@shared/components/password-strength/password-strength.component';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 
 type AccountField = 'email' | 'firstName' | 'lastName' | 'phone';
@@ -55,6 +56,7 @@ type PasswordField = 'confirmNewPassword' | 'newPassword' | 'oldPassword';
         TagModule,
         ButtonModule,
         InputTextModule,
+        PasswordStrengthComponent,
     ],
 })
 export class MyAccountComponent {
@@ -86,7 +88,9 @@ export class MyAccountComponent {
     readonly resendCooldown = signal(0);
 
     readonly accountForm: ProfileForm = createProfileForm();
-    readonly passwordForm: PasswordForm = createPasswordForm();
+    readonly passwordForm: PasswordForm = createPasswordForm(
+        () => this.currentUser()?.email ?? ''
+    );
     readonly twoFactorForm: TwoFactorForm = createTwoFactorForm();
 
     readonly twoFactorChallenge = computed(() =>
@@ -203,7 +207,6 @@ export class MyAccountComponent {
             id: raw.id,
             lastName: raw.lastName,
             firstName: raw.firstName,
-            email: raw.email,
             phone: raw.phone,
         });
     }
@@ -341,6 +344,15 @@ export class MyAccountComponent {
         if (!control.errors || !control.touched) {
             return null;
         }
+        // if (control.errors['weakPassword']) {
+        //     return 'MY_ACCOUNT.PASSWORD.FORM.WEAK_PASSWORD';
+        // }
+        if (control.errors['emailAsPassword']) {
+            return 'MY_ACCOUNT.PASSWORD.FORM.PASSWORD_EQUALS_EMAIL';
+        }
+        if (control.errors['oldPasswordUsed']) {
+            return 'MY_ACCOUNT.PASSWORD.FORM.PASSWORD_EQUALS_OLD';
+        }
         if (control.errors['minlength']) {
             return 'MY_ACCOUNT.PASSWORD.FORM.INVALID_FORMAT';
         }
@@ -401,7 +413,6 @@ export class MyAccountComponent {
             this.mergeCurrentUser({
                 last_name: raw.lastName.trim(),
                 first_name: raw.firstName.trim(),
-                email: raw.email.trim().toLowerCase(),
                 phone: raw.phone.replace(/\D/g, ''),
             })
         );
