@@ -399,7 +399,7 @@ export class MyAccountComponent {
     }
 
     private persistUser(user: CurrentUser): void {
-        this.encodingDataService.saveData('user_data', user);
+        this.encodingDataService.saveData('user_data', user, true);
         this.currentUser.set(user);
     }
 

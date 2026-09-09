@@ -84,7 +84,7 @@ const config = {
         settingUrl: 'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
         fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
         environmentDeployment: 'CLOUD',
-        enableDebug: true,
+        enableDebug: false,
         appSettings: {
             app: {
                 name: 'Connect My Zone',
