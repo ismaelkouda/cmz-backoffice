@@ -37,9 +37,6 @@ export class ContentComponent implements AfterViewInit {
     private readonly router = inject(Router);
 
     public readonly config = inject(AppCustomizationService);
-    public readonly layoutType = this.config.layoutType;
-    public readonly sidebarType = this.config.sidebarType;
-    public readonly sidebarIcon = this.config.sidebarIcon;
     public showTabs = false;
 
     /**
