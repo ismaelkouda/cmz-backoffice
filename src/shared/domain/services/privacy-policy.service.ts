@@ -29,6 +29,27 @@ export class PrivacyPolicyService {
         this.user.set(this.getStoredUser());
     }
 
+    /**
+     * Rappel du 403 'PRIVACY_NOT_ACCEPTED' côté backend : ré-armer
+     * l'acceptation locale pour que le dialogue se réaffiche lors de
+     * la prochaine navigation.
+     */
+    markNotAccepted(): void {
+        const current = this.getStoredUser();
+        if (!current) {
+            return;
+        }
+        const updated: CurrentUser = {
+            ...current,
+            privacy: {
+                ...current.privacy,
+                accepted_at: null,
+            },
+        };
+        this.encodingDataService.saveData(this.STORAGE_KEY, updated, true);
+        this.user.set(updated);
+    }
+
     accept(): void {
         if (this.savAccept()) {
             return;
