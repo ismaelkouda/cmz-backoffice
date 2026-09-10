@@ -192,14 +192,17 @@ export class InteractiveMapComponent
     );
     protected readonly selectedReportId = signal<string>('');
     public readonly regionSelectOptions = computed(() => [
-        ...this.regionOptions().map((r) => ({ label: r.name, value: r.value })),
+        ...this.regionOptions().map((r) => ({
+            label: r.name,
+            value: r.uniqId,
+        })),
     ]);
 
     public readonly departmentSelectOptions = computed(() => {
         return [
             ...this.departmentOptions().map((d) => ({
                 label: d.name,
-                value: d.value,
+                value: d.uniqId,
             })),
         ];
     });
@@ -208,7 +211,7 @@ export class InteractiveMapComponent
         return [
             ...this.municipalityOptions().map((m) => ({
                 label: m.name,
-                value: m.value,
+                value: m.uniqId,
             })),
         ];
     });
@@ -245,10 +248,6 @@ export class InteractiveMapComponent
         { value: 'processing', label: 'En cours' },
         { value: 'finalization', label: 'Clôturé' },
     ];
-    // `lineCount` pilote le rendu du pictogramme de légende : une seule
-    // ligne pour la fibre optique, deux lignes superposées pour un
-    // faisceau radio (paire émission/réception), au lieu d'un simple
-    // rond de couleur.
     public readonly networkTechnologyOptions: {
         value: string;
         label: string;
@@ -263,11 +262,9 @@ export class InteractiveMapComponent
             this.networkTechnologyOptions.map((op) => [op.value, false])
         )
     );
-
     public rnhdVisible(value: string): boolean {
         return this.rnhdVisibility()[value] ?? false;
     }
-
     public toggleRnhd(value: string, visible: boolean): void {
         this.rnhdVisibility.update((vis) => ({
             ...vis,
@@ -284,12 +281,10 @@ export class InteractiveMapComponent
     public readonly equipmentsVisible = signal<Record<string, boolean>>(
         Object.fromEntries(this.equipmentOptions.map((eq) => [eq.id, false]))
     );
-
     public readonly allEquipmentsVisible = computed(() => {
         const vis = this.equipmentsVisible();
         return Object.values(vis).every((v) => v === true);
     });
-
     public toggleEquipment(type: string, visible: boolean): void {
         this.equipmentsVisible.update((vis) => ({
             ...vis,
@@ -297,7 +292,6 @@ export class InteractiveMapComponent
         }));
         this.mapAdapter.setEquipmentTypeVisible(type, visible);
     }
-
     public toggleAllEquipments(visible: boolean): void {
         const newVisibility = Object.fromEntries(
             this.equipmentOptions.map((eq) => [eq.id, visible])
@@ -323,13 +317,17 @@ export class InteractiveMapComponent
     public readonly regionOptions = computed(() => this.regions());
     public readonly departmentOptions = computed(() => {
         const region = this.regions().find(
-            (item) => item.value === this.draftFilters().region
+            (item) =>
+                JSON.stringify(item.uniqId) ===
+                JSON.stringify(this.draftFilters().region)
         );
         return region?.departments ?? [];
     });
     public readonly municipalityOptions = computed(() => {
         const department = this.departmentOptions().find(
-            (item) => item.value === this.draftFilters().department
+            (item) =>
+                JSON.stringify(item.uniqId) ===
+                JSON.stringify(this.draftFilters().department)
         );
         return department?.municipalities ?? [];
     });
@@ -520,12 +518,14 @@ export class InteractiveMapComponent
     public submitFilters(): void {
         this.mapAdapter.hideClickOverlay();
         this.store.updateFilters(this.cloneFilters(this.draftFilters()));
+        this.store.resetCache();
         this.reloadCurrentViewport({ forceRefresh: true });
     }
 
     public resetFilters(): void {
         this.draftFilters.set(this.cloneFilters(EMPTY_REPORT_FILTERS));
         this.store.resetFilters();
+        this.store.resetCache();
         this.reloadCurrentViewport({ forceRefresh: true });
     }
 

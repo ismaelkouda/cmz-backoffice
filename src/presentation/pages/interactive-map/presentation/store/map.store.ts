@@ -213,6 +213,13 @@ export class MapStore {
         this.patchState({ filters: { ...EMPTY_REPORT_FILTERS } });
     }
 
+    public resetCache(): void {
+        this.reportsCache.clear();
+        this.patchState({
+            reports: [],
+        });
+    }
+
     public setHeatmapEnabled(heatmapEnabled: boolean): void {
         this.patchState({ heatmapEnabled });
     }
@@ -261,6 +268,12 @@ export class MapStore {
                 filters.statuses,
                 report.status ?? report.state
             ) &&
+            this.matchesPlaceIdFilter(filters.region, report.region) &&
+            this.matchesPlaceIdFilter(filters.department, report.department) &&
+            this.matchesPlaceIdFilter(
+                filters.municipality,
+                report.municipality
+            ) &&
             (!filters.startDate ||
                 (reportedAt && reportedAt >= new Date(filters.startDate))) &&
             (!filters.endDate ||
@@ -282,6 +295,26 @@ export class MapStore {
         return (
             selected.length === 0 ||
             selected.some((op) => operators.includes(op as ReportOperator))
+        );
+    }
+
+    private matchesPlaceIdFilter(
+        filterValue: string | null,
+        reportPlace: InteractiveMapReport['region']
+    ): boolean {
+        if (!filterValue) {
+            return true;
+        }
+        if (!reportPlace) {
+            return false;
+        }
+        if (typeof reportPlace === 'string') {
+            return reportPlace === String(filterValue);
+        }
+        return (
+            reportPlace.id !== undefined &&
+            reportPlace.id !== null &&
+            String(reportPlace.id) === String(filterValue)
         );
     }
 
