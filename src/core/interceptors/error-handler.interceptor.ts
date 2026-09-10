@@ -1,6 +1,7 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { ConfigurationService } from '@core/services/configuration.service';
+import { PrivacyPolicyService } from '@shared/domain/services/privacy-policy.service';
 import { catchError, throwError } from 'rxjs';
 
 import {
@@ -11,6 +12,7 @@ import { httpErrorMapper } from './http-error.mapper';
 
 export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
     const config = inject(ConfigurationService);
+    const privacyPolicyService = inject(PrivacyPolicyService);
 
     if (isStaticAssetRequest(req.url)) {
         return next(req);
@@ -31,6 +33,10 @@ export const errorHandlerInterceptor: HttpInterceptorFn = (req, next) => {
                 });
             }
             const domainError = httpErrorMapper(error);
+
+            if (error?.error?.data?.code === 'PRIVACY_NOT_ACCEPTED') {
+                privacyPolicyService.markNotAccepted();
+            }
 
             return throwError(() => domainError);
         })

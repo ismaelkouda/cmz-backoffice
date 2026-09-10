@@ -5,7 +5,7 @@ export class ForbiddenError extends DomainError {
     readonly messageKey = 'ERRORS.HTTP.FORBIDDEN';
     readonly statusCode = 403;
 
-    constructor() {
-        super('Forbidden');
+    constructor(message?: string) {
+        super(message || 'Forbidden');
     }
 }
