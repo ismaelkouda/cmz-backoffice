@@ -10,6 +10,7 @@ import {
     ReportType,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
 import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
+import { getCoverageOperatorColor } from '@shared/domain/constants/coverage-operators';
 import { AuthToken } from '@shared/domain/interfaces/current-user.interface';
 import { EncodingDataService } from '@shared/domain/services/encoding-data.service';
 import { defaults as defaultControls, Zoom } from 'ol/control';
@@ -1408,21 +1409,7 @@ export class MapAdapter {
     }
 
     private getCoverageAreaColor(operator?: string): string {
-        const colors: Record<string, string> = {
-            oci: '#bfef45',
-            'ihs (oci)': '#ff7900',
-            cit: '#ff7900',
-            mtn: '#ffcc00',
-            'ihs (mtn)': '#ffcc00',
-            moov: '#005baa',
-            'moov (coloas)': '#005baa',
-            idt: '#e6194B',
-            ihs: '#bfef45',
-            presidence: '#4363d8',
-            'cafe mobile': '#fabed4',
-            green: '#469990',
-        };
-        return operator ? colors[operator] || '#6b7280' : '#6b7280';
+        return getCoverageOperatorColor(operator);
     }
 
     /**

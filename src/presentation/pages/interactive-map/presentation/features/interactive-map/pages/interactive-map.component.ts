@@ -45,6 +45,10 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { parseCoordinates } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
 import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
+import {
+    COVERAGE_OPERATORS,
+    getCoverageOperatorColor,
+} from '@shared/domain/constants/coverage-operators';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { ToastrService } from 'ngx-toastr';
@@ -134,24 +138,7 @@ export class InteractiveMapComponent
     public getReportIconPath(type: ReportType): string {
         return getReportTypeIconPath(type) || '';
     }
-    public readonly COVERAGE_OPERATORS: {
-        id: string;
-        label: string;
-        color: string;
-    }[] = [
-        { id: 'oci', label: 'OCI', color: '#ff7900' },
-        { id: 'cit', label: 'CIT', color: '#ff7900' },
-        { id: 'ihs (oci)', label: 'IHS (OCI)', color: '#ff7900' },
-        { id: 'mtn', label: 'MTN', color: '#ffcc00' },
-        { id: 'ihs (mtn)', label: 'IHS (MTN)', color: '#ffcc00' },
-        { id: 'moov', label: 'Moov', color: '#005baa' },
-        { id: 'moov (coloas)', label: 'Moov (Coloas)', color: '#005baa' },
-        { id: 'idt', label: 'IDT', color: '#e6194B' },
-        { id: 'ihs', label: 'IHS', color: '#bfef45' },
-        { id: 'presidence', label: 'Présidence', color: '#4363d8' },
-        { id: 'cafe mobile', label: 'Café Mobile', color: '#fabed4' },
-        { id: 'green', label: 'Green', color: '#469990' },
-    ];
+    public readonly COVERAGE_OPERATORS = COVERAGE_OPERATORS;
     public readonly coverageLegendOpen = signal(true);
     public readonly coverageOperatorVisibility = signal<
         Record<string, boolean>
@@ -1192,10 +1179,7 @@ export class InteractiveMapComponent
     }
 
     public getCoverageColor(operator: string): string {
-        return (
-            this.COVERAGE_OPERATORS.find((op) => op.id === operator)?.color ||
-            '#6b7280'
-        );
+        return getCoverageOperatorColor(operator);
     }
 
     public operatorLabel(operator: string): string {

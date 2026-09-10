@@ -26,7 +26,7 @@ export class InfrastructureMapper extends PaginatedMapper<
             region: dto.region?.name,
             department: dto.department?.name,
             municipality: dto.municipality?.name,
-            position: dto.position,
+            position: `${dto.lat},${dto.long}`,
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };

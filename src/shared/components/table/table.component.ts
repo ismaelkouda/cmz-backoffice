@@ -17,6 +17,7 @@ import {
 } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { COVERAGE_OPERATORS } from '@shared/domain/constants/coverage-operators';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 import { formatDate } from '@shared/domain/functions/format-data.function';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
@@ -56,24 +57,7 @@ import { TooltipModule } from 'primeng/tooltip';
     styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
-    public readonly COVERAGE_OPERATORS: {
-        id: string;
-        label: string;
-        color: string;
-    }[] = [
-        { id: 'oci', label: 'OCI', color: '#ff7900' },
-        { id: 'cit', label: 'CIT', color: '#ff7900' },
-        { id: 'ihs (oci)', label: 'IHS (OCI)', color: '#ff7900' },
-        { id: 'mtn', label: 'MTN', color: '#ffcc00' },
-        { id: 'ihs (mtn)', label: 'IHS (MTN)', color: '#ffcc00' },
-        { id: 'moov', label: 'Moov', color: '#005baa' },
-        { id: 'moov (coloas)', label: 'Moov (Coloas)', color: '#005baa' },
-        { id: 'idt', label: 'IDT', color: '#e6194B' },
-        { id: 'ihs', label: 'IHS', color: '#bfef45' },
-        { id: 'presidence', label: 'Présidence', color: '#4363d8' },
-        { id: 'cafe mobile', label: 'Café Mobile', color: '#fabed4' },
-        { id: 'green', label: 'Green', color: '#469990' },
-    ];
+    public readonly COVERAGE_OPERATORS = COVERAGE_OPERATORS;
     public selectedItems: any[] = [];
     public readonly numberToCheck = signal<number>(0);
     private readonly clipboardService = inject(ClipboardService);
