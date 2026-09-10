@@ -1,4 +1,5 @@
 declare module 'pbf' {
+    // eslint-disable-next-line @typescript-eslint/no-extraneous-class
     class Pbf {
         constructor(buffer?: ArrayBuffer | Uint8Array, readEnd?: number);
     }

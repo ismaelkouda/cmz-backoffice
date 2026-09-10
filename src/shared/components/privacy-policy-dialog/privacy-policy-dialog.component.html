@@ -12,10 +12,7 @@
 >
     <div class="privacy-policy-body">
         @if (content()) {
-            <div
-                class="privacy-policy-content"
-                [innerHTML]="content()!"
-            ></div>
+            <div class="privacy-policy-content" [innerHTML]="content()!"></div>
         } @else {
             <p class="privacy-policy-empty">
                 {{ 'PRIVACY_POLICY.DIALOG.EMPTY' | translate }}

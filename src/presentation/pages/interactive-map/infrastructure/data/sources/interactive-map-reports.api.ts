@@ -138,6 +138,7 @@ export class InteractiveMapReportsApi {
      * Utilisé par management-map pour afficher un compteur dans le
      * panneau "Filtres sur les couches".
      * @param reportUniqId
+     * @param options
      */
     getReportInfrastructureStats(
         reportUniqId: string,

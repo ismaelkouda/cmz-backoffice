@@ -494,85 +494,63 @@
                 @if (formStore.conformityVisible()) {
                     <!-- CONFORMITE -->
                     <div class="action-view-item">
-                    <div class="action-view-label">
-                        <i class="pi pi-verified"></i>
+                        <div class="action-view-label">
+                            <i class="pi pi-verified"></i>
 
-                        <span class="action-label">
-                            {{
-                                'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
-                                    | translate
-                            }}
+                            <span class="action-label">
+                                {{
+                                    'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
+                                        | translate
+                                }}
 
-                            @if (!formStore.isViewMode()) {
-                                <span class="required">*</span>
-                            }
-                        </span>
-                    </div>
+                                @if (!formStore.isViewMode()) {
+                                    <span class="required">*</span>
+                                }
+                            </span>
+                        </div>
 
-                    <div class="action-view-value">
-                        @if (formStore.isViewMode()) {
-                            @if (selectedAction(); as action) {
-                                <p-tag
-                                    [value]="action.conformLabel"
-                                    [severity]="action.conformStyle | translate"
-                                    [rounded]="true"
-                                />
+                        <div class="action-view-value">
+                            @if (formStore.isViewMode()) {
+                                @if (selectedAction(); as action) {
+                                    <p-tag
+                                        [value]="action.conformLabel"
+                                        [severity]="
+                                            action.conformStyle | translate
+                                        "
+                                        [rounded]="true"
+                                    />
+                                } @else {
+                                    <span class="empty-value">—</span>
+                                }
                             } @else {
-                                <span class="empty-value">—</span>
-                            }
-                        } @else {
-                            <div>
-                                <div
-                                    class="operator-card"
-                                    role="radiogroup"
-                                    [attr.aria-label]="
-                                        'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
-                                            | translate
-                                    "
-                                >
-                                    @for (
-                                        option of conformityOptions;
-                                        track option.value
-                                    ) {
-                                        <label
-                                            class="operator-item conformity-item"
-                                            [class.selected]="
-                                                formStore.form.controls
-                                                    .isConform.value ===
-                                                option.value
-                                            "
-                                            [class.conform-selected]="
-                                                formStore.form.controls
-                                                    .isConform.value ===
-                                                    option.value &&
-                                                option.value ===
-                                                    'COMMON.CONFORM'
-                                            "
-                                            [class.non-conform-selected]="
-                                                formStore.form.controls
-                                                    .isConform.value ===
-                                                    option.value &&
-                                                option.value ===
-                                                    'COMMON.NON_CONFORM'
-                                            "
-                                        >
-                                            <input
-                                                type="radio"
-                                                formControlName="isConform"
-                                                [value]="option.value"
-                                                class="visually-hidden"
-                                            />
-
-                                            <div
-                                                class="radio-indicator"
-                                                [class.radio-indicator--conform]="
+                                <div>
+                                    <div
+                                        class="operator-card"
+                                        role="radiogroup"
+                                        [attr.aria-label]="
+                                            'PROCESSING.TASKS.ACTIONS.DIALOG.FORM.CONFORMITY.TITLE'
+                                                | translate
+                                        "
+                                    >
+                                        @for (
+                                            option of conformityOptions;
+                                            track option.value
+                                        ) {
+                                            <label
+                                                class="operator-item conformity-item"
+                                                [class.selected]="
+                                                    formStore.form.controls
+                                                        .isConform.value ===
+                                                    option.value
+                                                "
+                                                [class.conform-selected]="
                                                     formStore.form.controls
                                                         .isConform.value ===
                                                         option.value &&
                                                     option.value ===
                                                         'COMMON.CONFORM'
                                                 "
-                                                [class.radio-indicator--non-conform]="
+                                                [class.non-conform-selected]="
                                                     formStore.form.controls
                                                         .isConform.value ===
                                                         option.value &&
@@ -580,47 +558,75 @@
                                                         'COMMON.NON_CONFORM'
                                                 "
                                             >
+                                                <input
+                                                    type="radio"
+                                                    formControlName="isConform"
+                                                    [value]="option.value"
+                                                    class="visually-hidden"
+                                                />
+
                                                 <div
-                                                    class="radio-dot"
-                                                    [class.active]="
+                                                    class="radio-indicator"
+                                                    [class.radio-indicator--conform]="
                                                         formStore.form.controls
                                                             .isConform.value ===
-                                                        option.value
+                                                            option.value &&
+                                                        option.value ===
+                                                            'COMMON.CONFORM'
                                                     "
-                                                ></div>
-                                            </div>
+                                                    [class.radio-indicator--non-conform]="
+                                                        formStore.form.controls
+                                                            .isConform.value ===
+                                                            option.value &&
+                                                        option.value ===
+                                                            'COMMON.NON_CONFORM'
+                                                    "
+                                                >
+                                                    <div
+                                                        class="radio-dot"
+                                                        [class.active]="
+                                                            formStore.form
+                                                                .controls
+                                                                .isConform
+                                                                .value ===
+                                                            option.value
+                                                        "
+                                                    ></div>
+                                                </div>
 
-                                            <div
-                                                class="d-flex align-items-center gap-2"
-                                            >
-                                                <i
-                                                    [class]="option.icon"
-                                                    aria-hidden="true"
-                                                ></i>
+                                                <div
+                                                    class="d-flex align-items-center gap-2"
+                                                >
+                                                    <i
+                                                        [class]="option.icon"
+                                                        aria-hidden="true"
+                                                    ></i>
 
-                                                <span class="title">
-                                                    {{ option.label }}
-                                                </span>
-                                            </div>
-                                        </label>
+                                                    <span class="title">
+                                                        {{ option.label }}
+                                                    </span>
+                                                </div>
+                                            </label>
+                                        }
+                                    </div>
+
+                                    @if (
+                                        formStore.form.controls.isConform
+                                            .invalid &&
+                                        formStore.form.controls.isConform
+                                            .touched
+                                    ) {
+                                        <small class="error-message">
+                                            {{
+                                                'COMMON.VALIDATION.REQUIRED'
+                                                    | translate
+                                            }}
+                                        </small>
                                     }
                                 </div>
-
-                                @if (
-                                    formStore.form.controls.isConform.invalid &&
-                                    formStore.form.controls.isConform.touched
-                                ) {
-                                    <small class="error-message">
-                                        {{
-                                            'COMMON.VALIDATION.REQUIRED'
-                                                | translate
-                                        }}
-                                    </small>
-                                }
-                            </div>
-                        }
+                            }
+                        </div>
                     </div>
-                </div>
                 }
 
                 <!-- RECOMMANDATION -->
