@@ -1,4 +1,4 @@
-<div>
+<div [ngClass]="layoutType">
     <div
         class="page-wrapper compact-wrapper"
         id="canvas-bookmark"
@@ -12,6 +12,8 @@
         <div class="page-body-wrapper">
             <div
                 class="sidebar-wrapper"
+                [attr.sidebar-layout]="sidebarType"
+                [attr.icon]="sidebarIcon"
                 [class.close_icon]="navServices.collapseSidebar"
             >
                 <app-sidebar></app-sidebar>

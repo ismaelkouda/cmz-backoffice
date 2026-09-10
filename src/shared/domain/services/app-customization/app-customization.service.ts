@@ -23,7 +23,18 @@ export class AppCustomizationService {
 
     public readonly customization = createAppCustomization(this.config);
 
+    /**
+     * Équivalent de l'ancien `LayoutService.config.settings` du thème :
+     * classe du wrapper, attributs de la sidebar. Valeurs par défaut du
+     * thème restaurées pour ne pas casser le rendu.
+     */
+    public readonly layoutType: string = 'ltr';
+    public readonly sidebarType: string = 'default-sidebar';
+    public readonly sidebarIcon: string = 'stroke-svg';
+
     public applyCustomization(): void {
+        this.document.documentElement.dir =
+            this.layoutType === 'rtl' ? 'rtl' : 'ltr';
         setDocumentTitle(this.document, this.titleService, this.customization);
         setFavicon(this.document, this.customization);
         setThemeColors(this.document, this.customization);

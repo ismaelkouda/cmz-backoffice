@@ -42,6 +42,9 @@ export function setThemeColors(
         const root = document.documentElement;
 
         root.style.setProperty('--theme-default', config.colors.primary);
+        // Le thème SCSS lit '--theme-deafult' (faute de frappe historique du
+        // template). Conserver les deux pour ne pas casser le style global.
+        root.style.setProperty('--theme-deafult', config.colors.primary);
         root.style.setProperty('--theme-secondary', config.colors.secondary);
         root.style.setProperty('--theme-tertiary', config.colors.tertiary);
 
