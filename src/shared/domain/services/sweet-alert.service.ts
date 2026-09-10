@@ -40,10 +40,27 @@ export class SweetAlertService {
     ): string {
         let message = this.translate.instant(key);
         if (params) {
-            Object.entries(params).forEach(([key, value]) => {
-                message = message.replaceAll(key, value);
+            Object.entries(params).forEach(([name, value]) => {
+                const safeValue = escapeHtml(String(value ?? ''));
+
+                if (message.includes(`{{${name}}}`)) {
+                    message = message.replaceAll(`{{${name}}}`, safeValue);
+                } else if (message.includes(`{${name}}`)) {
+                    message = message.replaceAll(`{${name}}`, safeValue);
+                } else {
+                    message = message.replaceAll(name, safeValue);
+                }
             });
         }
         return message;
     }
+}
+
+function escapeHtml(value: string): string {
+    return value
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
 }

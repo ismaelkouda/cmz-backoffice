@@ -5,7 +5,7 @@ Options -Indexes
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
-  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https: http://10.10.0.65:9010; connect-src 'self' https: http://10.10.0.65:9010 ws: wss:; frame-src https: http://10.10.0.65:9010; frame-ancestors 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https: http://10.10.0.65:9010; connect-src 'self' https: http://10.10.0.65:9010 ws: wss:; frame-src 'self' https://ansut.ci https://*.ansut.ci https://imako.digital https://*.imako.digital http://10.10.0.65 https://10.10.0.65; frame-ancestors 'self'; worker-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'"
   Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains" env=HTTPS
 </IfModule>
 

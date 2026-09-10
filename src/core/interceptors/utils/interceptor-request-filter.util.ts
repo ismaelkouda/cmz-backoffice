@@ -1,9 +1,8 @@
 import { ConfigurationService } from '@core/services/configuration.service';
 
-function extractHostname(url: string): string | null {
+function extractOrigin(url: string): string | null {
     try {
-        const u = new URL(url);
-        return u.hostname;
+        return new URL(url).origin;
     } catch {
         return null;
     }
@@ -28,23 +27,23 @@ export function isInternalUrl(
         configService.fileUrl,
     ].filter(Boolean);
 
-    const hostnames = new Set<string>(
+    const origins = new Set<string>(
         bases
             .map((b) => {
                 try {
-                    return new URL(b).hostname;
+                    return new URL(b).origin;
                 } catch {
                     return null;
                 }
             })
-            .filter((h): h is string => !!h)
+            .filter((o): o is string => !!o)
     );
 
-    const hostname = extractHostname(url);
-    if (!hostname) {
+    const origin = extractOrigin(url);
+    if (!origin) {
         return false;
     }
-    return hostnames.has(hostname);
+    return origins.has(origin);
 }
 
 export function isStaticAssetRequest(url: string): boolean {

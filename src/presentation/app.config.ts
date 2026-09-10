@@ -3,7 +3,6 @@ import {
     provideHttpClient,
     withFetch,
     withInterceptors,
-    withJsonpSupport,
 } from '@angular/common/http';
 import {
     ApplicationConfig,
@@ -23,7 +22,6 @@ import {
     withRouterConfig,
     withViewTransitions,
 } from '@angular/router';
-import { provideServiceWorker } from '@angular/service-worker';
 import { apiInterceptor } from '@core/interceptors/api.interceptor';
 import { authInterceptor } from '@core/interceptors/auth.interceptor';
 import { cacheInterceptor } from '@core/interceptors/cache.interceptor';
@@ -188,7 +186,6 @@ export const appConfig: ApplicationConfig = {
 
         provideHttpClient(
             withFetch(),
-            withJsonpSupport(),
             withInterceptors([...coreInterceptors, ...environmentInterceptors])
         ),
 
@@ -212,11 +209,6 @@ export const appConfig: ApplicationConfig = {
         ...provideTranslateHttpLoader({
             prefix: './assets/i18n/',
             suffix: '.json',
-        }),
-
-        provideServiceWorker('ngsw-worker.js', {
-            enabled: !isDevMode(),
-            registrationStrategy: 'registerWhenStable:30000',
         }),
 
         provideToastr({

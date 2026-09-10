@@ -41,6 +41,8 @@ import {
     Text,
 } from 'ol/style';
 import View from 'ol/View';
+import { VectorTile } from '@mapbox/vector-tile';
+import Pbf from 'pbf';
 import { Observable, Subject } from 'rxjs';
 
 export interface MapOptions {
@@ -1523,7 +1525,7 @@ export class MapAdapter {
             // Fallback: décodage manuel via Pbf/VectorTile (comme la
             // référence Leaflet) si le format MVT d'OpenLayers échoue.
             try {
-                return await this.decodePbfManually(buf);
+                return this.decodePbfManually(buf);
             } catch (fallbackError) {
                 console.error('Erreur fallback Pbf:', fallbackError);
                 return [];
@@ -1531,17 +1533,7 @@ export class MapAdapter {
         }
     }
 
-    private async decodePbfManually(buf: ArrayBuffer): Promise<Feature[]> {
-        // Charger les scripts Pbf et VectorTile depuis CDN
-        await this.loadPbfLibraries();
-
-        const VectorTile = (window as any).VectorTile;
-        const Pbf = (window as any).Pbf;
-
-        if (!VectorTile || !Pbf) {
-            throw new Error('Pbf libraries non chargées');
-        }
-
+    private decodePbfManually(buf: ArrayBuffer): Feature[] {
         const pbf = new Pbf(new Uint8Array(buf));
         const tile = new VectorTile(pbf);
         const features: Feature[] = [];
@@ -1628,41 +1620,6 @@ export class MapAdapter {
         }
 
         return features;
-    }
-
-    private loadPbfLibraries(): Promise<void> {
-        return new Promise((resolve, reject) => {
-            if ((window as any).VectorTile && (window as any).Pbf) {
-                resolve();
-                return;
-            }
-
-            // Charger Pbf
-            const pbfScript = document.createElement('script');
-            pbfScript.src = 'https://esm.sh/pbf@3.2.1';
-            pbfScript.type = 'module';
-            pbfScript.onerror = () =>
-                reject(new Error('Pbf script chargement échoué'));
-
-            // Charger VectorTile
-            const vectorTileScript = document.createElement('script');
-            vectorTileScript.src = 'https://esm.sh/@mapbox/vector-tile@1.3.1';
-            vectorTileScript.type = 'module';
-            vectorTileScript.onerror = () =>
-                reject(new Error('VectorTile script chargement échoué'));
-
-            document.head.appendChild(pbfScript);
-            document.head.appendChild(vectorTileScript);
-
-            // Attendre un peu pour que les scripts se chargent
-            setTimeout(() => {
-                if ((window as any).VectorTile && (window as any).Pbf) {
-                    resolve();
-                } else {
-                    reject(new Error('Pbf libraries timeout'));
-                }
-            }, 3000);
-        });
     }
 
     private buildTileRequestHeaders(): HeadersInit {

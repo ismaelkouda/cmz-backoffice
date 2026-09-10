@@ -8,12 +8,17 @@ export class SessionService {
     private readonly encodingDataService = inject(EncodingDataService);
 
     clear(): void {
-        this.encodingDataService.removeKeysWithPrefix('token_data');
-        this.encodingDataService.removeKeysWithPrefix('user_data');
+        const appKeys = [
+            'language',
+            'mode',
+            'auth.forgot-password',
+            'token_data',
+            'user_data',
+        ];
+
+        appKeys.forEach((key) => this.encodingDataService.removeData(key));
         this.encodingDataService.clearEncryptedData();
 
-        localStorage.clear();
-        sessionStorage.clear();
         globalThis.location.reload();
     }
 }
