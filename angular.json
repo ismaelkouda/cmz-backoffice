@@ -66,6 +66,8 @@
               "@firebase/firestore",
               "@firebase/auth",
               "@firebase/util",
+              "pbf",
+              "@mapbox/vector-tile",
               "rxjs/operators",
               "rxjs/Subject",
               "rxjs/internal/operators",

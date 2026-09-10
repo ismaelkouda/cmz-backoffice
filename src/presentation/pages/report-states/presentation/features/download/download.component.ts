@@ -333,7 +333,11 @@ export class DownloadComponent {
         actionId?: string;
     }): void {
         const { item } = event;
-        window.open(item.url, '_blank');
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.click();
     }
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);
