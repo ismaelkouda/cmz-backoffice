@@ -10,81 +10,81 @@ export interface AppConfig {
 
     appSettings: {
         app: {
-            name: string;
-            title: string;
-            description: string;
-            keywords: string;
-            author: string;
-        };
+        name: string;
+        title: string;
+        description: string;
+        keywords: string;
+        author: string;
+    };
 
-        fonts: {
-            primary: string;
-            secondary: string;
-        };
+    fonts: {
+        primary: string;
+        secondary: string;
+    };
 
-        colors: {
-            primary: string;
-            secondary: string;
-            tertiary: string;
-            black: string;
-            white: string;
-            gray: string;
-            grayLight: string;
-            error: string;
-            warning: string;
-            success: string;
-            info: string;
-        };
+    colors: {
+        primary: string;
+        secondary: string;
+        tertiary: string;
+        black: string;
+        white: string;
+        gray: string;
+        grayLight: string;
+        error: string;
+        warning: string;
+        success: string;
+        info: string;
+    };
 
-        languages: {
-            supported: readonly string[];
-            default: string;
-            storageKey: string;
-        };
+    languages: {
+        supported: readonly string[];
+        default: string;
+        storageKey: string;
+    };
 
-        modes: {
-            supported: readonly string[];
-            default: string;
-            storageKey: string;
-        };
+    modes: {
+        supported: readonly string[];
+        default: string;
+        storageKey: string;
+    };
 
-        assets: {
-            favicon: string;
-            authLogo: string;
-            sidebarLogo: string;
-            logoIcon: string;
-            loginBg: string;
-        };
+    assets: {
+        favicon: string;
+        authLogo: string;
+        sidebarLogo: string;
+        logoIcon: string;
+        loginBg: string;
+    };
 
-        loadingBar: {
+    loadingBar: {
+        color: string;
+        height: string;
+        includeSpinner: boolean;
+    };
+
+    error: {
+        displayStyles: {
+            position: string;
+            top: string;
+            left: string;
+            width: string;
+            background: string;
             color: string;
-            height: string;
-            includeSpinner: boolean;
+            padding: string;
+            textAlign: string;
+            fontFamily: string;
+            zIndex: string;
+            boxShadow: string;
         };
+        role: string;
+        ariaLive: string;
+    };
 
-        error: {
-            displayStyles: {
-                position: string;
-                top: string;
-                left: string;
-                width: string;
-                background: string;
-                color: string;
-                padding: string;
-                textAlign: string;
-                fontFamily: string;
-                zIndex: string;
-                boxShadow: string;
-            };
-            role: string;
-            ariaLive: string;
-        };
-
-        performance: {
-            bootstrapStartMark: string;
-            bootstrapEndMark: string;
-            bootstrapMeasure: string;
-        };
+    performance: {
+        bootstrapStartMark: string;
+        bootstrapEndMark: string;
+        bootstrapMeasure: string;
+    };
     };
 }
 
@@ -99,3 +99,4 @@ declare global {
         __env: AppConfig & { buildInfo: BuildInfo };
     }
 }
+

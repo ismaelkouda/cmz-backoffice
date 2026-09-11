@@ -324,6 +324,39 @@
             "LOGIN": "Iniciar sesión"
         }
     },
+    "CHANGE_PASSWORD": {
+        "UI": {
+            "CHANGE_PASSWORD_TITLE": "Definir mi contraseña",
+            "CHANGE_PASSWORD_SUBTITLE": "Elija una contraseña segura para acceder a su cuenta"
+        },
+        "FORM": {
+            "PASSWORD": {
+                "LABEL": "Nueva contraseña",
+                "REQUIRED": "La contraseña es obligatoria",
+                "MIN_LENGTH": "La contraseña debe tener al menos 8 caracteres",
+                "WEAK": "La contraseña es demasiado débil: mínimo 8 caracteres con mayúscula, minúscula, número y carácter especial",
+                "EMAIL_AS_PASSWORD": "La contraseña no debe ser igual a su dirección de correo electrónico",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmar contraseña",
+                "REQUIRED": "La confirmación de la contraseña es obligatoria",
+                "MIN_LENGTH": "La confirmación de la contraseña debe tener al menos 8 caracteres",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
+            }
+        },
+        "BUTTONS": {
+            "SUBMIT": "Guardar",
+            "CANCEL": "Cancelar"
+        },
+        "INVALID": {
+            "TITLE": "Enlace inválido o caducado",
+            "DESCRIPTION": "Este enlace es inválido, ha caducado o ya ha sido utilizado. Ya no puede usarlo para definir su contraseña.",
+            "REQUEST_NEW_LINK": "Solicitar un nuevo enlace",
+            "BACK_TO_LOGIN": "Volver al inicio de sesión",
+            "CONTACT_ADMIN_HINT": "Si el problema persiste, contacte a un administrador."
+        }
+    },
     "FORGOT_PASSWORD": {
         "UI": {
             "FORGOT_PASSWORD_TITLE": "¿Olvidó su contraseña?",
