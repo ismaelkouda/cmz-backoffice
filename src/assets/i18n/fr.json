@@ -448,6 +448,39 @@
             "LOGIN": "Se connecter"
         }
     },
+    "CHANGE_PASSWORD": {
+        "UI": {
+            "CHANGE_PASSWORD_TITLE": "Définir mon mot de passe",
+            "CHANGE_PASSWORD_SUBTITLE": "Choisissez un mot de passe sécurisé pour accéder à votre compte"
+        },
+        "FORM": {
+            "PASSWORD": {
+                "LABEL": "Nouveau mot de passe",
+                "REQUIRED": "Le mot de passe est requis",
+                "MIN_LENGTH": "Le mot de passe doit contenir au moins 8 caractères",
+                "WEAK": "Le mot de passe est trop faible : minimum 8 caractères avec majuscule, minuscule, chiffre et caractère spécial",
+                "EMAIL_AS_PASSWORD": "Le mot de passe ne doit pas être identique à votre adresse e-mail",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmation du mot de passe",
+                "REQUIRED": "La confirmation du mot de passe est requise",
+                "MIN_LENGTH": "La confirmation du mot de passe doit contenir au moins 8 caractères",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            }
+        },
+        "BUTTONS": {
+            "SUBMIT": "Enregistrer",
+            "CANCEL": "Annuler"
+        },
+        "INVALID": {
+            "TITLE": "Lien invalide ou expiré",
+            "DESCRIPTION": "Ce lien est invalide, a expiré ou a déjà été utilisé. Vous ne pouvez plus l'utiliser pour définir votre mot de passe.",
+            "REQUEST_NEW_LINK": "Demander un nouveau lien",
+            "BACK_TO_LOGIN": "Retour à la connexion",
+            "CONTACT_ADMIN_HINT": "Si le problème persiste, contactez un administrateur."
+        }
+    },
     "PASSWORD_STRENGTH": {
         "RULES": {
             "LENGTH": "8 caractères minimum",

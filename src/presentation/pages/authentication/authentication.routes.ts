@@ -8,6 +8,7 @@ import {
     RESET_PASSWORD_ROUTE,
     RESET_PASSWORD_SUCCESS_ROUTE,
 } from '@presentation/pages/authentication/presentation/features/reset-password/reset-password-paths.constants';
+import { CHANGE_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/change-password/change-password-paths.constants';
 
 export const routes: Routes = [
     {
@@ -46,6 +47,13 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('./presentation/features/reset-password/pages/reset-password-success/reset-password-success.component').then(
                         (m) => m.ResetPasswordSuccessComponent
+                    ),
+            },
+            {
+                path: CHANGE_PASSWORD_ROUTE,
+                loadComponent: () =>
+                    import('./presentation/features/change-password/change-password.component').then(
+                        (m) => m.ChangePasswordComponent
                     ),
             },
             {

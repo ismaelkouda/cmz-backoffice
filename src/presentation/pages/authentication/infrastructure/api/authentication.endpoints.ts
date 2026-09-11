@@ -3,5 +3,6 @@ export const AUTHENTICATION_ENDPOINTS = {
     VALIDATE_OTP: 'valider-otp',
     FORGOT_PASSWORD: 'password/forgot',
     RESET_PASSWORD: 'password/reset',
+    CHANGE_PASSWORD: 'password/change',
     PRIVACY_ACCEPT: 'privacy/accept',
 } as const;

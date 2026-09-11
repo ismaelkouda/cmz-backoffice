@@ -324,6 +324,39 @@
             "LOGIN": "Log in"
         }
     },
+    "CHANGE_PASSWORD": {
+        "UI": {
+            "CHANGE_PASSWORD_TITLE": "Set my password",
+            "CHANGE_PASSWORD_SUBTITLE": "Choose a secure password to access your account"
+        },
+        "FORM": {
+            "PASSWORD": {
+                "LABEL": "New password",
+                "REQUIRED": "Password is required",
+                "MIN_LENGTH": "Password must be at least 8 characters long",
+                "WEAK": "Password is too weak: use at least 8 characters with uppercase, lowercase, number and special character",
+                "EMAIL_AS_PASSWORD": "Password must not be the same as your email address",
+                "MISMATCH": "Both passwords must match"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirm password",
+                "REQUIRED": "Password confirmation is required",
+                "MIN_LENGTH": "Password confirmation must be at least 8 characters long",
+                "MISMATCH": "Both passwords must match"
+            }
+        },
+        "BUTTONS": {
+            "SUBMIT": "Save",
+            "CANCEL": "Cancel"
+        },
+        "INVALID": {
+            "TITLE": "Invalid or expired link",
+            "DESCRIPTION": "This link is invalid, has expired or has already been used. You can no longer use it to set your password.",
+            "REQUEST_NEW_LINK": "Request a new link",
+            "BACK_TO_LOGIN": "Back to login",
+            "CONTACT_ADMIN_HINT": "If the problem persists, contact an administrator."
+        }
+    },
     "FORGOT_PASSWORD": {
         "UI": {
             "FORGOT_PASSWORD_TITLE": "Forgot password",
