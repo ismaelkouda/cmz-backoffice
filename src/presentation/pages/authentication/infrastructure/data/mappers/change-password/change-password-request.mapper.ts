@@ -6,7 +6,7 @@ export function changePasswordRequestMapper(
 ): ChangePasswordRequestApiDto {
     return {
         token: validContract.token,
-        new_password: validContract.password,
-        new_password_confirmation: validContract.confirmPassword,
+        password: validContract.password,
+        password_confirmation: validContract.confirmPassword,
     };
 }
