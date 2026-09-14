@@ -1,5 +1,5 @@
 export interface ChangePasswordRequestApiDto {
     token: string;
-    new_password: string;
-    new_password_confirmation: string;
+    password: string;
+    password_confirmation: string;
 }
