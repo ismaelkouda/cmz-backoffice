@@ -3,6 +3,10 @@ import { DashboardProps } from '@pages/dashboard/domain/interfaces/dashboard-pro
 export class DashboardEntity {
     constructor(private readonly props: DashboardProps) {}
 
+    get totalRequestReports(): number {
+        return this.props.totalRequestReports;
+    }
+
     get totalReports(): string {
         return this.props.totalReports;
     }
@@ -89,6 +93,26 @@ export class DashboardEntity {
 
     get lastRefreshAt(): string {
         return this.props.lastRefreshAt;
+    }
+
+    get averageQualificationTime(): number {
+        return this.props.averageQualificationTime ?? 0;
+    }
+
+    get averageHandlingTime(): number {
+        return this.props.averageHandlingTime ?? 0;
+    }
+
+    get averageResolutionTime(): number {
+        return this.props.averageResolutionTime ?? 0;
+    }
+
+    get conformanceRate(): number {
+        return this.props.conformanceRate ?? 0;
+    }
+
+    get userSatisfactionRate(): number {
+        return this.props.userSatisfactionRate ?? 0;
     }
 
     public get totalActive(): number {

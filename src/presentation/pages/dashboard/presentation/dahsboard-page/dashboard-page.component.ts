@@ -126,6 +126,14 @@ export class DashboardPageComponent implements OnInit {
         }
         this.typeStatistics = [
             {
+                key: 'totalRequestReports',
+                count: separatorThousands(data.totalRequestReports || 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REQUESTS.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REQUESTS.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-list',
+            },
+            {
                 key: 'totalReports',
                 count: separatorThousands(data.totalReports || 0),
                 label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_PROCESSING.LABEL',
@@ -151,15 +159,15 @@ export class DashboardPageComponent implements OnInit {
                 color: 'warning',
                 icon: 'pi-building',
             },
-            {
-                key: 'partialSignalReports',
-                count: separatorThousands(data.partialSignalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
-                color: 'warning',
-                icon: 'pi-chart-line',
-            },
+            // {
+            //     key: 'partialSignalReports',
+            //     count: separatorThousands(data.partialSignalReports || 0),
+            //     label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
+            //     subtitle:
+            //         'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
+            //     color: 'warning',
+            //     icon: 'pi-chart-line',
+            // },
             {
                 key: 'noInternetReports',
                 count: separatorThousands(data.noInternetReports || 0),
@@ -225,40 +233,49 @@ export class DashboardPageComponent implements OnInit {
 
         this.performanceStatistics = [
             {
-                key: 'treatmentRate',
-                count: `${data.treatmentRate || 0}%`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.TREATMENT_RATE.LABEL',
+                key: 'averageQualificationTime',
+                count: `${data.averageQualificationTime || 0}h`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_QUALIFICATION_TIME.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.TREATMENT_RATE.SUBTITLE',
-                color: 'success',
-                icon: 'pi-chart-line',
-            },
-            {
-                key: 'completionRate',
-                count: `${data.completionRate || 0}%`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.COMPLETION_RATE.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.COMPLETION_RATE.SUBTITLE',
+                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_QUALIFICATION_TIME.SUBTITLE',
                 color: 'primary',
-                icon: 'pi-check-circle',
+                icon: 'pi-stopwatch',
             },
             {
-                key: 'averageTreatmentTime',
-                count: `${data.averageTreatmentTime || 0}j`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_TREATMENT_TIME.LABEL',
+                key: 'averageHandlingTime',
+                count: `${data.averageHandlingTime || 0}h`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_HANDLING_TIME.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_TREATMENT_TIME.SUBTITLE',
-                color: 'info',
-                icon: 'pi-calendar',
-            },
-            {
-                key: 'responseTime',
-                count: `${data.responseTime || 0}h`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.RESPONSE_TIME.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.RESPONSE_TIME.SUBTITLE',
+                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_HANDLING_TIME.SUBTITLE',
                 color: 'warning',
-                icon: 'pi-clock',
+                icon: 'pi-cog pi-spin',
+            },
+            {
+                key: 'averageResolutionTime',
+                count: `${data.averageResolutionTime || 0}h`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_RESOLUTION_TIME.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_RESOLUTION_TIME.SUBTITLE',
+                color: 'primary',
+                icon: 'pi pi-check-circle',
+            },
+            {
+                key: 'conformanceRate',
+                count: `${data.conformanceRate || 0}%`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.CONFORMANCE_RATE.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.CONFORMANCE_RATE.SUBTITLE',
+                color: 'success',
+                icon: 'pi pi-verified',
+            },
+            {
+                key: 'userSatisfactionRate',
+                count: `${data.userSatisfactionRate || 0}%`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.USER_SATISFACTION_RATE.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.USER_SATISFACTION_RATE.SUBTITLE',
+                color: 'info',
+                icon: 'pi pi-thumbs-up',
             },
         ];
     }

@@ -2,6 +2,7 @@ import { SimpleResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface DashboardItemApiDto {
     readonly uniq_id: string;
+    readonly total_request_reports: number;
     readonly total_reports: number;
     readonly total_cpo_reports?: number;
     readonly pendingReports?: number;
@@ -24,6 +25,11 @@ export interface DashboardItemApiDto {
     readonly completionRate?: number;
     readonly responseTime?: number;
     readonly last_refresh_at: string;
+    readonly average_qualification_time: number;
+    readonly average_handling_time: number;
+    readonly average_resolution_time: number;
+    readonly report_conformance_rate: number;
+    readonly user_satisfaction_rate: number;
 }
 
 export type DashboardResponseApiDto = SimpleResponseDto<DashboardItemApiDto>;
