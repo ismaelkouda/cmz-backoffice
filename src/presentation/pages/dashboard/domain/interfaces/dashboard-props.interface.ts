@@ -1,4 +1,5 @@
 export interface DashboardProps {
+    readonly totalRequestReports: number;
     readonly totalReports: string;
     readonly partialOperatorReports?: number;
     readonly pendingReports?: number;
@@ -21,4 +22,9 @@ export interface DashboardProps {
     readonly completionRate?: number;
     readonly responseTime?: number;
     readonly lastRefreshAt: string;
+    readonly averageQualificationTime: number;
+    readonly averageHandlingTime: number;
+    readonly averageResolutionTime: number;
+    readonly conformanceRate: number;
+    readonly userSatisfactionRate: number;
 }

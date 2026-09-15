@@ -554,6 +554,10 @@
             },
             "TYPE": {
                 "TITLE": "Signalements recevables",
+                "TOTAL_REQUESTS": {
+                    "LABEL": "Toutes les demandes",
+                    "SUBTITLE": "Toutes les demandes confondus"
+                },
                 "TOTAL_PROCESSING": {
                     "LABEL": "Total des signalements",
                     "SUBTITLE": "Tous les signalements confondus"
@@ -599,22 +603,26 @@
                 }
             },
             "PERFORMANCE": {
-                "TITLE": "Performance et Métriques",
-                "TREATMENT_RATE": {
-                    "LABEL": "Taux de traitement",
-                    "SUBTITLE": "Pourcentage de signalements traités"
+                "TITLE": "Performance des opérations",
+                "AVERAGE_QUALIFICATION_TIME": {
+                    "LABEL": "Durée Moyenne (Qualification)",
+                    "SUBTITLE": "Pourcentage de signalements qualifiés"
                 },
-                "COMPLETION_RATE": {
-                    "LABEL": "Taux de complétion",
-                    "SUBTITLE": "Pourcentage de signalements complétés"
+                "AVERAGE_HANDLING_TIME": {
+                    "LABEL": "Durée Moyenne (Prise en charge)",
+                    "SUBTITLE": "Durée moyenne de traitement des signalements"
                 },
-                "AVERAGE_TREATMENT_TIME": {
-                    "LABEL": "Délai moyen",
-                    "SUBTITLE": "Délai moyen de traitement (jours)"
+                "AVERAGE_RESOLUTION_TIME": {
+                    "LABEL": "Durée Moyenne (Clôture)",
+                    "SUBTITLE": "Durée moyenne de traitement des signalements"
                 },
-                "RESPONSE_TIME": {
-                    "LABEL": "Temps de réponse",
-                    "SUBTITLE": "Temps moyen de réponse (heures)"
+                "CONFORMANCE_RATE": {
+                    "LABEL": "Taux de conformité des signalements",
+                    "SUBTITLE": "Pourcentage de satisfaction des usagers"
+                },
+                "USER_SATISFACTION_RATE": {
+                    "LABEL": "Taux de satisfaction usagers",
+                    "SUBTITLE": "Pourcentage de satisfaction des usagers"
                 }
             }
         }
@@ -2620,7 +2628,7 @@
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
                         "NOTIFY_USERS": "Notification des utilisateurs impliqués",
-                        "OPERATOR": "Opérateur conserné",
+                        "OPERATOR": "Opérateur concerné",
                         "DISPLAY_IN_NEWSPAPER": "Visibilité dans le journal du signalement",
                         "INTERNAL_NOTE": "Action interne",
                         "CONFORMITY": {
