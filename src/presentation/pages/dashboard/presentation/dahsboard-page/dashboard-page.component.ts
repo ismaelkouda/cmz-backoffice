@@ -25,7 +25,7 @@ interface StatisticCard {
     key: string;
     count: number | string;
     label: string;
-    subtitle: string;
+    subtitle?: string;
     color: string;
     icon: string;
     routerFilter?: () => void;
@@ -263,8 +263,6 @@ export class DashboardPageComponent implements OnInit {
                 key: 'conformanceRate',
                 count: `${data.conformanceRate || 0}%`,
                 label: 'DASHBOARD.SECTIONS.PERFORMANCE.CONFORMANCE_RATE.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.CONFORMANCE_RATE.SUBTITLE',
                 color: 'success',
                 icon: 'pi pi-verified',
             },
@@ -272,8 +270,6 @@ export class DashboardPageComponent implements OnInit {
                 key: 'userSatisfactionRate',
                 count: `${data.userSatisfactionRate || 0}%`,
                 label: 'DASHBOARD.SECTIONS.PERFORMANCE.USER_SATISFACTION_RATE.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.USER_SATISFACTION_RATE.SUBTITLE',
                 color: 'info',
                 icon: 'pi pi-thumbs-up',
             },

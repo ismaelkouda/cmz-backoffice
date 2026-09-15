@@ -179,8 +179,15 @@
                                                     ></i>
                                                 </div>
                                             </div>
-                                            <div class="stat-label">
-                                                {{ stat.label | translate }}
+                                            <div class="stat-container">
+                                                <div class="stat-label">
+                                                    {{ stat.label | translate }}
+                                                </div>
+                                                @if (stat.subtitle) {
+                                                <div class="stat-label">
+                                                    {{ stat.subtitle | translate }}
+                                                </div>
+                                                }
                                             </div>
                                         </div>
                                     </div>
