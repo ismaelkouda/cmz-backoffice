@@ -4077,6 +4077,26 @@
             "LABEL": "Impacts of reports on populations",
             "LOADING_DESCRIPTION": "Monitoring impacts of reports on populations in progress...",
             "ERROR_DESCRIPTION": "An error occurred while loading the impacts of reports on populations dashboard. Please reload the page or contact support."
+        },
+        "TEAM_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Team performance monitoring",
+                "ROUTE": "team-compliances"
+            },
+            "TITLE": "Analytics Dashboard - Team performance monitoring",
+            "LABEL": "Team performance monitoring",
+            "LOADING_DESCRIPTION": "Monitoring team performance in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the team performance dashboard. Please reload the page or contact support."
+        },
+        "REPORT_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Report compliance",
+                "ROUTE": "report-compliances"
+            },
+            "TITLE": "Analytics Dashboard - Report compliance",
+            "LABEL": "Report compliance",
+            "LOADING_DESCRIPTION": "Monitoring report compliance in progress...",
+            "ERROR_DESCRIPTION": "An error occurred while loading the report compliance dashboard. Please reload the page or contact support."
         }
     },
     "MONITORING": {

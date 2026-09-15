@@ -605,16 +605,16 @@
             "PERFORMANCE": {
                 "TITLE": "Performance des opérations",
                 "AVERAGE_QUALIFICATION_TIME": {
-                    "LABEL": "Durée Moyenne (Qualification)",
-                    "SUBTITLE": "Pourcentage de signalements qualifiés"
+                    "LABEL": "Durée Moyenne",
+                    "SUBTITLE": "(Qualification)"
                 },
                 "AVERAGE_HANDLING_TIME": {
-                    "LABEL": "Durée Moyenne (Prise en charge)",
-                    "SUBTITLE": "Durée moyenne de traitement des signalements"
+                    "LABEL": "Durée Moyenne",
+                    "SUBTITLE": "(Prise en charge)"
                 },
                 "AVERAGE_RESOLUTION_TIME": {
-                    "LABEL": "Durée Moyenne (Clôture)",
-                    "SUBTITLE": "Durée moyenne de traitement des signalements"
+                    "LABEL": "Durée Moyenne",
+                    "SUBTITLE": "(Clôture)"
                 },
                 "CONFORMANCE_RATE": {
                     "LABEL": "Taux de conformité des signalements",
@@ -5993,6 +5993,26 @@
             "LABEL": "Impacts des signalements sur les populations",
             "LOADING_DESCRIPTION": "Suivi des impacts des signalements sur les populations en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des impacts des signalements sur les populations. Veuillez recharger la page ou contacter le support."
+        },
+        "TEAM_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Suivi perf. équipes",
+                "ROUTE": "team-compliances"
+            },
+            "TITLE": "Tableau de bord du suivi des performances des équipes",
+            "LABEL": "Suivi perf. équipes",
+            "LOADING_DESCRIPTION": "Suivi des performances des équipes en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des performances des équipes. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Conformité des signalements",
+                "ROUTE": "report-compliances"
+            },
+            "TITLE": "Tableau de bord de la conformité des signalements",
+            "LABEL": "Conformité des signalements",
+            "LOADING_DESCRIPTION": "Suivi de la conformité des signalements en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord de la conformité des signalements. Veuillez recharger la page ou contacter le support."
         }
     },
     "MONITORING": {

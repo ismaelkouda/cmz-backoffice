@@ -4043,6 +4043,26 @@
             "LABEL": "Impactos de los reportes en las poblaciones",
             "LOADING_DESCRIPTION": "Seguimiento de los impactos de los reportes en las poblaciones en curso...",
             "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de los impactos de los reportes en las poblaciones. Por favor, recargue la página o contacte al soporte."
+        },
+        "TEAM_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Seguimiento perf. equipos",
+                "ROUTE": "team-compliances"
+            },
+            "TITLE": "Panel de control de seguimiento del rendimiento de los equipos",
+            "LABEL": "Seguimiento perf. equipos",
+            "LOADING_DESCRIPTION": "Seguimiento del rendimiento de los equipos en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control del rendimiento de los equipos. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Conformidad de los reportes",
+                "ROUTE": "report-compliances"
+            },
+            "TITLE": "Panel de control de conformidad de los reportes",
+            "LABEL": "Conformidad de los reportes",
+            "LOADING_DESCRIPTION": "Seguimiento de la conformidad de los reportes en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de conformidad de los reportes. Por favor, recargue la página o contacte al soporte."
         }
     },
     "MONITORING": {
