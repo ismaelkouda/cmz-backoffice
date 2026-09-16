@@ -187,7 +187,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-clock pi-spin',
-                routerFilter: () => this.router.navigate(['/requests/queues']),
+                routerFilter: (): Promise<boolean> =>
+                    this.router.navigate(['/requests/queues']),
             },
             {
                 key: 'totalReportsInProcessing',
@@ -206,7 +207,7 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.SUBTITLE',
                 color: 'warning',
                 icon: 'pi-cog pi-spin',
-                routerFilter: () =>
+                routerFilter: (): Promise<boolean> =>
                     this.router.navigate(['/reports-processing/queues']),
             },
             {
@@ -216,7 +217,7 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZED.SUBTITLE',
                 color: 'success',
                 icon: 'pi-check-circle',
-                routerFilter: () =>
+                routerFilter: (): Promise<boolean> =>
                     this.router.navigate(['/reports-processing/tasks']),
             },
             {
@@ -248,7 +249,7 @@ export class DashboardPageComponent implements OnInit {
                 subtitle:
                     'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_HANDLING_TIME.SUBTITLE',
                 color: 'warning',
-                icon: 'pi-cog pi-spin',
+                icon: 'pi-stopwatch',
             },
             {
                 key: 'averageResolutionTime',
@@ -257,7 +258,7 @@ export class DashboardPageComponent implements OnInit {
                 subtitle:
                     'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_RESOLUTION_TIME.SUBTITLE',
                 color: 'primary',
-                icon: 'pi pi-check-circle',
+                icon: 'pi-stopwatch',
             },
             {
                 key: 'conformanceRate',
