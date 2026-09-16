@@ -35,6 +35,9 @@ export class ResetPasswordComponent implements OnInit {
     protected readonly AUTH_LOGO = this.appConfig.customization.assets.authLogo;
     protected readonly APP_NAME = this.appConfig.customization.app.name;
 
+    private static readonly STORAGE_KEY_TOKEN = 'rp-token';
+    private static readonly STORAGE_KEY_EMAIL = 'rp-email';
+
     private tokenValue = '';
     private emailValue = '';
 
@@ -42,16 +45,44 @@ export class ResetPasswordComponent implements OnInit {
     protected readonly email = computed(() => this.emailValue);
 
     ngOnInit(): void {
-        const initial = this.route.snapshot.queryParams;
-        this.tokenValue = this.asString(initial['token']);
-        this.emailValue = this.asString(initial['email']);
+        const queryParams = this.route.snapshot.queryParams;
+        const urlToken = this.asString(queryParams['token']);
+        const urlEmail = this.asString(queryParams['email']);
 
-        if (initial['token'] !== undefined || initial['email'] !== undefined) {
+        if (urlToken) {
+            sessionStorage.setItem(
+                ResetPasswordComponent.STORAGE_KEY_TOKEN,
+                urlToken
+            );
+            sessionStorage.setItem(
+                ResetPasswordComponent.STORAGE_KEY_EMAIL,
+                urlEmail
+            );
+        }
+
+        this.tokenValue =
+            urlToken ||
+            sessionStorage.getItem(ResetPasswordComponent.STORAGE_KEY_TOKEN) ||
+            '';
+        this.emailValue =
+            urlEmail ||
+            sessionStorage.getItem(ResetPasswordComponent.STORAGE_KEY_EMAIL) ||
+            '';
+
+        if (
+            queryParams['token'] !== undefined ||
+            queryParams['email'] !== undefined
+        ) {
             const url = new URL(globalThis.location.href);
             url.searchParams.delete('token');
             url.searchParams.delete('email');
             globalThis.history.replaceState(null, '', url.toString());
         }
+    }
+
+    private static clearSecureStorage(): void {
+        sessionStorage.removeItem(ResetPasswordComponent.STORAGE_KEY_TOKEN);
+        sessionStorage.removeItem(ResetPasswordComponent.STORAGE_KEY_EMAIL);
     }
 
     private asString(
@@ -76,6 +107,7 @@ export class ResetPasswordComponent implements OnInit {
                 return;
             }
             this.hasRedirected = true;
+            ResetPasswordComponent.clearSecureStorage();
             if (session.message) {
                 this.ui.success(session.message);
             }
@@ -88,10 +120,12 @@ export class ResetPasswordComponent implements OnInit {
     }
 
     public onCancel(): void {
+        ResetPasswordComponent.clearSecureStorage();
         this.router.navigate(['/', AUTH, LOGIN_ROUTE]);
     }
 
     private goToLogin(): void {
+        ResetPasswordComponent.clearSecureStorage();
         this.router.navigate(['/', AUTH, LOGIN_ROUTE]);
     }
 }
