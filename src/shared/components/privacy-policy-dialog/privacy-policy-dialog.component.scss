@@ -2,6 +2,13 @@
     backdrop-filter: blur(10px);
 }
 
+:host ::ng-deep .privacy-policy-dialog {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 :host ::ng-deep .privacy-policy-body {
     color: #3b4252;
     font-size: 0.95rem;
@@ -9,7 +16,7 @@
 }
 
 :host ::ng-deep .privacy-policy-content {
-    max-height: 50vh;
+    max-height: 75vh;
     overflow-y: auto;
     padding-top: 1rem;
 }
