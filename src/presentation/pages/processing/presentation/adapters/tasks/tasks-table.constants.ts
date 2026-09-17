@@ -53,6 +53,12 @@ export const TASKS_TABLE = {
             width: '8rem',
         },
         {
+            field: 'conformLabel',
+            header: 'PROCESSING.TASKS.TABLE.CONFORMITY',
+            width: '6rem',
+            class: 'text-center',
+        },
+        {
             field: '__action',
             header: 'PROCESSING.TASKS.TABLE.ACTION',
             class: 'text-center',
@@ -67,5 +73,6 @@ export const TASKS_TABLE = {
         'sourceLabel',
         'initiatorPhoneNumber',
         'reportedAt',
+        'conformLabel',
     ],
 };

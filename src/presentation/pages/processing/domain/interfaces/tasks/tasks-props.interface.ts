@@ -1,3 +1,4 @@
+import { Conformity } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 import { TelecomOperator } from '@shared/domain/enums/telecom-operator.enum';
@@ -12,5 +13,6 @@ export interface TasksProps {
     source: ReportSource;
     initiatorPhoneNumber: string;
     reportedAt: string;
+    isConform: Conformity;
     updatedAt: string;
 }
