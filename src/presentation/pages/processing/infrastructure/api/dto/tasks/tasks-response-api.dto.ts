@@ -2,6 +2,7 @@ import { ReportSourceDto } from '@shared/data/dto/report-source.dto';
 import { ReportTypeDto } from '@shared/data/dto/report-type.dto';
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
+import { ConformityDto } from '@pages/processing/infrastructure/api/dto/tasks/tasks-actions-conformity-api.dto';
 
 export enum ReportStateDto {
     TERMINATED = 'terminated',
@@ -14,6 +15,7 @@ export interface TasksItemApiDto {
     operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
+    compliance_status: ConformityDto;
     reported_at: string;
     updated_at: string;
 }

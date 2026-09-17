@@ -6,6 +6,7 @@ import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.ma
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
 import { TelecomOperatorMapper } from '@shared/data/mappers/telecom-operator.mapper';
+import { ConformityMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-conformity.mapper';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
@@ -17,6 +18,7 @@ export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemApiDto> {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
     private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
     private readonly reportSourceMapper = inject(ReportSourceMapper);
+    private readonly conformityMapper = inject(ConformityMapper);
 
     protected override mapItemFromDto(dto: TasksItemApiDto): TasksEntity {
         MapperUtils.validateDto(dto, {
@@ -36,6 +38,7 @@ export class TasksMapper extends PaginatedMapper<TasksEntity, TasksItemApiDto> {
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
             reportedAt: dto.reported_at,
+            isConform: this.conformityMapper.mapFromDto(dto.compliance_status),
             updatedAt: dto.updated_at,
         };
 

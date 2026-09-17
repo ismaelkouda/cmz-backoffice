@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/evaluate.entity';
 import { EvaluateProps } from '@pages/report-states/domain/interfaces/evaluate/evaluate-props.interface';
 import { EvaluateItemApiDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
+import { ConformityMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-conformity.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
@@ -20,6 +21,7 @@ export class EvaluateMapper extends PaginatedMapper<
     private readonly reportTypeMapper = inject(ReportTypeMapper);
     private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
     private readonly reportSourceMapper = inject(ReportSourceMapper);
+    private readonly conformityMapper = inject(ConformityMapper);
 
     protected override mapItemFromDto(dto: EvaluateItemApiDto): EvaluateEntity {
         MapperUtils.validateDto(dto, {
@@ -39,6 +41,7 @@ export class EvaluateMapper extends PaginatedMapper<
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
             reportedAt: dto.reported_at,
+            isConform: this.conformityMapper.mapFromDto(dto.compliance_status),
             updatedAt: dto.updated_at,
         };
 

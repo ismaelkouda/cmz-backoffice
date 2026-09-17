@@ -2478,6 +2478,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
+                "CONFORMITY": "Conformité",
                 "UNIQ_ID": "N° Signalement",
                 "REQUEST_REPORT_UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
@@ -3257,6 +3258,7 @@
                 "UNIQ_ID": "N° Signalement",
                 "REQUEST_REPORT_UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
+                "CONFORMITY": "Conformité",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
                 "QUALIFY": "Qualifier",
@@ -3376,6 +3378,7 @@
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
+                "CONFORMITY": "Conformité",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",

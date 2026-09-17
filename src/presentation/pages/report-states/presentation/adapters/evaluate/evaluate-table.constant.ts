@@ -59,6 +59,12 @@ export const EVALUATE_TABLE = {
             width: '8rem',
         },
         {
+            field: 'conformLabel',
+            header: 'REPORT_STATES.EVALUATE.TABLE.CONFORMITY',
+            width: '6rem',
+            class: 'text-center',
+        },
+        {
             field: '__action',
             header: 'REPORT_STATES.EVALUATE.TABLE.ACTION',
             class: 'text-center',
@@ -73,5 +79,6 @@ export const EVALUATE_TABLE = {
         'sourceLabel',
         'initiatorPhoneNumber',
         'reportedAt',
+        'conformLabel',
     ],
 };

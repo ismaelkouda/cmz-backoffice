@@ -59,6 +59,12 @@ export const CLOSE_TABLE = {
             width: '8rem',
         },
         {
+            field: 'conformLabel',
+            header: 'REPORT_STATES.CLOSE.TABLE.CONFORMITY',
+            width: '6rem',
+            class: 'text-center',
+        },
+        {
             field: '__action',
             header: 'REPORT_STATES.CLOSE.TABLE.ACTION',
             class: 'text-center',
@@ -73,5 +79,6 @@ export const CLOSE_TABLE = {
         'sourceLabel',
         'initiatorPhoneNumber',
         'reportedAt',
+        'conformLabel',
     ],
 };

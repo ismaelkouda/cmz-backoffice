@@ -1,3 +1,7 @@
+import {
+    Conformity,
+    ConformityStyle,
+} from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
 import { EvaluateProps } from '@pages/report-states/domain/interfaces/evaluate/evaluate-props.interface';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
@@ -53,6 +57,20 @@ export class EvaluateEntity implements EvaluateProps {
 
     get reportedAt(): string {
         return this.props.reportedAt;
+    }
+
+    get isConform(): Conformity {
+        return this.props.isConform;
+    }
+
+    conformStyle(conform: Conformity): ConformityStyle {
+        const methodMap: Record<Conformity, ConformityStyle> = {
+            [Conformity.CONFORM]: ConformityStyle.CONFORM,
+            [Conformity.NON_CONFORM]: ConformityStyle.NON_CONFORM,
+            [Conformity.IN_PROGRESS]: ConformityStyle.IN_PROGRESS,
+            [Conformity.UNKNOWN]: ConformityStyle.UNKNOWN,
+        };
+        return methodMap[conform];
     }
 
     get updatedAt(): string {

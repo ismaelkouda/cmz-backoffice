@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
 import { CloseProps } from '@pages/report-states/domain/interfaces/close/close-props.interface';
 import { CloseItemApiDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
+import { ConformityMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-conformity.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
@@ -17,6 +18,7 @@ export class CloseMapper extends PaginatedMapper<CloseEntity, CloseItemApiDto> {
     private readonly reportTypeMapper = inject(ReportTypeMapper);
     private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
     private readonly reportSourceMapper = inject(ReportSourceMapper);
+    private readonly conformityMapper = inject(ConformityMapper);
 
     protected override mapItemFromDto(dto: CloseItemApiDto): CloseEntity {
         MapperUtils.validateDto(dto, {
@@ -36,6 +38,7 @@ export class CloseMapper extends PaginatedMapper<CloseEntity, CloseItemApiDto> {
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
             reportedAt: dto.reported_at,
+            isConform: this.conformityMapper.mapFromDto(dto.compliance_status),
             updatedAt: dto.updated_at,
         };
 

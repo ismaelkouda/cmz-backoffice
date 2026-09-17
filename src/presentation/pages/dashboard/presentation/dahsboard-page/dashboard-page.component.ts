@@ -235,7 +235,7 @@ export class DashboardPageComponent implements OnInit {
         this.performanceStatistics = [
             {
                 key: 'averageQualificationTime',
-                count: `${data.averageQualificationTime || 0}h`,
+                count: `${data.averageQualificationTime || 0} h`,
                 label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_QUALIFICATION_TIME.LABEL',
                 subtitle:
                     'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_QUALIFICATION_TIME.SUBTITLE',
@@ -244,7 +244,7 @@ export class DashboardPageComponent implements OnInit {
             },
             {
                 key: 'averageHandlingTime',
-                count: `${data.averageHandlingTime || 0}h`,
+                count: `${data.averageHandlingTime || 0} h`,
                 label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_HANDLING_TIME.LABEL',
                 subtitle:
                     'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_HANDLING_TIME.SUBTITLE',
@@ -253,7 +253,7 @@ export class DashboardPageComponent implements OnInit {
             },
             {
                 key: 'averageResolutionTime',
-                count: `${data.averageResolutionTime || 0}h`,
+                count: `${data.averageResolutionTime || 0} h`,
                 label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_RESOLUTION_TIME.LABEL',
                 subtitle:
                     'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_RESOLUTION_TIME.SUBTITLE',

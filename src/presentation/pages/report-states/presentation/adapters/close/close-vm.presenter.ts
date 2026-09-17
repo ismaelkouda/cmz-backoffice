@@ -14,6 +14,9 @@ export class ClosePresenter {
             sourceLabel: this.t(item.source),
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
+            isConform: item.isConform,
+            conformLabel: this.t(item.isConform),
+            conformStyle: item.conformStyle(item.isConform),
             actionsRef: item.actionsRef,
             tooltipButtonTasksList: this.t(
                 'REPORT_STATES.CLOSE.TOOLTIP.TASKS_LIST'
