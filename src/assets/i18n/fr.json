@@ -3347,6 +3347,108 @@
                 }
             }
         },
+        "ADMISSIBLE": {
+            "TITLE": "signalements recevables",
+            "LABEL": "Signalements recevables",
+            "ROUTE": "admissible",
+            "BREADCRUMB": {
+                "LABEL": "Signalements recevables",
+                "ROUTE": "admissible"
+            },
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REPORT_TYPE": "Types de signalements",
+                "CONFORMITY": "Conformité",
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Canal Emission [Numéro]",
+                "QUALIFY": "Qualifier",
+                "TASKS_LIST": "Liste des actions",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Numero initiateur",
+                "UNIQ_ID": "N° Signalement",
+                "UNIQ_ID_PLACEHOLDER": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REQUEST_REPORT_UNIQ_ID_PLACEHOLDER": "N° Demande",
+                "REPORT_TYPE": "Types de signalements",
+                "OPERATORS": "Opérateur",
+                "SOURCE": "Canal d'émission",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Aucun réseau",
+                    "NO_INTERNET": "Absence d'Internet",
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
+                },
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATORS": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements recevables",
+                "DOWNLOAD": "Télécharger la liste de {nb} signalements recevables",
+                "FILTER_REQUIRE": "Veuillez filtrer par au moins une donnée avant de télécharger",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements recevables",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements recevables",
+                "NO_DOWNLOAD": "Aucune données a télécharger",
+                "TASKS_LIST": "Voir la liste des actions",
+                "SEE_MORE": "Voir plus d'informations"
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "DOWNLOAD": "Télécharger les signalements au format [uniqId]"
+                },
+                "MESSAGE": {
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
+                }
+            }
+        },
         "EVALUATE": {
             "TITLE": "signalements évalués",
             "LABEL": "Signalements évalués",
