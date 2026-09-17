@@ -5,6 +5,7 @@ import { provideApprove } from '@pages/report-states/di/approve/approve.provider
 import { provideEvaluate } from '@pages/report-states/di/evaluate/evaluate.providers';
 import { provideReject } from '@pages/report-states/di/reject/reject.providers';
 import { provideDownload } from '@pages/report-states/di/download/download.providers';
+import { provideAdmissible } from '@pages/report-states/di/admissible/admissible.providers';
 
 export const provideReportStates = (): Provider[] => [
     ...provideApprove,
@@ -13,4 +14,5 @@ export const provideReportStates = (): Provider[] => [
     ...provideClose,
     ...provideDownload,
     ...provideDetails,
+    ...provideAdmissible,
 ];
