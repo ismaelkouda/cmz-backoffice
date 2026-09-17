@@ -41,7 +41,7 @@ export class MunicipalitiesFormStore {
         description: '',
     };
     private readonly initiallyDisabledControls: (keyof MunicipalitiesFormControl)[] =
-        ['population'];
+        ['infrastructure'];
 
     public readonly form: FormGroup<MunicipalitiesFormControl> =
         this.fb.nonNullable.group<MunicipalitiesFormControl>({

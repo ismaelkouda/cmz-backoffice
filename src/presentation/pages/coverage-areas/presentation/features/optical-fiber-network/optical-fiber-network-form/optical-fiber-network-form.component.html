@@ -250,10 +250,10 @@
                                                     }
                                                 </div>
 
-                                                <div class="col-md-5">
+                                                <div class="row">
                                                     @if (!isDetailsMode()) {
-                                                        <div class="row mb-4">
-                                                            <label
+                                                        <div class="col-md-4 d-flex align-items-center">
+                                                            <!-- <label
                                                                 class="form-label mb-0 fw-bold"
                                                             >
                                                                 {{
@@ -264,7 +264,7 @@
                                                                     class="text-danger"
                                                                     >*</span
                                                                 >
-                                                            </label>
+                                                            </label> -->
                                                             <p-selectButton
                                                                 [options]="
                                                                     geometryModeOptions
@@ -288,7 +288,7 @@
                                                         isFileMode() ||
                                                         isDetailsMode()
                                                     ) {
-                                                        <div class="row">
+                                                        <div class="col-md-4">
                                                             <label
                                                                 for="geomFile"
                                                                 class="form-label mb-0 fw-bold"
@@ -352,7 +352,7 @@
                                                         </div>
                                                     }
                                                     <div
-                                                        class="row"
+                                                        class="col-md-8"
                                                         formArrayName="routeCoordinates"
                                                     >
                                                         @if (
@@ -360,7 +360,7 @@
                                                             isDetailsMode()
                                                         ) {
                                                             <div
-                                                                class="d-flex align-items-center justify-content-between mb-2"
+                                                                class="d-flex align-items-center justify-content-between"
                                                             >
                                                                 <label
                                                                     class="form-label fw-bold mb-0"
@@ -391,7 +391,7 @@
                                                             </div>
 
                                                             <div
-                                                                class="d-grid gap-2"
+                                                                class="row"
                                                             >
                                                                 @for (
                                                                     coordinate of routeCoordinates.controls;
@@ -399,7 +399,7 @@
                                                                     let index = $index
                                                                 ) {
                                                                     <div
-                                                                        class="border rounded p-2"
+                                                                        class="col-md-6 border rounded p-2"
                                                                         [formGroupName]="
                                                                             index
                                                                         "
@@ -561,7 +561,7 @@
                                                         }
                                                     </div>
                                                 </div>
-                                                <div class="col-md-7">
+                                                <!-- <div class="col-md-7">
                                                     <label
                                                         for="mapPreview"
                                                         class="form-label fw-bold"
@@ -580,7 +580,7 @@
                                                         [strokeColor]="'#e11d48'"
                                                         [strokeWidth]="3"
                                                     />
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </fieldset>
                                     </form>
