@@ -18,11 +18,11 @@ export interface PaginationFilter {
 }
 
 @Injectable({ providedIn: 'root' })
-export abstract class BaseFacade<TEntity, TFilter> {
+export abstract class BaseFacade<TEntity, TFilter, TStats = never> {
     protected readonly itemsSubject = new BehaviorSubject<TEntity[]>([]);
     protected readonly paginationSubject = new BehaviorSubject<
-        Paginate<TEntity>
-    >({} as Paginate<TEntity>);
+        Paginate<TEntity, TStats>
+    >({} as Paginate<TEntity, TStats>);
     protected readonly isLoadingSubject = new BehaviorSubject<boolean>(false);
     protected readonly filterSubject = new BehaviorSubject<TFilter | null>(
         null
@@ -30,9 +30,10 @@ export abstract class BaseFacade<TEntity, TFilter> {
     protected readonly pageSubject = new BehaviorSubject<string>(
         PAGINATION_CONST.DEFAULT_PAGE
     );
+    protected readonly statsSubject = new BehaviorSubject<TStats | null>(null);
 
     readonly items$: Observable<TEntity[]> = this.itemsSubject.asObservable();
-    readonly pagination$: Observable<Paginate<TEntity>> =
+    readonly pagination$: Observable<Paginate<TEntity, TStats>> =
         this.paginationSubject.asObservable();
     readonly isLoading$: Observable<boolean> =
         this.isLoadingSubject.asObservable();
@@ -64,11 +65,12 @@ export abstract class BaseFacade<TEntity, TFilter> {
             })
         );
     readonly currentPage$: Observable<string> = this.pageSubject.asObservable();
+    readonly stats$ = this.statsSubject.asObservable();
 
     protected fetchWithFilterAndPage(
         filter: TFilter | null,
         page: string,
-        fetch$: Observable<Paginate<TEntity>>,
+        fetch$: Observable<Paginate<TEntity, TStats>>,
         uiFeedback?: UiFeedbackService
     ): void {
         if (this.isLoadingSubject.getValue()) {
@@ -88,6 +90,8 @@ export abstract class BaseFacade<TEntity, TFilter> {
                 tap((response) => {
                     this.itemsSubject.next(response.data);
                     this.paginationSubject.next(response);
+                    console.log('response.stats', response.stats);
+                    this.statsSubject.next(response.stats ?? null);
                 }),
                 catchError((err) => {
                     uiFeedback?.notifyError(err);
@@ -115,24 +119,12 @@ export abstract class BaseFacade<TEntity, TFilter> {
         return !prevKeys.every((key) => prevDto[key] === newDto[key]);
     }
 
-    // protected shouldFetch(
-    //     forceRefresh: boolean,
-    //     hasData: boolean,
-    //     lastFetch: number,
-    //     staleTime: number
-    // ): boolean {
-    //     if (forceRefresh) {
-    //         return true;
-    //     }
-    //     const isStale = Date.now() - lastFetch > staleTime;
-    //     return !hasData || isStale;
-    // }
-
     reset(): void {
         this.itemsSubject.next([]);
-        this.paginationSubject.next({} as Paginate<TEntity>);
+        this.paginationSubject.next({} as Paginate<TEntity, TStats>);
         this.isLoadingSubject.next(false);
         this.filterSubject.next(null);
         this.pageSubject.next(PAGINATION_CONST.DEFAULT_PAGE);
+        this.statsSubject.next(null);
     }
 }

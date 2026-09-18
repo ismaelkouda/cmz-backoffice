@@ -4,6 +4,7 @@ import { RejectQuery } from '@pages/report-states/application/queries/reject/rej
 import { RejectBus } from '@pages/report-states/application/queries-bus/reject/reject.bus';
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
+import { StatsDto as RejectStatsDto } from '@pages/report-states/infrastructure/api/dto/reject/reject-response-api.dto';
 
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
@@ -16,7 +17,11 @@ import { RejectDownloadQuery } from '@pages/report-states/application/queries/re
 import { DownloadFacade } from '@pages/report-states/application/services/download/download.facade';
 
 @Injectable({ providedIn: 'root' })
-export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
+export class RejectFacade extends BaseFacade<
+    RejectEntity,
+    RejectFilterDto,
+    RejectStatsDto
+> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(RejectBus);
     private readonly downloadBus = inject(RejectDownloadBus);

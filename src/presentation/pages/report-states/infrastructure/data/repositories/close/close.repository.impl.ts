@@ -13,6 +13,7 @@ import {
 import { Observable, map } from 'rxjs';
 import { CloseDownloadEntity } from '@presentation/pages/report-states/domain/entities/close/close-download.entity';
 import { CloseDownloadMapper } from '../../mappers/close/close-download.mapper';
+import { StatsDto as CloseStatsDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ export class CloseRepositoryImpl extends CloseRepository {
         entity: CloseFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<CloseEntity>> {
+    ): Observable<Paginate<CloseEntity, CloseStatsDto>> {
         return this.api
             .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

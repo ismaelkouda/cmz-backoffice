@@ -6,6 +6,7 @@ import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/ev
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { StatsDto as EvaluateStatsDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class EvaluateHandler {
@@ -15,7 +16,7 @@ export class EvaluateHandler {
         query: EvaluateQuery,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<EvaluateEntity>> {
+    ): Observable<Paginate<EvaluateEntity, EvaluateStatsDto>> {
         return this.useCase.execute(evaluateQueryMapper(query), page, options);
     }
 }

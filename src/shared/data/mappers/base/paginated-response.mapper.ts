@@ -4,10 +4,12 @@ import {
 } from '@shared/data/dto/simple-response.dto';
 import { ApiError } from '@shared/domain/errors/api.error';
 
-export abstract class PaginatedMapper<TEntity, TItemDto> {
+export abstract class PaginatedMapper<TEntity, TItemDto, TStatsDto = never> {
     protected abstract mapItemFromDto(dto: TItemDto): TEntity;
 
-    mapFromDto(dto: PaginatedResponseDto<TItemDto>): Paginate<TEntity> {
+    mapFromDto(
+        dto: PaginatedResponseDto<TItemDto, TStatsDto>
+    ): Paginate<TEntity, TStatsDto> {
         this.validateResponse(dto);
 
         const items = dto.data.data ?? [];
@@ -19,7 +21,9 @@ export abstract class PaginatedMapper<TEntity, TItemDto> {
         };
     }
 
-    private validateResponse(dto: PaginatedResponseDto<TItemDto>): void {
+    private validateResponse(
+        dto: PaginatedResponseDto<TItemDto, TStatsDto>
+    ): void {
         if (dto.error) {
             throw ApiError.invalidResponse(
                 dto.message || 'Erreur API: La requête a échoué.'

@@ -46,9 +46,26 @@ import { formatDate } from '@shared/domain/functions/format-data.function';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { MenuItem } from 'primeng/api';
+import { SkeletonModule } from 'primeng/skeleton';
 import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ACTIONS_ROUTE } from '@presentation/pages/report-states/report-states.routes';
+import { separatorThousands } from '@shared/domain/functions/separator-thousands';
+
+interface StatisticCard {
+    key: string;
+    count: number | string;
+    label: string;
+    subtitle?: string;
+    color: string;
+    icon: string;
+    rate?: string;
+    routerFilter?: () => void;
+    trend?: {
+        value: number;
+        isPositive: boolean;
+    };
+}
 
 @Component({
     selector: 'app-evaluate',
@@ -64,6 +81,7 @@ import { ACTIONS_ROUTE } from '@presentation/pages/report-states/report-states.r
         TranslateModule,
         ReactiveFormsModule,
         FilterComponent,
+        SkeletonModule,
     ],
     providers: [EvaluateFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -97,6 +115,7 @@ export class EvaluateComponent {
     );
     protected readonly selectedReportId = signal<string>('');
     protected readonly tableConfig = EVALUATE_TABLE;
+    protected readonly statSkeletonRows = [1, 2, 3, 4, 5];
     protected readonly form = this.formStore.form;
     protected readonly isVisibleDialog = signal<boolean>(false);
     protected readonly selectedManagementType = signal<TypeReport>(
@@ -113,6 +132,49 @@ export class EvaluateComponent {
     });
     protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
+    });
+    protected readonly stats = toSignal(this.facade.stats$, {
+        initialValue: null,
+    });
+    protected readonly typeStatistics = computed<StatisticCard[]>(() => {
+        const stats = this.stats();
+        return [
+            {
+                key: 'oneStar',
+                count: separatorThousands(stats?.one_star ?? 0),
+                label: 'REPORT_STATES.EVALUATE.STATS.ONE_STAR',
+                color: 'error',
+                icon: 'pi-star-fill',
+            },
+            {
+                key: 'twoStars',
+                count: separatorThousands(stats?.two_stars ?? 0),
+                label: 'REPORT_STATES.EVALUATE.STATS.TWO_STARS',
+                color: 'warning',
+                icon: 'pi-star-fill',
+            },
+            {
+                key: 'threeStars',
+                count: separatorThousands(stats?.three_stars ?? 0),
+                label: 'REPORT_STATES.EVALUATE.STATS.THREE_STARS',
+                color: 'info',
+                icon: 'pi-star-fill',
+            },
+            {
+                key: 'fourStars',
+                count: separatorThousands(stats?.four_stars ?? 0),
+                label: 'REPORT_STATES.EVALUATE.STATS.FOUR_STARS',
+                color: 'primary',
+                icon: 'pi-star-fill',
+            },
+            {
+                key: 'fiveStars',
+                count: separatorThousands(stats?.five_stars ?? 0),
+                label: 'REPORT_STATES.EVALUATE.STATS.FIVE_STARS',
+                color: 'success',
+                icon: 'pi-star-fill',
+            },
+        ];
     });
     private readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(
         () => {

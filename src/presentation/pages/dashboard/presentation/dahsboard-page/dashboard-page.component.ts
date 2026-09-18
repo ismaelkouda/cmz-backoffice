@@ -136,8 +136,9 @@ export class DashboardPageComponent implements OnInit {
             {
                 key: 'totalReports',
                 count: separatorThousands(data.totalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_PROCESSING.LABEL',
-                subtitle: 'DASHBOARD.SECTIONS.TYPE.TOTAL_PROCESSING.SUBTITLE',
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-chart-bar',
             },

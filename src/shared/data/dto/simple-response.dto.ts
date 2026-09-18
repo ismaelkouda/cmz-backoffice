@@ -1,6 +1,7 @@
-export interface Paginate<T> {
+export interface Paginate<T, S = never> {
     current_page: number;
     data: T[];
+    stats: S;
     first_page_url: string;
     from: number;
     last_page: number;
@@ -20,10 +21,10 @@ export interface Link {
     active: boolean;
 }
 
-export interface PaginatedResponseDto<T> {
+export interface PaginatedResponseDto<T, S = never> {
     error: boolean;
     message: string;
-    data: Paginate<T>;
+    data: Paginate<T, S>;
 }
 
 export interface SimpleResponseDto<T> {

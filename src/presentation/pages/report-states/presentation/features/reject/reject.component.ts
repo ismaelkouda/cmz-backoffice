@@ -46,7 +46,25 @@ import { formatDate } from '@shared/domain/functions/format-data.function';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { MenuItem } from 'primeng/api';
+import { SkeletonModule } from 'primeng/skeleton';
 import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
+import { separatorThousands } from '@shared/domain/functions/separator-thousands';
+import { formatRate } from '@shared/domain/functions/format-rate';
+
+interface StatisticCard {
+    key: string;
+    count: number | string;
+    label: string;
+    subtitle?: string;
+    color: string;
+    icon: string;
+    rate?: string;
+    routerFilter?: () => void;
+    trend?: {
+        value: number;
+        isPositive: boolean;
+    };
+}
 
 @Component({
     selector: 'app-reject',
@@ -62,6 +80,7 @@ import { DownloadType } from '@presentation/pages/report-states/domain/enums/dow
         TranslateModule,
         ReactiveFormsModule,
         FilterComponent,
+        SkeletonModule,
     ],
     providers: [RejectFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -93,6 +112,7 @@ export class RejectComponent {
     );
     protected readonly selectedReportId = signal<string>('');
     protected readonly tableConfig = REJECT_TABLE;
+    protected readonly statSkeletonRows = [1, 2, 3, 4, 5];
     protected readonly form = this.formStore.form;
     protected readonly isVisibleDialog = signal<boolean>(false);
     protected readonly selectedManagementType = signal<TypeReport>(
@@ -109,6 +129,62 @@ export class RejectComponent {
     });
     protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
+    });
+    protected readonly stats = toSignal(this.facade.stats$, {
+        initialValue: null,
+    });
+    protected readonly typeStatistics = computed<StatisticCard[]>(() => {
+        const stats = this.stats();
+        return [
+            {
+                key: 'totalRequestReports',
+                count: separatorThousands(stats?.total ?? 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REQUESTS.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REQUESTS.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-list',
+            },
+            {
+                key: 'totalReports',
+                count: separatorThousands(stats?.cps?.count ?? 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-chart-bar',
+                rate: formatRate(stats?.cps?.rate),
+            },
+            {
+                key: 'whiteZoneReports',
+                count: separatorThousands(stats?.zob?.count ?? 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.WHITE_ZONE_PROCESSING.SUBTITLE',
+                color: 'error',
+                icon: 'pi-times',
+                rate: formatRate(stats?.zob?.rate),
+            },
+            {
+                key: 'partialOperatorReports',
+                count: separatorThousands(stats?.abi?.count ?? 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_OPERATOR_PROCESSING.SUBTITLE',
+                color: 'warning',
+                icon: 'pi-building',
+                rate: formatRate(stats?.abi?.rate),
+            },
+            {
+                key: 'noInternetReports',
+                count: separatorThousands(stats?.cpo?.count ?? 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.NO_INTERNET_PROCESSING.SUBTITLE',
+                color: 'info',
+                icon: 'pi-ban',
+                rate: formatRate(stats?.cpo?.rate),
+            },
+        ];
     });
     private readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(
         () => {

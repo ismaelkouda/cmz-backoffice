@@ -7,13 +7,14 @@ import {
 } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { ApproveDownloadEntity } from '@pages/report-states/domain/entities/approve/approve-download.entity';
+import { StatsDto as ApproveStatsDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
 
 export abstract class ApproveRepository {
     abstract execute(
         filter: ApproveFilterContract | null,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<ApproveEntity>>;
+    ): Observable<Paginate<ApproveEntity, ApproveStatsDto>>;
     abstract download(
         entity: ApproveDownloadEntity
     ): Observable<MessageResponseDto>;

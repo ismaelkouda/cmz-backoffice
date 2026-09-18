@@ -3345,15 +3345,30 @@
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
+            },
+            "STATS": {
+                "TITLE": "Répartition par conformité",
+                "CONFORM": {
+                    "LABEL": "Conformes",
+                    "SUBTITLE": "Signalements conformes"
+                },
+                "NON_CONFORM": {
+                    "LABEL": "Non conformes",
+                    "SUBTITLE": "Signalements non conformes"
+                },
+                "UNKNOWN": {
+                    "LABEL": "Inconnus",
+                    "SUBTITLE": "Signalements de conformité inconnue"
+                }
             }
         },
-        "ADMISSIBLE": {
-            "TITLE": "signalements recevables",
-            "LABEL": "Signalements recevables",
-            "ROUTE": "admissible",
+        "ALL": {
+            "TITLE": "signalements",
+            "LABEL": "Tous les signalements",
+            "ROUTE": "all",
             "BREADCRUMB": {
-                "LABEL": "Signalements recevables",
-                "ROUTE": "admissible"
+                "LABEL": "Tous les signalements",
+                "ROUTE": "all"
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
@@ -3431,11 +3446,11 @@
             },
             "TOOLTIP": {
                 "REFRESH": "Rafraîchir la liste des signalements",
-                "EXPORT": "Exporter la liste de {nb} signalements recevables",
-                "DOWNLOAD": "Télécharger la liste de {nb} signalements recevables",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "DOWNLOAD": "Télécharger la liste de {nb} signalements",
                 "FILTER_REQUIRE": "Veuillez filtrer par au moins une donnée avant de télécharger",
-                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements recevables",
-                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements recevables",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements",
                 "NO_DOWNLOAD": "Aucune données a télécharger",
                 "TASKS_LIST": "Voir la liste des actions",
                 "SEE_MORE": "Voir plus d'informations"
@@ -3565,6 +3580,14 @@
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
+            },
+            "STATS": {
+                "TITLE": "Répartition des évaluations",
+                "ONE_STAR": "1 étoile",
+                "TWO_STARS": "2 étoiles",
+                "THREE_STARS": "3 étoiles",
+                "FOUR_STARS": "4 étoiles",
+                "FIVE_STARS": "5 étoiles"
             }
         },
         "DIALOG": {

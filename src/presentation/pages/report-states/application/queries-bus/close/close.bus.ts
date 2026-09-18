@@ -5,6 +5,7 @@ import { CloseEntity } from '@pages/report-states/domain/entities/close/close.en
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { StatsDto as CloseStatsDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class CloseBus {
@@ -14,7 +15,7 @@ export class CloseBus {
         query: T,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<CloseEntity>> {
+    ): Observable<Paginate<CloseEntity, CloseStatsDto>> {
         if (query instanceof CloseQuery) {
             return this.filterHandler.execute(query, page, options);
         }

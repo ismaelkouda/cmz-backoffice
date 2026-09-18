@@ -4,6 +4,7 @@ import { EvaluateQuery } from '@pages/report-states/application/queries/evaluate
 import { EvaluateBus } from '@pages/report-states/application/queries-bus/evaluate/evaluate.bus';
 import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/evaluate.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
+import { StatsDto as EvaluateStatsDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
 
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
@@ -18,7 +19,8 @@ import { DownloadFacade } from '@pages/report-states/application/services/downlo
 @Injectable({ providedIn: 'root' })
 export class EvaluateFacade extends BaseFacade<
     EvaluateEntity,
-    EvaluateFilterDto
+    EvaluateFilterDto,
+    EvaluateStatsDto
 > {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(EvaluateBus);

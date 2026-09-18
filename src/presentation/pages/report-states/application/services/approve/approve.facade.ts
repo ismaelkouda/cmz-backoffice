@@ -4,6 +4,7 @@ import { ApproveQuery } from '@pages/report-states/application/queries/approve/a
 import { ApproveBus } from '@pages/report-states/application/queries-bus/approve/approve.bus';
 import { ApproveEntity } from '@pages/report-states/domain/entities/approve/approve.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
+import { StatsDto as ApproveStatsDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
 
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
@@ -16,7 +17,11 @@ import { handleObservableWithFeedback } from '@shared/application/services/facad
 import { DownloadFacade } from '@pages/report-states/application/services/download/download.facade';
 
 @Injectable({ providedIn: 'root' })
-export class ApproveFacade extends BaseFacade<ApproveEntity, ApproveFilterDto> {
+export class ApproveFacade extends BaseFacade<
+    ApproveEntity,
+    ApproveFilterDto,
+    ApproveStatsDto
+> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(ApproveBus);
     private readonly downloadBus = inject(ApproveDownloadBus);

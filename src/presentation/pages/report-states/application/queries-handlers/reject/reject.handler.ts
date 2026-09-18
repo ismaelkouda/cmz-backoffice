@@ -6,6 +6,7 @@ import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { StatsDto as RejectStatsDto } from '@pages/report-states/infrastructure/api/dto/reject/reject-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class RejectHandler {
@@ -15,7 +16,7 @@ export class RejectHandler {
         query: RejectQuery,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<RejectEntity>> {
+    ): Observable<Paginate<RejectEntity, RejectStatsDto>> {
         return this.useCase.execute(rejectQueryMapper(query), page, options);
     }
 }

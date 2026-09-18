@@ -13,6 +13,7 @@ import {
 import { Observable, map } from 'rxjs';
 import { EvaluateDownloadEntity } from '@presentation/pages/report-states/domain/entities/evaluate/evaluate-download.entity';
 import { EvaluateDownloadMapper } from '@pages/report-states/infrastructure/data/mappers/evaluate/evaluate-download.mapper';
+import { StatsDto as EvaluateStatsDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ export class EvaluateRepositoryImpl extends EvaluateRepository {
         entity: EvaluateFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<EvaluateEntity>> {
+    ): Observable<Paginate<EvaluateEntity, EvaluateStatsDto>> {
         const paramsDto = this.filterMapper.map(entity);
         return this.api
             .execute(paramsDto, page, options)
