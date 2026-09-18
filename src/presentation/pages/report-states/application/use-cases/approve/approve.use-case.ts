@@ -13,6 +13,7 @@ import { ApproveDownloadContract } from '@presentation/pages/report-states/domai
 import { approveDownloadVo } from '@presentation/pages/report-states/domain/value-objects/approve/approve-download.vo';
 import { approveDownloadFactory } from '@presentation/pages/report-states/domain/factories/approve/approve-download.factory';
 import { ApproveFilterContract } from '@presentation/pages/report-states/domain/contracts/approve/approve-filter.contract';
+import { StatsDto as ApproveStatsDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +25,7 @@ export class ApproveUseCase {
         contract: ApproveFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<ApproveEntity>> {
+    ): Observable<Paginate<ApproveEntity, ApproveStatsDto>> {
         const vo = approveFilterVo(contract);
         const entity = approveFilterEntity(vo);
         return this.repository.execute(entity, page, options);

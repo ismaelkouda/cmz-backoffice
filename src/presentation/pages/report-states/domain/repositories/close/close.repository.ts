@@ -7,13 +7,14 @@ import {
 } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { CloseDownloadEntity } from '@pages/report-states/domain/entities/close/close-download.entity';
+import { StatsDto as CloseStatsDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
 
 export abstract class CloseRepository {
     abstract execute(
         filter: CloseFilterContract | null,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<CloseEntity>>;
+    ): Observable<Paginate<CloseEntity, CloseStatsDto>>;
     abstract download(
         entity: CloseDownloadEntity
     ): Observable<MessageResponseDto>;

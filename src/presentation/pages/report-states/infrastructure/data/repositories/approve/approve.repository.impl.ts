@@ -13,6 +13,7 @@ import {
 import { Observable, map } from 'rxjs';
 import { ApproveDownloadEntity } from '@presentation/pages/report-states/domain/entities/approve/approve-download.entity';
 import { ApproveDownloadMapper } from '@pages/report-states/infrastructure/data/mappers/approve/approve-download.mapper';
+import { StatsDto as ApproveStatsDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ export class ApproveRepositoryImpl extends ApproveRepository {
         entity: ApproveFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<ApproveEntity>> {
+    ): Observable<Paginate<ApproveEntity, ApproveStatsDto>> {
         return this.api
             .execute(this.filterMapper.map(entity), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

@@ -6,6 +6,7 @@ import { ApproveEntity } from '@pages/report-states/domain/entities/approve/appr
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
+import { StatsDto as ApproveStatsDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class ApproveHandler {
@@ -15,7 +16,7 @@ export class ApproveHandler {
         query: ApproveQuery,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<ApproveEntity>> {
+    ): Observable<Paginate<ApproveEntity, ApproveStatsDto>> {
         return this.useCase.execute(approveQueryMapper(query), page, options);
     }
 }

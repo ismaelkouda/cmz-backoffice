@@ -1,7 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { ApproveEntity } from '@pages/report-states/domain/entities/approve/approve.entity';
 import { ApproveProps } from '@pages/report-states/domain/interfaces/approve/approve-props.interface';
-import { ApproveItemApiDto } from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
+import {
+    ApproveItemApiDto,
+    StatsDto as ApproveStatsDto,
+} from '@pages/report-states/infrastructure/api/dto/approve/approve-response-api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
@@ -12,7 +15,8 @@ import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 @Injectable({ providedIn: 'root' })
 export class ApproveMapper extends PaginatedMapper<
     ApproveEntity,
-    ApproveItemApiDto
+    ApproveItemApiDto,
+    ApproveStatsDto
 > {
     private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, ApproveEntity>();

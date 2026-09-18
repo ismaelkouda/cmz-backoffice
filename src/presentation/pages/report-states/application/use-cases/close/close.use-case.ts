@@ -13,6 +13,7 @@ import { CloseDownloadContract } from '@presentation/pages/report-states/domain/
 import { closeDownloadVo } from '@presentation/pages/report-states/domain/value-objects/close/close-download.vo';
 import { closeDownloadFactory } from '@presentation/pages/report-states/domain/factories/close/close-download.factory';
 import { CloseFilterContract } from '@presentation/pages/report-states/domain/contracts/close/close-filter.contract';
+import { StatsDto as CloseStatsDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +25,7 @@ export class CloseUseCase {
         contract: CloseFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<CloseEntity>> {
+    ): Observable<Paginate<CloseEntity, CloseStatsDto>> {
         const vo = closeFilterVo(contract);
         const entity = closeFilterEntity(vo);
         return this.repository.execute(entity, page, options);

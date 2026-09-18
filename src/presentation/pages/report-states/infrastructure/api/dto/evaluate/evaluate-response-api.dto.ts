@@ -20,4 +20,15 @@ export interface EvaluateItemApiDto {
     updated_at: string;
 }
 
-export type EvaluateResponseApiDto = PaginatedResponseDto<EvaluateItemApiDto>;
+export interface StatsDto {
+    one_star: number;
+    two_stars: number;
+    three_stars: number;
+    four_stars: number;
+    five_stars: number;
+}
+
+export type EvaluateResponseApiDto = PaginatedResponseDto<
+    EvaluateItemApiDto,
+    StatsDto
+>;

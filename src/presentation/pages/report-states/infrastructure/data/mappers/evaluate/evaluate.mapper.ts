@@ -1,7 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { EvaluateEntity } from '@pages/report-states/domain/entities/evaluate/evaluate.entity';
 import { EvaluateProps } from '@pages/report-states/domain/interfaces/evaluate/evaluate-props.interface';
-import { EvaluateItemApiDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
+import {
+    EvaluateItemApiDto,
+    StatsDto as EvaluateStatsDto,
+} from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
 import { ConformityMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-conformity.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
@@ -13,7 +16,8 @@ import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 @Injectable({ providedIn: 'root' })
 export class EvaluateMapper extends PaginatedMapper<
     EvaluateEntity,
-    EvaluateItemApiDto
+    EvaluateItemApiDto,
+    EvaluateStatsDto
 > {
     private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, EvaluateEntity>();

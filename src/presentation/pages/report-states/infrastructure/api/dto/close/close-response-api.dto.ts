@@ -20,4 +20,13 @@ export interface CloseItemApiDto {
     updated_at: string;
 }
 
-export type CloseResponseApiDto = PaginatedResponseDto<CloseItemApiDto>;
+export interface StatsDto {
+    conform: { count: number; rate: number };
+    non_conform: { count: number; rate: number };
+    unknown: { count: number; rate: number };
+}
+
+export type CloseResponseApiDto = PaginatedResponseDto<
+    CloseItemApiDto,
+    StatsDto
+>;

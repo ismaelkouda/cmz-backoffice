@@ -18,4 +18,14 @@ export interface ApproveItemApiDto {
     updated_at: string;
 }
 
-export type ApproveResponseApiDto = PaginatedResponseDto<ApproveItemApiDto>;
+export interface StatsDto {
+    total: number;
+    zob: { count: number; rate: number };
+    cps: { count: number; rate: number };
+    abi: { count: number; rate: number };
+    cpo: { count: number; rate: number };
+}
+export type ApproveResponseApiDto = PaginatedResponseDto<
+    ApproveItemApiDto,
+    StatsDto
+>;

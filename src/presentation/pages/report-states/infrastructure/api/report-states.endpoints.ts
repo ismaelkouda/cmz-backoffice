@@ -5,5 +5,5 @@ export const REPORT_STATES_ENDPOINTS = {
     REJECT: 'requests/rejected',
     DOWNLOAD: 'exports',
     DETAILS_REPORT_STATES: 'requests',
-    ADMISSIBLE: 'finalizations/admissible',
+    ALL: 'all',
 } as const;

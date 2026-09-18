@@ -13,6 +13,7 @@ import { RejectDownloadContract } from '@presentation/pages/report-states/domain
 import { rejectDownloadVo } from '@presentation/pages/report-states/domain/value-objects/reject/reject-download.vo';
 import { rejectDownloadFactory } from '@presentation/pages/report-states/domain/factories/reject/reject-download.factory';
 import { RejectFilterContract } from '@presentation/pages/report-states/domain/contracts/reject/reject-filter.contract';
+import { StatsDto as RejectStatsDto } from '@pages/report-states/infrastructure/api/dto/reject/reject-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +25,7 @@ export class RejectUseCase {
         contract: RejectFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<RejectEntity>> {
+    ): Observable<Paginate<RejectEntity, RejectStatsDto>> {
         const vo = rejectFilterVo(contract);
         const entity = rejectFilterEntity(vo);
         return this.repository.execute(entity, page, options);

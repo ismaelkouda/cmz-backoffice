@@ -5,7 +5,7 @@ export const EVALUATE_ROUTE = 'evaluated';
 export const CLOSE_ROUTE = 'closed';
 export const REJECT_ROUTE = 'rejected';
 export const DOWNLOAD_ROUTE = 'downloads';
-export const ADMISSIBLE_ROUTE = 'admissible';
+export const ALL_ROUTE = 'all-reports';
 export const ACTIONS_ROUTE = 'actions';
 
 export const routes: Routes = [
@@ -141,19 +141,19 @@ export const routes: Routes = [
         ],
     },
     {
-        path: ADMISSIBLE_ROUTE,
+        path: ALL_ROUTE,
         data: {
             breadcrumb: {
-                label: 'REPORT_STATES.ADMISSIBLE.BREADCRUMB.LABEL',
-                icon: 'REPORT_STATES.ADMISSIBLE.BREADCRUMB.ICON',
+                label: 'REPORT_STATES.ALL.BREADCRUMB.LABEL',
+                icon: 'REPORT_STATES.ALL.BREADCRUMB.ICON',
             },
         },
         children: [
             {
                 path: '',
                 loadComponent: () =>
-                    import('@presentation/pages/report-states/presentation/features/admissible/admissible.component').then(
-                        (m) => m.AdmissibleComponent
+                    import('@presentation/pages/report-states/presentation/features/all/all.component').then(
+                        (m) => m.AllComponent
                     ),
                 data: { breadcrumb: { hide: true } },
             },
