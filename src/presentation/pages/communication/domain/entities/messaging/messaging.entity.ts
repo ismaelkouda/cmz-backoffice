@@ -50,6 +50,8 @@ export class MessagingEntity {
             [MessagingChannelsEnum.PUSH]: ChannelsStyle.PUSH,
             [MessagingChannelsEnum.MAIL]: ChannelsStyle.MAIL,
             [MessagingChannelsEnum.SMS]: ChannelsStyle.SMS,
+            [MessagingChannelsEnum.WHATSAPP]: ChannelsStyle.WHATSAPP,
+            [MessagingChannelsEnum.TELEGRAM]: ChannelsStyle.TELEGRAM,
         };
         return methodMap[channels];
     }

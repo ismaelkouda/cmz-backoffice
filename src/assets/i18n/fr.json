@@ -3797,9 +3797,13 @@
                     "PUSH": "Push",
                     "PUSH_STYLE": "info",
                     "EMAIL": "Email",
-                    "EMAIL_STYLE": "contrast",
+                    "EMAIL_STYLE": "secondary",
                     "SMS": "SMS",
-                    "SMS_STYLE": "success"
+                    "SMS_STYLE": "warn",
+                    "WHATSAPP": "WhatsApp",
+                    "WHATSAPP_STYLE": "success",
+                    "TELEGRAM": "Telegram",
+                    "TELEGRAM_STYLE": "info"
                 }
             },
             "FORM": {
