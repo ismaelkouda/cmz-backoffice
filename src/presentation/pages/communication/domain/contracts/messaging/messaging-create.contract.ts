@@ -6,9 +6,9 @@ export interface MessagingCreateContract {
     reportId?: string;
     type?: MessagingTypeEnum;
     targetType?: MessagingTargetEnum;
-    region?: string;
-    department?: string;
-    municipality?: string;
+    region?: number;
+    department?: number;
+    municipality?: number;
     channels?: MessagingChannelsEnum[];
     subject?: string;
     content?: string;

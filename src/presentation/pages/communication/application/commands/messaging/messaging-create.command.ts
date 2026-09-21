@@ -7,9 +7,9 @@ export class MessagingCreateCommand {
         public readonly reportId?: string,
         public readonly type?: MessagingTypeEnum,
         public readonly targetType?: MessagingTargetEnum,
-        public readonly region?: string,
-        public readonly department?: string,
-        public readonly municipality?: string,
+        public readonly region?: number,
+        public readonly department?: number,
+        public readonly municipality?: number,
         public readonly channels?: MessagingChannelsEnum[],
         public readonly subject?: string,
         public readonly content?: string

@@ -2,7 +2,7 @@ import { AdministrativeBoundaryDto } from '@shared/data/dto/administrative-bound
 import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 
 export interface MunicipalitiesByDepartmentIdItemApiDto {
-    id: string;
+    id: number;
     name: string;
     code: string;
     description: string;
