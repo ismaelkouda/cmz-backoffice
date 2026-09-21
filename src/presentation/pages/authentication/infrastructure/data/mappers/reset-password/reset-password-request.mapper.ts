@@ -6,8 +6,7 @@ export function resetPasswordRequestMapper(
 ): ResetPasswordRequestApiDto {
     return {
         token: validContract.token,
-        email: validContract.email,
         password: validContract.password,
-        confirmPassword: validContract.confirmPassword,
+        password_confirmation: validContract.confirmPassword,
     };
 }

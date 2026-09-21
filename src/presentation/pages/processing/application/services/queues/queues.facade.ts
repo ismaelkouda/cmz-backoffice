@@ -25,6 +25,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
         const command = new QueuesQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -46,6 +47,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
         const command = new QueuesQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -61,12 +63,13 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new QueuesQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -84,6 +87,7 @@ export class QueuesFacade extends BaseFacade<QueuesEntity, QueuesFilterDto> {
         const command = new QueuesQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,

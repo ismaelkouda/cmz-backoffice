@@ -1,0 +1,70 @@
+<div class="management-newspaper">
+    @if (loading()) {
+        <div class="newspaper-skeleton">
+            @for (row of skeletonRows; track $index) {
+                <p-skeleton
+                    width="100%"
+                    height="3rem"
+                    styleClass="newspaper-skeleton-row"
+                />
+            }
+        </div>
+    } @else if (error()) {
+        <div class="newspaper-state">
+            <i class="pi pi-exclamation-triangle"></i>
+            <p>{{ 'MANAGEMENT.TREATMENT_LOGS.TABLE.ERROR' | translate }}</p>
+        </div>
+    } @else if (items().length === 0) {
+        <div class="newspaper-state">
+            <i class="pi pi-inbox"></i>
+            <p>{{ 'MANAGEMENT.TREATMENT_LOGS.TABLE.EMPTY' | translate }}</p>
+        </div>
+    } @else {
+        <p-table
+            [value]="items()"
+            [rowHover]="true"
+            responsiveLayout="scroll"
+            [scrollable]="true"
+            scrollHeight="450px"
+            role="grid"
+            width="100%"
+            styleClass="p-datatable-gridlines"
+        >
+            <ng-template pTemplate="header">
+                <tr>
+                    <th class="text-center">#</th>
+                    <th>
+                        {{
+                            'MANAGEMENT.TREATMENT_LOGS.TABLE.OPERATION'
+                                | translate
+                        }}
+                    </th>
+                    <th>
+                        {{
+                            'MANAGEMENT.TREATMENT_LOGS.TABLE.ACTION' | translate
+                        }}
+                    </th>
+                    <th class="text-center">
+                        {{ 'MANAGEMENT.TREATMENT_LOGS.TABLE.DATE' | translate }}
+                    </th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-log let-i="rowIndex">
+                <tr>
+                    <td class="text-center">{{ i + 1 }}</td>
+                    <td>
+                        <p-tag
+                            [value]="operationLabel(log.operation) | translate"
+                            [severity]="operationSeverity(log.operation)"
+                            [rounded]="true"
+                        />
+                    </td>
+                    <td>{{ log.description }}</td>
+                    <td class="text-center">
+                        {{ log.createdAt | date: 'yyyy-MM-dd HH:mm:ss' }}
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>

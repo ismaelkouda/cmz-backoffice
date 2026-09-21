@@ -18,6 +18,7 @@ export class DashboardMapper extends SimpleResponseMapper<
         // MapperUtils.validateDto(dto, { required: ['uniq_id'] });
 
         const props: DashboardProps = {
+            totalRequestReports: dto.total_request_reports,
             totalReports: separatorThousands(dto.total_reports),
             partialOperatorReports: dto.total_cpo_reports,
             pendingReports: dto.pendingReports,
@@ -40,6 +41,11 @@ export class DashboardMapper extends SimpleResponseMapper<
             completionRate: dto.completionRate,
             responseTime: dto.responseTime,
             lastRefreshAt: dto.last_refresh_at,
+            averageQualificationTime: dto.average_qualification_time,
+            averageHandlingTime: dto.average_handling_time,
+            averageResolutionTime: dto.average_resolution_time,
+            conformanceRate: dto.report_conformance_rate,
+            userSatisfactionRate: dto.user_satisfaction_rate,
         };
 
         const cacheKey = `dto:${dto.uniq_id}`;

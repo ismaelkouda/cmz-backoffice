@@ -1,4 +1,3 @@
-import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 import { MobileNetworkFindOneProps } from '@pages/coverage-areas/domain/interfaces/mobile-network/mobile-network-find-one-props.interface';
 
 export class MobileNetworkFindOneEntity {
@@ -40,12 +39,20 @@ export class MobileNetworkFindOneEntity {
         return this.props.networkTechnology;
     }
 
-    get operator(): Operator {
+    get operator(): string {
         return this.props.operator;
     }
 
-    get coverageRadius(): number | undefined {
+    get coverageRadius(): number {
         return this.props.coverageRadius;
+    }
+
+    get lng(): number {
+        return this.props.lng;
+    }
+
+    get lat(): number {
+        return this.props.lat;
     }
 
     get updatedAt(): string {

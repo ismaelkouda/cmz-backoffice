@@ -49,6 +49,9 @@ export class SlideCreateMapper {
         if (props.buttonLabel) {
             params.button_label = props.buttonLabel;
         }
+        if (props.buttonUrl) {
+            params.button_url = props.buttonUrl;
+        }
 
         return params;
     }

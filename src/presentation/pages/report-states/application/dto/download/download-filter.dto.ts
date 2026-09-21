@@ -6,6 +6,7 @@ export interface DownloadFilterDto {
     date?: Date;
     initiatorPhoneNumber?: string;
     uniqId?: string;
+    requestReportUniqId?: string;
     reportType?: ReportType;
     operators?: string[];
     source?: string;

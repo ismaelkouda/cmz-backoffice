@@ -11,12 +11,8 @@ export class ForgotPasswordResponseMapper extends SimpleResponseMapper<
     protected mapItemFromDto(
         dto: ForgotPasswordResponseApiDto
     ): ForgotPasswordResponseEntity {
-        const props = {
-            message: dto.message,
-            token: dto.token,
-            user: dto.user,
-        };
-
-        return new ForgotPasswordResponseEntity(props);
+        return new ForgotPasswordResponseEntity({
+            retryAfter: dto.retry_after,
+        });
     }
 }

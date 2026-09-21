@@ -44,7 +44,7 @@ export class MobileNetworkEntity {
         return this.props.towerHeight;
     }
 
-    get networkTechnology(): string {
+    get networkTechnology(): string[] {
         return this.props.networkTechnology;
     }
 
@@ -52,8 +52,16 @@ export class MobileNetworkEntity {
         return this.props.operator;
     }
 
-    get coverageRadius(): number | undefined {
+    get coverageRadius(): number {
         return this.props.coverageRadius;
+    }
+
+    get lng(): number {
+        return this.props.lng;
+    }
+
+    get lat(): number {
+        return this.props.lat;
     }
 
     get status(): Status {

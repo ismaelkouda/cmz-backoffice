@@ -30,7 +30,7 @@ import {
     ReportStatus,
     ReportType,
 } from '@pages/interactive-map/domain/models/interactive-map-report.model';
-import { InteractiveMapReportsApi } from '@pages/interactive-map/infrastructure/data/sources/interactive-map-reports.api';
+import { ReportsFacade } from '@pages/interactive-map/application/services/reports.facade';
 import {
     ClusterTooltip,
     MapClickInfo,
@@ -45,7 +45,12 @@ import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.co
 import { parseCoordinates } from '@shared/components/location-picker/utils/coordinates.utils';
 import { ManagementDialogComponent } from '@shared/components/management/presentation/management-dialog/management-dialog.component';
 import { getReportTypeIconPath } from '@shared/domain/constants/report-icon';
+import {
+    COVERAGE_OPERATORS,
+    getCoverageOperatorColor,
+} from '@shared/domain/constants/coverage-operators';
 import { TypeReport } from '@shared/domain/enums/type-report.enum';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { ToastrService } from 'ngx-toastr';
 import { Coordinate } from 'ol/coordinate';
 import { ButtonModule } from 'primeng/button';
@@ -133,24 +138,7 @@ export class InteractiveMapComponent
     public getReportIconPath(type: ReportType): string {
         return getReportTypeIconPath(type) || '';
     }
-    public readonly COVERAGE_OPERATORS: {
-        id: string;
-        label: string;
-        color: string;
-    }[] = [
-        { id: 'oci', label: 'OCI', color: '#ff7900' },
-        { id: 'cit', label: 'CIT', color: '#ff7900' },
-        { id: 'ihs (oci)', label: 'IHS (OCI)', color: '#ff7900' },
-        { id: 'mtn', label: 'MTN', color: '#ffcc00' },
-        { id: 'ihs (mtn)', label: 'IHS (MTN)', color: '#ffcc00' },
-        { id: 'moov', label: 'Moov', color: '#005baa' },
-        { id: 'moov (coloas)', label: 'Moov (Coloas)', color: '#005baa' },
-        { id: 'idt', label: 'IDT', color: '#e6194B' },
-        { id: 'ihs', label: 'IHS', color: '#bfef45' },
-        { id: 'presidence', label: 'Présidence', color: '#4363d8' },
-        { id: 'cafe mobile', label: 'Café Mobile', color: '#fabed4' },
-        { id: 'green', label: 'Green', color: '#469990' },
-    ];
+    public readonly COVERAGE_OPERATORS = COVERAGE_OPERATORS;
     public readonly coverageLegendOpen = signal(true);
     public readonly coverageOperatorVisibility = signal<
         Record<string, boolean>
@@ -204,14 +192,17 @@ export class InteractiveMapComponent
     );
     protected readonly selectedReportId = signal<string>('');
     public readonly regionSelectOptions = computed(() => [
-        ...this.regionOptions().map((r) => ({ label: r.name, value: r.value })),
+        ...this.regionOptions().map((r) => ({
+            label: r.name,
+            value: r.uniqId,
+        })),
     ]);
 
     public readonly departmentSelectOptions = computed(() => {
         return [
             ...this.departmentOptions().map((d) => ({
                 label: d.name,
-                value: d.value,
+                value: d.uniqId,
             })),
         ];
     });
@@ -220,7 +211,7 @@ export class InteractiveMapComponent
         return [
             ...this.municipalityOptions().map((m) => ({
                 label: m.name,
-                value: m.value,
+                value: m.uniqId,
             })),
         ];
     });
@@ -257,10 +248,6 @@ export class InteractiveMapComponent
         { value: 'processing', label: 'En cours' },
         { value: 'finalization', label: 'Clôturé' },
     ];
-    // `lineCount` pilote le rendu du pictogramme de légende : une seule
-    // ligne pour la fibre optique, deux lignes superposées pour un
-    // faisceau radio (paire émission/réception), au lieu d'un simple
-    // rond de couleur.
     public readonly networkTechnologyOptions: {
         value: string;
         label: string;
@@ -275,11 +262,9 @@ export class InteractiveMapComponent
             this.networkTechnologyOptions.map((op) => [op.value, false])
         )
     );
-
     public rnhdVisible(value: string): boolean {
         return this.rnhdVisibility()[value] ?? false;
     }
-
     public toggleRnhd(value: string, visible: boolean): void {
         this.rnhdVisibility.update((vis) => ({
             ...vis,
@@ -296,12 +281,10 @@ export class InteractiveMapComponent
     public readonly equipmentsVisible = signal<Record<string, boolean>>(
         Object.fromEntries(this.equipmentOptions.map((eq) => [eq.id, false]))
     );
-
     public readonly allEquipmentsVisible = computed(() => {
         const vis = this.equipmentsVisible();
         return Object.values(vis).every((v) => v === true);
     });
-
     public toggleEquipment(type: string, visible: boolean): void {
         this.equipmentsVisible.update((vis) => ({
             ...vis,
@@ -309,7 +292,6 @@ export class InteractiveMapComponent
         }));
         this.mapAdapter.setEquipmentTypeVisible(type, visible);
     }
-
     public toggleAllEquipments(visible: boolean): void {
         const newVisibility = Object.fromEntries(
             this.equipmentOptions.map((eq) => [eq.id, visible])
@@ -322,7 +304,7 @@ export class InteractiveMapComponent
 
     private readonly geolocationService = inject(GeolocationService);
     private readonly mapAdapter = inject(MapAdapter);
-    private readonly reportsApi = inject(InteractiveMapReportsApi);
+    private readonly reportsFacade = inject(ReportsFacade);
     private readonly http = inject(HttpClient);
     private readonly destroyRef = inject(DestroyRef);
     private readonly route = inject(ActivatedRoute);
@@ -335,13 +317,17 @@ export class InteractiveMapComponent
     public readonly regionOptions = computed(() => this.regions());
     public readonly departmentOptions = computed(() => {
         const region = this.regions().find(
-            (item) => item.value === this.draftFilters().region
+            (item) =>
+                JSON.stringify(item.uniqId) ===
+                JSON.stringify(this.draftFilters().region)
         );
         return region?.departments ?? [];
     });
     public readonly municipalityOptions = computed(() => {
         const department = this.departmentOptions().find(
-            (item) => item.value === this.draftFilters().department
+            (item) =>
+                JSON.stringify(item.uniqId) ===
+                JSON.stringify(this.draftFilters().department)
         );
         return department?.municipalities ?? [];
     });
@@ -451,7 +437,7 @@ export class InteractiveMapComponent
     public retryLoad(): void {
         const bounds = this.store.viewportBounds();
         if (bounds) {
-            this.loadReportsWithBuffer(bounds);
+            this.loadReportsWithBuffer(bounds, { forceRefresh: true });
         }
     }
 
@@ -532,13 +518,15 @@ export class InteractiveMapComponent
     public submitFilters(): void {
         this.mapAdapter.hideClickOverlay();
         this.store.updateFilters(this.cloneFilters(this.draftFilters()));
-        this.store.clearLoadedReports();
+        this.store.resetCache();
+        this.reloadCurrentViewport({ forceRefresh: true });
     }
 
     public resetFilters(): void {
         this.draftFilters.set(this.cloneFilters(EMPTY_REPORT_FILTERS));
         this.store.resetFilters();
-        this.store.clearLoadedReports();
+        this.store.resetCache();
+        this.reloadCurrentViewport({ forceRefresh: true });
     }
 
     public toggleHeatmap(): void {
@@ -604,7 +592,7 @@ export class InteractiveMapComponent
         report: InteractiveMapReport,
         status: ReportStatus
     ): void {
-        this.reportsApi
+        this.reportsFacade
             .updateStatus(report.uniq_id, status)
             .pipe(
                 tap(() => {
@@ -612,7 +600,9 @@ export class InteractiveMapComponent
                     this.store.setSelectedReport(null);
                     const bounds = this.store.viewportBounds();
                     if (bounds) {
-                        this.loadReportsWithBuffer(bounds);
+                        this.loadReportsWithBuffer(bounds, {
+                            forceRefresh: true,
+                        });
                     }
                 }),
                 catchError(() => {
@@ -737,15 +727,23 @@ export class InteractiveMapComponent
         });
     }
 
+    private reloadCurrentViewport(options?: FetchOptions): void {
+        const bounds = this.store.viewportBounds();
+        if (bounds) {
+            this.loadReportsWithBuffer(bounds, options);
+        }
+    }
+
     private loadReportsWithBuffer(
-        viewportBounds: NonNullable<ReturnType<MapStore['viewportBounds']>>
+        viewportBounds: NonNullable<ReturnType<MapStore['viewportBounds']>>,
+        options?: FetchOptions
     ): void {
         const bufferBounds = this.store.expandBounds(viewportBounds, 2);
         const currentFilters = this.store.filters();
 
         this.store.startLoading();
-        this.reportsApi
-            .getReports(bufferBounds, currentFilters)
+        this.reportsFacade
+            .getReports(bufferBounds, currentFilters, options)
             .pipe(
                 tap((reports) => {
                     this.store.mergeLoadedReports(reports, bufferBounds);
@@ -782,7 +780,7 @@ export class InteractiveMapComponent
         }
 
         const filters = this.store.filters();
-        const tileUrl = this.reportsApi.getCoverageAreasTileUrl({
+        const tileUrl = this.reportsFacade.getCoverageAreasTileUrl({
             operator: selectedOperators.join(',') || undefined,
             network_technology:
                 selectedNetworkTechnologies.join(',') ||
@@ -818,7 +816,7 @@ export class InteractiveMapComponent
         // Choix multiple → ?tag=ADMINISTRATION,EDUCATION,...
         // Clustering fourni par le backend sur ces tuiles MVT.
         const tileUrl =
-            this.reportsApi.getInfrastructureTilesUrl(selectedApiTypes);
+            this.reportsFacade.getInfrastructureTilesUrl(selectedApiTypes);
 
         this.mapAdapter.renderEquipmentAreaTiles([
             {
@@ -952,7 +950,6 @@ export class InteractiveMapComponent
     }
 
     private handleMapClick(info: MapClickInfo): void {
-        console.log('info: ', info);
         if (!info.reports.length) {
             this.store.setSelectedReport(null);
             this.selectedClusterReports.set([]);
@@ -961,7 +958,6 @@ export class InteractiveMapComponent
         }
         if (info.kind === 'cluster') {
             const currentZoom = this.mapAdapter.getViewState()?.zoom ?? 7;
-            console.log('currentZoom: ', currentZoom);
 
             // 🆕 À fort zoom, ne plus zoomer/déplacer, afficher directement la liste
             if (currentZoom >= 16) {
@@ -1183,10 +1179,7 @@ export class InteractiveMapComponent
     }
 
     public getCoverageColor(operator: string): string {
-        return (
-            this.COVERAGE_OPERATORS.find((op) => op.id === operator)?.color ||
-            '#6b7280'
-        );
+        return getCoverageOperatorColor(operator);
     }
 
     public operatorLabel(operator: string): string {

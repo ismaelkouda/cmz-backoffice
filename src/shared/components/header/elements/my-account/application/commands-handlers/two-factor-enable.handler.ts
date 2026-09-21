@@ -10,9 +10,8 @@ export class TwoFactorEnableHandler {
 
     execute(command: TwoFactorEnableCommand): Observable<MessageEntity> {
         return this.useCase.execute({
-            userId: command.userId,
-            email: command.email,
-            code: command.code,
+            otp: command.otp,
+            channel: command.channel,
         });
     }
 }

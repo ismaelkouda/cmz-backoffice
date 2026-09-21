@@ -8,4 +8,6 @@ export interface MobileNetworkUpdateDto {
     networkTechnology?: string;
     operator?: string;
     coverageRadius?: number;
+    lng?: number;
+    lat?: number;
 }

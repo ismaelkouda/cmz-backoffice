@@ -1,4 +1,3 @@
 export interface TwoFactorRequestDto {
-    readonly userId: number;
-    readonly email: string;
+    readonly channel: 'email' | 'sms';
 }

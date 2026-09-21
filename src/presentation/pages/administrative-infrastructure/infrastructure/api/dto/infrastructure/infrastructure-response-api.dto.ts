@@ -9,7 +9,8 @@ export interface InfrastructureItemApiDto {
     region: AdministrativeBoundaryDto;
     department: AdministrativeBoundaryDto;
     municipality: AdministrativeBoundaryDto;
-    position: string;
+    lat: string;
+    long: string;
     created_at: string;
     updated_at: string;
 }

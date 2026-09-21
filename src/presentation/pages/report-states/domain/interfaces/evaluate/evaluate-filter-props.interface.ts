@@ -3,6 +3,7 @@ import { ReportType } from '@shared/domain/enums/report-type.enum';
 export interface EvaluateFilterProps {
     initiatorPhoneNumber?: string;
     uniqId?: string;
+    requestReportUniqId?: string;
     reportType?: ReportType;
     operators?: string[];
     source?: string;

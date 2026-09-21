@@ -14,7 +14,7 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
     imports: [TranslateModule, DashboardViewerComponent],
     template: `
         <app-dashboard-viewer
-            [grafanaLink]="data()?.grafanaLink"
+            [grafanaLink]="data()"
             [titleKey]="'INTERACTIVE_MAP.DASHBOARD.TITLE'"
             [moduleKey]="'INTERACTIVE_MAP.LABEL'"
             [subModuleKey]="'INTERACTIVE_MAP.DASHBOARD.LABEL'"
@@ -30,7 +30,7 @@ import { DashboardViewerComponent } from '@shared/components/dashboard-viewer/da
 })
 export class MapPageComponent implements OnInit {
     private readonly facade = inject(MapFacade);
-    readonly data = this.facade.items;
+    readonly data = this.facade.url;
     readonly loading = this.facade.loading;
     readonly error = this.facade.error;
 

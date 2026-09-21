@@ -9,7 +9,9 @@ export interface MobileNetworkFindOneItemApiDto {
     tower_height: string;
     network_technology: string;
     operator: string;
-    coverage_radius?: number;
+    coverage_radius: number;
+    lng: number;
+    lat: number;
     created_at?: string;
     updated_at: string;
 }

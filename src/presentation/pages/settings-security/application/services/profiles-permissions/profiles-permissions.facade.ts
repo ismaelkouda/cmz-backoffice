@@ -100,9 +100,9 @@ export class ProfilesPermissionsFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new ProfilesPermissionsQuery(
             filter?.search,
             filter?.user,
@@ -121,7 +121,9 @@ export class ProfilesPermissionsFacade extends BaseFacade<
             filter?.user,
             filter?.status
         );
-        const fetch$ = this.filterBus.dispatch(command, page);
+        const fetch$ = this.filterBus.dispatch(command, page, {
+            forceRefresh: true,
+        });
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
         this.lastFetchTimestamp = Date.now();
     }

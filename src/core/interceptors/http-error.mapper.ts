@@ -21,7 +21,11 @@ export function httpErrorMapper(error: HttpErrorResponse): DomainError {
             return new UnauthorizedError();
 
         case 403:
-            return new ForbiddenError();
+            if (error.error?.data?.code === 'PRIVACY_NOT_ACCEPTED') {
+                return new ForbiddenError(error.error.message);
+            } else {
+                return new ForbiddenError();
+            }
 
         case 404:
             return new NotFoundError();

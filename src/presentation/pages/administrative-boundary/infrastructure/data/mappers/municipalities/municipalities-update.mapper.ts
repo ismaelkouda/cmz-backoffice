@@ -11,8 +11,8 @@ export function municipalitiesUpdateMapper(
     params['population_size'] = update.population;
     params['infrastructure_size'] = update.infrastructure;
     params['name'] = update.name;
-    params['region_id'] = update.region;
-    params['department_id'] = update.department;
+    params['region_code'] = update.region;
+    params['department_code'] = update.department;
     if (update.description) {
         params['description'] = update.description;
     }

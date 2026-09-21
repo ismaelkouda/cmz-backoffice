@@ -26,6 +26,10 @@ export class RejectEntity implements RejectProps {
         return this.props.uniqId;
     }
 
+    get requestReportUniqId(): string {
+        return this.props.requestReportUniqId;
+    }
+
     get reportType(): ReportType {
         return this.props.reportType;
     }
@@ -64,6 +68,14 @@ export class RejectEntity implements RejectProps {
             [Status.TERMINATED]: StatusStyle.TERMINATED,
         };
         return methodMap[status];
+    }
+
+    get reason(): string {
+        return this.props.reason;
+    }
+
+    get reasonLabel(): string {
+        return this.props.reasonLabel;
     }
 
     get reportedAt(): string {

@@ -9,5 +9,7 @@ export interface MobileNetworkUpdateValidateContract {
     towerHeight: string;
     networkTechnology: string;
     operator: Operator;
-    coverageRadius?: number;
+    coverageRadius: number;
+    lng: number;
+    lat: number;
 }

@@ -121,6 +121,7 @@
                                                                     getErrorMessage(
                                                                         KEYS.NAME
                                                                     )
+                                                                        | translate
                                                                 }}
                                                             </small>
                                                         }
@@ -204,6 +205,7 @@
                                                                     getErrorMessage(
                                                                         KEYS.DESCRIPTION
                                                                     )
+                                                                        | translate
                                                                 }}
                                                             </small>
                                                         }
@@ -267,8 +269,7 @@
                                                                 [class.tag-option--selected]="
                                                                     form.get(
                                                                         KEYS.TAG
-                                                                    )
-                                                                        ?.value ===
+                                                                    )?.value ===
                                                                     option.value
                                                                 "
                                                             >
@@ -295,8 +296,7 @@
                                                                 <span
                                                                     class="tag-option-label"
                                                                     >{{
-                                                                        option.labelKey
-                                                                            | translate
+                                                                        option.label
                                                                     }}</span
                                                                 >
                                                             </label>

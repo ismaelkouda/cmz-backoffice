@@ -99,9 +99,9 @@ export class NewsFacade extends BaseFacade<NewsEntity, NewsFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new NewsQuery(
             filter?.search,
             filter?.status,

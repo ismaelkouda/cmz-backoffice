@@ -84,11 +84,13 @@ function displayBootstrapError(error: Error): void {
         })
         .join(' ');
 
-    errorElement.innerHTML = `
-        <strong>APP.BOOTSTRAP.ERROR_TITLE</strong>
-        <p>APP.BOOTSTRAP.ERROR_MESSAGE</p>
-        <small>Error: ${errorMessage}</small>
-    `;
+    const title = document.createElement('strong');
+    title.textContent = 'APP.BOOTSTRAP.ERROR_TITLE';
+    const message = document.createElement('p');
+    message.textContent = 'APP.BOOTSTRAP.ERROR_MESSAGE';
+    const detail = document.createElement('small');
+    detail.textContent = `Error: ${errorMessage}`;
+    errorElement.append(title, message, detail);
 
     document.body.appendChild(errorElement);
 }

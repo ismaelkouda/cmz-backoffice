@@ -104,9 +104,9 @@ export class TermsUseFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new TermsUseQuery(
             filter?.search,
             filter?.version,

@@ -1,5 +1,9 @@
 export const AUTHENTICATION_ENDPOINTS = {
     LOGIN: 'login',
-    FORGOT_PASSWORD: 'forgot-password',
-    RESET_PASSWORD: 'reset-password',
+    VALIDATE_OTP: 'valider-otp',
+    FORGOT_PASSWORD: 'password/forgot',
+    RESET_PASSWORD: 'password/reset',
+    CHANGE_PASSWORD: 'password/define',
+    PRIVACY_ACCEPT: 'privacy/accept',
+    RESEND_DEFINE: 'password/resend-define',
 } as const;

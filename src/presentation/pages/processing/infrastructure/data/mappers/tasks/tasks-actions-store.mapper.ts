@@ -18,6 +18,9 @@ export function mapBaseTasksActionsDto(
         type_code: props.type,
         description: props.description,
         should_notify_user: Boolean(props.shouldNotifyUser),
-        result: conformityMapper.mapToDto(props.isConform),
+        is_visible_for_user: Boolean(props.shouldDisplayInNewspaper),
+        ...(props.isConform !== null && props.isConform !== undefined
+            ? { result: conformityMapper.mapToDto(props.isConform) }
+            : {}),
     };
 }

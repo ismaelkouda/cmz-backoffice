@@ -18,6 +18,9 @@ export class QueuesFilterMapper {
             // ...(entity.reportType && {
             //     report_type: this.reportTypeMapper.mapToDto(entity.reportType),
             // }),
+            ...(entity.requestReportUniqId && {
+                request_report_uniq_id: entity.requestReportUniqId,
+            }),
             ...(entity.reportType && {
                 report_type: entity.reportType,
             }),

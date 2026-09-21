@@ -31,6 +31,7 @@ import { ManagementChatbotPanelComponent } from '@shared/components/management/p
 import { ManagementHeaderComponent } from '@shared/components/management/presentation/management-header/management-header.component';
 import { ManagementInfoPanelComponent } from '@shared/components/management/presentation/management-info-panel/management-info-panel.component';
 import { ManagementMapComponent } from '@shared/components/management/presentation/management-map/management-map.component';
+import { ManagementNewspaperComponent } from '@shared/components/management/presentation/management-newspaper/management-newspaper.component';
 import { ManagementPhotosPanelComponent } from '@shared/components/management/presentation/management-photos-panel.component.html/management-photos-panel.component';
 import { ManagementSidebarComponent } from '@shared/components/management/presentation/management-sidebar/management-sidebar.component';
 import { ManagementTreatmentFormComponent } from '@shared/components/management/presentation/management-treatment-form/management-treatment-form.component';
@@ -73,6 +74,7 @@ import SweetAlert from 'sweetalert2';
         ManagementMapComponent,
         ManagementInfoPanelComponent,
         ManagementChatbotPanelComponent,
+        ManagementNewspaperComponent,
         ManagementTreatmentFormComponent,
         TagModule,
     ],

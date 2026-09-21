@@ -1,7 +1,14 @@
 import { Routes } from '@angular/router';
 import { LOGIN_ROUTE } from '@presentation/pages/authentication/presentation/features/login/login-paths.constants';
-import { FORGOT_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-paths.constants';
-import { RESET_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/reset-password/reset-password-paths.constants';
+import {
+    FORGOT_PASSWORD_ROUTE,
+    CHECK_EMAIL_ROUTE,
+} from '@presentation/pages/authentication/presentation/features/forgot-password/forgot-password-paths.constants';
+import {
+    RESET_PASSWORD_ROUTE,
+    RESET_PASSWORD_SUCCESS_ROUTE,
+} from '@presentation/pages/authentication/presentation/features/reset-password/reset-password-paths.constants';
+import { CHANGE_PASSWORD_ROUTE } from '@presentation/pages/authentication/presentation/features/change-password/change-password-paths.constants';
 
 export const routes: Routes = [
     {
@@ -22,10 +29,31 @@ export const routes: Routes = [
                     ),
             },
             {
+                path: `${FORGOT_PASSWORD_ROUTE}/${CHECK_EMAIL_ROUTE}`,
+                loadComponent: () =>
+                    import('./presentation/features/forgot-password/pages/check-email/check-email.component').then(
+                        (m) => m.CheckEmailComponent
+                    ),
+            },
+            {
                 path: RESET_PASSWORD_ROUTE,
                 loadComponent: () =>
                     import('./presentation/features/reset-password/reset-password.component').then(
                         (m) => m.ResetPasswordComponent
+                    ),
+            },
+            {
+                path: `${RESET_PASSWORD_ROUTE}/${RESET_PASSWORD_SUCCESS_ROUTE}`,
+                loadComponent: () =>
+                    import('./presentation/features/reset-password/pages/reset-password-success/reset-password-success.component').then(
+                        (m) => m.ResetPasswordSuccessComponent
+                    ),
+            },
+            {
+                path: CHANGE_PASSWORD_ROUTE,
+                loadComponent: () =>
+                    import('./presentation/features/change-password/change-password.component').then(
+                        (m) => m.ChangePasswordComponent
                     ),
             },
             {

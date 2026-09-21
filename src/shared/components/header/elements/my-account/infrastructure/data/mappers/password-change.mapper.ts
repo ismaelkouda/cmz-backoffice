@@ -5,7 +5,7 @@ export function passwordChangeMapper(
     entity: PasswordChangeEntity
 ): PasswordChangeApiDto {
     return {
-        old_password: entity.props.oldPassword,
+        last_password: entity.props.oldPassword,
         new_password: entity.props.newPassword,
         new_password_confirmation: entity.props.newPasswordConfirmation,
     };

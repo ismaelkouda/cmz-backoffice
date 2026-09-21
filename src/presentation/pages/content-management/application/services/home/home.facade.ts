@@ -101,9 +101,9 @@ export class HomeFacade extends BaseFacade<HomeEntity, HomeFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new HomeQuery(
             filter?.search,
             filter?.platforms,

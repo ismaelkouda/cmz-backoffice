@@ -1,9 +1,9 @@
 const config = {
     dev: {
-        authenticationUrl: 'https://api-services.connecte-ma-zone.ansut.ci/auth/v1.0/backoffice/',
-        reportUrl: 'https://api-services.connecte-ma-zone.ansut.ci/reports/v1.0/backoffice/',
-        settingUrl: 'https://api-services.connecte-ma-zone.ansut.ci/base-settings/v1.0/backoffice/',
-        fileUrl: 'https://api-services.connecte-ma-zone.ansut.ci/auth/backoffice/',
+        authenticationUrl: 'http://10.10.0.65:9010/auth/v1.0/backoffice/',
+        reportUrl: 'http://10.10.0.65:9010/reports/v1.0/backoffice/',
+        settingUrl: 'http://10.10.0.65:9010/base-settings/v1.0/backoffice/',
+        fileUrl: 'http://10.10.0.65:9010/auth/backoffice/',
         environmentDeployment: 'DEV',
         enableDebug: true,
         appSettings: {
@@ -43,7 +43,7 @@ const config = {
                 storageKey: 'mode',
             },
             assets: {
-                favicon: 'favicon.ico',
+                favicon: 'favicon.png',
                 authLogo: 'assets/images/logo/app-logo-full.png',
                 sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
                 logoIcon: 'assets/images/favicon.png',
@@ -84,7 +84,7 @@ const config = {
         settingUrl: 'https://cmz-service-api.paas.imako.digital/base-settings/v1.0/backoffice/',
         fileUrl: 'https://cmz-service-api.paas.imako.digital/auth/backoffice/',
         environmentDeployment: 'CLOUD',
-        enableDebug: true,
+        enableDebug: false,
         appSettings: {
             app: {
                 name: 'Connect My Zone',
@@ -122,7 +122,7 @@ const config = {
                 storageKey: 'mode',
             },
             assets: {
-                favicon: 'favicon.ico',
+                favicon: 'favicon.png',
                 authLogo: 'assets/images/logo/app-logo-full.png',
                 sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
                 logoIcon: 'assets/images/favicon.png',
@@ -201,7 +201,7 @@ const config = {
                 storageKey: 'mode',
             },
             assets: {
-                favicon: 'favicon.ico',
+                favicon: 'favicon.png',
                 authLogo: 'assets/images/logo/app-logo-full.png',
                 sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
                 logoIcon: 'assets/images/favicon.png',
@@ -280,7 +280,7 @@ const config = {
                 storageKey: 'mode',
             },
             assets: {
-                favicon: 'favicon.ico',
+                favicon: 'favicon.png',
                 authLogo: 'assets/images/logo/app-logo-full.png',
                 sidebarLogo: 'https://ansut.ci/data/2023/07/logofooter.svg',
                 logoIcon: 'assets/images/favicon.png',

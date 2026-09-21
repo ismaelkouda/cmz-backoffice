@@ -110,6 +110,9 @@ export class ActionsTreatmentComponent {
     private readonly presenter = new ActionsTreatmentPresenter(
         this.translate.instant.bind(this.translate)
     );
+    protected readonly selectedAction = signal<TasksActionsVmProps | null>(
+        null
+    );
     protected readonly isReportDialogVisible = signal(false);
     protected readonly selectedManagementType = signal<TypeReport>(
         TypeReport.PROCESSING
@@ -155,6 +158,12 @@ export class ActionsTreatmentComponent {
     private readonly allowedOperatorsDisplayed = computed(() =>
         this.operators().filter((op) => this.allowedOperatorsSet().has(op))
     );
+    protected readonly isNotifyVisible = computed(() => {
+        if (this.formStore.isViewMode()) {
+            return this.selectedAction()?.shouldDisplayInNewspaper ?? false;
+        }
+        return this.formStore.newspaperVisible();
+    });
     protected readonly conformityOptions = [
         {
             label: this.translate.instant('COMMON.CONFORM'),
@@ -209,15 +218,11 @@ export class ActionsTreatmentComponent {
             })
         );
     });
-    private readonly hasClosed = computed(
-        () => this.closure()?.state === State.IN_PROGRESS
-    );
+    private readonly hasClosed = computed(() => {
+        return this.closure()?.state === State.IN_PROGRESS;
+    });
     protected readonly canClosure = computed(
-        () =>
-            !this.canTreat() ||
-            this.itemsVM().length < 1 ||
-            this.loading() ||
-            !this.hasClosed()
+        () => !this.canTreat() || this.loading() || !this.hasClosed()
     );
     private readonly canExportData = computed(
         () => !this.canExport() || this.itemsVM().length < 1 || this.loading()
@@ -258,6 +263,9 @@ export class ActionsTreatmentComponent {
             String(this.itemsVM().length)
         );
     });
+    protected readonly objectEntries = (
+        value: Record<string, string> | null | undefined
+    ): [string, string][] => Object.entries(value ?? {});
     private readonly createTooltip = computed(() => {
         const permission = !this.canTreat();
         const state = !this.hasClosed();
@@ -324,8 +332,8 @@ export class ActionsTreatmentComponent {
     ]);
     private readonly pageTitleKey = computed(() =>
         this.uniqId()
-            ? 'PROCESSING.TASKS.ACTIONS.DIALOG.EDIT'
-            : 'PROCESSING.TASKS.ACTIONS.DIALOG.CREATE'
+            ? 'PROCESSING.TASKS.ACTIONS.TITLE'
+            : 'PROCESSING.TASKS.ACTIONS.TITLE'
     );
     private readonly pageTitle$ = toObservable(this.pageTitleKey).pipe(
         switchMap((key) => this.translate.stream(key)),
@@ -343,7 +351,7 @@ export class ActionsTreatmentComponent {
         }
 
         this.lastSuccess = current;
-        this.closureFacade.read({ uniqId });
+        this.closureFacade.read({ uniqId }, { forceRefresh: true });
     });
     constructor() {
         this.pageTitle$.subscribe((translatedTitle) => {
@@ -445,8 +453,10 @@ export class ActionsTreatmentComponent {
                 this.formStore.openEdit(uniqId, event.item);
             },
             view: () => {
+                this.selectedAction.set(event.item);
                 this.formStore.openView(uniqId, event.item);
             },
+
             delete: () => {
                 if (!this.canTreat() || !this.hasClosed()) {
                     this.toast.error(this.deleteTooltip());
@@ -457,6 +467,12 @@ export class ActionsTreatmentComponent {
         };
         actions[event.actionId]?.();
     }
+
+    protected closeActionDialog(): void {
+        this.selectedAction.set(null);
+        this.formStore.close();
+    }
+
     private openCreateDialog(): void {
         const uniqId = this.uniqId();
         this.formStore.openCreate(uniqId, this.availableOperators());

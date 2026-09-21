@@ -7,6 +7,7 @@ export function infrastructureTypeQueryMapper(
     return {
         search: query.search,
         status: query.status,
+        tag: query.tag,
         startDate: query.startDate,
         endDate: query.endDate,
     };

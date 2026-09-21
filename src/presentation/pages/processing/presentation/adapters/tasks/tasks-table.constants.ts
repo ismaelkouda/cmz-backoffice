@@ -20,6 +20,12 @@ export const TASKS_TABLE = {
             width: '2rem',
         },
         {
+            field: 'requestReportUniqId',
+            header: 'PROCESSING.TASKS.TABLE.REQUEST_REPORT_UNIQ_ID',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
             field: 'uniqId',
             header: 'PROCESSING.TASKS.TABLE.UNIQ_ID',
             class: 'text-center',
@@ -47,6 +53,12 @@ export const TASKS_TABLE = {
             width: '8rem',
         },
         {
+            field: 'conformLabel',
+            header: 'PROCESSING.TASKS.TABLE.CONFORMITY',
+            width: '6rem',
+            class: 'text-center',
+        },
+        {
             field: '__action',
             header: 'PROCESSING.TASKS.TABLE.ACTION',
             class: 'text-center',
@@ -55,10 +67,12 @@ export const TASKS_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
+        'requestReportUniqId',
         'reportTypeLabel',
         'operators',
         'sourceLabel',
         'initiatorPhoneNumber',
         'reportedAt',
+        'conformLabel',
     ],
 };

@@ -33,6 +33,7 @@ import { SelectModule } from 'primeng/select';
 import { TagModule } from 'primeng/tag';
 import { ToastModule } from 'primeng/toast';
 import { TooltipModule } from 'primeng/tooltip';
+import { SelectButtonModule } from 'primeng/selectbutton';
 import SweetAlert from 'sweetalert2';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
@@ -61,6 +62,7 @@ const I18N = 'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK';
         TagModule,
         ToastModule,
         TooltipModule,
+        SelectButtonModule,
         FileUploadModule,
         GeojsonLineMapComponent,
     ],
@@ -91,6 +93,9 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
     protected readonly isEditMode = this.store.isEditMode;
     protected readonly isCreateMode = this.store.isCreateMode;
     protected readonly loading = this.store.loading;
+    protected readonly geometryMode = this.store.geometryMode;
+    protected readonly isCoordinatesMode = this.store.isCoordinatesMode;
+    protected readonly isFileMode = this.store.isFileMode;
 
     protected readonly fiberConstructorOptions = toSignal(
         this.fiberConstructorFacade.items$,
@@ -125,6 +130,13 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         { label: 'Mono Mode', value: FiberType.SINGLE_MODE },
         { label: 'Multi Mode', value: FiberType.MULTI_MODE },
     ];
+    protected readonly geometryModeOptions = [
+        {
+            label: this.t(`${I18N}.FORM.GEOMETRY_MODE_COORDINATES`),
+            value: 'coordinates',
+        },
+        { label: this.t(`${I18N}.FORM.GEOMETRY_MODE_FILE`), value: 'file' },
+    ];
 
     protected readonly loadingSubmit = computed(() => {
         return this.submitFacade.actionState() === 'loading';
@@ -156,6 +168,7 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
             this.form.disable({ emitEvent: false });
         } else {
             this.form.enable({ emitEvent: false });
+            this.reapplyGeometryModeValidators();
         }
     });
 
@@ -212,6 +225,7 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
     onFileChange(event: any): void {
         const file = event.files?.[0];
         if (file) {
+            this.store.setGeometryMode('file');
             this.form.patchValue({ geomFile: file });
             this.form.get('geomFile')?.markAsTouched();
             this.form.get('geomFile')?.updateValueAndValidity();
@@ -219,9 +233,53 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
     }
 
     onFileClear(): void {
+        this.store.setGeometryMode('coordinates');
         this.form.patchValue({ geomFile: null });
         this.form.get('geomFile')?.markAsTouched();
         this.form.get('geomFile')?.updateValueAndValidity();
+    }
+
+    onGeometryModeChange(mode: 'coordinates' | 'file'): void {
+        this.store.setGeometryMode(mode);
+    }
+
+    onCoordinateInput(
+        index: number,
+        field: 'longitude' | 'latitude',
+        value: number | null
+    ): void {
+        const control = this.routeCoordinates.at(index).get(field);
+        if (control && value !== null && Number.isFinite(value)) {
+            control.setValue(String(value), { emitEvent: true });
+        }
+    }
+
+    onCoordinatePaste(
+        event: ClipboardEvent,
+        index: number,
+        field: 'longitude' | 'latitude'
+    ): void {
+        event.preventDefault();
+
+        const pasted = event.clipboardData?.getData('text') ?? '';
+        const cleaned = pasted.replace(/[^0-9.-]/g, '');
+
+        if (cleaned === '' || cleaned === '-' || cleaned === '.') {
+            return;
+        }
+
+        const num = Number(cleaned);
+
+        if (!Number.isFinite(num)) {
+            return;
+        }
+
+        const control = this.routeCoordinates.at(index).get(field);
+
+        if (control) {
+            control.setValue(cleaned, { emitEvent: true });
+            control.markAsTouched();
+        }
     }
 
     onSubmit(): void {
@@ -258,16 +316,16 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
     private submitForm(): void {
         const formValue = this.form.getRawValue();
         this.submitSuccess.set(false);
+        const isFileMode = this.geometryMode() === 'file';
 
         const payload = {
             name: formValue.name,
             operator: formValue.operator,
             fiberConstructorId: formValue.fiberConstructorId,
             type: formValue.type,
-            geomFile:
-                formValue.geomFile ??
-                this.createRouteGeoJsonFile() ??
-                undefined,
+            ...(isFileMode
+                ? { geomFile: formValue.geomFile ?? undefined }
+                : { geomList: this.buildGeomList() }),
         };
 
         if (this.isEditMode()) {
@@ -305,6 +363,25 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         return this.translate.instant(key);
     }
 
+    private reapplyGeometryModeValidators(): void {
+        if (this.isDetailsMode()) {
+            return;
+        }
+        const mode = this.geometryMode();
+        if (mode === 'file') {
+            this.form.controls.routeCoordinates.clearValidators();
+            this.form.controls.routeCoordinates.updateValueAndValidity({
+                emitEvent: false,
+            });
+        } else {
+            this.form.controls.geomFile.clearValidators();
+            this.form.controls.geomFile.setValue(null, { emitEvent: false });
+            this.form.controls.geomFile.updateValueAndValidity({
+                emitEvent: false,
+            });
+        }
+    }
+
     private getValidRouteCoordinates(): [number, number][] {
         return this.formValue()
             .routeCoordinates.filter(
@@ -333,18 +410,9 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         };
     }
 
-    private createRouteGeoJsonFile(): File | null {
-        const coordinates = this.getValidRouteCoordinates();
-        if (coordinates.length < 2) {
-            return null;
-        }
-        const geoJson = this.buildLineStringGeoJson(coordinates);
-        return new File(
-            [JSON.stringify(geoJson)],
-            'optical-fiber-route.geojson',
-            {
-                type: 'application/geo+json',
-            }
+    private buildGeomList(): string[] {
+        return this.getValidRouteCoordinates().map(
+            ([longitude, latitude]) => `${latitude},${longitude}`
         );
     }
 

@@ -40,12 +40,16 @@
                 <i class="pi pi-lock"></i>
                 <span>Mot de passe</span>
             </button>
-            <button type="button" role="menuitem">
+            <button
+                type="button"
+                role="menuitem"
+                (click)="openDoubleFactorModal()"
+            >
                 <i class="pi pi-shield"></i>
                 <span>2FA</span>
                 <p-tag
                     [severity]="enable2fa() ? 'success' : 'danger'"
-                    [value]="enable2fa() ? 'Activée' : 'Désactivée'"
+                    [value]="enable2fa() ? 'Activé' : 'Désactivé'"
                 />
             </button>
             <span class="dropdown-divider" role="separator"></span>
@@ -112,9 +116,7 @@
                     />
                 </div>
                 <div class="form-group">
-                    <label for="email"
-                        >Email<span class="text-danger">*</span></label
-                    >
+                    <label for="email">Email</label>
                     <input
                         id="email"
                         class="form-input"
@@ -165,7 +167,7 @@
             <button
                 type="submit"
                 class="btn btn-save"
-                [disabled]="accountForm.invalid"
+                [disabled]="accountForm.invalid || accountLoading()"
             >
                 {{ 'COMMON.SAVE' | translate }}
             </button>
@@ -219,7 +221,7 @@
                     id="newPassword"
                     formControlName="newPassword"
                     [feedback]="false"
-                    [toggleMask]="true"
+                    [toggleMask]="false"
                     [inputStyleClass]="
                         'form-input' +
                         (isPasswordFieldInvalid('newPassword')
@@ -229,6 +231,10 @@
                             ? ' form-input--valid'
                             : '')
                     "
+                />
+                <app-password-strength
+                    [value]="passwordForm.controls.newPassword.value"
+                    [email]="currentUser()?.email ?? ''"
                 />
                 @if (passwordError('newPassword')) {
                     <small class="text-danger">{{
@@ -269,7 +275,7 @@
             <button
                 type="submit"
                 class="btn btn-save"
-                [disabled]="passwordForm.invalid"
+                [disabled]="passwordForm.invalid || passwordLoading()"
             >
                 Valider
             </button>
@@ -301,81 +307,173 @@
     <div class="modal-body">
         @if (twoFaStep() === 'status') {
             <section class="security-panel">
-                <i class="pi pi-shield"></i>
-                <div>
-                    <h5>Protégez votre compte avec un code supplémentaire</h5>
+                <div class="security-panel__icon">
+                    <i class="pi pi-shield"></i>
+                </div>
+                <div class="security-panel__text">
+                    <h5>Protégez votre compte</h5>
                     <p>
-                        Activer la double authentification de sécurité à votre
-                        compte en demandant un code de validation envoyé par
-                        email lors de la connexion.
+                        Ajoutez une couche de sécurité en demandant un code de
+                        validation envoyé par email ou SMS lors de la connexion.
                     </p>
                 </div>
             </section>
+
+            @if (!enable2fa()) {
+                <div class="channel-picker">
+                    <span class="channel-picker__label"
+                        >Recevoir le code par</span
+                    >
+                    <div class="channel-picker__options">
+                        <label
+                            class="radio-option"
+                            [class.selected]="
+                                twoFactorForm.controls.channel.value === 'email'
+                            "
+                        >
+                            <input
+                                type="radio"
+                                name="twoFactorChannel"
+                                value="email"
+                                [formControl]="twoFactorForm.controls.channel"
+                                class="sr-only"
+                            />
+                            <div class="radio-indicator">
+                                <div
+                                    class="radio-dot"
+                                    [class.checked]="
+                                        twoFactorForm.controls.channel.value ===
+                                        'email'
+                                    "
+                                ></div>
+                            </div>
+                            <div class="radio-content">
+                                <i class="pi pi-envelope radio-icon"></i>
+                                <div class="radio-text">
+                                    <span class="radio-title">Email</span>
+                                    <span class="radio-desc">{{
+                                        currentUser()?.email
+                                    }}</span>
+                                </div>
+                            </div>
+                        </label>
+                        <label
+                            class="radio-option"
+                            [class.selected]="
+                                twoFactorForm.controls.channel.value === 'sms'
+                            "
+                        >
+                            <input
+                                type="radio"
+                                name="twoFactorChannel"
+                                value="sms"
+                                [formControl]="twoFactorForm.controls.channel"
+                                class="sr-only"
+                            />
+                            <div class="radio-indicator">
+                                <div
+                                    class="radio-dot"
+                                    [class.checked]="
+                                        twoFactorForm.controls.channel.value ===
+                                        'sms'
+                                    "
+                                ></div>
+                            </div>
+                            <div class="radio-content">
+                                <i class="pi pi-mobile radio-icon"></i>
+                                <div class="radio-text">
+                                    <span class="radio-title">SMS</span>
+                                    <span class="radio-desc">{{
+                                        currentUser()?.phone || 'Non renseigné'
+                                    }}</span>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            }
+
             <div class="status-row">
-                <span>Statut actuel</span>
-                <p-togglebutton
-                    [ngModel]="enable2fa()"
-                    onLabel="Activée"
-                    offLabel="Désactivée"
-                    size="large"
-                    class="min-w-24"
-                />
+                <div class="status-row__info">
+                    <span class="status-row__label">Statut actuel</span>
+                </div>
                 <p-tag
                     [severity]="enable2fa() ? 'success' : 'danger'"
-                    [value]="enable2fa() ? 'Activée' : 'Désactivée'"
+                    [value]="enable2fa() ? 'Activé' : 'Désactivé'"
                 />
             </div>
         } @else {
-            <form
-                [formGroup]="twoFactorForm"
-                class="verification-form"
-                (ngSubmit)="verifyTwoFactor()"
-            >
-                <p>
-                    Code envoyé à
-                    <strong>{{
-                        twoFactorChallenge()?.maskedRecipient ||
-                            currentUser()?.email
-                    }}</strong>
-                </p>
-                <input
-                    id="twoFactorCode"
-                    pInputText
-                    class="form-input verification-code"
-                    type="text"
-                    formControlName="code"
-                    maxlength="6"
-                    inputmode="numeric"
-                    autocomplete="one-time-code"
-                />
-                @if (
-                    twoFactorForm.controls.code.invalid &&
-                    twoFactorForm.controls.code.touched
-                ) {
-                    <small class="text-danger"
-                        >Le code doit contenir 6 chiffres.</small
-                    >
-                }
-                <button
-                    type="button"
-                    class="btn-link"
-                    (click)="resendCode()"
-                    [disabled]="resendCooldown() > 0"
+            <div class="verification-step">
+                <div class="verification-step__header">
+                    <div class="verification-step__channel-icon">
+                        @if (twoFactorChallenge()?.channel === 'sms') {
+                            <i class="pi pi-mobile"></i>
+                        } @else {
+                            <i class="pi pi-envelope"></i>
+                        }
+                    </div>
+                    <p class="verification-step__info">
+                        Code envoyé par
+                        <strong>{{
+                            twoFactorChallenge()?.channel === 'sms'
+                                ? 'SMS'
+                                : 'email'
+                        }}</strong>
+                    </p>
+                </div>
+
+                <form
+                    [formGroup]="twoFactorForm"
+                    class="verification-form"
+                    (ngSubmit)="verifyTwoFactor()"
                 >
-                    @if (resendCooldown() > 0) {
-                        Renvoyer dans {{ resendCooldown() }}s
-                    } @else {
-                        Renvoyer le code
-                    }
-                </button>
-            </form>
+                    <div class="code-input-group">
+                        <input
+                            id="twoFactorCode"
+                            pInputText
+                            class="form-input verification-code"
+                            type="text"
+                            formControlName="code"
+                            maxlength="4"
+                            inputmode="numeric"
+                            autocomplete="one-time-code"
+                            placeholder="0000"
+                        />
+                        @if (
+                            twoFactorForm.controls.code.invalid &&
+                            twoFactorForm.controls.code.touched
+                        ) {
+                            <small class="text-danger"
+                                >Le code doit contenir 4 chiffres.</small
+                            >
+                        }
+                    </div>
+
+                    <div class="resend-section">
+                        @if (resendCooldown() > 0) {
+                            <span class="resend-timer"
+                                >Renvoyer dans {{ resendCooldown() }}s</span
+                            >
+                        } @else {
+                            <button
+                                type="button"
+                                class="btn-link"
+                                (click)="resendCode()"
+                            >
+                                <i class="pi pi-refresh"></i>
+                                Renvoyer le code
+                            </button>
+                        }
+                    </div>
+                </form>
+            </div>
         }
     </div>
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-hide" (click)="closeModal()">
+        <!-- <button type="button" class="btn btn-hide" (click)="closeModal()">
             {{ twoFaStep() === 'status' ? 'Fermer' : 'Annuler' }}
-        </button>
+        </button> -->
         @if (twoFaStep() === 'status' && !enable2fa()) {
             <button
                 type="button"
@@ -401,7 +499,7 @@
                 type="button"
                 class="btn btn-save"
                 (click)="verifyTwoFactor()"
-                [disabled]="twoFactorForm.invalid"
+                [disabled]="twoFactorForm.invalid || loading()"
             >
                 Valider
             </button>

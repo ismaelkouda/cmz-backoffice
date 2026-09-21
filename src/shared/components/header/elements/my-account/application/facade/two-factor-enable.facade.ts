@@ -15,11 +15,7 @@ export class TwoFactorEnableFacade extends ObjectBaseFacade<
     private readonly bus = inject(TwoFactorEnableBus);
 
     execute(dto: TwoFactorEnableDto): void {
-        const command = new TwoFactorEnableCommand(
-            dto.userId,
-            dto.email,
-            dto.code
-        );
+        const command = new TwoFactorEnableCommand(dto.otp, dto.channel);
         const fetch$ = this.bus.dispatch(command);
         this.fetch(dto, fetch$, this.ui);
     }

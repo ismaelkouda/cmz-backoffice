@@ -139,13 +139,29 @@ export class TasksComponent {
             },
             {
                 type: 'text',
+                name: 'requestReportUniqId',
+                label: this.t('PROCESSING.TASKS.FILTER.REQUEST_REPORT_UNIQ_ID'),
+                placeholder: this.t(
+                    'PROCESSING.TASKS.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER'
+                ),
+                icon: 'pi pi-id-card',
+                translationKeys: {
+                    label: 'PROCESSING.TASKS.FILTER.REQUEST_REPORT_UNIQ_ID',
+                    placeholder:
+                        'PROCESSING.TASKS.FILTER.REPORT_REQUEST_UNIQ_ID_PLACEHOLDER',
+                },
+            },
+            {
+                type: 'text',
                 name: 'uniqId',
                 label: this.t('PROCESSING.TASKS.FILTER.UNIQ_ID'),
-                placeholder: this.t('COMMON.REPORT_UNIQ_ID_PLACEHOLDER'),
+                placeholder: this.t(
+                    'PROCESSING.QUEUES.FILTER.UNIQ_ID_PLACEHOLDER'
+                ),
                 icon: 'pi pi-id-card',
                 translationKeys: {
                     label: 'PROCESSING.TASKS.FILTER.UNIQ_ID',
-                    placeholder: 'COMMON.REPORT_UNIQ_ID_PLACEHOLDER',
+                    placeholder: 'PROCESSING.QUEUES.FILTER.UNIQ_ID_PLACEHOLDER',
                 },
             },
             {

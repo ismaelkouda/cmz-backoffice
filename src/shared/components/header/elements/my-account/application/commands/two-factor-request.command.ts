@@ -1,6 +1,3 @@
 export class TwoFactorRequestCommand {
-    constructor(
-        public readonly userId: number,
-        public readonly email: string
-    ) {}
+    constructor(public readonly channel: 'email' | 'sms') {}
 }

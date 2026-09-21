@@ -9,9 +9,6 @@ export class TwoFactorDisableHandler {
     private readonly useCase = inject(TwoFactorDisableUseCase);
 
     execute(command: TwoFactorDisableCommand): Observable<MessageEntity> {
-        return this.useCase.execute({
-            userId: command.userId,
-            email: command.email,
-        });
+        return this.useCase.execute({ email: command.email });
     }
 }

@@ -23,11 +23,19 @@ export interface CurrentUser {
     phone: string;
     is_admin: boolean;
     enable2fa: boolean;
+    two_fa?: {
+        enabled: boolean;
+        channel: 'email' | 'sms';
+    };
     status: string;
     photo: string;
     permissions: UserPermissions[];
     paths: string[];
     actions: Record<string, string[]> | null;
+    privacy: {
+        accepted_at: string | null;
+        content: string | null;
+    };
 }
 
 export interface AuthToken {

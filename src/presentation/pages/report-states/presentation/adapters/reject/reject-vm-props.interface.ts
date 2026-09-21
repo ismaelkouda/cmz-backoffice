@@ -7,6 +7,7 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 
 export interface RejectVmProps {
     uniqId: string;
+    requestReportUniqId: string;
     type: TypeReport;
     reportTypeLabel: string;
     operators: TelecomOperator[];
@@ -14,6 +15,8 @@ export interface RejectVmProps {
     status: Status;
     statusLabel: string;
     statusStyle: StatusStyle;
+    reason: string;
+    reasonLabel: string;
     initiatorPhoneNumber: string;
     reportedAt: string;
     actionsRef: string;

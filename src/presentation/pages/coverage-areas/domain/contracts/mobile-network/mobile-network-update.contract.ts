@@ -10,4 +10,6 @@ export interface MobileNetworkUpdateContract {
     networkTechnology?: string;
     operator?: Operator;
     coverageRadius?: number;
+    lng?: number;
+    lat?: number;
 }

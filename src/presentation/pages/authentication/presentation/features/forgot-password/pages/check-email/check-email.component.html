@@ -1,0 +1,60 @@
+<div class="auth-container">
+    <div class="logo-container">
+        <a class="auth-logo" [routerLink]="['/', AUTH, LOGIN_ROUTE]">
+            <img [src]="AUTH_LOGO" [alt]="APP_NAME" />
+        </a>
+    </div>
+
+    <div class="check-email-card">
+        <div class="card-content">
+            <!-- <div class="success-icon">
+                <i class="pi pi-envelope"></i>
+            </div> -->
+            <h1 class="check-email-title">
+                {{ 'FORGOT_PASSWORD.CHECK_EMAIL.TITLE' | translate }}
+            </h1>
+            <p class="check-email-email">
+                {{
+                    'FORGOT_PASSWORD.CHECK_EMAIL.EMAIL_SENT_TO'
+                        | translate: { email: maskedEmail() }
+                }}
+            </p>
+            <p class="check-email-description">
+                {{ 'FORGOT_PASSWORD.CHECK_EMAIL.DESCRIPTION' | translate }}
+            </p>
+
+            <div class="check-email-actions">
+                <button
+                    type="button"
+                    class="submit-button"
+                    [disabled]="resendDisabled()"
+                    (click)="onResend()"
+                    [attr.aria-label]="
+                        'FORGOT_PASSWORD.CHECK_EMAIL.RESEND' | translate
+                    "
+                >
+                    @if (loading()) {
+                        <i class="pi pi-spin pi-spinner" pButtonIcon></i>
+                    }
+                    @if (resendCountdown() > 0) {
+                        {{
+                            ('FORGOT_PASSWORD.CHECK_EMAIL.RESEND_IN'
+                                | translate) +
+                                ' ' +
+                                countdownLabel()
+                        }}
+                    } @else {
+                        {{ 'FORGOT_PASSWORD.CHECK_EMAIL.RESEND' | translate }}
+                    }
+                </button>
+                <button
+                    type="button"
+                    class="btn btn-dark w-100"
+                    (click)="goToLogin()"
+                >
+                    {{ 'FORGOT_PASSWORD.BUTTONS.BACK_TO_LOGIN' | translate }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

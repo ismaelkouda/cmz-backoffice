@@ -44,6 +44,10 @@ export class TasksActionsEntity implements TasksActionsProps {
         return this.props.code;
     }
 
+    get technology(): Record<string, string> {
+        return this.props.technology;
+    }
+
     get operators(): TelecomOperator[] {
         return this.props.operators;
     }
@@ -63,6 +67,10 @@ export class TasksActionsEntity implements TasksActionsProps {
 
     get shouldNotifyUser(): boolean {
         return this.props.shouldNotifyUser;
+    }
+
+    get shouldDisplayInNewspaper(): boolean {
+        return this.props.shouldDisplayInNewspaper;
     }
 
     get autoChecked(): boolean {

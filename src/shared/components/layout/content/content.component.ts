@@ -8,6 +8,7 @@ import {
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { FooterComponent } from '@shared/components/footer/footer.component';
 import { HeaderComponent } from '@shared/components/header/header.component';
+import { PrivacyPolicyDialogComponent } from '@shared/components/privacy-policy-dialog/privacy-policy-dialog.component';
 import { SidebarComponent } from '@shared/components/sidebar/sidebar.component';
 import { fadeInAnimation } from '@shared/data/router-animation/router-animation';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
@@ -26,6 +27,7 @@ import { filter } from 'rxjs';
         SidebarComponent,
         HeaderComponent,
         RouterOutlet,
+        PrivacyPolicyDialogComponent,
     ],
     animations: [fadeInAnimation],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -36,6 +38,14 @@ export class ContentComponent implements AfterViewInit {
 
     public readonly config = inject(AppCustomizationService);
     public showTabs = false;
+
+    /**
+     * Le thème ne définit aucune règle 'light-sidebar' : seule la variante
+     * 'dark-sidebar' est stylée. On la renvoie toujours, comme le faisait
+     * le template original ('compact-wrapper dark-sidebar'), indépendamment
+     * du mode clair/sombre.
+     */
+    public readonly layoutClass = 'dark-sidebar';
 
     constructor() {
         this.router.events
@@ -53,17 +63,5 @@ export class ContentComponent implements AfterViewInit {
         setTimeout(() => {
             feather.replace();
         });
-    }
-
-    get layoutClass(): string {
-        const mode = this.config.getUserMode();
-        switch (mode) {
-            case 'dark':
-                return 'light-sidebar';
-            case 'light':
-                return 'dark-sidebar';
-            default:
-                return 'dark-sidebar';
-        }
     }
 }

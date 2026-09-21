@@ -13,6 +13,7 @@ import { EvaluateDownloadContract } from '@presentation/pages/report-states/doma
 import { evaluateDownloadVo } from '@presentation/pages/report-states/domain/value-objects/evaluate/evaluate-download.vo';
 import { evaluateDownloadFactory } from '@presentation/pages/report-states/domain/factories/evaluate/evaluate-download.factory';
 import { EvaluateFilterContract } from '@presentation/pages/report-states/domain/contracts/evaluate/evaluate-filter.contract';
+import { StatsDto as EvaluateStatsDto } from '@pages/report-states/infrastructure/api/dto/evaluate/evaluate-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -24,7 +25,7 @@ export class EvaluateUseCase {
         contract: EvaluateFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<EvaluateEntity>> {
+    ): Observable<Paginate<EvaluateEntity, EvaluateStatsDto>> {
         const vo = evaluateFilterVo(contract);
         const entity = evaluateFilterEntity(vo);
         return this.repository.execute(entity, page, options);

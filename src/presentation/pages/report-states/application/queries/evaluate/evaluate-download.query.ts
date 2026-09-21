@@ -6,6 +6,7 @@ export class EvaluateDownloadQuery {
         public readonly format: DownloadType,
         public readonly initiatorPhoneNumber?: string,
         public readonly uniqId?: string,
+        public readonly requestReportUniqId?: string,
         public readonly reportType?: ReportType,
         public readonly operators?: string[],
         public readonly source?: string,

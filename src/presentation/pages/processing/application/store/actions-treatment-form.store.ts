@@ -7,6 +7,7 @@ import { TasksActionsFacade } from '@pages/processing/application/services/tasks
 import { TasksActionsFormControl } from '@pages/processing/domain/controls/tasks/tasks-actions-form.control';
 import { TasksActionsVmProps } from '@pages/processing/presentation/adapters/tasks/actions-treatment/actions-treatments-vm-props.interface';
 import { Conformity } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
+import { TASKS_ACTION_TYPE_VALUE } from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-type-value.constant';
 import { parseFrenchDate } from '@shared/domain/functions/format-date';
 import { startWith } from 'rxjs';
 
@@ -48,6 +49,9 @@ export class ActionsTreatmentFormStore {
         shouldNotifyUser: new FormControl<boolean>(false, {
             nonNullable: true,
         }),
+        shouldDisplayInNewspaper: new FormControl<boolean>(true, {
+            nonNullable: true,
+        }),
         operator: new FormControl<string>('', {
             nonNullable: true,
             validators: [Validators.required],
@@ -81,6 +85,20 @@ export class ActionsTreatmentFormStore {
         () => this.facade.actionState() === 'loading'
     );
     public readonly isValid = computed(() => this.status() === 'VALID');
+    public readonly conformityVisible = computed(
+        () =>
+            this.selectedType() ===
+            TASKS_ACTION_TYPE_VALUE.OPERATOR_VERIFICATION
+    );
+    private readonly conformityValidatorsEffect = effect(() => {
+        const visible = this.conformityVisible();
+        const control = this.form.controls.isConform;
+        control.setValidators(visible ? [Validators.required] : null);
+        if (!visible && !this.isViewMode()) {
+            control.setValue(null);
+        }
+        control.updateValueAndValidity();
+    });
 
     public readonly isCreateMode = computed(
         () => this.dialogMode() === 'create'
@@ -93,6 +111,22 @@ export class ActionsTreatmentFormStore {
             this.form.disable({ emitEvent: false });
         } else {
             this.form.enable({ emitEvent: false });
+        }
+    });
+    public readonly newspaperVisible = toSignal(
+        this.form.controls.shouldDisplayInNewspaper.valueChanges.pipe(
+            startWith(this.form.controls.shouldDisplayInNewspaper.value)
+        ),
+        { initialValue: this.form.controls.shouldDisplayInNewspaper.value }
+    );
+    private readonly newspaperSyncEffect = effect(() => {
+        const visible = this.newspaperVisible();
+        const notifyCtrl = this.form.controls.shouldNotifyUser;
+        if (!visible) {
+            notifyCtrl.setValue(false, { emitEvent: false });
+            notifyCtrl.disable({ emitEvent: false });
+        } else if (notifyCtrl.disabled) {
+            notifyCtrl.enable({ emitEvent: false });
         }
     });
     private readonly successEffect = effect(() => {
@@ -136,6 +170,7 @@ export class ActionsTreatmentFormStore {
             type: '',
             description: '',
             shouldNotifyUser: false,
+            shouldDisplayInNewspaper: true,
             isConform: null,
             operator:
                 availableOperators.length === 1
@@ -209,6 +244,7 @@ export class ActionsTreatmentFormStore {
             type: item.code,
             description: item.description,
             shouldNotifyUser: item.shouldNotifyUser,
+            shouldDisplayInNewspaper: item.shouldDisplayInNewspaper,
             isConform: item.isConform,
             operator: this.translate.instant(item.operators[0]) ?? '',
         });

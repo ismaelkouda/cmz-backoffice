@@ -8,5 +8,6 @@ export interface TasksActionsUpdateApiDto {
     operator: string;
     description: string;
     should_notify_user: boolean;
-    result: ConformityDto;
+    is_visible_for_user: boolean;
+    result?: ConformityDto;
 }

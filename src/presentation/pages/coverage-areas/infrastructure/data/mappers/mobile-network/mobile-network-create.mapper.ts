@@ -19,7 +19,7 @@ export function mobileNetworkCreateMapper(
         params.tower_type_id = validContract.towerTypeId;
     }
     if (validContract.towerHeight) {
-        params.tower_height = validContract.towerHeight;
+        params.tower_height = JSON.stringify(validContract.towerHeight);
     }
     if (validContract.networkTechnology) {
         params.network_technology = validContract.networkTechnology;
@@ -27,8 +27,14 @@ export function mobileNetworkCreateMapper(
     if (validContract.operator) {
         params.operator = validContract.operator;
     }
-    if (validContract.coverageRadius !== undefined) {
+    if (validContract.coverageRadius) {
         params.coverage_radius = validContract.coverageRadius;
+    }
+    if (validContract.lng !== undefined) {
+        params.lng = validContract.lng;
+    }
+    if (validContract.lat !== undefined) {
+        params.lat = validContract.lat;
     }
 
     return params;

@@ -2,7 +2,8 @@ import { FormControl } from '@angular/forms';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 export interface EvaluateFilterControl {
-    uniqId: FormControl<string>;
+    uniqId: FormControl<string | null>;
+    requestReportUniqId: FormControl<string | null>;
     initiatorPhoneNumber: FormControl<string>;
     startDate: FormControl<Date | undefined>;
     endDate: FormControl<Date | undefined>;

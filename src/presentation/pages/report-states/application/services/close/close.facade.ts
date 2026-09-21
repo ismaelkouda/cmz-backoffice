@@ -4,6 +4,7 @@ import { CloseQuery } from '@pages/report-states/application/queries/close/close
 import { CloseBus } from '@pages/report-states/application/queries-bus/close/close.bus';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
+import { StatsDto as CloseStatsDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
 
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
@@ -16,7 +17,11 @@ import { CloseDownloadQuery } from '@pages/report-states/application/queries/clo
 import { DownloadFacade } from '@pages/report-states/application/services/download/download.facade';
 
 @Injectable({ providedIn: 'root' })
-export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
+export class CloseFacade extends BaseFacade<
+    CloseEntity,
+    CloseFilterDto,
+    CloseStatsDto
+> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(CloseBus);
     private readonly downloadBus = inject(CloseDownloadBus);
@@ -57,6 +62,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -78,6 +84,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -93,12 +100,13 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -116,6 +124,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
         const command = new CloseQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -154,6 +163,7 @@ export class CloseFacade extends BaseFacade<CloseEntity, CloseFilterDto> {
             download.format,
             download?.initiatorPhoneNumber,
             download?.uniqId,
+            download?.requestReportUniqId,
             download?.reportType,
             download?.operators,
             download?.source,

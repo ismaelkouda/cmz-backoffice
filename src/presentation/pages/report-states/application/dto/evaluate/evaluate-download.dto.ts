@@ -5,6 +5,7 @@ export interface EvaluateDownloadDto {
     format: DownloadType;
     initiatorPhoneNumber?: string;
     uniqId?: string;
+    requestReportUniqId?: string;
     startDate?: Date;
     endDate?: Date;
     reportType?: ReportType;

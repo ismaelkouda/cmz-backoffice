@@ -3,19 +3,15 @@ import { TwoFactorRequestResultPops } from '../models/props/two-factor-request-r
 export class TwoFactorRequestResultEntity implements TwoFactorRequestResultPops {
     constructor(public readonly props: TwoFactorRequestResultPops) {}
 
-    get message(): string {
-        return this.props.message;
+    get channel(): 'email' | 'sms' {
+        return this.props.channel;
     }
 
-    get maskedRecipient(): string {
-        return this.props.maskedRecipient;
+    get expiredAt(): string {
+        return this.props.expiredAt;
     }
 
-    get expiresInSeconds(): number {
-        return this.props.expiresInSeconds;
-    }
-
-    get issuedAt(): string {
-        return this.props.issuedAt;
+    get timeout(): number {
+        return this.props.timeout;
     }
 }

@@ -94,9 +94,9 @@ export class ProfilesPermissionsUsersFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new ProfilesPermissionsUsersQuery(
             filter?.uniqId ?? '',
             filter?.search,

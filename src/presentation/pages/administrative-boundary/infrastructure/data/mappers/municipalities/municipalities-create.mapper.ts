@@ -10,8 +10,8 @@ export function municipalitiesCreateMapper(
     params['population_size'] = create.population;
     params['infrastructure_size'] = create.infrastructure;
     params['name'] = create.name;
-    params['region_id'] = create.region;
-    params['department_id'] = create.department;
+    params['region_code'] = create.region;
+    params['department_code'] = create.department;
     if (create.description) {
         params['description'] = create.description;
     }

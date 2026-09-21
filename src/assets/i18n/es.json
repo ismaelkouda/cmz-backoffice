@@ -221,6 +221,20 @@
             "CONNECTION": "Conexión",
             "CONNECT_BUTTON": "Iniciar sesión",
             "FORGOT_PASSWORD": "¿Olvidó su contraseña?",
+            "TWO_FACTOR": {
+                "VERIFY_TITLE": "Autenticación de dos factores",
+                "VERIFY_SUBTITLE": "Se ha enviado un código de verificación a su dirección de correo electrónico. Introdúzcalo a continuación para completar el inicio de sesión.",
+                "CODE_SENT_TO": "Código enviado a {{email}}",
+                "CODE_LABEL": "Código de verificación",
+                "CODE_PLACEHOLDER": "0000",
+                "CODE_HINT": "Introduzca el código de 4 dígitos recibido.",
+                "CODE_REQUIRED": "El código de verificación es obligatorio",
+                "CODE_INVALID": "El código debe contener 4 dígitos",
+                "VERIFY_BUTTON": "Verificar",
+                "RESEND": "Reenviar código",
+                "RESEND_IN": "Reenviar en {{time}}s",
+                "BACK": "Volver"
+            },
             "FEATURES": {
                 "SECURE_ACCESS": "Acceso seguro",
                 "MONITORING_OF_PROCESSING": "Seguimiento de reportes",
@@ -271,12 +285,16 @@
             "PASSWORD": {
                 "LABEL": "Nueva contraseña",
                 "REQUIRED": "La contraseña es obligatoria",
-                "MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres",
+                "MIN_LENGTH": "La contraseña debe tener al menos 8 caracteres",
+                "WEAK": "La contraseña es demasiado débil: mínimo 8 caracteres con mayúscula, minúscula, número y carácter especial",
+                "EMAIL_AS_PASSWORD": "La contraseña no debe ser igual a su dirección de correo electrónico",
                 "MISMATCH": "Ambas contraseñas deben ser iguales"
             },
             "CONFIRM_PASSWORD": {
                 "LABEL": "Confirmar contraseña",
-                "REQUIRED": "La confirmación de la contraseña es obligatoria"
+                "REQUIRED": "La confirmación de la contraseña es obligatoria",
+                "MIN_LENGTH": "La contraseña debe tener al menos 8 caracteres",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
             }
         },
         "BUTTONS": {
@@ -299,6 +317,124 @@
                 "UNABLE_TO_COMPLETE_REQUEST": "No se pudo completar la solicitud",
                 "UNABLE_TO_COMPLETE_RESET": "No se pudo completar el restablecimiento"
             }
+        },
+        "SUCCESS": {
+            "TITLE": "Contraseña restablecida",
+            "DESCRIPTION": "Su contraseña ha sido modificada exitosamente. Ahora puede iniciar sesión con su nueva contraseña.",
+            "LOGIN": "Iniciar sesión"
+        }
+    },
+    "CHANGE_PASSWORD": {
+        "UI": {
+            "CHANGE_PASSWORD_TITLE": "Definir mi contraseña",
+            "CHANGE_PASSWORD_SUBTITLE": "Elija una contraseña segura para acceder a su cuenta"
+        },
+        "FORM": {
+            "PASSWORD": {
+                "LABEL": "Nueva contraseña",
+                "REQUIRED": "La contraseña es obligatoria",
+                "MIN_LENGTH": "La contraseña debe tener al menos 8 caracteres",
+                "WEAK": "La contraseña es demasiado débil: mínimo 8 caracteres con mayúscula, minúscula, número y carácter especial",
+                "EMAIL_AS_PASSWORD": "La contraseña no debe ser igual a su dirección de correo electrónico",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmar contraseña",
+                "REQUIRED": "La confirmación de la contraseña es obligatoria",
+                "MIN_LENGTH": "La confirmación de la contraseña debe tener al menos 8 caracteres",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
+            }
+        },
+        "BUTTONS": {
+            "SUBMIT": "Guardar",
+            "CANCEL": "Cancelar"
+        },
+        "INVALID": {
+            "TITLE": "Enlace inválido o caducado",
+            "DESCRIPTION": "Este enlace es inválido, ha caducado o ya ha sido utilizado. Ya no puede usarlo para definir su contraseña.",
+            "REQUEST_NEW_LINK": "Solicitar un nuevo enlace",
+            "BACK_TO_LOGIN": "Volver al inicio de sesión",
+            "CONTACT_ADMIN_HINT": "Si el problema persiste, contacte a un administrador."
+        }
+    },
+    "FORGOT_PASSWORD": {
+        "UI": {
+            "FORGOT_PASSWORD_TITLE": "¿Olvidó su contraseña?",
+            "FORGOT_PASSWORD_SUBTITLE": "Ingrese su dirección de correo electrónico y le enviaremos un enlace para restablecer su contraseña",
+            "RESET_PASSWORD_TITLE": "Restablecer contraseña",
+            "RESET_PASSWORD_SUBTITLE": "Ingrese su nueva contraseña"
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Dirección de correo electrónico",
+                "PLACEHOLDER": "cmz@ansut.ci",
+                "REQUIRED": "La dirección de correo electrónico es obligatoria",
+                "INVALID_FORMAT": "La dirección de correo electrónico debe ser válida"
+            },
+            "PASSWORD": {
+                "LABEL": "Nueva contraseña",
+                "REQUIRED": "La contraseña es obligatoria",
+                "MIN_LENGTH": "La contraseña debe tener al menos 6 caracteres",
+                "MISMATCH": "Ambas contraseñas deben coincidir"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmar contraseña",
+                "REQUIRED": "La confirmación de la contraseña es obligatoria"
+            }
+        },
+        "BUTTONS": {
+            "RESET": "Restablecer",
+            "CONFIRM": "Confirmar",
+            "CANCEL": "Cancelar",
+            "BACK_TO_LOGIN": "Volver a iniciar sesión",
+            "RESEND": "Reenviar",
+            "LOADING": "Cargando..."
+        },
+        "CHECK_EMAIL": {
+            "TITLE": "Revise su bandeja de entrada",
+            "EMAIL_SENT_TO": "Hemos enviado un enlace de restablecimiento de contraseña a {{email}}",
+            "DESCRIPTION": "Si existe una cuenta asociada a esta dirección, recibirá un enlace para restablecer su contraseña. El enlace expirará después de un cierto período.",
+            "RESEND": "Reenviar correo",
+            "RESEND_IN": "Reenviar correo en"
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "EMAIL_SENT": "Correo enviado con éxito",
+                "EMAIL_SENT_MESSAGE": "Si la dirección de correo electrónico que proporcionó coincide con una cuenta registrada en nuestro sistema, pronto recibirá un correo con instrucciones para restablecer su contraseña. Revise su bandeja de entrada.",
+                "FORGOT_PASSWORD": "Contraseña restablecida exitosamente"
+            },
+            "NOT_RECEIVED": "¿No recibió el correo?",
+            "ERROR": {
+                "FAILED": "Error al restablecer la contraseña",
+                "UNABLE_TO_COMPLETE_REQUEST": "No se pudo completar la solicitud",
+                "UNABLE_TO_COMPLETE_RESET": "No se pudo completar el restablecimiento"
+            }
+        }
+    },
+    "PASSWORD_STRENGTH": {
+        "RULES": {
+            "LENGTH": "8 caracteres mínimo",
+            "UPPER": "Una letra mayúscula",
+            "LOWER": "Una letra minúscula",
+            "DIGIT": "Un número",
+            "SPECIAL": "Un carácter especial",
+            "NOT_EMAIL": "Diferente a su correo electrónico"
+        },
+        "LEVELS": {
+            "VERY_WEAK": "Muy débil",
+            "WEAK": "Débil",
+            "FAIR": "Media",
+            "GOOD": "Buena",
+            "STRONG": "Fuerte"
+        }
+    },
+    "PRIVACY_POLICY": {
+        "DIALOG": {
+            "TITLE": "Política de privacidad",
+            "EMPTY": "La política de privacidad no está disponible.",
+            "ACKNOWLEDGE": "Reconozco haber leído la política de privacidad.",
+            "CONTINUE": "Continuar",
+            "DISCONNECT": "Cerrar sesión"
         }
     },
     "DASHBOARD": {
@@ -764,7 +900,7 @@
                 "MESSAGE_DISABLE": "¿Está seguro de que desea desactivar esta diapositiva?"
             }
         },
-        "PRIVACY_POLICY": {
+            "PRIVACY_POLICY": {
             "BREADCRUMB": {
                 "LABEL": "Política de Privacidad",
                 "ROUTE": "privacy-policy"
@@ -1319,13 +1455,23 @@
                     "PLACEHOLDER": "Confirme su nueva contraseña"
                 },
                 "INVALID_FORMAT": "Formato inválido",
-                "NOT_MATCH": "Las contraseñas no coinciden"
+                "NOT_MATCH": "Las contraseñas no coinciden",
+                "WEAK_PASSWORD": "La contraseña debe contener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial",
+                "PASSWORD_EQUALS_EMAIL": "La contraseña no debe ser igual a su dirección de correo electrónico",
+                "PASSWORD_EQUALS_OLD": "La nueva contraseña debe ser diferente de la contraseña anterior"
             },
             "MESSAGES": {
                 "SUCCESS": {
                     "PASSWORD_UPDATED": "Contraseña actualizada exitosamente"
                 }
             }
+        },
+        "2FA": {
+            "CODE_SENT": "Código de verificación enviado",
+            "ENABLED_SUCCESS": "Autenticación de dos factores activada correctamente",
+            "DISABLED_SUCCESS": "Autenticación de dos factores desactivada correctamente",
+            "DISABLE_CONFIRM_TITLE": "Desactivar la autenticación de dos factores",
+            "DISABLE_CONFIRM_TEXT": "¿Está seguro de que desea desactivar la autenticación de dos factores en su cuenta?"
         }
     },
     "REQUESTS": {
@@ -2442,6 +2588,20 @@
                 "INFO": "Información"
             }
         },
+        "TREATMENT_LOGS": {
+            "TABLE": {
+                "OPERATION": "Operación",
+                "ACTION": "Acción",
+                "DATE": "Fecha",
+                "EMPTY": "No se registró ningún tratamiento",
+                "ERROR": "No se pudo cargar el diario de tratamiento"
+            },
+            "OPERATIONS": {
+                "CREATING": "Creación",
+                "PROCESSING": "Tratamiento",
+                "CLOSURE": "Cierre"
+            }
+        },
         "CONTENT": {
             "INFORMATION": {
                 "PLACEHOLDER": "Contenido de información por venir..."
@@ -3109,6 +3269,11 @@
                 "OPERATOR": "Operador",
                 "RADIUS": "Radio",
                 "RADIUS_PLACEHOLDER": "Ej: 5",
+                "LONGITUDE": "Longitud",
+                "LONGITUDE_PLACEHOLDER": "Ej: -5.5",
+                "LATITUDE": "Latitud",
+                "LATITUDE_PLACEHOLDER": "Ej: 7.5",
+                "MAP_SEARCH_PLACEHOLDER": "Buscar una dirección o coordenadas",
                 "ERROR": {
                     "DELETE": {
                         "UNIQ_ID_REQUIRE": "El identificador es requerido"
@@ -3128,7 +3293,9 @@
                         "TOWER_TYPE_REQUIRE": "El tipo de torre es requerido",
                         "TOWER_SIZE_REQUIRE": "El tamaño de la torre es requerido",
                         "TECHNOLOGY_REQUIRE": "La tecnología es requerida",
-                        "OPERATOR_REQUIRE": "El operador es requerido"
+                        "OPERATOR_REQUIRE": "El operador es requerido",
+                        "LONGITUDE_REQUIRE": "La longitud es requerida",
+                        "LATITUDE_REQUIRE": "La latitud es requerida"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "El identificador es requerido",
@@ -3137,7 +3304,9 @@
                         "TOWER_TYPE_REQUIRE": "El tipo de torre es requerido",
                         "TOWER_SIZE_REQUIRE": "El tamaño de la torre es requerido",
                         "TECHNOLOGY_REQUIRE": "La tecnología es requerida",
-                        "OPERATOR_REQUIRE": "El operador es requerido"
+                        "OPERATOR_REQUIRE": "El operador es requerido",
+                        "LONGITUDE_REQUIRE": "La longitud es requerida",
+                        "LATITUDE_REQUIRE": "La latitud es requerida"
                     }
                 }
             },
@@ -3231,6 +3400,9 @@
                 "CONSTRUCTOR_PLACEHOLDER": "Seleccionar Constructor",
                 "TYPE": "Tipo de Fibra",
                 "TYPE_PLACEHOLDER": "Seleccionar Tipo",
+                "GEOMETRY_MODE": "Modo de geometría",
+                "GEOMETRY_MODE_COORDINATES": "Entrada manual",
+                "GEOMETRY_MODE_FILE": "Archivo GeoJSON",
                 "GEOM_FILE": "Archivo GeoJSON (.geojson/.json)",
                 "GEOM_PLACEHOLDER": "Arrastrar y soltar o hacer clic",
                 "GEOM_EXISTING": "Archivo GeoJSON existente",
@@ -3247,7 +3419,8 @@
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
                         "FIBER_CONSTRUCTOR_REQUIRE": "El constructor es obligatorio",
                         "TYPE_REQUIRE": "El tipo de fibra es obligatorio",
-                        "GEOM_FILE_REQUIRE": "El archivo GeoJSON es obligatorio"
+                        "GEOM_FILE_REQUIRE": "El archivo GeoJSON es obligatorio",
+                        "GEOM_REQUIRE": "Las coordenadas del trazado o el archivo GeoJSON son obligatorios"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "ID único requerido",
@@ -3362,6 +3535,8 @@
                 "OPERATOR": "Operador",
                 "FREQUENCY": "Frecuencia",
                 "FREQUENCY_PLACEHOLDER": "Ej: 900",
+                "DEBIT": "Ancho de banda",
+                "DEBIT_PLACEHOLDER": "Ej: 150",
                 "COORDINATES_POINT_A": "Coordenadas del punto A",
                 "COORDINATES_POINT_B": "Coordenadas del punto B",
                 "LONGITUDE_POINT_A_PLACEHOLDER": "Longitud del punto A",
@@ -3389,6 +3564,7 @@
                         "NAME_REQUIRE": "El nombre es obligatorio",
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
                         "FREQUENCY_REQUIRE": "La frecuencia es obligatoria",
+                        "DEBIT_REQUIRE": "El ancho de banda es obligatorio",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitud del punto A es obligatoria",
                         "LATITUDE_POINT_A_REQUIRE": "La latitud del punto A es obligatoria",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitud del punto B es obligatoria",
@@ -3399,6 +3575,7 @@
                         "NAME_REQUIRE": "El nombre es obligatorio",
                         "OPERATOR_REQUIRE": "El operador es obligatorio",
                         "FREQUENCY_REQUIRE": "La frecuencia es obligatoria",
+                        "DEBIT_REQUIRE": "El ancho de banda es obligatorio",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitud del punto A es obligatoria",
                         "LATITUDE_POINT_A_REQUIRE": "La latitud del punto A es obligatoria",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitud del punto B es obligatoria",
@@ -3846,6 +4023,46 @@
             "LABEL": "Reportes por operador",
             "LOADING_DESCRIPTION": "Seguimiento de reportes por operador en curso...",
             "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de reportes por operador. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_BY_EQUIPMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Impactos de los reportes en los equipamientos",
+                "ROUTE": "impacts-on-equipments"
+            },
+            "TITLE": "Panel de control analítico de los impactos de los reportes en los equipamientos",
+            "LABEL": "Impactos de los reportes en los equipamientos",
+            "LOADING_DESCRIPTION": "Seguimiento de los impactos de los reportes en los equipamientos en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de los impactos de los reportes en los equipamientos. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_BY_POPULATIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Impactos de los reportes en las poblaciones",
+                "ROUTE": "impacts-on-populations"
+            },
+            "TITLE": "Panel de control analítico de los impactos de los reportes en las poblaciones",
+            "LABEL": "Impactos de los reportes en las poblaciones",
+            "LOADING_DESCRIPTION": "Seguimiento de los impactos de los reportes en las poblaciones en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de los impactos de los reportes en las poblaciones. Por favor, recargue la página o contacte al soporte."
+        },
+        "TEAM_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Seguimiento perf. equipos",
+                "ROUTE": "team-compliances"
+            },
+            "TITLE": "Panel de control de seguimiento del rendimiento de los equipos",
+            "LABEL": "Seguimiento perf. equipos",
+            "LOADING_DESCRIPTION": "Seguimiento del rendimiento de los equipos en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control del rendimiento de los equipos. Por favor, recargue la página o contacte al soporte."
+        },
+        "REPORT_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Conformidad de los reportes",
+                "ROUTE": "report-compliances"
+            },
+            "TITLE": "Panel de control de conformidad de los reportes",
+            "LABEL": "Conformidad de los reportes",
+            "LOADING_DESCRIPTION": "Seguimiento de la conformidad de los reportes en curso...",
+            "ERROR_DESCRIPTION": "Ocurrió un error al cargar el panel de control de conformidad de los reportes. Por favor, recargue la página o contacte al soporte."
         }
     },
     "MONITORING": {

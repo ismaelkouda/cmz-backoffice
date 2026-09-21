@@ -23,7 +23,7 @@ export function TeamsCreateMapper(
         params['report_types'] = props.reportTypes;
     }
     if (props.permissions) {
-        params['permissions'] = props.permissions.map(Number);
+        params['permissions'] = props.permissions;
     }
 
     return params;

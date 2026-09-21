@@ -13,6 +13,7 @@ import {
 import { Observable, map } from 'rxjs';
 import { RejectDownloadEntity } from '@presentation/pages/report-states/domain/entities/reject/reject-download.entity';
 import { RejectDownloadMapper } from '@pages/report-states/infrastructure/data/mappers/reject/reject-download.mapper';
+import { StatsDto as RejectStatsDto } from '@pages/report-states/infrastructure/api/dto/reject/reject-response-api.dto';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ export class RejectRepositoryImpl extends RejectRepository {
         entity: RejectFilterContract,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<RejectEntity>> {
+    ): Observable<Paginate<RejectEntity, RejectStatsDto>> {
         const paramsDto = this.filterMapper.map(entity);
         return this.api
             .execute(paramsDto, page, options)

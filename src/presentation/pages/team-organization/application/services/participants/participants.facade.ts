@@ -69,6 +69,7 @@ export class ParticipantsFacade extends BaseFacade<
         page: string = PAGINATION_CONST.DEFAULT_PAGE,
         options: FetchOptions = {}
     ): void {
+        console.log('ParticipantsFacade readAll filter:', filter);
         const command = new ParticipantsQuery(
             filter?.search,
             filter?.role,
@@ -102,9 +103,9 @@ export class ParticipantsFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = new ParticipantsQuery(
             filter?.search,
             filter?.role,

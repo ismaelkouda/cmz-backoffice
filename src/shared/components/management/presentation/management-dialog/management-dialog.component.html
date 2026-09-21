@@ -125,7 +125,6 @@
                         [reportTypeOptions]="reportTypeOptions()"
                         [telecomOperatorsOptions]="telecomOperatorsOptions()"
                         [locationNameOptions]="locationNameOptions()"
-
                     />
                 }
 
@@ -161,6 +160,10 @@
 
                 @if (selectedTab() === 'chatbot') {
                     <app-management-chatbot-panel [uniqId]="uniqId()" />
+                }
+
+                @if (selectedTab() === 'treatment-newspaper') {
+                    <app-management-newspaper [uniqId]="uniqId()" />
                 }
             </div>
 

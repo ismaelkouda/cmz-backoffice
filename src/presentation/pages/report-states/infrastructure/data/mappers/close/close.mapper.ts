@@ -1,7 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { CloseEntity } from '@pages/report-states/domain/entities/close/close.entity';
 import { CloseProps } from '@pages/report-states/domain/interfaces/close/close-props.interface';
-import { CloseItemApiDto } from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
+import {
+    CloseItemApiDto,
+    StatsDto as CloseStatsDto,
+} from '@pages/report-states/infrastructure/api/dto/close/close-response-api.dto';
+import { ConformityMapper } from '@presentation/pages/processing/infrastructure/data/mappers/tasks/tasks-actions-conformity.mapper';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
@@ -10,13 +14,18 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 
 @Injectable({ providedIn: 'root' })
-export class CloseMapper extends PaginatedMapper<CloseEntity, CloseItemApiDto> {
+export class CloseMapper extends PaginatedMapper<
+    CloseEntity,
+    CloseItemApiDto,
+    CloseStatsDto
+> {
     private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, CloseEntity>();
 
     private readonly reportTypeMapper = inject(ReportTypeMapper);
     private readonly telecomOperatorMapper = inject(TelecomOperatorMapper);
     private readonly reportSourceMapper = inject(ReportSourceMapper);
+    private readonly conformityMapper = inject(ConformityMapper);
 
     protected override mapItemFromDto(dto: CloseItemApiDto): CloseEntity {
         MapperUtils.validateDto(dto, {
@@ -26,6 +35,7 @@ export class CloseMapper extends PaginatedMapper<CloseEntity, CloseItemApiDto> {
         const props: CloseProps = {
             type: TypeReport.PROCESSING,
             uniqId: dto.uniq_id,
+            requestReportUniqId: dto.request_report_uniq_id,
             reportType: this.reportTypeMapper.mapToEnum(dto.report_type),
             operators: this.utils.memoizedList(
                 dto?.operators,
@@ -35,6 +45,7 @@ export class CloseMapper extends PaginatedMapper<CloseEntity, CloseItemApiDto> {
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
             reportedAt: dto.reported_at,
+            isConform: this.conformityMapper.mapFromDto(dto.compliance_status),
             updatedAt: dto.updated_at,
         };
 

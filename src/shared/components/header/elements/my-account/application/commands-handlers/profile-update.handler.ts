@@ -13,7 +13,6 @@ export class ProfileUpdateHandler {
             id: command.id,
             lastName: command.lastName,
             firstName: command.firstName,
-            email: command.email,
             phone: command.phone,
         });
     }

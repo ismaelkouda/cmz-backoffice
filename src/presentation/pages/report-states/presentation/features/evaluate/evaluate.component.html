@@ -13,6 +13,38 @@
                         >
                         </app-page-title>
                     </header>
+                    <div class="statistics-section">
+                        <div class="statistics-grid">
+                            @for (stat of typeStatistics(); track stat.label) {
+                                <div class="stat-card card-{{ stat.color }}" tabindex="0">
+                                    <div class="card-content">
+                                        <div class="stat-header">
+                                            <div class="stat-value">
+                                                {{ stat.count }}
+                                            </div>
+                                            <div class="stat-icon-wrapper">
+                                                <i class="stat-icon pi {{ stat.icon }}"></i>
+                                            </div>
+                                        </div>
+                                        <div class="stat-label">
+                                            {{ stat.label | translate }}
+                                        </div>
+                                        <!-- @if (stat.subtitle) {
+                                        <div class="stat-label">
+                                            {{ stat.subtitle | translate }}
+                                        </div>
+                                        } -->
+                                        @if (stat.rate != null) {
+                                        <div class="stat-rate">
+                                            <span class="rate-badge">{{ stat.rate }}%</span>
+                                        </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+
 
                     <div class="evaluate-content">
                         <app-filter

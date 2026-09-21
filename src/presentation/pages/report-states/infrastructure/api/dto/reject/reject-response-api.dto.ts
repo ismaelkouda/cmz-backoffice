@@ -6,13 +6,26 @@ import { TelecomOperatorDto } from '@shared/data/dto/telecom-operator.dto';
 
 export interface RejectItemApiDto {
     uniq_id: string;
+    report_uniq_id: string;
     report_type: ReportTypeDto;
     operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
     status: ApiStatus;
+    reason: string;
+    reason_label: string;
     reported_at: string;
     updated_at: string;
 }
 
-export type RejectResponseApiDto = PaginatedResponseDto<RejectItemApiDto>;
+export interface StatsDto {
+    total: number;
+    zob: { count: number; rate: number };
+    cps: { count: number; rate: number };
+    abi: { count: number; rate: number };
+    cpo: { count: number; rate: number };
+}
+export type RejectResponseApiDto = PaginatedResponseDto<
+    RejectItemApiDto,
+    StatsDto
+>;

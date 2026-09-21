@@ -83,9 +83,9 @@ export class InfrastructureTypeFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         this.executeQuery(filter, page);
     }
 
@@ -110,9 +110,11 @@ export class InfrastructureTypeFacade extends BaseFacade<
     private buildQuery(
         filter?: InfrastructureTypeFilterDto | null
     ): InfrastructureTypeQuery {
+        console.log('Building query with filter:', filter);
         return new InfrastructureTypeQuery(
             filter?.search,
             filter?.status,
+            filter?.tag,
             filter?.startDate,
             filter?.endDate
         );

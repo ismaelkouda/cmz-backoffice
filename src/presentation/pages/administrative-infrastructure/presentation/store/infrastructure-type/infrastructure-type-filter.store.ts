@@ -28,6 +28,12 @@ export class InfrastructureTypeFilterStore {
             >(undefined, {
                 nonNullable: true,
             }),
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.TAG]: new FormControl<
+                string | undefined
+            >(undefined, {
+                nonNullable: true,
+            }),
+
             [INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE]: new FormControl<
                 Date | undefined
             >(undefined, {
@@ -65,6 +71,8 @@ export class InfrastructureTypeFilterStore {
                 raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.SEARCH] || undefined,
             [INFRASTRUCTURE_TYPE_FILTER_KEYS.STATUS]:
                 raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.STATUS] || undefined,
+            [INFRASTRUCTURE_TYPE_FILTER_KEYS.TAG]:
+                raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.TAG] || undefined,
             [INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE]:
                 raw[INFRASTRUCTURE_TYPE_FILTER_KEYS.START_DATE] || undefined,
             [INFRASTRUCTURE_TYPE_FILTER_KEYS.END_DATE]:

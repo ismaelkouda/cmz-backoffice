@@ -4,6 +4,10 @@ export const REPORT_ROUTE = 'reports';
 export const REQUESTS_ROUTE = 'requests';
 export const REPORT_BY_CHANNEL_ROUTE = 'report-by-channel';
 export const REPORT_BY_OPERATOR_ROUTE = 'report-by-operator';
+export const REPORT_BY_EQUIPMENTS_ROUTE = 'impacts-on-equipments';
+export const REPORT_BY_POPULATIONS_ROUTE = 'impacts-on-populations';
+export const TEAM_COMPLIANCES_ROUTE = 'team-compliances';
+export const REPORT_COMPLIANCES_ROUTE = 'report-compliances';
 
 export const routes: Routes = [
     {
@@ -92,6 +96,98 @@ export const routes: Routes = [
                         loadComponent: () =>
                             import('./presentation/features/report-by-operator/pages/report-by-operator-page/report-by-operator-page.component').then(
                                 (m) => m.ReportByOperatorPageComponent
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: REPORT_BY_EQUIPMENTS_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'REPORTING.REPORT_BY_EQUIPMENTS.BREADCRUMB.LABEL',
+                        icon: 'REPORTING.REPORT_BY_EQUIPMENTS.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./presentation/features/report-by-equipments/pages/report-by-equipments-page/report-by-equipments-page.component').then(
+                                (m) => m.ReportByEquipmentsPageComponent
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: REPORT_BY_POPULATIONS_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'REPORTING.REPORT_BY_POPULATIONS.BREADCRUMB.LABEL',
+                        icon: 'REPORTING.REPORT_BY_POPULATIONS.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./presentation/features/report-by-populations/pages/report-by-populations-page/report-by-populations-page.component').then(
+                                (m) => m.ReportByPopulationsPageComponent
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: TEAM_COMPLIANCES_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'REPORTING.TEAM_COMPLIANCES.BREADCRUMB.LABEL',
+                        icon: 'REPORTING.TEAM_COMPLIANCES.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./presentation/features/team-compliances/pages/team-compliances-page/team-compliances-page.component').then(
+                                (m) => m.TeamCompliancesPageComponent
+                            ),
+                        data: { breadcrumb: { hide: true } },
+                    },
+                    {
+                        path: '**',
+                        redirectTo: '',
+                    },
+                ],
+            },
+            {
+                path: REPORT_COMPLIANCES_ROUTE,
+                data: {
+                    breadcrumb: {
+                        label: 'REPORTING.REPORT_COMPLIANCES.BREADCRUMB.LABEL',
+                        icon: 'REPORTING.REPORT_COMPLIANCES.BREADCRUMB.ICON',
+                    },
+                },
+                children: [
+                    {
+                        path: '',
+                        loadComponent: () =>
+                            import('./presentation/features/report-compliances/pages/report-compliances-page/report-compliances-page.component').then(
+                                (m) => m.ReportCompliancesPageComponent
                             ),
                         data: { breadcrumb: { hide: true } },
                     },

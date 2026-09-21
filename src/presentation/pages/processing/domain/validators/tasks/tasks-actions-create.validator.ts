@@ -1,5 +1,6 @@
 import { TasksActionsCreateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-create.contract';
 import { TasksActionsCreateValidateContract } from '@pages/processing/domain/contracts/tasks/tasks-actions-create.validate-contract';
+import { TASKS_ACTION_TYPE_VALUE } from '@pages/processing/domain/enums/tasks/tasks-actions-type-value.constant';
 import { GenericRequiredError } from '@shared/domain/errors/validation/generic.error';
 
 export function validateTasksActionsCreate(
@@ -30,7 +31,10 @@ export function validateTasksActionsCreate(
             'PROCESSING.TASKS.ACTIONS.FORM.ERROR.CREATE.DESCRIPTION_REQUIRE'
         );
     }
-    if (contract.isConform === null || contract.isConform === undefined) {
+    if (
+        contract.type === TASKS_ACTION_TYPE_VALUE.OPERATOR_VERIFICATION &&
+        (contract.isConform === null || contract.isConform === undefined)
+    ) {
         throw new GenericRequiredError(
             'PROCESSING.TASKS.ACTIONS.FORM.ERROR.CREATE.IS_CONFORM_REQUIRE'
         );

@@ -1,5 +1,3 @@
-import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
-
 export interface MobileNetworkFindOneProps {
     uniqId: string;
     siteId: string;
@@ -10,7 +8,9 @@ export interface MobileNetworkFindOneProps {
     towerTypeName: string;
     towerHeight: string;
     networkTechnology: string;
-    operator: Operator;
-    coverageRadius?: number;
+    operator: string;
+    coverageRadius: number;
+    lng: number;
+    lat: number;
     updatedAt: string;
 }

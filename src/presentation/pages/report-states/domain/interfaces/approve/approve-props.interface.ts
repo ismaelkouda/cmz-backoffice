@@ -6,6 +6,7 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 export interface ApproveProps {
     type: TypeReport;
     uniqId: string;
+    requestReportUniqId: string;
     reportType: ReportType;
     operators: TelecomOperator[];
     source: ReportSource;

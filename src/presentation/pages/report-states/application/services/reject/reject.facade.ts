@@ -4,6 +4,7 @@ import { RejectQuery } from '@pages/report-states/application/queries/reject/rej
 import { RejectBus } from '@pages/report-states/application/queries-bus/reject/reject.bus';
 import { RejectEntity } from '@pages/report-states/domain/entities/reject/reject.entity';
 import { BaseFacade } from '@shared/application/services/base-facade';
+import { StatsDto as RejectStatsDto } from '@pages/report-states/infrastructure/api/dto/reject/reject-response-api.dto';
 
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { PAGINATION_CONST } from '@shared/constants/pagination.constants';
@@ -16,7 +17,11 @@ import { RejectDownloadQuery } from '@pages/report-states/application/queries/re
 import { DownloadFacade } from '@pages/report-states/application/services/download/download.facade';
 
 @Injectable({ providedIn: 'root' })
-export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
+export class RejectFacade extends BaseFacade<
+    RejectEntity,
+    RejectFilterDto,
+    RejectStatsDto
+> {
     private readonly uiFeedback = inject(UiFeedbackService);
     private readonly filterBus = inject(RejectBus);
     private readonly downloadBus = inject(RejectDownloadBus);
@@ -77,9 +82,9 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         const command = this.buildQuery(filter);
         const fetch$ = this.filterBus.dispatch(command, page);
         this.fetchWithFilterAndPage(filter, page, fetch$, this.uiFeedback);
@@ -101,6 +106,7 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
         return new RejectQuery(
             filter?.initiatorPhoneNumber,
             filter?.uniqId,
+            filter?.requestReportUniqId,
             filter?.reportType,
             filter?.operators,
             filter?.source,
@@ -135,6 +141,7 @@ export class RejectFacade extends BaseFacade<RejectEntity, RejectFilterDto> {
             download.format,
             download?.initiatorPhoneNumber,
             download?.uniqId,
+            download?.requestReportUniqId,
             download?.reportType,
             download?.operators,
             download?.source,

@@ -36,6 +36,10 @@ export class RegionsFormStore {
         operators: [],
         permissions: [],
     };
+    private readonly initiallyDisabledControls: (keyof RegionsFormControl)[] = [
+        'population',
+        'infrastructure',
+    ];
 
     public readonly form: FormGroup<RegionsFormControl> =
         this.fb.nonNullable.group<RegionsFormControl>({
@@ -48,24 +52,30 @@ export class RegionsFormStore {
                     // Validators.pattern(FormValidators.CODE.PATTERN),
                 ],
             }),
-            population: new FormControl(0, {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    // Validators.minLength(FormValidators.POPULATION.MIN),
-                    // Validators.maxLength(FormValidators.POPULATION.MAX),
-                    // Validators.pattern(FormValidators.POPULATION.PATTERN),
-                ],
-            }),
-            infrastructure: new FormControl(0, {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    // Validators.minLength(FormValidators.INFRASTRUCTURE.MIN),
-                    // Validators.maxLength(FormValidators.INFRASTRUCTURE.MAX),
-                    // Validators.pattern(FormValidators.INFRASTRUCTURE.PATTERN),
-                ],
-            }),
+            population: new FormControl(
+                { value: 0, disabled: true },
+                {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        // Validators.minLength(FormValidators.POPULATION.MIN),
+                        // Validators.maxLength(FormValidators.POPULATION.MAX),
+                        // Validators.pattern(FormValidators.POPULATION.PATTERN),
+                    ],
+                }
+            ),
+            infrastructure: new FormControl(
+                { value: 0, disabled: true },
+                {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        // Validators.minLength(FormValidators.INFRASTRUCTURE.MIN),
+                        // Validators.maxLength(FormValidators.INFRASTRUCTURE.MAX),
+                        // Validators.pattern(FormValidators.INFRASTRUCTURE.PATTERN),
+                    ],
+                }
+            ),
             name: new FormControl('', {
                 nonNullable: true,
                 validators: [
@@ -121,14 +131,16 @@ export class RegionsFormStore {
     private initializeDisableFormEffect(): void {
         effect(() => {
             const shouldDisable = this.isViewMode() || this.isSubmitting();
+
             if (shouldDisable) {
-                this.form.disable({
-                    emitEvent: false,
-                });
+                this.form.disable({ emitEvent: false });
                 return;
             }
-            this.form.enable({
-                emitEvent: false,
+
+            this.form.enable({ emitEvent: false });
+
+            this.initiallyDisabledControls.forEach((controlName) => {
+                this.form.controls[controlName].disable({ emitEvent: false });
             });
         });
     }

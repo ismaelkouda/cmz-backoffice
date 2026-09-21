@@ -7,4 +7,6 @@ export interface MobileNetworkCreateDto {
     networkTechnology?: string;
     operator?: string;
     coverageRadius?: number;
+    lng?: number;
+    lat?: number;
 }

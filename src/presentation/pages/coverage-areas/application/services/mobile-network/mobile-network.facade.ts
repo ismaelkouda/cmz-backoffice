@@ -83,9 +83,9 @@ export class MobileNetworkFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         this.executeQuery(filter, page);
     }
 
@@ -112,6 +112,7 @@ export class MobileNetworkFacade extends BaseFacade<
     ): MobileNetworkQuery {
         return new MobileNetworkQuery(
             filter?.search,
+            filter?.siteGroupId,
             filter?.towerTypeId,
             filter?.towerSize,
             filter?.technology,
@@ -151,7 +152,9 @@ export class MobileNetworkFacade extends BaseFacade<
             dto.towerHeight,
             dto.networkTechnology,
             dto.operator,
-            dto.coverageRadius
+            dto.coverageRadius,
+            dto.lng,
+            dto.lat
         );
 
         this.handleActionWithRefresh(
@@ -182,7 +185,9 @@ export class MobileNetworkFacade extends BaseFacade<
             dto.towerHeight,
             dto.networkTechnology,
             dto.operator,
-            dto.coverageRadius
+            dto.coverageRadius,
+            dto.lng,
+            dto.lat
         );
         this.handleActionWithRefresh(
             this.updateBus.dispatch(command),

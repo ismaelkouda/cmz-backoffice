@@ -4,11 +4,17 @@ import { OpticalFiberNetworkCreateApiDto } from '@pages/coverage-areas/infrastru
 export function opticalFiberNetworkCreateMapper(
     validContract: OpticalFiberNetworkCreateValidateContract
 ): OpticalFiberNetworkCreateApiDto {
-    return {
+    const params: OpticalFiberNetworkCreateApiDto = {
         name: validContract.name,
-        operator: validContract.operator,
+        operator: validContract.operator.toLocaleUpperCase(),
         fiber_constructor_id: validContract.fiberConstructorId,
         type: validContract.type,
-        geom_file: validContract.geomFile,
     };
+    if (validContract.geomList) {
+        params.geom_list = validContract.geomList;
+    }
+    if (validContract.geomFile) {
+        params.geom_file = validContract.geomFile;
+    }
+    return params;
 }

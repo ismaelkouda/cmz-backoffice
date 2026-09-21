@@ -83,9 +83,9 @@ export class RadioRelayLinksFacade extends BaseFacade<
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
-            return;
-        }
+        // if (!filter) {
+        //     return;
+        // }
         this.executeQuery(filter, page);
     }
 
@@ -144,6 +144,7 @@ export class RadioRelayLinksFacade extends BaseFacade<
             dto.name,
             dto.operator,
             dto.frequency,
+            dto.debit,
             dto.longitudePointA,
             dto.latitudePointA,
             dto.longitudePointB,
@@ -175,6 +176,7 @@ export class RadioRelayLinksFacade extends BaseFacade<
             dto.name,
             dto.operator,
             dto.frequency,
+            dto.debit,
             dto.longitudePointA,
             dto.latitudePointA,
             dto.longitudePointB,

@@ -6,6 +6,10 @@ import {
     ValidatorFn,
     Validators,
 } from '@angular/forms';
+import {
+    passwordNotEmailValidator,
+    strongPasswordValidator,
+} from '@shared/presentation/helpers/password-validators.helper';
 
 export interface ProfileFormValue {
     readonly id: FormControl<number>;
@@ -22,6 +26,7 @@ export interface PasswordFormValue {
 }
 
 export interface TwoFactorFormValue {
+    readonly channel: FormControl<'email' | 'sms'>;
     readonly code: FormControl<string>;
 }
 
@@ -37,8 +42,19 @@ const passwordMatchValidator: ValidatorFn = (
     return newPassword === confirmation ? null : { notMatching: true };
 };
 
+const newPasswordNotOldValidator: ValidatorFn = (
+    control: AbstractControl
+): ValidationErrors | null => {
+    const oldPassword = control.parent?.get('oldPassword')?.value;
+    const value = control.value;
+    if (!oldPassword || !value) {
+        return null;
+    }
+    return value === oldPassword ? { oldPasswordUsed: true } : null;
+};
+
 export function createProfileForm(): ProfileForm {
-    return new FormGroup<ProfileFormValue>({
+    const form = new FormGroup<ProfileFormValue>({
         id: new FormControl(0, { nonNullable: true }),
         lastName: new FormControl('', {
             nonNullable: true,
@@ -50,7 +66,6 @@ export function createProfileForm(): ProfileForm {
         }),
         email: new FormControl('', {
             nonNullable: true,
-            validators: [Validators.required, Validators.email],
         }),
         phone: new FormControl('', {
             nonNullable: true,
@@ -60,9 +75,11 @@ export function createProfileForm(): ProfileForm {
             ],
         }),
     });
+    form.controls.email.disable();
+    return form;
 }
 
-export function createPasswordForm(): PasswordForm {
+export function createPasswordForm(emailProvider: () => string): PasswordForm {
     return new FormGroup<PasswordFormValue>(
         {
             oldPassword: new FormControl('', {
@@ -71,11 +88,16 @@ export function createPasswordForm(): PasswordForm {
             }),
             newPassword: new FormControl('', {
                 nonNullable: true,
-                validators: [Validators.required, Validators.minLength(6)],
+                validators: [
+                    Validators.required,
+                    strongPasswordValidator,
+                    passwordNotEmailValidator(emailProvider),
+                    newPasswordNotOldValidator,
+                ],
             }),
             confirmNewPassword: new FormControl('', {
                 nonNullable: true,
-                validators: [Validators.required, Validators.minLength(6)],
+                validators: [Validators.required],
             }),
         },
         { validators: passwordMatchValidator }
@@ -84,12 +106,16 @@ export function createPasswordForm(): PasswordForm {
 
 export function createTwoFactorForm(): TwoFactorForm {
     return new FormGroup<TwoFactorFormValue>({
+        channel: new FormControl<'email' | 'sms'>('email', {
+            nonNullable: true,
+            validators: [Validators.required],
+        }),
         code: new FormControl('', {
             nonNullable: true,
             validators: [
                 Validators.required,
-                Validators.minLength(6),
-                Validators.maxLength(6),
+                Validators.minLength(4),
+                Validators.maxLength(4),
                 Validators.pattern(/^\d+$/),
             ],
         }),

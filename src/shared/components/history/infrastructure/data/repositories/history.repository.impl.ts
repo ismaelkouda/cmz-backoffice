@@ -13,6 +13,7 @@ import { map } from 'rxjs/operators';
 @Injectable({ providedIn: 'root' })
 export class HistoryRepositoryImpl implements HistoryRepository {
     private readonly api = inject(HistoryApi);
+    private readonly filterMapper = inject(HistoryFilterMapper);
     private readonly mapper = inject(HistoryMapper);
 
     readAll(
@@ -20,7 +21,7 @@ export class HistoryRepositoryImpl implements HistoryRepository {
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<HistoryEntity>> {
-        const paramsDto = HistoryFilterMapper(filter);
+        const paramsDto = this.filterMapper.map(filter);
         return this.api
             .readAll(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

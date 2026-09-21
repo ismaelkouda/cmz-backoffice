@@ -8,6 +8,7 @@ export interface InfrastructureTypeVmProps {
     uniqId: string;
 
     name: string;
+    tag: string;
     description: string;
 
     status: Status;

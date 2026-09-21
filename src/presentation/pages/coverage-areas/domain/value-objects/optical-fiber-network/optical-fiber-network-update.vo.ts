@@ -13,5 +13,6 @@ export function opticalFiberNetworkUpdateVo(
         fiberConstructorId: contract.fiberConstructorId,
         type: contract.type,
         geomFile: contract.geomFile,
+        geomList: contract.geomList,
     };
 }

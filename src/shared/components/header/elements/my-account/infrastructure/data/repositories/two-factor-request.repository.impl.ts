@@ -7,7 +7,7 @@ import { MyAccountApi } from '../../api/my-account.api';
 import { TwoFactorRequestResultEntity } from '../../../domain/entities/two-factor-request-result.entity';
 import { TwoFactorRequestResultMapper } from '../mappers/two-factor-request-result.mapper';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class TwoFactorRequestRepositoryImpl implements TwoFactorRequestRepository {
     private readonly api = inject(MyAccountApi);
     private readonly mapper = inject(TwoFactorRequestResultMapper);

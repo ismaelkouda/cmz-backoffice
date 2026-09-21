@@ -25,7 +25,7 @@ interface StatisticCard {
     key: string;
     count: number | string;
     label: string;
-    subtitle: string;
+    subtitle?: string;
     color: string;
     icon: string;
     routerFilter?: () => void;
@@ -34,7 +34,7 @@ interface StatisticCard {
         isPositive: boolean;
     };
 }
-const INITIAL_DAY = '90';
+const INITIAL_DAY = '100';
 
 @Component({
     selector: 'app-dashboard-page',
@@ -114,7 +114,10 @@ export class DashboardPageComponent implements OnInit {
     }
 
     public navigateToReport(stat: StatisticCard): void {
-        stat.routerFilter?.();
+        console.log('stat', stat);
+        if (stat.routerFilter) {
+            stat?.routerFilter();
+        }
     }
 
     private generateStatistics(data: DashboardEntity): void {
@@ -123,10 +126,19 @@ export class DashboardPageComponent implements OnInit {
         }
         this.typeStatistics = [
             {
+                key: 'totalRequestReports',
+                count: separatorThousands(data.totalRequestReports || 0),
+                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REQUESTS.LABEL',
+                subtitle: 'DASHBOARD.SECTIONS.TYPE.TOTAL_REQUESTS.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-list',
+            },
+            {
                 key: 'totalReports',
                 count: separatorThousands(data.totalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.TOTAL_PROCESSING.LABEL',
-                subtitle: 'DASHBOARD.SECTIONS.TYPE.TOTAL_PROCESSING.SUBTITLE',
+                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-chart-bar',
             },
@@ -148,15 +160,15 @@ export class DashboardPageComponent implements OnInit {
                 color: 'warning',
                 icon: 'pi-building',
             },
-            {
-                key: 'partialSignalReports',
-                count: separatorThousands(data.partialSignalReports || 0),
-                label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
-                color: 'warning',
-                icon: 'pi-chart-line',
-            },
+            // {
+            //     key: 'partialSignalReports',
+            //     count: separatorThousands(data.partialSignalReports || 0),
+            //     label: 'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.LABEL',
+            //     subtitle:
+            //         'DASHBOARD.SECTIONS.TYPE.PARTIAL_SIGNAL_PROCESSING.SUBTITLE',
+            //     color: 'warning',
+            //     icon: 'pi-chart-line',
+            // },
             {
                 key: 'noInternetReports',
                 count: separatorThousands(data.noInternetReports || 0),
@@ -176,7 +188,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.PENDING.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-clock pi-spin',
-                routerFilter: () => this.router.navigate(['/report/queue']),
+                routerFilter: (): Promise<boolean> =>
+                    this.router.navigate(['/requests/queues']),
             },
             {
                 key: 'totalReportsInProcessing',
@@ -185,7 +198,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.IN_PROGRESS.SUBTITLE',
                 color: 'error',
                 icon: 'pi-times',
-                routerFilter: () => this.router.navigate(['/report/approval']),
+                routerFilter: () =>
+                    this.router.navigate(['/report-status/rejected']),
             },
             {
                 key: 'totalReportsProcessed',
@@ -194,8 +208,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.TREATED.SUBTITLE',
                 color: 'warning',
                 icon: 'pi-cog pi-spin',
-                routerFilter: () =>
-                    this.router.navigate(['/report/processing']),
+                routerFilter: (): Promise<boolean> =>
+                    this.router.navigate(['/reports-processing/queues']),
             },
             {
                 key: 'totalReportsFinalized',
@@ -204,7 +218,8 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.FINALIZED.SUBTITLE',
                 color: 'success',
                 icon: 'pi-check-circle',
-                routerFilter: () => this.router.navigate(['/report/finalize']),
+                routerFilter: (): Promise<boolean> =>
+                    this.router.navigate(['/reports-processing/tasks']),
             },
             {
                 key: 'totalReportsEvaluated',
@@ -213,45 +228,52 @@ export class DashboardPageComponent implements OnInit {
                 subtitle: 'DASHBOARD.SECTIONS.TASK_STATUS.EVALUATED.SUBTITLE',
                 color: 'primary',
                 icon: 'pi-star-fill',
+                routerFilter: () =>
+                    this.router.navigate(['/report-status/closed']),
             },
         ];
 
         this.performanceStatistics = [
             {
-                key: 'treatmentRate',
-                count: `${data.treatmentRate || 0}%`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.TREATMENT_RATE.LABEL',
+                key: 'averageQualificationTime',
+                count: `${data.averageQualificationTime || 0} h`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_QUALIFICATION_TIME.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.TREATMENT_RATE.SUBTITLE',
-                color: 'success',
-                icon: 'pi-chart-line',
-            },
-            {
-                key: 'completionRate',
-                count: `${data.completionRate || 0}%`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.COMPLETION_RATE.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.COMPLETION_RATE.SUBTITLE',
+                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_QUALIFICATION_TIME.SUBTITLE',
                 color: 'primary',
-                icon: 'pi-check-circle',
+                icon: 'pi-stopwatch',
             },
             {
-                key: 'averageTreatmentTime',
-                count: `${data.averageTreatmentTime || 0}j`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_TREATMENT_TIME.LABEL',
+                key: 'averageHandlingTime',
+                count: `${data.averageHandlingTime || 0} h`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_HANDLING_TIME.LABEL',
                 subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_TREATMENT_TIME.SUBTITLE',
-                color: 'info',
-                icon: 'pi-calendar',
-            },
-            {
-                key: 'responseTime',
-                count: `${data.responseTime || 0}h`,
-                label: 'DASHBOARD.SECTIONS.PERFORMANCE.RESPONSE_TIME.LABEL',
-                subtitle:
-                    'DASHBOARD.SECTIONS.PERFORMANCE.RESPONSE_TIME.SUBTITLE',
+                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_HANDLING_TIME.SUBTITLE',
                 color: 'warning',
-                icon: 'pi-clock',
+                icon: 'pi-stopwatch',
+            },
+            {
+                key: 'averageResolutionTime',
+                count: `${data.averageResolutionTime || 0} h`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_RESOLUTION_TIME.LABEL',
+                subtitle:
+                    'DASHBOARD.SECTIONS.PERFORMANCE.AVERAGE_RESOLUTION_TIME.SUBTITLE',
+                color: 'primary',
+                icon: 'pi-stopwatch',
+            },
+            {
+                key: 'conformanceRate',
+                count: `${data.conformanceRate || 0}%`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.CONFORMANCE_RATE.LABEL',
+                color: 'success',
+                icon: 'pi pi-verified',
+            },
+            {
+                key: 'userSatisfactionRate',
+                count: `${data.userSatisfactionRate || 0}%`,
+                label: 'DASHBOARD.SECTIONS.PERFORMANCE.USER_SATISFACTION_RATE.LABEL',
+                color: 'info',
+                icon: 'pi pi-thumbs-up',
             },
         ];
     }

@@ -8,8 +8,10 @@ export interface TasksActionsVmProps {
     uniqId: string;
     type: string;
     code: string;
+    technology: Record<string, string>;
     operators: TelecomOperator[];
     shouldNotifyUser: boolean;
+    shouldDisplayInNewspaper: boolean;
     isConform: Conformity;
     conformLabel: string;
     conformStyle: ConformityStyle;

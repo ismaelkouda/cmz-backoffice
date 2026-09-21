@@ -1,6 +1,7 @@
 export interface QueuesFilterProps {
     initiatorPhoneNumber?: string;
     uniqId?: string;
+    requestReportUniqId?: string;
     reportType?: string;
     operators?: string[];
     source?: string;

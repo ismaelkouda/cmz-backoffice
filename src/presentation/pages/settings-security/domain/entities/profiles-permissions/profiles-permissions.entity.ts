@@ -45,7 +45,8 @@ export class ProfilesPermissionsEntity {
     public with(props: ProfilesPermissionsProps): ProfilesPermissionsEntity {
         if (
             this.updatedAt === props.updatedAt &&
-            this.uniqId === props.uniqId
+            this.uniqId === props.uniqId &&
+            this.usersCount === props.usersCount
         ) {
             return this;
         }

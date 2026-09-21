@@ -40,6 +40,8 @@ export class MunicipalitiesFormStore {
         department: '',
         description: '',
     };
+    private readonly initiallyDisabledControls: (keyof MunicipalitiesFormControl)[] =
+        ['infrastructure'];
 
     public readonly form: FormGroup<MunicipalitiesFormControl> =
         this.fb.nonNullable.group<MunicipalitiesFormControl>({
@@ -52,24 +54,30 @@ export class MunicipalitiesFormStore {
                     Validators.pattern(FormValidators.CODE.PATTERN),
                 ],
             }),
-            population: new FormControl(0, {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    // Validators.minLength(FormValidators.POPULATION.MIN),
-                    // Validators.maxLength(FormValidators.POPULATION.MAX),
-                    // Validators.pattern(FormValidators.POPULATION.PATTERN),
-                ],
-            }),
-            infrastructure: new FormControl(0, {
-                nonNullable: true,
-                validators: [
-                    Validators.required,
-                    // Validators.minLength(FormValidators.INFRASTRUCTURE.MIN),
-                    // Validators.maxLength(FormValidators.INFRASTRUCTURE.MAX),
-                    // Validators.pattern(FormValidators.INFRASTRUCTURE.PATTERN),
-                ],
-            }),
+            population: new FormControl(
+                { value: 0, disabled: true },
+                {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        // Validators.minLength(FormValidators.POPULATION.MIN),
+                        // Validators.maxLength(FormValidators.POPULATION.MAX),
+                        // Validators.pattern(FormValidators.POPULATION.PATTERN),
+                    ],
+                }
+            ),
+            infrastructure: new FormControl(
+                { value: 0, disabled: true },
+                {
+                    nonNullable: true,
+                    validators: [
+                        Validators.required,
+                        // Validators.minLength(FormValidators.INFRASTRUCTURE.MIN),
+                        // Validators.maxLength(FormValidators.INFRASTRUCTURE.MAX),
+                        // Validators.pattern(FormValidators.INFRASTRUCTURE.PATTERN),
+                    ],
+                }
+            ),
             name: new FormControl('', {
                 nonNullable: true,
                 validators: [
@@ -203,11 +211,17 @@ export class MunicipalitiesFormStore {
     private initializeDisableFormEffect(): void {
         effect(() => {
             const shouldDisable = this.isViewMode() || this.isSubmitting();
+
             if (shouldDisable) {
                 this.form.disable({ emitEvent: false });
-            } else {
-                this.form.enable({ emitEvent: false });
+                return;
             }
+
+            this.form.enable({ emitEvent: false });
+
+            this.initiallyDisabledControls.forEach((controlName) => {
+                this.form.controls[controlName].disable({ emitEvent: false });
+            });
         });
     }
 

@@ -163,6 +163,20 @@
                                     tooltipPosition="bottom"
                                 />
                             }
+                            @case ('requestReportUniqId') {
+                                <p-tag
+                                    value="{{ rowData.requestReportUniqId }}"
+                                    severity="secondary"
+                                    class="cursor-pointer"
+                                    (click)="
+                                        copyToClipboard(
+                                            rowData.requestReportUniqId
+                                        )
+                                    "
+                                    pTooltip="{{ 'COMMON.COPY' | translate }}"
+                                    tooltipPosition="bottom"
+                                />
+                            }
                             @case ('reportTypeLabel') {
                                 <div>
                                     {{ rowData.reportTypeLabel }}
@@ -182,6 +196,41 @@
                                                         operator | translate
                                                     )
                                                 "
+                                                styleClass="operator-tag"
+                                            />
+                                        }
+                                    </div>
+                                } @else {
+                                    <span class="no-data">-</span>
+                                }
+                            }
+                            @case ('operator') {
+                                <div
+                                    class="tag-group d-flex justify-content-center"
+                                >
+                                    <p-tag
+                                        [value]="rowData.operator"
+                                        [style]="
+                                            getFullOperatorTagStyle(
+                                                rowData.operator
+                                            )
+                                        "
+                                        styleClass="operator-tag"
+                                    />
+                                </div>
+                            }
+                            @case ('networkTechnology') {
+                                @if (rowData.networkTechnology?.length) {
+                                    <div
+                                        class="tag-group d-flex justify-content-center"
+                                    >
+                                        @for (
+                                            technology of rowData.networkTechnology;
+                                            track technology
+                                        ) {
+                                            <p-tag
+                                                [value]="technology | translate"
+                                                severity="contrast"
                                                 styleClass="operator-tag"
                                             />
                                         }

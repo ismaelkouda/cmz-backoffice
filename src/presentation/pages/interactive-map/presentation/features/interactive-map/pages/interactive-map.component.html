@@ -193,7 +193,7 @@
                                         </section>
 
                                         <section class="filter-group">
-                                            <h3>Operateurs consernés</h3>
+                                            <h3>Operateurs concernés</h3>
                                             <div class="d-flex gap-10">
                                                 @for (
                                                     option of operatorOptions;
@@ -909,11 +909,17 @@
                                                     role="button"
                                                 >
                                                     <p-tag
-                                                                    [value]="
-                                                                        getStatusLabel(report.state)
-                                                                    "
-                                                                    [severity]="dialogStateStyle(report.state)"
-                                                                />
+                                                        [value]="
+                                                            getStatusLabel(
+                                                                report.state
+                                                            )
+                                                        "
+                                                        [severity]="
+                                                            dialogStateStyle(
+                                                                report.state
+                                                            )
+                                                        "
+                                                    />
                                                 </span>
                                             </dd>
                                             <dt>Operateur(s)</dt>
@@ -1026,9 +1032,15 @@
                                                             <dd>
                                                                 <p-tag
                                                                     [value]="
-                                                                        getStatusLabel(report.state)
+                                                                        getStatusLabel(
+                                                                            report.state
+                                                                        )
                                                                     "
-                                                                    [severity]="dialogStateStyle(report.state)"
+                                                                    [severity]="
+                                                                        dialogStateStyle(
+                                                                            report.state
+                                                                        )
+                                                                    "
                                                                 />
                                                             </dd>
                                                             <dt>

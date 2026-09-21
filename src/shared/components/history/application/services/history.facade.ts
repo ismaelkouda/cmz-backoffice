@@ -56,7 +56,7 @@ export class HistoryFacade extends BaseFacade<HistoryEntity, HistoryFilterDto> {
 
     changePage(page: string): void {
         const filter = this.filterSubject.getValue();
-        if (!filter) {
+        if (!filter?.typeModel) {
             return;
         }
         const command = new HistoryFilterCommand(

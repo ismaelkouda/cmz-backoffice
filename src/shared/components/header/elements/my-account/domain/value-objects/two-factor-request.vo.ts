@@ -6,8 +6,7 @@ export class TwoFactorRequestVo {
 
     static fromDto(dto: TwoFactorRequestDto): TwoFactorRequestVo {
         return new TwoFactorRequestVo({
-            userId: dto.userId,
-            email: dto.email.trim().toLowerCase(),
+            channel: dto.channel,
         });
     }
 }

@@ -15,6 +15,44 @@
         tabindex="0"
     ></div>
 
+    <div
+        #hoverOverlay
+        class="signalement-info-panel"
+        [class.is-hidden]="!equipmentTooltip()"
+        (mouseenter)="keepHoverTooltip()"
+        (mouseleave)="releaseHoverTooltip()"
+    >
+        @if (equipmentTooltip(); as tooltip) {
+            <div class="signalement-info-panel">
+                <div class="signalement-info-panel-content">
+                    <div class="panel-heading">
+                        <span
+                            class="signalement-type-badge text-center"
+                            [style.background]="'black'"
+                        >
+                            <b>{{ tooltip.name }}</b>
+                        </span>
+                    </div>
+
+                    <dl class="signalement-info-dl">
+                        @if (tooltip.tag) {
+                            <dt><b>Tag</b></dt>
+                            <dd>{{ tooltip.tag | capitalize }}</dd>
+                        }
+                        @if (tooltip.type) {
+                            <dt><b>Type</b></dt>
+                            <dd>{{ tooltip.type }}</dd>
+                        }
+                        @if (tooltip.description) {
+                            <dt><b>Description</b></dt>
+                            <dd>{{ tooltip.description }}</dd>
+                        }
+                    </dl>
+                </div>
+            </div>
+        }
+    </div>
+
     <!--
         Bloc gauche : panneau infos signalement. Les deux boutons (recentrer
         + zoom OL) sont des enfants DOM de ce conteneur, positionnés en
@@ -40,7 +78,8 @@
                 }
                 @if (signalementInfoOpen()) {
                     <div class="signalement-info-panel-content">
-                        <div class="panel-heading"><span
+                        <div class="panel-heading">
+                            <span
                                 class="signalement-type-badge"
                                 [style.background]="reportTypeColor()"
                             >
@@ -76,28 +115,27 @@
                             <dt>Opérateurs</dt>
                             <dd>
                                 <div class="field-value operator-padding short">
-                                            @for (operator of telecomOperatorsOptions() ||
-                                                    [];
-                                                track operator
-                                            ) {
-                                                <p-tag
-                                                    [value]="
-                                                        operator | translate
-                                                    "
-                                                    [style]="
-                                                        getOperatorTagStyle(
-                                                            operator | translate
-                                                        )
-                                                    "
-                                                    styleClass="operator-tag"
-                                                />
-                                            } @empty {
-                                                <span>{{
-                                                    'MANAGEMENT.FORM.NOT_SPECIFIED'
-                                                        | translate
-                                                }}</span>
-                                            }
-                                        </div>
+                                    @for (
+                                        operator of telecomOperatorsOptions() ||
+                                            [];
+                                        track operator
+                                    ) {
+                                        <p-tag
+                                            [value]="operator | translate"
+                                            [style]="
+                                                getOperatorTagStyle(
+                                                    operator | translate
+                                                )
+                                            "
+                                            styleClass="operator-tag"
+                                        />
+                                    } @empty {
+                                        <span>{{
+                                            'MANAGEMENT.FORM.NOT_SPECIFIED'
+                                                | translate
+                                        }}</span>
+                                    }
+                                </div>
                             </dd>
 
                             <dt>Signalé le</dt>
@@ -158,7 +196,7 @@
                             [checked]="currentBaseMap() === 'osm'"
                             (change)="setBaseMap('osm')"
                         />
-                        OpenStreetMap
+                        <span class="fs-16">OpenStreetMap</span>
                     </label>
                     <label>
                         <input
@@ -167,7 +205,7 @@
                             [checked]="currentBaseMap() === 'satellite'"
                             (change)="setBaseMap('satellite')"
                         />
-                        Satellitaire
+                        <span class="fs-16">Satellitaire</span>
                     </label>
 
                     <div class="d-flex gap-2 mt-2">
@@ -193,8 +231,13 @@
                                     )
                                 "
                             />
+                            <span
+                                class="legend-color ring"
+                                [style.borderColor]="eq.color"
+                            >
+                            </span>
                             [{{ getInfrastructureCount(eq.id) }}]
-                            {{ eq.label }}
+                            <span class="fs-16">{{ eq.label }}</span>
                         </label>
                     }
                 </div>
@@ -241,9 +284,7 @@
 
     @if (isMapInitialized() && showPerformance() && showRadiusCircle()) {
         <div class="radius-badge">
-            <div class="badge-content">
-                🎯 Rayon d'impact : 3.5km
-            </div>
+            <div class="badge-content">🎯 Rayon d'impact : 3.5km</div>
         </div>
     }
 </div>

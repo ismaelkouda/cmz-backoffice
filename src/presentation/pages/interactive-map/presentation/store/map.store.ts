@@ -116,12 +116,10 @@ export class MapStore {
         });
     }
     public setPermission(permission: PermissionState): void {
-        console.log('permission: ', permission);
         this.patchState({ permission });
     }
 
     public setUserPosition(position: LatLng): void {
-        console.log('position: ', position);
         this.patchState({
             userPosition: position,
             error: null,
@@ -211,18 +209,15 @@ export class MapStore {
         });
     }
 
-    public clearLoadedReports(): void {
-        this.reportsCache.clear();
-        this.patchState({
-            loadedBounds: null,
-            reports: [],
-            loading: false,
-            error: null,
-        });
-    }
-
     public resetFilters(): void {
         this.patchState({ filters: { ...EMPTY_REPORT_FILTERS } });
+    }
+
+    public resetCache(): void {
+        this.reportsCache.clear();
+        this.patchState({
+            reports: [],
+        });
     }
 
     public setHeatmapEnabled(heatmapEnabled: boolean): void {
@@ -269,7 +264,16 @@ export class MapStore {
         return (
             this.matchesArray(filters.reportTypes, report.report_type) &&
             this.matchesOperatorFilter(filters.operators, operators) &&
-            this.matchesArray(filters.statuses, report.state) &&
+            this.matchesArray(
+                filters.statuses,
+                report.status ?? report.state
+            ) &&
+            this.matchesPlaceIdFilter(filters.region, report.region) &&
+            this.matchesPlaceIdFilter(filters.department, report.department) &&
+            this.matchesPlaceIdFilter(
+                filters.municipality,
+                report.municipality
+            ) &&
             (!filters.startDate ||
                 (reportedAt && reportedAt >= new Date(filters.startDate))) &&
             (!filters.endDate ||
@@ -291,6 +295,26 @@ export class MapStore {
         return (
             selected.length === 0 ||
             selected.some((op) => operators.includes(op as ReportOperator))
+        );
+    }
+
+    private matchesPlaceIdFilter(
+        filterValue: string | null,
+        reportPlace: InteractiveMapReport['region']
+    ): boolean {
+        if (!filterValue) {
+            return true;
+        }
+        if (!reportPlace) {
+            return false;
+        }
+        if (typeof reportPlace === 'string') {
+            return reportPlace === String(filterValue);
+        }
+        return (
+            reportPlace.id !== undefined &&
+            reportPlace.id !== null &&
+            String(reportPlace.id) === String(filterValue)
         );
     }
 
@@ -318,7 +342,6 @@ export class MapStore {
     }
 
     public setView(view: MapViewState): void {
-        console.log('view: ', view);
         this.patchState({ view });
     }
 }

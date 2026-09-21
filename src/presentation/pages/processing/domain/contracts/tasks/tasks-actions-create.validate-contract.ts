@@ -7,5 +7,6 @@ export interface TasksActionsCreateValidateContract {
     operator: string;
     description: string;
     shouldNotifyUser: boolean;
-    isConform: Conformity;
+    shouldDisplayInNewspaper: boolean;
+    isConform: Conformity | null;
 }

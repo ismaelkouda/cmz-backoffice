@@ -5,7 +5,6 @@ export abstract class SimpleResponseMapper<TEntity, TItemDto> {
     protected abstract mapItemFromDto(dto: TItemDto): TEntity;
 
     mapFromDto(dto: SimpleResponseDto<TItemDto>): TEntity {
-        console.log('dto: ', dto);
         this.validateResponse(dto);
         return this.mapItemFromDto(dto.data);
     }

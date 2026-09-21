@@ -66,6 +66,8 @@
               "@firebase/firestore",
               "@firebase/auth",
               "@firebase/util",
+              "pbf",
+              "@mapbox/vector-tile",
               "rxjs/operators",
               "rxjs/Subject",
               "rxjs/internal/operators",
@@ -92,6 +94,7 @@
             "polyfills": ["src/polyfills.ts"],
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/favicon.png",
               "src/assets/images/favicon.png",
               {
                 "glob": "**/*",
@@ -115,7 +118,14 @@
             ],
             "extractLicenses": true,
             "sourceMap": false,
-            "optimization": true,
+            "optimization": {
+              "scripts": true,
+              "styles": {
+                "minify": true,
+                "inlineCritical": false
+              },
+              "fonts": true
+            },
             "namedChunks": false
           },
           "configurations": {
@@ -138,7 +148,14 @@
                   "with": "src/environments/environment.test.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "sourceMap": false,
               "namedChunks": false
             },
@@ -149,7 +166,14 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": false
+                },
+                "fonts": true
+              },
               "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
@@ -205,7 +229,7 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
             "styles": [

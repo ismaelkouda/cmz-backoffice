@@ -2,7 +2,8 @@ export interface RadioRelayLinksUpdateApiDto {
     id?: string;
     name?: string;
     operator?: string;
-    frequency?: string;
+    frequency?: number;
+    debit?: number;
     longitude_point_a?: string;
     latitude_point_a?: string;
     longitude_point_b?: string;

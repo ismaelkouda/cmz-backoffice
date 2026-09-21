@@ -1,3 +1,7 @@
+import {
+    Conformity,
+    ConformityStyle,
+} from '@presentation/pages/processing/domain/enums/tasks/tasks-actions-conformity.enum';
 import { TasksProps } from '@pages/processing/domain/interfaces/tasks/tasks-props.interface';
 import { ReportSource } from '@shared/domain/enums/report-source.enum';
 import { ReportType } from '@shared/domain/enums/report-type.enum';
@@ -19,6 +23,10 @@ export class TasksEntity {
         return this.props.uniqId;
     }
 
+    get requestReportUniqId(): string {
+        return this.props.requestReportUniqId;
+    }
+
     get reportType(): ReportType {
         return this.props.reportType;
     }
@@ -37,6 +45,20 @@ export class TasksEntity {
 
     get reportedAt(): string {
         return this.props.reportedAt;
+    }
+
+    get isConform(): Conformity {
+        return this.props.isConform;
+    }
+
+    conformStyle(conform: Conformity): ConformityStyle {
+        const methodMap: Record<Conformity, ConformityStyle> = {
+            [Conformity.CONFORM]: ConformityStyle.CONFORM,
+            [Conformity.NON_CONFORM]: ConformityStyle.NON_CONFORM,
+            [Conformity.IN_PROGRESS]: ConformityStyle.IN_PROGRESS,
+            [Conformity.UNKNOWN]: ConformityStyle.UNKNOWN,
+        };
+        return methodMap[conform];
     }
 
     get updatedAt(): string {

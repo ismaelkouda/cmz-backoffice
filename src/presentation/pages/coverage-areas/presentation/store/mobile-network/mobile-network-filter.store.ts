@@ -28,6 +28,9 @@ export class MobileNetworkFilterStore {
             search: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
+            siteGroupId: new FormControl<string | undefined>(undefined, {
+                nonNullable: true,
+            }),
             towerTypeId: new FormControl<string | undefined>(undefined, {
                 nonNullable: true,
             }),
@@ -80,6 +83,7 @@ export class MobileNetworkFilterStore {
         return {
             search: raw.search || undefined,
             towerTypeId: raw.towerTypeId || undefined,
+            siteGroupId: raw.siteGroupId || undefined,
             towerSize: this.toValidDecimal(
                 raw.towerSize,
                 this.form.get('towerSize')

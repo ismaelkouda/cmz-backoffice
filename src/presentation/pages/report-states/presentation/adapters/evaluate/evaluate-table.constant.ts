@@ -26,6 +26,12 @@ export const EVALUATE_TABLE = {
             width: '2rem',
         },
         {
+            field: 'requestReportUniqId',
+            header: 'REPORT_STATES.EVALUATE.TABLE.REQUEST_REPORT_UNIQ_ID',
+            class: 'text-center',
+            width: '8rem',
+        },
+        {
             field: 'uniqId',
             header: 'REPORT_STATES.EVALUATE.TABLE.UNIQ_ID',
             class: 'text-center',
@@ -53,6 +59,12 @@ export const EVALUATE_TABLE = {
             width: '8rem',
         },
         {
+            field: 'conformLabel',
+            header: 'REPORT_STATES.EVALUATE.TABLE.CONFORMITY',
+            width: '6rem',
+            class: 'text-center',
+        },
+        {
             field: '__action',
             header: 'REPORT_STATES.EVALUATE.TABLE.ACTION',
             class: 'text-center',
@@ -61,10 +73,12 @@ export const EVALUATE_TABLE = {
     ],
     globalFilterFields: [
         'uniqId',
+        'requestReportUniqId',
         'reportTypeLabel',
         'operators',
         'sourceLabel',
         'initiatorPhoneNumber',
         'reportedAt',
+        'conformLabel',
     ],
 };

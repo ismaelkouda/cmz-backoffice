@@ -7,12 +7,16 @@ export class ClosePresenter {
     map(item: CloseEntity): CloseVmProps {
         return {
             uniqId: item.uniqId,
+            requestReportUniqId: item.requestReportUniqId,
             type: item.type,
             reportTypeLabel: this.t(item.reportType),
             operators: item.operators,
             sourceLabel: this.t(item.source),
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
+            isConform: item.isConform,
+            conformLabel: this.t(item.isConform),
+            conformStyle: item.conformStyle(item.isConform),
             actionsRef: item.actionsRef,
             tooltipButtonTasksList: this.t(
                 'REPORT_STATES.CLOSE.TOOLTIP.TASKS_LIST'

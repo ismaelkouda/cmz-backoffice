@@ -109,12 +109,12 @@ export class ProfilesPermissionsFormStore {
             }),
             description: new FormControl('', {
                 nonNullable: true,
-                validators: [
-                    Validators.required,
-                    Validators.minLength(FormValidators.DESCRIPTION.MIN),
-                    Validators.maxLength(FormValidators.DESCRIPTION.MAX),
-                    Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
-                ],
+                // validators: [
+                //     Validators.required,
+                //     Validators.minLength(FormValidators.DESCRIPTION.MIN),
+                //     Validators.maxLength(FormValidators.DESCRIPTION.MAX),
+                //     Validators.pattern(FormValidators.DESCRIPTION.PATTERN),
+                // ],
             }),
             permissions: new FormControl([], {
                 nonNullable: true,

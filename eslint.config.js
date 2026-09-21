@@ -1,14 +1,17 @@
+import { fileURLToPath } from 'node:url';
+
 import angularESLint from '@angular-eslint/eslint-plugin';
 import angularESLintTemplate from '@angular-eslint/eslint-plugin-template';
 import angularTemplateParser from '@angular-eslint/template-parser';
 import js from '@eslint/js';
 import prettierConfig from 'eslint-config-prettier';
-// import importPlugin from 'eslint-plugin-import';
 import jsdocPlugin from 'eslint-plugin-jsdoc';
 import prettierPlugin from 'eslint-plugin-prettier';
 import unicornPlugin from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
+
+const tsconfigRootDir = fileURLToPath(new URL('.', import.meta.url));
 
 export default tseslint.config(
     {
@@ -47,7 +50,7 @@ export default tseslint.config(
             parser: tseslint.parser,
             parserOptions: {
                 project: ['./tsconfig.app.json'],
-                tsconfigRootDir: new URL('.', import.meta.url).pathname,
+                tsconfigRootDir,
             },
             globals: {
                 ...globals.browser,

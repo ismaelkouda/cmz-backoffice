@@ -6,6 +6,8 @@
         "ES": "Espagnol"
     },
     "COMMON": {
+        "YES": "Oui",
+        "NO": "Non",
         "SEARCH": "Rechercher...",
         "DOWNLOAD": "Télécharger",
         "EXCEL": "Excel",
@@ -85,7 +87,7 @@
         "ABI": "Absence d'Internet",
         "ZOB": "Aucun réseau",
         "CPS": "Mauvais Signal d'opérateur",
-        "CPO": "Couverture Partielle Operateur",
+        "CPO": "Absence d'Opérateur",
         "ORANGE": "Orange",
         "MTN": "MTN",
         "MOOV": "Moov",
@@ -145,7 +147,7 @@
         "END_DATE": "Date de fin",
         "DATE_PLACEHOLDER": "AAAA-MM-JJ",
         "PHONE_PLACEHOLDER": "Saisir le numéro de tel",
-        "REPORT_UNIQ_ID_PLACEHOLDER": "Saisir l'id de la demande",
+        "UNIQ_ID_PLACEHOLDER": "Saisir l'id de la demande",
         "REFRESH": "Rafraîchir",
         "EXPORT": "Exporter",
         "RESEARCH": "Rechercher",
@@ -281,13 +283,36 @@
             "CONNECTION": "Connexion",
             "CONNECT_BUTTON": "Se connecter",
             "FORGOT_PASSWORD": "Mot de passe oublié",
+            "TWO_FACTOR": {
+                "VERIFY_TITLE": "Double authentification",
+                "VERIFY_SUBTITLE": "Un code de vérification a été envoyé à votre adresse email. Saisissez-le ci-dessous pour terminer la connexion.",
+                "CODE_SENT_TO": "Code envoyé à {{email}}",
+                "CODE_LABEL": "Code de vérification",
+                "CODE_PLACEHOLDER": "0000",
+                "CODE_HINT": "Saisissez le code à 4 chiffres reçu.",
+                "CODE_REQUIRED": "Le code de vérification est requis",
+                "CODE_INVALID": "Le code doit contenir 4 chiffres",
+                "VERIFY_BUTTON": "Vérifier",
+                "RESEND": "Renvoyer le code",
+                "RESEND_IN": "Renvoyer dans {{time}}s",
+                "BACK": "Retour"
+            },
             "FEATURES": {
                 "SECURE_ACCESS": "Accès sécurisé",
                 "MONITORING_OF_PROCESSING": "Suivi des signalements",
                 "REAL_TIME_DASHBOARD": "Tableau de bord en temps réel",
                 "TEAM_MANAGEMENT": "Gestion des équipes",
                 "EXTRACTION_OF_DATA": "Extraction de données",
-                "SETTINGS": "Paramètres & Sécurité"
+                "SETTINGS": "Paramètres & Sécurité",
+
+                "TEAM_AND_STAKEHOLDER_MANAGEMENT": "Equipes & intervenants",
+                "REPORT_QUALIFICATION_AND_HANDLING": "Qualification & Prise en charge",
+                "AI_AGENT_AND_SMART_VERIFICATIONS": "Agent IA & Vérifications de couverture",
+                "REAL_TIME_DASHBOARDS": "Tableaux de bord en temps réel",
+                "DYNAMIC_GEOGRAPHIC_PORTAL": "Portail géographique dynamique",
+                "OPERATOR_COVERAGE_DATA": "Couvertures réseaux d'opérateurs",
+                "EQUIPMENT_AND_POPULATION_STATISTICS": "Equipements & populations",
+                "ACTOR_DATA_AND_API_ACCESS": "Données d'acteurs & Accès API"
             }
         },
         "FORM": {
@@ -347,6 +372,13 @@
             "RESEND": "Renvoyer",
             "LOADING": "Chargement..."
         },
+        "CHECK_EMAIL": {
+            "TITLE": "Consultez votre boîte mail",
+            "EMAIL_SENT_TO": "Nous avons envoyé un lien de réinitialisation à {{email}}",
+            "DESCRIPTION": "Si un compte est associé à cette adresse, vous recevrez un lien pour réinitialiser votre mot de passe. Le lien expirera après un certain délai.",
+            "RESEND": "Renvoyer l'e-mail",
+            "RESEND_IN": "Renvoyer l'e-mail dans"
+        },
         "MESSAGES": {
             "SUCCESS": {
                 "EMAIL_SENT": "E-mail envoyé avec succès",
@@ -359,6 +391,120 @@
                 "UNABLE_TO_COMPLETE_REQUEST": "Impossible de finaliser la demande",
                 "UNABLE_TO_COMPLETE_RESET": "Impossible de finaliser la réinitialisation"
             }
+        }
+    },
+    "PASSWORD_RESET": {
+        "UI": {
+            "FORGOT_PASSWORD_TITLE": "Mot de passe oublié",
+            "FORGOT_PASSWORD_SUBTITLE": "Entrez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe",
+            "RESET_PASSWORD_TITLE": "Réinitialisation du mot de passe",
+            "RESET_PASSWORD_SUBTITLE": "Entrez votre nouveau mot de passe"
+        },
+        "FORM": {
+            "EMAIL": {
+                "LABEL": "Adresse e-mail",
+                "PLACEHOLDER": "cmz@ansut.ci",
+                "REQUIRED": "L'adresse e-mail est requise",
+                "INVALID_FORMAT": "L'adresse e-mail doit être valide"
+            },
+            "PASSWORD": {
+                "LABEL": "Nouveau mot de passe",
+                "REQUIRED": "Le mot de passe est requis",
+                "MIN_LENGTH": "Le mot de passe doit contenir au moins 8 caractères",
+                "WEAK": "Le mot de passe est trop faible : minimum 8 caractères avec majuscule, minuscule, chiffre et caractère spécial",
+                "EMAIL_AS_PASSWORD": "Le mot de passe ne doit pas être identique à votre adresse e-mail",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmation du mot de passe",
+                "REQUIRED": "La confirmation du mot de passe est requise",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            }
+        },
+        "BUTTONS": {
+            "RESET": "Réinitialiser",
+            "CONFIRM": "Confirmer",
+            "CANCEL": "Annuler",
+            "BACK_TO_LOGIN": "Retour à la connexion",
+            "RESEND": "Renvoyer",
+            "LOADING": "Chargement..."
+        },
+        "MESSAGES": {
+            "SUCCESS": {
+                "EMAIL_SENT": "E-mail envoyé avec succès",
+                "EMAIL_SENT_MESSAGE": "Si l'adresse e-mail que vous avez fournie correspond à un compte enregistré dans notre système, vous allez bientôt recevoir un e-mail contenant des instructions pour réinitialiser votre mot de passe. Veuillez consulter votre boîte de réception.",
+                "PASSWORD_RESET": "Mot de passe réinitialisé avec succès"
+            },
+            "NOT_RECEIVED": "Vous n'avez pas reçu le courrier ?",
+            "ERROR": {
+                "FAILED": "Échec de la réinitialisation du mot de passe",
+                "UNABLE_TO_COMPLETE_REQUEST": "Impossible de finaliser la demande",
+                "UNABLE_TO_COMPLETE_RESET": "Impossible de finaliser la réinitialisation"
+            }
+        },
+        "SUCCESS": {
+            "TITLE": "Mot de passe réinitialisé",
+            "DESCRIPTION": "Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous connecter avec votre nouveau mot de passe.",
+            "LOGIN": "Se connecter"
+        }
+    },
+    "CHANGE_PASSWORD": {
+        "UI": {
+            "CHANGE_PASSWORD_TITLE": "Définir mon mot de passe",
+            "CHANGE_PASSWORD_SUBTITLE": "Choisissez un mot de passe sécurisé pour accéder à votre compte"
+        },
+        "FORM": {
+            "PASSWORD": {
+                "LABEL": "Nouveau mot de passe",
+                "REQUIRED": "Le mot de passe est requis",
+                "MIN_LENGTH": "Le mot de passe doit contenir au moins 8 caractères",
+                "WEAK": "Le mot de passe est trop faible : minimum 8 caractères avec majuscule, minuscule, chiffre et caractère spécial",
+                "EMAIL_AS_PASSWORD": "Le mot de passe ne doit pas être identique à votre adresse e-mail",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            },
+            "CONFIRM_PASSWORD": {
+                "LABEL": "Confirmation du mot de passe",
+                "REQUIRED": "La confirmation du mot de passe est requise",
+                "MIN_LENGTH": "La confirmation du mot de passe doit contenir au moins 8 caractères",
+                "MISMATCH": "Les deux mots de passe doivent être identiques"
+            }
+        },
+        "BUTTONS": {
+            "SUBMIT": "Enregistrer",
+            "CANCEL": "Annuler"
+        },
+        "INVALID": {
+            "TITLE": "Lien invalide ou expiré",
+            "DESCRIPTION": "Ce lien est invalide, a expiré ou a déjà été utilisé. Vous ne pouvez plus l'utiliser pour définir votre mot de passe.",
+            "REQUEST_NEW_LINK": "Demander un nouveau lien",
+            "BACK_TO_LOGIN": "Retour à la connexion",
+            "CONTACT_ADMIN_HINT": "Si le problème persiste, contactez un administrateur."
+        }
+    },
+    "PASSWORD_STRENGTH": {
+        "RULES": {
+            "LENGTH": "8 caractères minimum",
+            "UPPER": "1 lettre majuscule",
+            "LOWER": "1 lettre minuscule",
+            "DIGIT": "1 chiffre",
+            "SPECIAL": "1 caractère spécial",
+            "NOT_EMAIL": "Différent de votre e-mail"
+        },
+        "LEVELS": {
+            "VERY_WEAK": "Très faible",
+            "WEAK": "Faible",
+            "FAIR": "Moyen",
+            "GOOD": "Bon",
+            "STRONG": "Fort"
+        }
+    },
+    "PRIVACY_POLICY": {
+        "DIALOG": {
+            "TITLE": "Engagement de respect de fonctionnalités",
+            "EMPTY": "L'engagement de respect de fonctionnalités est indisponible.",
+            "ACKNOWLEDGE": "Je reconnais avoir pris connaissance de la politique d'engagement.",
+            "CONTINUE": "J'accepte",
+            "DISCONNECT": "Se déconnecter"
         }
     },
     "DASHBOARD": {
@@ -408,20 +554,24 @@
             },
             "TYPE": {
                 "TITLE": "Signalements recevables",
+                "TOTAL_REQUESTS": {
+                    "LABEL": "Toutes les demandes",
+                    "SUBTITLE": "Toutes les demandes confondus"
+                },
                 "TOTAL_PROCESSING": {
                     "LABEL": "Total des signalements",
                     "SUBTITLE": "Tous les signalements confondus"
                 },
                 "PARTIAL_OPERATOR_PROCESSING": {
-                    "LABEL": "Absence d'opérateur",
-                    "SUBTITLE": "Signalements de couverture partielle opérateur"
+                    "LABEL": "Absences d'opérateur(s)",
+                    "SUBTITLE": "Signalements de Absence d'Opérateur"
                 },
                 "WHITE_ZONE_PROCESSING": {
                     "LABEL": "Aucun réseau",
                     "SUBTITLE": "Signalements de réseau"
                 },
                 "PARTIAL_SIGNAL_PROCESSING": {
-                    "LABEL": "Mauvais Signal d'opérateur",
+                    "LABEL": "Mauvais Signal d'opérateur(s)",
                     "SUBTITLE": "Signalements de couverture partielle"
                 },
                 "NO_INTERNET_PROCESSING": {
@@ -432,7 +582,7 @@
             "TASK_STATUS": {
                 "TITLE": "Etat de la prise en charge des signalements",
                 "PENDING": {
-                    "LABEL": "En attente de qualification",
+                    "LABEL": "Demandes en attente de qualification",
                     "SUBTITLE": "Signalements en attente de qualification"
                 },
                 "IN_PROGRESS": {
@@ -453,22 +603,26 @@
                 }
             },
             "PERFORMANCE": {
-                "TITLE": "Performance et Métriques",
-                "TREATMENT_RATE": {
-                    "LABEL": "Taux de traitement",
-                    "SUBTITLE": "Pourcentage de signalements traités"
+                "TITLE": "Performance des opérations",
+                "AVERAGE_QUALIFICATION_TIME": {
+                    "LABEL": "Durée Moyenne",
+                    "SUBTITLE": "(Qualification)"
                 },
-                "COMPLETION_RATE": {
-                    "LABEL": "Taux de complétion",
-                    "SUBTITLE": "Pourcentage de signalements complétés"
+                "AVERAGE_HANDLING_TIME": {
+                    "LABEL": "Durée Moyenne",
+                    "SUBTITLE": "(Prise en charge)"
                 },
-                "AVERAGE_TREATMENT_TIME": {
-                    "LABEL": "Délai moyen",
-                    "SUBTITLE": "Délai moyen de traitement (jours)"
+                "AVERAGE_RESOLUTION_TIME": {
+                    "LABEL": "Durée Moyenne",
+                    "SUBTITLE": "(Clôture)"
                 },
-                "RESPONSE_TIME": {
-                    "LABEL": "Temps de réponse",
-                    "SUBTITLE": "Temps moyen de réponse (heures)"
+                "CONFORMANCE_RATE": {
+                    "LABEL": "Taux de conformité des signalements",
+                    "SUBTITLE": "Pourcentage de satisfaction des usagers"
+                },
+                "USER_SATISFACTION_RATE": {
+                    "LABEL": "Taux de satisfaction usagers",
+                    "SUBTITLE": "Pourcentage de satisfaction des usagers"
                 }
             }
         }
@@ -1905,13 +2059,23 @@
                     "PLACEHOLDER": "Confirmer votre nouveau mot de passe"
                 },
                 "INVALID_FORMAT": "Format invalide",
-                "NOT_MATCH": "Les mots de passe ne correspondent pas"
+                "NOT_MATCH": "Les mots de passe ne correspondent pas",
+                "WEAK_PASSWORD": "Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial",
+                "PASSWORD_EQUALS_EMAIL": "Le mot de passe ne doit pas être identique à votre adresse e-mail",
+                "PASSWORD_EQUALS_OLD": "Le nouveau mot de passe doit être différent de l'ancien mot de passe"
             },
             "MESSAGES": {
                 "SUCCESS": {
                     "PASSWORD_UPDATED": "Mot de passe mis à jour avec succès"
                 }
             }
+        },
+        "2FA": {
+            "CODE_SENT": "Code de vérification envoyé",
+            "ENABLED_SUCCESS": "Authentification à deux facteurs activée avec succès",
+            "DISABLED_SUCCESS": "Authentification à deux facteurs désactivée avec succès",
+            "DISABLE_CONFIRM_TITLE": "Désactiver la double authentification",
+            "DISABLE_CONFIRM_TEXT": "Êtes-vous sûr de vouloir désactiver la double authentification de votre compte ?"
         }
     },
     "REQUESTS": {
@@ -1932,7 +2096,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -1942,7 +2106,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -1953,7 +2117,7 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Aucun réseau",
                     "NO_INTERNET": "Absence d'Internet"
@@ -2018,7 +2182,7 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2027,7 +2191,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Canal d'émission",
@@ -2130,7 +2294,7 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2142,7 +2306,7 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -2228,7 +2392,8 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2238,14 +2403,17 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
+                "UNIQ_ID_PLACEHOLDER": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REPORT_REQUEST_UNIQ_ID_PLACEHOLDER": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Canal d'émission"
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Aucun réseau",
                     "NO_INTERNET": "Absence d'Internet"
@@ -2310,7 +2478,9 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
-                "UNIQ_ID": "Identifiant",
+                "CONFORMITY": "Conformité",
+                "UNIQ_ID": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2328,7 +2498,10 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
+                "UNIQ_ID_PLACEHOLDER": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REPORT_REQUEST_UNIQ_ID_PLACEHOLDER": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Canal d'émission"
@@ -2451,11 +2624,14 @@
                     },
                     "FORM": {
                         "TYPE": "Type d'action",
-                        "DESCRIPTION": "Description",
-                        "DESCRIPTION_PLACEHOLDER": "Ex: Description de l'action de traitement",
+                        "DESCRIPTION": "Recommandations et observations",
+                        "DESCRIPTION_PLACEHOLDER": "Ex: Recommandations sur l'action de traitement",
                         "DATE": "Date",
                         "DATE_ACTION": "Effectué le",
-                        "NOTIFY_USERS": "Publier dans le journal et notifier les utilisateurs",
+                        "NOTIFY_USERS": "Notification des utilisateurs impliqués",
+                        "OPERATOR": "Opérateur concerné",
+                        "DISPLAY_IN_NEWSPAPER": "Visibilité dans le journal du signalement",
+                        "INTERNAL_NOTE": "Action interne",
                         "CONFORMITY": {
                             "TITLE": "Conformité du résultat avec le signalement",
                             "CONFORM": "Conforme",
@@ -2646,7 +2822,7 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Aucun réseau",
                     "NO_INTERNET": "Absence d'Internet"
@@ -2899,7 +3075,10 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
+                "UNIQ_ID_PLACEHOLDER": "N° Demande",
+                "REQUEST_REPORT_UNIQ_ID": "N° Signalement",
+                "REPORT_REQUEST_UNIQ_ID_PLACEHOLDER": "N° Signalement",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2909,7 +3088,10 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
+                "UNIQ_ID_PLACEHOLDER": "N° Demande",
+                "REQUEST_REPORT_UNIQ_ID": "N° Signalement",
+                "REPORT_REQUEST_UNIQ_ID_PLACEHOLDER": "N° Signalement",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -2920,7 +3102,7 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Aucun réseau",
                     "NO_INTERNET": "Absence d'Internet"
@@ -2984,7 +3166,8 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
+                "CODE_ERROR": "Code d'erreur",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
@@ -2994,7 +3177,10 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Demande",
+                "UNIQ_ID_PLACEHOLDER": "N° Demande",
+                "CODE_ERROR": "Code d'erreur",
+                "CODE_ERROR_PLACEHOLDER": "E-400",
                 "REPORT_TYPE": "Types de demandes",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -3005,7 +3191,7 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Aucun réseau",
                     "NO_INTERNET": "Absence d'Internet"
@@ -3069,8 +3255,10 @@
             },
             "TABLE": {
                 "CREATED_AT": "Créé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
+                "CONFORMITY": "Conformité",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
                 "QUALIFY": "Qualifier",
@@ -3079,7 +3267,10 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
+                "UNIQ_ID_PLACEHOLDER": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REQUEST_REPORT_UNIQ_ID_PLACEHOLDER": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateur",
                 "SOURCE": "Canal d'émission",
@@ -3154,6 +3345,123 @@
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
+            },
+            "STATS": {
+                "TITLE": "Répartition par conformité",
+                "CONFORM": {
+                    "LABEL": "Conformes",
+                    "SUBTITLE": "Signalements conformes"
+                },
+                "NON_CONFORM": {
+                    "LABEL": "Non conformes",
+                    "SUBTITLE": "Signalements non conformes"
+                },
+                "UNKNOWN": {
+                    "LABEL": "Inconnus",
+                    "SUBTITLE": "Signalements de conformité inconnue"
+                }
+            }
+        },
+        "ALL": {
+            "TITLE": "signalements",
+            "LABEL": "Tous les signalements",
+            "ROUTE": "all",
+            "BREADCRUMB": {
+                "LABEL": "Tous les signalements",
+                "ROUTE": "all"
+            },
+            "TABLE": {
+                "CREATED_AT": "Créé le",
+                "UNIQ_ID": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REPORT_TYPE": "Types de signalements",
+                "CONFORMITY": "Conformité",
+                "OPERATORS": "Opérateurs",
+                "SOURCE": "Canal Emission [Numéro]",
+                "QUALIFY": "Qualifier",
+                "TASKS_LIST": "Liste des actions",
+                "ACTION": "Action"
+            },
+            "FILTER": {
+                "INITIATOR": "Numero initiateur",
+                "UNIQ_ID": "N° Signalement",
+                "UNIQ_ID_PLACEHOLDER": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REQUEST_REPORT_UNIQ_ID_PLACEHOLDER": "N° Demande",
+                "REPORT_TYPE": "Types de signalements",
+                "OPERATORS": "Opérateur",
+                "SOURCE": "Canal d'émission",
+                "DATE": {
+                    "FROM": "Date début",
+                    "TO": "Date fin"
+                }
+            },
+            "OPTIONS": {
+                "REPORT_TYPE": {
+                    "PARTIAL_SIGNAL": "Couverture partielle du signal",
+                    "WHITE_ZONE": "Aucun réseau",
+                    "NO_INTERNET": "Absence d'Internet",
+                    "PARTIAL_OPERATORS": "Absence d'opérateur",
+                    "PARIAL_SIGNAL": "Mauvais Signal d'opérateur"
+                },
+                "STATUS": {
+                    "APPROVED": "Approuvé",
+                    "RECEIVED": "Reçu",
+                    "REJECTED": "Rejeté"
+                },
+                "OPERATORS": {
+                    "ORANGE": "Orange",
+                    "MTN": "MTN",
+                    "MOOV": "Moov"
+                },
+                "SOURCE": {
+                    "APP": "Application Mobile",
+                    "PWA": "PWA",
+                    "USSD": "USSD",
+                    "SMS": "SMS",
+                    "IVR": "IVR"
+                }
+            },
+            "LABELS": {
+                "STATUS": {
+                    "SUBMISSION": "Soumission",
+                    "PROCESSING": "Traitement",
+                    "CLOSURE": "Clôture"
+                },
+                "SUBMISSION_STATE": {
+                    "PENDING": "En attente",
+                    "ACKNOWLEDGED": "Accusé",
+                    "VALIDATED": "Validé"
+                },
+                "PROCESSING_STATE": {
+                    "RECEIVED": "Reçu",
+                    "IN_PROGRESS": "En cours",
+                    "COMPLETED": "Terminé"
+                },
+                "STATE": {
+                    "OPEN": "Ouverte",
+                    "IN_REVIEW": "En revue",
+                    "QUEUED": "Fermée"
+                }
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des signalements",
+                "EXPORT": "Exporter la liste de {nb} signalements",
+                "DOWNLOAD": "Télécharger la liste de {nb} signalements",
+                "FILTER_REQUIRE": "Veuillez filtrer par au moins une donnée avant de télécharger",
+                "NO_PERMISSION_EXPORT": "Impossible d'exporter la liste des signalements",
+                "NO_PERMISSION_DOWNLOAD": "Vous ne disposez pas de permission de télécharger la liste des signalements",
+                "NO_DOWNLOAD": "Aucune données a télécharger",
+                "TASKS_LIST": "Voir la liste des actions",
+                "SEE_MORE": "Voir plus d'informations"
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "DOWNLOAD": "Télécharger les signalements au format [uniqId]"
+                },
+                "MESSAGE": {
+                    "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
+                }
             }
         },
         "EVALUATE": {
@@ -3182,10 +3490,12 @@
             "TABLE": {
                 "CREATED_AT": "Créé le",
                 "REPORTED_AT": "Signalé le",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal Emission [Numéro]",
+                "CONFORMITY": "Conformité",
                 "STATE": "État",
                 "STEP": "Étape",
                 "STATUS": "Statut",
@@ -3195,7 +3505,10 @@
             },
             "FILTER": {
                 "INITIATOR": "Numero initiateur",
-                "UNIQ_ID": "Identifiant",
+                "UNIQ_ID": "N° Signalement",
+                "UNIQ_ID_PLACEHOLDER": "N° Signalement",
+                "REQUEST_REPORT_UNIQ_ID": "N° Demande",
+                "REPORT_REQUEST_UNIQ_ID_PLACEHOLDER": "N° Demande",
                 "REPORT_TYPE": "Types de signalements",
                 "OPERATORS": "Opérateurs",
                 "SOURCE": "Canal d'émission",
@@ -3267,6 +3580,14 @@
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
                 }
+            },
+            "STATS": {
+                "TITLE": "Répartition des évaluations",
+                "ONE_STAR": "1 étoile",
+                "TWO_STARS": "2 étoiles",
+                "THREE_STARS": "3 étoiles",
+                "FOUR_STARS": "4 étoiles",
+                "FIVE_STARS": "5 étoiles"
             }
         },
         "DIALOG": {
@@ -3306,7 +3627,7 @@
             },
             "OPTIONS": {
                 "REPORT_TYPE": {
-                    "PARTIAL_OPERATORS": "Couverture Partielle Operateur",
+                    "PARTIAL_OPERATORS": "Absence d'Opérateur",
                     "PARTIAL_SIGNAL": "Mauvais Signal d'opérateur",
                     "WHITE_ZONE": "Aucun réseau",
                     "NO_INTERNET": "Absence d'Internet"
@@ -3435,7 +3756,7 @@
                     "ROUTE": "history"
                 }
             },
-            "TITLE": "Messagerie",
+            "TITLE": "messages",
             "LABEL": "Messagerie",
             "ROUTE": "messaging",
             "FILTER": {
@@ -3634,6 +3955,21 @@
                 "INFO": "Informations"
             }
         },
+        "TREATMENT_LOGS": {
+            "TABLE": {
+                "OPERATION": "Opération",
+                "ACTION": "Action",
+                "STATUS": "Statut",
+                "DATE": "Date",
+                "EMPTY": "Aucun traitement enregistré",
+                "ERROR": "Impossible de charger le journal de traitement"
+            },
+            "OPERATIONS": {
+                "CREATING": "Création",
+                "PROCESSING": "Traitement",
+                "CLOSURE": "Clôture"
+            }
+        },
         "CONTENT": {
             "INFORMATION": {
                 "PLACEHOLDER": "Contenu des informations à venir..."
@@ -3783,7 +4119,7 @@
                     "ABI": "Absence d'Internet",
                     "ZOB": "Aucun réseau",
                     "CPS": "Mauvais Signal d'opérateur",
-                    "CPO": "Couverture Partielle Operateur",
+                    "CPO": "Absence d'Opérateur",
                     "OTHER": "Autre"
                 },
                 "STATUS": {
@@ -4276,7 +4612,7 @@
         "ROUTE": "infrastructures",
         "INFRASTRUCTURE_TYPE": {
             "BREADCRUMB": {
-                "LABEL": "Type d'équipements",
+                "LABEL": "Type des type d'équipements",
                 "ROUTE": "equipment-types"
             },
             "TABS": {
@@ -4293,6 +4629,7 @@
             "ROUTE": "equipment-types",
             "TABLE": {
                 "NAME": "Nom",
+                "TAG": "Tag",
                 "DESCRIPTION": "Description",
                 "STATUS": "Statut",
                 "CREATED_AT": "Créé le",
@@ -4303,6 +4640,8 @@
             "FILTER": {
                 "SEARCH": "Rechercher",
                 "SEARCH_PLACEHOLDER": "Rechercher",
+                "TAG": "Tag",
+                "TAG_PLACEHOLDER": "Tag",
                 "STATUS": "Statut",
                 "DATE": {
                     "FROM": "Date de début",
@@ -4312,8 +4651,8 @@
             },
             "FORM": {
                 "TITLE": "Informations Générales",
-                "CREATE_TITLE": "Ajouter un équipement",
-                "EDIT_TITLE": "Modifier un équipement",
+                "CREATE_TITLE": "Ajouter un type d'équipement",
+                "EDIT_TITLE": "Modifier un type d'équipement",
                 "NAME": "Nom",
                 "DESCRIPTION": "Description",
                 "MATRICULE": "Matricule",
@@ -4392,29 +4731,29 @@
             },
             "SWEET_ALERT": {
                 "TITLE": {
-                    "CREATE": "Créer cet équipement",
-                    "NOT_CREATE": "Impossible de créer cet équipement",
-                    "EDIT": "Editer cet équipement",
-                    "NOT_EDIT": "Impossible d'éditer cet équipement",
-                    "DELETE": "Supprimer cet équipement",
-                    "NOT_DELETE": "Impossible de supprimer cet équipement",
-                    "ENABLE": "Activer cet équipement",
-                    "NOT_ENABLE": "Impossible d'activer cet équipement",
-                    "DISABLE": "Désactiver cet équipement",
-                    "NOT_DISABLE": "Impossible de desactiver cet équipement"
+                    "CREATE": "Créer ce type d'équipement",
+                    "NOT_CREATE": "Impossible de créer ce type d'équipement",
+                    "EDIT": "Editer ce type d'équipement",
+                    "NOT_EDIT": "Impossible d'éditer ce type d'équipement",
+                    "DELETE": "Supprimer ce type d'équipement",
+                    "NOT_DELETE": "Impossible de supprimer ce type d'équipement",
+                    "ENABLE": "Activer ce type d'équipement",
+                    "NOT_ENABLE": "Impossible d'activer ce type d'équipement",
+                    "DISABLE": "Désactiver ce type d'équipement",
+                    "NOT_DISABLE": "Impossible de desactiver ce type d'équipement"
                 },
                 "MESSAGE": {
-                    "CREATE": "Êtes-vous sûr de vouloir créer cet équipement",
-                    "NOT_CREATE": "Votre profile ne vous permet pas de créer cet équipement",
-                    "NOTIF_CREATE": "<b>Confirmez-vous la création de cet équipement </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
-                    "EDIT": "Êtes-vous sûr de vouloir éditer cet équipement",
-                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer cet équipement",
-                    "DELETE": "Êtes-vous sûr de vouloir supprimer cet équipement",
-                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer cet équipement",
-                    "ENABLE": "Êtes-vous sûr de vouloir activer cet équipement <b class='text-primary'>uniqId</b>",
-                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer cet équipement <b class='text-primary'>uniqId</b>",
-                    "DISABLE": "Êtes-vous sûr de vouloir désactiver cet équipement <b class='text-primary'>uniqId</b>",
-                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver cet équipement <b class='text-primary'>uniqId</b>"
+                    "CREATE": "Êtes-vous sûr de vouloir créer ce type d'équipement",
+                    "NOT_CREATE": "Votre profile ne vous permet pas de créer ce type d'équipement",
+                    "NOTIF_CREATE": "<b>Confirmez-vous la création de ce type d'équipement </b>?<br><br><span class='color-primary'>Ses identifiants de connexion seront envoyés automatiquement à l'adresse e-mail suivante :</span><br><b class='color-secondary'>{{email}}</b><br><br><small class='text-danger'>Veuillez vérifier que l'adresse e-mail est correcte.</small>",
+                    "EDIT": "Êtes-vous sûr de vouloir éditer ce type d'équipement",
+                    "NOT_EDIT": "Votre profile ne vous permet pas d'éditer ce type d'équipement",
+                    "DELETE": "Êtes-vous sûr de vouloir supprimer ce type d'équipement",
+                    "NOT_DELETE": "Votre profile ne vous permet pas de supprimer ce type d'équipement",
+                    "ENABLE": "Êtes-vous sûr de vouloir activer ce type d'équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_ENABLE": "Votre profile ne vous permet pas d'activer ce type d'équipement <b class='text-primary'>uniqId</b>",
+                    "DISABLE": "Êtes-vous sûr de vouloir désactiver ce type d'équipement <b class='text-primary'>uniqId</b>",
+                    "NOT_DISABLE": "Votre profile ne vous permet pas de désactiver ce type d'équipement <b class='text-primary'>uniqId</b>"
                 }
             },
             "TOOLTIP": {
@@ -4422,12 +4761,12 @@
                 "EXPORT": "Exporter la liste de {nb} équipements",
                 "CHOOSE": "Choisir une action",
                 "CREATE": "Créer un équipement",
-                "EDIT": "Editer cet équipement",
-                "DELETE": "Supprimer cet équipement",
-                "ENABLE": "Activer cet équipement",
-                "DISABLE": "Désactiver cet équipement",
+                "EDIT": "Editer ce type d'équipement",
+                "DELETE": "Supprimer ce type d'équipement",
+                "ENABLE": "Activer ce type d'équipement",
+                "DISABLE": "Désactiver ce type d'équipement",
                 "NO_EXPORT": "Aucun équipement à exporter",
-                "NOT_DELETE": "Équipement actif, Impossible de supprimer cet équipement",
+                "NOT_DELETE": "Équipement actif, Impossible de supprimer ce type d'équipement",
                 "NO_PERMISSION_CHOOSE": "Ces actions ne vous sont pas permises",
                 "NO_PERMISSION_EXPORT": "Exportation des équipements non permis",
                 "NO_PERMISSION_CREATE": "Création d'un équipement non permis",
@@ -4665,6 +5004,7 @@
             "ROUTE": "site-groups",
             "TABLE": {
                 "CODE": "Code (Nom affiché)",
+                "MOBILE_NETWORK_COUNT": "# Sites réseaux mobiles",
                 "NAME": "Nom du groupe",
                 "STATUS": "Statut",
                 "UPDATED_AT": "Date MAJ",
@@ -4772,14 +5112,16 @@
                 "TOWER_SIZE": "Hauteur du pylone (m)",
                 "TECHNOLOGY": "Technologie",
                 "OPERATOR": "Opérateur",
+                "SITE_GROUPE": "Groupe de site",
                 "RADIUS": "Rayon",
                 "STATUS": "Statut",
                 "UPDATED_AT": "Date MAJ",
                 "ACTION": "Action"
             },
             "FILTER": {
-                "SEARCH": "Rechercher",
+                "SEARCH": "Rechercher (Id ou Nom)",
                 "SEARCH_PLACEHOLDER": "Rechercher",
+                "SITE_GROUPE": "Groupe de site",
                 "TOWER_TYPE": "Type pylone",
                 "TOWER_SIZE": "Hauteur du pylone (m)",
                 "TOWER_SIZE_PLACEHOLDER": "Ex: 30",
@@ -4812,6 +5154,11 @@
                 "OPERATOR": "Opérateur",
                 "RADIUS": "Rayon",
                 "RADIUS_PLACEHOLDER": "Ex: 5",
+                "LONGITUDE": "Longitude",
+                "LONGITUDE_PLACEHOLDER": "Ex: -5.5",
+                "LATITUDE": "Latitude",
+                "LATITUDE_PLACEHOLDER": "Ex: 7.5",
+                "MAP_SEARCH_PLACEHOLDER": "Rechercher une adresse ou des coordonnées",
                 "ERROR": {
                     "DELETE": {
                         "UNIQ_ID_REQUIRE": "L'identifiant est requis"
@@ -4831,7 +5178,9 @@
                         "TOWER_TYPE_REQUIRE": "Le type de pylone est requis",
                         "TOWER_SIZE_REQUIRE": "La taille du pylone est requise",
                         "TECHNOLOGY_REQUIRE": "La technologie est requise",
-                        "OPERATOR_REQUIRE": "L'opérateur est requis"
+                        "OPERATOR_REQUIRE": "L'opérateur est requis",
+                        "LONGITUDE_REQUIRE": "La longitude est requise",
+                        "LATITUDE_REQUIRE": "La latitude est requise"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "L'identifiant est requis",
@@ -4840,7 +5189,9 @@
                         "TOWER_TYPE_REQUIRE": "Le type de pylone est requis",
                         "TOWER_SIZE_REQUIRE": "La taille du pylone est requise",
                         "TECHNOLOGY_REQUIRE": "La technologie est requise",
-                        "OPERATOR_REQUIRE": "L'opérateur est requis"
+                        "OPERATOR_REQUIRE": "L'opérateur est requis",
+                        "LONGITUDE_REQUIRE": "La longitude est requise",
+                        "LATITUDE_REQUIRE": "La latitude est requise"
                     }
                 }
             },
@@ -4934,6 +5285,9 @@
                 "CONSTRUCTOR_PLACEHOLDER": "Sélectionner un constructeur",
                 "TYPE": "Type de fibre",
                 "TYPE_PLACEHOLDER": "Sélectionner le type",
+                "GEOMETRY_MODE": "Mode de géométrie",
+                "GEOMETRY_MODE_COORDINATES": "Saisie manuelle",
+                "GEOMETRY_MODE_FILE": "Fichier GeoJSON",
                 "GEOM_FILE": "Tableau de coordonnées de troncon",
                 "GEOM_PLACEHOLDER": "Glisser-déposer ou cliquer",
                 "GEOM_EXISTING": "Fichier GeoJSON déjà associé",
@@ -4960,7 +5314,8 @@
                         "OPERATOR_REQUIRE": "L'opérateur est obligatoire",
                         "FIBER_CONSTRUCTOR_REQUIRE": "Le constructeur est obligatoire",
                         "TYPE_REQUIRE": "Le type de fibre est obligatoire",
-                        "GEOM_FILE_REQUIRE": "Le fichier GeoJSON est obligatoire"
+                        "GEOM_FILE_REQUIRE": "Le fichier GeoJSON est obligatoire",
+                        "GEOM_REQUIRE": "Les coordonnées du tracé ou le fichier GeoJSON sont obligatoires"
                     },
                     "UPDATE": {
                         "UNIQ_ID_REQUIRE": "Identifiant unique requis",
@@ -5077,6 +5432,8 @@
                 "OPERATOR": "Opérateur",
                 "FREQUENCY": "Fréquence",
                 "FREQUENCY_PLACEHOLDER": "Ex: 900",
+                "DEBIT": "Débit",
+                "DEBIT_PLACEHOLDER": "Ex: 150",
                 "COORDINATES_POINT_A": "Coordonnées du point A",
                 "COORDINATES_POINT_B": "Coordonnées du point B",
                 "LONGITUDE_POINT_A_PLACEHOLDER": "Longitude du point A",
@@ -5104,6 +5461,7 @@
                         "NAME_REQUIRE": "Le nom est requis",
                         "OPERATOR_REQUIRE": "L'opérateur est requis",
                         "FREQUENCY_REQUIRE": "La fréquence est requise",
+                        "DEBIT_REQUIRE": "Le débit est requis",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitude du point A est requise",
                         "LATITUDE_POINT_A_REQUIRE": "La latitude du point A est requise",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitude du point B est requise",
@@ -5114,6 +5472,7 @@
                         "NAME_REQUIRE": "Le nom est requis",
                         "OPERATOR_REQUIRE": "L'opérateur est requis",
                         "FREQUENCY_REQUIRE": "La fréquence est requise",
+                        "DEBIT_REQUIRE": "Le débit est requis",
                         "LONGITUDE_POINT_A_REQUIRE": "La longitude du point A est requise",
                         "LATITUDE_POINT_A_REQUIRE": "La latitude du point A est requise",
                         "LONGITUDE_POINT_B_REQUIRE": "La longitude du point B est requise",
@@ -5411,7 +5770,7 @@
                             "ABI": "Absence d'Internet",
                             "ZOB": "Aucun réseau",
                             "CPS": "Mauvais Signal d'opérateur",
-                            "CPO": "Couverture Partielle Operateur"
+                            "CPO": "Absence d'Opérateur"
                         },
                         "FIELDSET_OPERATORS": {
                             "TITLE": "Opérateurs",
@@ -5603,6 +5962,14 @@
                 "STATUS": "Status",
                 "CREATED_AT": "Créé le",
                 "ACTION": "Action"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des statistiques",
+                "EXPORT": "Exporter la liste de {nb} statistiques",
+                "CHOOSE": "Choisir une action",
+                "NO_EXPORT": "Aucune statistique à exporter",
+                "NO_PERMISSION_EXPORT": "Exportation des statistiques non permis",
+                "SEE_MORE": "Voir plus d'informations"
             }
         }
     },
@@ -5734,6 +6101,46 @@
             "LABEL": "Signalements par opérateur",
             "LOADING_DESCRIPTION": "Suivi des signalements par opérateur en cours...",
             "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des signalements par opérateur. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_BY_EQUIPMENTS": {
+            "BREADCRUMB": {
+                "LABEL": "Impacts des signalements sur les équipements",
+                "ROUTE": "impacts-on-equipments"
+            },
+            "TITLE": "Tableau de bord analytique des impacts des signalements sur les équipements",
+            "LABEL": "Impacts des signalements sur les équipements",
+            "LOADING_DESCRIPTION": "Suivi des impacts des signalements sur les équipements en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des impacts des signalements sur les équipements. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_BY_POPULATIONS": {
+            "BREADCRUMB": {
+                "LABEL": "Impacts des signalements sur les populations",
+                "ROUTE": "impacts-on-populations"
+            },
+            "TITLE": "Tableau de bord analytique des impacts des signalements sur les populations",
+            "LABEL": "Impacts des signalements sur les populations",
+            "LOADING_DESCRIPTION": "Suivi des impacts des signalements sur les populations en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des impacts des signalements sur les populations. Veuillez recharger la page ou contacter le support."
+        },
+        "TEAM_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Suivi perf. équipes",
+                "ROUTE": "team-compliances"
+            },
+            "TITLE": "Tableau de bord du suivi des performances des équipes",
+            "LABEL": "Suivi perf. équipes",
+            "LOADING_DESCRIPTION": "Suivi des performances des équipes en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des performances des équipes. Veuillez recharger la page ou contacter le support."
+        },
+        "REPORT_COMPLIANCES": {
+            "BREADCRUMB": {
+                "LABEL": "Conformité des signalements",
+                "ROUTE": "report-compliances"
+            },
+            "TITLE": "Tableau de bord de la conformité des signalements",
+            "LABEL": "Conformité des signalements",
+            "LOADING_DESCRIPTION": "Suivi de la conformité des signalements en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord de la conformité des signalements. Veuillez recharger la page ou contacter le support."
         }
     },
     "MONITORING": {

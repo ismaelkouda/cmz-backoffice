@@ -17,6 +17,7 @@ import {
 } from '@shared/components/table-button-header/table-button-header.component';
 import { TableTitleComponent } from '@shared/components/table-title/table-title.component';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
+import { COVERAGE_OPERATORS } from '@shared/domain/constants/coverage-operators';
 import { ActionDropdown } from '@shared/domain/enums/action-dropdown.enum';
 import { formatDate } from '@shared/domain/functions/format-data.function';
 import { operatorsTagStyle } from '@shared/domain/functions/operators-tag-style.function';
@@ -56,6 +57,7 @@ import { TooltipModule } from 'primeng/tooltip';
     styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
+    public readonly COVERAGE_OPERATORS = COVERAGE_OPERATORS;
     public selectedItems: any[] = [];
     public readonly numberToCheck = signal<number>(0);
     private readonly clipboardService = inject(ClipboardService);
@@ -252,5 +254,14 @@ export class TableComponent {
 
     public getOperatorTagStyle(operator: string): Record<string, string> {
         return operatorsTagStyle(operator);
+    }
+
+    public getFullOperatorTagStyle(operator: string): Record<string, string> {
+        const coverageOperator = this.COVERAGE_OPERATORS.find(
+            (op) => op.id === operator
+        );
+        return coverageOperator
+            ? { backgroundColor: coverageOperator.color, color: '#fff' }
+            : {};
     }
 }

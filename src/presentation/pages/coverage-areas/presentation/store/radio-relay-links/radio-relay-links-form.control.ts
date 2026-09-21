@@ -5,6 +5,7 @@ export interface RadioRelayLinksFormControl {
     name: FormControl<string | undefined>;
     operator: FormControl<RadioRelayLinksOperator | undefined>;
     frequency: FormControl<number | undefined>;
+    debit: FormControl<number | undefined>;
     longitudePointA: FormControl<string | undefined>;
     latitudePointA: FormControl<string | undefined>;
     longitudePointB: FormControl<string | undefined>;

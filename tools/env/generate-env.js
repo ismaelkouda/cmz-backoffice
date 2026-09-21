@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { generateTypes, validateConfig } from './config-validator.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -26,8 +26,11 @@ export class EnvironmentGenerator {
             this.paths.config,
             "❌ Fichier 'config.js' introuvable"
         );
-
-        const configModule = await import(this.paths.config);
+    
+        const configModule = await import(
+            pathToFileURL(this.paths.config).href
+        );
+    
         return configModule.default || configModule;
     }
 

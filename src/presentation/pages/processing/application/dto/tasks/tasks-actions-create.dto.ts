@@ -7,5 +7,6 @@ export interface TasksActionsCreateDto {
     operator: string;
     description: string;
     shouldNotifyUser: boolean;
+    shouldDisplayInNewspaper: boolean;
     isConform: Conformity | null;
 }

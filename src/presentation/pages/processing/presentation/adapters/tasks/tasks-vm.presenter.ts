@@ -9,10 +9,14 @@ export class TasksPresenter {
             uniqId: item.uniqId,
             type: item.type,
             reportTypeLabel: this.t(item.reportType),
+            requestReportUniqId: item.requestReportUniqId,
             operators: item.operators,
             sourceLabel: this.t(item.source),
             initiatorPhoneNumber: item.initiatorPhoneNumber,
             reportedAt: item.reportedAt,
+            isConform: item.isConform,
+            conformLabel: this.t(item.isConform),
+            conformStyle: item.conformStyle(item.isConform),
             actionsRef: item.actionsRef,
             tooltipButtonTreat: permission.canTreat
                 ? this.t('PROCESSING.TASKS.TOOLTIP.TREAT')

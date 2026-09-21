@@ -8,6 +8,7 @@ export class TasksActionsCreateCommand {
         public readonly operator: string,
         public readonly description: string,
         public readonly shouldNotifyUser: boolean,
+        public readonly shouldDisplayInNewspaper: boolean,
         public readonly isConform: Conformity | null
     ) {}
 }
