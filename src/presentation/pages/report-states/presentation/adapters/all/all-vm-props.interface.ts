@@ -13,6 +13,7 @@ export interface AllVmProps {
     operators: TelecomOperator[];
     sourceLabel: string;
     initiatorPhoneNumber: string;
+    requestReportsCount: number;
     reportedAt: string;
     isConform: Conformity;
     conformLabel: string;

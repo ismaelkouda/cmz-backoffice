@@ -49,7 +49,12 @@ import { MenuItem } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ACTIONS_ROUTE } from '@presentation/pages/report-states/report-states.routes';
+import {
+    ACTIONS_ROUTE,
+    ALL_ROUTE,
+    REQUEST_ROUTE,
+} from '@presentation/pages/report-states/report-states.routes';
+import { REPORT_STATES_ROUTE } from '@shared/routes/routes';
 import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 
 interface StatisticCard {
@@ -500,6 +505,17 @@ export class EvaluateComponent {
             },
         };
         actions[event.actionId]?.();
+    }
+    protected onBadgeClicked(event: { item: EvaluateVmProps; col: any }): void {
+        const { item, col } = event;
+        if (col.field !== 'requestReportsCount' || !item.uniqId) {
+            return;
+        }
+        this.router.navigate([REPORT_STATES_ROUTE, ALL_ROUTE, REQUEST_ROUTE], {
+            queryParams: {
+                reportUniqId: item.uniqId,
+            },
+        });
     }
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);

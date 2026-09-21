@@ -6,14 +6,14 @@ import { AllFilterContract } from '@pages/report-states/domain/contracts/all/all
 export class AllFilterMapper {
     map(entity: AllFilterContract): AllFilterApiDto {
         return {
-            initiatorPhoneNumber: entity.initiatorPhoneNumber,
-            uniqId: entity.uniqId,
-            requestReportUniqId: entity.requestReportUniqId,
-            reportType: entity.reportType,
+            initiator_phone_number: entity.initiatorPhoneNumber,
+            uniq_id: entity.uniqId,
+            request_report_uniq_id: entity.requestReportUniqId,
+            report_type: entity.reportType,
             operators: entity.operators,
             source: entity.source,
-            startDate: entity.startDate,
-            endDate: entity.endDate,
+            start_date: entity.startDate,
+            end_date: entity.endDate,
         };
     }
 }
