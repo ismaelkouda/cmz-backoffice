@@ -1,5 +1,5 @@
 export interface AdministrativeBoundaryDto {
-    id: string;
+    id: number;
     name: string;
     code: string;
 }

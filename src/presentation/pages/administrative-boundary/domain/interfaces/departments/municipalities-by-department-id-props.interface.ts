@@ -1,10 +1,10 @@
 import { Status } from '@pages/administrative-boundary/domain/enums/municipalities/municipalities-status.enum';
 export interface MunicipalitiesByDepartmentIdProps {
-    uniqId: string;
+    uniqId: number;
     name: string;
     code: string;
     description: string;
-    region: string;
+    region: number;
     populationSize: number;
     status: Status;
     createdAt: string;

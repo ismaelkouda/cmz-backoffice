@@ -7,9 +7,9 @@ export interface MessagingFormControl {
     reportId: FormControl<string>;
     type: FormControl<MessagingTypeEnum | undefined>;
     targetType: FormControl<MessagingTargetEnum | undefined>;
-    region: FormControl<string>;
-    department: FormControl<string>;
-    municipality: FormControl<string>;
+    region: FormControl<number | undefined>;
+    department: FormControl<number | undefined>;
+    municipality: FormControl<number | undefined>;
     channels: FormControl<MessagingChannelsEnum[] | undefined>;
     subject: FormControl<string>;
     content: FormControl<string>;

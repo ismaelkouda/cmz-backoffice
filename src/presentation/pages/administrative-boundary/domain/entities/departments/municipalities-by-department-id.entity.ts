@@ -4,7 +4,7 @@ import { MunicipalitiesByDepartmentIdProps } from '@pages/administrative-boundar
 export class MunicipalitiesByDepartmentIdEntity {
     constructor(private readonly props: MunicipalitiesByDepartmentIdProps) {}
 
-    get uniqId(): string {
+    get uniqId(): number {
         return this.props.uniqId;
     }
     get name(): string {
@@ -16,7 +16,7 @@ export class MunicipalitiesByDepartmentIdEntity {
     get description(): string {
         return this.props.description;
     }
-    get region(): string {
+    get region(): number {
         return this.props.region;
     }
     get populationSize(): number {
