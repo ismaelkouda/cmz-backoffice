@@ -44,6 +44,7 @@ export class EvaluateMapper extends PaginatedMapper<
             ),
             source: this.reportSourceMapper.mapToEnum(dto.source),
             initiatorPhoneNumber: dto.initiator_phone_number,
+            requestReportsCount: dto.request_reports_count,
             reportedAt: dto.reported_at,
             isConform: this.conformityMapper.mapFromDto(dto.compliance_status),
             updatedAt: dto.updated_at,

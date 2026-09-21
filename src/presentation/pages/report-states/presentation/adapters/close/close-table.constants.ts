@@ -65,6 +65,13 @@ export const CLOSE_TABLE = {
             class: 'text-center',
         },
         {
+            field: 'requestReportsCount',
+            header: 'REPORT_STATES.CLOSE.TABLE.REQUESTS_COUNT',
+            class: 'text-center',
+            width: '6rem',
+            type: 'badge-button',
+        },
+        {
             field: '__action',
             header: 'REPORT_STATES.CLOSE.TABLE.ACTION',
             class: 'text-center',

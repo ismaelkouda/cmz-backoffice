@@ -65,6 +65,13 @@ export const EVALUATE_TABLE = {
             class: 'text-center',
         },
         {
+            field: 'requestReportsCount',
+            header: 'REPORT_STATES.EVALUATE.TABLE.REQUESTS_COUNT',
+            class: 'text-center',
+            width: '6rem',
+            type: 'badge-button',
+        },
+        {
             field: '__action',
             header: 'REPORT_STATES.EVALUATE.TABLE.ACTION',
             class: 'text-center',

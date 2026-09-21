@@ -13,6 +13,7 @@ export class ApprovePresenter {
             operators: item.operators,
             sourceLabel: this.t(item.source),
             initiatorPhoneNumber: item.initiatorPhoneNumber,
+            evaluationsCount: item.evaluationsCount,
             reportedAt: item.reportedAt,
             actionsRef: item.actionsRef,
             tooltipButtonQualify: this.t(

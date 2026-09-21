@@ -34,11 +34,11 @@
                                             {{ stat.subtitle | translate }}
                                         </div>
                                         } -->
-                                        @if (stat.rate != null) {
+                                        <!-- @if (stat.rate != null) {
                                         <div class="stat-rate">
                                             <span class="rate-badge">{{ stat.rate }}%</span>
                                         </div>
-                                        }
+                                        } -->
                                     </div>
                                 </div>
                             }
@@ -69,6 +69,7 @@
                                 [items]="itemsVM()"
                                 [pagination]="pagination()"
                                 (actionClicked)="onActionClicked($event)"
+                                (badgeClicked)="onBadgeClicked($event)"
                                 (headerButtonClicked)="onHeaderClicked($event)"
                             ></app-table>
 
