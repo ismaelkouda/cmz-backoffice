@@ -11,6 +11,8 @@ export class ChannelsMapper {
             [ChannelsDto.PUSH]: Channels.PUSH,
             [ChannelsDto.MAIL]: Channels.MAIL,
             [ChannelsDto.SMS]: Channels.SMS,
+            [ChannelsDto.WHATSAPP]: Channels.WHATSAPP,
+            [ChannelsDto.TELEGRAM]: Channels.TELEGRAM,
         };
         return methodMap[dto];
     }
@@ -19,6 +21,8 @@ export class ChannelsMapper {
             [Channels.PUSH]: ChannelsDto.PUSH,
             [Channels.MAIL]: ChannelsDto.MAIL,
             [Channels.SMS]: ChannelsDto.SMS,
+            [Channels.WHATSAPP]: ChannelsDto.WHATSAPP,
+            [Channels.TELEGRAM]: ChannelsDto.TELEGRAM,
         };
         return methodMap[value];
     }

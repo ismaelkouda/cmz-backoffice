@@ -11,6 +11,8 @@ export class MessagingChannelsMapper {
             [MessagingChannelsDto.PUSH]: MessagingChannelsEnum.PUSH,
             [MessagingChannelsDto.MAIL]: MessagingChannelsEnum.MAIL,
             [MessagingChannelsDto.SMS]: MessagingChannelsEnum.SMS,
+            [MessagingChannelsDto.WHATSAPP]: MessagingChannelsEnum.WHATSAPP,
+            [MessagingChannelsDto.TELEGRAM]: MessagingChannelsEnum.TELEGRAM,
         };
         return methodMap[dto];
     }
@@ -19,6 +21,8 @@ export class MessagingChannelsMapper {
             [MessagingChannelsEnum.PUSH]: MessagingChannelsDto.PUSH,
             [MessagingChannelsEnum.MAIL]: MessagingChannelsDto.MAIL,
             [MessagingChannelsEnum.SMS]: MessagingChannelsDto.SMS,
+            [MessagingChannelsEnum.WHATSAPP]: MessagingChannelsDto.WHATSAPP,
+            [MessagingChannelsEnum.TELEGRAM]: MessagingChannelsDto.TELEGRAM,
         };
         return methodMap[value];
     }

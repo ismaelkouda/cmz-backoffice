@@ -20,6 +20,14 @@ export class MessagingUpdateEntity {
         return this.contract.channels.includes(MessagingChannelsEnum.PUSH);
     }
 
+    hasWhatsappChannel(): boolean {
+        return this.contract.channels.includes(MessagingChannelsEnum.WHATSAPP);
+    }
+
+    hasTelegramChannel(): boolean {
+        return this.contract.channels.includes(MessagingChannelsEnum.TELEGRAM);
+    }
+
     ensureCanBeUpdated(): void {
         this.ensureSmsContentLength();
         this.ensureMailSubject();
