@@ -571,7 +571,7 @@
                     "SUBTITLE": "Signalements de réseau"
                 },
                 "PARTIAL_SIGNAL_PROCESSING": {
-                    "LABEL": "Mauvais Signal d'opérateur(s)",
+                    "LABEL": "Tous les signalements",
                     "SUBTITLE": "Signalements de couverture partielle"
                 },
                 "NO_INTERNET_PROCESSING": {
