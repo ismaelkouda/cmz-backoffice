@@ -55,7 +55,6 @@ import {
 } from '@presentation/pages/report-states/report-states.routes';
 import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 import { formatRate } from '@shared/domain/functions/format-rate';
-import { JsonPipe } from '@angular/common';
 
 interface StatisticCard {
     key: string;
@@ -87,7 +86,6 @@ interface StatisticCard {
         ReactiveFormsModule,
         FilterComponent,
         SkeletonModule,
-        JsonPipe,
     ],
     providers: [AllFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,

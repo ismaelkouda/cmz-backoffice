@@ -8,7 +8,7 @@ import { UnauthorizedError } from '@shared/domain/errors/http/unauthorized.error
 import { UnknownError } from '@shared/domain/errors/http/unknown.error';
 import { ValidationError } from '@shared/domain/errors/http/validation.error';
 
-export function httpErrorMapper(error: HttpErrorResponse): DomainError {
+export function httpErrorMapper(error: HttpErrorResponse): DomainError | null {
     switch (error.status) {
         case 400:
             // if (error.error?.code === 'ACCOUNT_LOCKED') {
@@ -22,7 +22,9 @@ export function httpErrorMapper(error: HttpErrorResponse): DomainError {
 
         case 403:
             if (error.error?.data?.code === 'PRIVACY_NOT_ACCEPTED') {
-                return new ForbiddenError(error.error.message);
+                console.warn('Privacy policy not accepted');
+                return null;
+                // return new ForbiddenError(error.error.message);
             } else {
                 return new ForbiddenError();
             }
