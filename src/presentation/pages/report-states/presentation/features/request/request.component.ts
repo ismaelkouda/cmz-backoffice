@@ -391,7 +391,7 @@ export class RequestComponent {
                 { emitEvent: false }
             );
         }
-        this.facade.refresh();
+        this.facade.read(this.formStore.value, '1', { forceRefresh: true });
     }
     private exportData(): void {
         if (!this.canExport()) {
