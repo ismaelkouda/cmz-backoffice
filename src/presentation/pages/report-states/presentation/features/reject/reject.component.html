@@ -16,14 +16,21 @@
                     <div class="statistics-section">
                         <div class="statistics-grid">
                             @for (stat of typeStatistics(); track stat.label) {
-                                <div class="stat-card card-{{ stat.color }}" tabindex="0">
+                                <div
+                                    class="stat-card card-{{ stat.color }}"
+                                    tabindex="0"
+                                >
                                     <div class="card-content">
                                         <div class="stat-header">
                                             <div class="stat-value">
                                                 {{ stat.count }}
                                             </div>
                                             <div class="stat-icon-wrapper">
-                                                <i class="stat-icon pi {{ stat.icon }}"></i>
+                                                <i
+                                                    class="stat-icon pi {{
+                                                        stat.icon
+                                                    }}"
+                                                ></i>
                                             </div>
                                         </div>
                                         <div class="stat-label">
@@ -44,7 +51,6 @@
                             }
                         </div>
                     </div>
-
 
                     <div class="reject-content">
                         <app-filter
