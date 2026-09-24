@@ -216,6 +216,45 @@ $dark-gray: var(--color-gray);
     }
 }
 
+::ng-deep .p-select.p-disabled .p-select-label {
+    color: inherit !important;
+    font-size: large !important;
+    font-weight: bold !important;
+}
+
+::ng-deep .p-textarea:disabled {
+    background-color: inherit !important;
+    font-size: large !important;
+    font-weight: bold !important;
+    color: inherit !important;
+    opacity: 1 !important;
+}
+
+::ng-deep .p-select.p-disabled {
+    background-color: inherit !important;
+    color: inherit !important;
+    opacity: 1;
+}
+
+::ng-deep .form-input.p-inputtext:disabled {
+    background-color: inherit !important;
+    color: inherit !important;
+    opacity: 1;
+}
+
+.disabled {
+    opacity: 1;
+}
+
+::ng-deep .p-checkbox-checked.p-disabled .p-checkbox-box {
+    background-color: var(--color-success, #28a745) !important;
+    border-color: var(--color-success, #28a745) !important;
+}
+
+::ng-deep .p-checkbox-checked.p-disabled .p-checkbox-icon {
+    color: var(--color-white, #ffffff) !important;
+}
+
 .fieldset {
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;

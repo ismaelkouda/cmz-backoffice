@@ -175,11 +175,6 @@ export class MessagingFormStore {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-
-                    Validators.minLength(FormValidators.SUBJECT.MIN),
-
-                    Validators.maxLength(FormValidators.SUBJECT.MAX),
-
                     Validators.pattern(FormValidators.SUBJECT.PATTERN),
                 ],
             }),
@@ -188,11 +183,6 @@ export class MessagingFormStore {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-
-                    Validators.minLength(FormValidators.CONTENT.MIN),
-
-                    Validators.maxLength(FormValidators.CONTENT.MAX),
-
                     Validators.pattern(FormValidators.CONTENT.PATTERN),
                 ],
             }),
@@ -324,11 +314,6 @@ export class MessagingFormStore {
         if (isReport) {
             reportIdControl.setValidators([
                 Validators.required,
-
-                Validators.minLength(FormValidators.REPORT_ID.MIN),
-
-                Validators.maxLength(FormValidators.REPORT_ID.MAX),
-
                 Validators.pattern(FormValidators.REPORT_ID.PATTERN),
             ]);
         } else {
