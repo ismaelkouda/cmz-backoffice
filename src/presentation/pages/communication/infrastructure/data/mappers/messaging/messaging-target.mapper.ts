@@ -6,27 +6,24 @@ import { MessagingTargetDto } from '@pages/communication/infrastructure/api/dto/
     providedIn: 'root',
 })
 export class MessagingTargetMapper {
-    private readonly dtoToEntity: Record<
-        MessagingTargetDto,
-        MessagingTargetEnum
-    > = {
-        [MessagingTargetDto.REPORT]: MessagingTargetEnum.REPORT,
-        [MessagingTargetDto.AREA]: MessagingTargetEnum.AREA,
-    };
-
-    private readonly entityToDto: Record<
-        MessagingTargetEnum,
-        MessagingTargetDto
-    > = {
+    private readonly entityToDto: Record<string, MessagingTargetDto> = {
         [MessagingTargetEnum.REPORT]: MessagingTargetDto.REPORT,
         [MessagingTargetEnum.AREA]: MessagingTargetDto.AREA,
+        report: MessagingTargetDto.REPORT,
+        area: MessagingTargetDto.AREA,
     };
 
     mapFromDto(dtoValue: MessagingTargetDto): MessagingTargetEnum {
-        return this.dtoToEntity[dtoValue];
+        if (dtoValue === MessagingTargetDto.REPORT) {
+            return MessagingTargetEnum.REPORT;
+        }
+        if (dtoValue === MessagingTargetDto.AREA) {
+            return MessagingTargetEnum.AREA;
+        }
+        return MessagingTargetEnum.REPORT;
     }
 
-    mapToDto(enumValue: MessagingTargetEnum): MessagingTargetDto {
+    mapToDto(enumValue: string | MessagingTargetEnum): MessagingTargetDto {
         return this.entityToDto[enumValue] ?? MessagingTargetDto.REPORT;
     }
 }
