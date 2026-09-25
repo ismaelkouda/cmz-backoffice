@@ -1,0 +1,36 @@
+.sla-form {
+    .field {
+        margin-bottom: 1rem;
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        :host ::ng-deep .p-inputtext,
+        :host ::ng-deep .p-inputtextarea {
+            width: 100%;
+        }
+    }
+}
+
+:host ::ng-deep .p-dialog {
+    .p-dialog-header {
+        background: var(--primary-color);
+        color: white;
+        border-radius: 0.5rem 0.5rem 0 0;
+        padding: 1rem 1.5rem;
+    }
+
+    .p-dialog-content {
+        padding: 1.5rem;
+    }
+
+    .p-dialog-footer {
+        border-top: 1px solid var(--surface-border);
+        padding: 1rem 1.5rem;
+        border-radius: 0 0 0.5rem 0.5rem;
+    }
+}

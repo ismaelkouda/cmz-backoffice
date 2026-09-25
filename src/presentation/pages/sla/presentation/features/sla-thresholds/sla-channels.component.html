@@ -1,0 +1,140 @@
+<main class="container-fluid sla-channels-container" role="main">
+    <section class="row sla-channels-row">
+        <article class="col-sm-12 sla-channels-article">
+            <app-breadcrumb />
+
+            <section class="card sla-channels-card">
+                <div class="card-body sla-channels-card-body">
+                    <header class="sla-channels-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'SLA.CHANNELS.TITLE' | translate"
+                        />
+
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            icon="pi pi-times"
+                            styleClass="p-button-danger"
+                            (onClick)="navigateToParent()"
+                        />
+                    </header>
+
+                    <div class="sla-channels-content">
+                        <p-tabs
+                            [value]="activeChannel()"
+                            (valueChange)="selectChannel($event)"
+                        >
+                            <p-tablist>
+                                @for (
+                                    channel of channels;
+                                    track channel.value
+                                ) {
+                                    <p-tab [value]="channel.value">
+                                        {{ channel.label | translate }}
+                                    </p-tab>
+                                }
+                            </p-tablist>
+
+                            <p-tabpanels>
+                                <p-tabpanel [value]="activeChannel()">
+                                    <section class="table-section">
+                                        <app-table
+                                            class="table-component"
+                                            [config]="tableConfig"
+                                            [items]="tableItems()"
+                                            [loading]="facade.loading()"
+                                            [headerButtons]="headerButtons()"
+                                            [hiddenButtonRefresh]="true"
+                                            [hiddenButtonExport]="true"
+                                            (headerButtonClicked)="
+                                                onHeaderClicked($event)
+                                            "
+                                            (refreshRequested)="refresh()"
+                                            (actionClicked)="onAction($event)"
+                                            dataKey="id"
+                                        />
+                                    </section>
+                                </p-tabpanel>
+                            </p-tabpanels>
+                        </p-tabs>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+
+<p-dialog
+    [visible]="visible()"
+    (visibleChange)="visible.set($event)"
+    [modal]="true"
+    [style]="{ width: '600px' }"
+    [draggable]="false"
+    [resizable]="false"
+    [header]="(editing() ? 'COMMON.EDIT' : 'COMMON.CREATE') | translate"
+>
+    <form [formGroup]="form" (ngSubmit)="save()" class="sla-channels-form">
+        <div class="field">
+            <label for="slaId">
+                {{ 'SLA.CHANNELS.FORM.SLA' | translate }}
+                <span class="text-danger" aria-label="required">*</span>
+            </label>
+            <p-select
+                inputId="slaId"
+                formControlName="slaId"
+                [options]="facade.slaOptions()"
+                optionLabel="name"
+                optionValue="id"
+                appendTo="body"
+                styleClass="w-100"
+                [placeholder]="'SLA.CHANNELS.FORM.SLA' | translate"
+                [class.ng-invalid]="
+                    form.get('slaId')?.invalid && form.get('slaId')?.touched
+                "
+            />
+            @if (form.get('slaId')?.invalid && form.get('slaId')?.touched) {
+                <small class="text-danger d-block mt-1" role="alert">
+                    {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                </small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="delay">
+                {{ 'SLA.CHANNELS.FORM.DELAY' | translate }}
+                <span class="text-danger" aria-label="required">*</span>
+            </label>
+            <p-inputNumber
+                inputId="delay"
+                formControlName="delay"
+                [min]="0"
+                styleClass="w-100"
+                [placeholder]="'SLA.CHANNELS.FORM.DELAY' | translate"
+                [class.ng-invalid]="
+                    form.get('delay')?.invalid && form.get('delay')?.touched
+                "
+            />
+            @if (form.get('delay')?.invalid && form.get('delay')?.touched) {
+                <small class="text-danger d-block mt-1" role="alert">
+                    {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                </small>
+            }
+        </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            styleClass="p-button-danger"
+            (onClick)="visible.set(false)"
+        />
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            icon="pi pi-check"
+            [disabled]="form.invalid"
+            (onClick)="save()"
+        />
+    </ng-template>
+</p-dialog>

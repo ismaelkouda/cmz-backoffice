@@ -1,0 +1,81 @@
+<p-dialog
+    [visible]="visible"
+    [modal]="true"
+    [style]="{ width: '600px' }"
+    [draggable]="false"
+    [resizable]="false"
+    [header]="dialogHeader()"
+    (visibleChange)="onDialogHide()"
+>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="sla-form">
+        <div class="field">
+            <label for="name">
+                {{ 'SLA.SLA_FORM.NAME' | translate }}
+                <span class="text-danger" aria-label="required">*</span>
+            </label>
+            <input
+                pInputText
+                id="name"
+                formControlName="name"
+                [placeholder]="'SLA.SLA_FORM.NAME_PLACEHOLDER' | translate"
+                [readonly]="isViewMode()"
+                class="w-full"
+            />
+            @if (form.get('name')?.invalid && form.get('name')?.touched) {
+                <small class="text-danger d-block mt-1" role="alert">
+                    {{ getErrorMessage('name') }}
+                </small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="description">{{
+                'SLA.SLA_FORM.DESCRIPTION' | translate
+            }}</label>
+            <textarea
+                pInputTextarea
+                id="description"
+                formControlName="description"
+                [placeholder]="
+                    'SLA.SLA_FORM.DESCRIPTION_PLACEHOLDER' | translate
+                "
+                [readonly]="isViewMode()"
+                rows="4"
+                class="w-100"
+            ></textarea>
+            @if (
+                form.get('description')?.invalid &&
+                form.get('description')?.touched
+            ) {
+                <small class="text-danger d-block mt-1" role="alert">{{
+                    getErrorMessage('description')
+                }}</small>
+            }
+        </div>
+    </form>
+
+    <ng-template pTemplate="footer">
+        @if (isViewMode()) {
+            <p-button
+                label="{{ 'COMMON.CLOSE' | translate }}"
+                icon="pi pi-times"
+                styleClass="p-button-text"
+                (onClick)="onCancel()"
+            ></p-button>
+        } @else {
+            <p-button
+                label="{{ 'COMMON.CANCEL' | translate }}"
+                icon="pi pi-times"
+                styleClass="p-button-danger"
+                (onClick)="onCancel()"
+            ></p-button>
+            <p-button
+                label="{{ 'COMMON.SAVE' | translate }}"
+                icon="pi pi-check"
+                [loading]="form.pristine"
+                (onClick)="onSubmit()"
+                [disabled]="form.invalid"
+            ></p-button>
+        }
+    </ng-template>
+</p-dialog>

@@ -13,6 +13,34 @@
                         >
                         </app-page-title>
                     </header>
+                    <div class="statistics-section">
+                        <div class="statistics-grid">
+                            @for (stat of channelStatistics(); track stat.label) {
+                                <div
+                                    class="stat-card card-{{ stat.color }}"
+                                    tabindex="0"
+                                >
+                                    <div class="card-content">
+                                        <div class="stat-header">
+                                            <div class="stat-value">
+                                                {{ stat.count }}
+                                            </div>
+                                            <div class="stat-icon-wrapper">
+                                                <i
+                                                    class="stat-icon pi {{
+                                                        stat.icon
+                                                    }}"
+                                                ></i>
+                                            </div>
+                                        </div>
+                                        <div class="stat-label">
+                                            {{ stat.label | translate }}
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
 
                     <div class="queues-content">
                         <app-filter

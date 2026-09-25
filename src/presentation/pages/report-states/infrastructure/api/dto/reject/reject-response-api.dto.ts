@@ -20,10 +20,11 @@ export interface RejectItemApiDto {
 
 export interface StatsDto {
     total: number;
-    zob: { count: number; rate: number };
-    cps: { count: number; rate: number };
-    abi: { count: number; rate: number };
-    cpo: { count: number; rate: number };
+    DUP: { count: number; rate: number };
+    HOP: { count: number; rate: number };
+    IFM: { count: number; rate: number };
+    FAS: { count: number; rate: number };
+    AUT: { count: number; rate: number };
 }
 export type RejectResponseApiDto = PaginatedResponseDto<
     RejectItemApiDto,

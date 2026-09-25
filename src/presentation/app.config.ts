@@ -60,6 +60,7 @@ import { providePrimeNG } from 'primeng/config';
 import { provideInteractiveMap } from './pages/interactive-map/di/interactive-map.providers';
 import { provideAdministrativeInfrastructure } from './pages/administrative-infrastructure/di/administrative-infrastructure.providers';
 import { provideCoverageAreas } from '@pages/coverage-areas/di/coverage-areas.providers';
+import { provideSla } from '@pages/sla/di/sla.providers';
 import { provideReportNewspaper } from '@shared/components/report-newspaper/di/report-newspaper.providers';
 
 const frenchLocale = {
@@ -277,6 +278,8 @@ export const appConfig: ApplicationConfig = {
         ...provideAdministrativeInfrastructure(),
 
         ...provideCoverageAreas(),
+
+        ...provideSla(),
 
         ...historyProviders(),
 

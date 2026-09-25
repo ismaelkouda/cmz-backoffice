@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
 import { QueuesProps } from '@pages/requests/domain/interfaces/queues/queues-props.interface';
-import { QueuesItemApiDto } from '@pages/requests/infrastructure/api/dto/queues/queues-response-api.dto';
+import { QueuesItemApiDto, StatsDto as QueuesStatsDto } from '@pages/requests/infrastructure/api/dto/queues/queues-response-api.dto';
 import { PaginatedMapper } from '@shared/data/mappers/base/paginated-response.mapper';
 import { ReportSourceMapper } from '@shared/data/mappers/report-source.mapper';
 import { ReportTypeMapper } from '@shared/data/mappers/report-type.mapper';
@@ -12,7 +12,8 @@ import { MapperUtils } from '@shared/domain/utils/mapper-utils';
 @Injectable({ providedIn: 'root' })
 export class QueuesMapper extends PaginatedMapper<
     QueuesEntity,
-    QueuesItemApiDto
+    QueuesItemApiDto,
+    QueuesStatsDto
 > {
     private readonly utils = new MapperUtils();
     private readonly entityCache = new Map<string, QueuesEntity>();

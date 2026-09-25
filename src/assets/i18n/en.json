@@ -67,6 +67,7 @@
         "CREATE": "Create",
         "CLOSE": "Close",
         "VISUALIZE": "Visualize",
+        "VIEW": "View",
         "FINALIZE": "Finalize",
         "FILTER_RESULT": "Filter result",
         "RESTORE": "Restore",
@@ -4136,5 +4137,19 @@
             "LOADING_DESCRIPTION": "Monitoring performance in progress...",
             "ERROR_DESCRIPTION": "An error occurred while loading the Node Performance dashboard. Please reload the page or contact support."
         }
+    },
+    "SLA": {
+        "BREADCRUMB": { "LABEL": "SLA Reference" },
+        "SLA_LIST": {
+            "TITLE": "SLA Reference",
+            "FILTER": { "SEARCH": "Search", "SEARCH_PLACEHOLDER": "Name or description" },
+            "TABLE": { "NAME": "Name", "DESCRIPTION": "Description", "STATUS": "Status", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at", "ACTION": "Actions" },
+            "TOOLTIP": { "REFRESH": "Refresh", "CREATE": "Create SLA", "NO_PERMISSION_CREATE": "Creation not allowed", "EXPORT": "Export {nb} item(s)", "NO_PERMISSION_EXPORT": "Export not allowed", "NO_EXPORT": "No data to export", "ENABLE": "Enable", "DISABLE": "Disable", "DELETE": "Delete", "NO_PERMISSION_ENABLE": "Activation not allowed", "NO_PERMISSION_DISABLE": "Deactivation not allowed", "NO_PERMISSION_DELETE": "Deletion not allowed" },
+            "SWEET_ALERT": { "TITLE": { "ENABLE": "Enable SLA?", "DISABLE": "Disable SLA?", "DELETE": "Delete SLA?" }, "MESSAGE": { "ENABLE": "Do you want to enable {{name}}?", "DISABLE": "Do you want to disable {{name}}?", "DELETE": "Do you want to delete {{name}}?" } }
+        },
+        "SLA_FORM": { "CREATE_TITLE": "Create SLA", "EDIT_TITLE": "Edit SLA", "VIEW_TITLE": "View SLA", "NAME": "Name", "NAME_PLACEHOLDER": "SLA name", "DESCRIPTION": "Description", "DESCRIPTION_PLACEHOLDER": "SLA description", "SWEET_ALERT": { "TITLE": { "CREATE": "Create SLA?", "EDIT": "Edit SLA?" }, "MESSAGE": { "CREATE": "Do you want to create the SLA {{name}}?", "EDIT": "Do you want to save the changes to SLA {{name}}?" } } },
+        "STATUS": { "ACTIVE": "Active", "INACTIVE": "Inactive" },
+        "THRESHOLDS": { "TITLE": "SLA Thresholds by report type", "SEARCH": "Search", "TABLE": { "NAME": "Name", "DESCRIPTION": "Description", "REFERENTIALS": "References by channel", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at" } },
+        "CHANNELS": { "TITLE": "SLA references by channel", "APP": "App (Mobile + PWA)", "SMS": "SMS", "USSD": "USSD", "IVR": "IVR", "API_CLIENT": "API Client", "TABLE": { "NAME": "Name", "DELAY": "Delay", "STATUS": "Status", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at", "ACTION": "Actions" }, "FORM": { "SLA": "SLA reference", "DELAY": "Delay" } }
     }
 }

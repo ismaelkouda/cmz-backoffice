@@ -1,0 +1,27 @@
+.sla-channels-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.sla-channels-content {
+    width: 100%;
+}
+
+.table-section {
+    margin-top: 1rem;
+}
+
+.sla-channels-form {
+    .field {
+        margin-bottom: 1rem;
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+    }
+}

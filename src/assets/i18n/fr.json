@@ -117,6 +117,7 @@
         "CREATE": "Créer",
         "CLOSE": "Fermer",
         "VISUALIZE": "Visualiser",
+        "VIEW": "Voir",
         "FINALIZE": "Finaliser",
         "FILTER_RESULT": "Resultat du filtre",
         "RESTORE": "Restaurer",
@@ -2170,6 +2171,33 @@
                 "NO_EXPORT": "Aucune demande à exporter",
                 "NOT_TAKE": "Impossible d'ajouter au panier cette demande",
                 "SEE_MORE": "Voir plus d'informations"
+            },
+            "STATS": {
+                "TITLE": "Répartition par canal",
+                "TOTAL": {
+                    "LABEL": "Tous les canaux",
+                    "SUBTITLE": "Total des demandes"
+                },
+                "APP": {
+                    "LABEL": "App (Mobile + PWA)",
+                    "SUBTITLE": "Demandes via l'application"
+                },
+                "SMS": {
+                    "LABEL": "SMS",
+                    "SUBTITLE": "Demandes via SMS"
+                },
+                "USSD": {
+                    "LABEL": "USSD",
+                    "SUBTITLE": "Demandes via USSD"
+                },
+                "IVR": {
+                    "LABEL": "IVR",
+                    "SUBTITLE": "Demandes via IVR"
+                },
+                "API_CLIENT": {
+                    "LABEL": "API Client",
+                    "SUBTITLE": "Demandes via API Client"
+                }
             }
         },
         "TASKS": {
@@ -3243,8 +3271,29 @@
                 },
                 "MESSAGE": {
                     "DOWNLOAD": " Vous recevrez une notification une fois celui-ci terminé. Le fichier sera également disponible dans le menu [ Téléchargements ]"
-                }
+}
+            },
+        "STATS": {
+            "TITLE": "Répartition par motif de rejet",
+            "TOTAL": {
+                "LABEL": "Total rejets"
+            },
+            "DUP": {
+                "LABEL": "Duplicata (DUP)"
+            },
+            "HOP": {
+                "LABEL": "Hors périmètre (HOP)"
+            },
+            "IFM": {
+                "LABEL": "Informations manquantes (IFM)"
+            },
+            "FAS": {
+                "LABEL": "Faux signalement (FAS)"
+            },
+            "AUT": {
+                "LABEL": "Autre (AUT)"
             }
+        }
         },
         "CLOSE": {
             "TITLE": "signalements clôturés",
@@ -6280,5 +6329,19 @@
                 }
             }
         }
+    },
+    "SLA": {
+        "BREADCRUMB": { "LABEL": "Référentiel SLA" },
+        "SLA_LIST": {
+            "TITLE": "Référentiel SLA",
+            "FILTER": { "SEARCH": "Recherche", "SEARCH_PLACEHOLDER": "Nom ou description" },
+            "TABLE": { "NAME": "Nom", "DESCRIPTION": "Description", "STATUS": "Statut", "CREATED_AT": "Créé le", "UPDATED_AT": "Modifié le", "ACTION": "Actions" },
+            "TOOLTIP": { "REFRESH": "Actualiser", "CREATE": "Créer un SLA", "NO_PERMISSION_CREATE": "Création non autorisée", "EXPORT": "Exporter {nb} élément(s)", "NO_PERMISSION_EXPORT": "Export non autorisé", "NO_EXPORT": "Aucune donnée à exporter", "ENABLE": "Activer", "DISABLE": "Désactiver", "DELETE": "Supprimer", "NO_PERMISSION_ENABLE": "Activation non autorisée", "NO_PERMISSION_DISABLE": "Désactivation non autorisée", "NO_PERMISSION_DELETE": "Suppression non autorisée" },
+            "SWEET_ALERT": { "TITLE": { "ENABLE": "Activer le SLA ?", "DISABLE": "Désactiver le SLA ?", "DELETE": "Supprimer le SLA ?" }, "MESSAGE": { "ENABLE": "Voulez-vous activer {{name}} ?", "DISABLE": "Voulez-vous désactiver {{name}} ?", "DELETE": "Voulez-vous supprimer {{name}} ?" } }
+        },
+        "SLA_FORM": { "CREATE_TITLE": "Créer un SLA", "EDIT_TITLE": "Modifier un SLA", "VIEW_TITLE": "Consulter un SLA", "NAME": "Nom", "NAME_PLACEHOLDER": "Nom du SLA", "DESCRIPTION": "Description", "DESCRIPTION_PLACEHOLDER": "Description du SLA", "SWEET_ALERT": { "TITLE": { "CREATE": "Créer le SLA ?", "EDIT": "Modifier le SLA ?" }, "MESSAGE": { "CREATE": "Voulez-vous créer le SLA {{name}} ?", "EDIT": "Voulez-vous enregistrer les modifications du SLA {{name}} ?" } } },
+        "STATUS": { "ACTIVE": "Actif", "INACTIVE": "Inactif" },
+        "THRESHOLDS": { "TITLE": "Seuils des SLA par type de signalements", "SEARCH": "Recherche", "TABLE": { "NAME": "Nom", "DESCRIPTION": "Description", "REFERENTIALS": "Référentiels par canal", "CREATED_AT": "Créé le", "UPDATED_AT": "Modifié le" } },
+        "CHANNELS": { "TITLE": "Référentiels SLA par canal", "APP": "App (Mobile + PWA)", "SMS": "SMS", "USSD": "USSD", "IVR": "IVR", "API_CLIENT": "API Client", "TABLE": { "NAME": "Nom", "DELAY": "Délai", "STATUS": "Statut", "CREATED_AT": "Créé le", "UPDATED_AT": "Modifié le", "ACTION": "Actions" }, "FORM": { "SLA": "Référentiel SLA", "DELAY": "Délai" } }
     }
 }
