@@ -1,0 +1,45 @@
+<main class="container-fluid sla-thresholds-container" role="main">
+    <section class="row sla-thresholds-row">
+        <article class="col-sm-12 sla-thresholds-article">
+            <app-breadcrumb />
+
+            <section class="card sla-thresholds-card">
+                <div class="card-body sla-thresholds-card-body">
+                    <header class="sla-thresholds-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'SLA.THRESHOLDS.TITLE' | translate"
+                        >
+                        </app-page-title>
+                    </header>
+
+                    <div class="sla-thresholds-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="facade.loading()"
+                            [formGroup]="form"
+                            [fields]="fields"
+                            (filter)="filter()"
+                        ></app-filter>
+
+                        <hr class="sla-thresholds-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                [config]="tableConfig"
+                                [items]="facade.reportTypes()"
+                                [loading]="facade.loading()"
+                                [headerButtons]="headerButtons()"
+                                (headerButtonClicked)="onHeaderClicked($event)"
+                                (badgeClicked)="openChannels($event)"
+                                dataKey="id"
+                            ></app-table>
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

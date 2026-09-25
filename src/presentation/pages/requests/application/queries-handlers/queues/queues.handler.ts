@@ -3,6 +3,7 @@ import { Injectable, inject } from '@angular/core';
 import { QueuesQuery } from '@pages/requests/application/queries/queues/queues.query';
 import { QueuesUseCase } from '@pages/requests/application/use-cases/queues/queues.use-case';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
+import { StatsDto as QueuesStatsDto } from '@pages/requests/infrastructure/api/dto/queues/queues-response-api.dto';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { Observable } from 'rxjs';
@@ -15,7 +16,7 @@ export class QueuesHandler {
         query: QueuesQuery,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<QueuesEntity>> {
+    ): Observable<Paginate<QueuesEntity, QueuesStatsDto>> {
         return this.useCase.execute(queuesQueryMapper(query), page, options);
     }
 }

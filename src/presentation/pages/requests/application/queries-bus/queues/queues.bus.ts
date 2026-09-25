@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { QueuesQuery } from '@pages/requests/application/queries/queues/queues.query';
 import { QueuesHandler } from '@pages/requests/application/queries-handlers/queues/queues.handler';
 import { QueuesEntity } from '@pages/requests/domain/entities/queues/queues.entity';
+import { StatsDto as QueuesStatsDto } from '@pages/requests/infrastructure/api/dto/queues/queues-response-api.dto';
 import { Paginate } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
@@ -14,7 +15,7 @@ export class QueuesBus {
         query: T,
         page: string,
         options?: FetchOptions
-    ): Observable<Paginate<QueuesEntity>> {
+    ): Observable<Paginate<QueuesEntity, QueuesStatsDto>> {
         if (query instanceof QueuesQuery) {
             return this.filterHandler.execute(query, page, options);
         }
