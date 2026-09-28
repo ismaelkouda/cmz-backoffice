@@ -26,9 +26,33 @@ export class SlaApi {
         options?: FetchOptions
     ): Observable<SlaResponseApiDto> {
         const url = `${this.baseUrl}${SLA_ENDPOINTS.LIST}`;
-        const params = buildHttpParams(filter, {
-            arrayFormat: 'comma',
+        const params = buildHttpParams(
+            { ...filter, category: 'job' },
+            {
+                arrayFormat: 'comma',
+            }
+        );
+        const context = new HttpContext().set(
+            BYPASS_CACHE,
+            options?.forceRefresh ?? false
+        );
+        return this.http.get<SlaResponseApiDto>(url, {
+            params,
+            context,
         });
+    }
+
+    executeSystem(
+        filter: SlaFilterApiDto,
+        options?: FetchOptions
+    ): Observable<SlaResponseApiDto> {
+        const url = `${this.baseUrl}${SLA_ENDPOINTS.LIST}`;
+        const params = buildHttpParams(
+            { ...filter, category: 'system' },
+            {
+                arrayFormat: 'comma',
+            }
+        );
         const context = new HttpContext().set(
             BYPASS_CACHE,
             options?.forceRefresh ?? false

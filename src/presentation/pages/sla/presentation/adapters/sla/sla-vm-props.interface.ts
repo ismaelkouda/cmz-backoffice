@@ -8,6 +8,7 @@ export interface SlaVmProps {
     createdAt: string;
     updatedAt: string;
     statusLabel: string;
+    statusStyle: string;
     dropdownActions: ActionDropdownItem[];
     disableDropdown: boolean;
     tooltipDropdown: string;

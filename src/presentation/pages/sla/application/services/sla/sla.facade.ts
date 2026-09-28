@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { SlaCreateDto } from '@pages/sla/application/dto/sla/sla-create.dto';
 import { SlaDeleteDto } from '@pages/sla/application/dto/sla/sla-delete.dto';
 import { SlaDisableDto } from '@pages/sla/application/dto/sla/sla-disable.dto';
@@ -13,12 +13,19 @@ import { ArrayBaseFacade } from '@shared/application/services/array-base-facade'
 import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
+import { SlaApi } from '@pages/sla/infrastructure/data/sources/sla/sla.api';
+import { SlaMapper } from '@pages/sla/infrastructure/data/mappers/sla/sla.mapper';
+import { finalize } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class SlaFacade extends ArrayBaseFacade<SlaEntity, SlaFilterDto> {
     private readonly bus = inject(SlaBus);
     private readonly useCase = inject(SlaUseCase);
     private readonly uiFeedback = inject(UiFeedbackService);
+    private readonly api = inject(SlaApi);
+    private readonly mapper = inject(SlaMapper);
+    readonly systemItems = signal<SlaEntity[]>([]);
+    readonly systemLoading = signal(false);
 
     read(filter: SlaFilterDto | null = {}, options: FetchOptions = {}): void {
         const normalizedFilter = filter ?? {};
@@ -35,6 +42,21 @@ export class SlaFacade extends ArrayBaseFacade<SlaEntity, SlaFilterDto> {
 
     refresh(): void {
         this.read(this.filterSubject.getValue() ?? {}, { forceRefresh: true });
+    }
+
+    readSystem(
+        filter: SlaFilterDto | null = {},
+        options: FetchOptions = {}
+    ): void {
+        this.systemLoading.set(true);
+        this.api
+            .executeSystem({ search: filter?.search }, options)
+            .pipe(finalize(() => this.systemLoading.set(false)))
+            .subscribe({
+                next: (response) =>
+                    this.systemItems.set(this.mapper.mapFromDto(response)),
+                error: (error) => this.uiFeedback.notifyError(error),
+            });
     }
 
     create(dto: SlaCreateDto): void {

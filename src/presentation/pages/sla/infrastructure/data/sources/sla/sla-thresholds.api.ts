@@ -5,6 +5,7 @@ import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { Observable } from 'rxjs';
 import { SLA_ENDPOINTS } from '@pages/sla/infrastructure/api/sla.endpoints';
 import { ReportTypeResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/report-type-response-api.dto';
+import { ReportSystemResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/report-system-response-api.dto';
 import { ReportSlaResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/report-sla-response-api.dto';
 import { SlaOptionResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/sla-option-response-api.dto';
 
@@ -21,6 +22,51 @@ export class SlaThresholdsApi {
         return this.http.get<ReportTypeResponseApiDto>(
             `${this.baseUrl}${SLA_ENDPOINTS.REPORT_TYPES}`,
             { params }
+        );
+    }
+
+    reportSystems(search?: string): Observable<ReportSystemResponseApiDto> {
+        let params = new HttpParams();
+        if (search) {
+            params = params.set('search', search);
+        }
+        return this.http.get<ReportSystemResponseApiDto>(
+            `${this.baseUrl}${SLA_ENDPOINTS.SYSTEM_SLA}`,
+            { params }
+        );
+    }
+
+    createSystem(payload: object): Observable<MessageResponseDto> {
+        return this.http.post<MessageResponseDto>(
+            `${this.baseUrl}${SLA_ENDPOINTS.REPORT_SYSTEM}/store`,
+            payload
+        );
+    }
+
+    updateSystem(id: number, payload: object): Observable<MessageResponseDto> {
+        return this.http.post<MessageResponseDto>(
+            `${this.baseUrl}${SLA_ENDPOINTS.REPORT_SYSTEM}/${id}/update`,
+            payload
+        );
+    }
+
+    enableSystem(id: number): Observable<MessageResponseDto> {
+        return this.http.put<MessageResponseDto>(
+            `${this.baseUrl}${SLA_ENDPOINTS.REPORT_SYSTEM}/${id}/enable`,
+            {}
+        );
+    }
+
+    disableSystem(id: number): Observable<MessageResponseDto> {
+        return this.http.put<MessageResponseDto>(
+            `${this.baseUrl}${SLA_ENDPOINTS.REPORT_SYSTEM}/${id}/disable`,
+            {}
+        );
+    }
+
+    deleteSystem(id: number): Observable<MessageResponseDto> {
+        return this.http.delete<MessageResponseDto>(
+            `${this.baseUrl}${SLA_ENDPOINTS.REPORT_SYSTEM}/${id}/delete`
         );
     }
 
