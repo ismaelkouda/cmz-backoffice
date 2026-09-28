@@ -8,9 +8,12 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
+    AbstractControl,
     FormControl,
     FormGroup,
     ReactiveFormsModule,
+    ValidationErrors,
+    ValidatorFn,
     Validators,
 } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -21,6 +24,7 @@ import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
+import { TagModule } from 'primeng/tag';
 import { TabsModule } from 'primeng/tabs';
 import {
     SlaThresholdsFacade,
@@ -39,6 +43,26 @@ const CHANNELS = [
     { value: 'api_client', label: 'SLA.CHANNELS.API_CLIENT' },
 ];
 
+const escalationDelayValidator: ValidatorFn = (
+    control: AbstractControl
+): ValidationErrors | null => {
+    const delay = control.get('delay')?.value;
+    const escalationDelay = control.get('escalationDelay')?.value;
+
+    if (
+        delay === null ||
+        delay === undefined ||
+        escalationDelay === null ||
+        escalationDelay === undefined
+    ) {
+        return null;
+    }
+
+    return escalationDelay < delay
+        ? null
+        : { escalationDelayMustBeLower: true };
+};
+
 @Component({
     selector: 'app-sla-channels',
     standalone: true,
@@ -53,6 +77,7 @@ const CHANNELS = [
         BreadcrumbComponent,
         PageTitleComponent,
         TableComponent,
+        TagModule,
     ],
     templateUrl: './sla-channels.component.html',
     styleUrls: ['./sla-channels.component.scss'],
@@ -67,15 +92,25 @@ export class SlaChannelsComponent implements OnInit {
     readonly channels = CHANNELS;
     readonly activeChannel = signal('app');
     readonly reportTypeId = signal(0);
+    readonly reportTypeName = signal('');
     readonly visible = signal(false);
     readonly editing = signal<ReportSlaVm | null>(null);
-    readonly form = new FormGroup({
-        slaId: new FormControl<number | null>(null, Validators.required),
-        delay: new FormControl<number | null>(null, [
-            Validators.required,
-            Validators.min(0),
-        ]),
-    });
+    readonly form = new FormGroup(
+        {
+            slaId: new FormControl<number | null>(null, Validators.required),
+            delay: new FormControl<number | null>(null, [
+                Validators.required,
+                Validators.min(0),
+                Validators.pattern(/^\d+$/),
+            ]),
+            escalationDelay: new FormControl<number | null>(null, [
+                Validators.required,
+                Validators.min(0),
+                Validators.pattern(/^\d+$/),
+            ]),
+        },
+        { validators: escalationDelayValidator }
+    );
     readonly tableItems = computed(() =>
         this.facade.reportSlas().map((item) => ({
             ...item,
@@ -122,7 +157,9 @@ export class SlaChannelsComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParamMap.subscribe((params) => {
             const id = Number(params.get('reportTypeId'));
+            const name = params.get('reportTypeName');
             this.reportTypeId.set(id);
+            this.reportTypeName.set(name || '');
             this.facade.readSlaOptions();
             this.facade.readReportSlas(this.activeChannel(), id);
         });
@@ -162,7 +199,11 @@ export class SlaChannelsComponent implements OnInit {
     }
     openEdit(item: ReportSlaVm): void {
         this.editing.set(item);
-        this.form.patchValue({ slaId: item.slaId, delay: item.delay });
+        this.form.patchValue({
+            slaId: item.slaId,
+            delay: item.delay,
+            escalationDelay: item.escalationDelay,
+        });
         this.visible.set(true);
     }
     save(): void {
@@ -176,6 +217,7 @@ export class SlaChannelsComponent implements OnInit {
             sla_id: value.slaId,
             channel: this.activeChannel(),
             delay: value.delay,
+            escalation_delay: value.escalationDelay,
             is_active: this.editing()?.isActive ?? true,
         };
         const editing = this.editing();

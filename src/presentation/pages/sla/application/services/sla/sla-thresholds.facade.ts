@@ -16,8 +16,10 @@ export interface ReportSlaVm {
     reportTypeId: number;
     slaId: number;
     slaName: string;
+    slaDescription: string;
     channel: string;
     delay: number;
+    escalationDelay: number;
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
@@ -74,9 +76,11 @@ export class SlaThresholdsFacade {
                             id: item.id,
                             reportTypeId: item.report_type_id,
                             slaId: item.sla_id,
-                            slaName: item.sla?.name ?? '',
+                            slaName: item.sla_name,
+                            slaDescription: item.sla_description,
                             channel: item.channel,
                             delay: item.delay,
+                            escalationDelay: item.escalation_delay,
                             isActive: item.is_active,
                             createdAt: item.created_at,
                             updatedAt: item.updated_at,

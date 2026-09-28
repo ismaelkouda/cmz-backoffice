@@ -11,8 +11,20 @@ export const SLA_CHANNELS_TABLE = {
             header: 'SLA.CHANNELS.TABLE.NAME',
         },
         {
+            field: 'slaDescription',
+            header: 'SLA.THRESHOLDS.TABLE.DESCRIPTION',
+        },
+        {
+            class: 'text-center',
             field: 'delay',
             header: 'SLA.CHANNELS.TABLE.DELAY',
+            width: '12rem',
+        },
+        {
+            class: 'text-center',
+            field: 'escalationDelay',
+            header: 'SLA.CHANNELS.TABLE.ESCALATION_DELAY',
+            width: '12rem',
         },
         {
             field: 'statusLabel',
@@ -20,18 +32,30 @@ export const SLA_CHANNELS_TABLE = {
             class: 'text-center',
             width: '8rem',
         },
+        // {
+        //     class: 'text-center',
+        //     field: 'createdAt',
+        //     header: 'SLA.CHANNELS.TABLE.CREATED_AT',
+        //     width: '10rem',
+        // },
         {
-            field: 'createdAt',
-            header: 'SLA.CHANNELS.TABLE.CREATED_AT',
-        },
-        {
+            class: 'text-center',
             field: 'updatedAt',
             header: 'SLA.CHANNELS.TABLE.UPDATED_AT',
+            width: '10rem',
         },
         {
             field: '__actionDropdown',
             header: 'SLA.CHANNELS.TABLE.ACTION',
+            class: 'text-center',
+            width: '8rem',
         },
     ],
-    globalFilterFields: ['slaName', 'delay', 'statusLabel'],
+    globalFilterFields: [
+        'slaName',
+        'slaDescription',
+        'delay',
+        'escalationDelay',
+        'statusLabel',
+    ],
 };

@@ -168,7 +168,7 @@ export class MessagingListComponent {
         {
             label: 'COMMON.CREATE',
             actionId: 'create',
-            icon: 'pi pi-user-plus',
+            icon: 'pi pi-plus',
             class: 'btn-primary',
             disabled: !this.canCreate(),
             tooltip: this.createTooltip(),

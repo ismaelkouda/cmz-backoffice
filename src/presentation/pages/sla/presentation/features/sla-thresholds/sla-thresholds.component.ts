@@ -78,9 +78,12 @@ export class SlaThresholdsComponent implements OnInit {
             this.exportData();
         }
     }
-    openChannels(event: { item: { id: number } }): void {
+    openChannels(event: { item: { id: number; name: string } }): void {
         this.router.navigate(['/sla/thresholds/channels'], {
-            queryParams: { reportTypeId: event.item.id },
+            queryParams: {
+                reportTypeId: event.item.id,
+                reportTypeName: event.item.name,
+            },
         });
     }
 

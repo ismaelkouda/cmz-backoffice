@@ -6,11 +6,20 @@
             <section class="card sla-channels-card">
                 <div class="card-body sla-channels-card-body">
                     <header class="sla-channels-header">
-                        <app-page-title
-                            class="page-title-component"
-                            [displayDate]="false"
-                            [title]="'SLA.CHANNELS.TITLE' | translate"
-                        />
+                        <div class="action-buttons d-flex gap-2">
+                            <app-page-title
+                                [displayDate]="false"
+                                [title]="'SLA.CHANNELS.TITLE' | translate"
+                            />
+                            @if (reportTypeName()) {
+                                <p-tag
+                                    [style]="{ 'font-size': '1.3rem' }"
+                                    [value]="reportTypeName()"
+                                    severity="info"
+                                    [rounded]="true"
+                                />
+                            }
+                        </div>
 
                         <p-button
                             [label]="'COMMON.CLOSE' | translate"
@@ -109,6 +118,8 @@
                 inputId="delay"
                 formControlName="delay"
                 [min]="0"
+                [maxFractionDigits]="0"
+                [useGrouping]="false"
                 styleClass="w-100"
                 [placeholder]="'SLA.CHANNELS.FORM.DELAY' | translate"
                 [class.ng-invalid]="
@@ -118,6 +129,43 @@
             @if (form.get('delay')?.invalid && form.get('delay')?.touched) {
                 <small class="text-danger d-block mt-1" role="alert">
                     {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                </small>
+            }
+        </div>
+
+        <div class="field">
+            <label for="escalationDelay">
+                {{ 'SLA.CHANNELS.FORM.ESCALATION_DELAY' | translate }}
+                <span class="text-danger" aria-label="required">*</span>
+            </label>
+            <p-inputNumber
+                inputId="escalationDelay"
+                formControlName="escalationDelay"
+                [min]="0"
+                [maxFractionDigits]="0"
+                [useGrouping]="false"
+                styleClass="w-100"
+                [placeholder]="'SLA.CHANNELS.FORM.ESCALATION_DELAY' | translate"
+                [class.ng-invalid]="
+                    form.get('escalationDelay')?.invalid &&
+                    form.get('escalationDelay')?.touched
+                "
+            />
+            @if (
+                form.get('escalationDelay')?.invalid &&
+                form.get('escalationDelay')?.touched
+            ) {
+                <small class="text-danger d-block mt-1" role="alert">
+                    @if (form.get('escalationDelay')?.hasError('required')) {
+                        {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                    } @else if (form.hasError('escalationDelayMustBeLower')) {
+                        {{
+                            'SLA.VALIDATION.ESCALATION_DELAY_MUST_BE_LOWER'
+                                | translate
+                        }}
+                    } @else {
+                        {{ 'COMMON.VALIDATION.INVALID_INPUT' | translate }}
+                    }
                 </small>
             }
         </div>
