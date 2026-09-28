@@ -23,11 +23,9 @@ import { SlaVmProps } from '@pages/sla/presentation/adapters/sla/sla-vm-props.in
 import { SlaPresenter } from '@pages/sla/presentation/adapters/sla/sla-vm.presenter';
 import { SlaFilterStore } from '@pages/sla/presentation/store/sla/sla-filter.store';
 import { SLA_LIST_TABLE } from '@presentation/pages/sla/presentation/adapters/sla/sla-table.constant';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
 import { SlaFormComponent } from '../sla-form/sla-form.component';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TableComponent } from '@shared/components/table/table.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
@@ -44,11 +42,9 @@ import { formatDate } from '@shared/domain/functions/format-data.function';
     styleUrls: ['./sla-list.component.scss'],
     imports: [
         FilterComponent,
-        BreadcrumbComponent,
         TableComponent,
         TranslateModule,
         SlaFormComponent,
-        PageTitleComponent,
     ],
     providers: [SlaFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,

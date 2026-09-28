@@ -117,7 +117,9 @@ export class SlaChannelsComponent implements OnInit {
             statusLabel: this.translate.instant(
                 item.isActive ? 'SLA.STATUS.ACTIVE' : 'SLA.STATUS.INACTIVE'
             ),
-            statusStyle: item.isActive ? 'success' : 'danger',
+            statusStyle: item.isActive
+                ? 'COMMON.ACTIVE_STYLE'
+                : 'COMMON.INACTIVE_STYLE',
             dropdownActions: [
                 { id: 'edit', label: 'COMMON.EDIT', icon: 'pi pi-pencil' },
                 {

@@ -6330,6 +6330,8 @@
         }
     },
     "SLA": {
+        "LIST_TABS": { "BUSINESS": "Métier", "SYSTEM": "Système" },
+        "THRESHOLDS_TABS": { "BUSINESS": "Métier", "SYSTEM": "Système" },
         "VALIDATION": { "ESCALATION_DELAY_MUST_BE_LOWER": "Le délai d'escalade doit être inférieur au délai principal." },
         "BREADCRUMB": { "LABEL": "Engagements de service", "ICON": "pi-clock" },
         "SLA_LIST": {
@@ -6342,7 +6344,7 @@
         },
         "SLA_FORM": { "CREATE_TITLE": "Créer un SLA", "EDIT_TITLE": "Modifier un SLA", "VIEW_TITLE": "Consulter un SLA", "NAME": "Nom", "NAME_PLACEHOLDER": "Nom du SLA", "DESCRIPTION": "Description", "DESCRIPTION_PLACEHOLDER": "Description du SLA" },
         "STATUS": { "ACTIVE": "Actif", "INACTIVE": "Inactif" },
-        "THRESHOLDS": { "BREADCRUMB": { "LABEL": "Seuils des SLA", "ICON": "pi-clock" }, "TITLE": "seuils des SLA par type de signalements", "SEARCH": "Recherche", "TABLE": { "NAME": "Nom", "DESCRIPTION": "Description", "REFERENTIALS": "Seuils SLA par canal", "CREATED_AT": "Créé le", "UPDATED_AT": "Date MAJ" } },
+        "THRESHOLDS": { "BREADCRUMB": { "LABEL": "Seuils des SLA", "ICON": "pi-clock" }, "TITLE": "seuils des SLA", "SEARCH": "Recherche", "TABLE": { "NAME": "Nom", "DESCRIPTION": "Description", "REFERENTIALS": "Seuils SLA par canal", "CREATED_AT": "Créé le", "UPDATED_AT": "Date MAJ" } },
         "CHANNELS": { "TITLE": "seuils SLA par canal pour", "APP": "App (Mobile + PWA)", "SMS": "SMS", "USSD": "USSD", "IVR": "IVR", "API_CLIENT": "API Client", "TABLE": { "NAME": "Nom", "DELAY": "Délai maximum (h)", "ESCALATION_DELAY": "Délai d'escalade (h)", "STATUS": "Statut", "CREATED_AT": "Créé le", "UPDATED_AT": "Date MAJ", "ACTION": "Actions" }, "FORM": { "SLA": "Indicateur SLA", "DELAY": "Délai maximum (h)", "ESCALATION_DELAY": "Délai d'escalade (h)", "ESCALATION_DELAY_HINT": "Saisissez un nombre entier d'heures." } }
     }
 }

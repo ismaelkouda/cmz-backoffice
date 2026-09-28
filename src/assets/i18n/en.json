@@ -4139,6 +4139,8 @@
         }
     },
     "SLA": {
+        "LIST_TABS": { "BUSINESS": "Business", "SYSTEM": "System" },
+        "THRESHOLDS_TABS": { "BUSINESS": "Business", "SYSTEM": "System" },
         "VALIDATION": { "ESCALATION_DELAY_MUST_BE_LOWER": "The escalation delay must be lower than the main delay." },
         "BREADCRUMB": { "LABEL": "SLA Reference", "ICON": "pi-clock" },
         "SLA_LIST": {

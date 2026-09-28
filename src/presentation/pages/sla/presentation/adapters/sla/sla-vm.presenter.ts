@@ -13,6 +13,9 @@ export class SlaPresenter {
             statusLabel: this.t(
                 item.isActive ? 'SLA.STATUS.ACTIVE' : 'SLA.STATUS.INACTIVE'
             ),
+            statusStyle: item.isActive
+                ? 'COMMON.ACTIVE_STYLE'
+                : 'COMMON.INACTIVE_STYLE',
             dropdownActions: [
                 { id: 'edit', label: 'COMMON.EDIT', icon: 'pi pi-pencil' },
                 item.isActive
