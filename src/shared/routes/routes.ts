@@ -10,7 +10,6 @@ export const MONITORING_ROUTE = 'system-supervision';
 export const REQUESTS_ROUTE = 'requests';
 export const CUSTOMERS_MANAGED = 'managed-customers';
 export const REQUESTS_SERVICE = 'requests-services';
-export const SUPERVISORY_REPOSITORY = 'sla';
 export const SETTINGS_SECURITY_ROUTE = 'security-settings';
 export const TEAM_ORGANIZATION_ROUTE = 'organization';
 export const ACCOUNTING = 'accounting';
@@ -20,6 +19,7 @@ export const CONTENT_MANAGEMENT_ROUTE = 'content-management';
 export const ADMINISTRATIVE_BOUNDARY_ROUTE = 'territorial-structure';
 export const ADMINISTRATIVE_INFRASTRUCTURE_ROUTE = 'equipments';
 export const COVERAGE_AREAS_ROUTE = 'coverage-areas';
+export const SLA_ROUTE = 'sla';
 
 export const content: Routes = [
     {
@@ -95,6 +95,17 @@ export const content: Routes = [
             import('@pages/report-states/report-states.routes').then(
                 (m) => m.routes
             ),
+    },
+    {
+        path: SLA_ROUTE,
+        loadChildren: () =>
+            import('@pages/sla/sla.routes').then((m) => m.routes),
+        data: {
+            breadcrumb: {
+                label: 'SLA.BREADCRUMB.LABEL',
+                icon: 'SLA.BREADCRUMB.ICON',
+            },
+        },
     },
     {
         path: REPORTING_ROUTE,
@@ -208,17 +219,6 @@ export const content: Routes = [
         },
         loadChildren: () =>
             import('@pages/monitoring/monitoring.routes').then((m) => m.routes),
-    },
-    {
-        path: SUPERVISORY_REPOSITORY,
-        loadChildren: () =>
-            import('@pages/sla/sla.routes').then((m) => m.routes),
-        data: {
-            breadcrumb: {
-                label: 'SLA.BREADCRUMB.LABEL',
-                icon: 'pi-clock',
-            },
-        },
     },
     {
         path: '',

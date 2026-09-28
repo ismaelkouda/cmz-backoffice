@@ -4139,8 +4139,10 @@
         }
     },
     "SLA": {
-        "BREADCRUMB": { "LABEL": "SLA Reference" },
+        "VALIDATION": { "ESCALATION_DELAY_MUST_BE_LOWER": "The escalation delay must be lower than the main delay." },
+        "BREADCRUMB": { "LABEL": "SLA Reference", "ICON": "pi-clock" },
         "SLA_LIST": {
+            "BREADCRUMB": { "LABEL": "SLA Reference", "ICON": "pi-clock" },
             "TITLE": "SLA Reference",
             "FILTER": { "SEARCH": "Search", "SEARCH_PLACEHOLDER": "Name or description" },
             "TABLE": { "NAME": "Name", "DESCRIPTION": "Description", "STATUS": "Status", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at", "ACTION": "Actions" },
@@ -4149,7 +4151,7 @@
         },
         "SLA_FORM": { "CREATE_TITLE": "Create SLA", "EDIT_TITLE": "Edit SLA", "VIEW_TITLE": "View SLA", "NAME": "Name", "NAME_PLACEHOLDER": "SLA name", "DESCRIPTION": "Description", "DESCRIPTION_PLACEHOLDER": "SLA description", "SWEET_ALERT": { "TITLE": { "CREATE": "Create SLA?", "EDIT": "Edit SLA?" }, "MESSAGE": { "CREATE": "Do you want to create the SLA {{name}}?", "EDIT": "Do you want to save the changes to SLA {{name}}?" } } },
         "STATUS": { "ACTIVE": "Active", "INACTIVE": "Inactive" },
-        "THRESHOLDS": { "TITLE": "SLA Thresholds by report type", "SEARCH": "Search", "TABLE": { "NAME": "Name", "DESCRIPTION": "Description", "REFERENTIALS": "References by channel", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at" } },
-        "CHANNELS": { "TITLE": "SLA references by channel", "APP": "App (Mobile + PWA)", "SMS": "SMS", "USSD": "USSD", "IVR": "IVR", "API_CLIENT": "API Client", "TABLE": { "NAME": "Name", "DELAY": "Delay", "STATUS": "Status", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at", "ACTION": "Actions" }, "FORM": { "SLA": "SLA reference", "DELAY": "Delay" } }
+        "THRESHOLDS": { "BREADCRUMB": { "LABEL": "SLA Thresholds", "ICON": "pi-clock" }, "TITLE": "SLA Thresholds by report type", "SEARCH": "Search", "TABLE": { "NAME": "Name", "DESCRIPTION": "Description", "REFERENTIALS": "References by channel", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at" } },
+        "CHANNELS": { "TITLE": "SLA references by channel", "APP": "App (Mobile + PWA)", "SMS": "SMS", "USSD": "USSD", "IVR": "IVR", "API_CLIENT": "API Client", "TABLE": { "NAME": "Name", "DELAY": "Delay", "ESCALATION_DELAY": "Escalation delay (h)", "STATUS": "Status", "CREATED_AT": "Created at", "UPDATED_AT": "Updated at", "ACTION": "Actions" }, "FORM": { "SLA": "SLA reference", "DELAY": "Delay", "ESCALATION_DELAY": "Escalation delay (h)", "ESCALATION_DELAY_HINT": "Enter a whole number of hours." } }
     }
 }

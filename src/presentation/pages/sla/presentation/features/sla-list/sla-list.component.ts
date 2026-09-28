@@ -130,14 +130,14 @@ export class SlaListComponent {
     );
 
     protected readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.CREATE',
-            actionId: 'create',
-            icon: 'pi pi-plus',
-            class: 'btn-primary',
-            disabled: !this.canCreate(),
-            tooltip: this.createTooltip(),
-        },
+        // {
+        //     label: 'COMMON.CREATE',
+        //     actionId: 'create',
+        //     icon: 'pi pi-plus',
+        //     class: 'btn-primary',
+        //     disabled: !this.canCreate(),
+        //     tooltip: this.createTooltip(),
+        // },
         {
             label: 'COMMON.REFRESH',
             actionId: 'refresh',
@@ -290,21 +290,21 @@ export class SlaListComponent {
         this.facade.delete({ id: item.id });
     }
 
-    private enableTooltip = computed(() => {
+    private readonly enableTooltip = computed(() => {
         if (!this.canEnable()) {
             return this.t('SLA.SLA_LIST.TOOLTIP.NO_PERMISSION_ENABLE');
         }
         return this.t('SLA.SLA_LIST.TOOLTIP.ENABLE');
     });
 
-    private disableTooltip = computed(() => {
+    private readonly disableTooltip = computed(() => {
         if (!this.canDisable()) {
             return this.t('SLA.SLA_LIST.TOOLTIP.NO_PERMISSION_DISABLE');
         }
         return this.t('SLA.SLA_LIST.TOOLTIP.DISABLE');
     });
 
-    private deleteTooltip = computed(() => {
+    private readonly deleteTooltip = computed(() => {
         if (!this.canDelete()) {
             return this.t('SLA.SLA_LIST.TOOLTIP.NO_PERMISSION_DELETE');
         }

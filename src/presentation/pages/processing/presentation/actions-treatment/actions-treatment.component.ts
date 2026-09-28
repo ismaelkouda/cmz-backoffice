@@ -309,7 +309,7 @@ export class ActionsTreatmentComponent {
         {
             label: 'COMMON.CREATE',
             actionId: 'create',
-            icon: 'pi pi-user-plus',
+            icon: 'pi pi-plus',
             class: 'btn-primary',
             disabled: !this.canTreat() || !this.hasClosed(),
             tooltip: this.createTooltip(),

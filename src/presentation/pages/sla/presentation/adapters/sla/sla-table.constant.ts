@@ -9,12 +9,11 @@ export const SLA_LIST_TABLE = {
         {
             field: 'name',
             header: 'SLA.SLA_LIST.TABLE.NAME',
-            width: '20rem',
+            width: '7rem',
         },
         {
             field: 'description',
             header: 'SLA.SLA_LIST.TABLE.DESCRIPTION',
-            width: '30rem',
         },
         {
             field: 'statusLabel',
@@ -22,24 +21,24 @@ export const SLA_LIST_TABLE = {
             class: 'text-center',
             width: '8rem',
         },
-        {
-            field: 'createdAt',
-            header: 'SLA.SLA_LIST.TABLE.CREATED_AT',
-            class: 'text-center',
-            width: '8rem',
-        },
-        {
-            field: 'updatedAt',
-            header: 'SLA.SLA_LIST.TABLE.UPDATED_AT',
-            class: 'text-center',
-            width: '8rem',
-        },
-        {
-            field: '__actionDropdown',
-            header: 'SLA.SLA_LIST.TABLE.ACTION',
-            class: 'text-center',
-            width: '8rem',
-        },
+        // {
+        //     field: 'createdAt',
+        //     header: 'SLA.SLA_LIST.TABLE.CREATED_AT',
+        //     class: 'text-center',
+        //     width: '8rem',
+        // },
+        // {
+        //     field: 'updatedAt',
+        //     header: 'SLA.SLA_LIST.TABLE.UPDATED_AT',
+        //     class: 'text-center',
+        //     width: '8rem',
+        // },
+        // {
+        //     field: '__actionDropdown',
+        //     header: 'SLA.SLA_LIST.TABLE.ACTION',
+        //     class: 'text-center',
+        //     width: '8rem',
+        // },
     ],
     globalFilterFields: ['name', 'description', 'createdAt', 'updatedAt'],
 };

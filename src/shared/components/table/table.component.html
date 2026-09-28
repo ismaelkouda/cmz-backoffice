@@ -16,6 +16,7 @@
     [reorderableColumns]="true"
     [dataKey]="dataKey()"
     [selectionMode]="selectionMode()"
+    [paginator]="!pagination()?.per_page"
 >
     <ng-template pTemplate="caption">
         <div class="container-table-header">
