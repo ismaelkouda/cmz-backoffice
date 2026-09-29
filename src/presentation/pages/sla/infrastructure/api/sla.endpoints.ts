@@ -5,7 +5,6 @@ export const SLA_ENDPOINTS = {
     ENABLE: 'agreement/sla',
     DISABLE: 'agreement/sla',
     DELETE: 'agreement/sla',
-    REPORT_TYPES: 'report-types',
+    REPORT_TYPES: 'agreement/sla-rule',
     REPORT_SLA: 'agreement/report-sla',
-    SLA_REFERENCES: 'agreement/sla',
 } as const;

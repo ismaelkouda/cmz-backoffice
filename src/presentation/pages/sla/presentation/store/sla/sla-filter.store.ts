@@ -19,6 +19,7 @@ export class SlaFilterStore {
             search: new FormControl<string>('', {
                 nonNullable: true,
             }),
+            category: new FormControl<string | null>(null),
         });
 
     constructor() {
@@ -42,6 +43,7 @@ export class SlaFilterStore {
 
         return {
             search: raw.search || undefined,
+            category: raw.category || undefined,
         };
     }
 }

@@ -15,6 +15,7 @@
     styleClass="p-datatable-gridlines"
     [reorderableColumns]="true"
     [dataKey]="dataKey()"
+    [editMode]="rowEditMode() ? 'row' : undefined"
     [selectionMode]="selectionMode()"
     [paginator]="!pagination()?.per_page"
 >
@@ -23,7 +24,7 @@
             <app-table-title
                 [label]="label()"
                 [hiddenTableTitle]="hiddenTableTitle()"
-                [count]="pagination()?.total"
+                [count]="pagination()?.total ?? items().length"
                 [perPage]="pagination()?.per_page"
                 [page]="pagination()?.current_page"
                 [totalPage]="pagination()?.last_page"
@@ -81,16 +82,60 @@
         let-rowData
         let-columns="columns"
         let-rowIndex="rowIndex"
+        let-editing="editing"
     >
         <tr
             role="row"
             [class.cursor-pointer]="!loading()"
             [pReorderableRow]="rowIndex"
             [pSelectableRow]="rowData"
+            [pEditableRow]="rowEditMode() ? rowData : null"
         >
             @for (col of columns; track col.field) {
                 <td [class]="col.class">
-                    @if (col.field === '__selection') {
+                    @if (rowEditMode() && col.editor) {
+                        <p-cellEditor>
+                            <ng-template #input>
+                                @if (col.editor.type === 'select') {
+                                    <p-select
+                                        [(ngModel)]="
+                                            rowData[col.editor.modelField]
+                                        "
+                                        [options]="
+                                            rowData[
+                                                col.editor.optionsField || ''
+                                            ]
+                                        "
+                                        [optionLabel]="
+                                            col.editor.optionLabel || 'label'
+                                        "
+                                        [optionValue]="
+                                            col.editor.optionValue || 'value'
+                                        "
+                                        appendTo="body"
+                                        styleClass="w-100"
+                                    />
+                                } @else {
+                                    <p-inputNumber
+                                        [(ngModel)]="
+                                            rowData[col.editor.modelField]
+                                        "
+                                        [min]="0"
+                                        [maxFractionDigits]="0"
+                                        [useGrouping]="false"
+                                    />
+                                }
+                            </ng-template>
+
+                            <ng-template #output>
+                                {{
+                                    rowData[
+                                        col.editor.displayField || col.field
+                                    ]
+                                }}
+                            </ng-template>
+                        </p-cellEditor>
+                    } @else if (col.field === '__selection') {
                         <p-tableCheckbox [value]="rowData" />
                     } @else if (col.type === 'badge-button') {
                         <div class="flex justify-content-center">
@@ -350,7 +395,43 @@
                                     (onKeyPress)="$event.stopPropagation()"
                                     class="action-group d-flex justify-content-around"
                                 >
-                                    @if (
+                                    @if (rowEditMode()) {
+                                        @if (!editing) {
+                                            <button
+                                                type="button"
+                                                pButton
+                                                icon="pi pi-pencil"
+                                                class="action-btn"
+                                                pInitEditableRow
+                                                (click)="onRowEditInit(rowData)"
+                                            ></button>
+                                        } @else {
+                                            <button
+                                                type="button"
+                                                pButton
+                                                icon="pi pi-check"
+                                                severity="success"
+                                                class="action-btn"
+                                                (click)="
+                                                    onRowEditSaveRequest(
+                                                        rowData,
+                                                        $event
+                                                    )
+                                                "
+                                            ></button>
+                                            <button
+                                                type="button"
+                                                pButton
+                                                icon="pi pi-times"
+                                                severity="danger"
+                                                class="action-btn"
+                                                pCancelEditableRow
+                                                (click)="
+                                                    onRowEditCancel(rowData)
+                                                "
+                                            ></button>
+                                        }
+                                    } @else if (
                                         config().actions &&
                                         config().actions.length > 0
                                     ) {

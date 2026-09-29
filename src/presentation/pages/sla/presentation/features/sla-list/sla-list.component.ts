@@ -112,6 +112,21 @@ export class SlaListComponent {
             type: 'text',
             placeholder: this.t('SLA.SLA_LIST.FILTER.SEARCH_PLACEHOLDER'),
         } as FilterField,
+        {
+            name: 'category',
+            label: this.t('SLA.SLA_LIST.FILTER.CATEGORY'),
+            type: 'select',
+            options: [
+                { label: this.t('SLA.SLA_LIST.CATEGORY.JOB'), value: 'job' },
+                {
+                    label: this.t('SLA.SLA_LIST.CATEGORY.SYSTEM'),
+                    value: 'system',
+                },
+            ],
+            optionLabel: 'label',
+            optionValue: 'value',
+            showClear: true,
+        } as FilterField,
     ]);
 
     // Form modal state

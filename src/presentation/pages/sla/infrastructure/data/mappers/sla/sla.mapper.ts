@@ -15,9 +15,10 @@ export class SlaMapper {
 
     private mapItemFromDto(dto: SlaItemApiDto): SlaEntity {
         const props: SlaProps = {
-            id: dto.id,
+            id: String(dto.id),
             name: dto.name,
             description: dto.description,
+            category: dto.category,
             isActive: dto.is_active,
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,

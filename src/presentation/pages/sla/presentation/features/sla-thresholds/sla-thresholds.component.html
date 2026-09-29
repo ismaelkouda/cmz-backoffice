@@ -2,7 +2,6 @@
     <section class="row sla-thresholds-row">
         <article class="col-sm-12 sla-thresholds-article">
             <app-breadcrumb />
-
             <section class="card sla-thresholds-card">
                 <div class="card-body sla-thresholds-card-body">
                     <header class="sla-thresholds-header">
@@ -10,18 +9,17 @@
                             class="page-title-component"
                             [displayDate]="false"
                             [title]="'SLA.THRESHOLDS.TITLE' | translate"
-                        >
-                        </app-page-title>
+                        />
                     </header>
 
                     <div class="sla-thresholds-content">
                         <app-filter
                             class="filter-component"
                             [isLoading]="facade.loading()"
-                            [formGroup]="form"
-                            [fields]="fields"
+                            [formGroup]="filterForm"
+                            [fields]="filterFields()"
                             (filter)="filter()"
-                        ></app-filter>
+                        />
 
                         <hr class="sla-thresholds-divider" />
 
@@ -29,13 +27,17 @@
                             <app-table
                                 class="table-component"
                                 [config]="tableConfig"
-                                [items]="facade.reportTypes()"
+                                [items]="itemsVM()"
                                 [loading]="facade.loading()"
                                 [headerButtons]="headerButtons()"
+                                [rowEditMode]="true"
+                                (rowEditSaveRequested)="
+                                    onRowEditSaveRequested($event)
+                                "
+                                (rowEditSaved)="onRowEditSaved($event)"
                                 (headerButtonClicked)="onHeaderClicked($event)"
-                                (badgeClicked)="openChannels($event)"
                                 dataKey="id"
-                            ></app-table>
+                            />
                         </section>
                     </div>
                 </div>

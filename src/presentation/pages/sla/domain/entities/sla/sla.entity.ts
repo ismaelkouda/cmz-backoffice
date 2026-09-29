@@ -15,6 +15,10 @@ export class SlaEntity implements SlaProps {
         return this.props.description;
     }
 
+    get category(): string {
+        return this.props.category;
+    }
+
     get isActive(): boolean {
         return this.props.isActive;
     }

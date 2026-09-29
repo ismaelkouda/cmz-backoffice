@@ -16,6 +16,11 @@ export const SLA_LIST_TABLE = {
             header: 'SLA.SLA_LIST.TABLE.DESCRIPTION',
         },
         {
+            field: 'categoryLabel',
+            header: 'SLA.SLA_LIST.FILTER.CATEGORY',
+            width: '8rem',
+        },
+        {
             field: 'statusLabel',
             header: 'SLA.SLA_LIST.TABLE.STATUS',
             class: 'text-center',

@@ -9,6 +9,12 @@ export class SlaPresenter {
             id: item.id,
             name: item.name,
             description: item.description,
+            category: item.category,
+            categoryLabel: this.t(
+                item.category === 'system'
+                    ? 'SLA.SLA_LIST.CATEGORY.SYSTEM'
+                    : 'SLA.SLA_LIST.CATEGORY.JOB'
+            ),
             isActive: item.isActive,
             statusLabel: this.t(
                 item.isActive ? 'SLA.STATUS.ACTIVE' : 'SLA.STATUS.INACTIVE'

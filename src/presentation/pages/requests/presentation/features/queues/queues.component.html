@@ -15,7 +15,10 @@
                     </header>
                     <div class="statistics-section">
                         <div class="statistics-grid">
-                            @for (stat of channelStatistics(); track stat.label) {
+                            @for (
+                                stat of channelStatistics();
+                                track stat.label
+                            ) {
                                 <div
                                     class="stat-card card-{{ stat.color }}"
                                     tabindex="0"

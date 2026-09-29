@@ -103,4 +103,12 @@ interface TableColumn {
     class?: string;
     width?: string;
     type?: string;
+    editor?: {
+        type: 'select' | 'number';
+        modelField: string;
+        displayField?: string;
+        optionsField?: string;
+        optionLabel?: string;
+        optionValue?: string;
+    };
 }

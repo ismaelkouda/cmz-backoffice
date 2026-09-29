@@ -4,6 +4,8 @@ export interface SlaVmProps {
     id: string;
     name: string;
     description: string;
+    category: string;
+    categoryLabel: string;
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
