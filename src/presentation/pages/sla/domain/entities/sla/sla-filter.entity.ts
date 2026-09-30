@@ -8,12 +8,17 @@ export class SlaFilterEntity implements SlaFilterProps {
         return this.props.search;
     }
 
+    get category(): string | undefined {
+        return this.props.category;
+    }
+
     static fromDto(filterDto: SlaFilterDto | null): SlaFilterEntity {
         if (!filterDto) {
             return new SlaFilterEntity({});
         }
         return new SlaFilterEntity({
             search: filterDto.search,
+            category: filterDto.category,
         });
     }
 }

@@ -198,7 +198,7 @@ export class GrafanaDashboardService {
                 if (!tokens[key]) {
                     return;
                 }
-                this.fetchDashboardToken(state, key, tokens[key]);
+                // this.fetchDashboardToken(state, key, tokens[key]);
             });
     }
 

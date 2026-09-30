@@ -26,7 +26,10 @@ export class SlaFacade extends ArrayBaseFacade<SlaEntity, SlaFilterDto> {
             normalizedFilter,
             () =>
                 this.bus.dispatch(
-                    new SlaQuery(normalizedFilter.search),
+                    new SlaQuery(
+                        normalizedFilter.search,
+                        normalizedFilter.category
+                    ),
                     options
                 ),
             this.uiFeedback

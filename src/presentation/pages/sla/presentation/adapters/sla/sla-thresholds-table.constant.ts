@@ -45,6 +45,11 @@ export const SLA_THRESHOLDS_TABLE = {
             },
         },
         {
+            field: 'slaCategory',
+            header: 'SLA.SLA_LIST.FILTER.CATEGORY',
+            width: '8rem',
+        },
+        {
             field: '__action',
             header: 'SLA_THRESHOLDS_FILTER.ACTION',
             class: 'text-center',

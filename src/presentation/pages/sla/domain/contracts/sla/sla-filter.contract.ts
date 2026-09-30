@@ -2,10 +2,12 @@ import { SlaFilterProps } from '@pages/sla/domain/interfaces/sla/sla-filter-prop
 
 export interface SlaFilterContract {
     search?: string;
+    category?: string;
 }
 
 export const slaFilterContract = (
     props: SlaFilterProps
 ): SlaFilterContract => ({
     search: props.search,
+    category: props.category,
 });

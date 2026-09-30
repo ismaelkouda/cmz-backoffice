@@ -229,7 +229,6 @@ export class SlaThresholdsComponent implements OnInit {
                 id: item.id,
                 sla_id: item.slaId,
                 sla_type: item.slaType,
-                report_type_id: item.reportTypeId,
                 threshold: item.threshold,
                 channel: item.channel,
             },

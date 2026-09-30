@@ -6390,7 +6390,7 @@
         "STATUS": { "ACTIVE": "Actif", "INACTIVE": "Inactif" },
         "THRESHOLDS": {
             "BREADCRUMB": { "LABEL": "Seuils des SLA", "ICON": "pi-clock" },
-            "TITLE": "seuils des SLA par type de signalements",
+            "TITLE": "seuils des SLA",
             "SEARCH": "Recherche",
             "TABLE": {
                 "NAME": "Nom",

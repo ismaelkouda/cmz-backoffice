@@ -3,4 +3,5 @@ import { SlaQuery } from '@pages/sla/application/queries/sla/sla.query';
 
 export const slaQueryMapper = (query: SlaQuery): SlaFilterContract => ({
     search: query.search,
+    category: query.category,
 });

@@ -14,5 +14,6 @@ export const slaFilterVoFromDto = (
     }
     return new SlaFilterEntity({
         search: filterDto.search,
+        category: filterDto.category,
     });
 };

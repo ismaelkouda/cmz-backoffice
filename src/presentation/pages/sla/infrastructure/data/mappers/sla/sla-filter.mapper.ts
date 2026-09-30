@@ -11,6 +11,10 @@ export class SlaFilterMapper {
             params.search = contract.search;
         }
 
+        if (contract?.category) {
+            params.category = contract.category;
+        }
+
         return params;
     }
 }
