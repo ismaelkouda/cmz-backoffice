@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 
 import { SLA_LIST_ROUTE } from '@presentation/pages/sla/presentation/features/sla-list/sla-list-paths.constants';
 import { SLA_THRESHOLDS_ROUTE } from '@presentation/pages/sla/presentation/features/sla-thresholds/sla-thresholds-paths.constants';
+import { SLA_BUSINESS_CONTACTS_ROUTE } from '@presentation/pages/sla/presentation/features/sla-business-contacts/sla-business-contacts-paths.constants';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,29 @@ export const routes: Routes = [
                 loadChildren: () =>
                     import('@presentation/pages/sla/presentation/features/sla-thresholds/sla-thresholds.routes').then(
                         (m) => m.SLA_THRESHOLDS_ROUTES
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: '**',
+                redirectTo: '',
+            },
+        ],
+    },
+    {
+        path: SLA_BUSINESS_CONTACTS_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'SLA.BUSINESS_CONTACTS.BREADCRUMB.LABEL',
+                icon: 'SLA.BUSINESS_CONTACTS.BREADCRUMB.ICON',
+            },
+        },
+        children: [
+            {
+                path: '',
+                loadChildren: () =>
+                    import('@presentation/pages/sla/presentation/features/sla-business-contacts/sla-business-contacts.routes').then(
+                        (m) => m.SLA_BUSINESS_CONTACTS_ROUTES
                     ),
                 data: { breadcrumb: { hide: true } },
             },

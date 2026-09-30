@@ -1,0 +1,119 @@
+<div class="sla-business-contacts-management-content">
+    <header class="d-flex align-items-center justify-content-between mb-3">
+        <div>
+            <h5 class="mb-1">
+                {{ 'SLA.BUSINESS_CONTACTS.MANAGEMENT.TITLE' | translate }}
+            </h5>
+            <span class="text-muted">{{ contactName() }}</span>
+        </div>
+        <p-button
+            [label]="'COMMON.CLOSE' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="navigateBack()"
+        />
+    </header>
+
+    <app-filter
+        [isLoading]="facade.loadingManagement()"
+        [formGroup]="filterForm"
+        [fields]="filterFields()"
+        (filter)="onFilter()"
+    />
+
+    <hr />
+
+    <app-table
+        [config]="tableConfig"
+        [items]="itemsVM()"
+        [loading]="facade.loadingManagement()"
+        [headerButtons]="headerButtons()"
+        dataKey="id"
+        selectionMode="multiple"
+        [selection]="selectedItems()"
+        (selectionChange)="onSelectionChange($event)"
+        (headerButtonClicked)="onHeaderClicked($event)"
+    />
+</div>
+
+<p-dialog
+    [visible]="displayAffectDialog()"
+    (visibleChange)="displayAffectDialog.set($event)"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '700px' }"
+    [header]="'SLA.BUSINESS_CONTACTS.MANAGEMENT.AFFECT_TITLE' | translate"
+>
+    <form [formGroup]="affectForm">
+        <label for="userIds">
+            <b>
+                {{ 'SLA.BUSINESS_CONTACTS.MANAGEMENT.INDICATOR' | translate }}
+                <span class="text-danger">*</span>
+            </b>
+        </label>
+        <p-multiselect
+            formControlName="slaIds"
+            [options]="availableSlaOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [loading]="facade.loadingSlas()"
+            [filter]="true"
+            filterBy="label"
+            [showClear]="true"
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+            appendTo="body"
+            styleClass="w-100"
+        />
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            severity="danger"
+            (onClick)="closeAffectDialog()"
+        />
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            (onClick)="submitAffect()"
+            [disabled]="affectForm.invalid || facade.actionLoading()"
+        />
+    </ng-template>
+</p-dialog>
+
+<p-dialog
+    [visible]="displayReaffectDialog()"
+    (visibleChange)="displayReaffectDialog.set($event)"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '700px' }"
+    [header]="'SLA.BUSINESS_CONTACTS.MANAGEMENT.REAFFECT_TITLE' | translate"
+>
+    <form [formGroup]="reaffectForm">
+        <p-multiselect
+            formControlName="slaIds"
+            [options]="assignedSlaOptions()"
+            optionLabel="label"
+            optionValue="value"
+            [loading]="facade.loadingSlas()"
+            [filter]="true"
+            filterBy="label"
+            [showClear]="true"
+            [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+            appendTo="body"
+            styleClass="w-100"
+        />
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            severity="danger"
+            (onClick)="closeReaffectDialog()"
+        />
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            (onClick)="submitReaffect()"
+            [disabled]="reaffectForm.invalid || facade.actionLoading()"
+        />
+    </ng-template>
+</p-dialog>

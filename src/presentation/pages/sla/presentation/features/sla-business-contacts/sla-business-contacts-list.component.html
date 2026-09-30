@@ -1,0 +1,94 @@
+<div class="sla-business-contacts-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="facade.loading()"
+        [formGroup]="filterForm"
+        [fields]="filterFields()"
+        (filter)="onFilter()"
+    />
+
+    <hr class="sla-business-contacts-divider" />
+
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            dataKey="id"
+            [config]="tableConfig"
+            [loading]="facade.loading()"
+            [items]="itemsVM()"
+            [headerButtons]="headerButtons()"
+            (headerButtonClicked)="onHeaderClicked($event)"
+            (actionClicked)="onActionClicked($event)"
+            (badgeClicked)="onBadgeClicked($event)"
+        />
+    </section>
+</div>
+
+<p-dialog
+    [visible]="displayAddDialog()"
+    (visibleChange)="displayAddDialog.set($event)"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '700px' }"
+    [header]="'SLA.BUSINESS_CONTACTS.ADD.TITLE' | translate"
+>
+    <form [formGroup]="addForm">
+        <div class="form-group my-1">
+            <label for="userIds">
+                <b>
+                    {{ 'SLA.BUSINESS_CONTACTS.ADD.USERS' | translate }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-multiselect
+                formControlName="userIds"
+                [options]="freeMemberOptions()"
+                optionLabel="label"
+                optionValue="value"
+                [loading]="facade.loadingFreeMembers()"
+                [filter]="true"
+                filterBy="label"
+                [showToggleAll]="false"
+                [showClear]="true"
+                [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                [emptyFilterMessage]="
+                    'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate
+                "
+                appendTo="body"
+                styleClass="w-100"
+                [class.ng-invalid]="
+                    addForm.controls.userIds.invalid &&
+                    addForm.controls.userIds.touched
+                "
+            />
+            @if (
+                addForm.controls.userIds.invalid &&
+                addForm.controls.userIds.touched
+            ) {
+                <small class="text-danger">
+                    {{ 'COMMON.VALIDATION.REQUIRED' | translate }}
+                </small>
+            }
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeAddDialog()"
+        />
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            icon="pi pi-check"
+            (onClick)="submitAdd()"
+            [disabled]="
+                addForm.invalid ||
+                facade.loadingFreeMembers() ||
+                facade.actionLoading()
+            "
+        />
+    </ng-template>
+</p-dialog>

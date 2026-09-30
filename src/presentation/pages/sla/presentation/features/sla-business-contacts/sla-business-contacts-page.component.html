@@ -1,0 +1,19 @@
+<main class="container-fluid sla-business-contacts-container" role="main">
+    <section class="row sla-business-contacts-row">
+        <article class="col-sm-12 sla-business-contacts-article">
+            <app-breadcrumb />
+            <section class="card sla-business-contacts-card">
+                <div class="card-body sla-business-contacts-card-body">
+                    <header class="sla-business-contacts-header">
+                        <app-page-title
+                            class="page-title-component"
+                            [displayDate]="false"
+                            [title]="'SLA.BUSINESS_CONTACTS.TITLE' | translate"
+                        />
+                    </header>
+                    <router-outlet />
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

@@ -1,9 +1,9 @@
 (function (window) {
             window.__env = {
-    "authenticationUrl": "https://api-services.connecte-ma-zone.ansut.ci/auth/v1.0/backoffice/",
-    "reportUrl": "https://api-services.connecte-ma-zone.ansut.ci/reports/v1.0/backoffice/",
-    "settingUrl": "https://api-services.connecte-ma-zone.ansut.ci/base-settings/v1.0/backoffice/",
-    "fileUrl": "https://api-services.connecte-ma-zone.ansut.ci/auth/backoffice/",
+    "authenticationUrl": "http://192.168.1.73:7011/auth/v1.0/backoffice/",
+    "reportUrl": "http://192.168.1.73:7012/reports/v1.0/backoffice/",
+    "settingUrl": "http://192.168.1.73:7013/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://192.168.1.73:7011/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "appSettings": {

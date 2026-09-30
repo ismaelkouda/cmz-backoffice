@@ -4238,6 +4238,71 @@
                 "ESCALATION_DELAY": "Escalation delay (h)",
                 "ESCALATION_DELAY_HINT": "Enter a whole number of hours."
             }
+        },
+        "BUSINESS_CONTACTS": {
+            "BREADCRUMB": { "LABEL": "SLA Contacts", "ICON": "pi-users" },
+            "TITLE": "SLA Contacts",
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Name, first name, email or phone",
+                "SERVICE": "Service",
+                "INDICATOR": "Indicator",
+                "STATUS": "Status"
+            },
+            "TABLE": {
+                "LAST_NAME": "Last name",
+                "FIRST_NAME": "First names",
+                "PHONE": "Phone",
+                "EMAIL": "Email",
+                "INDICATORS_COUNT": "# Indicators",
+                "STATUS": "Status",
+                "CREATED_AT": "Added on",
+                "ACTION": "Actions"
+            },
+            "TOOLTIP": {
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "ACTION": "Actions"
+            },
+            "ADD": { "TITLE": "Add SLA contacts", "USERS": "Users" },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "ENABLE": "Enable contact?",
+                    "DISABLE": "Disable contact?",
+                    "DELETE": "Delete contact?"
+                },
+                "MESSAGE": {
+                    "ENABLE": "Do you want to enable this contact?",
+                    "DISABLE": "Do you want to disable this contact?",
+                    "DELETE": "Do you want to delete this contact?"
+                }
+            },
+            "MANAGEMENT": {
+                "TITLE": "Contact SLA indicators",
+                "FILTER": {
+                    "SERVICE": "Service",
+                    "INDICATOR": "Indicator",
+                    "DESCRIPTION": "Description",
+                    "THRESHOLD": "Threshold",
+                    "CHANNEL": "Channel",
+                    "CATEGORY": "Category"
+                },
+                "TABLE": {
+                    "SERVICE": "Service",
+                    "INDICATOR": "Indicator",
+                    "DESCRIPTION": "Description",
+                    "THRESHOLD": "Threshold",
+                    "CHANNEL": "Channel",
+                    "CATEGORY": "Category"
+                },
+                "AFFECT_TITLE": "Assign SLA indicators",
+                "REAFFECT_TITLE": "Reassign SLA indicators",
+                "SWEET_ALERT": {
+                    "TITLE": { "REMOVE": "Remove SLA indicators?" },
+                    "MESSAGE": { "REMOVE": "Do you want to remove the selected indicators?" }
+                }
+            }
         }
     },
     "SLA_THRESHOLDS_FILTER": {

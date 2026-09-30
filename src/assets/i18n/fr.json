@@ -4656,7 +4656,7 @@
                 },
                 "MODAL": {
                     "REASSIGN_TITLE": "Réaffectation des utilisateurs",
-                    "REASSIGN_LABEL": "Utilisateurs",
+                    "REASSIGN_LABEL": "Profil",
                     "ASSIGN_TITLE": "Affecter des utilisateurs a ce profil",
                     "ASSIGN_LABEL": "Utilisateur(s)",
                     "NEW_PROFILE": "Nouveau profil",
@@ -6421,6 +6421,72 @@
                 "DELAY": "Délai maximum (h)",
                 "ESCALATION_DELAY": "Délai d'escalade (h)",
                 "ESCALATION_DELAY_HINT": "Saisissez un nombre entier d'heures."
+            }
+        },
+        "BUSINESS_CONTACTS": {
+            "BREADCRUMB": { "LABEL": "Contacts SLA", "ICON": "pi-users" },
+            "TITLE": "Contacts SLA",
+            "FILTER": {
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom, prénom, email ou téléphone",
+                "SERVICE": "Service",
+                "INDICATOR": "Indicateur",
+                "STATUS": "Statut"
+            },
+            "TABLE": {
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Téléphone",
+                "EMAIL": "Email",
+                "INDICATORS_COUNT": "# Indicateurs",
+                "STATUS": "Statut",
+                "CREATED_AT": "Ajouté le",
+                "ACTION": "Actions"
+            },
+            "TOOLTIP": {
+                "ENABLE": "Activer",
+                "DISABLE": "Désactiver",
+                "DELETE": "Supprimer",
+                "ACTION": "Actions"
+            },
+            "ADD": { "TITLE": "Ajouter des contacts SLA", "USERS": "Utilisateurs" },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "ENABLE": "Activer le contact ?",
+                    "DISABLE": "Désactiver le contact ?",
+                    "DELETE": "Supprimer le contact ?"
+                },
+                "MESSAGE": {
+                    "ENABLE": "Voulez-vous activer ce contact ?",
+                    "DISABLE": "Voulez-vous désactiver ce contact ?",
+                    "DELETE": "Voulez-vous supprimer ce contact ?"
+                }
+            },
+            "MANAGEMENT": {
+                "TITLE": "Indicateurs SLA du contact",
+                "FILTER": {
+                    "SERVICE": "Service",
+                    "INDICATOR": "Indicateur",
+                    "DESCRIPTION": "Description",
+                    "THRESHOLD": "Seuil",
+                    "CHANNEL": "Canal",
+                    "CATEGORY": "Catégorie"
+                },
+                "TABLE": {
+                    "SERVICE": "Service",
+                    "INDICATOR": "Indicateur",
+                    "DESCRIPTION": "Description",
+                    "THRESHOLD": "Seuil",
+                    "CHANNEL": "Canal",
+                    "CATEGORY": "Catégorie"
+                },
+                "AFFECT_TITLE": "Affecter des indicateurs SLA",
+                "REAFFECT_TITLE": "Réaffecter des indicateurs SLA",
+                "INDICATOR": "Indicateur",
+                "SWEET_ALERT": {
+                    "TITLE": { "REMOVE": "Retirer les indicateurs SLA ?" },
+                    "MESSAGE": { "REMOVE": "Voulez-vous retirer les indicateurs sélectionnés ?" }
+                }
             }
         }
     },
