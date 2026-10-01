@@ -1,6 +1,8 @@
 import {
     Component,
     DestroyRef,
+    ElementRef,
+    HostListener,
     TemplateRef,
     computed,
     effect,
@@ -72,6 +74,7 @@ export class MyAccountComponent {
     private readonly feedback = inject(UiFeedbackService);
     private readonly modal = inject(NgbModal);
     private readonly sweetAlert = inject(SweetAlertService);
+    private readonly elementRef = inject(ElementRef<HTMLElement>);
 
     private readonly passwordModalTemplate =
         viewChild<TemplateRef<unknown>>('passwordV');
@@ -177,6 +180,23 @@ export class MyAccountComponent {
 
     closeDropdown(): void {
         this.isDropdownOpen.set(false);
+    }
+
+    @HostListener('document:click', ['$event'])
+    onDocumentClick(event: MouseEvent): void {
+        if (!this.isDropdownOpen()) {
+            return;
+        }
+
+        const target = event.target;
+        if (
+            target instanceof Node &&
+            this.elementRef.nativeElement.contains(target)
+        ) {
+            return;
+        }
+
+        this.closeDropdown();
     }
 
     openAccountModal(): void {
