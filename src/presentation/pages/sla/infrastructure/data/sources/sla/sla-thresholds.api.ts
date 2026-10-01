@@ -29,7 +29,7 @@ export class SlaThresholdsApi {
     }
 
     updateReportSla(
-        id: number,
+        id: string | number,
         payload: object
     ): Observable<MessageResponseDto> {
         return this.http.post<MessageResponseDto>(

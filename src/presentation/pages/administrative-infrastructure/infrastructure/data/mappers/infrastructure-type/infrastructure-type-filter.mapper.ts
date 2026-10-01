@@ -1,6 +1,7 @@
 import { InfrastructureTypeFilterApiDto } from '@pages/administrative-infrastructure/infrastructure/api/dto/infrastructure-type/infrastructure-type-filter-api.dto';
 import { InfrastructureTypeFilterContract } from '@presentation/pages/administrative-infrastructure/domain/contracts/infrastructure-type/infrastructure-type-filter.contract';
 import { toApiDateOnly } from '@shared/domain/utils/api-date.util';
+import { Status } from '@presentation/pages/administrative-infrastructure/domain/enums/infrastructure-type/infrastructure-type-status.enum';
 
 export function infrastructureTypeFilterMapper(
     validContract: InfrastructureTypeFilterContract
@@ -11,8 +12,8 @@ export function infrastructureTypeFilterMapper(
     if (validContract.search) {
         params.search = validContract.search;
     }
-    if (validContract.status !== undefined) {
-        params.is_active = !!validContract.status;
+    if (validContract.status) {
+        params.is_active = validContract.status === Status.ACTIVE;
     }
 
     if (validContract.tag) {

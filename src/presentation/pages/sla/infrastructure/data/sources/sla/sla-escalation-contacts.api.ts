@@ -46,7 +46,7 @@ export class SlaEscalationContactsApi {
         id: string,
         payload: SlaEscalationContactPayloadApiDto
     ): Observable<MessageResponseDto> {
-        return this.http.put<MessageResponseDto>(
+        return this.http.post<MessageResponseDto>(
             `${this.baseUrl}${SLA_ENDPOINTS.ESCALATION_CONTACTS}/${id}/update`,
             payload
         );

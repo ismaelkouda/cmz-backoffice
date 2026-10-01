@@ -4,17 +4,50 @@ import { UiFeedbackService } from '@shared/domain/services/ui-feedback.service';
 import { finalize } from 'rxjs';
 import { handleObservableWithFeedback } from '@shared/application/services/facade.utils';
 
+function getThresholdType(
+    value: string | number,
+    unit: string
+): ThresholdType {
+    if (unit.toUpperCase() === 'DATE') {
+        return 'date';
+    }
+    if (unit.toUpperCase() === 'FCFA') {
+        return 'currency';
+    }
+    return String(value).replace(/\s/g, '').includes('.')
+        ? 'decimal'
+        : 'integer';
+}
+
+function parseThreshold(value: string | number, unit: string): ThresholdValue {
+    if (unit.toUpperCase() === 'DATE') {
+        return String(value);
+    }
+
+    const normalized = String(value)
+        .replace(/\s/g, '')
+        .replace(/[^\d.-]/g, '');
+    const parsed = Number(normalized);
+
+    return Number.isFinite(parsed) ? parsed : 0;
+}
+
+export type ThresholdValue = number | string;
+export type ThresholdType = 'integer' | 'decimal' | 'currency' | 'date';
+
 export interface ReportTypeVm {
-    id: number;
-    slaId: number;
+    id: string | number;
+    slaId: string | number;
     slaType: string;
     slaName: string;
     slaDescription: string;
     slaCategory: string;
-    reportTypeId: number;
+    reportTypeId: string | number | null;
     reportTypeCode: string;
     reportTypeName: string;
-    threshold: number;
+    threshold: ThresholdValue;
+    thresholdType: ThresholdType;
+    thresholdLabel: string;
     unit: string;
     channel: string;
     createdAt: string;
@@ -42,10 +75,15 @@ export class SlaThresholdsFacade {
                             slaName: item.sla_name,
                             slaDescription: item.sla_description,
                             slaCategory: item.sla_category,
-                            reportTypeId: item.report_type_id,
-                            reportTypeCode: item.report_type,
-                            reportTypeName: item.report_type_name,
-                            threshold: Number.parseInt(item.threshold, 10) || 0,
+                            reportTypeId: item.report_type_id ?? null,
+                            reportTypeCode: item.report_type ?? '',
+                            reportTypeName: item.report_type_name ?? '',
+                            threshold: parseThreshold(item.threshold, item.unit),
+                            thresholdType: getThresholdType(
+                                item.threshold,
+                                item.unit
+                            ),
+                            thresholdLabel: String(item.threshold),
                             unit: item.unit,
                             channel: item.channel
                                 .toLowerCase()
@@ -59,7 +97,7 @@ export class SlaThresholdsFacade {
     }
 
     updateReportSla(
-        id: number,
+        id: string | number,
         payload: object,
         onSuccess: () => void,
         onError: () => void

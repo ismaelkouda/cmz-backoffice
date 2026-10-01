@@ -98,6 +98,7 @@
                             <ng-template #input>
                                 @if (col.editor.type === 'select') {
                                     <p-select
+                                        styleClass="w-100"
                                         [(ngModel)]="
                                             rowData[col.editor.modelField]
                                         "
@@ -115,8 +116,38 @@
                                         appendTo="body"
                                         styleClass="w-100"
                                     />
+                                } @else if (col.editor.type === 'threshold') {
+                                    @if (rowData.thresholdType === 'date') {
+                                        <input
+                                            type="date"
+                                            [(ngModel)]="
+                                                rowData[col.editor.modelField]
+                                            "
+                                            class="form-control"
+                                        />
+                                    } @else {
+                                        <p-inputNumber
+                                        styleClass="w-100"
+                                            [(ngModel)]="
+                                                rowData[col.editor.modelField]
+                                            "
+                                            [min]="0"
+                                            [maxFractionDigits]="
+                                                rowData.thresholdType ===
+                                                'decimal'
+                                                    ? 3
+                                                    : 0
+                                            "
+                                            [useGrouping]="
+                                                rowData.thresholdType ===
+                                                'currency'
+                                            "
+                                            styleClass="w-100"
+                                        />
+                                    }
                                 } @else {
                                     <p-inputNumber
+                                    styleClass="w-100"
                                         [(ngModel)]="
                                             rowData[col.editor.modelField]
                                         "

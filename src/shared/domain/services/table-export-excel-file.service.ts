@@ -104,7 +104,7 @@ interface TableColumn {
     width?: string;
     type?: string;
     editor?: {
-        type: 'select' | 'number';
+        type: 'select' | 'number' | 'threshold';
         modelField: string;
         displayField?: string;
         optionsField?: string;

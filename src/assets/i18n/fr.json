@@ -6227,13 +6227,13 @@
         },
         "TEAM_COMPLIANCES": {
             "BREADCRUMB": {
-                "LABEL": "Suivi perf. équipes",
+                "LABEL": "Performances des SLA",
                 "ROUTE": "team-compliances"
             },
-            "TITLE": "Tableau de bord du suivi des performances des équipes",
-            "LABEL": "Suivi perf. équipes",
-            "LOADING_DESCRIPTION": "Suivi des performances des équipes en cours...",
-            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des performances des équipes. Veuillez recharger la page ou contacter le support."
+            "TITLE": "Tableau de bord des performances des SLA",
+            "LABEL": "Performances des SLA",
+            "LOADING_DESCRIPTION": "Suivi des performances des SLA en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement du tableau de bord des performances des SLA. Veuillez recharger la page ou contacter le support."
         },
         "REPORT_COMPLIANCES": {
             "BREADCRUMB": {

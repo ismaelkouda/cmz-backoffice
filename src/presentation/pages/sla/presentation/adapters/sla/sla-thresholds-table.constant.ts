@@ -31,7 +31,11 @@ export const SLA_THRESHOLDS_TABLE = {
         {
             field: 'thresholdLabel',
             header: 'SLA_THRESHOLDS_FILTER.THRESHOLD',
-            editor: { type: 'number' as const, modelField: 'threshold' },
+            editor: {
+                type: 'threshold' as const,
+                modelField: 'threshold',
+                displayField: 'thresholdLabel',
+            },
         },
         {
             field: 'channelLabel',

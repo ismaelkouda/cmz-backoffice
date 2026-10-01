@@ -70,8 +70,8 @@ export class SlaThresholdsComponent implements OnInit {
     readonly tableConfig = SLA_THRESHOLDS_TABLE;
     readonly filterForm = new FormGroup({
         service: new FormControl<string | null>(null),
-        indicator: new FormControl<number | null>(null),
-        threshold: new FormControl<number | null>(null),
+        indicator: new FormControl<string | number | null>(null),
+        threshold: new FormControl<string | null>(null),
         channel: new FormControl<string | null>(null),
     });
     readonly headerButtons = computed<TableHeaderButton[]>(() => [
@@ -107,7 +107,7 @@ export class SlaThresholdsComponent implements OnInit {
         }));
     });
     readonly indicatorOptions = computed(() => {
-        const options = new Map<number, string>();
+        const options = new Map<string | number, string>();
         this.facade
             .reportTypes()
             .forEach((item) => options.set(item.slaId, item.slaName));
@@ -138,7 +138,7 @@ export class SlaThresholdsComponent implements OnInit {
         {
             name: 'threshold',
             type: 'text',
-            inputType: 'number',
+            inputType: 'text',
             label: 'SLA_THRESHOLDS_FILTER.THRESHOLD',
         },
         {
@@ -160,8 +160,10 @@ export class SlaThresholdsComponent implements OnInit {
                 (item) =>
                     (!filter.service || item.slaType === filter.service) &&
                     (!filter.indicator || item.slaId === filter.indicator) &&
-                    (filter.threshold === null ||
-                        item.threshold === Number(filter.threshold)) &&
+                    (!filter.threshold ||
+                        item.thresholdLabel
+                            .toLowerCase()
+                            .includes(filter.threshold.toLowerCase())) &&
                     (!filter.channel || item.channel === filter.channel)
             )
             .map((item) => ({
@@ -170,7 +172,7 @@ export class SlaThresholdsComponent implements OnInit {
                 indicatorOptions: this.indicatorOptions(),
                 channelOptions: this.channelOptions,
                 slaTypeLabel: this.getServiceLabel(item.slaType),
-                thresholdLabel: `${item.threshold} ${item.unit}`,
+                thresholdLabel: item.thresholdLabel,
                 channelLabel: this.getChannelLabel(item.channel),
             }));
     });
@@ -264,7 +266,7 @@ export class SlaThresholdsComponent implements OnInit {
         const columns: ExportColumn[] = [
             { field: 'slaTypeLabel', header: 'Service', width: 24 },
             { field: 'slaName', header: 'Indicateur', width: 24 },
-            { field: 'threshold', header: 'Seuil', width: 12 },
+            { field: 'thresholdLabel', header: 'Seuil', width: 12 },
             { field: 'channel', header: 'Canal', width: 18 },
         ];
         this.excelExport.exportToExcel({
