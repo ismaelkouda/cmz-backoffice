@@ -3,6 +3,7 @@ import { Routes } from '@angular/router';
 import { SLA_LIST_ROUTE } from '@presentation/pages/sla/presentation/features/sla-list/sla-list-paths.constants';
 import { SLA_THRESHOLDS_ROUTE } from '@presentation/pages/sla/presentation/features/sla-thresholds/sla-thresholds-paths.constants';
 import { SLA_BUSINESS_CONTACTS_ROUTE } from '@presentation/pages/sla/presentation/features/sla-business-contacts/sla-business-contacts-paths.constants';
+import { SLA_ESCALATION_CONTACT_ROUTE } from '@presentation/pages/sla/presentation/features/sla-escalation-contacts/sla-escalation-contacts-paths.constants';
 
 export const routes: Routes = [
     {
@@ -72,6 +73,26 @@ export const routes: Routes = [
                 path: '**',
                 redirectTo: '',
             },
+        ],
+    },
+    {
+        path: SLA_ESCALATION_CONTACT_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'SLA.ESCALATION_CONTACTS.BREADCRUMB.LABEL',
+                icon: 'SLA.ESCALATION_CONTACTS.BREADCRUMB.ICON',
+            },
+        },
+        children: [
+            {
+                path: '',
+                loadChildren: () =>
+                    import('@presentation/pages/sla/presentation/features/sla-escalation-contacts/sla-escalation-contacts.routes').then(
+                        (m) => m.SLA_ESCALATION_CONTACT_ROUTES
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            { path: '**', redirectTo: '' },
         ],
     },
 ];

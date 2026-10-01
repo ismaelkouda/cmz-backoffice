@@ -117,6 +117,7 @@
         "CREATE": "Créer",
         "CLOSE": "Fermer",
         "VISUALIZE": "Visualiser",
+        "VIEW": "Voir",
         "FINALIZE": "Finaliser",
         "FILTER_RESULT": "Resultat du filtre",
         "RESTORE": "Restaurer",
@@ -6423,6 +6424,64 @@
                 "ESCALATION_DELAY_HINT": "Saisissez un nombre entier d'heures."
             }
         },
+        "ESCALATION_CONTACTS": {
+            "BREADCRUMB": {
+                "LABEL": "Contacts d'escalade",
+                "ICON": "pi-users"
+            },
+            "TITLE": "Contacts d'escalade",
+            "TABS": { "CONTACTS": "Contacts", "HISTORY": "Historique" },
+            "CATEGORY": { "JOB": "Métier", "SYSTEM": "Système" },
+            "FILTER": {
+                "SEARCH": "Recherche",
+                "SEARCH_PLACEHOLDER": "Nom, prénom, email ou téléphone",
+                "CATEGORIES": "Catégories"
+            },
+            "TABLE": {
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "PHONE": "Téléphone",
+                "EMAIL": "Email",
+                "CATEGORIES": "Catégories",
+                "STATUS": "Statut",
+                "UPDATED_AT": "Modifié le",
+                "ACTION": "Actions"
+            },
+            "TOOLTIP": {
+                "VIEW": "Consulter",
+                "EDIT": "Modifier",
+                "ENABLE": "Activer",
+                "DISABLE": "Désactiver",
+                "DELETE": "Supprimer",
+                "ACTION": "Actions"
+            },
+            "FORM": {
+                "TITLE": "Contact d'escalade",
+                "CREATE_TITLE": "Créer un contact d'escalade",
+                "EDIT_TITLE": "Modifier un contact d'escalade",
+                "LAST_NAME": "Nom",
+                "FIRST_NAME": "Prénoms",
+                "EMAIL": "Email",
+                "PHONE": "Téléphone",
+                "CATEGORIES": "Catégories"
+            },
+            "DETAIL": { "TITLE": "Détails du contact d'escalade" },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Créer le contact ?",
+                    "UPDATE": "Modifier le contact ?",
+                    "ENABLE": "Activer le contact ?",
+                    "DISABLE": "Désactiver le contact ?",
+                    "DELETE": "Supprimer le contact ?"
+                },
+                "MESSAGE": {
+                    "SAVE": "Voulez-vous enregistrer ces informations ?",
+                    "ENABLE": "Voulez-vous activer {{name}} ?",
+                    "DISABLE": "Voulez-vous désactiver {{name}} ?",
+                    "DELETE": "Voulez-vous supprimer {{name}} ?"
+                }
+            }
+        },
         "BUSINESS_CONTACTS": {
             "BREADCRUMB": { "LABEL": "Contacts SLA", "ICON": "pi-users" },
             "TITLE": "Contacts SLA",
@@ -6449,7 +6508,10 @@
                 "DELETE": "Supprimer",
                 "ACTION": "Actions"
             },
-            "ADD": { "TITLE": "Ajouter des contacts SLA", "USERS": "Utilisateurs" },
+            "ADD": {
+                "TITLE": "Ajouter des contacts SLA",
+                "USERS": "Utilisateurs"
+            },
             "SWEET_ALERT": {
                 "TITLE": {
                     "ENABLE": "Activer le contact ?",
@@ -6485,7 +6547,9 @@
                 "INDICATOR": "Indicateur",
                 "SWEET_ALERT": {
                     "TITLE": { "REMOVE": "Retirer les indicateurs SLA ?" },
-                    "MESSAGE": { "REMOVE": "Voulez-vous retirer les indicateurs sélectionnés ?" }
+                    "MESSAGE": {
+                        "REMOVE": "Voulez-vous retirer les indicateurs sélectionnés ?"
+                    }
                 }
             }
         }

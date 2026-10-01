@@ -4239,6 +4239,64 @@
                 "ESCALATION_DELAY_HINT": "Enter a whole number of hours."
             }
         },
+        "ESCALATION_CONTACTS": {
+            "BREADCRUMB": {
+                "LABEL": "Escalation contacts",
+                "ICON": "pi-users"
+            },
+            "TITLE": "Escalation contacts",
+            "TABS": { "CONTACTS": "Contacts", "HISTORY": "History" },
+            "CATEGORY": { "JOB": "Business", "SYSTEM": "System" },
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Name, first name, email or phone",
+                "CATEGORIES": "Categories"
+            },
+            "TABLE": {
+                "LAST_NAME": "Last name",
+                "FIRST_NAME": "First names",
+                "PHONE": "Phone",
+                "EMAIL": "Email",
+                "CATEGORIES": "Categories",
+                "STATUS": "Status",
+                "UPDATED_AT": "Updated at",
+                "ACTION": "Actions"
+            },
+            "TOOLTIP": {
+                "VIEW": "View",
+                "EDIT": "Edit",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "ACTION": "Actions"
+            },
+            "FORM": {
+                "TITLE": "Escalation contact",
+                "CREATE_TITLE": "Create an escalation contact",
+                "EDIT_TITLE": "Edit an escalation contact",
+                "LAST_NAME": "Last name",
+                "FIRST_NAME": "First names",
+                "EMAIL": "Email",
+                "PHONE": "Phone",
+                "CATEGORIES": "Categories"
+            },
+            "DETAIL": { "TITLE": "Escalation contact details" },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Create contact?",
+                    "UPDATE": "Update contact?",
+                    "ENABLE": "Enable contact?",
+                    "DISABLE": "Disable contact?",
+                    "DELETE": "Delete contact?"
+                },
+                "MESSAGE": {
+                    "SAVE": "Do you want to save this information?",
+                    "ENABLE": "Do you want to enable {{name}}?",
+                    "DISABLE": "Do you want to disable {{name}}?",
+                    "DELETE": "Do you want to delete {{name}}?"
+                }
+            }
+        },
         "BUSINESS_CONTACTS": {
             "BREADCRUMB": { "LABEL": "SLA Contacts", "ICON": "pi-users" },
             "TITLE": "SLA Contacts",
@@ -4300,7 +4358,9 @@
                 "REAFFECT_TITLE": "Reassign SLA indicators",
                 "SWEET_ALERT": {
                     "TITLE": { "REMOVE": "Remove SLA indicators?" },
-                    "MESSAGE": { "REMOVE": "Do you want to remove the selected indicators?" }
+                    "MESSAGE": {
+                        "REMOVE": "Do you want to remove the selected indicators?"
+                    }
                 }
             }
         }

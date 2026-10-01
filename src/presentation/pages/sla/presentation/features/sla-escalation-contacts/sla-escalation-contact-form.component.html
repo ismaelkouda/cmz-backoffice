@@ -1,0 +1,575 @@
+<main class="container-fluid form-user-container" role="main">
+    <section class="row form-user-row">
+        <article class="col-sm-12 form-user">
+            <app-breadcrumb />
+
+            <section class="card form-user-card">
+                <div class="card-body form-user-card-body">
+                    <header class="actions-form-header">
+                        <div class="d-flex align-items-center">
+                            <app-page-title
+                                class="page-title-component"
+                                [displayDate]="false"
+                                [displayList]="false"
+                                [title]="titleKey() | translate"
+                            />
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            @if (!isViewMode()) {
+                                <button
+                                    pButton
+                                    type="submit"
+                                    form="escalation-contact-form"
+                                    [disabled]="
+                                        form.invalid || facade.actionLoading()
+                                    "
+                                >
+                                    @if (!facade.actionLoading()) {
+                                        <i class="pi pi-check"></i>
+                                    } @else {
+                                        <span
+                                            class="spinner-border spinner-border-sm"
+                                            role="status"
+                                            aria-hidden="true"
+                                        ></span>
+                                    }
+                                    {{ 'COMMON.SAVE' | translate }}
+                                </button>
+                            }
+                            <p-button
+                                [label]="'COMMON.CLOSE' | translate"
+                                (onClick)="navigateBack()"
+                                styleClass="p-button-danger"
+                            />
+                        </div>
+                    </header>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm border-0">
+                                <div class="card-body">
+                                    @if (isViewMode()) {
+                                        <section
+                                            class="form row g-3 contact-details"
+                                            [attr.aria-label]="
+                                                'SLA.ESCALATION_CONTACTS.DETAIL.TITLE'
+                                                    | translate
+                                            "
+                                        >
+                                            <!-- <header
+                                                class="contact-profile-header"
+                                            >
+                                                <div
+                                                    class="contact-profile-avatar"
+                                                    aria-hidden="true"
+                                                >
+                                                    {{
+                                                        contact()?.firstName?.charAt(
+                                                            0
+                                                        )
+                                                    }}{{
+                                                        contact()?.lastName?.charAt(
+                                                            0
+                                                        )
+                                                    }}
+                                                </div>
+                                                <div
+                                                    class="contact-profile-main"
+                                                >
+                                                    <h2>
+                                                        {{
+                                                            contact()?.firstName
+                                                        }}
+                                                        {{
+                                                            contact()?.lastName
+                                                        }}
+                                                    </h2>
+                                                    <a
+                                                        [href]="
+                                                            'mailto:' +
+                                                            contact()?.email
+                                                        "
+                                                        >{{
+                                                            contact()?.email
+                                                        }}</a
+                                                    >
+                                                </div>
+                                                <p-tag
+                                                    [value]="
+                                                        (contact()?.isActive
+                                                            ? 'COMMON.ACTIVE'
+                                                            : 'COMMON.INACTIVE'
+                                                        ) | translate
+                                                    "
+                                                    [severity]="
+                                                        contact()?.isActive
+                                                            ? 'success'
+                                                            : 'danger'
+                                                    "
+                                                />
+                                            </header> -->
+                                            <fieldset
+                                                class="fieldset contact-details-fieldset"
+                                            >
+                                                <legend>
+                                                    <b>{{
+                                                        'SLA.ESCALATION_CONTACTS.FORM.TITLE'
+                                                            | translate
+                                                    }}</b>
+                                                </legend>
+                                                <div
+                                                    class="row g-3 contact-details-grid"
+                                                >
+                                                    <div class="col-md-6">
+                                                        <span
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.LAST_NAME'
+                                                                    | translate
+                                                            }}</span
+                                                        >
+                                                        <div
+                                                            class="form-readonly-value"
+                                                        >
+                                                            {{
+                                                                contact()
+                                                                    ?.lastName ||
+                                                                    '—'
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.FIRST_NAME'
+                                                                    | translate
+                                                            }}</span
+                                                        >
+                                                        <div
+                                                            class="form-readonly-value"
+                                                        >
+                                                            {{
+                                                                contact()
+                                                                    ?.firstName ||
+                                                                    '—'
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.EMAIL'
+                                                                    | translate
+                                                            }}</span
+                                                        >
+                                                        <div
+                                                            class="form-readonly-value"
+                                                        >
+                                                            {{
+                                                                contact()
+                                                                    ?.email ||
+                                                                    '—'
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.PHONE'
+                                                                    | translate
+                                                            }}</span
+                                                        >
+                                                        <div
+                                                            class="form-readonly-value"
+                                                        >
+                                                            {{
+                                                                contact()
+                                                                    ?.phone ||
+                                                                    '—'
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.CATEGORIES'
+                                                                    | translate
+                                                            }}</span
+                                                        >
+                                                        <div
+                                                            class="form-readonly-value d-flex gap-3"
+                                                        >
+                                                            @for (
+                                                                category of contact()
+                                                                    ?.categories ??
+                                                                    [];
+                                                                track category
+                                                            ) {
+                                                                <p-tag
+                                                                    [value]="
+                                                                        'SLA.ESCALATION_CONTACTS.CATEGORY.' +
+                                                                            category.toUpperCase()
+                                                                            | translate
+                                                                    "
+                                                                    [severity]="
+                                                                        categorySeverity(
+                                                                            category
+                                                                        )
+                                                                    "
+                                                                />
+                                                            } @empty {
+                                                                <span>—</span>
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <span
+                                                            class="form-label fw-bold"
+                                                            >{{
+                                                                'SLA.ESCALATION_CONTACTS.TABLE.UPDATED_AT'
+                                                                    | translate
+                                                            }}</span
+                                                        >
+                                                        <div
+                                                            class="form-readonly-value"
+                                                        >
+                                                            {{
+                                                                contact()
+                                                                    ?.updatedAt ||
+                                                                    '—'
+                                                            }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </section>
+                                    } @else {
+                                        <form
+                                            id="escalation-contact-form"
+                                            class="form row g-3"
+                                            [formGroup]="form"
+                                            (ngSubmit)="submit()"
+                                            [attr.aria-label]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.TITLE'
+                                                    | translate
+                                            "
+                                        >
+                                            <fieldset class="fieldset">
+                                                <legend>
+                                                    <b>{{
+                                                        'SLA.ESCALATION_CONTACTS.FORM.TITLE'
+                                                            | translate
+                                                    }}</b>
+                                                </legend>
+                                                <div class="row g-3">
+                                                    <div class="col-md-6">
+                                                        <label
+                                                            for="lastName"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.LAST_NAME'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            class="form-input"
+                                                            id="lastName"
+                                                            type="text"
+                                                            formControlName="lastName"
+                                                            [attr.aria-invalid]="
+                                                                form.controls
+                                                                    .lastName
+                                                                    .invalid &&
+                                                                form.controls
+                                                                    .lastName
+                                                                    .touched
+                                                            "
+                                                        />
+                                                        @if (
+                                                            form.controls
+                                                                .lastName
+                                                                .invalid &&
+                                                            form.controls
+                                                                .lastName
+                                                                .touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                >{{
+                                                                    'COMMON.VALIDATION.REQUIRED'
+                                                                        | translate
+                                                                }}</small
+                                                            >
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label
+                                                            for="firstName"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.FIRST_NAME'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            id="firstName"
+                                                            type="text"
+                                                            pInputText
+                                                            formControlName="firstName"
+                                                            class="form-input"
+                                                            [attr.aria-invalid]="
+                                                                form.controls
+                                                                    .firstName
+                                                                    .invalid &&
+                                                                form.controls
+                                                                    .firstName
+                                                                    .touched
+                                                            "
+                                                        />
+                                                        @if (
+                                                            form.controls
+                                                                .firstName
+                                                                .invalid &&
+                                                            form.controls
+                                                                .firstName
+                                                                .touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                >{{
+                                                                    'COMMON.VALIDATION.REQUIRED'
+                                                                        | translate
+                                                                }}</small
+                                                            >
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label
+                                                            for="email"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.EMAIL'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            id="email"
+                                                            type="email"
+                                                            pInputText
+                                                            formControlName="email"
+                                                            class="form-input"
+                                                            [attr.aria-invalid]="
+                                                                form.controls
+                                                                    .email
+                                                                    .invalid &&
+                                                                form.controls
+                                                                    .email
+                                                                    .touched
+                                                            "
+                                                        />
+                                                        @if (
+                                                            form.controls.email
+                                                                .invalid &&
+                                                            form.controls.email
+                                                                .touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                >{{
+                                                                    'COMMON.VALIDATION.INVALID_FORMAT'
+                                                                        | translate
+                                                                }}</small
+                                                            >
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label
+                                                            for="phone"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.PHONE'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            >
+                                                        </label>
+                                                        <input
+                                                            id="phone"
+                                                            type="tel"
+                                                            pInputText
+                                                            formControlName="phone"
+                                                            class="form-input"
+                                                            [attr.aria-invalid]="
+                                                                form.controls
+                                                                    .phone
+                                                                    .invalid &&
+                                                                form.controls
+                                                                    .phone
+                                                                    .touched
+                                                            "
+                                                        />
+                                                        @if (
+                                                            form.controls.phone
+                                                                .invalid &&
+                                                            form.controls.phone
+                                                                .touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                >{{
+                                                                    'COMMON.VALIDATION.REQUIRED'
+                                                                        | translate
+                                                                }}</small
+                                                            >
+                                                        }
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label
+                                                            for="categories"
+                                                            class="form-label fw-bold"
+                                                        >
+                                                            {{
+                                                                'SLA.ESCALATION_CONTACTS.FORM.CATEGORIES'
+                                                                    | translate
+                                                            }}
+                                                            <span
+                                                                class="text-danger"
+                                                                aria-label="required"
+                                                                >*</span
+                                                            >
+                                                        </label>
+                                                        <p-multiselect
+                                                            id="categories"
+                                                            formControlName="categories"
+                                                            [options]="
+                                                                categories()
+                                                            "
+                                                            optionLabel="label"
+                                                            optionValue="value"
+                                                            [filter]="true"
+                                                            [showClear]="true"
+                                                            filterBy="label"
+                                                            appendTo="body"
+                                                            class="form-p-select"
+                                                            styleClass="w-100"
+                                                            [placeholder]="
+                                                                'COMMON.SELECT_PLACEHOLDER'
+                                                                    | translate
+                                                            "
+                                                            [emptyMessage]="
+                                                                'COMMON.SELECT_EMPTY_MESSAGE'
+                                                                    | translate
+                                                            "
+                                                            [emptyFilterMessage]="
+                                                                'COMMON.SELECT_EMPTY_FILTER_MESSAGE'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-label]="
+                                                                'SLA.ESCALATION_CONTACTS.FORM.CATEGORIES'
+                                                                    | translate
+                                                            "
+                                                            [attr.aria-invalid]="
+                                                                form.controls
+                                                                    .categories
+                                                                    .invalid &&
+                                                                form.controls
+                                                                    .categories
+                                                                    .touched
+                                                            "
+                                                        >
+                                                        </p-multiselect>
+                                                        @if (
+                                                            form.controls
+                                                                .categories
+                                                                .invalid &&
+                                                            form.controls
+                                                                .categories
+                                                                .touched
+                                                        ) {
+                                                            <small
+                                                                class="text-danger d-block mt-1"
+                                                                >{{
+                                                                    'COMMON.VALIDATION.REQUIRED'
+                                                                        | translate
+                                                                }}</small
+                                                            >
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <div
+                                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                                            >
+                                                <p-button
+                                                    type="button"
+                                                    [label]="
+                                                        'COMMON.CLOSE'
+                                                            | translate
+                                                    "
+                                                    styleClass="p-button-text p-button-secondary"
+                                                    (onClick)="navigateBack()"
+                                                />
+                                                <button
+                                                    pButton
+                                                    type="submit"
+                                                    [disabled]="
+                                                        form.invalid ||
+                                                        facade.actionLoading()
+                                                    "
+                                                >
+                                                    @if (
+                                                        !facade.actionLoading()
+                                                    ) {
+                                                        <i
+                                                            class="pi pi-check"
+                                                        ></i>
+                                                    } @else {
+                                                        <span
+                                                            class="spinner-border spinner-border-sm"
+                                                            role="status"
+                                                            aria-hidden="true"
+                                                        ></span>
+                                                    }
+                                                    {{
+                                                        'COMMON.SAVE'
+                                                            | translate
+                                                    }}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>

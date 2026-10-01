@@ -1,9 +1,9 @@
 (function (window) {
             window.__env = {
-    "authenticationUrl": "http://10.10.0.65:9010/auth/v1.0/backoffice/",
-    "reportUrl": "http://10.10.0.65:9010/reports/v1.0/backoffice/",
-    "settingUrl": "http://10.10.0.65:9010/base-settings/v1.0/backoffice/",
-    "fileUrl": "http://10.10.0.65:9010/auth/backoffice/",
+    "authenticationUrl": "http://192.168.1.73:7011/auth/v1.0/backoffice/",
+    "reportUrl": "http://192.168.1.73:7012/reports/v1.0/backoffice/",
+    "settingUrl": "http://192.168.1.73:7013/base-settings/v1.0/backoffice/",
+    "fileUrl": "http://192.168.1.73:7011/auth/backoffice/",
     "environmentDeployment": "DEV",
     "enableDebug": true,
     "appSettings": {
