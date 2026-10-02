@@ -58,9 +58,7 @@ export class SlaThresholdsFacade {
     private readonly ui = inject(UiFeedbackService);
     private readonly translate = inject(TranslateService);
     readonly reportTypes = signal<ReportTypeVm[]>([]);
-    readonly channelOptions = signal<
-        { id: string; name: string }[]
-    >([]);
+    readonly channelOptions = signal<{ id: string; name: string }[]>([]);
     readonly loading = signal(false);
 
     readChannelOptions(): void {
@@ -104,6 +102,7 @@ export class SlaThresholdsFacade {
                             thresholdLabel: String(item.threshold),
                             unit: item.unit,
                             channel: item.channel.toLowerCase(),
+                            description: item.description,
                             createdAt: item.created_at,
                             updatedAt: item.updated_at,
                         }))

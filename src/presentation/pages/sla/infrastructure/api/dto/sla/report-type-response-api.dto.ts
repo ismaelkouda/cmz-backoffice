@@ -11,6 +11,7 @@ export interface ReportTypeItemApiDto {
     threshold: string | number;
     unit: string;
     channel: string;
+    description: string;
     created_at: string;
     updated_at: string;
 }
