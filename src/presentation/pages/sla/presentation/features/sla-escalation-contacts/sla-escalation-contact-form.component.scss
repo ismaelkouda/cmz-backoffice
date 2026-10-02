@@ -45,6 +45,14 @@ $dark-gray: var(--color-gray);
     }
 }
 
+:host ::ng-deep .contact-type-badge {
+    min-width: 10rem;
+    padding: 0.55rem 0.9rem;
+    font-size: 1rem;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
 .form-participant-content {
     display: flex;
     flex-direction: column;
@@ -163,67 +171,6 @@ $dark-gray: var(--color-gray);
     }
 }
 
-.form-p-select,
-.p-inputtext,
-.form-input {
-    padding: 7px;
-    border: 2px solid $light-gray;
-    border-radius: 12px;
-    font: 400 16px/24px var(--font-primary);
-    color: $black;
-    box-sizing: border-box;
-
-    &:focus {
-        outline: none;
-        border-color: var(--theme-default);
-        box-shadow: 0 0 0 4px
-            color-mix(in srgb, var(--theme-default) 15%, transparent);
-        background-color: $white;
-    }
-
-    &::placeholder {
-        color: rgba($black, 0.4);
-    }
-
-    &.ng-invalid.ng-touched {
-        border-color: var(--color-error, #dc3545);
-        background-color: color-mix(
-            in srgb,
-            var(--color-error, #dc3545) 5%,
-            $white
-        );
-
-        &:focus {
-            border-color: var(--color-error, #dc3545);
-            box-shadow: 0 0 0 4px
-                color-mix(in srgb, var(--color-error, #dc3545) 15%, transparent);
-        }
-    }
-
-    &.ng-valid.ng-touched {
-        border-color: var(--color-success, #28a745);
-        background-color: color-mix(
-            in srgb,
-            var(--color-success, #28a745) 5%,
-            $white
-        );
-
-        &:focus {
-            border-color: var(--color-success, #28a745);
-            box-shadow: 0 0 0 4px
-                color-mix(
-                    in srgb,
-                    var(--color-success, #28a745) 15%,
-                    transparent
-                );
-        }
-    }
-
-    &--focused {
-        border-color: var(--theme-default);
-    }
-}
-
 .fieldset {
     border: 1px solid #dee2e6;
     border-radius: 0.5rem;
@@ -254,7 +201,6 @@ $dark-gray: var(--color-gray);
     gap: 8px;
 }
 
-.form-input,
 :host ::ng-deep.p-inputtext {
     width: 100%;
     padding: 16px;
@@ -384,5 +330,139 @@ $dark-gray: var(--color-gray);
 
     .contact-details-grid {
         grid-template-columns: 1fr;
+    }
+}
+
+.form-p-select,
+.p-inputtext {
+    padding: 7px;
+    border: 2px solid $light-gray;
+    border-radius: 12px;
+    font: 400 16px/24px var(--font-primary);
+    color: $black;
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: var(--theme-default);
+        box-shadow: 0 0 0 4px
+            color-mix(in srgb, var(--theme-default) 15%, transparent);
+        background-color: $white;
+    }
+
+    &::placeholder {
+        color: rgba($black, 0.4);
+    }
+
+    &.ng-invalid.ng-touched {
+        border-color: var(--color-error, #dc3545);
+        background-color: color-mix(
+            in srgb,
+            var(--color-error, #dc3545) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-error, #dc3545);
+            box-shadow: 0 0 0 4px
+                color-mix(in srgb, var(--color-error, #dc3545) 15%, transparent);
+        }
+    }
+
+    &--valid {
+        border-color: var(--color-success, #28a745);
+        background-color: color-mix(
+            in srgb,
+            var(--color-success, #28a745) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-success, #28a745);
+            box-shadow: 0 0 0 4px
+                color-mix(
+                    in srgb,
+                    var(--color-success, #28a745) 15%,
+                    transparent
+                );
+        }
+    }
+
+    &--focused {
+        border-color: var(--theme-default);
+    }
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin transition($property) {
+    transition: $property 0.3s ease-in-out;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-input,
+:host ::ng-deep.p-inputtext {
+    width: 100%;
+    padding: 16px;
+    border: 2px solid var(--color-gray-light);
+    border-radius: 12px;
+    font: 400 16px/24px var(--font-primary);
+    color: var(--color-black);
+    @include transition(all);
+    box-sizing: border-box;
+
+    &:focus {
+        outline: none;
+        border-color: var(--theme-default);
+        box-shadow: 0 0 0 4px
+            color-mix(in srgb, var(--theme-default) 15%, transparent);
+        background-color: var(--color-white);
+    }
+
+    &::placeholder {
+        color: rgba(var(--color-black), 0.4);
+    }
+
+    &.ng-invalid.ng-touched {
+        border-color: var(--color-error, #dc3545);
+        background-color: color-mix(
+            in srgb,
+            var(--color-error, #dc3545) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-error, #dc3545);
+            box-shadow: 0 0 0 4px
+                color-mix(in srgb, var(--color-error, #dc3545) 15%, transparent);
+        }
+    }
+
+    &--valid {
+        border-color: var(--color-success, #28a745);
+        background-color: color-mix(
+            in srgb,
+            var(--color-success, #28a745) 5%,
+            $white
+        );
+
+        &:focus {
+            border-color: var(--color-success, #28a745);
+            box-shadow: 0 0 0 4px
+                color-mix(
+                    in srgb,
+                    var(--color-success, #28a745) 15%,
+                    transparent
+                );
+        }
     }
 }

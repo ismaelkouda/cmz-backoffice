@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { SLA_ENDPOINTS } from '@pages/sla/infrastructure/api/sla.endpoints';
 import { ReportTypeResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/report-type-response-api.dto';
+import { ChannelSelectFieldResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/channel-select-field-response-api.dto';
 
 @Injectable({ providedIn: 'root' })
 export class SlaThresholdsApi {
@@ -20,11 +21,17 @@ export class SlaThresholdsApi {
             params = params.set('sla_type', slaType);
         }
         if (channel) {
-            params = params.set('channel', channel);
+            params = params.set('channel_id', channel);
         }
         return this.http.get<ReportTypeResponseApiDto>(
             `${this.baseUrl}${SLA_ENDPOINTS.REPORT_TYPES}`,
             { params }
+        );
+    }
+
+    channelOptions(): Observable<ChannelSelectFieldResponseApiDto> {
+        return this.http.get<ChannelSelectFieldResponseApiDto>(
+            `${this.baseUrl}${SLA_ENDPOINTS.CHANNEL_SELECT_FIELD}`
         );
     }
 

@@ -2419,6 +2419,18 @@
                 "DELETE": "Delete"
             }
         },
+        "ALERT": {
+            "BREADCRUMB": {
+                "LABEL": "Generated alarms",
+                "ROUTE": "alerte",
+                "ICON": "pi-bell"
+            },
+            "TITLE": "Analytics Dashboard of Generated Alarms",
+            "LABEL": "Generated alarms",
+            "ROUTE": "alerte",
+            "LOADING_DESCRIPTION": "Loading generated alarms...",
+            "ERROR_DESCRIPTION": "An error occurred while loading generated alarms. Please reload the page or contact support."
+        },
         "MESSAGING": {
             "BREADCRUMB": {
                 "LABEL": "Messaging",
@@ -4207,6 +4219,7 @@
         "THRESHOLDS": {
             "BREADCRUMB": { "LABEL": "SLA Thresholds", "ICON": "pi-clock" },
             "TITLE": "SLA Thresholds by report type",
+            "TABS": { "LIST": "SLA rules", "HISTORY": "History" },
             "SEARCH": "Search",
             "TABLE": {
                 "NAME": "Name",
@@ -4249,16 +4262,16 @@
             "CATEGORY": { "JOB": "Business", "SYSTEM": "System" },
             "FILTER": {
                 "SEARCH": "Search",
-                "SEARCH_PLACEHOLDER": "Name, first name, email or phone",
-                "CATEGORIES": "Categories"
+                "SEARCH_PLACEHOLDER": "Type, name, email, phone or messaging"
             },
             "TABLE": {
-                "LAST_NAME": "Last name",
-                "FIRST_NAME": "First names",
+                "TYPE": "Contact type",
+                "NAME": "Name & first names",
+                "JOB_TITLE": "Job title",
                 "PHONE": "Phone",
                 "EMAIL": "Email",
-                "CATEGORIES": "Categories",
-                "STATUS": "Status",
+                "WHATSAPP": "WhatsApp",
+                "TELEGRAM": "Telegram",
                 "UPDATED_AT": "Updated at",
                 "ACTION": "Actions"
             },
@@ -4274,11 +4287,22 @@
                 "TITLE": "Escalation contact",
                 "CREATE_TITLE": "Create an escalation contact",
                 "EDIT_TITLE": "Edit an escalation contact",
+                "TYPE": "Contact type",
+                "FULL_NAME": "Full name",
                 "LAST_NAME": "Last name",
                 "FIRST_NAME": "First names",
                 "EMAIL": "Email",
                 "PHONE": "Phone",
-                "CATEGORIES": "Categories"
+                "JOB_TITLE": "Job title",
+                "LAST_NAME_PLACEHOLDER": "Enter last name",
+                "FIRST_NAME_PLACEHOLDER": "Enter first names",
+                "EMAIL_PLACEHOLDER": "Enter email",
+                "PHONE_PLACEHOLDER": "Enter phone number",
+                "JOB_TITLE_PLACEHOLDER": "Enter job title",
+                "WHATSAPP": "WhatsApp",
+                "WHATSAPP_PLACEHOLDER": "WhatsApp number",
+                "TELEGRAM": "Telegram",
+                "TELEGRAM_PLACEHOLDER": "Telegram phone number"
             },
             "DETAIL": { "TITLE": "Escalation contact details" },
             "SWEET_ALERT": {
@@ -4295,6 +4319,27 @@
                     "DISABLE": "Do you want to disable {{name}}?",
                     "DELETE": "Do you want to delete {{name}}?"
                 }
+            }
+        },
+        "ALERT_CHANNEL": {
+            "BREADCRUMB": { "LABEL": "Alert channels", "ICON": "pi-bell" },
+            "TITLE": "Alert channels",
+            "TABS": { "LIST": "Channels", "HISTORY": "History" },
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Contact type"
+            },
+            "TABLE": {
+                "TYPE": "Contact type",
+                "EMAIL": "Email",
+                "SMS": "SMS",
+                "WHATSAPP": "WhatsApp",
+                "TELEGRAM": "Telegram",
+                "ACTION": "Action"
+            },
+            "SWEET_ALERT": {
+                "TITLE": "Update alert channels?",
+                "MESSAGE": "Do you want to save the selected channels?"
             }
         },
         "BUSINESS_CONTACTS": {

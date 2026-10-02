@@ -1,13 +1,14 @@
 export interface SlaEscalationContactEntity {
     id: string;
+    type: string;
     firstName: string;
     lastName: string;
     email: string;
     phone: string;
-    phoneSecondary: string | null;
+    whatsapp: string;
+    telegram: string;
     jobTitle: string;
     isActive: boolean;
-    categories: string[];
     createdAt: string;
     updatedAt: string;
 }

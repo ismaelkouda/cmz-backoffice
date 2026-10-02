@@ -1,4 +1,18 @@
 export const SLA_ESCALATION_CONTACTS_TABLE = {
+    actions: [
+        {
+            id: 'view',
+            icon: 'pi pi-eye',
+            tooltip: 'SLA.ESCALATION_CONTACTS.TOOLTIP.VIEW',
+            severity: 'contrast',
+        },
+        {
+            id: 'edit',
+            icon: 'pi pi-pencil',
+            tooltip: 'SLA.ESCALATION_CONTACTS.TOOLTIP.EDIT',
+            severity: 'primary',
+        },
+    ],
     cols: [
         {
             field: '__index',
@@ -7,19 +21,19 @@ export const SLA_ESCALATION_CONTACTS_TABLE = {
             width: '2rem',
         },
         {
-            field: 'lastName',
-            header: 'SLA.ESCALATION_CONTACTS.TABLE.LAST_NAME',
-            width: '9rem',
+            field: 'type',
+            header: 'SLA.ESCALATION_CONTACTS.TABLE.TYPE',
+            width: '12rem',
         },
         {
-            field: 'firstName',
-            header: 'SLA.ESCALATION_CONTACTS.TABLE.FIRST_NAME',
-            width: '10rem',
+            field: 'fullName',
+            header: 'SLA.ESCALATION_CONTACTS.TABLE.NAME',
+            width: '14rem',
         },
         {
-            field: 'phone',
-            header: 'SLA.ESCALATION_CONTACTS.TABLE.PHONE',
-            width: '10rem',
+            field: 'jobTitle',
+            header: 'SLA.ESCALATION_CONTACTS.TABLE.JOB_TITLE',
+            width: '14rem',
         },
         {
             field: 'email',
@@ -27,36 +41,40 @@ export const SLA_ESCALATION_CONTACTS_TABLE = {
             width: '16rem',
         },
         {
-            field: 'categories',
-            header: 'SLA.ESCALATION_CONTACTS.TABLE.CATEGORIES',
+            field: 'phone',
+            header: 'SLA.ESCALATION_CONTACTS.TABLE.PHONE',
+            width: '11rem',
+        },
+        {
+            field: 'whatsapp',
+            header: 'SLA.ESCALATION_CONTACTS.TABLE.WHATSAPP',
             width: '12rem',
         },
         {
-            field: 'statusLabel',
-            header: 'SLA.ESCALATION_CONTACTS.TABLE.STATUS',
-            class: 'text-center',
-            width: '7rem',
+            field: 'telegram',
+            header: 'SLA.ESCALATION_CONTACTS.TABLE.TELEGRAM',
+            width: '12rem',
         },
+        // {
+        //     field: 'updatedAt',
+        //     header: 'SLA.ESCALATION_CONTACTS.TABLE.UPDATED_AT',
+        //     class: 'text-center',
+        //     width: '10rem',
+        // },
         {
-            field: 'updatedAt',
-            header: 'SLA.ESCALATION_CONTACTS.TABLE.UPDATED_AT',
-            class: 'text-center',
-            width: '10rem',
-        },
-        {
-            field: '__actionDropdown',
+            field: '__action',
             header: 'SLA.ESCALATION_CONTACTS.TABLE.ACTION',
             class: 'text-center',
-            width: '5rem',
+            width: '6rem',
         },
     ],
     globalFilterFields: [
-        'lastName',
-        'firstName',
-        'phone',
+        'type',
+        'fullName',
+        'jobTitle',
         'email',
-        'categoriesLabel',
-        'statusLabel',
-        'updatedAt',
+        'phone',
+        'whatsapp',
+        'telegram',
     ],
 };

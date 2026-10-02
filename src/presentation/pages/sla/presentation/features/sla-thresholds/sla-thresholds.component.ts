@@ -11,10 +11,8 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
-import { PageTitleComponent } from '@shared/components/page-title/page-title.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import {
     TableComponent,
@@ -32,14 +30,6 @@ import {
 } from '@pages/sla/application/services/sla/sla-thresholds.facade';
 import SweetAlert from 'sweetalert2';
 
-const CHANNELS = [
-    { value: 'app', label: 'SLA.CHANNELS.APP' },
-    { value: 'sms', label: 'SLA.CHANNELS.SMS' },
-    { value: 'ussd', label: 'SLA.CHANNELS.USSD' },
-    { value: 'ivr', label: 'SLA.CHANNELS.IVR' },
-    { value: 'api_client', label: 'SLA.CHANNELS.API_CLIENT' },
-];
-
 @Component({
     selector: 'app-sla-thresholds',
     standalone: true,
@@ -47,8 +37,6 @@ const CHANNELS = [
         TranslateModule,
         ReactiveFormsModule,
         FilterComponent,
-        BreadcrumbComponent,
-        PageTitleComponent,
         TableComponent,
     ],
     templateUrl: './sla-thresholds.component.html',
@@ -60,11 +48,6 @@ export class SlaThresholdsComponent implements OnInit {
     private readonly destroyRef = inject(DestroyRef);
     private readonly translate = inject(TranslateService);
     private readonly excelExport = inject(ExcelExportService);
-    readonly channels = CHANNELS;
-    readonly channelOptions = CHANNELS.map((channel) => ({
-        value: channel.value,
-        label: this.translate.instant(channel.label),
-    }));
     readonly filterVersion = signal(0);
     readonly languageVersion = signal(0);
     readonly tableConfig = SLA_THRESHOLDS_TABLE;
@@ -113,6 +96,13 @@ export class SlaThresholdsComponent implements OnInit {
             .forEach((item) => options.set(item.slaId, item.slaName));
         return [...options].map(([id, name]) => ({ id, name }));
     });
+    readonly channelOptions = computed(() => {
+        this.languageVersion();
+        return this.facade.channelOptions().map((channel) => ({
+            value: channel.id,
+            label: this.getChannelLabel(channel.name),
+        }));
+    });
     readonly filterFields: Signal<FilterField[]> = computed(() => [
         {
             name: 'service',
@@ -145,7 +135,7 @@ export class SlaThresholdsComponent implements OnInit {
             name: 'channel',
             type: 'select',
             label: 'SLA_THRESHOLDS_FILTER.CHANNEL',
-            options: this.channelOptions,
+            options: this.channelOptions(),
             optionLabel: 'label',
             optionValue: 'value',
             showClear: true,
@@ -154,6 +144,12 @@ export class SlaThresholdsComponent implements OnInit {
     readonly itemsVM = computed(() => {
         this.filterVersion();
         const filter = this.filterForm.getRawValue();
+        const selectedChannel = this.facade
+            .channelOptions()
+            .find((channel) => channel.id === filter.channel);
+        const selectedChannelCode = selectedChannel
+            ? this.normalizeChannel(selectedChannel.name)
+            : null;
         return this.facade
             .reportTypes()
             .filter(
@@ -164,13 +160,15 @@ export class SlaThresholdsComponent implements OnInit {
                         item.thresholdLabel
                             .toLowerCase()
                             .includes(filter.threshold.toLowerCase())) &&
-                    (!filter.channel || item.channel === filter.channel)
+                    (!filter.channel ||
+                        item.channel === filter.channel ||
+                        item.channel === selectedChannelCode)
             )
             .map((item) => ({
                 ...item,
                 serviceOptions: this.serviceOptions(),
                 indicatorOptions: this.indicatorOptions(),
-                channelOptions: this.channelOptions,
+                channelOptions: this.channelOptions(),
                 slaTypeLabel: this.getServiceLabel(item.slaType),
                 thresholdLabel: item.thresholdLabel,
                 channelLabel: this.getChannelLabel(item.channel),
@@ -179,6 +177,7 @@ export class SlaThresholdsComponent implements OnInit {
 
     ngOnInit(): void {
         this.facade.readReportTypes();
+        this.facade.readChannelOptions();
         this.translate.onLangChange
             .pipe(takeUntilDestroyed(this.destroyRef))
             .subscribe(() =>
@@ -228,11 +227,8 @@ export class SlaThresholdsComponent implements OnInit {
         this.facade.updateReportSla(
             item.id,
             {
-                id: item.id,
+                threshold: item.threshold.toString(),
                 sla_id: item.slaId,
-                sla_type: item.slaType,
-                threshold: item.threshold,
-                channel: item.channel,
             },
             () => {
                 event.complete();
@@ -252,8 +248,14 @@ export class SlaThresholdsComponent implements OnInit {
     }
 
     getChannelLabel(channel: string): string {
-        const option = CHANNELS.find((item) => item.value === channel);
-        return option ? this.translate.instant(option.label) : channel;
+        const normalizedChannel = this.normalizeChannel(channel);
+        const key = `SLA.CHANNELS.${normalizedChannel.toUpperCase()}`;
+        const translated = this.translate.instant(key);
+        return translated === key ? channel : translated;
+    }
+
+    private normalizeChannel(channel: string): string {
+        return channel.toLowerCase().replaceAll(' ', '_');
     }
 
     refresh = (): void => this.facade.readReportTypes();

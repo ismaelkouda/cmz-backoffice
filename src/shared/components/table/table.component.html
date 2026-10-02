@@ -145,6 +145,14 @@
                                             styleClass="w-100"
                                         />
                                     }
+                                } @else if (col.editor.type === 'checkbox') {
+                                    <p-checkbox
+                                        [(ngModel)]="
+                                            rowData[col.editor.modelField]
+                                        "
+                                        size="large"
+                                        [binary]="true"
+                                    />
                                 } @else {
                                     <p-inputNumber
                                     styleClass="w-100"
@@ -159,13 +167,31 @@
                             </ng-template>
 
                             <ng-template #output>
-                                {{
-                                    rowData[
-                                        col.editor.displayField || col.field
-                                    ]
-                                }}
+                                @if (col.editor.type === 'checkbox') {
+                                    <p-checkbox
+                                        [ngModel]="
+                                            rowData[col.editor.modelField]
+                                        "
+                                        size="large"
+                                        [binary]="true"
+                                        [disabled]="true"
+                                    />
+                                } @else {
+                                    {{
+                                        rowData[
+                                            col.editor.displayField || col.field
+                                        ]
+                                    }}
+                                }
                             </ng-template>
                         </p-cellEditor>
+                    } @else if (col.type === 'checkbox') {
+                        <p-checkbox
+                            [ngModel]="rowData[col.field]"
+                            [binary]="true"
+                            [disabled]="true"
+                            size="large"
+                        />
                     } @else if (col.field === '__selection') {
                         <p-tableCheckbox [value]="rowData" />
                     } @else if (col.type === 'badge-button') {

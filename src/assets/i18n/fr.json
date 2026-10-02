@@ -3840,6 +3840,18 @@
                 "SEE_MORE": "Voir plus d'informations"
             }
         },
+        "ALERT": {
+            "BREADCRUMB": {
+                "LABEL": "Alarmes générées",
+                "ROUTE": "alerte",
+                "ICON": "pi-bell"
+            },
+            "TITLE": "Tableau de bord analytique des alarmes générées",
+            "LABEL": "Alarmes générées",
+            "ROUTE": "alerte",
+            "LOADING_DESCRIPTION": "Chargement des alarmes générées en cours...",
+            "ERROR_DESCRIPTION": "Une erreur est survenue lors du chargement des alarmes générées. Veuillez recharger la page ou contacter le support."
+        },
         "MESSAGING": {
             "BREADCRUMB": {
                 "LABEL": "Messagerie",
@@ -6392,6 +6404,7 @@
         "THRESHOLDS": {
             "BREADCRUMB": { "LABEL": "Seuils des SLA", "ICON": "pi-clock" },
             "TITLE": "seuils des SLA",
+            "TABS": { "LIST": "Règles SLA", "HISTORY": "Historique" },
             "SEARCH": "Recherche",
             "TABLE": {
                 "NAME": "Nom",
@@ -6434,16 +6447,16 @@
             "CATEGORY": { "JOB": "Métier", "SYSTEM": "Système" },
             "FILTER": {
                 "SEARCH": "Recherche",
-                "SEARCH_PLACEHOLDER": "Nom, prénom, email ou téléphone",
-                "CATEGORIES": "Catégories"
+                "SEARCH_PLACEHOLDER": "Type, nom, email, téléphone ou messagerie"
             },
             "TABLE": {
-                "LAST_NAME": "Nom",
-                "FIRST_NAME": "Prénoms",
+                "TYPE": "Type de contact",
+                "NAME": "Nom & Prénoms",
+                "JOB_TITLE": "Fonction",
                 "PHONE": "Téléphone",
                 "EMAIL": "Email",
-                "CATEGORIES": "Catégories",
-                "STATUS": "Statut",
+                "WHATSAPP": "WhatsApp",
+                "TELEGRAM": "Telegram",
                 "UPDATED_AT": "Modifié le",
                 "ACTION": "Actions"
             },
@@ -6458,12 +6471,23 @@
             "FORM": {
                 "TITLE": "Contact d'escalade",
                 "CREATE_TITLE": "Créer un contact d'escalade",
-                "EDIT_TITLE": "Modifier un contact d'escalade",
+                "EDIT_TITLE": "Modifier le contact d'escalade",
+                "TYPE": "Type de contact",
+                "FULL_NAME": "Nom complet",
                 "LAST_NAME": "Nom",
+                "LAST_NAME_PLACEHOLDER": "Ex: Dupont",
                 "FIRST_NAME": "Prénoms",
+                "FIRST_NAME_PLACEHOLDER": "Ex: Dupont",
                 "EMAIL": "Email",
+                "EMAIL_PLACEHOLDER": "Ex: cmz@ansut.ci",
                 "PHONE": "Téléphone",
-                "CATEGORIES": "Catégories"
+                "PHONE_PLACEHOLDER": "Numéro de Téléphone",
+                "JOB_TITLE": "Fonction",
+                "JOB_TITLE_PLACEHOLDER": "Directeur Technique",
+                "WHATSAPP": "WhatsApp",
+                "WHATSAPP_PLACEHOLDER": "Numéro WhatsApp",
+                "TELEGRAM": "Telegram",
+                "TELEGRAM_PLACEHOLDER": "Numéro Telegram"
             },
             "DETAIL": { "TITLE": "Détails du contact d'escalade" },
             "SWEET_ALERT": {
@@ -6480,6 +6504,27 @@
                     "DISABLE": "Voulez-vous désactiver {{name}} ?",
                     "DELETE": "Voulez-vous supprimer {{name}} ?"
                 }
+            }
+        },
+        "ALERT_CHANNEL": {
+            "BREADCRUMB": { "LABEL": "Canaux d'alertes", "ICON": "pi-bell" },
+            "TITLE": "Canaux d'alertes",
+            "TABS": { "LIST": "Canaux", "HISTORY": "Historique" },
+            "FILTER": {
+                "SEARCH": "Rechercher",
+                "SEARCH_PLACEHOLDER": "Type de contact"
+            },
+            "TABLE": {
+                "TYPE": "Type de contact",
+                "EMAIL": "Email",
+                "SMS": "SMS",
+                "WHATSAPP": "WhatsApp",
+                "TELEGRAM": "Telegram",
+                "ACTION": "Action"
+            },
+            "SWEET_ALERT": {
+                "TITLE": "Modifier les canaux d'alertes ?",
+                "MESSAGE": "Voulez-vous enregistrer les canaux sélectionnés ?"
             }
         },
         "BUSINESS_CONTACTS": {
@@ -6567,7 +6612,7 @@
         },
         "INDICATOR": "Indicateur",
         "THRESHOLD": "Seuil",
-        "CHANNEL": "Canal",
+        "CHANNEL": "Canal de collecte",
         "ACTION": "Actions"
     },
     "SLA_THRESHOLDS_CONFIRM": {

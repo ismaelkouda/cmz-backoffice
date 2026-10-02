@@ -34,6 +34,12 @@ export class SlaEscalationContactsFacade {
     private currentFilter: SlaEscalationContactFilterApiDto = {};
     private currentPage = 1;
 
+    refresh(): void {
+        this.currentFilter = {};
+        this.currentPage = 1;
+        this.readAll({}, 1);
+    }
+
     readAll(filter: SlaEscalationContactFilterApiDto = {}, page = 1): void {
         this.currentFilter = filter;
         this.currentPage = page;

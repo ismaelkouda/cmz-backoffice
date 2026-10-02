@@ -192,6 +192,15 @@
 //     }
 // }
 
+::ng-deep .p-checkbox-checked.p-disabled .p-checkbox-box {
+    background-color: var(--color-success, #28a745) !important;
+    border-color: var(--color-success, #28a745) !important;
+}
+
+::ng-deep .p-checkbox-checked.p-disabled .p-checkbox-icon {
+    color: var(--color-white, #ffffff) !important;
+}
+
 .pagination-wrapper {
     display: flex;
     justify-content: center;

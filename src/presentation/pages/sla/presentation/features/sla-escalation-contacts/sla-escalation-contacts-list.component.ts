@@ -16,7 +16,6 @@ import { TableComponent } from '@shared/components/table/table.component';
 import { PaginationComponent } from '@shared/components/pagination/pagination.component';
 import { TableHeaderButton } from '@shared/components/table-button-header/table-button-header.component';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
-import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { ToastrService } from 'ngx-toastr';
@@ -33,7 +32,7 @@ import {
     SLA_ESCALATION_CONTACT_ROUTE,
 } from './sla-escalation-contacts-paths.constants';
 
-type ContactAction = 'view' | 'edit' | 'enable' | 'disable' | 'delete';
+type ContactAction = 'view' | 'edit';
 
 @Component({
     selector: 'app-sla-escalation-contacts-list',
@@ -54,7 +53,6 @@ export class SlaEscalationContactsListComponent {
     private readonly permissionActions = inject(PermissionActionsService);
     private readonly router = inject(Router);
     private readonly translate = inject(TranslateService);
-    private readonly sweetAlert = inject(SweetAlertService);
     private readonly excelExport = inject(ExcelExportService);
     private readonly toast = inject(ToastrService);
     private readonly destroyRef = inject(DestroyRef);
@@ -66,12 +64,7 @@ export class SlaEscalationContactsListComponent {
     readonly tableConfig = SLA_ESCALATION_CONTACTS_TABLE;
     readonly filterForm = new FormGroup({
         search: new FormControl<string | null>(null),
-        categories: new FormControl<string[]>([], { nonNullable: true }),
     });
-    readonly categoryOptions = [
-        { value: 'job', label: 'SLA.ESCALATION_CONTACTS.CATEGORY.JOB' },
-        { value: 'system', label: 'SLA.ESCALATION_CONTACTS.CATEGORY.SYSTEM' },
-    ];
     readonly filterFields: Signal<FilterField[]> = computed(() => {
         this.languageVersion();
         return [
@@ -83,18 +76,6 @@ export class SlaEscalationContactsListComponent {
                     'SLA.ESCALATION_CONTACTS.FILTER.SEARCH_PLACEHOLDER',
                 icon: 'pi pi-search',
             },
-            {
-                type: 'multi-select',
-                name: 'categories',
-                label: 'SLA.ESCALATION_CONTACTS.FILTER.CATEGORIES',
-                options: this.categoryOptions.map((item) => ({
-                    value: item.value,
-                    label: this.t(item.label),
-                })),
-                optionLabel: 'label',
-                optionValue: 'value',
-                showClear: true,
-            },
         ];
     });
     readonly itemsVM = computed(() => {
@@ -102,18 +83,10 @@ export class SlaEscalationContactsListComponent {
         return this.facade.items().map((item) =>
             this.presenter.map(item, {
                 canEdit: this.canEdit(),
-                canDelete: this.canDelete(),
             })
         );
     });
     readonly headerButtons = computed<TableHeaderButton[]>(() => [
-        {
-            label: 'COMMON.CREATE',
-            actionId: 'create',
-            icon: 'pi pi-plus',
-            class: 'btn-primary',
-            disabled: !this.canCreate(),
-        },
         {
             label: 'COMMON.REFRESH',
             actionId: 'refresh',
@@ -130,17 +103,9 @@ export class SlaEscalationContactsListComponent {
             disabled: !this.canExport() || !this.itemsVM().length,
         },
     ]);
-    private readonly canCreate = this.permissionActions.can(
-        '/sla/escalation-contact',
-        'create'
-    );
     private readonly canEdit = this.permissionActions.can(
         '/sla/escalation-contact',
         'edit'
-    );
-    private readonly canDelete = this.permissionActions.can(
-        '/sla/escalation-contact',
-        'delete'
     );
     private readonly canExport = this.permissionActions.can(
         '/sla/escalation-contact',
@@ -161,7 +126,6 @@ export class SlaEscalationContactsListComponent {
         const value = this.filterForm.getRawValue();
         this.currentFilter = {
             search: value.search || undefined,
-            categories: value.categories.length ? value.categories : undefined,
         };
         this.facade.readAll(this.currentFilter);
     }
@@ -171,21 +135,9 @@ export class SlaEscalationContactsListComponent {
     }
 
     onHeaderClicked(actionId: string): void {
-        if (actionId === 'create') {
-            this.router.navigate(
-                [
-                    '/sla',
-                    SLA_ESCALATION_CONTACT_ROUTE,
-                    SLA_ESCALATION_CONTACT_FORM_ROUTE,
-                ],
-                {
-                    queryParams: { ref: 'create' },
-                }
-            );
-        } else if (actionId === 'refresh') {
-            this.filterForm.reset({ search: null, categories: [] });
-            this.currentFilter = {};
-            this.facade.readAll();
+        if (actionId === 'refresh') {
+            this.filterForm.reset({ search: null });
+            this.facade.refresh();
         } else if (actionId === 'export') {
             this.exportData();
         }
@@ -199,6 +151,12 @@ export class SlaEscalationContactsListComponent {
             return;
         }
         if (event.actionId === 'view' || event.actionId === 'edit') {
+            if (event.actionId === 'edit' && !this.canEdit()) {
+                this.toast.error(
+                    this.t('SLA.ESCALATION_CONTACTS.TOOLTIP.EDIT')
+                );
+                return;
+            }
             this.router.navigate(
                 [
                     '/sla',
@@ -213,30 +171,6 @@ export class SlaEscalationContactsListComponent {
                 }
             );
             return;
-        }
-        this.confirmAction(event.actionId, event.item);
-    }
-
-    private async confirmAction(
-        action: Exclude<ContactAction, 'edit'>,
-        item: SlaEscalationContactVmProps
-    ): Promise<void> {
-        const confirmed = await this.sweetAlert.confirm({
-            titleKey: `SLA.ESCALATION_CONTACTS.SWEET_ALERT.TITLE.${action.toUpperCase()}`,
-            messageKey: `SLA.ESCALATION_CONTACTS.SWEET_ALERT.MESSAGE.${action.toUpperCase()}`,
-            messageParams: { name: `${item.firstName} ${item.lastName}` },
-        });
-        if (!confirmed) {
-            return;
-        }
-        if (action === 'enable') {
-            this.facade.enable(item.id);
-        }
-        if (action === 'disable') {
-            this.facade.disable(item.id);
-        }
-        if (action === 'delete') {
-            this.facade.remove(item.id);
         }
     }
 

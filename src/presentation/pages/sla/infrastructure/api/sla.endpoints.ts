@@ -11,4 +11,7 @@ export const SLA_ENDPOINTS = {
     SYSTEM_ALERT_CONTACTS: 'agreement/system-alert-contacts',
     REMOVE_BUSINESS: 'agreement/system-alert-contacts/remove-business',
     ESCALATION_CONTACTS: 'agreement/escalation-contact',
+    AGREEMENT_ALERT: 'agreement/alert',
+    CHANNEL_SELECT_FIELD: 'channel/select-field',
+    AGREEMENT_UPDATE: 'agreement/alert/update',
 } as const;

@@ -4,6 +4,7 @@ import { SLA_LIST_ROUTE } from '@presentation/pages/sla/presentation/features/sl
 import { SLA_THRESHOLDS_ROUTE } from '@presentation/pages/sla/presentation/features/sla-thresholds/sla-thresholds-paths.constants';
 import { SLA_BUSINESS_CONTACTS_ROUTE } from '@presentation/pages/sla/presentation/features/sla-business-contacts/sla-business-contacts-paths.constants';
 import { SLA_ESCALATION_CONTACT_ROUTE } from '@presentation/pages/sla/presentation/features/sla-escalation-contacts/sla-escalation-contacts-paths.constants';
+import { SLA_ALERT_CHANNEL_ROUTE } from '@presentation/pages/sla/presentation/features/sla-alert-channel/sla-alert-channel-paths.constants';
 
 export const routes: Routes = [
     {
@@ -89,6 +90,26 @@ export const routes: Routes = [
                 loadChildren: () =>
                     import('@presentation/pages/sla/presentation/features/sla-escalation-contacts/sla-escalation-contacts.routes').then(
                         (m) => m.SLA_ESCALATION_CONTACT_ROUTES
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            { path: '**', redirectTo: '' },
+        ],
+    },
+    {
+        path: SLA_ALERT_CHANNEL_ROUTE,
+        data: {
+            breadcrumb: {
+                label: 'SLA.ALERT_CHANNEL.BREADCRUMB.LABEL',
+                icon: 'SLA.ALERT_CHANNEL.BREADCRUMB.ICON',
+            },
+        },
+        children: [
+            {
+                path: '',
+                loadChildren: () =>
+                    import('@presentation/pages/sla/presentation/features/sla-alert-channel/sla-alert-channel.routes').then(
+                        (m) => m.SLA_ALERT_CHANNEL_ROUTES
                     ),
                 data: { breadcrumb: { hide: true } },
             },

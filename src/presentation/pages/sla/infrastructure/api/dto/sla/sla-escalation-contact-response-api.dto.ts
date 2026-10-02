@@ -5,14 +5,15 @@ import {
 
 export interface SlaEscalationContactItemApiDto {
     id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    phone: string;
-    phone_secondary: string | null;
+    type: string;
+    first_name: string | null;
+    last_name: string | null;
+    email: string | null;
+    phone: string | null;
+    whatsapp?: string | null;
+    telegram?: string | null;
     job_title?: string | null;
     is_active: boolean;
-    categories: string[];
     created_at: string;
     updated_at: string;
 }
@@ -24,13 +25,14 @@ export type SlaEscalationContactResponseApiDto =
 
 export interface SlaEscalationContactFilterApiDto {
     search?: string;
-    categories?: string[];
 }
 
 export interface SlaEscalationContactPayloadApiDto {
     first_name: string;
     last_name: string;
     email: string;
-    phone: string;
-    categories: string[];
+    phone?: string;
+    job_title?: string;
+    whatsapp?: string;
+    telegram?: string;
 }

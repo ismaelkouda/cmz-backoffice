@@ -17,8 +17,8 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
+import { BadgeModule } from 'primeng/badge';
 import { InputTextModule } from 'primeng/inputtext';
-import { MultiSelectModule } from 'primeng/multiselect';
 import { TagModule } from 'primeng/tag';
 import SweetAlert from 'sweetalert2';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component';
@@ -40,7 +40,7 @@ import {
         TranslateModule,
         ReactiveFormsModule,
         InputTextModule,
-        MultiSelectModule,
+        BadgeModule,
         TagModule,
         ButtonModule,
     ],
@@ -70,31 +70,26 @@ export class SlaEscalationContactFormComponent {
         }),
         phone: new FormControl('', {
             nonNullable: true,
-            validators: [Validators.required],
         }),
-        categories: new FormControl<string[]>([], {
+        jobTitle: new FormControl('', {
             nonNullable: true,
-            validators: [Validators.required, Validators.minLength(1)],
         }),
-    });
-    readonly categories = computed(() => {
-        this.languageVersion();
-        return [
-            {
-                value: 'job',
-                label: this.t('SLA.ESCALATION_CONTACTS.CATEGORY.JOB'),
-            },
-            {
-                value: 'system',
-                label: this.t('SLA.ESCALATION_CONTACTS.CATEGORY.SYSTEM'),
-            },
-        ];
+        whatsapp: new FormControl('', { nonNullable: true }),
+        telegram: new FormControl('', { nonNullable: true }),
     });
     readonly ref = signal<'create' | 'update' | 'view'>('create');
     readonly contactId = signal<string | null>(null);
     readonly isViewMode = computed(() => this.ref() === 'view');
     readonly isEditMode = computed(() => this.ref() === 'update');
     readonly contact = computed(() => this.facade.selected());
+    readonly contactFullName = computed(() => {
+        const contact = this.contact();
+        return (
+            [contact?.firstName, contact?.lastName]
+                .filter((value): value is string => Boolean(value?.trim()))
+                .join(' ') || '—'
+        );
+    });
     private patchedContactId: string | null = null;
     readonly titleKey = computed(() =>
         this.isViewMode()
@@ -118,7 +113,9 @@ export class SlaEscalationContactFormComponent {
             firstName: contact.firstName,
             email: contact.email,
             phone: contact.phone,
-            categories: contact.categories,
+            jobTitle: contact.jobTitle,
+            whatsapp: contact.whatsapp,
+            telegram: contact.telegram,
         });
         this.patchedContactId = contact.id;
         if (this.isViewMode()) {
@@ -158,7 +155,9 @@ export class SlaEscalationContactFormComponent {
                 firstName: '',
                 email: '',
                 phone: '',
-                categories: [],
+                jobTitle: '',
+                whatsapp: '',
+                telegram: '',
             },
             { emitEvent: false }
         );
@@ -192,8 +191,10 @@ export class SlaEscalationContactFormComponent {
                 first_name: value.firstName,
                 last_name: value.lastName,
                 email: value.email,
-                phone: value.phone,
-                categories: value.categories,
+                phone: value.phone || undefined,
+                job_title: value.jobTitle || undefined,
+                whatsapp: value.whatsapp || undefined,
+                telegram: value.telegram || undefined,
             };
             const onSuccess = (): void => this.navigateBack();
             const contactId = this.contactId();
@@ -203,15 +204,6 @@ export class SlaEscalationContactFormComponent {
                 this.facade.create(payload, onSuccess);
             }
         });
-    }
-
-    categorySeverity(category: string): 'info' | 'contrast' | 'secondary' {
-        const value = category.toLowerCase();
-        return value === 'job'
-            ? 'info'
-            : value === 'system'
-              ? 'contrast'
-              : 'secondary';
     }
 
     navigateBack(): void {

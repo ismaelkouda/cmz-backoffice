@@ -9,24 +9,10 @@ export const SLA_THRESHOLDS_TABLE = {
         {
             field: 'slaTypeLabel',
             header: 'SLA_THRESHOLDS_FILTER.SERVICE',
-            editor: {
-                type: 'select' as const,
-                modelField: 'slaType',
-                optionsField: 'serviceOptions',
-                optionLabel: 'label',
-                optionValue: 'value',
-            },
         },
         {
             field: 'slaName',
             header: 'SLA_THRESHOLDS_FILTER.INDICATOR',
-            editor: {
-                type: 'select' as const,
-                modelField: 'slaId',
-                optionsField: 'indicatorOptions',
-                optionLabel: 'name',
-                optionValue: 'id',
-            },
         },
         {
             field: 'thresholdLabel',
@@ -40,16 +26,9 @@ export const SLA_THRESHOLDS_TABLE = {
         {
             field: 'channelLabel',
             header: 'SLA_THRESHOLDS_FILTER.CHANNEL',
-            editor: {
-                type: 'select' as const,
-                modelField: 'channel',
-                optionsField: 'channelOptions',
-                optionLabel: 'label',
-                optionValue: 'value',
-            },
         },
         {
-            field: 'slaCategory',
+            field: 'slaCategoryLabel',
             header: 'SLA.SLA_LIST.FILTER.CATEGORY',
             width: '8rem',
         },
@@ -65,5 +44,6 @@ export const SLA_THRESHOLDS_TABLE = {
         'slaName',
         'thresholdLabel',
         'channelLabel',
+        'slaCategoryLabel',
     ],
 };

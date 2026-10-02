@@ -7,14 +7,15 @@ export class SlaEscalationContactMapper {
     map(dto: SlaEscalationContactItemApiDto): SlaEscalationContactEntity {
         return {
             id: dto.id,
-            firstName: dto.first_name,
-            lastName: dto.last_name,
-            email: dto.email,
-            phone: dto.phone,
-            phoneSecondary: dto.phone_secondary,
+            type: dto.type,
+            firstName: dto.first_name ?? '',
+            lastName: dto.last_name ?? '',
+            email: dto.email ?? '',
+            phone: dto.phone ?? '',
+            whatsapp: dto.whatsapp ?? '',
+            telegram: dto.telegram ?? '',
             jobTitle: dto.job_title ?? '',
             isActive: dto.is_active,
-            categories: dto.categories ?? [],
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };
