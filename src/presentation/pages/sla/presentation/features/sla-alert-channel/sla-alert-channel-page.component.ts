@@ -1,6 +1,11 @@
 import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterModule, RouterOutlet } from '@angular/router';
+import {
+    NavigationEnd,
+    Router,
+    RouterModule,
+    RouterOutlet,
+} from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TabsModule } from 'primeng/tabs';
 import { filter } from 'rxjs';

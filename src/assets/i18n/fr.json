@@ -6600,7 +6600,6 @@
         }
     },
     "SLA_THRESHOLDS_FILTER": {
-        "SERVICE": "Service",
         "SERVICES": {
             "QUALIFICATION": "Qualification",
             "PROCESSING": "Traitement",
@@ -6613,6 +6612,8 @@
         "INDICATOR": "Indicateur",
         "THRESHOLD": "Seuil",
         "CHANNEL": "Canal de collecte",
+        "SERVICE": "Service",
+        "DESCRIPTION": "Description",
         "ACTION": "Actions"
     },
     "SLA_THRESHOLDS_CONFIRM": {

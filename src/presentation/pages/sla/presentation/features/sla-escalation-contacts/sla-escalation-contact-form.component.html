@@ -24,7 +24,9 @@
                                     pButton
                                     type="submit"
                                     form="escalation-contact-form"
-                                    [disabled]="form.invalid || facade.actionLoading()"
+                                    [disabled]="
+                                        form.invalid || facade.actionLoading()
+                                    "
                                 >
                                     <i class="pi pi-check"></i>
                                     {{ 'COMMON.SAVE' | translate }}
@@ -55,13 +57,73 @@
                                     />
                                 </div> -->
                                 <div class="row g-3 contact-details-grid mb-4">
-                                    <div class="col-md-4 d-flex flex-column gap-1"><span class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.FULL_NAME' | translate }}</span><div class="form-readonly-value">{{ contactFullName() }}</div></div>
-                                    <div class="col-md-4 d-flex flex-column gap-1"><span class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.EMAIL' | translate }}</span><div class="form-readonly-value">{{ contact()?.email || '—' }}</div></div>
-                                    <div class="col-md-4 d-flex flex-column gap-1"><span class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.PHONE' | translate }}</span><div class="form-readonly-value">{{ contact()?.phone || '—' }}</div></div>
-                                    <div class="col-md-4 d-flex flex-column gap-1"><span class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.WHATSAPP' | translate }}</span><div class="form-readonly-value">{{ contact()?.whatsapp || '—' }}</div></div>
-                                    <div class="col-md-4 d-flex flex-column gap-1"><span class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.TELEGRAM' | translate }}</span><div class="form-readonly-value">{{ contact()?.telegram || '—' }}</div></div>
+                                    <div
+                                        class="col-md-4 d-flex flex-column gap-1"
+                                    >
+                                        <span class="form-label fw-bold">{{
+                                            'SLA.ESCALATION_CONTACTS.FORM.FULL_NAME'
+                                                | translate
+                                        }}</span>
+                                        <div class="form-readonly-value">
+                                            {{ contactFullName() }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-4 d-flex flex-column gap-1"
+                                    >
+                                        <span class="form-label fw-bold">{{
+                                            'SLA.ESCALATION_CONTACTS.FORM.EMAIL'
+                                                | translate
+                                        }}</span>
+                                        <div class="form-readonly-value">
+                                            {{ contact()?.email || '—' }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-4 d-flex flex-column gap-1"
+                                    >
+                                        <span class="form-label fw-bold">{{
+                                            'SLA.ESCALATION_CONTACTS.FORM.PHONE'
+                                                | translate
+                                        }}</span>
+                                        <div class="form-readonly-value">
+                                            {{ contact()?.phone || '—' }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-4 d-flex flex-column gap-1"
+                                    >
+                                        <span class="form-label fw-bold">{{
+                                            'SLA.ESCALATION_CONTACTS.FORM.WHATSAPP'
+                                                | translate
+                                        }}</span>
+                                        <div class="form-readonly-value">
+                                            {{ contact()?.whatsapp || '—' }}
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="col-md-4 d-flex flex-column gap-1"
+                                    >
+                                        <span class="form-label fw-bold">{{
+                                            'SLA.ESCALATION_CONTACTS.FORM.TELEGRAM'
+                                                | translate
+                                        }}</span>
+                                        <div class="form-readonly-value">
+                                            {{ contact()?.telegram || '—' }}
+                                        </div>
+                                    </div>
                                     <!-- <div class="col-md-4 d-flex flex-column gap-1"><span class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.TABLE.UPDATED_AT' | translate }}</span><div class="form-readonly-value">{{ contact()?.updatedAt || '—' }}</div></div> -->
-                                    <div class="col-md-4 d-flex flex-column gap-1"><span class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.JOB_TITLE' | translate }}</span><div class="form-readonly-value">{{ contact()?.jobTitle || '—' }}</div></div>
+                                    <div
+                                        class="col-md-4 d-flex flex-column gap-1"
+                                    >
+                                        <span class="form-label fw-bold">{{
+                                            'SLA.ESCALATION_CONTACTS.FORM.JOB_TITLE'
+                                                | translate
+                                        }}</span>
+                                        <div class="form-readonly-value">
+                                            {{ contact()?.jobTitle || '—' }}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
@@ -73,41 +135,188 @@
                             (ngSubmit)="submit()"
                         >
                             <fieldset class="fieldset">
-                                <legend><b>{{ 'SLA.ESCALATION_CONTACTS.FORM.TITLE' | translate }}</b></legend>
+                                <legend>
+                                    <b>{{
+                                        'SLA.ESCALATION_CONTACTS.FORM.TITLE'
+                                            | translate
+                                    }}</b>
+                                </legend>
                                 <div class="row g-3">
                                     <div class="col-md-4">
-                                        <label for="lastName" class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.LAST_NAME' | translate }} <span class="text-danger">*</span></label>
-                                        <input id="lastName" pInputText formControlName="lastName" class="form-input" [placeholder]="'SLA.ESCALATION_CONTACTS.FORM.LAST_NAME_PLACEHOLDER' | translate" />
+                                        <label
+                                            for="lastName"
+                                            class="form-label fw-bold"
+                                            >{{
+                                                'SLA.ESCALATION_CONTACTS.FORM.LAST_NAME'
+                                                    | translate
+                                            }}
+                                            <span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            id="lastName"
+                                            pInputText
+                                            formControlName="lastName"
+                                            class="form-input"
+                                            [placeholder]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.LAST_NAME_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                        />
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="firstName" class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.FIRST_NAME' | translate }} <span class="text-danger">*</span></label>
-                                        <input id="firstName" pInputText formControlName="firstName" class="form-input" [placeholder]="'SLA.ESCALATION_CONTACTS.FORM.FIRST_NAME_PLACEHOLDER' | translate" />
+                                        <label
+                                            for="firstName"
+                                            class="form-label fw-bold"
+                                            >{{
+                                                'SLA.ESCALATION_CONTACTS.FORM.FIRST_NAME'
+                                                    | translate
+                                            }}
+                                            <span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            id="firstName"
+                                            pInputText
+                                            formControlName="firstName"
+                                            class="form-input"
+                                            [placeholder]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.FIRST_NAME_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                        />
                                     </div>
                                     <div class="col-md-4">
-                                        <label for="email" class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.EMAIL' | translate }} <span class="text-danger">*</span></label>
-                                        <input id="email" type="email" pInputText formControlName="email" class="form-input" [placeholder]="'SLA.ESCALATION_CONTACTS.FORM.EMAIL_PLACEHOLDER' | translate" />
+                                        <label
+                                            for="email"
+                                            class="form-label fw-bold"
+                                            >{{
+                                                'SLA.ESCALATION_CONTACTS.FORM.EMAIL'
+                                                    | translate
+                                            }}
+                                            <span class="text-danger"
+                                                >*</span
+                                            ></label
+                                        >
+                                        <input
+                                            id="email"
+                                            type="email"
+                                            pInputText
+                                            formControlName="email"
+                                            class="form-input"
+                                            [placeholder]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.EMAIL_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                        />
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="phone" class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.PHONE' | translate }}</label>
-                                        <input id="phone" type="tel" pInputText formControlName="phone" class="form-input" [placeholder]="'SLA.ESCALATION_CONTACTS.FORM.PHONE_PLACEHOLDER' | translate" />
+                                        <label
+                                            for="phone"
+                                            class="form-label fw-bold"
+                                            >{{
+                                                'SLA.ESCALATION_CONTACTS.FORM.PHONE'
+                                                    | translate
+                                            }}</label
+                                        >
+                                        <input
+                                            id="phone"
+                                            type="tel"
+                                            pInputText
+                                            formControlName="phone"
+                                            class="form-input"
+                                            [placeholder]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.PHONE_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                        />
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="whatsapp" class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.WHATSAPP' | translate }}</label>
-                                        <input id="whatsapp" type="tel" pInputText formControlName="whatsapp" class="form-input" [placeholder]="'SLA.ESCALATION_CONTACTS.FORM.WHATSAPP_PLACEHOLDER' | translate" />
+                                        <label
+                                            for="whatsapp"
+                                            class="form-label fw-bold"
+                                            >{{
+                                                'SLA.ESCALATION_CONTACTS.FORM.WHATSAPP'
+                                                    | translate
+                                            }}</label
+                                        >
+                                        <input
+                                            id="whatsapp"
+                                            type="tel"
+                                            pInputText
+                                            formControlName="whatsapp"
+                                            class="form-input"
+                                            [placeholder]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.WHATSAPP_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                        />
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="telegram" class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.TELEGRAM' | translate }}</label>
-                                        <input id="telegram" type="tel" inputmode="tel" pInputText formControlName="telegram" class="form-input" [placeholder]="'SLA.ESCALATION_CONTACTS.FORM.TELEGRAM_PLACEHOLDER' | translate" />
+                                        <label
+                                            for="telegram"
+                                            class="form-label fw-bold"
+                                            >{{
+                                                'SLA.ESCALATION_CONTACTS.FORM.TELEGRAM'
+                                                    | translate
+                                            }}</label
+                                        >
+                                        <input
+                                            id="telegram"
+                                            type="tel"
+                                            inputmode="tel"
+                                            pInputText
+                                            formControlName="telegram"
+                                            class="form-input"
+                                            [placeholder]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.TELEGRAM_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                        />
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="jobTitle" class="form-label fw-bold">{{ 'SLA.ESCALATION_CONTACTS.FORM.JOB_TITLE' | translate }}</label>
-                                        <input id="jobTitle" pInputText formControlName="jobTitle" class="form-input" [placeholder]="'SLA.ESCALATION_CONTACTS.FORM.JOB_TITLE_PLACEHOLDER' | translate" />
+                                        <label
+                                            for="jobTitle"
+                                            class="form-label fw-bold"
+                                            >{{
+                                                'SLA.ESCALATION_CONTACTS.FORM.JOB_TITLE'
+                                                    | translate
+                                            }}</label
+                                        >
+                                        <input
+                                            id="jobTitle"
+                                            pInputText
+                                            formControlName="jobTitle"
+                                            class="form-input"
+                                            [placeholder]="
+                                                'SLA.ESCALATION_CONTACTS.FORM.JOB_TITLE_PLACEHOLDER'
+                                                    | translate
+                                            "
+                                        />
                                     </div>
                                 </div>
                             </fieldset>
-                            <div class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top">
-                                <p-button type="button" [label]="'COMMON.CLOSE' | translate" styleClass="p-button-text p-button-secondary" (onClick)="navigateBack()" />
-                                <button pButton type="submit" [disabled]="form.invalid || facade.actionLoading()"><i class="pi pi-check"></i>{{ 'COMMON.SAVE' | translate }}</button>
+                            <div
+                                class="d-flex justify-content-end gap-3 pt-3 pb-3 border-top"
+                            >
+                                <p-button
+                                    type="button"
+                                    [label]="'COMMON.CLOSE' | translate"
+                                    styleClass="p-button-text p-button-secondary"
+                                    (onClick)="navigateBack()"
+                                />
+                                <button
+                                    pButton
+                                    type="submit"
+                                    [disabled]="
+                                        form.invalid || facade.actionLoading()
+                                    "
+                                >
+                                    <i class="pi pi-check"></i
+                                    >{{ 'COMMON.SAVE' | translate }}
+                                </button>
                             </div>
                         </form>
                     }

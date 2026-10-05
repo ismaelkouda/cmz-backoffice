@@ -53,7 +53,6 @@ export class BreadcrumbService {
                         ? crumb.label(child.snapshot)
                         : crumb.label;
 
-                // 🛡️ anti-duplication
                 if (!breadcrumbs.some((b) => b.label === label)) {
                     breadcrumbs.push({
                         label,

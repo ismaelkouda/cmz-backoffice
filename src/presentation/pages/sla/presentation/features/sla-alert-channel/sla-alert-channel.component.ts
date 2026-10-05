@@ -123,9 +123,7 @@ export class SlaAlertChannelComponent {
         });
     }
 
-    onRowEditSaved(
-        event: TableRowEditSavedEvent<SlaAlertContactEntity>
-    ): void {
+    onRowEditSaved(event: TableRowEditSavedEvent<SlaAlertContactEntity>): void {
         const item = event.item;
         const enabledByCode: Record<string, boolean> = {
             email: item.email,
@@ -148,7 +146,9 @@ export class SlaAlertChannelComponent {
             payload,
             () => {
                 event.complete();
-                this.facade.readAll(this.filterForm.controls.search.value || undefined);
+                this.facade.readAll(
+                    this.filterForm.controls.search.value || undefined
+                );
             },
             event.rollback
         );
@@ -160,11 +160,31 @@ export class SlaAlertChannelComponent {
             return;
         }
         const columns: ExportColumn[] = [
-            { field: 'type', header: this.t('SLA.ALERT_CHANNEL.TABLE.TYPE'), width: 24 },
-            { field: 'email', header: this.t('SLA.ALERT_CHANNEL.TABLE.EMAIL'), width: 12 },
-            { field: 'sms', header: this.t('SLA.ALERT_CHANNEL.TABLE.SMS'), width: 12 },
-            { field: 'whatsapp', header: this.t('SLA.ALERT_CHANNEL.TABLE.WHATSAPP'), width: 12 },
-            { field: 'telegram', header: this.t('SLA.ALERT_CHANNEL.TABLE.TELEGRAM'), width: 12 },
+            {
+                field: 'type',
+                header: this.t('SLA.ALERT_CHANNEL.TABLE.TYPE'),
+                width: 24,
+            },
+            {
+                field: 'email',
+                header: this.t('SLA.ALERT_CHANNEL.TABLE.EMAIL'),
+                width: 12,
+            },
+            {
+                field: 'sms',
+                header: this.t('SLA.ALERT_CHANNEL.TABLE.SMS'),
+                width: 12,
+            },
+            {
+                field: 'whatsapp',
+                header: this.t('SLA.ALERT_CHANNEL.TABLE.WHATSAPP'),
+                width: 12,
+            },
+            {
+                field: 'telegram',
+                header: this.t('SLA.ALERT_CHANNEL.TABLE.TELEGRAM'),
+                width: 12,
+            },
         ];
         this.excelExport.exportToExcel({
             fileName: 'sla-alert-channels',

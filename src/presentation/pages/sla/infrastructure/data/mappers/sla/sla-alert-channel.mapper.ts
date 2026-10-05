@@ -18,7 +18,9 @@ export class SlaAlertChannelMapper {
     }
 
     map(dto: SlaAlertContactItemApiDto): SlaAlertContactEntity {
-        const channels = dto.channels.map((channel) => this.mapChannel(channel));
+        const channels = dto.channels.map((channel) =>
+            this.mapChannel(channel)
+        );
         const enabled = (code: string): boolean =>
             channels.find((channel) => channel.code === code)?.enabled ?? false;
 

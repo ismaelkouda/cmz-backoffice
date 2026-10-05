@@ -8,6 +8,7 @@ export class SlaEscalationContactsPresenter {
         item: SlaEscalationContactEntity,
         permissions: { canEdit: boolean }
     ): SlaEscalationContactVmProps {
+        console.log(permissions);
         return {
             id: item.id,
             type: item.type,
@@ -21,12 +22,8 @@ export class SlaEscalationContactsPresenter {
             telegram: item.telegram,
             updatedAt: item.updatedAt,
             actionsRef: item.type,
-            tooltipButtonView: this.t(
-                'SLA.ESCALATION_CONTACTS.TOOLTIP.VIEW'
-            ),
-            tooltipButtonEdit: this.t(
-                'SLA.ESCALATION_CONTACTS.TOOLTIP.EDIT'
-            ),
+            tooltipButtonView: this.t('SLA.ESCALATION_CONTACTS.TOOLTIP.VIEW'),
+            tooltipButtonEdit: this.t('SLA.ESCALATION_CONTACTS.TOOLTIP.EDIT'),
         };
     }
 }

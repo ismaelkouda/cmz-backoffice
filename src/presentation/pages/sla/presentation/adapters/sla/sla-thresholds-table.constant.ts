@@ -7,13 +7,18 @@ export const SLA_THRESHOLDS_TABLE = {
             width: '2rem',
         },
         {
-            field: 'description',
+            field: 'slaTypeLabel',
             header: 'SLA_THRESHOLDS_FILTER.SERVICE',
+            width: '8rem',
         },
         {
             field: 'slaName',
             header: 'SLA_THRESHOLDS_FILTER.INDICATOR',
             width: '8rem',
+        },
+        {
+            field: 'description',
+            header: 'SLA_THRESHOLDS_FILTER.DESCRIPTION',
         },
         {
             field: 'thresholdLabel',
@@ -45,6 +50,7 @@ export const SLA_THRESHOLDS_TABLE = {
     globalFilterFields: [
         'slaTypeLabel',
         'slaName',
+        'description',
         'thresholdLabel',
         'channelLabel',
         'slaCategoryLabel',

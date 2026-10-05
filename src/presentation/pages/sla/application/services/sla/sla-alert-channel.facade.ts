@@ -27,7 +27,9 @@ export class SlaAlertChannelFacade {
             .pipe(finalize(() => this.loading.set(false)))
             .subscribe({
                 next: (response) =>
-                    this.items.set(response.data.map((item) => this.mapper.map(item))),
+                    this.items.set(
+                        response.data.map((item) => this.mapper.map(item))
+                    ),
                 error: (error) => this.ui.notifyError(error),
             });
     }
