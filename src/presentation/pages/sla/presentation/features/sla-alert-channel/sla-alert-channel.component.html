@@ -12,7 +12,7 @@
             [items]="itemsVM()"
             [loading]="facade.loading()"
             [headerButtons]="headerButtons()"
-            [rowEditMode]="true"
+            [rowEditMode]="canEdit()"
             dataKey="id"
             (headerButtonClicked)="onHeaderClicked($event)"
             (rowEditSaveRequested)="onRowEditSaveRequested($event)"

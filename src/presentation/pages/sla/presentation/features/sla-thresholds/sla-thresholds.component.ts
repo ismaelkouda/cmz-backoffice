@@ -125,12 +125,12 @@ export class SlaThresholdsComponent implements OnInit {
             optionValue: 'id',
             showClear: true,
         },
-        {
-            name: 'threshold',
-            type: 'text',
-            inputType: 'text',
-            label: 'SLA_THRESHOLDS_FILTER.THRESHOLD',
-        },
+        // {
+        //     name: 'threshold',
+        //     type: 'text',
+        //     inputType: 'text',
+        //     label: 'SLA_THRESHOLDS_FILTER.THRESHOLD',
+        // },
         {
             name: 'channel',
             type: 'select',

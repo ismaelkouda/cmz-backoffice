@@ -1,3 +1,8 @@
+export interface SlaAlertChannelOptionEntity {
+    id: string;
+    name: string;
+}
+
 export interface SlaAlertChannelEntity {
     id: string;
     code: string;
@@ -13,4 +18,5 @@ export interface SlaAlertContactEntity {
     sms: boolean;
     whatsapp: boolean;
     telegram: boolean;
+    updatedAt: string;
 }

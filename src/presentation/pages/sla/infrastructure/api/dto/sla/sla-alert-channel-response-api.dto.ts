@@ -9,6 +9,7 @@ export interface SlaAlertContactItemApiDto {
     id: string;
     type: string;
     channels: SlaAlertChannelApiDto[];
+    updated_at: string;
 }
 
 export interface SlaAlertContactsResponseApiDto {

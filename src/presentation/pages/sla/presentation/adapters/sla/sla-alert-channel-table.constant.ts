@@ -7,7 +7,7 @@ export const SLA_ALERT_CHANNEL_TABLE = {
             width: '2rem',
         },
         {
-            field: 'type',
+            field: 'typeLabel',
             header: 'SLA.ALERT_CHANNEL.TABLE.TYPE',
             width: '16rem',
         },
@@ -29,5 +29,5 @@ export const SLA_ALERT_CHANNEL_TABLE = {
             width: '7rem',
         },
     ],
-    globalFilterFields: ['type'],
+    globalFilterFields: ['typeLabel'],
 };

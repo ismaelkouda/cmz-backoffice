@@ -23,9 +23,11 @@ import { SWEET_ALERT_PARAMS } from '@shared/constants/sweet-alert-params.constan
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { SlaAlertChannelFacade } from '@pages/sla/application/services/sla/sla-alert-channel.facade';
-import { SlaAlertContactEntity } from '@pages/sla/domain/entities/sla/sla-alert-contact.entity';
-import { SlaAlertUpdatePayloadApiDto } from '@pages/sla/infrastructure/api/dto/sla/sla-alert-channel-response-api.dto';
+import { SlaAlertChannelUpdateContract } from '@pages/sla/domain/contracts/sla/sla-alert-channel-update.contract';
+import { SlaAlertChannelVmProps } from '@pages/sla/presentation/adapters/sla/sla-alert-channel-vm-props.interface';
+import { SlaAlertChannelPresenter } from '@pages/sla/presentation/adapters/sla/sla-alert-channel-vm.presenter';
 import { SLA_ALERT_CHANNEL_TABLE } from '@pages/sla/presentation/adapters/sla/sla-alert-channel-table.constant';
+import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 
 @Component({
     selector: 'app-sla-alert-channel',
@@ -45,7 +47,9 @@ export class SlaAlertChannelComponent {
     private readonly translate = inject(TranslateService);
     private readonly excelExport = inject(ExcelExportService);
     private readonly destroyRef = inject(DestroyRef);
+    private readonly permissionActions = inject(PermissionActionsService);
     private readonly languageVersion = signal(0);
+    private readonly presenter = new SlaAlertChannelPresenter();
 
     readonly tableConfig = SLA_ALERT_CHANNEL_TABLE;
     readonly filterForm = new FormGroup({
@@ -65,8 +69,16 @@ export class SlaAlertChannelComponent {
     });
     readonly itemsVM = computed(() => {
         this.languageVersion();
-        return this.facade.items();
+        return this.facade.items().map((item) => this.presenter.map(item));
     });
+    readonly canEdit = this.permissionActions.can(
+        '/sla/channel-alert',
+        'edit'
+    );
+    private readonly canExport = this.permissionActions.can(
+        '/sla/channel-alert',
+        'export'
+    );
     readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
             label: 'COMMON.REFRESH',
@@ -81,7 +93,7 @@ export class SlaAlertChannelComponent {
             icon: 'pi pi-file',
             class: 'btn-success',
             translateKey: 'COMMON.EXPORT',
-            disabled: !this.itemsVM().length,
+            disabled: !this.canExport() || !this.itemsVM().length,
         },
     ]);
 
@@ -100,14 +112,14 @@ export class SlaAlertChannelComponent {
     onHeaderClicked(actionId: string): void {
         if (actionId === 'refresh') {
             this.filterForm.reset({ search: null });
-            this.facade.readAll();
-        } else if (actionId === 'export') {
+            this.facade.readAll(undefined, { forceRefresh: true });
+        } else if (actionId === 'export' && this.canExport()) {
             this.exportData();
         }
     }
 
     onRowEditSaveRequested(
-        request: TableRowEditSaveRequest<SlaAlertContactEntity>
+        request: TableRowEditSaveRequest<SlaAlertChannelVmProps>
     ): void {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
@@ -123,7 +135,9 @@ export class SlaAlertChannelComponent {
         });
     }
 
-    onRowEditSaved(event: TableRowEditSavedEvent<SlaAlertContactEntity>): void {
+    onRowEditSaved(
+        event: TableRowEditSavedEvent<SlaAlertChannelVmProps>
+    ): void {
         const item = event.item;
         const enabledByCode: Record<string, boolean> = {
             email: item.email,
@@ -131,12 +145,12 @@ export class SlaAlertChannelComponent {
             whatsapp: item.whatsapp,
             telegram: item.telegram,
         };
-        const payload: SlaAlertUpdatePayloadApiDto = {
+        const payload: SlaAlertChannelUpdateContract = {
             contacts: [
                 {
-                    escalation_contact_id: item.id,
+                    escalationContactId: item.id,
                     channels: item.channels.map((channel) => ({
-                        channel_id: channel.id,
+                        channelId: channel.id,
                         enabled: enabledByCode[channel.code] ?? channel.enabled,
                     })),
                 },
@@ -147,7 +161,8 @@ export class SlaAlertChannelComponent {
             () => {
                 event.complete();
                 this.facade.readAll(
-                    this.filterForm.controls.search.value || undefined
+                    this.filterForm.controls.search.value || undefined,
+                    { forceRefresh: true }
                 );
             },
             event.rollback
@@ -161,7 +176,7 @@ export class SlaAlertChannelComponent {
         }
         const columns: ExportColumn[] = [
             {
-                field: 'type',
+                field: 'typeLabel',
                 header: this.t('SLA.ALERT_CHANNEL.TABLE.TYPE'),
                 width: 24,
             },
