@@ -55,6 +55,10 @@ export class DetailsEntity {
         return this.props.uniqId;
     }
 
+    get orSheetUrl(): string | null {
+        return this.props.orSheetUrl;
+    }
+
     get reportUniqId(): string {
         return this.props.reportUniqId;
     }

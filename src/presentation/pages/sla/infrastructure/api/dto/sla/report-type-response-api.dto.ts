@@ -9,6 +9,7 @@ export interface ReportTypeItemApiDto {
     report_type?: string;
     report_type_name?: string;
     threshold: string | number;
+    critical_threshold: string | number;
     unit: string;
     channel: string;
     description: string;

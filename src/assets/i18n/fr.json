@@ -2584,6 +2584,7 @@
             },
             "ACTIONS": {
                 "TITLE": "actions de traitement",
+                    "DOWNLOAD_OR_SHEET": "Télécharger le PV",
                 "LABEL": "panier de taches",
                 "ROUTE": "tasks",
                 "BREADCRUMB": {
@@ -6583,7 +6584,8 @@
                     "SERVICE": "Service",
                     "INDICATOR": "Indicateur",
                     "DESCRIPTION": "Description",
-                    "THRESHOLD": "Seuil",
+                    "THRESHOLD": "Seuil normal",
+                    "CRITICAL_THRESHOLD": "Seuil critique",
                     "CHANNEL": "Canal",
                     "CATEGORY": "Catégorie"
                 },
@@ -6610,7 +6612,8 @@
             "RAM": "RAM"
         },
         "INDICATOR": "Indicateur",
-        "THRESHOLD": "Seuil",
+        "THRESHOLD": "Seuil Normal",
+        "CRITICAL_THRESHOLD": "Seuil Critique",
         "CHANNEL": "Canal de collecte",
         "SERVICE": "Service",
         "DESCRIPTION": "Description",

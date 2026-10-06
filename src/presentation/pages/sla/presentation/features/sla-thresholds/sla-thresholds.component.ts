@@ -228,6 +228,7 @@ export class SlaThresholdsComponent implements OnInit {
             item.id,
             {
                 threshold: item.threshold.toString(),
+                critical_threshold: item.criticalThreshold.toString(),
                 sla_id: item.slaId,
             },
             () => {
@@ -269,6 +270,11 @@ export class SlaThresholdsComponent implements OnInit {
             { field: 'slaTypeLabel', header: 'Service', width: 24 },
             { field: 'slaName', header: 'Indicateur', width: 24 },
             { field: 'thresholdLabel', header: 'Seuil', width: 12 },
+            {
+                field: 'criticalThresholdLabel',
+                header: 'Seuil critique',
+                width: 16,
+            },
             { field: 'channel', header: 'Canal', width: 18 },
         ];
         this.excelExport.exportToExcel({

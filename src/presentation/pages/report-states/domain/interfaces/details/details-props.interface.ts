@@ -16,6 +16,7 @@ import { TypeReport } from '@shared/domain/enums/type-report.enum';
 export interface DetailsProps {
     type: TypeReport;
     uniqId: string;
+    orSheetUrl: string | null;
     reportUniqId: string;
     initiatorPhone: string;
     initiator: ActorEntity | null;

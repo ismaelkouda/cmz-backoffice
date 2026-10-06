@@ -545,6 +545,7 @@ export class ActionsTreatmentComponent {
     protected onSeeClicked(): void {
         this.isReportDialogVisible.set(true);
     }
+
     protected copyToClipboardClicked(value: string): void {
         this.clipboardService.copyFromContent(value);
 

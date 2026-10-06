@@ -1920,6 +1920,7 @@
             },
             "ACTIONS": {
                 "TITLE": "processing actions",
+                "DOWNLOAD_OR_SHEET": "Download the minutes",
                 "LABEL": "Task Queue",
                 "ROUTE": "tasks",
                 "BREADCRUMB": {
@@ -4423,6 +4424,7 @@
         },
         "INDICATOR": "Indicator",
         "THRESHOLD": "Threshold",
+        "CRITICAL_THRESHOLD": "Critical threshold",
         "CHANNEL": "Channel",
         "ACTION": "Actions"
     },

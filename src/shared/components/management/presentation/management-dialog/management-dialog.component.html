@@ -85,25 +85,44 @@
                     }
                 </div>
 
-                <nav class="content-tabs">
-                    <div class="tabs-container">
-                        @for (tab of tabs(); track tab.value) {
-                            <button
-                                (click)="selectTab($index)"
-                                [class.active]="selectedTabIndex() === $index"
-                                class="content-tab"
-                            >
-                                <div class="tab-visual">
-                                    <i [class]="tab.icon"></i>
-                                </div>
-                                <span class="tab-label">{{
-                                    tab.label | translate
-                                }}</span>
-                                <div class="tab-indicator"></div>
-                            </button>
-                        }
-                    </div>
-                </nav>
+                <div class="d-flex align-items-center">
+                    <nav class="content-tabs">
+                        <div class="tabs-container">
+                            @for (tab of tabs(); track tab.value) {
+                                <button
+                                    (click)="selectTab($index)"
+                                    [class.active]="selectedTabIndex() === $index"
+                                    class="content-tab"
+                                >
+                                    <div class="tab-visual">
+                                        <i [class]="tab.icon"></i>
+                                    </div>
+                                    <span class="tab-label">{{
+                                        tab.label | translate
+                                    }}</span>
+                                    <div class="tab-indicator"></div>
+                                </button>
+                            }
+                        </div>
+                    </nav>
+                    @if (items().statusReject || items().stateCompleted) {
+                        <p-button
+                            [label]="
+                                'PROCESSING.TASKS.ACTIONS.DOWNLOAD_OR_SHEET'
+                                    | translate
+                            "
+                            icon="pi pi-download"
+                            styleClass="p-button-info"
+                            [disabled]="!orSheetUrl()"
+                            [pTooltip]="
+                                'PROCESSING.TASKS.ACTIONS.DOWNLOAD_OR_SHEET'
+                                    | translate
+                            "
+                            tooltipPosition="bottom"
+                            (onClick)="downloadOrSheet()"
+                        />
+                    }
+                </div>
 
                 <app-management-callback
                     [item]="items()"

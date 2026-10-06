@@ -12,7 +12,7 @@ export const EVALUATE_TABLE = {
             severity: 'contrast',
         },
         {
-            id: 'take',
+            id: 'qualify',
             icon: 'pi pi-window-maximize',
             tooltip: 'REPORT_STATES.EVALUATE.TABLE.TAKE',
             severity: 'primary',

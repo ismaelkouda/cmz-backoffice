@@ -52,6 +52,7 @@ export class DetailsMapper extends SimpleResponseMapper<
         const props: DetailsProps = {
             type: TypeReport.REQUESTS,
             uniqId: dto.uniq_id,
+            orSheetUrl: dto.or_sheet_url,
             reportUniqId: dto.request_report_uniq_id,
             initiatorPhone: dto.initiator_phone_number,
             initiator: this.utils.memoized(dto.initiator, (i) =>

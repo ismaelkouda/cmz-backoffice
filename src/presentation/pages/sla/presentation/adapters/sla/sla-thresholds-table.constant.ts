@@ -31,20 +31,30 @@ export const SLA_THRESHOLDS_TABLE = {
             width: '8rem',
         },
         {
+            field: 'criticalThresholdLabel',
+            header: 'SLA_THRESHOLDS_FILTER.CRITICAL_THRESHOLD',
+            editor: {
+                type: 'threshold' as const,
+                modelField: 'criticalThreshold',
+                displayField: 'criticalThresholdLabel',
+            },
+            width: '8rem',
+        },
+        {
             field: 'channelLabel',
             header: 'SLA_THRESHOLDS_FILTER.CHANNEL',
-            width: '15rem',
+            width: '10rem',
         },
         {
             field: 'slaCategoryLabel',
             header: 'SLA.SLA_LIST.FILTER.CATEGORY',
-            width: '8rem',
+            width: '7rem',
         },
         {
             field: '__action',
             header: 'SLA_THRESHOLDS_FILTER.ACTION',
             class: 'text-center',
-            width: '7rem',
+            width: '6rem',
         },
     ],
     globalFilterFields: [
@@ -52,6 +62,7 @@ export const SLA_THRESHOLDS_TABLE = {
         'slaName',
         'description',
         'thresholdLabel',
+        'criticalThresholdLabel',
         'channelLabel',
         'slaCategoryLabel',
     ],

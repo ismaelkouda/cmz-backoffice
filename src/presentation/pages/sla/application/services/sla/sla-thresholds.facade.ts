@@ -47,6 +47,8 @@ export interface ReportTypeVm {
     threshold: ThresholdValue;
     thresholdType: ThresholdType;
     thresholdLabel: string;
+    criticalThreshold: ThresholdValue;
+    criticalThresholdLabel: string;
     unit: string;
     channel: string;
     createdAt: string;
@@ -100,6 +102,13 @@ export class SlaThresholdsFacade {
                                 item.unit
                             ),
                             thresholdLabel: String(item.threshold),
+                            criticalThreshold: parseThreshold(
+                                item.critical_threshold,
+                                item.unit
+                            ),
+                            criticalThresholdLabel: String(
+                                item.critical_threshold
+                            ),
                             unit: item.unit,
                             channel: item.channel.toLowerCase(),
                             description: item.description,
