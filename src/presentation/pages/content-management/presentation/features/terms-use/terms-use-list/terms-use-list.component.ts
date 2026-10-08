@@ -39,7 +39,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { TermsUseVmProps } from '../../../adapters/terms-use/terms-use-vm-props.interface';
 import { TERMS_USE_FORM_ROUTE } from '../terms-use-paths.constants';
-import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 type TTableActions = 'edit' | 'delete' | 'publish' | 'unpublish';
@@ -65,7 +65,6 @@ export class TermsUseListComponent {
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     private readonly sweetAlert = inject(SweetAlertService);
-    private readonly dateMapper = inject(ApiDateMapper);
 
     public readonly facade = inject(TermsUseFacade);
     private readonly translate = inject(TranslateService);
@@ -496,7 +495,7 @@ export class TermsUseListComponent {
         const fileName = `${this.exportFilePrefix}-terms-use`;
 
         const exportColumns: ExportColumn[] = TERMS_USE_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {
@@ -511,8 +510,11 @@ export class TermsUseListComponent {
                         if (col.field === '__index') {
                             return (items.indexOf(row) + 1).toString();
                         }
-                        if (col.field === 'createdAt' && value) {
-                            return this.dateMapper.toDateTimeApi(value);
+                        if (
+                            ['createdAt', 'publishedAt'].includes(col.field) &&
+                            value
+                        ) {
+                            return formatDate(value);
                         }
                         if (Array.isArray(value)) {
                             return value.join(', ');

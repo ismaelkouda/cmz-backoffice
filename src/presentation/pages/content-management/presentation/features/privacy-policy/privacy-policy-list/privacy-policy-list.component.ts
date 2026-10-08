@@ -41,7 +41,7 @@ import { PrivacyPolicyVmProps } from '../../../adapters/privacy-policy/privacy-p
 import { PRIVACY_POLICY_FORM_ROUTE } from '../privacy-policy-paths.constants';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
-import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 type TTableActions = 'edit' | 'delete' | 'publish' | 'unpublish';
 
 @Component({
@@ -65,7 +65,6 @@ export class PrivacyPolicyListComponent {
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     private readonly sweetAlert = inject(SweetAlertService);
-    private readonly dateMapper = inject(ApiDateMapper);
 
     public readonly facade = inject(PrivacyPolicyFacade);
     private readonly translate = inject(TranslateService);
@@ -509,10 +508,10 @@ export class PrivacyPolicyListComponent {
             return;
         }
 
-        const fileName = `${this.exportFilePrefix}-privacy-pilicy`;
+        const fileName = `${this.exportFilePrefix}-privacy-policy`;
 
         const exportColumns: ExportColumn[] = PRIVACY_POLICY_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {
@@ -527,8 +526,11 @@ export class PrivacyPolicyListComponent {
                         if (col.field === '__index') {
                             return (items.indexOf(row) + 1).toString();
                         }
-                        if (col.field === 'createdAt' && value) {
-                            return this.dateMapper.toDateTimeApi(value);
+                        if (
+                            ['createdAt', 'publishedAt'].includes(col.field) &&
+                            value
+                        ) {
+                            return formatDate(value);
                         }
                         if (Array.isArray(value)) {
                             return value.join(', ');

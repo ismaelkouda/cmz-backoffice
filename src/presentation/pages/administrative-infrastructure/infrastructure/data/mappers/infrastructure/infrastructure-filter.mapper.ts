@@ -11,7 +11,7 @@ export function infrastructureFilterMapper(
         params.search = validContract.search;
     }
     if (validContract.type) {
-        params.type = validContract.type;
+        params.infrastructure_type = validContract.type;
     }
     if (validContract.region) {
         params.region_id = validContract.region;

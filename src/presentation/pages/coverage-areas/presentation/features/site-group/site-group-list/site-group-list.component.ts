@@ -478,7 +478,7 @@ export class SiteGroupListComponent {
         const fileName = `${this.exportFilePrefix}-site-groups`;
 
         const exportColumns: ExportColumn[] = SITE_GROUP_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {

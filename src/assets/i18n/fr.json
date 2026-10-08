@@ -6526,6 +6526,12 @@
             "SWEET_ALERT": {
                 "TITLE": "Modifier les canaux d'alertes ?",
                 "MESSAGE": "Voulez-vous enregistrer les canaux sélectionnés ?"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Rafraîchir la liste des canaux d'alertes",
+                "EXPORT": "Exporter la liste de {nb} canaux d'alertes",
+                "NO_PERMISSION_EXPORT": "Exportation des canaux d'alertes non permise",
+                "NO_EXPORT": "Aucun canal d'alerte à exporter"
             }
         },
         "BUSINESS_CONTACTS": {

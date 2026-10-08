@@ -20,13 +20,13 @@ export class InfrastructureMapper extends PaginatedMapper<
         MapperUtils.validateDto(dto, { required: ['id'] });
         const props: InfrastructureProps = {
             uniqId: dto.id,
-            name: dto.name,
-            type: dto.infrastructure_type.name,
-            description: dto.description,
-            region: dto.region?.name,
-            department: dto.department?.name,
-            municipality: dto.municipality?.name,
-            position: `${dto.lat},${dto.long}`,
+            name: dto.name ?? '',
+            type: dto.infrastructure_type?.name ?? '',
+            description: dto.description ?? '',
+            region: dto.region?.name ?? '',
+            department: dto.department?.name ?? '',
+            municipality: dto.municipality?.name ?? '',
+            position: `${dto.lat ?? ''},${dto.long ?? ''}`,
             createdAt: dto.created_at,
             updatedAt: dto.updated_at,
         };

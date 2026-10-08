@@ -7,7 +7,7 @@ import { opticalFiberNetworkCreateMapper } from '@pages/coverage-areas/infrastru
 import { opticalFiberNetworkDeleteMapper } from '@pages/coverage-areas/infrastructure/data/mappers/optical-fiber-network/optical-fiber-network-delete.mapper';
 import { opticalFiberNetworkDisableMapper } from '@pages/coverage-areas/infrastructure/data/mappers/optical-fiber-network/optical-fiber-network-disable.mapper';
 import { opticalFiberNetworkEnableMapper } from '@pages/coverage-areas/infrastructure/data/mappers/optical-fiber-network/optical-fiber-network-enable.mapper';
-import { opticalFiberNetworkFilterMapper } from '@pages/coverage-areas/infrastructure/data/mappers/optical-fiber-network/optical-fiber-network-filter.mapper';
+import { OpticalFiberNetworkFilterMapper } from '@pages/coverage-areas/infrastructure/data/mappers/optical-fiber-network/optical-fiber-network-filter.mapper';
 import { opticalFiberNetworkUpdateMapper } from '@pages/coverage-areas/infrastructure/data/mappers/optical-fiber-network/optical-fiber-network-update.mapper';
 import { OpticalFiberNetworkMapper } from '@pages/coverage-areas/infrastructure/data/mappers/optical-fiber-network/optical-fiber-network.mapper';
 import { OpticalFiberNetworkApi } from '@pages/coverage-areas/infrastructure/data/sources/optical-fiber-network/optical-fiber-network.api';
@@ -28,6 +28,7 @@ import { OpticalFiberNetworkDisableValidateContract } from '@pages/coverage-area
 export class OpticalFiberNetworkRepositoryImpl implements OpticalFiberNetworkRepository {
     private readonly api = inject(OpticalFiberNetworkApi);
     private readonly mapper = inject(OpticalFiberNetworkMapper);
+    private readonly filterMapper = inject(OpticalFiberNetworkFilterMapper);
 
     readAll(
         validContract: OpticalFiberNetworkFilterContract,
@@ -35,11 +36,7 @@ export class OpticalFiberNetworkRepositoryImpl implements OpticalFiberNetworkRep
         options?: FetchOptions
     ): Observable<Paginate<OpticalFiberNetworkEntity>> {
         return this.api
-            .readAll(
-                opticalFiberNetworkFilterMapper(validContract),
-                page,
-                options
-            )
+            .readAll(this.filterMapper.map(validContract), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 

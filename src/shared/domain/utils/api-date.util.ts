@@ -6,6 +6,13 @@
  * @param value
  */
 export function toApiDateOnly(value: Date | string): string {
+    if (typeof value === 'string') {
+        const dateOnly = /^(\d{4}-\d{2}-\d{2})/.exec(value)?.[1];
+        if (dateOnly) {
+            return dateOnly;
+        }
+    }
+
     const date = value instanceof Date ? value : new Date(value);
 
     if (Number.isNaN(date.getTime())) {

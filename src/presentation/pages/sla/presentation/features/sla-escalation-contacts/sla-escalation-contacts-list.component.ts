@@ -181,7 +181,7 @@ export class SlaEscalationContactsListComponent {
             return;
         }
         const columns: ExportColumn[] = this.tableConfig.cols
-            .filter((col) => col.field !== '__actionDropdown')
+            .filter((col) => col.field !== '__action')
             .map((col) => ({
                 field: col.field,
                 header: this.t(col.header),

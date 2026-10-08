@@ -17,7 +17,7 @@ export const SITE_GROUP_TABLE = {
             width: '12rem',
         },
         {
-            field: 'municipalitiesCount',
+            field: 'mobileNetworkCount',
             header: 'COVERAGE_AREAS.SITE_GROUP.TABLE.MOBILE_NETWORK_COUNT',
             class: 'text-center',
             width: '2rem',

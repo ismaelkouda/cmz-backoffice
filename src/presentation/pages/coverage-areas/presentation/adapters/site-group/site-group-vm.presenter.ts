@@ -29,6 +29,7 @@ export class SiteGroupPresenter {
             code: item.code,
             name: item.name,
             description: item.description,
+            mobileNetworkCount: item.mobileNetworkCount,
             status: item.status,
             statusLabel: this.t(item.status),
             statusStyle: item.statusStyle(item.status),

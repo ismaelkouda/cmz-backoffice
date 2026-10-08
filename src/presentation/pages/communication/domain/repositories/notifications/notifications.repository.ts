@@ -1,6 +1,6 @@
-import { NotificationsFilterContract } from '@pages/communication/domain/contracts/notifications/notifications-filter.contract';
 import { NotificationsReadOneDto } from '@pages/communication/application/dto/notifications/notifications-read-one.dto';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
+import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
 import {
     Paginate,
     SimpleResponseDto,
@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 
 export abstract class NotificationsRepository {
     abstract execute(
-        contract: NotificationsFilterContract,
+        entity: NotificationsFilterEntity,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<NotificationsEntity>>;

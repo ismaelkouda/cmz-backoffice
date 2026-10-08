@@ -4341,6 +4341,12 @@
             "SWEET_ALERT": {
                 "TITLE": "Update alert channels?",
                 "MESSAGE": "Do you want to save the selected channels?"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Refresh the alert channels list",
+                "EXPORT": "Export the list of {nb} alert channels",
+                "NO_PERMISSION_EXPORT": "Exporting alert channels is not allowed",
+                "NO_EXPORT": "No alert channel to export"
             }
         },
         "BUSINESS_CONTACTS": {

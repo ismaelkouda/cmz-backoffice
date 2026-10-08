@@ -7,7 +7,7 @@ export function opticalFiberNetworkUpdateMapper(
     const params: OpticalFiberNetworkUpdateApiDto = {
         id: validContract.uniqId,
         name: validContract.name,
-        operator: validContract.operator,
+        operator: validContract.operator.toLocaleLowerCase(),
         fiber_constructor_id: validContract.fiberConstructorId,
         type: validContract.type,
     };

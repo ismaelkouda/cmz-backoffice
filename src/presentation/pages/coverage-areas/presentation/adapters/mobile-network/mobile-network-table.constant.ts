@@ -9,7 +9,7 @@ export const MOBILE_NETWORK_TABLE = {
         {
             field: 'siteId',
             header: 'COVERAGE_AREAS.MOBILE_NETWORK.TABLE.SITE_ID',
-            width: '3rem',
+            width: '4rem',
         },
         {
             field: 'siteName',
@@ -31,7 +31,7 @@ export const MOBILE_NETWORK_TABLE = {
             field: 'networkTechnology',
             header: 'COVERAGE_AREAS.MOBILE_NETWORK.TABLE.TECHNOLOGY',
             class: 'text-center',
-            width: '7rem',
+            width: '5rem',
         },
         {
             field: 'operator',

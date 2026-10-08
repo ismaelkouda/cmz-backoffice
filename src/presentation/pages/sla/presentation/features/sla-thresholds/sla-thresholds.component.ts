@@ -24,10 +24,10 @@ import { ExcelExportService } from '@shared/domain/services/excel-export.service
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { SLA_THRESHOLDS_TABLE } from '@pages/sla/presentation/adapters/sla/sla-thresholds-table.constant';
 import { SLA_SERVICES } from '@pages/sla/presentation/adapters/sla/sla-services.constant';
-import {
-    ReportTypeVm,
-    SlaThresholdsFacade,
-} from '@pages/sla/application/services/sla/sla-thresholds.facade';
+import { SlaThresholdsFacade } from '@pages/sla/application/services/sla/sla-thresholds.facade';
+import { SlaThresholdUpdateDto } from '@pages/sla/application/dto/sla/sla-threshold-update.dto';
+import { SlaThresholdsVmProps } from '@pages/sla/presentation/adapters/sla/sla-thresholds-vm-props.interface';
+import { SlaThresholdsVmPresenter } from '@pages/sla/presentation/adapters/sla/sla-thresholds-vm.presenter';
 import SweetAlert from 'sweetalert2';
 
 @Component({
@@ -51,6 +51,9 @@ export class SlaThresholdsComponent implements OnInit {
     readonly filterVersion = signal(0);
     readonly languageVersion = signal(0);
     readonly tableConfig = SLA_THRESHOLDS_TABLE;
+    private readonly presenter = new SlaThresholdsVmPresenter(
+        this.translate.instant.bind(this.translate)
+    );
     readonly filterForm = new FormGroup({
         service: new FormControl<string | null>(null),
         indicator: new FormControl<string | number | null>(null),
@@ -161,17 +164,14 @@ export class SlaThresholdsComponent implements OnInit {
                             .toLowerCase()
                             .includes(filter.threshold.toLowerCase())) &&
                     (!filter.channel ||
-                        item.channel === filter.channel ||
-                        item.channel === selectedChannelCode)
+                        this.normalizeChannel(item.channel) ===
+                            selectedChannelCode)
             )
             .map((item) => ({
-                ...item,
+                ...this.presenter.map(item),
                 serviceOptions: this.serviceOptions(),
                 indicatorOptions: this.indicatorOptions(),
                 channelOptions: this.channelOptions(),
-                slaTypeLabel: this.getServiceLabel(item.slaType),
-                thresholdLabel: item.thresholdLabel,
-                channelLabel: this.getChannelLabel(item.channel),
             }));
     });
 
@@ -206,7 +206,7 @@ export class SlaThresholdsComponent implements OnInit {
     }
 
     onRowEditSaveRequested(
-        request: TableRowEditSaveRequest<ReportTypeVm>
+        request: TableRowEditSaveRequest<SlaThresholdsVmProps>
     ): void {
         SweetAlert.fire({
             ...SWEET_ALERT_PARAMS,
@@ -222,18 +222,18 @@ export class SlaThresholdsComponent implements OnInit {
         });
     }
 
-    onRowEditSaved(event: TableRowEditSavedEvent<ReportTypeVm>): void {
+    onRowEditSaved(event: TableRowEditSavedEvent<SlaThresholdsVmProps>): void {
         const { item } = event;
-        this.facade.updateReportSla(
-            item.id,
-            {
-                threshold: item.threshold.toString(),
-                critical_threshold: item.criticalThreshold.toString(),
-                sla_id: item.slaId,
-            },
+        const dto: SlaThresholdUpdateDto = {
+            id: item.id,
+            slaId: item.slaId,
+            threshold: item.threshold.toString(),
+            criticalThreshold: item.criticalThreshold.toString(),
+        };
+        this.facade.update(
+            dto,
             () => {
                 event.complete();
-                this.refresh();
             },
             event.rollback
         );
@@ -241,11 +241,6 @@ export class SlaThresholdsComponent implements OnInit {
 
     private t(key: string): string {
         return this.translate.instant(key);
-    }
-
-    private getServiceLabel(service: string): string {
-        const option = SLA_SERVICES.find((item) => item.value === service);
-        return option ? this.t(option.translationKey) : service;
     }
 
     getChannelLabel(channel: string): string {
@@ -256,7 +251,7 @@ export class SlaThresholdsComponent implements OnInit {
     }
 
     private normalizeChannel(channel: string): string {
-        return channel.toLowerCase().replaceAll(' ', '_');
+        return channel.trim().toLowerCase().replace(/\s+/g, '_');
     }
 
     refresh = (): void => this.facade.readReportTypes();
@@ -267,15 +262,41 @@ export class SlaThresholdsComponent implements OnInit {
             return;
         }
         const columns: ExportColumn[] = [
-            { field: 'slaTypeLabel', header: 'Service', width: 24 },
-            { field: 'slaName', header: 'Indicateur', width: 24 },
-            { field: 'thresholdLabel', header: 'Seuil', width: 12 },
+            {
+                field: 'slaTypeLabel',
+                header: this.t('SLA_THRESHOLDS_FILTER.SERVICE'),
+                width: 24,
+            },
+            {
+                field: 'slaName',
+                header: this.t('SLA_THRESHOLDS_FILTER.INDICATOR'),
+                width: 24,
+            },
+            {
+                field: 'description',
+                header: this.t('SLA_THRESHOLDS_FILTER.DESCRIPTION'),
+                width: 40,
+            },
+            {
+                field: 'thresholdLabel',
+                header: this.t('SLA_THRESHOLDS_FILTER.THRESHOLD'),
+                width: 12,
+            },
             {
                 field: 'criticalThresholdLabel',
-                header: 'Seuil critique',
+                header: this.t('SLA_THRESHOLDS_FILTER.CRITICAL_THRESHOLD'),
                 width: 16,
             },
-            { field: 'channel', header: 'Canal', width: 18 },
+            {
+                field: 'channelLabel',
+                header: this.t('SLA_THRESHOLDS_FILTER.CHANNEL'),
+                width: 18,
+            },
+            {
+                field: 'slaCategoryLabel',
+                header: this.t('SLA.SLA_LIST.FILTER.CATEGORY'),
+                width: 18,
+            },
         ];
         this.excelExport.exportToExcel({
             fileName: 'sla-thresholds',

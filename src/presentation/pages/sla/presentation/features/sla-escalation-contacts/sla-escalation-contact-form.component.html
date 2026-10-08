@@ -11,7 +11,7 @@
                                 [displayList]="false"
                                 [title]="titleKey() | translate"
                             />
-                            @if (isEditMode() || isViewMode()) {
+                            @if ((isEditMode() || isViewMode()) && contact()?.type) {
                                 <p-badge
                                     [value]="contact()?.type || ''"
                                     styleClass="contact-type-badge"

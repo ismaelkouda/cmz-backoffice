@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { NotificationsFilterContract } from '@pages/communication/domain/contracts/notifications/notifications-filter.contract';
 import { NotificationsReadOneDto } from '@pages/communication/application/dto/notifications/notifications-read-one.dto';
 import { NotificationsEntity } from '@pages/communication/domain/entities/notifications/notifications.entity';
+import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
 import { NotificationsRepository } from '@pages/communication/domain/repositories/notifications/notifications.repository';
-import { notificationsFilterMapper } from '@pages/communication/infrastructure/data/mappers/notifications/notifications-filter.mapper';
+import { NotificationsFilterMapper } from '@pages/communication/infrastructure/data/mappers/notifications/notifications-filter.mapper';
 import { notificationsReadOneMapper } from '@pages/communication/infrastructure/data/mappers/notifications/notifications-read-one.mapper';
 import { NotificationsMapper } from '@pages/communication/infrastructure/data/mappers/notifications/notifications.mapper';
 import { NotificationsApi } from '@pages/communication/infrastructure/data/sources/notifications/notifications.api';
@@ -18,13 +18,14 @@ import { map, Observable } from 'rxjs';
 export class NotificationsRepositoryImpl implements NotificationsRepository {
     private readonly api = inject(NotificationsApi);
     private readonly mapper = inject(NotificationsMapper);
+    private readonly filterMapper = inject(NotificationsFilterMapper);
 
     execute(
-        contract: NotificationsFilterContract,
+        entity: NotificationsFilterEntity,
         page: string,
         options?: FetchOptions
     ): Observable<Paginate<NotificationsEntity>> {
-        const paramsDto = notificationsFilterMapper(contract);
+        const paramsDto = this.filterMapper.map(entity);
         return this.api
             .execute(paramsDto, page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));

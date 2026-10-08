@@ -45,5 +45,5 @@ export const SLA_LIST_TABLE = {
         //     width: '8rem',
         // },
     ],
-    globalFilterFields: ['name', 'description', 'createdAt', 'updatedAt'],
+    globalFilterFields: ['name', 'description', 'categoryLabel', 'statusLabel'],
 };

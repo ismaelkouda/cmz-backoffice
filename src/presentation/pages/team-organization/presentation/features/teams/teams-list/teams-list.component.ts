@@ -36,6 +36,9 @@ import { TableHeaderButton } from '@shared/components/table-button-header/table-
 import { AppCustomizationService } from '@shared/domain/services/app-customization/app-customization.service';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
+import { ExcelExportService } from '@shared/domain/services/excel-export.service';
+import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 import { ToastrService } from 'ngx-toastr';
 
 type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
@@ -66,7 +69,7 @@ export class TeamsListComponent {
     private readonly translate = inject(TranslateService);
     private readonly toast = inject(ToastrService);
     private readonly formStore = inject(TeamsFilterStore);
-    // private readonly exportService = inject(TableExportExcelFileService);
+    private readonly excelExport = inject(ExcelExportService);
     private readonly appConfig = inject(AppCustomizationService);
     private readonly canExport = this.permissionActions.can(
         '/organization/team',
@@ -318,17 +321,48 @@ export class TeamsListComponent {
             this.toast.error(this.exportTooltip());
             return;
         }
-        const items = this.items();
+        const items = this.itemsVM();
         if (!items.length) {
             this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
 
-        // this.exportService.exportAsExcelFile(
-        //     items,
-        //     this.tableConfig,
-        //     `${this.normalizeExportPrefix}-teams`
-        // );
+        const exportColumns: ExportColumn[] = TEAMS_TABLE.cols
+            .filter((col) => col.field !== '__actionDropdown')
+            .map((col) => {
+                const parsedWidth = Number.parseFloat(col.width ?? '15');
+
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: Number.isNaN(parsedWidth) ? 15 : parsedWidth,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (col.field === 'updatedAt' && value) {
+                            return formatDate(value);
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: 'teams',
+                columns: exportColumns,
+                data: items,
+                sheetName: this.t('TEAM_ORGANIZATION.TEAMS.TITLE'),
+                autoFilter: true,
+            })
+            .catch((error) => {
+                console.error('Export error', error);
+                this.toast.error(this.t('EXPORT.ERROR'));
+            });
     }
     private readonly headerActions: Record<string, () => void> = {
         create: () => {

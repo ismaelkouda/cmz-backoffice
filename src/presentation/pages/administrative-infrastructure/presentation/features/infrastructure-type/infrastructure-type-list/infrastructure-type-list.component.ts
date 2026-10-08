@@ -541,7 +541,7 @@ export class InfrastructureTypeListComponent {
         const fileName = `${this.exportFilePrefix}-infrastructure-type`;
 
         const exportColumns: ExportColumn[] = INFRASTRUCTURE_TYPE_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {

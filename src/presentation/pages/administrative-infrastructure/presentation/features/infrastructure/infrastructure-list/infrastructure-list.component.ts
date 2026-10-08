@@ -466,7 +466,7 @@ export class InfrastructureListComponent {
         const fileName = `${this.exportFilePrefix}-infrastructure`;
 
         const exportColumns: ExportColumn[] = INFRASTRUCTURE_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {

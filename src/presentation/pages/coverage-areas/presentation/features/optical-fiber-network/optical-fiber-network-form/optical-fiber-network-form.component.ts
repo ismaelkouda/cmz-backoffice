@@ -37,7 +37,6 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import SweetAlert from 'sweetalert2';
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { ToastrService } from 'ngx-toastr';
-import { GeojsonLineMapComponent } from '@shared/components/geojson-line-map/geojson-line-map.component';
 import { map, startWith } from 'rxjs';
 
 const PERMISSION_PATH = '/coverage-areas/optical-fiber-networks';
@@ -64,7 +63,6 @@ const I18N = 'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK';
         TooltipModule,
         SelectButtonModule,
         FileUploadModule,
-        GeojsonLineMapComponent,
     ],
     providers: [
         MessageService,
@@ -249,9 +247,19 @@ export class OpticalFiberNetworkFormComponent implements OnInit {
         value: number | null
     ): void {
         const control = this.routeCoordinates.at(index).get(field);
-        if (control && value !== null && Number.isFinite(value)) {
-            control.setValue(String(value), { emitEvent: true });
+        if (!control) {
+            return;
         }
+
+        const normalizedValue =
+            value !== null && Number.isFinite(value)
+                ? String(value)
+                : undefined;
+
+        control.setValue(normalizedValue, { emitEvent: true });
+        control.markAsDirty();
+        control.updateValueAndValidity({ emitEvent: true });
+        this.routeCoordinates.updateValueAndValidity({ emitEvent: true });
     }
 
     onCoordinatePaste(

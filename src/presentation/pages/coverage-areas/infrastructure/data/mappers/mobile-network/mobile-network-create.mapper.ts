@@ -25,7 +25,7 @@ export function mobileNetworkCreateMapper(
         params.network_technology = validContract.networkTechnology;
     }
     if (validContract.operator) {
-        params.operator = validContract.operator;
+        params.operator = validContract.operator.toLocaleLowerCase();
     }
     if (validContract.coverageRadius) {
         params.coverage_radius = validContract.coverageRadius;

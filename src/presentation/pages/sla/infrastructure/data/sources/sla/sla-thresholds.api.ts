@@ -6,6 +6,10 @@ import { MessageResponseDto } from '@shared/data/dto/simple-response.dto';
 import { SLA_ENDPOINTS } from '@pages/sla/infrastructure/api/sla.endpoints';
 import { ReportTypeResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/report-type-response-api.dto';
 import { ChannelSelectFieldResponseApiDto } from '@pages/sla/infrastructure/api/dto/sla/channel-select-field-response-api.dto';
+import { SlaThresholdUpdateApiDto } from '@pages/sla/infrastructure/api/dto/sla/sla-threshold-update-api.dto';
+import { FetchOptions } from '@shared/interface/fetch-options.interface';
+import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
+import { HttpContext } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class SlaThresholdsApi {
@@ -14,7 +18,8 @@ export class SlaThresholdsApi {
 
     reportTypes(
         slaType?: string,
-        channel?: string
+        channel?: string,
+        options?: FetchOptions
     ): Observable<ReportTypeResponseApiDto> {
         let params = new HttpParams();
         if (slaType) {
@@ -25,7 +30,13 @@ export class SlaThresholdsApi {
         }
         return this.http.get<ReportTypeResponseApiDto>(
             `${this.baseUrl}${SLA_ENDPOINTS.REPORT_TYPES}`,
-            { params }
+            {
+                params,
+                context: new HttpContext().set(
+                    BYPASS_CACHE,
+                    options?.forceRefresh ?? false
+                ),
+            }
         );
     }
 
@@ -36,11 +47,10 @@ export class SlaThresholdsApi {
     }
 
     updateReportSla(
-        id: string | number,
-        payload: object
+        payload: SlaThresholdUpdateApiDto
     ): Observable<MessageResponseDto> {
         return this.http.post<MessageResponseDto>(
-            `${this.baseUrl}${SLA_ENDPOINTS.REPORT_TYPES}/${id}/update`,
+            `${this.baseUrl}${SLA_ENDPOINTS.REPORT_TYPES}/${payload.id}/update`,
             payload
         );
     }

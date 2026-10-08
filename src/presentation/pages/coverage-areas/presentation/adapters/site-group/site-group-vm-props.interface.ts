@@ -10,6 +10,7 @@ export interface SiteGroupVmProps {
     code: string;
     name: string;
     description?: string;
+    mobileNetworkCount: number;
 
     status: Status;
     statusLabel: string;

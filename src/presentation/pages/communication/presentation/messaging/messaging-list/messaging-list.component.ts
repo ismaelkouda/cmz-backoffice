@@ -376,7 +376,13 @@ export class MessagingListComponent {
                             return formatDate(value);
                         }
                         if (Array.isArray(value)) {
-                            return value.join(', ');
+                            return value
+                                .map((item) =>
+                                    col.field === 'channels'
+                                        ? this.translate.instant(item)
+                                        : item
+                                )
+                                .join(', ');
                         }
                         return value ?? '';
                     },

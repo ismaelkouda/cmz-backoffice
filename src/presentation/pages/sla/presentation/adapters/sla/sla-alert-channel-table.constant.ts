@@ -26,7 +26,7 @@ export const SLA_ALERT_CHANNEL_TABLE = {
             field: '__action',
             header: 'SLA.ALERT_CHANNEL.TABLE.ACTION',
             class: 'text-center',
-            width: '7rem',
+            width: '5rem',
         },
     ],
     globalFilterFields: ['typeLabel'],

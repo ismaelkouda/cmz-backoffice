@@ -10,6 +10,7 @@ import {
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import SweetAlert from 'sweetalert2';
 import { FilterComponent } from '@shared/components/filter/filter.component';
 import { FilterField } from '@shared/components/filter/filter.types';
@@ -46,6 +47,7 @@ export class SlaAlertChannelComponent {
     readonly facade = inject(SlaAlertChannelFacade);
     private readonly translate = inject(TranslateService);
     private readonly excelExport = inject(ExcelExportService);
+    private readonly toast = inject(ToastrService);
     private readonly destroyRef = inject(DestroyRef);
     private readonly permissionActions = inject(PermissionActionsService);
     private readonly languageVersion = signal(0);
@@ -71,14 +73,23 @@ export class SlaAlertChannelComponent {
         this.languageVersion();
         return this.facade.items().map((item) => this.presenter.map(item));
     });
-    readonly canEdit = this.permissionActions.can(
-        '/sla/channel-alert',
-        'edit'
-    );
+    readonly canEdit = this.permissionActions.can('/sla/channel-alert', 'edit');
     private readonly canExport = this.permissionActions.can(
         '/sla/channel-alert',
         'export'
     );
+    private readonly exportTooltip = computed(() => {
+        if (!this.canExport()) {
+            return this.t('SLA.ALERT_CHANNEL.TOOLTIP.NO_PERMISSION_EXPORT');
+        }
+        if (!this.itemsVM().length) {
+            return this.t('SLA.ALERT_CHANNEL.TOOLTIP.NO_EXPORT');
+        }
+        return this.t('SLA.ALERT_CHANNEL.TOOLTIP.EXPORT').replace(
+            '{nb}',
+            String(this.itemsVM().length)
+        );
+    });
     readonly headerButtons = computed<TableHeaderButton[]>(() => [
         {
             label: 'COMMON.REFRESH',
@@ -86,6 +97,7 @@ export class SlaAlertChannelComponent {
             icon: 'pi pi-refresh',
             class: 'btn-dark',
             translateKey: 'COMMON.REFRESH',
+            tooltip: this.t('SLA.ALERT_CHANNEL.TOOLTIP.REFRESH'),
         },
         {
             label: 'COMMON.EXPORT',
@@ -93,6 +105,7 @@ export class SlaAlertChannelComponent {
             icon: 'pi pi-file',
             class: 'btn-success',
             translateKey: 'COMMON.EXPORT',
+            tooltip: this.exportTooltip(),
             disabled: !this.canExport() || !this.itemsVM().length,
         },
     ]);
@@ -113,7 +126,11 @@ export class SlaAlertChannelComponent {
         if (actionId === 'refresh') {
             this.filterForm.reset({ search: null });
             this.facade.readAll(undefined, { forceRefresh: true });
-        } else if (actionId === 'export' && this.canExport()) {
+        } else if (actionId === 'export') {
+            // if (!this.canExport()) {
+            //     this.toast.error(this.exportTooltip());
+            //     return;
+            // }
             this.exportData();
         }
     }
@@ -170,44 +187,49 @@ export class SlaAlertChannelComponent {
     }
 
     private exportData(): void {
+        // if (!this.canExport()) {
+        //     this.toast.error(this.exportTooltip());
+        //     return;
+        // }
         const items = this.itemsVM();
         if (!items.length) {
+            this.toast.error(this.t('EXPORT.NO_DATA'));
             return;
         }
-        const columns: ExportColumn[] = [
-            {
-                field: 'typeLabel',
-                header: this.t('SLA.ALERT_CHANNEL.TABLE.TYPE'),
-                width: 24,
-            },
-            {
-                field: 'email',
-                header: this.t('SLA.ALERT_CHANNEL.TABLE.EMAIL'),
-                width: 12,
-            },
-            {
-                field: 'sms',
-                header: this.t('SLA.ALERT_CHANNEL.TABLE.SMS'),
-                width: 12,
-            },
-            {
-                field: 'whatsapp',
-                header: this.t('SLA.ALERT_CHANNEL.TABLE.WHATSAPP'),
-                width: 12,
-            },
-            {
-                field: 'telegram',
-                header: this.t('SLA.ALERT_CHANNEL.TABLE.TELEGRAM'),
-                width: 12,
-            },
-        ];
-        this.excelExport.exportToExcel({
-            fileName: 'sla-alert-channels',
-            columns,
-            data: items,
-            sheetName: this.t('SLA.ALERT_CHANNEL.TITLE'),
-            autoFilter: true,
-        });
+
+        const columns: ExportColumn[] = SLA_ALERT_CHANNEL_TABLE.cols
+            .filter((col) => col.field !== '__action')
+            .map((col) => {
+                const parsedWidth = Number.parseFloat(col.width ?? '15');
+
+                return {
+                    field: col.field,
+                    header: this.translate.instant(col.header),
+                    width: Number.isNaN(parsedWidth) ? 15 : parsedWidth,
+                    transform: (value: any, row: any) => {
+                        if (col.field === '__index') {
+                            return (items.indexOf(row) + 1).toString();
+                        }
+                        if (Array.isArray(value)) {
+                            return value.join(', ');
+                        }
+                        return value ?? '';
+                    },
+                };
+            });
+
+        this.excelExport
+            .exportToExcel({
+                fileName: 'sla-alert-channels',
+                columns,
+                data: items,
+                sheetName: this.t('SLA.ALERT_CHANNEL.TITLE'),
+                autoFilter: true,
+            })
+            .catch((error) => {
+                console.error('Export error', error);
+                this.toast.error(this.t('EXPORT.ERROR'));
+            });
     }
 
     private t(key: string): string {

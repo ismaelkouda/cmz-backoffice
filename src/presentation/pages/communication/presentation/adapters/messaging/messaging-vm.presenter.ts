@@ -11,6 +11,7 @@ export class MessagingPresenter {
             type: item.type,
             targetType: item.targetType,
             channels: item.channels,
+            channelsLabel: item.channels.map((channel) => this.t(channel)),
             channelsStyle: (channel: MessagingChannelsEnum) =>
                 item.channelsStyle(channel),
             subject: item.subject,

@@ -38,7 +38,7 @@ import { AppCustomizationService } from '@shared/domain/services/app-customizati
 import { PermissionActionsService } from '@shared/domain/services/permission-actions.service';
 import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ToastrService } from 'ngx-toastr';
-import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 type TTableActions = 'edit' | 'delete' | 'publish' | 'unpublish';
@@ -64,7 +64,6 @@ export class NewsListComponent {
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     private readonly sweetAlert = inject(SweetAlertService);
-    private readonly dateMapper = inject(ApiDateMapper);
 
     protected readonly facade = inject(NewsFacade);
     private readonly translate = inject(TranslateService);
@@ -487,7 +486,7 @@ export class NewsListComponent {
         const fileName = `${this.exportFilePrefix}-news`;
 
         const exportColumns: ExportColumn[] = NEWS_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {
@@ -503,7 +502,7 @@ export class NewsListComponent {
                             return (items.indexOf(row) + 1).toString();
                         }
                         if (col.field === 'createdAt' && value) {
-                            return this.dateMapper.toDateTimeApi(value);
+                            return formatDate(value);
                         }
                         if (Array.isArray(value)) {
                             return value.join(', ');
