@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpContext } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { SETTINGS_API_URL } from '@core/config/config.tokens';
 import { Observable } from 'rxjs';
@@ -9,8 +9,6 @@ import { ChannelSelectFieldResponseApiDto } from '@pages/sla/infrastructure/api/
 import { SlaThresholdUpdateApiDto } from '@pages/sla/infrastructure/api/dto/sla/sla-threshold-update-api.dto';
 import { FetchOptions } from '@shared/interface/fetch-options.interface';
 import { BYPASS_CACHE } from '@core/interceptors/cache-context.token';
-import { HttpContext } from '@angular/common/http';
-
 @Injectable({ providedIn: 'root' })
 export class SlaThresholdsApi {
     private readonly http = inject(HttpClient);
