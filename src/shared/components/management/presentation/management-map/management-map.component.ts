@@ -927,8 +927,10 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
                     description: properties.description,
                     coordinate: event.coordinate,
                 };
-                this.clearHoverHideTimer();
-                this.equipmentTooltip.set(tooltip);
+                this.ngZone.run(() => {
+                    this.clearHoverHideTimer();
+                    this.equipmentTooltip.set(tooltip);
+                });
                 this.hoverOverlayInstance?.setPosition(event.coordinate);
                 this.map.getTargetElement().style.cursor = 'pointer';
             } else {
@@ -956,8 +958,10 @@ export class ManagementMapComponent implements OnInit, OnDestroy {
             if (this.hoverTooltipLocked) {
                 return;
             }
-            this.equipmentTooltip.set(null);
-            this.hoverOverlayInstance?.setPosition(undefined);
+            this.ngZone.run(() => {
+                this.equipmentTooltip.set(null);
+                this.hoverOverlayInstance?.setPosition(undefined);
+            });
         }, 180);
     }
 
