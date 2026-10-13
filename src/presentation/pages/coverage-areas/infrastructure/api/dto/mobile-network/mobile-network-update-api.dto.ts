@@ -5,7 +5,7 @@ export interface MobileNetworkUpdateApiDto {
     site_group_id: string | number;
     tower_type_id: string | number;
     tower_height: string;
-    network_technology: string;
+    network_technology: string[];
     operator: string;
     coverage_radius?: number;
     lng: number;

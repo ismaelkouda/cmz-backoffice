@@ -1,0 +1,193 @@
+<main class="container-fluid site-group-coverage-areas-container" role="main">
+    <section class="row site-group-coverage-areas-row">
+        <article class="col-sm-12 site-group-coverage-areas-article">
+            <app-breadcrumb />
+            <section class="card site-group-coverage-areas-card">
+                <div class="card-body site-group-coverage-areas-card-body">
+                    <header class="site-group-coverage-areas-header">
+                        <div class="d-flex align-items-center gap-2">
+                            <app-page-title
+                                [displayDate]="false"
+                                [title]="
+                                    'COVERAGE_AREAS.SITE_GROUP.COVERAGE_AREAS.TITLE'
+                                        | translate
+                                "
+                            />
+                            @if (groupName()) {
+                                <p-tag
+                                    severity="contrast"
+                                    [value]="groupName()"
+                                    [rounded]="true"
+                                />
+                            }
+                        </div>
+                        <p-button
+                            [label]="'COMMON.CLOSE' | translate"
+                            styleClass="p-button-danger"
+                            (onClick)="goBack()"
+                        />
+                    </header>
+
+                    <div class="fade-in site-group-coverage-areas-content">
+                        <app-filter
+                            class="filter-component"
+                            [isLoading]="loading()"
+                            [formGroup]="filterForm"
+                            [fields]="filterFields()"
+                            (filter)="onFilter($event)"
+                            [limit]="5"
+                        />
+
+                        <hr class="site-group-coverage-areas-divider" />
+
+                        <section class="table-section">
+                            <app-table
+                                class="table-component"
+                                [items]="filteredItems()"
+                                [loading]="loading() || actionLoading()"
+                                [config]="tableConfig"
+                                [headerButtons]="headerButtons()"
+                                dataKey="id"
+                                selectionMode="multiple"
+                                [selection]="selectedItems()"
+                                (selectionChange)="onSelectionChange($event)"
+                                (headerButtonClicked)="onHeaderClicked($event)"
+                                (refreshRequested)="onRefresh()"
+                            />
+                        </section>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </section>
+</main>
+
+<p-dialog
+    [visible]="displayAssignModal()"
+    (visibleChange)="displayAssignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '700px' }"
+    [draggable]="false"
+    [resizable]="false"
+    [header]="
+        'COVERAGE_AREAS.SITE_GROUP.COVERAGE_AREAS.ASSIGN_TITLE' | translate
+    "
+>
+    <form [formGroup]="assignForm">
+        <div class="form-group my-1">
+            <label for="coverageAreaIds">
+                <b>
+                    {{
+                        'COVERAGE_AREAS.SITE_GROUP.COVERAGE_AREAS.SELECT_SITES'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-multiSelect
+                inputId="coverageAreaIds"
+                formControlName="coverageAreaIds"
+                [options]="unassignedItems()"
+                optionLabel="label"
+                optionValue="value"
+                [filter]="true"
+                [showClear]="true"
+                [showToggleAll]="false"
+                [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                [emptyFilterMessage]="
+                    'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate
+                "
+                appendTo="body"
+                styleClass="w-100"
+                [class.ng-invalid]="
+                    assignForm.get('coverageAreaIds')?.invalid &&
+                    assignForm.get('coverageAreaIds')?.touched
+                "
+            />
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeAssign()"
+        />
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="actionLoading() ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+            (onClick)="submitAssign()"
+            [disabled]="
+                assignForm.invalid ||
+                !unassignedItems().length ||
+                actionLoading()
+            "
+        />
+    </ng-template>
+</p-dialog>
+
+<p-dialog
+    [visible]="displayReassignModal()"
+    (visibleChange)="displayReassignModal.set($event)"
+    [modal]="true"
+    [style]="{ width: '450px' }"
+    [draggable]="false"
+    [resizable]="false"
+    [header]="
+        'COVERAGE_AREAS.SITE_GROUP.COVERAGE_AREAS.REASSIGN_TITLE' | translate
+    "
+>
+    <form [formGroup]="reassignForm">
+        <div class="form-group my-1">
+            <label for="siteGroupId">
+                <b>
+                    {{
+                        'COVERAGE_AREAS.SITE_GROUP.COVERAGE_AREAS.SELECT_GROUP'
+                            | translate
+                    }}
+                    <span class="text-danger">*</span>
+                </b>
+            </label>
+            <p-select
+                inputId="siteGroupId"
+                formControlName="siteGroupId"
+                [options]="siteGroups()"
+                optionLabel="label"
+                optionValue="value"
+                [filter]="true"
+                [showClear]="true"
+                [placeholder]="'COMMON.SELECT_PLACEHOLDER' | translate"
+                [emptyMessage]="'COMMON.SELECT_EMPTY_MESSAGE' | translate"
+                [emptyFilterMessage]="
+                    'COMMON.SELECT_EMPTY_FILTER_MESSAGE' | translate
+                "
+                appendTo="body"
+                styleClass="w-100"
+                [class.ng-invalid]="
+                    reassignForm.get('siteGroupId')?.invalid &&
+                    reassignForm.get('siteGroupId')?.touched
+                "
+            />
+        </div>
+    </form>
+    <ng-template pTemplate="footer">
+        <p-button
+            [label]="'COMMON.CANCEL' | translate"
+            icon="pi pi-times"
+            severity="danger"
+            (onClick)="closeReassign()"
+        />
+        <p-button
+            [label]="'COMMON.SAVE' | translate"
+            [icon]="actionLoading() ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
+            (onClick)="submitReassign()"
+            [disabled]="
+                reassignForm.invalid ||
+                !selectedItems().length ||
+                !siteGroups().length ||
+                actionLoading()
+            "
+        />
+    </ng-template>
+</p-dialog>

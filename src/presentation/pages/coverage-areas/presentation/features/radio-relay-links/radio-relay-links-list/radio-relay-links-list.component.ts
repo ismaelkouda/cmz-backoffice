@@ -277,6 +277,7 @@ export class RadioRelayLinksListComponent implements OnInit {
                 optionLabel: 'label',
                 optionValue: 'value',
                 showClear: true,
+                editable: true,
             },
             {
                 type: 'date',

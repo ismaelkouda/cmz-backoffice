@@ -25,8 +25,7 @@ export class SlaAlertChannelFacade {
             .readAll(search, options)
             .pipe(finalize(() => this.loading.set(false)))
             .subscribe({
-                next: (response) =>
-                    this.items.set(response),
+                next: (response) => this.items.set(response),
                 error: (error) => this.ui.notifyError(error),
             });
     }

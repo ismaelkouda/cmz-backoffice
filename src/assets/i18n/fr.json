@@ -5118,6 +5118,14 @@
             },
             "TITLE": "Groupes de sites",
             "ROUTE": "site-groups",
+            "COVERAGE_AREAS": {
+                "TITLE": "Sites réseaux mobiles du groupe",
+                "ASSIGN_TITLE": "Affecter des sites réseaux mobiles",
+                "REASSIGN_TITLE": "Réaffecter les sites réseaux mobiles",
+                "SELECT_SITES": "Sites réseaux mobiles",
+                "SELECT_GROUP": "Groupe de sites",
+                "REMOVE_CONFIRM": "Voulez-vous retirer les sites sélectionnés de ce groupe ?"
+            },
             "TABLE": {
                 "CODE": "Code (Nom affiché)",
                 "MOBILE_NETWORK_COUNT": "# Sites réseaux mobiles",

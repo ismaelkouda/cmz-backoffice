@@ -7,7 +7,7 @@ export interface MobileNetworkUpdateContract {
     siteGroupId?: string | number;
     towerTypeId?: string | number;
     towerHeight?: string;
-    networkTechnology?: string;
+    networkTechnology?: string[];
     operator?: Operator;
     coverageRadius?: number;
     lng?: number;

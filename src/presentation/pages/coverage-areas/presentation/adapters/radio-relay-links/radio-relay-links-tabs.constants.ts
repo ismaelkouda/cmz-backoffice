@@ -18,7 +18,7 @@ export const RADIO_RELAY_LINKS_TABS = [
         label: 'COVERAGE_AREAS.RADIO_RELAY_LINKS.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
         queryParams: {
-            ref: 'coverage-areas',
+            ref: 'radio-relay-links',
         },
     },
 ];

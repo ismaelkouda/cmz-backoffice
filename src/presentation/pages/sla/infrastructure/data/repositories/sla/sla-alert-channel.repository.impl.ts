@@ -12,9 +12,7 @@ import { SlaAlertChannelMapper } from '@pages/sla/infrastructure/data/mappers/sl
 import { SlaAlertChannelApi } from '@pages/sla/infrastructure/data/sources/sla/sla-alert-channel.api';
 
 @Injectable({ providedIn: 'root' })
-export class SlaAlertChannelRepositoryImpl
-    implements SlaAlertChannelRepository
-{
+export class SlaAlertChannelRepositoryImpl implements SlaAlertChannelRepository {
     private readonly api = inject(SlaAlertChannelApi);
     private readonly mapper = inject(SlaAlertChannelMapper);
 
@@ -24,13 +22,21 @@ export class SlaAlertChannelRepositoryImpl
     ): Observable<SlaAlertContactEntity[]> {
         return this.api
             .readAll(search, options)
-            .pipe(map((response) => response.data.map((item) => this.mapper.map(item))));
+            .pipe(
+                map((response) =>
+                    response.data.map((item) => this.mapper.map(item))
+                )
+            );
     }
 
     readChannelOptions(): Observable<SlaAlertChannelOptionEntity[]> {
         return this.api
             .readChannelOptions()
-            .pipe(map((response) => response.data.map((item) => this.mapper.mapOption(item))));
+            .pipe(
+                map((response) =>
+                    response.data.map((item) => this.mapper.mapOption(item))
+                )
+            );
     }
 
     update(

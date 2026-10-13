@@ -1,0 +1,32 @@
+.site-group-coverage-areas-card {
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgb(15 23 42 / 8%);
+}
+
+.site-group-coverage-areas-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    p-tag {
+        font-size: large;
+    }
+}
+
+.site-group-coverage-areas-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.site-group-coverage-areas-divider {
+    opacity: 0.25;
+    margin: 0;
+}
+
+.table-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

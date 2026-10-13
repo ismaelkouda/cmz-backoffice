@@ -37,6 +37,7 @@ export class ImakoSelectComponent implements ControlValueAccessor {
     public readonly optionLabel = input<string>('label');
     public readonly optionValue = input<string>('value');
     public readonly showClear = input<boolean>(false);
+    public readonly editable = input<boolean>(false);
     public readonly filter = input<boolean>(false);
     public readonly control = input<FormControl>(new FormControl());
     public readonly styleClass = input<string>('');

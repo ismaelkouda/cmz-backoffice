@@ -7,7 +7,7 @@ export interface MobileNetworkFindOneProps {
     towerTypeId: string | number;
     towerTypeName: string;
     towerHeight: string;
-    networkTechnology: string;
+    networkTechnology: string[];
     operator: string;
     coverageRadius: number;
     lng: number;

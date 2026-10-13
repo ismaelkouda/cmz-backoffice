@@ -87,10 +87,13 @@ export class MobileNetworkFormStore {
                 validators: [Validators.required],
             }),
 
-            networkTechnology: new FormControl<string | undefined>(undefined, {
-                nonNullable: true,
-                validators: [Validators.required],
-            }),
+            networkTechnology: new FormControl<string[] | undefined>(
+                undefined,
+                {
+                    nonNullable: true,
+                    validators: [Validators.required],
+                }
+            ),
 
             operator: new FormControl<Operator | undefined>(undefined, {
                 nonNullable: true,

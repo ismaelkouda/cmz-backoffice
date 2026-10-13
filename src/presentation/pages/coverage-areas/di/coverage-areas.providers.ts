@@ -3,6 +3,7 @@ import { Provider } from '@angular/core';
 import { siteGroupFindOneProviders } from '@pages/coverage-areas/di/site-group/site-group-find-one.providers';
 import { siteGroupSelectProviders } from '@pages/coverage-areas/di/site-group/site-group-select.providers';
 import { siteGroupProviders } from '@pages/coverage-areas/di/site-group/site-group.providers';
+import { siteGroupCoverageAreasProviders } from '@pages/coverage-areas/di/site-group/site-group-coverage-areas.providers';
 
 import { mobileNetworkFindOneProviders } from '@pages/coverage-areas/di/mobile-network/mobile-network-find-one.providers';
 import { mobileNetworkProviders } from '@pages/coverage-areas/di/mobile-network/mobile-network.providers';
@@ -17,6 +18,7 @@ import { radioRelayLinksFindOneProviders } from '@pages/coverage-areas/di/radio-
 
 export const provideCoverageAreas = (): Provider[] => [
     ...siteGroupProviders,
+    ...siteGroupCoverageAreasProviders,
     ...siteGroupFindOneProviders,
     ...siteGroupSelectProviders,
 

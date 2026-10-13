@@ -4,6 +4,7 @@ import {
     SITE_GROUP_FORM,
     SITE_GROUP_LIST,
     SITE_GROUP_HISTORY,
+    SITE_GROUP_COVERAGE_AREAS,
 } from '@pages/coverage-areas/presentation/features/site-group/site-group-paths.constants';
 
 export const SITE_GROUP_ROUTES: Routes = [
@@ -36,6 +37,23 @@ export const SITE_GROUP_ROUTES: Routes = [
                 loadComponent: () =>
                     import('@shared/components/history/presentation/features/history-page/history-page.component').then(
                         (m) => m.HistoryPageComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+        ],
+    },
+    {
+        path: SITE_GROUP_COVERAGE_AREAS,
+        data: {
+            title: 'COVERAGE_AREAS.SITE_GROUP.COVERAGE_AREAS.TITLE',
+            breadcrumb: 'COVERAGE_AREAS.SITE_GROUP.COVERAGE_AREAS.TITLE',
+        },
+        children: [
+            {
+                path: '',
+                loadComponent: () =>
+                    import('@pages/coverage-areas/presentation/features/site-group/site-group-coverage-areas/site-group-coverage-areas.component').then(
+                        (m) => m.SiteGroupCoverageAreasComponent
                     ),
                 data: { breadcrumb: { hide: true } },
             },

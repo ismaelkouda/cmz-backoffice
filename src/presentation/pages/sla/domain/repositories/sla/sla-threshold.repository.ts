@@ -1,4 +1,3 @@
-import { SlaThresholdFilterContract } from '@pages/sla/domain/contracts/sla/sla-threshold-filter.contract';
 import { SlaThresholdUpdateContract } from '@pages/sla/domain/contracts/sla/sla-threshold-update.contract';
 import { SlaChannelOptionEntity } from '@pages/sla/domain/entities/sla/sla-channel-option.entity';
 import { SlaThresholdFilterEntity } from '@pages/sla/domain/entities/sla/sla-threshold-filter.entity';

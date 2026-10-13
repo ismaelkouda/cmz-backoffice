@@ -3161,6 +3161,14 @@
             },
             "TITLE": "Site Groups",
             "ROUTE": "site-groups",
+            "COVERAGE_AREAS": {
+                "TITLE": "Mobile network sites in the group",
+                "ASSIGN_TITLE": "Assign mobile network sites",
+                "REASSIGN_TITLE": "Reassign mobile network sites",
+                "SELECT_SITES": "Select mobile network sites",
+                "SELECT_GROUP": "Select the site group",
+                "REMOVE_CONFIRM": "Do you want to remove the selected sites from this group?"
+            },
             "TABLE": {
                 "CODE": "Code",
                 "NAME": "Group Name",

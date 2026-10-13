@@ -6,7 +6,7 @@ export interface MobileNetworkFormControl {
     siteGroupId: FormControl<string | number | undefined>;
     towerTypeId: FormControl<string | number | undefined>;
     towerHeight: FormControl<string | undefined>;
-    networkTechnology: FormControl<string | undefined>;
+    networkTechnology: FormControl<string[] | undefined>;
     operator: FormControl<string | undefined>;
     coverageRadius: FormControl<number | undefined>;
     lng: FormControl<number | undefined>;

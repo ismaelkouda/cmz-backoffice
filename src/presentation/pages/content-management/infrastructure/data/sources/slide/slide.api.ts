@@ -29,7 +29,7 @@ export class SlideApi {
     ): Observable<SlideResponseApiDto> {
         const url = `${this.baseUrl}${CONTENT_MANAGEMENT_ENDPOINTS.SLIDE}?page=${page}`;
 
-        const params = buildHttpParams(filter);
+        const params = buildHttpParams(filter, { arrayFormat: 'comma' });
         const context = new HttpContext().set(
             BYPASS_CACHE,
             options?.forceRefresh ?? false
