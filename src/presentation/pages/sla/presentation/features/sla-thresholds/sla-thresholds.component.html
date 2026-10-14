@@ -1,0 +1,26 @@
+<div class="sla-thresholds-content">
+    <app-filter
+        class="filter-component"
+        [isLoading]="facade.loading()"
+        [formGroup]="filterForm"
+        [fields]="filterFields()"
+        (filter)="filter()"
+    />
+
+    <hr class="sla-thresholds-divider" />
+
+    <section class="table-section">
+        <app-table
+            class="table-component"
+            [config]="tableConfig"
+            [items]="itemsVM()"
+            [loading]="facade.loading()"
+            [headerButtons]="headerButtons()"
+            [rowEditMode]="true"
+            (rowEditSaveRequested)="onRowEditSaveRequested($event)"
+            (rowEditSaved)="onRowEditSaved($event)"
+            (headerButtonClicked)="onHeaderClicked($event)"
+            dataKey="id"
+        />
+    </section>
+</div>

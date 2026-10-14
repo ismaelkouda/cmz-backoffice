@@ -12,7 +12,7 @@ export const EVALUATE_TABLE = {
             severity: 'contrast',
         },
         {
-            id: 'take',
+            id: 'qualify',
             icon: 'pi pi-window-maximize',
             tooltip: 'REPORT_STATES.EVALUATE.TABLE.TAKE',
             severity: 'primary',
@@ -63,6 +63,13 @@ export const EVALUATE_TABLE = {
             header: 'REPORT_STATES.EVALUATE.TABLE.CONFORMITY',
             width: '6rem',
             class: 'text-center',
+        },
+        {
+            field: 'requestReportsCount',
+            header: 'REPORT_STATES.EVALUATE.TABLE.REQUESTS_COUNT',
+            class: 'text-center',
+            width: '6rem',
+            type: 'badge-button',
         },
         {
             field: '__action',

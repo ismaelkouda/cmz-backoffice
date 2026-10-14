@@ -22,15 +22,15 @@ export class MessagingFindOneEntity {
         return this.props.targetType;
     }
 
-    get region(): string {
+    get region(): number {
         return this.props.region;
     }
 
-    get department(): string {
+    get department(): number {
         return this.props.department;
     }
 
-    get municipality(): string {
+    get municipality(): number {
         return this.props.municipality;
     }
 

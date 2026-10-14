@@ -309,7 +309,7 @@ export class ActionsTreatmentComponent {
         {
             label: 'COMMON.CREATE',
             actionId: 'create',
-            icon: 'pi pi-user-plus',
+            icon: 'pi pi-plus',
             class: 'btn-primary',
             disabled: !this.canTreat() || !this.hasClosed(),
             tooltip: this.createTooltip(),
@@ -545,6 +545,7 @@ export class ActionsTreatmentComponent {
     protected onSeeClicked(): void {
         this.isReportDialogVisible.set(true);
     }
+
     protected copyToClipboardClicked(value: string): void {
         this.clipboardService.copyFromContent(value);
 

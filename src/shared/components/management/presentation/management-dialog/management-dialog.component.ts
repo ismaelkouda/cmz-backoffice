@@ -159,6 +159,9 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
             return enumToFilterValueOptions(LocationName, this.t.bind(this));
         }
     );
+    protected readonly orSheetUrl = computed(
+        () => this.items()?.orSheetUrl ?? null
+    );
     protected readonly tabs = computed(() => {
         const type = this.type();
         const item = this.items();
@@ -209,6 +212,20 @@ export class ManagementDialogComponent implements OnInit, OnDestroy {
     }
     ngOnDestroy(): void {
         this.stateService.reset();
+    }
+
+    protected downloadOrSheet(): void {
+        const url = this.orSheetUrl();
+        if (!url) {
+            return;
+        }
+
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `OR-REPORT-${this.uniqId()}.pdf`;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.click();
     }
     protected selectTab(index: number): void {
         const tab = this.tabs()[index];

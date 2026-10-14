@@ -12,6 +12,7 @@ export interface AllProps {
     operators: TelecomOperator[];
     source: ReportSource;
     initiatorPhoneNumber: string;
+    requestReportsCount: number;
     reportedAt: string;
     isConform: Conformity;
     updatedAt: string;

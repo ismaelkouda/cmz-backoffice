@@ -1,0 +1,22 @@
+<div class="sla-alert-channel-content">
+    <app-filter
+        [formGroup]="filterForm"
+        [fields]="filterFields()"
+        [isLoading]="facade.loading()"
+        (filter)="onFilter()"
+    />
+
+    <section class="table-section mt-3">
+        <app-table
+            [config]="tableConfig"
+            [items]="itemsVM()"
+            [loading]="facade.loading()"
+            [headerButtons]="headerButtons()"
+            [rowEditMode]="canEdit()"
+            dataKey="id"
+            (headerButtonClicked)="onHeaderClicked($event)"
+            (rowEditSaveRequested)="onRowEditSaveRequested($event)"
+            (rowEditSaved)="onRowEditSaved($event)"
+        />
+    </section>
+</div>

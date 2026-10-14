@@ -99,7 +99,7 @@ export class MessagingFormStore {
         }
 
         return (
-            regions.find((region) => region.value === regionCode)
+            regions.find((region) => region.uniqId === regionCode)
                 ?.departments ?? []
         );
     });
@@ -115,13 +115,13 @@ export class MessagingFormStore {
 
         const region = regions.find((region) =>
             region.departments?.some(
-                (department) => department.value === departmentCode
+                (department) => department.uniqId === departmentCode
             )
         );
 
         return (
             region?.departments?.find(
-                (department) => department.value === departmentCode
+                (department) => department.uniqId === departmentCode
             )?.municipalities ?? []
         );
     });
@@ -154,15 +154,15 @@ export class MessagingFormStore {
                 validators: [Validators.required],
             }),
 
-            region: new FormControl('', {
+            region: new FormControl(undefined, {
                 nonNullable: true,
             }),
 
-            department: new FormControl('', {
+            department: new FormControl(undefined, {
                 nonNullable: true,
             }),
 
-            municipality: new FormControl('', {
+            municipality: new FormControl(undefined, {
                 nonNullable: true,
             }),
 
@@ -175,11 +175,6 @@ export class MessagingFormStore {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-
-                    Validators.minLength(FormValidators.SUBJECT.MIN),
-
-                    Validators.maxLength(FormValidators.SUBJECT.MAX),
-
                     Validators.pattern(FormValidators.SUBJECT.PATTERN),
                 ],
             }),
@@ -188,11 +183,6 @@ export class MessagingFormStore {
                 nonNullable: true,
                 validators: [
                     Validators.required,
-
-                    Validators.minLength(FormValidators.CONTENT.MIN),
-
-                    Validators.maxLength(FormValidators.CONTENT.MAX),
-
                     Validators.pattern(FormValidators.CONTENT.PATTERN),
                 ],
             }),
@@ -324,11 +314,6 @@ export class MessagingFormStore {
         if (isReport) {
             reportIdControl.setValidators([
                 Validators.required,
-
-                Validators.minLength(FormValidators.REPORT_ID.MIN),
-
-                Validators.maxLength(FormValidators.REPORT_ID.MAX),
-
                 Validators.pattern(FormValidators.REPORT_ID.PATTERN),
             ]);
         } else {
@@ -410,8 +395,8 @@ export class MessagingFormStore {
 
         this.form.patchValue(
             {
-                department: '',
-                municipality: '',
+                department: undefined,
+                municipality: undefined,
             },
             {
                 emitEvent: false,
@@ -428,7 +413,7 @@ export class MessagingFormStore {
 
         this.form.patchValue(
             {
-                municipality: '',
+                municipality: undefined,
             },
             {
                 emitEvent: false,
@@ -445,9 +430,9 @@ export class MessagingFormStore {
 
         this.form.patchValue(
             {
-                region: '',
-                department: '',
-                municipality: '',
+                region: undefined,
+                department: undefined,
+                municipality: undefined,
             },
             {
                 emitEvent: false,
@@ -507,9 +492,9 @@ export class MessagingFormStore {
                 reportId: '',
                 type: undefined,
                 targetType: undefined,
-                region: '',
-                department: '',
-                municipality: '',
+                region: undefined,
+                department: undefined,
+                municipality: undefined,
                 channels: [],
                 subject: '',
                 content: '',

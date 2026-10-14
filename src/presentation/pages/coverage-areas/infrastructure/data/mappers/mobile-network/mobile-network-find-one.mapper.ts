@@ -4,6 +4,7 @@ import { MobileNetworkFindOneProps } from '@pages/coverage-areas/domain/interfac
 import { MobileNetworkFindOneItemApiDto } from '@pages/coverage-areas/infrastructure/api/dto/mobile-network/mobile-network-find-one-response-api.dto';
 import { SimpleResponseMapper } from '@shared/data/mappers/base/simple-response.mapper';
 import { MapperUtils } from '@shared/domain/utils/mapper-utils';
+import { Operator } from '@pages/coverage-areas/domain/enums/mobile-network/mobile-network-operator.enum';
 
 @Injectable({ providedIn: 'root' })
 export class MobileNetworkFindOneMapper extends SimpleResponseMapper<
@@ -19,21 +20,25 @@ export class MobileNetworkFindOneMapper extends SimpleResponseMapper<
         dto: MobileNetworkFindOneItemApiDto
     ): MobileNetworkFindOneEntity {
         MapperUtils.validateDto(dto, { required: ['id'] });
+        const operator =
+            Object.values(Operator).find(
+                (value) => value.toLowerCase() === dto.operator.toLowerCase()
+            ) ?? dto.operator;
 
         const props: MobileNetworkFindOneProps = {
-            uniqId: dto.id,
+            uniqId: String(dto.id),
             siteId: dto.site_id,
             siteName: dto.site_name,
-            siteGroupId: dto.site_group.id,
-            siteGroupName: dto.site_group.name,
-            towerTypeId: dto.tower_type?.id,
-            towerTypeName: dto.tower_type?.name,
+            siteGroupId: dto.site_group?.id ?? '',
+            siteGroupName: dto.site_group?.name ?? '',
+            towerTypeId: dto.tower_type?.id ?? '',
+            towerTypeName: dto.tower_type?.name ?? '',
             towerHeight: dto.tower_height,
             networkTechnology: dto.network_technology,
-            operator: dto.operator,
+            operator,
             coverageRadius: dto.coverage_radius,
-            lng: dto.lng,
-            lat: dto.lat,
+            lng: Number(dto.lng),
+            lat: Number(dto.lat),
             updatedAt: dto.updated_at,
         };
 

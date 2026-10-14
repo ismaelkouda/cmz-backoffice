@@ -12,6 +12,7 @@ export interface CloseProps {
     operators: TelecomOperator[];
     source: ReportSource;
     initiatorPhoneNumber: string;
+    requestReportsCount: number;
     reportedAt: string;
     isConform: Conformity;
     updatedAt: string;

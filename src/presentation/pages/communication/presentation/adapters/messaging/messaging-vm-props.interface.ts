@@ -8,6 +8,7 @@ export interface MessagingVmProps {
     type: string;
     targetType: string;
     channels: MessagingChannelsEnum[];
+    channelsLabel: string[];
     channelsStyle: (channel: MessagingChannelsEnum) => ChannelsStyle;
     subject: string;
     content: string;

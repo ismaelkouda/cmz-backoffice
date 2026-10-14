@@ -55,6 +55,10 @@ export class EvaluateEntity implements EvaluateProps {
         return this.props.initiatorPhoneNumber;
     }
 
+    get requestReportsCount(): number {
+        return this.props.requestReportsCount;
+    }
+
     get reportedAt(): string {
         return this.props.reportedAt;
     }

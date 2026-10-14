@@ -113,20 +113,20 @@ export class NotificationsListComponent {
                         'COMMUNICATION.NOTIFICATIONS.FILTER.SEARCH_PLACEHOLDER',
                 },
             },
-            {
-                type: 'text',
-                name: 'search',
-                label: this.t('COMMUNICATION.NOTIFICATIONS.FILTER.TYPE'),
-                placeholder: this.t(
-                    'COMMUNICATION.NOTIFICATIONS.FILTER.TYPE_PLACEHOLDER'
-                ),
-                icon: 'pi pi-search',
-                translationKeys: {
-                    label: 'COMMUNICATION.NOTIFICATIONS.FILTER.TYPE',
-                    placeholder:
-                        'COMMUNICATION.NOTIFICATIONS.FILTER.TYPE_PLACEHOLDER',
-                },
-            },
+            // {
+            //     type: 'text',
+            //     name: 'search',
+            //     label: this.t('COMMUNICATION.NOTIFICATIONS.FILTER.TYPE'),
+            //     placeholder: this.t(
+            //         'COMMUNICATION.NOTIFICATIONS.FILTER.TYPE_PLACEHOLDER'
+            //     ),
+            //     icon: 'pi pi-search',
+            //     translationKeys: {
+            //         label: 'COMMUNICATION.NOTIFICATIONS.FILTER.TYPE',
+            //         placeholder:
+            //             'COMMUNICATION.NOTIFICATIONS.FILTER.TYPE_PLACEHOLDER',
+            //     },
+            // },
             {
                 type: 'date',
                 name: 'startDate',

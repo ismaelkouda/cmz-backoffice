@@ -7,6 +7,7 @@ export const REJECT_ROUTE = 'rejected';
 export const DOWNLOAD_ROUTE = 'downloads';
 export const ALL_ROUTE = 'all-reports';
 export const ACTIONS_ROUTE = 'actions';
+export const REQUEST_ROUTE = 'request';
 
 export const routes: Routes = [
     {
@@ -162,6 +163,14 @@ export const routes: Routes = [
                 loadComponent: () =>
                     import('@pages/processing/presentation/actions-treatment/actions-treatment.component').then(
                         (m) => m.ActionsTreatmentComponent
+                    ),
+                data: { breadcrumb: { hide: true } },
+            },
+            {
+                path: REQUEST_ROUTE,
+                loadComponent: () =>
+                    import('@presentation/pages/report-states/presentation/features/request/request.component').then(
+                        (m) => m.RequestComponent
                     ),
                 data: { breadcrumb: { hide: true } },
             },

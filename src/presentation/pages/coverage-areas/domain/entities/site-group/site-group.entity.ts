@@ -27,6 +27,10 @@ export class SiteGroupEntity {
         return this.props.description;
     }
 
+    get mobileNetworkCount(): number {
+        return this.props.mobileNetworkCount;
+    }
+
     get status(): Status {
         return this.props.status;
     }

@@ -6,7 +6,7 @@ export const REPORT_BY_CHANNEL_ROUTE = 'report-by-channel';
 export const REPORT_BY_OPERATOR_ROUTE = 'report-by-operator';
 export const REPORT_BY_EQUIPMENTS_ROUTE = 'impacts-on-equipments';
 export const REPORT_BY_POPULATIONS_ROUTE = 'impacts-on-populations';
-export const TEAM_COMPLIANCES_ROUTE = 'team-compliances';
+export const TEAM_COMPLIANCES_ROUTE = 'sla-performance';
 export const REPORT_COMPLIANCES_ROUTE = 'report-compliances';
 
 export const routes: Routes = [

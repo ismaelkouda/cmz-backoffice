@@ -891,9 +891,10 @@ export class MapAdapter {
             );
             const reports = this.getReportsFromFeature(feature);
 
-            map.getTargetElement().style.cursor = reports.length
-                ? 'pointer'
-                : '';
+            const targetElement = map.getTargetElement();
+            if (targetElement) {
+                targetElement.style.cursor = reports.length ? 'pointer' : '';
+            }
 
             this.ngZone.run(() => {
                 if (reports.length > 1) {

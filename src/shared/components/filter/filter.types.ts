@@ -19,6 +19,7 @@ export interface FilterField {
     optionValue?: string;
     class?: string;
     showClear?: boolean;
+    editable?: boolean;
     showToggleAll?: boolean;
     filter?: boolean;
     template?: TemplateRef<any>;

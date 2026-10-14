@@ -1,0 +1,25 @@
+<div class="sla-escalation-contacts-content">
+    <app-filter
+        [formGroup]="filterForm"
+        [fields]="filterFields()"
+        [isLoading]="facade.loading()"
+        (filter)="onFilter()"
+    />
+
+    <section class="table-section mt-3">
+        <app-table
+            [loading]="facade.loading()"
+            [items]="itemsVM()"
+            [pagination]="facade.pagination()"
+            [config]="tableConfig"
+            [headerButtons]="headerButtons()"
+            dataKey="id"
+            (headerButtonClicked)="onHeaderClicked($event)"
+            (actionClicked)="onActionClicked($event)"
+        />
+        <app-pagination
+            [pagination]="facade.pagination()"
+            (pageChange)="onPageChange($event)"
+        />
+    </section>
+</div>

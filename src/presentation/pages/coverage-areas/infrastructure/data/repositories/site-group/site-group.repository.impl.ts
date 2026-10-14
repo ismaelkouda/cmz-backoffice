@@ -7,7 +7,7 @@ import { siteGroupCreateMapper } from '@pages/coverage-areas/infrastructure/data
 import { siteGroupDeleteMapper } from '@pages/coverage-areas/infrastructure/data/mappers/site-group/site-group-delete.mapper';
 import { siteGroupDisableMapper } from '@pages/coverage-areas/infrastructure/data/mappers/site-group/site-group-disable.mapper';
 import { siteGroupEnableMapper } from '@pages/coverage-areas/infrastructure/data/mappers/site-group/site-group-enable.mapper';
-import { siteGroupFilterMapper } from '@pages/coverage-areas/infrastructure/data/mappers/site-group/site-group-filter.mapper';
+import { SiteGroupFilterMapper } from '@pages/coverage-areas/infrastructure/data/mappers/site-group/site-group-filter.mapper';
 import { siteGroupUpdateMapper } from '@pages/coverage-areas/infrastructure/data/mappers/site-group/site-group-update.mapper';
 import { SiteGroupMapper } from '@pages/coverage-areas/infrastructure/data/mappers/site-group/site-group.mapper';
 import { SiteGroupApi } from '@pages/coverage-areas/infrastructure/data/sources/site-group/site-group.api';
@@ -28,6 +28,7 @@ import { SiteGroupDisableValidateContract } from '@pages/coverage-areas/domain/c
 export class SiteGroupRepositoryImpl implements SiteGroupRepository {
     private readonly api = inject(SiteGroupApi);
     private readonly mapper = inject(SiteGroupMapper);
+    private readonly filterMapper = inject(SiteGroupFilterMapper);
 
     readAll(
         validContract: SiteGroupFilterContract,
@@ -35,7 +36,7 @@ export class SiteGroupRepositoryImpl implements SiteGroupRepository {
         options?: FetchOptions
     ): Observable<Paginate<SiteGroupEntity>> {
         return this.api
-            .readAll(siteGroupFilterMapper(validContract), page, options)
+            .readAll(this.filterMapper.map(validContract), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 

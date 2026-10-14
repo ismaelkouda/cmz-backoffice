@@ -43,20 +43,20 @@
     --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.dashboard-container {
-    min-height: 100vh;
-    background: linear-gradient(
-        135deg,
-        var(--gray-50) 0%,
-        var(--gray-100) 50%,
-        white 100%
-    );
-    padding: 2rem;
+// .dashboard-container {
+//     min-height: 100vh;
+//     background: linear-gradient(
+//         135deg,
+//         var(--gray-50) 0%,
+//         var(--gray-100) 50%,
+//         white 100%
+//     );
+//     padding: 2rem;
 
-    @media (max-width: 768px) {
-        padding: 1rem;
-    }
-}
+//     @media (max-width: 768px) {
+//         padding: 1rem;
+//     }
+// }
 
 .dashboard-card {
     background: white;
@@ -87,7 +87,7 @@
 .dashboard-card-header {
     background: white;
     border-bottom: 1px solid var(--gray-200);
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     position: relative;
 
     &::before {

@@ -6,9 +6,9 @@ export interface MessagingCreateApiDto {
     report_uniq_id: string;
     type: MessagingTypeDto;
     target_type: MessagingTargetDto;
-    region_id: string;
-    department_id: string;
-    municipality_id: string;
+    region_id: number;
+    department_id: number;
+    municipality_id: number;
     channels: MessagingChannelsDto[];
     subject: string;
     content: string;

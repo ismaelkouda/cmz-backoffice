@@ -49,10 +49,12 @@ import { MenuItem } from 'primeng/api';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DownloadType } from '@presentation/pages/report-states/domain/enums/download-type.enum';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ACTIONS_ROUTE } from '@presentation/pages/report-states/report-states.routes';
+import {
+    ACTIONS_ROUTE,
+    REQUEST_ROUTE,
+} from '@presentation/pages/report-states/report-states.routes';
 import { separatorThousands } from '@shared/domain/functions/separator-thousands';
 import { formatRate } from '@shared/domain/functions/format-rate';
-import { JsonPipe } from '@angular/common';
 
 interface StatisticCard {
     key: string;
@@ -84,7 +86,6 @@ interface StatisticCard {
         ReactiveFormsModule,
         FilterComponent,
         SkeletonModule,
-        JsonPipe,
     ],
     providers: [AllFilterStore],
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -511,6 +512,18 @@ export class AllComponent {
             },
         };
         actions[event.actionId]?.();
+    }
+    protected onBadgeClicked(event: { item: AllVmProps; col: any }): void {
+        const { item, col } = event;
+        if (col.field !== 'requestReportsCount' || !item.requestReportUniqId) {
+            return;
+        }
+        this.router.navigate([REQUEST_ROUTE], {
+            relativeTo: this.route,
+            queryParams: {
+                reportUniqId: item.requestReportUniqId,
+            },
+        });
     }
     protected onVisibleDialogClicked(event: boolean): void {
         this.isVisibleDialog.set(event);

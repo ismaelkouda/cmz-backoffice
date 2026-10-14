@@ -1,23 +1,22 @@
-import { NotificationsFilterContract } from '@pages/communication/domain/contracts/notifications/notifications-filter.contract';
+import { Injectable, inject } from '@angular/core';
+import { NotificationsFilterEntity } from '@pages/communication/domain/entities/notifications/notifications-filter.entity';
 import { NotificationsFilterApiDto } from '@pages/communication/infrastructure/api/dto/notifications/notifications-filter-api.dto';
+import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
 
-export function notificationsFilterMapper(
-    contract: NotificationsFilterContract
-): NotificationsFilterApiDto {
-    const params: NotificationsFilterApiDto = {} as NotificationsFilterApiDto;
+@Injectable({ providedIn: 'root' })
+export class NotificationsFilterMapper {
+    private readonly apiDateMapper = inject(ApiDateMapper);
 
-    if (contract.search) {
-        params.search = contract.search;
+    map(entity: NotificationsFilterEntity): NotificationsFilterApiDto {
+        return {
+            ...(entity.search && { search: entity.search }),
+            ...(entity.type && { type: entity.type }),
+            ...(entity.period?.start && {
+                start_date: this.apiDateMapper.toDateApi(entity.period.start),
+            }),
+            ...(entity.period?.end && {
+                end_date: this.apiDateMapper.toDateApi(entity.period.end),
+            }),
+        };
     }
-    if (contract.type) {
-        params.type = contract.type;
-    }
-    if (contract.startDate) {
-        params.start_date = contract.startDate;
-    }
-    if (contract.endDate) {
-        params.end_date = contract.endDate;
-    }
-
-    return params;
 }

@@ -1,6 +1,7 @@
 import { Status } from '@pages/content-management/domain/enums/slide/slide-status.enum';
 import { SlideFilterVo } from '@pages/content-management/domain/value-objects/slide/slide-filter.vo';
 import { SlideFilterApiDto } from '@pages/content-management/infrastructure/api/dto/slide/slide-filter-api.dto';
+import { toApiDateOnly } from '@shared/domain/utils/api-date.util';
 
 export function slideFilterMapper(vo: SlideFilterVo): SlideFilterApiDto {
     const params: SlideFilterApiDto = {};
@@ -15,10 +16,10 @@ export function slideFilterMapper(vo: SlideFilterVo): SlideFilterApiDto {
         params.is_active = vo.status === Status.ACTIVE;
     }
     if (vo.startDate) {
-        params.start_date = vo.startDate;
+        params.start_date = toApiDateOnly(vo.startDate);
     }
     if (vo.endDate) {
-        params.end_date = vo.endDate;
+        params.end_date = toApiDateOnly(vo.endDate);
     }
 
     return params;

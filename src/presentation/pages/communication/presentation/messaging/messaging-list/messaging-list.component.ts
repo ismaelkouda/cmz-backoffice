@@ -168,7 +168,7 @@ export class MessagingListComponent {
         {
             label: 'COMMON.CREATE',
             actionId: 'create',
-            icon: 'pi pi-user-plus',
+            icon: 'pi pi-plus',
             class: 'btn-primary',
             disabled: !this.canCreate(),
             tooltip: this.createTooltip(),
@@ -376,7 +376,13 @@ export class MessagingListComponent {
                             return formatDate(value);
                         }
                         if (Array.isArray(value)) {
-                            return value.join(', ');
+                            return value
+                                .map((item) =>
+                                    col.field === 'channels'
+                                        ? this.translate.instant(item)
+                                        : item
+                                )
+                                .join(', ');
                         }
                         return value ?? '';
                     },

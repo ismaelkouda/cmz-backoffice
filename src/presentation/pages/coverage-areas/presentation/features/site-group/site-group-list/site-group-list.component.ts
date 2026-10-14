@@ -13,7 +13,10 @@ import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { SiteGroupFacade } from '@pages/coverage-areas/application/services/site-group/site-group.facade';
-import { SITE_GROUP_FORM } from '@pages/coverage-areas/presentation/features/site-group/site-group-paths.constants';
+import {
+    SITE_GROUP_COVERAGE_AREAS,
+    SITE_GROUP_FORM,
+} from '@pages/coverage-areas/presentation/features/site-group/site-group-paths.constants';
 import { SiteGroupFilterDto } from '@pages/coverage-areas/application/dto/site-group/site-group-filter.dto';
 import { SITE_GROUP_TABLE } from '@pages/coverage-areas/presentation/adapters/site-group/site-group-table.constant';
 import { SiteGroupVmProps } from '@pages/coverage-areas/presentation/adapters/site-group/site-group-vm-props.interface';
@@ -413,6 +416,17 @@ export class SiteGroupListComponent {
         }
         action(item);
     }
+
+    protected onBadgeClicked(event: { item: SiteGroupVmProps }): void {
+        const { item } = event;
+        this.router.navigate(['../', SITE_GROUP_COVERAGE_AREAS], {
+            relativeTo: this.activatedRoute,
+            queryParams: {
+                uniqId: item.uniqId,
+                name: item.name,
+            },
+        });
+    }
     protected async onDelete(item: SiteGroupVmProps): Promise<void> {
         const uniqId = item.uniqId;
         if (!uniqId) {
@@ -478,7 +492,7 @@ export class SiteGroupListComponent {
         const fileName = `${this.exportFilePrefix}-site-groups`;
 
         const exportColumns: ExportColumn[] = SITE_GROUP_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {

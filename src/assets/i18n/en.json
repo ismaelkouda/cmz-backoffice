@@ -67,6 +67,7 @@
         "CREATE": "Create",
         "CLOSE": "Close",
         "VISUALIZE": "Visualize",
+        "VIEW": "View",
         "FINALIZE": "Finalize",
         "FILTER_RESULT": "Filter result",
         "RESTORE": "Restore",
@@ -935,7 +936,7 @@
                 "MESSAGE_DISABLE": "Are you sure you want to deactivate this slide?"
             }
         },
-            "PRIVACY_POLICY": {
+        "PRIVACY_POLICY": {
             "BREADCRUMB": {
                 "LABEL": "Privacy Policy",
                 "ROUTE": "privacy-policy"
@@ -1919,6 +1920,7 @@
             },
             "ACTIONS": {
                 "TITLE": "processing actions",
+                "DOWNLOAD_OR_SHEET": "Download the minutes",
                 "LABEL": "Task Queue",
                 "ROUTE": "tasks",
                 "BREADCRUMB": {
@@ -2417,6 +2419,18 @@
             "BUTTONS": {
                 "DELETE": "Delete"
             }
+        },
+        "ALERT": {
+            "BREADCRUMB": {
+                "LABEL": "Generated alarms",
+                "ROUTE": "alerte",
+                "ICON": "pi-bell"
+            },
+            "TITLE": "Analytics Dashboard of Generated Alarms",
+            "LABEL": "Generated alarms",
+            "ROUTE": "alerte",
+            "LOADING_DESCRIPTION": "Loading generated alarms...",
+            "ERROR_DESCRIPTION": "An error occurred while loading generated alarms. Please reload the page or contact support."
         },
         "MESSAGING": {
             "BREADCRUMB": {
@@ -3147,6 +3161,14 @@
             },
             "TITLE": "Site Groups",
             "ROUTE": "site-groups",
+            "COVERAGE_AREAS": {
+                "TITLE": "Mobile network sites in the group",
+                "ASSIGN_TITLE": "Assign mobile network sites",
+                "REASSIGN_TITLE": "Reassign mobile network sites",
+                "SELECT_SITES": "Select mobile network sites",
+                "SELECT_GROUP": "Select the site group",
+                "REMOVE_CONFIRM": "Do you want to remove the selected sites from this group?"
+            },
             "TABLE": {
                 "CODE": "Code",
                 "NAME": "Group Name",
@@ -4136,5 +4158,292 @@
             "LOADING_DESCRIPTION": "Monitoring performance in progress...",
             "ERROR_DESCRIPTION": "An error occurred while loading the Node Performance dashboard. Please reload the page or contact support."
         }
+    },
+    "SLA": {
+        "VALIDATION": {
+            "ESCALATION_DELAY_MUST_BE_LOWER": "The escalation delay must be lower than the main delay."
+        },
+        "BREADCRUMB": { "LABEL": "SLA Reference", "ICON": "pi-clock" },
+        "SLA_LIST": {
+            "BREADCRUMB": { "LABEL": "SLA Reference", "ICON": "pi-clock" },
+            "TITLE": "SLA Reference",
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Name or description",
+                "CATEGORY": "Category"
+            },
+            "CATEGORY": { "JOB": "Business", "SYSTEM": "System" },
+            "TABLE": {
+                "NAME": "Name",
+                "DESCRIPTION": "Description",
+                "STATUS": "Status",
+                "CREATED_AT": "Created at",
+                "UPDATED_AT": "Updated at",
+                "ACTION": "Actions"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Refresh",
+                "CREATE": "Create SLA",
+                "NO_PERMISSION_CREATE": "Creation not allowed",
+                "EXPORT": "Export {nb} item(s)",
+                "NO_PERMISSION_EXPORT": "Export not allowed",
+                "NO_EXPORT": "No data to export",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "NO_PERMISSION_ENABLE": "Activation not allowed",
+                "NO_PERMISSION_DISABLE": "Deactivation not allowed",
+                "NO_PERMISSION_DELETE": "Deletion not allowed"
+            },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "ENABLE": "Enable SLA?",
+                    "DISABLE": "Disable SLA?",
+                    "DELETE": "Delete SLA?"
+                },
+                "MESSAGE": {
+                    "ENABLE": "Do you want to enable {{name}}?",
+                    "DISABLE": "Do you want to disable {{name}}?",
+                    "DELETE": "Do you want to delete {{name}}?"
+                }
+            }
+        },
+        "SLA_FORM": {
+            "CREATE_TITLE": "Create SLA",
+            "EDIT_TITLE": "Edit SLA",
+            "VIEW_TITLE": "View SLA",
+            "NAME": "Name",
+            "NAME_PLACEHOLDER": "SLA name",
+            "DESCRIPTION": "Description",
+            "DESCRIPTION_PLACEHOLDER": "SLA description",
+            "SWEET_ALERT": {
+                "TITLE": { "CREATE": "Create SLA?", "EDIT": "Edit SLA?" },
+                "MESSAGE": {
+                    "CREATE": "Do you want to create the SLA {{name}}?",
+                    "EDIT": "Do you want to save the changes to SLA {{name}}?"
+                }
+            }
+        },
+        "STATUS": { "ACTIVE": "Active", "INACTIVE": "Inactive" },
+        "THRESHOLDS": {
+            "BREADCRUMB": { "LABEL": "SLA Thresholds", "ICON": "pi-clock" },
+            "TITLE": "SLA Thresholds by report type",
+            "TABS": { "LIST": "SLA rules", "HISTORY": "History" },
+            "SEARCH": "Search",
+            "TABLE": {
+                "NAME": "Name",
+                "DESCRIPTION": "Description",
+                "REFERENTIALS": "References by channel",
+                "CREATED_AT": "Created at",
+                "UPDATED_AT": "Updated at"
+            }
+        },
+        "CHANNELS": {
+            "TITLE": "SLA references by channel",
+            "APP": "App (Mobile + PWA)",
+            "SMS": "SMS",
+            "USSD": "USSD",
+            "IVR": "IVR",
+            "API_CLIENT": "API Client",
+            "TABLE": {
+                "NAME": "Name",
+                "DELAY": "Delay",
+                "ESCALATION_DELAY": "Escalation delay (h)",
+                "STATUS": "Status",
+                "CREATED_AT": "Created at",
+                "UPDATED_AT": "Updated at",
+                "ACTION": "Actions"
+            },
+            "FORM": {
+                "SLA": "SLA reference",
+                "DELAY": "Delay",
+                "ESCALATION_DELAY": "Escalation delay (h)",
+                "ESCALATION_DELAY_HINT": "Enter a whole number of hours."
+            }
+        },
+        "ESCALATION_CONTACTS": {
+            "BREADCRUMB": {
+                "LABEL": "Escalation contacts",
+                "ICON": "pi-users"
+            },
+            "TITLE": "Escalation contacts",
+            "TABS": { "CONTACTS": "Contacts", "HISTORY": "History" },
+            "CATEGORY": { "JOB": "Business", "SYSTEM": "System" },
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Type, name, email, phone or messaging"
+            },
+            "TABLE": {
+                "TYPE": "Contact type",
+                "NAME": "Name & first names",
+                "JOB_TITLE": "Job title",
+                "PHONE": "Phone",
+                "EMAIL": "Email",
+                "WHATSAPP": "WhatsApp",
+                "TELEGRAM": "Telegram",
+                "UPDATED_AT": "Updated at",
+                "ACTION": "Actions"
+            },
+            "TOOLTIP": {
+                "VIEW": "View",
+                "EDIT": "Edit",
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "ACTION": "Actions"
+            },
+            "FORM": {
+                "TITLE": "Escalation contact",
+                "CREATE_TITLE": "Create an escalation contact",
+                "EDIT_TITLE": "Edit an escalation contact",
+                "TYPE": "Contact type",
+                "FULL_NAME": "Full name",
+                "LAST_NAME": "Last name",
+                "FIRST_NAME": "First names",
+                "EMAIL": "Email",
+                "PHONE": "Phone",
+                "JOB_TITLE": "Job title",
+                "LAST_NAME_PLACEHOLDER": "Enter last name",
+                "FIRST_NAME_PLACEHOLDER": "Enter first names",
+                "EMAIL_PLACEHOLDER": "Enter email",
+                "PHONE_PLACEHOLDER": "Enter phone number",
+                "JOB_TITLE_PLACEHOLDER": "Enter job title",
+                "WHATSAPP": "WhatsApp",
+                "WHATSAPP_PLACEHOLDER": "WhatsApp number",
+                "TELEGRAM": "Telegram",
+                "TELEGRAM_PLACEHOLDER": "Telegram phone number"
+            },
+            "DETAIL": { "TITLE": "Escalation contact details" },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "CREATE": "Create contact?",
+                    "UPDATE": "Update contact?",
+                    "ENABLE": "Enable contact?",
+                    "DISABLE": "Disable contact?",
+                    "DELETE": "Delete contact?"
+                },
+                "MESSAGE": {
+                    "SAVE": "Do you want to save this information?",
+                    "ENABLE": "Do you want to enable {{name}}?",
+                    "DISABLE": "Do you want to disable {{name}}?",
+                    "DELETE": "Do you want to delete {{name}}?"
+                }
+            }
+        },
+        "ALERT_CHANNEL": {
+            "BREADCRUMB": { "LABEL": "Alert channels", "ICON": "pi-bell" },
+            "TITLE": "Alert channels",
+            "TABS": { "LIST": "Channels", "HISTORY": "History" },
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Contact type"
+            },
+            "TABLE": {
+                "TYPE": "Contact type",
+                "EMAIL": "Email",
+                "SMS": "SMS",
+                "WHATSAPP": "WhatsApp",
+                "TELEGRAM": "Telegram",
+                "ACTION": "Action"
+            },
+            "SWEET_ALERT": {
+                "TITLE": "Update alert channels?",
+                "MESSAGE": "Do you want to save the selected channels?"
+            },
+            "TOOLTIP": {
+                "REFRESH": "Refresh the alert channels list",
+                "EXPORT": "Export the list of {nb} alert channels",
+                "NO_PERMISSION_EXPORT": "Exporting alert channels is not allowed",
+                "NO_EXPORT": "No alert channel to export"
+            }
+        },
+        "BUSINESS_CONTACTS": {
+            "BREADCRUMB": { "LABEL": "SLA Contacts", "ICON": "pi-users" },
+            "TITLE": "SLA Contacts",
+            "FILTER": {
+                "SEARCH": "Search",
+                "SEARCH_PLACEHOLDER": "Name, first name, email or phone",
+                "SERVICE": "Service",
+                "INDICATOR": "Indicator",
+                "STATUS": "Status"
+            },
+            "TABLE": {
+                "LAST_NAME": "Last name",
+                "FIRST_NAME": "First names",
+                "PHONE": "Phone",
+                "EMAIL": "Email",
+                "INDICATORS_COUNT": "# Indicators",
+                "STATUS": "Status",
+                "CREATED_AT": "Added on",
+                "ACTION": "Actions"
+            },
+            "TOOLTIP": {
+                "ENABLE": "Enable",
+                "DISABLE": "Disable",
+                "DELETE": "Delete",
+                "ACTION": "Actions"
+            },
+            "ADD": { "TITLE": "Add SLA contacts", "USERS": "Users" },
+            "SWEET_ALERT": {
+                "TITLE": {
+                    "ENABLE": "Enable contact?",
+                    "DISABLE": "Disable contact?",
+                    "DELETE": "Delete contact?"
+                },
+                "MESSAGE": {
+                    "ENABLE": "Do you want to enable this contact?",
+                    "DISABLE": "Do you want to disable this contact?",
+                    "DELETE": "Do you want to delete this contact?"
+                }
+            },
+            "MANAGEMENT": {
+                "TITLE": "Contact SLA indicators",
+                "FILTER": {
+                    "SERVICE": "Service",
+                    "INDICATOR": "Indicator",
+                    "DESCRIPTION": "Description",
+                    "THRESHOLD": "Threshold",
+                    "CHANNEL": "Channel",
+                    "CATEGORY": "Category"
+                },
+                "TABLE": {
+                    "SERVICE": "Service",
+                    "INDICATOR": "Indicator",
+                    "DESCRIPTION": "Description",
+                    "THRESHOLD": "Threshold",
+                    "CHANNEL": "Channel",
+                    "CATEGORY": "Category"
+                },
+                "AFFECT_TITLE": "Assign SLA indicators",
+                "REAFFECT_TITLE": "Reassign SLA indicators",
+                "SWEET_ALERT": {
+                    "TITLE": { "REMOVE": "Remove SLA indicators?" },
+                    "MESSAGE": {
+                        "REMOVE": "Do you want to remove the selected indicators?"
+                    }
+                }
+            }
+        }
+    },
+    "SLA_THRESHOLDS_FILTER": {
+        "SERVICE": "Service",
+        "SERVICES": {
+            "QUALIFICATION": "Qualification",
+            "PROCESSING": "Processing",
+            "CLOSURE": "Closure",
+            "CPU": "CPU",
+            "AVAILABILITY": "Availability",
+            "BALANCE": "Balance",
+            "RAM": "RAM"
+        },
+        "INDICATOR": "Indicator",
+        "THRESHOLD": "Threshold",
+        "CRITICAL_THRESHOLD": "Critical threshold",
+        "CHANNEL": "Channel",
+        "ACTION": "Actions"
+    },
+    "SLA_THRESHOLDS_CONFIRM": {
+        "TITLE": "Update threshold?",
+        "MESSAGE": "Do you want to save the changes?"
     }
 }

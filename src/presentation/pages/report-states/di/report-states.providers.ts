@@ -6,6 +6,7 @@ import { provideEvaluate } from '@pages/report-states/di/evaluate/evaluate.provi
 import { provideReject } from '@pages/report-states/di/reject/reject.providers';
 import { provideDownload } from '@pages/report-states/di/download/download.providers';
 import { provideAll } from '@pages/report-states/di/all/all.providers';
+import { provideRequest } from '@pages/report-states/di/request/request.providers';
 
 export const provideReportStates = (): Provider[] => [
     ...provideApprove,
@@ -15,4 +16,5 @@ export const provideReportStates = (): Provider[] => [
     ...provideDownload,
     ...provideDetails,
     ...provideAll,
+    ...provideRequest,
 ];

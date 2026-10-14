@@ -6,6 +6,7 @@ export interface SiteGroupProps {
     name: string;
     description: string;
     color: string;
+    mobileNetworkCount: number;
     status: Status;
     updatedAt: string;
 }

@@ -42,7 +42,7 @@ import { SweetAlertService } from '@shared/domain/services/sweet-alert.service';
 import { ToastrService } from 'ngx-toastr';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
-import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 type TTableActions = 'edit' | 'delete' | 'enable' | 'disable';
 
 @Component({
@@ -66,7 +66,6 @@ export class HomeListComponent {
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     private readonly sweetAlert = inject(SweetAlertService);
-    private readonly dateMapper = inject(ApiDateMapper);
 
     protected readonly facade = inject(HomeFacade);
     private readonly translate = inject(TranslateService);
@@ -511,7 +510,7 @@ export class HomeListComponent {
         const fileName = `${this.exportFilePrefix}-homes`;
 
         const exportColumns: ExportColumn[] = HOME_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {
@@ -527,10 +526,12 @@ export class HomeListComponent {
                             return (items.indexOf(row) + 1).toString();
                         }
                         if (col.field === 'createdAt' && value) {
-                            return this.dateMapper.toDateTimeApi(value);
+                            return formatDate(value);
                         }
                         if (Array.isArray(value)) {
-                            return value.join(', ');
+                            return value
+                                .map((item) => this.translateValue(item))
+                                .join(', ');
                         }
                         return value ?? '';
                     },
@@ -562,5 +563,10 @@ export class HomeListComponent {
     }
     private t(key: string): string {
         return this.translate.instant(key);
+    }
+
+    private translateValue(value: string): string {
+        const translated = this.translate.instant(value);
+        return translated === value ? value : translated;
     }
 }

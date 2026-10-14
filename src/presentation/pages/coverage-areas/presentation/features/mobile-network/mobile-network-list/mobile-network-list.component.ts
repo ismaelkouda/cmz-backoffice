@@ -329,15 +329,15 @@ export class MobileNetworkListComponent {
             //     optionValue: 'value',
             //     showClear: true,
             // },
-            {
-                type: 'text',
-                name: 'radius',
-                label: this.t('COVERAGE_AREAS.MOBILE_NETWORK.FILTER.RADIUS'),
-                placeholder: this.t(
-                    'COVERAGE_AREAS.MOBILE_NETWORK.FILTER.RADIUS_PLACEHOLDER'
-                ),
-                inputType: 'number',
-            },
+            // {
+            //     type: 'text',
+            //     name: 'radius',
+            //     label: this.t('COVERAGE_AREAS.MOBILE_NETWORK.FILTER.RADIUS'),
+            //     placeholder: this.t(
+            //         'COVERAGE_AREAS.MOBILE_NETWORK.FILTER.RADIUS_PLACEHOLDER'
+            //     ),
+            //     inputType: 'number',
+            // },
             {
                 type: 'date',
                 name: 'startDate',
@@ -580,7 +580,7 @@ export class MobileNetworkListComponent {
         const fileName = `${this.exportFilePrefix}-mobile-networks`;
 
         const exportColumns: ExportColumn[] = MOBILE_NETWORK_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {

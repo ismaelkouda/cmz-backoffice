@@ -9,6 +9,7 @@ export interface ApproveVmProps {
     operators: TelecomOperator[];
     sourceLabel: string;
     initiatorPhoneNumber: string;
+    evaluationsCount: number;
     reportedAt: string;
     actionsRef: string;
 

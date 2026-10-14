@@ -7,6 +7,7 @@ export interface SiteGroupItemApiDto {
     description: string;
     color: string;
     is_active: boolean;
+    coverage_areas_count: number;
     created_at: string;
     updated_at: string;
 }

@@ -4,7 +4,7 @@ export interface MobileNetworkCreateDto {
     siteGroupId?: string | number;
     towerTypeId?: string | number;
     towerHeight?: string;
-    networkTechnology?: string;
+    networkTechnology?: string[];
     operator?: string;
     coverageRadius?: number;
     lng?: number;

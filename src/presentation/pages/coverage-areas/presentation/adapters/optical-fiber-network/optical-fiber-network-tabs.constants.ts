@@ -17,6 +17,6 @@ export const OPTICAL_FIBER_NETWORK_TABS = [
         route: `/${COVERAGE_AREAS_ROUTE}/${OPTICAL_FIBER_NETWORK_ROUTE}/${OPTICAL_FIBER_NETWORK_HISTORY}`,
         label: 'COVERAGE_AREAS.OPTICAL_FIBER_NETWORK.TABS.HISTORY.LABEL',
         icon: 'pi pi-history',
-        queryParams: { ref: 'coverage-areas' },
+        queryParams: { ref: 'optical-fibers' },
     },
 ];

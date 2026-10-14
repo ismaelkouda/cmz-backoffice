@@ -51,6 +51,10 @@ export class ApproveEntity implements ApproveProps {
         return this.props.initiatorPhoneNumber;
     }
 
+    get evaluationsCount(): number {
+        return this.props.evaluationsCount;
+    }
+
     get reportedAt(): string {
         return this.props.reportedAt;
     }

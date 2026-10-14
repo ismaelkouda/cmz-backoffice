@@ -1,12 +1,12 @@
 import { ReportType } from '@shared/domain/enums/report-type.enum';
 
 export interface AllFilterApiDto {
-    initiatorPhoneNumber?: string;
-    uniqId?: string;
-    requestReportUniqId?: string;
-    reportType?: ReportType;
+    initiator_phone_number?: string;
+    uniq_id?: string;
+    request_report_uniq_id?: string;
+    report_type?: ReportType;
     operators?: string[];
     source?: string;
-    startDate?: Date;
-    endDate?: Date;
+    start_date?: Date;
+    end_date?: Date;
 }

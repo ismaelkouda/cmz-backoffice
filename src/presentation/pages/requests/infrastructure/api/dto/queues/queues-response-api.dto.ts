@@ -17,4 +17,16 @@ export interface QueuesItemApiDto {
     updated_at: string;
 }
 
-export type QueuesResponseApiDto = PaginatedResponseDto<QueuesItemApiDto>;
+export interface StatsDto {
+    total: number;
+    app: { count: number; rate: number };
+    sms: { count: number; rate: number };
+    ussd: { count: number; rate: number };
+    ivr: { count: number; rate: number };
+    api_client: { count: number; rate: number };
+}
+
+export type QueuesResponseApiDto = PaginatedResponseDto<
+    QueuesItemApiDto,
+    StatsDto
+>;

@@ -46,6 +46,13 @@ export const APPROVE_TABLE = {
             header: 'REPORT_STATES.APPROVE.TABLE.SOURCE',
             width: '12rem',
         },
+        // {
+        //     field: 'evaluationsCount',
+        //     header: 'REPORT_STATES.APPROVE.TABLE.EVALUATIONS_COUNT',
+        //     class: 'text-center',
+        //     width: '8rem',
+        //     type: 'badge-button',
+        // },
         {
             field: 'reportedAt',
             header: 'REPORT_STATES.APPROVE.TABLE.CREATED_AT',

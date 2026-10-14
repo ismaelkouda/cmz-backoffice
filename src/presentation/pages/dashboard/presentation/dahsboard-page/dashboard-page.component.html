@@ -184,9 +184,12 @@
                                                     {{ stat.label | translate }}
                                                 </div>
                                                 @if (stat.subtitle) {
-                                                <div class="stat-label">
-                                                    {{ stat.subtitle | translate }}
-                                                </div>
+                                                    <div class="stat-label">
+                                                        {{
+                                                            stat.subtitle
+                                                                | translate
+                                                        }}
+                                                    </div>
                                                 }
                                             </div>
                                         </div>

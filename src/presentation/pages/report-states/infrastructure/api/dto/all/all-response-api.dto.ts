@@ -11,6 +11,7 @@ export interface AllItemApiDto {
     operators: TelecomOperatorDto[];
     source: ReportSourceDto;
     initiator_phone_number: string;
+    request_reports_count: number;
     reported_at: string;
     compliance_status: ConformityDto;
     updated_at: string;

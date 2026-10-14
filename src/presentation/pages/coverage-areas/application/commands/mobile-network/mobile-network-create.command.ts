@@ -5,7 +5,7 @@ export class MobileNetworkCreateCommand {
         public readonly siteGroupId: string | number | undefined,
         public readonly towerTypeId: string | number | undefined,
         public readonly towerHeight: string | undefined,
-        public readonly networkTechnology: string | undefined,
+        public readonly networkTechnology: string[] | undefined,
         public readonly operator: string | undefined,
         public readonly coverageRadius: number | undefined,
         public readonly lng: number | undefined,

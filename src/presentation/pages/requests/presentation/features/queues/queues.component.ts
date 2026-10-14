@@ -43,6 +43,15 @@ import { ToastrService } from 'ngx-toastr';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 import { formatDate } from '@shared/domain/functions/format-data.function';
+import { separatorThousands } from '@shared/domain/functions/separator-thousands';
+
+interface StatisticCard {
+    key: string;
+    count: number | string;
+    label: string;
+    color: string;
+    icon: string;
+}
 
 @Component({
     selector: 'app-queues',
@@ -103,6 +112,56 @@ export class QueuesComponent {
     });
     protected readonly pagination = toSignal(this.facade.pagination$, {
         initialValue: null,
+    });
+    protected readonly stats = toSignal(this.facade.stats$, {
+        initialValue: null,
+    });
+    protected readonly channelStatistics = computed<StatisticCard[]>(() => {
+        const stats = this.stats();
+        return [
+            {
+                key: 'total',
+                count: separatorThousands(stats?.total ?? 0),
+                label: 'REQUESTS.QUEUES.STATS.TOTAL.LABEL',
+                color: 'primary',
+                icon: 'pi-list',
+            },
+            {
+                key: 'app',
+                count: separatorThousands(stats?.app?.count ?? 0),
+                label: 'REQUESTS.QUEUES.STATS.APP.LABEL',
+                color: 'success',
+                icon: 'pi-mobile',
+            },
+            {
+                key: 'sms',
+                count: separatorThousands(stats?.sms?.count ?? 0),
+                label: 'REQUESTS.QUEUES.STATS.SMS.LABEL',
+                color: 'info',
+                icon: 'pi-comment',
+            },
+            {
+                key: 'ussd',
+                count: separatorThousands(stats?.ussd?.count ?? 0),
+                label: 'REQUESTS.QUEUES.STATS.USSD.LABEL',
+                color: 'warning',
+                icon: 'pi-wifi',
+            },
+            {
+                key: 'ivr',
+                count: separatorThousands(stats?.ivr?.count ?? 0),
+                label: 'REQUESTS.QUEUES.STATS.IVR.LABEL',
+                color: 'secondary',
+                icon: 'pi-phone',
+            },
+            {
+                key: 'api_client',
+                count: separatorThousands(stats?.api_client?.count ?? 0),
+                label: 'REQUESTS.QUEUES.STATS.API_CLIENT.LABEL',
+                color: 'contrast',
+                icon: 'pi-cloud',
+            },
+        ];
     });
     private readonly telecomOperatorsOptions: Signal<FilterOption[]> = computed(
         () => {

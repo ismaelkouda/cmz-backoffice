@@ -7,8 +7,10 @@ import {
     input,
     output,
     signal,
+    ViewChild,
 } from '@angular/core';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 import { ActionDropdownComponent } from '@shared/components/action-dropdown/action-dropdown.component';
 import { SearchTableComponent } from '@shared/components/search-table/search-table.component';
 import {
@@ -29,10 +31,24 @@ import { ToastrService } from 'ngx-toastr';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
 import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { SelectModule } from 'primeng/select';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { TableModule } from 'primeng/table';
+import { Table, TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
+
+export interface TableRowEditSaveRequest<T = any> {
+    item: T;
+    confirm: () => void;
+    cancel: () => void;
+}
+
+export interface TableRowEditSavedEvent<T = any> {
+    item: T;
+    complete: () => void;
+    rollback: () => void;
+}
 
 @Component({
     selector: 'app-table',
@@ -52,11 +68,15 @@ import { TooltipModule } from 'primeng/tooltip';
         ActionDropdownComponent,
         SeparatorThousandsPipe,
         CheckboxModule,
+        FormsModule,
+        InputNumberModule,
+        SelectModule,
     ],
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss'],
 })
 export class TableComponent {
+    @ViewChild('dt') private dataTable?: Table<any>;
     public readonly COVERAGE_OPERATORS = COVERAGE_OPERATORS;
     public selectedItems: any[] = [];
     public readonly numberToCheck = signal<number>(0);
@@ -78,6 +98,7 @@ export class TableComponent {
     );
     public readonly selection = input<any | any[] | null>(null);
     public readonly hiddenTableTitle = input<boolean>(false);
+    public readonly rowEditMode = input<boolean>(false);
 
     public readonly refreshRequested = output<undefined>();
     public readonly createRequested = output<{ ref: CrudFormType }>();
@@ -98,8 +119,12 @@ export class TableComponent {
     public readonly viewRequested = output<{ item: any; ref: CrudFormType }>();
     public readonly badgeClicked = output<{ item: any; col: any }>();
     public readonly actionClicked = output<any>();
+    public readonly rowEditSaved = output<TableRowEditSavedEvent>();
+    public readonly rowEditSaveRequested = output<TableRowEditSaveRequest>();
+    public readonly rowEditCancelled = output<any>();
     public readonly headerButtonClicked = output<string>();
     public readonly export = new EventEmitter<void>();
+    private readonly clonedRows = new Map<string, any>();
 
     constructor() {
         effect(() => {
@@ -173,6 +198,72 @@ export class TableComponent {
 
     public onActionClick(item: any, actionId?: string): void {
         this.actionClicked.emit({ item, actionId });
+    }
+
+    public onRowEditInit(item: any): void {
+        this.clonedRows.set(String(item[this.dataKey()]), { ...item });
+    }
+
+    public onRowEditSaveRequest(item: any, event: Event): void {
+        const rowElement = (event.currentTarget as HTMLElement).closest(
+            'tr'
+        ) as HTMLTableRowElement | null;
+
+        if (!rowElement) {
+            return;
+        }
+
+        let settled = false;
+        this.rowEditSaveRequested.emit({
+            item,
+            confirm: () => {
+                if (settled || !this.dataTable) {
+                    return;
+                }
+
+                this.dataTable.saveRowEdit(item, rowElement);
+
+                if (this.dataTable.isRowEditing(item)) {
+                    return;
+                }
+
+                settled = true;
+                this.rowEditSaved.emit({
+                    item,
+                    complete: () => this.clearRowEditSnapshot(item),
+                    rollback: () => {
+                        this.restoreRowEdit(item);
+                        this.clearRowEditSnapshot(item);
+                    },
+                });
+            },
+            cancel: () => {
+                if (settled) {
+                    return;
+                }
+
+                settled = true;
+                this.onRowEditCancel(item);
+            },
+        });
+    }
+
+    public onRowEditCancel(item: any): void {
+        this.restoreRowEdit(item);
+        this.clonedRows.delete(String(item[this.dataKey()]));
+        this.rowEditCancelled.emit(item);
+    }
+
+    private restoreRowEdit(item: any): void {
+        this.dataTable?.cancelRowEdit(item);
+        const clone = this.clonedRows.get(String(item[this.dataKey()]));
+        if (clone) {
+            Object.assign(item, clone);
+        }
+    }
+
+    private clearRowEditSnapshot(item: any): void {
+        this.clonedRows.delete(String(item[this.dataKey()]));
     }
 
     protected getTooltip(

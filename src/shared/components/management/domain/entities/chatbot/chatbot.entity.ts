@@ -50,6 +50,8 @@ export class ChatbotEntity {
             [Channels.PUSH]: ChannelsStyle.PUSH,
             [Channels.MAIL]: ChannelsStyle.MAIL,
             [Channels.SMS]: ChannelsStyle.SMS,
+            [Channels.WHATSAPP]: ChannelsStyle.WHATSAPP,
+            [Channels.TELEGRAM]: ChannelsStyle.TELEGRAM,
         };
         return methodMap[channels];
     }

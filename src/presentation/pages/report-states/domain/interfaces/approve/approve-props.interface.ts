@@ -11,6 +11,7 @@ export interface ApproveProps {
     operators: TelecomOperator[];
     source: ReportSource;
     initiatorPhoneNumber: string;
+    evaluationsCount: number;
     reportedAt: string;
     updatedAt: string;
 }

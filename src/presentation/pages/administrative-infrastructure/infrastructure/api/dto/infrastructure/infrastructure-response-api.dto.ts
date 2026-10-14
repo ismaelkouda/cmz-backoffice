@@ -4,13 +4,13 @@ import { PaginatedResponseDto } from '@shared/data/dto/simple-response.dto';
 export interface InfrastructureItemApiDto {
     id: string;
     name: string;
-    infrastructure_type: { id: string; name: string };
-    description: string;
-    region: AdministrativeBoundaryDto;
-    department: AdministrativeBoundaryDto;
-    municipality: AdministrativeBoundaryDto;
-    lat: string;
-    long: string;
+    infrastructure_type: { id: string; name: string } | null;
+    description?: string | null;
+    region: AdministrativeBoundaryDto | null;
+    department: AdministrativeBoundaryDto | null;
+    municipality: AdministrativeBoundaryDto | null;
+    lat: string | null;
+    long: string | null;
     created_at: string;
     updated_at: string;
 }

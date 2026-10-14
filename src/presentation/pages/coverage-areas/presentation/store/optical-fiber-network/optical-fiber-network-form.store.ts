@@ -242,11 +242,13 @@ export class OpticalFiberNetworkFormStore {
                     value.longitude,
                     {
                         nonNullable: true,
+                        updateOn: 'change',
                         validators: [Validators.required],
                     }
                 ),
                 latitude: new FormControl<string | undefined>(value.latitude, {
                     nonNullable: true,
+                    updateOn: 'change',
                     validators: [Validators.required],
                 }),
             }

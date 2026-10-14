@@ -277,6 +277,7 @@ export class RadioRelayLinksListComponent implements OnInit {
                 optionLabel: 'label',
                 optionValue: 'value',
                 showClear: true,
+                editable: true,
             },
             {
                 type: 'date',
@@ -521,7 +522,7 @@ export class RadioRelayLinksListComponent implements OnInit {
         const fileName = `${this.exportFilePrefix}-radio-relay-links`;
 
         const exportColumns: ExportColumn[] = RADIO_RELAY_LINKS_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {

@@ -13,6 +13,7 @@ export class AllPresenter {
             operators: item.operators,
             sourceLabel: this.t(item.source),
             initiatorPhoneNumber: item.initiatorPhoneNumber,
+            requestReportsCount: item.requestReportsCount,
             reportedAt: item.reportedAt,
             isConform: item.isConform,
             conformLabel: this.t(item.isConform),

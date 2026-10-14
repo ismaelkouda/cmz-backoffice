@@ -26,6 +26,7 @@ export type FinalizationStateDto = 'pending' | 'in-progress';
 export interface DetailsItemApiDto {
     id: string;
     uniq_id: string;
+    or_sheet_url: string | null;
     request_report_uniq_id: string;
     source: ReportSourceDto;
     location_method: LocationMethodDto;

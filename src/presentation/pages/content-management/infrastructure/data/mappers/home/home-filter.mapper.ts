@@ -1,6 +1,7 @@
 import { Status } from '@pages/content-management/domain/enums/home/home-status.enum';
 import { HomeFilterVo } from '@pages/content-management/domain/value-objects/home/home-filter.vo';
 import { HomeFilterApiDto } from '@pages/content-management/infrastructure/api/dto/home/home-filter-api.dto';
+import { toApiDateOnly } from '@shared/domain/utils/api-date.util';
 
 export function homeFilterMapper(vo: HomeFilterVo): HomeFilterApiDto {
     const params: HomeFilterApiDto = {} as HomeFilterApiDto;
@@ -15,10 +16,10 @@ export function homeFilterMapper(vo: HomeFilterVo): HomeFilterApiDto {
         params.is_active = vo.status === Status.ACTIVE;
     }
     if (vo.startDate) {
-        params.start_date = vo.startDate;
+        params.start_date = toApiDateOnly(vo.startDate);
     }
     if (vo.endDate) {
-        params.end_date = vo.endDate;
+        params.end_date = toApiDateOnly(vo.endDate);
     }
 
     return params;

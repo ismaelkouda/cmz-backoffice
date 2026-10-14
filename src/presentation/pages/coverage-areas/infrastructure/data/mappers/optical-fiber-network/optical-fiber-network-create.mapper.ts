@@ -6,7 +6,7 @@ export function opticalFiberNetworkCreateMapper(
 ): OpticalFiberNetworkCreateApiDto {
     const params: OpticalFiberNetworkCreateApiDto = {
         name: validContract.name,
-        operator: validContract.operator.toLocaleUpperCase(),
+        operator: validContract.operator.toLocaleLowerCase(),
         fiber_constructor_id: validContract.fiberConstructorId,
         type: validContract.type,
     };

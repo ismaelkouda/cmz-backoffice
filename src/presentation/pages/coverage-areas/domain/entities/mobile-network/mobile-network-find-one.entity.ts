@@ -35,7 +35,7 @@ export class MobileNetworkFindOneEntity {
         return this.props.towerHeight;
     }
 
-    get networkTechnology(): string {
+    get networkTechnology(): string[] {
         return this.props.networkTechnology;
     }
 

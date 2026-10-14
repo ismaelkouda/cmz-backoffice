@@ -18,6 +18,24 @@ $dark-gray: var(--color-gray);
     //padding: 2rem;
 }
 
+::ng-deep .p-select.p-disabled {
+    background-color: inherit !important;
+    color: inherit !important;
+    opacity: 1;
+}
+
+::ng-deep p-datepicker .p-inputtext:disabled {
+    background-color: inherit !important;
+    color: inherit !important;
+    opacity: 1;
+}
+
+.p-multiselect.p-disabled {
+    background-color: inherit !important;
+    color: inherit !important;
+    opacity: 1;
+}
+
 .form-users-header {
     margin-bottom: 1.5rem;
 }

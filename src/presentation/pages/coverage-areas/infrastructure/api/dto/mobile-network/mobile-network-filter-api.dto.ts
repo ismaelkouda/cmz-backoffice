@@ -6,6 +6,6 @@ export interface MobileNetworkFilterApiDto {
     technology?: string;
     operator?: string;
     radius?: number;
-    start_date?: Date;
-    end_date?: Date;
+    start_date?: string;
+    end_date?: string;
 }

@@ -39,7 +39,7 @@ import { ToastrService } from 'ngx-toastr';
 
 import { LegalNoticeVmProps } from '../../../adapters/legal-notice/legal-notice-vm-props.interface';
 import { LEGAL_NOTICE_FORM_ROUTE } from '../legal-notice-paths.constants';
-import { ApiDateMapper } from '@shared/data/mappers/api-date.mapper';
+import { formatDate } from '@shared/domain/functions/format-data.function';
 import { ExcelExportService } from '@shared/domain/services/excel-export.service';
 import { ExportColumn } from '@shared/domain/interfaces/export-config.interface';
 type TTableActions = 'edit' | 'delete' | 'publish' | 'unpublish';
@@ -65,7 +65,6 @@ export class LegalNoticeListComponent {
     private readonly router = inject(Router);
     private readonly title = inject(Title);
     private readonly sweetAlert = inject(SweetAlertService);
-    private readonly dateMapper = inject(ApiDateMapper);
 
     public readonly facade = inject(LegalNoticeFacade);
     private readonly translate = inject(TranslateService);
@@ -501,7 +500,7 @@ export class LegalNoticeListComponent {
         const fileName = `${this.exportFilePrefix}-legal-notice`;
 
         const exportColumns: ExportColumn[] = LEGAL_NOTICE_TABLE.cols
-            .filter((col) => col.field !== '__action')
+            .filter((col) => col.field !== '__actionDropdown')
             .map((col) => {
                 let width = 15;
                 if (col.width) {
@@ -516,8 +515,11 @@ export class LegalNoticeListComponent {
                         if (col.field === '__index') {
                             return (items.indexOf(row) + 1).toString();
                         }
-                        if (col.field === 'createdAt' && value) {
-                            return this.dateMapper.toDateTimeApi(value);
+                        if (
+                            ['createdAt', 'publishedAt'].includes(col.field) &&
+                            value
+                        ) {
+                            return formatDate(value);
                         }
                         if (Array.isArray(value)) {
                             return value.join(', ');

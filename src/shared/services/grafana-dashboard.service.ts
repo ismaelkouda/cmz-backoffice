@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SETTINGS_API_URL } from '@core/config/config.tokens';
+import { AUTH_API_URL } from '@core/config/config.tokens';
 import {
     BehaviorSubject,
     Observable,
@@ -36,7 +36,7 @@ const VARIABLES_TTL_FALLBACK_MS = 5 * 60 * 1000;
 @Injectable({ providedIn: 'root' })
 export class GrafanaDashboardService {
     private readonly http = inject(HttpClient);
-    private readonly baseUrl = inject(SETTINGS_API_URL);
+    private readonly baseUrl = inject(AUTH_API_URL);
 
     private variablesCache: VariablesCache | null = null;
     private inFlight: Observable<Record<string, string>> | null = null;
@@ -198,7 +198,7 @@ export class GrafanaDashboardService {
                 if (!tokens[key]) {
                     return;
                 }
-                this.fetchDashboardToken(state, key, tokens[key]);
+                // this.fetchDashboardToken(state, key, tokens[key]);
             });
     }
 

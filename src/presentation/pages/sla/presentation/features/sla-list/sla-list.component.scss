@@ -1,0 +1,25 @@
+.sla-list-card {
+    border-radius: 1rem;
+    box-shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
+}
+
+.sla-list-header {
+    margin-bottom: 1rem;
+}
+
+.sla-list-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.sla-list-divider {
+    opacity: 0.25;
+    margin: 0;
+}
+
+.table-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

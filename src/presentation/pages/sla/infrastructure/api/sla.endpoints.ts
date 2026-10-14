@@ -1,0 +1,17 @@
+export const SLA_ENDPOINTS = {
+    LIST: 'agreement/sla',
+    CREATE: 'agreement/sla/store',
+    UPDATE: 'agreement/sla',
+    ENABLE: 'agreement/sla',
+    DISABLE: 'agreement/sla',
+    DELETE: 'agreement/sla',
+    REPORT_TYPES: 'agreement/sla-rule',
+    REPORT_SLA: 'agreement/report-sla',
+    BUSINESS_CONTACTS: 'agreement/business-contacts',
+    SYSTEM_ALERT_CONTACTS: 'agreement/system-alert-contacts',
+    REMOVE_BUSINESS: 'agreement/system-alert-contacts/remove-business',
+    ESCALATION_CONTACTS: 'agreement/escalation-contact',
+    AGREEMENT_ALERT: 'agreement/alert',
+    CHANNEL_SELECT_FIELD: 'channel/access/select-field',
+    AGREEMENT_UPDATE: 'agreement/alert/update',
+} as const;

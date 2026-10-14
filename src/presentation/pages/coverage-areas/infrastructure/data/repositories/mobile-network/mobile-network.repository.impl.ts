@@ -7,7 +7,7 @@ import { mobileNetworkCreateMapper } from '@pages/coverage-areas/infrastructure/
 import { mobileNetworkDeleteMapper } from '@pages/coverage-areas/infrastructure/data/mappers/mobile-network/mobile-network-delete.mapper';
 import { mobileNetworkDisableMapper } from '@pages/coverage-areas/infrastructure/data/mappers/mobile-network/mobile-network-disable.mapper';
 import { mobileNetworkEnableMapper } from '@pages/coverage-areas/infrastructure/data/mappers/mobile-network/mobile-network-enable.mapper';
-import { mobileNetworkFilterMapper } from '@pages/coverage-areas/infrastructure/data/mappers/mobile-network/mobile-network-filter.mapper';
+import { MobileNetworkFilterMapper } from '@pages/coverage-areas/infrastructure/data/mappers/mobile-network/mobile-network-filter.mapper';
 import { mobileNetworkUpdateMapper } from '@pages/coverage-areas/infrastructure/data/mappers/mobile-network/mobile-network-update.mapper';
 import { MobileNetworkMapper } from '@pages/coverage-areas/infrastructure/data/mappers/mobile-network/mobile-network.mapper';
 import { MobileNetworkApi } from '@pages/coverage-areas/infrastructure/data/sources/mobile-network/mobile-network.api';
@@ -28,6 +28,7 @@ import { MobileNetworkDisableValidateContract } from '@pages/coverage-areas/doma
 export class MobileNetworkRepositoryImpl implements MobileNetworkRepository {
     private readonly api = inject(MobileNetworkApi);
     private readonly mapper = inject(MobileNetworkMapper);
+    private readonly filterMapper = inject(MobileNetworkFilterMapper);
 
     readAll(
         validContract: MobileNetworkFilterContract,
@@ -35,7 +36,7 @@ export class MobileNetworkRepositoryImpl implements MobileNetworkRepository {
         options?: FetchOptions
     ): Observable<Paginate<MobileNetworkEntity>> {
         return this.api
-            .readAll(mobileNetworkFilterMapper(validContract), page, options)
+            .readAll(this.filterMapper.map(validContract), page, options)
             .pipe(map((response) => this.mapper.mapFromDto(response)));
     }
 
